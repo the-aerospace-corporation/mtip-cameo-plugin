@@ -13,6 +13,7 @@ public class SysmlConstants {
 	public static final String OPERATION = "Operation";
 	public static final String VALUEPROPERTY = "ValueProperty";
 	public static final String STATEMACHINE = "StateMachine";
+	public static final String STATE = "State";
 	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
 	public static final String FINALSTATE = "FinalState";
 	public static final String ACTIVITY = "Activity";
@@ -22,6 +23,9 @@ public class SysmlConstants {
 	public static final String VALUETYPE = "ValueType";
 	public static final String STEREOTYPE = "Stereotype";
 	public static final String CLASS = "Class";
+	public static final String MODEL = "Model";
+	public static final String PartProperty = "PartProperty";
+	public static final String TRIGGER = "Trigger";
 //	public static final String NOTE = "Note";
 	
 //	public static final String PROFILE = "Profile";
@@ -33,7 +37,7 @@ public class SysmlConstants {
 	public static final String ALLOCATE = "Allocate";
 	public static final String ASSOCIATION = "Association";
 	public static final String TRANSITION = "Transition";
-	public static final String TRIGGER = "Trigger";
+	
 	
 	//Sysml Diagram constants
 	public static final String BDD = "BlockDefinitionDiagram";
@@ -53,6 +57,7 @@ public class SysmlConstants {
 			OPERATION,
 			VALUEPROPERTY,
 			STATEMACHINE,
+			STATE,
 			INITIALPSEUDOSTATE,
 			FINALSTATE,
 			ACTIVITY,
@@ -69,8 +74,7 @@ public class SysmlConstants {
 			GENERALIZATION,
 			ALLOCATE,
 			ASSOCIATION,
-			TRANSITION,
-			TRIGGER		
+			TRANSITION	
 	};
 
 	public static final String[] SYSMLDIAGRAMS = {

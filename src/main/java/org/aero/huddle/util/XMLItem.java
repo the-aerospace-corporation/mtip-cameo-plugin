@@ -7,6 +7,7 @@ public class XMLItem {
 	private String type = "";
 	private String category = "";
 	private String ea_id = "";
+	private String cameo_id = "";
 	private String parent = "";
 	private String client = "";
 	private String supplier = "";
@@ -36,6 +37,9 @@ public class XMLItem {
 	public void setSupplier(String supplier) {
 		this.supplier = supplier;
 	}
+	public void setCameoID(String cameo_id) {
+		this.cameo_id = cameo_id;
+	}
 	
 	public String getType() {
 		return type;
@@ -61,6 +65,9 @@ public class XMLItem {
 	public String getSupplier() {
 		return supplier;
 	}
+	public String getCameoID() {
+		return cameo_id;
+	}
 	
 	private void setCategory() {
 		if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(type)) {
@@ -71,6 +78,14 @@ public class XMLItem {
 		}
 		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(type)) {
 			category = SysmlConstants.DIAGRAM;
+		}
+	}
+	
+	public boolean isCreated() {
+		if(cameo_id.equals("")) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 }

@@ -44,7 +44,7 @@ public class CommonElementsFactory {
 				element = new ActivityParameterNode(name, EAID);
 				break;
 			case "Property":
-				element = new Property(name, EAID);
+				element = new PartProperty(name, EAID);
 				break;
 //			case "Attribute":
 //				element = new Attribute(name, EAID);
@@ -60,6 +60,15 @@ public class CommonElementsFactory {
 				break;
 			case "Class":
 				element = new Class(name, EAID);
+				break;
+			case "PartProperty":
+				element = new PartProperty(name, EAID);
+				break;
+			case "Model":
+				element = new Model(name, EAID);
+				break;
+			case "Note":
+				element = new Note(name, EAID);
 				break;
 			default:
 				break;

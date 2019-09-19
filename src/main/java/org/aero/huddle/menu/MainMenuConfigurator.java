@@ -1,13 +1,14 @@
 package org.aero.huddle.menu;
 
+import org.aero.huddle.XML.Export.ExportXmlAction;
+import org.aero.huddle.XML.Export.ExportXmlSysmlAction;
+import org.aero.huddle.XML.Import.ImportXmlAction;
+import org.aero.huddle.XML.Import.ImportXmlSysmlAction;
+
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;
 import com.nomagic.magicdraw.actions.MDActionsCategory;
-
-import org.aero.huddle.XML.Export.ExportXmlAction;
-import org.aero.huddle.XML.Import.ImportXmlAction;
-import org.aero.huddle.XML.Import.ImportXmlSysmlAction;
 
 public class MainMenuConfigurator implements AMConfigurator
 {
@@ -35,9 +36,10 @@ public class MainMenuConfigurator implements AMConfigurator
 		
 		//Add actions to Huddle category here
 		ActionsCategory category = new ActionsCategory("","");
-		category.addAction(new ImportXmlAction("", "Import from XML"));
+//		category.addAction(new ImportXmlAction("", "Import from XML"));
 		category.addAction(new ImportXmlSysmlAction("", "Import Sysml from XML"));
-		category.addAction(new ExportXmlAction("", "Export as XML"));
+		category.addAction(new ExportXmlSysmlAction("", "Export Sysml to XML"));
+//		category.addAction(new ExportXmlAction("", "Export as XML"));
 		category.addAction(new AboutAction("","About"));
 		
 		//Depreciated and unused. Uses the prior CSV format as opposed to the new

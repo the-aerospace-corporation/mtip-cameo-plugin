@@ -21,8 +21,11 @@ public abstract class CommonElement {
 	public abstract Element createElement(Project project, Element owner);
 	
 	public static Element createClassWithStereotype(Project project, String name,  Stereotype stereotype, Element owner) {;
+		boolean externalSession = false;
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Class Element");
+		} else {
+			externalSession = true;
 		}
 	
 		Class sysmlElement = project.getElementsFactory().createClassInstance();
@@ -37,7 +40,9 @@ public abstract class CommonElement {
 			sysmlElement.setOwner(project.getPrimaryModel());
 		}
 		
-		SessionManager.getInstance().closeSession(project);
+		if(!externalSession) {
+			SessionManager.getInstance().closeSession(project);
+		}
 		return sysmlElement;
 	}
 	

@@ -24,6 +24,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/MagicDraw"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/ch.qos.logback.classic_1.0.13.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/ch.qos.logback.classic_1.2.3.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/ch.qos.logback.core_1.0.13.jar"/>
@@ -169,6 +170,5 @@
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/org.scala-lang.scala-library_2.12.4.v20171010-220511-VFINAL-c2a5883.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/slf4j.api_1.7.7.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/slf4j.api_1.7.25.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
