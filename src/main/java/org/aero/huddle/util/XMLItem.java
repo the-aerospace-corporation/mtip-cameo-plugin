@@ -29,7 +29,13 @@ public class XMLItem {
 		this.parent = parent;
 	}
 	public void addAttribute(String key, String value) {
-		this.attributes.put(key, value);
+		if(key.equals("supplier_id")) {
+			setSupplier(value);
+		} else if (key.equals("client_id")) {
+			setClient(value);
+		} else {
+			this.attributes.put(key, value);
+		}
 	}
 	public void setClient(String client) {
 		this.client = client;

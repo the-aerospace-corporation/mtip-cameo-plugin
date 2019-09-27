@@ -5,6 +5,7 @@ import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Connector extends CommonRelationship {
@@ -18,7 +19,7 @@ public class Connector extends CommonRelationship {
 			SessionManager.getInstance().createSession(project, "Create Connector Relation");
 		}
 		ElementsFactory ef = project.getElementsFactory();
-		Element connector = ef.createConnectorInstance();
+		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = ef.createConnectorInstance();
 		if(client != null) {
 			ModelHelper.setClientElement(connector, client);
 		} else {
@@ -35,4 +36,10 @@ public class Connector extends CommonRelationship {
 		
 		return connector;
 	}
+
+	@Override
+	public Element createElement(Project project, Element owner, Element client, Element supplier, Stereotype stereotype) {
+		return null;
+	}
+	
 }

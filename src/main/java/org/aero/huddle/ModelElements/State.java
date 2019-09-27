@@ -25,22 +25,44 @@ public class State extends CommonElement {
 		Element sysmlElement = f.createStateInstance();
 		((NamedElement)sysmlElement).setName(name);
 		
+		
+		Region region = null;
+		Collection<Region> regions = null;
 		if(owner != null) {
 			//if owner is not a region, create a region and set that region as owned by state machine
-			if(owner instanceof Region) {
-				sysmlElement.setOwner(owner);
-			} else if (owner instanceof StateMachine) {
+			if(owner instanceof StateMachine ) {
 				StateMachine sm = (StateMachine)owner;
-				Collection<Region> regions = sm.getRegion();
+				regions = sm.getRegion();
 				if(regions != null) {
-					Region region = regions.iterator().next();
-					sysmlElement.setOwner(region);
+					region = regions.iterator().next();
+				} else {
+					region = f.createRegionInstance();
+					region.setOwner(sm);
 				}
+				sysmlElement.setOwner(region);
+			} else if (owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State) {	
+				com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State cameoState = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)owner;
+				regions = cameoState.getRegion();
+				if(regions != null) {
+					if(regions.iterator().hasNext()) {
+						region = regions.iterator().next();
+					} else {
+						region = f.createRegionInstance();
+						region.setOwner(cameoState);
+					}
+				} else {
+					region = f.createRegionInstance();
+					region.setOwner(cameoState);
+				}
+				
+				sysmlElement.setOwner(region);
+			} else {
+				CameoUtils.logGUI("Owner not  " + name + " is null.");
 			}
 		} else {
-			CameoUtils.logGUI("No region to add InitialPseudoState " + name + " to.");
+			CameoUtils.logGUI("Owner for " + name + " is null.");
 		}
-		
+			
 		SessionManager.getInstance().closeSession(project);
 		return sysmlElement;
 	}

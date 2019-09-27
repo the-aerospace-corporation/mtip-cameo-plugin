@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class ImportXmlSysml {
 	public static void createModel(Document doc) throws NullPointerException {
@@ -57,39 +58,64 @@ public class ImportXmlSysml {
 	
 	public static Element buildRelationship(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
+		String ownerID = modelElement.getParent();
+		XMLItem ownerElement = parsedXML.get(ownerID);
 		Element owner = null;
+		
 		String cameoParentID = "";
-		String clientID = "";
-		String supplierID = "";
-		if(modelElement.getParent() != null) {
+		String clientCameoID = "";
+		String supplierCameoID = "";
+		if(ownerID.equals("")) {
 			owner = project.getPrimaryModel();
-		} else {
-			cameoParentID = parentMap.get(modelElement.getParent());
-			if(cameoParentID != null) {
+		} else if (!ownerElement.getCameoID().equals("")) {
 				owner = (Element) project.getElementByID(cameoParentID);
+		} else {
+			if(modelElement.getCategory().equals(SysmlConstants.ELEMENT)) {
+				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerID);
 			}
-			else {
-				String ownerID = modelElement.getParent();
-				XMLItem ownerElement = parsedXML.get(ownerID);
-				if(modelElement.getCategory().equals(SysmlConstants.ELEMENT)) {
-					owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerID);
-				}
-				if(modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
-					owner = buildDiagram(project, parentMap, parsedXML, modelElement, ownerID);
-				}
+			if(modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
+				owner = buildDiagram(project, parentMap, parsedXML, modelElement, ownerID);
 			}			
 		}
 		
 		CameoUtils.logGUI("Creating relationship of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
 		CommonRelationship relationship = crf.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		
-		clientID = parentMap.get(modelElement.getClient());
-		Element client = (Element) project.getElementByID(clientID);
+		//Get client element in Cameo if it exists or create element and set new element to client
+		clientCameoID = parentMap.get(modelElement.getClient());
+		CameoUtils.logGUI("....with Client cameo ID: " + clientCameoID + "  and EA ID: " + modelElement.getClient());
+		Element client = null;
+		if(clientCameoID != null) {
+			client = (Element) project.getElementByID(clientCameoID);
+		} else {
+			String clientEAID = modelElement.getClient();
+			XMLItem clientElement = parsedXML.get(clientEAID);
+			client = buildElement(project, parentMap, parsedXML, clientElement, clientEAID);
+		}
+				
+		//Get supplier element in Cameo if it exists or create element and set new element to supplier
+		supplierCameoID = parentMap.get(modelElement.getSupplier());
+		CameoUtils.logGUI("....with Supplier cameo ID: " + supplierCameoID + "  and EA ID: " + modelElement.getSupplier());
+		Element supplier = null;
+		if(supplierCameoID != null) {
+			supplier = (Element)project.getElementByID(supplierCameoID);
+		} else {
+			String supplierEAID = modelElement.getSupplier();
+			XMLItem supplierElement = parsedXML.get(supplierEAID);
+			supplier = buildElement(project, parentMap, parsedXML, supplierElement, supplierEAID);
+		}
 		
-		supplierID = parentMap.get(modelElement.getSupplier());
-		Element supplier = (Element)project.getElementByID(supplierID);
+		owner = CameoUtils.findNearestPackage(project,  supplier);
+		//Create relationship in Cameo using stereotype if applicable
 		
-		Element newElement = relationship.createElement(project,  owner, client, supplier);
+		Element newElement = null;
+		if(modelElement.getAttribute("stereotype") == null)  {
+			newElement = relationship.createElement(project,  owner, client, supplier);
+		} else {
+			Stereotype stereotype = CameoUtils.getStereotype(modelElement.getAttribute("stereotype"));
+			newElement = relationship.createElement(project,  owner,  client,  supplier, stereotype);
+		}
+		
 		String GUID = newElement.getID();
 		parentMap.put(id, GUID);
 		
@@ -112,14 +138,15 @@ public class ImportXmlSysml {
 			String category = ownerElement.getCategory();
 			if(category.equals(SysmlConstants.ELEMENT)) {
 				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
-			}
-			if(category.equals(SysmlConstants.DIAGRAM)) {
+			} else if (category.equals(SysmlConstants.DIAGRAM)) {
 				owner = buildDiagram(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
+			} else {
+				CameoUtils.logGUI("Element of type " + modelElement.getType() + " is not currently supported");
 			}
 		}
 		
 		if(!modelElement.isCreated()) {
-			CameoUtils.logGUI("Creating element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + ".");
+			CameoUtils.logGUI("Creating element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 			if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType())) {
 				CommonElement element = cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 				Element newElement = element.createElement(project,  owner);

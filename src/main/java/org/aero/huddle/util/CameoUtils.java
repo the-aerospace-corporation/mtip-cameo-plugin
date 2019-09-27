@@ -2,7 +2,9 @@ package org.aero.huddle.util;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class CameoUtils {
@@ -23,9 +25,14 @@ public class CameoUtils {
 		}
 		
 	}
-	
-	public static Stereotype getAuxiliaryStereotype() {
-		
+	public static Stereotype getStereotype(String stereotypeName) {
+		Project project = Application.getInstance().getProject();
+		switch(stereotypeName) {
+		case "auxiliary":
+			Profile umlProfile = StereotypesHelper.getProfile(project, "UML Standard Profile"); 
+			Stereotype auxiliaryStereotype = StereotypesHelper.getStereotype(project, "auxiliaryResource", umlProfile);
+			return auxiliaryStereotype;
+		}
 		return null;
 	}
 	

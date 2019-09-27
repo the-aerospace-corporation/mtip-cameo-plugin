@@ -6,8 +6,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.impl.ElementsFactory;
 
-public class Stereotype extends CommonElement {
-	public Stereotype(String name, String EAID)  {
+public class sysmlStereotype extends CommonElement {
+	public sysmlStereotype(String name, String EAID)  {
 		super(name, EAID);
 	}
 	

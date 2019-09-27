@@ -4,6 +4,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Association extends CommonRelationship{
 	public Association(String name, String EAID) {
@@ -30,4 +31,10 @@ public class Association extends CommonRelationship{
 		SessionManager.getInstance().closeSession(project);
 		return association;
 	}
+
+	@Override
+	public Element createElement(Project project, Element owner, Element client, Element supplier, Stereotype stereotype) {
+		return null;
+	}
+	
 }

@@ -13,4 +13,6 @@ public abstract class CommonRelationship {
 	}
 	
 	public abstract Element createElement(Project project, Element owner, Element client, Element supplier);
+	
+	public abstract Element createElement(Project project, Element owner, Element client, Element supplier, com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype stereotype);
 }

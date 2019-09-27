@@ -6,6 +6,7 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Aggregation extends CommonRelationship{
 	public Aggregation(String name, String EAID) {
@@ -33,5 +34,10 @@ public class Aggregation extends CommonRelationship{
 
 		SessionManager.getInstance().closeSession(project);
 		return association;
+	}
+
+	@Override
+	public Element createElement(Project project, Element owner, Element client, Element supplier, Stereotype stereotype) {
+		return null;
 	}
 }

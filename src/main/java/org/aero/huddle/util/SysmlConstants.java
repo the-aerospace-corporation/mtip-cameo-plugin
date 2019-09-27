@@ -7,35 +7,39 @@ public class SysmlConstants {
 	public static final String DIAGRAM = "Diagram";
 	
 	//Sysml Element constants
-	public static final String PACKAGE = "Package";
-	public static final String BLOCK = "Block";
-	public static final String PORT = "Port";
-	public static final String OPERATION = "Operation";
-	public static final String VALUEPROPERTY = "ValueProperty";
-	public static final String STATEMACHINE = "StateMachine";
-	public static final String STATE = "State";
-	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
-	public static final String FINALSTATE = "FinalState";
 	public static final String ACTIVITY = "Activity";
-	public static final String ACTIVITYPARAMETERNODE = "ActivityParameterNode";
+	public static final String ACTIVITYPARAMETERNODE = "ActivityParameter"; // Sysml specifies as ActivityParameterNode
+	public static final String BLOCK = "Block";
+	public static final String CLASS = "Class";
+	public static final String FINALSTATE = "FinalState";
+	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
+	public static final String OPERATION = "Operation";
+	public static final String PACKAGE = "Package";
+	public static final String PORT = "Port";
+	public static final String STATE = "State";
+	public static final String STATEMACHINE = "StateMachine";
+	public static final String VALUEPROPERTY = "ValueProperty";
 	public static final String PROPERTY = "Property";
 	public static final String INTERFACEBLOCK = "InterfaceBlock";
 	public static final String VALUETYPE = "ValueType";
 	public static final String STEREOTYPE = "Stereotype";
-	public static final String CLASS = "Class";
+	
 	public static final String MODEL = "Model";
 	public static final String PartProperty = "PartProperty";
-	public static final String TRIGGER = "Trigger";
+//	public static final String TRIGGER = "Trigger";
+	public static final String SIGNAL = "Signal";
 //	public static final String NOTE = "Note";
 	
 //	public static final String PROFILE = "Profile";
 //	public static final String PARAMETER = "Parameter";
 	
 	//Sysml Relationship Constants
+	public static final String ABSTRACTION = "Abstraction";
 	public static final String AGGREGATION = "Aggregation";
-	public static final String GENERALIZATION = "Generalization";
 	public static final String ALLOCATE = "Allocate";
 	public static final String ASSOCIATION = "Association";
+	public static final String CONNECTOR = "Connector";
+	public static final String GENERALIZATION = "Generalization";
 	public static final String TRANSITION = "Transition";
 	
 	
@@ -51,29 +55,32 @@ public class SysmlConstants {
 //	public static final String UC = "UseCaseDiagram";
 	
 	public static final String[] SYSMLELEMENTS = {
-			PACKAGE,
-			BLOCK,
-			PORT,
-			OPERATION,
-			VALUEPROPERTY,
-			STATEMACHINE,
-			STATE,
-			INITIALPSEUDOSTATE,
-			FINALSTATE,
 			ACTIVITY,
 			ACTIVITYPARAMETERNODE,
-			PROPERTY,
+			BLOCK,
+			CLASS,
+			INITIALPSEUDOSTATE,
 			INTERFACEBLOCK,
-			VALUETYPE,
+			FINALSTATE,
+			OPERATION,
+			PACKAGE,
+			PORT,
+			PROPERTY,
+			SIGNAL,
+			STATE,
+			STATEMACHINE,
 			STEREOTYPE,
-			CLASS	
+			VALUEPROPERTY,
+			VALUETYPE,			
 	};
 	
 	public static final String[] SYSMLRELATIONSHIPS = {
+			ABSTRACTION,
 			AGGREGATION,
-			GENERALIZATION,
 			ALLOCATE,
 			ASSOCIATION,
+//			CONNECTOR,
+			GENERALIZATION,
 			TRANSITION	
 	};
 

@@ -1,9 +1,14 @@
 package org.aero.huddle.ModelElements;
 
+import org.aero.huddle.util.CameoUtils;
+
 public class CommonElementsFactory {
 	public CommonElement createElement(String type, String name, String EAID) {
 		CommonElement element = null;
 		switch(type) {
+			case "ActivityParameter":
+				element = new ActivityParameterNode(name, EAID);
+				break;
 			case "Package":
 				element = new SysmlPackage(name, EAID);
 				break;
@@ -40,9 +45,6 @@ public class CommonElementsFactory {
 			case "Activity":
 				element = new Activity(name, EAID);
 				break;
-			case "ActivityParameterNode":
-				element = new ActivityParameterNode(name, EAID);
-				break;
 			case "Property":
 				element = new PartProperty(name, EAID);
 				break;
@@ -56,7 +58,7 @@ public class CommonElementsFactory {
 				element = new ValueType(name, EAID);
 				break;
 			case "Stereotype":
-				element = new Stereotype(name, EAID);
+				element = new sysmlStereotype(name, EAID);
 				break;
 			case "Class":
 				element = new Class(name, EAID);
@@ -70,8 +72,14 @@ public class CommonElementsFactory {
 			case "Note":
 				element = new Note(name, EAID);
 				break;
+			case "Signal":
+				element = new Signal(name, EAID);
+				break;
 			default:
 				break;
+		}
+		if(element == null) {
+			CameoUtils.logGUI("Element of type " + type + " not supported by CommonElementsFactory.");
 		}
 		return element;	
 	}

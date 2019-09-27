@@ -33,7 +33,6 @@ public class ExportXmlSysml {
 		
 		boolean noPackages = false;
 		boolean noElements = false;
-		boolean hasRequirement = false;
 
 		try {
 			elementsInPackage = pack.getOwnedElement();
@@ -49,26 +48,25 @@ public class ExportXmlSysml {
 						
 		if(!noPackages) {
 			for(Package nextPackage : packagesInPackage) {
-				//Description: Get stereotypes of package. Packages with stereotypes (Ex. auxiliary, modellibrary) should not be exported
-				// AI: get auxiliary and modelLibrary stereotypes to compare against.
-				Stereotype auxiliary = CameoUtils.getAuxiliaryStereotype();
-				Stereotype modelLibrary = CameoUtils.getModelLibraryStereotype();
+				//Description: Get stereotypes of package. Packages with stereotypes (Ex. auxiliaryResource, modellibrary) should not be exported
+				Stereotype auxiliary = CameoUtils.getStereotype("auxiliary");
 				List<Stereotype> packageStereotypes = StereotypesHelper.getStereotypes(nextPackage);
-				if(packageStereotypes == null) {
+				if(packageStereotypes == null || !packageStereotypes.contains(auxiliary)) {
 					if(!nextPackage.getHumanName().equals("Package Unit Imports")) {
 						CameoUtils.logGUI("Package with name " + nextPackage.getHumanName());
 						exportPackage(nextPackage, project);
-					}
-				} else {
-					
+					}					
 				}
 			}
 		}
 		
 		if(!noElements) {
 			for(Element element : elementsInPackage) {
-				//export package
-				exportElement(element, project);
+				//export elements that are not packages
+				String elementName = element.getHumanName();
+				if(!elementName.contains("Package")) {
+					exportElement(element, project);
+				}
 			}
 		}
 	}
@@ -89,7 +87,11 @@ public class ExportXmlSysml {
 			for(Element ownedElement : ownedElements) {
 				JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Looking for children elements of element " + element.getHumanName());
 				CameoUtils.logGUI("Found element: " + ownedElement.getHumanName());
-				exportElement(ownedElement, project);
+				// Check that ownedElement is not a package, otherwise will cause infinite loop
+				String elementName = ownedElement.getHumanName();
+				if(!elementName.contains("Package")) {
+					exportElement(ownedElement, project);
+				}
 			}
 		}
 		

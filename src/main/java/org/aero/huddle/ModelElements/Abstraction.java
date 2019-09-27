@@ -9,13 +9,30 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class Allocate extends CommonRelationship{
-	public Allocate(String name, String EAID) {
+public class Abstraction extends CommonRelationship {
+
+	public Abstraction(String name, String EAID) {
 		super(name, EAID);
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create Abstraction Relationship");
+		}
+		
+		Element abstraction = project.getElementsFactory().createAbstractionInstance();
+		ModelHelper.setClientElement(abstraction, client);
+		ModelHelper.setSupplierElement(abstraction, supplier);
+		((NamedElement)abstraction).setName(name);
+		abstraction.setOwner(owner);
+		
+		SessionManager.getInstance().closeSession(project);
+		return abstraction;
+	}
+
+	@Override
+	public Element createElement(Project project, Element owner, Element client, Element supplier, Stereotype stereotype) {
 		Profile mdCustomSysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype allocateStereotype = StereotypesHelper.getStereotype(project,  "Allocate", mdCustomSysml);
 		
@@ -35,8 +52,4 @@ public class Allocate extends CommonRelationship{
 		return allocate;
 	}
 
-	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier, Stereotype stereotype) {
-		return null;
-	}
 }
