@@ -171,5 +171,7 @@
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/org.scala-lang.scala-library_2.12.4.v20171010-220511-VFINAL-c2a5883.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/slf4j.api_1.7.7.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/slf4j.api_1.7.25.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.sysml/sysml.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.sysml/sysml_api.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

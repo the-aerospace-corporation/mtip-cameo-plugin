@@ -2,8 +2,6 @@ package org.aero.huddle.ModelElements;
 
 import java.util.List;
 
-import org.aero.huddle.util.CameoUtils;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
@@ -16,17 +14,12 @@ import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
-import com.nomagic.uml2.StandardProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.impl.ElementsFactory;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
-import com.nomagic.magicdraw.sysml.util.SYSMODProfile;
-//import com.nomagic.magicdraw.sysml.util.SysMLProfile ;
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 
 public class BlockDefinitionDiagram  extends CommonElement implements ModelDiagram{
@@ -46,7 +39,7 @@ public class BlockDefinitionDiagram  extends CommonElement implements ModelDiagr
 		try {
 			// a class diagram is created and added to a parent model element
 
-			sysmlElement = ModelElementsManager.getInstance().createDiagram(DiagramTypeConstants.UML_CLASS_DIAGRAM,
+			sysmlElement = ModelElementsManager.getInstance().createDiagram(SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM,
 					(Namespace) owner);
 
 		} catch (ReadOnlyElementException e) {
