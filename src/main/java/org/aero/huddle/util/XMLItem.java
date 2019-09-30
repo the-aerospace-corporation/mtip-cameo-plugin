@@ -1,7 +1,9 @@
 package org.aero.huddle.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class XMLItem {
 	private String type = "";
@@ -12,11 +14,11 @@ public class XMLItem {
 	private String client = "";
 	private String supplier = "";
 	private HashMap<String, String> attributes = new HashMap<String, String>();
+	private List<String> childElements = new ArrayList<String>();
 	
 	public XMLItem() {
 		
 	}
-	
 	
 	public void setType(String type) {
 		this.type = type;
@@ -40,11 +42,21 @@ public class XMLItem {
 	public void setClient(String client) {
 		this.client = client;
 	}
+	
 	public void setSupplier(String supplier) {
 		this.supplier = supplier;
 	}
+	
 	public void setCameoID(String cameo_id) {
 		this.cameo_id = cameo_id;
+	}
+	
+	public void addChildElement(String element) {
+		this.childElements.add(element);
+	}
+	
+	public List<String>  getChildElements() {
+	    return	this.childElements;
 	}
 	
 	public String getType() {

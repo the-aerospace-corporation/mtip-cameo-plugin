@@ -75,6 +75,15 @@ public class CommonElementsFactory {
 			case "Signal":
 				element = new Signal(name, EAID);
 				break;
+			case "BlockDefinitionDiagram":
+				element = new BlockDefinitionDiagram(name, EAID);
+				break;
+			case "ActivityDiagram":
+				element = new ActivityDiagram(name, EAID);
+				break;
+			case "StateMachineDiagram":
+				element = new StateMachineDiagram(name, EAID);
+				break;
 			default:
 				break;
 		}
