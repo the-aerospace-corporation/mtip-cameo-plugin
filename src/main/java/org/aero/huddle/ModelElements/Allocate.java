@@ -1,5 +1,7 @@
 package org.aero.huddle.ModelElements;
 
+import org.w3c.dom.Document;
+
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -36,7 +38,9 @@ public class Allocate extends CommonRelationship{
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier, Stereotype stereotype) {
-		return null;
+	public void writeToXML(Element element, Project project, Document xmlDoc) {
+		// TODO Auto-generated method stub
+		
 	}
+
 }

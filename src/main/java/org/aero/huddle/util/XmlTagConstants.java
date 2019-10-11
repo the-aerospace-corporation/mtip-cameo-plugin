@@ -1,6 +1,5 @@
 package org.aero.huddle.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,14 +8,50 @@ import java.util.Map.Entry;
 public class XmlTagConstants
 {
 	//SysML elements
-	public static final String PKG = "package";
-	public static final String PROFILE = "profile";
-	public static final String STEREOTYPE = "stereotype";
-	public static final String PROPERTY = "property";
-	public static final String CLS = "class";
-	public static final String BLOCK = "block";
-	public static final String ASSOCIATION = "association";
-	public static final String ACTIVITY = "activity";
+	public static final String ACTIVITY = "sysml.Activity";
+	public static final String ACTIVITYPARAMETERNODE = "sysml.ActivityParameterNode";
+	public static final String ACTOR = "sysml.Actor";
+	public static final String BLOCK = "sysml.Block";
+	public static final String CLASS = "sysml.Class";
+	public static final String COLLABORATION = "sysml.Collaboration";
+	public static final String COMBINEDFRAGMENT = "sysml.CombinedFragment";
+	public static final String DESIGNCONSTRAINT = "sysml.DesignConstraint";
+	public static final String EXTENDEDREQUIREMENT = "sysml.ExtendedRequirement";
+	public static final String FINALSTATE = "sysml.FinalState";
+	public static final String FUNCTIONALREQUIREMENT = "sysml.FunctionalRequirement";
+	public static final String INTERACTION = "sysml.Interaction";
+	public static final String INTERACTIONUSE = "sysml.InteractionUse";
+	public static final String INITIALPSEUDOSTATE = "sysml.InitialPseudoState";
+	public static final String INTERFACEBLOCK = "sysml.InterfaceBlock";
+	public static final String INTERFACEREQUIREMENT = "sysml.InterfaceRequirement";
+	public static final String LIFELINE = "sysml.Lifeline";
+	public static final String MODEL = "sysml.Model";
+	public static final String OPERATION = "sysml.Operation";
+	public static final String PARTPROPERTY = "sysml.PartProperty";
+	public static final String PACKAGE = "sysml.Package";
+	public static final String PERFORMANCEREQUIREMENT = "sysml.PerformanceRequirement";
+	public static final String PHYSICALREQUIREMENT = "sysml.PhysicalRequirement";
+	public static final String PORT = "sysml.Port";
+	public static final String PROFILE = "sysml.Profile";
+	public static final String PROPERTY = "sysml.Property";
+	public static final String REQUIREMENT = "sysml.Requirement";
+	public static final String SIGNAL = "sysml.Signal";
+	public static final String STATE = "sysml.State";
+	public static final String STATEMACHINE = "sysml.StateMachine";
+	public static final String STEREOTYPE = "sysml.Stereotype";
+	public static final String USECASE = "sysml.UseCase";
+	public static final String VALUEPROPERTY = "sysml.ValueProperty";
+	public static final String VALUETYPE = "sysml.ValueType";
+
+	//SysML relationships
+	public static final String ASSOCIATION = "sysml.Association";
+	public static final String COPY = "sysml.Copy";
+	public static final String DERIVEREQUIREMENT = "sysml.DeriveRequirement";
+	public static final String REFINE = "sysml.Refine";
+	public static final String SATISFY = "sysml.Satisfy";
+	public static final String TRACE = "sysml.Trace";
+	public static final String VERIFY = "sysml.Verify";
+	
 	public static final String PARAMETER = "parameter";
 	
 	//SysML nomenclature, but not elements
@@ -30,29 +65,21 @@ public class XmlTagConstants
 	public static final String PARENT_ID = "parentID";
 	
 	//List of sysmlTags
-	public static final String[] sysmlTagList = {
-			PKG,
+	public static final String[] sysmlElementList = {
+			ACTIVITY,
+			ACTIVITYPARAMETERNODE,
+			BLOCK,
+			CLASS,
+			PACKAGE,
 			PROFILE,
 			STEREOTYPE,
 			PROPERTY,
-			CLS,
-			BLOCK,
-			ASSOCIATION,
-			ACTIVITY,
-			PARAMETER,
-			APPLIEDSTEREOTYPE,
-			TAG,
-			NAME,
-			VALUE,
-			CLIENT,
-			SUPPLIER,
-			ELEMENT_ID,
-			PARENT_ID};
+			PARAMETER
+	};
 	
 	//Puddle nomenclature
 	public static final String SPLASH = "splash";
 	public static final String SYSTEM = "system";
-	public static final String INTERACTION = "interaction";
 	public static final String FUNCTION = "function";
 	public static final String EVENT = "event";
 	public static final String PROCESS = "process";

@@ -1,8 +1,9 @@
 package org.aero.huddle.ModelElements;
 
+import org.w3c.dom.Document;
+
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Transition extends CommonRelationship {
 	public Transition(String name, String EAID) {
@@ -15,7 +16,8 @@ public class Transition extends CommonRelationship {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier, Stereotype stereotype) {
-		return null;
+	public void writeToXML(Element element, Project project, Document xmlDoc) {
+		// TODO Auto-generated method stub
+		
 	}
 }

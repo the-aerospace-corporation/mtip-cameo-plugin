@@ -9,27 +9,42 @@ public class SysmlConstants {
 	//Sysml Element constants
 	public static final String ACTIVITY = "Activity";
 	public static final String ACTIVITYPARAMETERNODE = "ActivityParameter"; // Sysml specifies as ActivityParameterNode
+	public static final String ACTOR = "Actor";
 	public static final String BLOCK = "Block";
 	public static final String CLASS = "Class";
+	public static final String COLLABORATION = "Collaboration";
+	public static final String COMBINEDFRAGMENT = "CombinedFragment";
+	public static final String DESIGNCONSTRAINT = "DesignConstraint";
+	public static final String EXTENDEDREQUIREMENT = "ExtendedRequirement";
 	public static final String FINALSTATE = "FinalState";
+	public static final String FUNCTIONALREQUIREMENT = "FunctionalRequirement";
 	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
+	public static final String INTERACTION = "Interaction";
+	public static final String INTERACTIONUSE = "InteractionUse";
+	public static final String INTERFACEBLOCK = "InterfaceBlock";
+	public static final String INTERFACEREQUIREMENT = "InterfaceRequirement";
+	public static final String LIFELINE = "Lifeline";
+	public static final String MODEL = "Model";
 	public static final String OPERATION = "Operation";
 	public static final String PACKAGE = "Package";
+	public static final String PARTPROPERTY = "PartProperty";
+	public static final String PERFORMANCEREQUIREMENT = "PerformanceRequirement";
+	public static final String PHYSICALREQUIREMENT = "PhysicalRequirement";
 	public static final String PORT = "Port";
+	public static final String PROPERTY = "Property";
+	public static final String REQUIREMENT = "Requirement";
+	public static final String SIGNAL = "Signal";
 	public static final String STATE = "State";
 	public static final String STATEMACHINE = "StateMachine";
-	public static final String VALUEPROPERTY = "ValueProperty";
-	public static final String PROPERTY = "Property";
-	public static final String INTERFACEBLOCK = "InterfaceBlock";
-	public static final String VALUETYPE = "ValueType";
 	public static final String STEREOTYPE = "Stereotype";
+	public static final String USECASE = "UseCase";
+	public static final String VALUEPROPERTY = "ValueProperty";
+	public static final String VALUETYPE = "ValueType";
 	
-	public static final String MODEL = "Model";
-	public static final String PartProperty = "PartProperty";
+	
+
 //	public static final String TRIGGER = "Trigger";
-	public static final String SIGNAL = "Signal";
 //	public static final String NOTE = "Note";
-	
 //	public static final String PROFILE = "Profile";
 //	public static final String PARAMETER = "Parameter";
 	
@@ -39,8 +54,14 @@ public class SysmlConstants {
 	public static final String ALLOCATE = "Allocate";
 	public static final String ASSOCIATION = "Association";
 	public static final String CONNECTOR = "Connector";
+	public static final String COPY = "Copy";
+	public static final String DERIVEREQUIREMENT = "DeriveRequirement";
 	public static final String GENERALIZATION = "Generalization";
+	public static final String REFINE = "Refine";
+	public static final String SATISFY = "Satisfy";
+	public static final String TRACE = "Trace";
 	public static final String TRANSITION = "Transition";
+	public static final String VERIFY = "Verify";
 	
 	
 	//Sysml Diagram constants
@@ -57,19 +78,34 @@ public class SysmlConstants {
 	public static final String[] SYSMLELEMENTS = {
 			ACTIVITY,
 			ACTIVITYPARAMETERNODE,
+			ACTOR,
 			BLOCK,
 			CLASS,
+			COLLABORATION,
+			COMBINEDFRAGMENT,
+			DESIGNCONSTRAINT,
+			EXTENDEDREQUIREMENT,
 			FINALSTATE,
-			INITIALPSEUDOSTATE,
+			FUNCTIONALREQUIREMENT,
+			INTERACTION,
+			INTERACTIONUSE,
+			INITIALPSEUDOSTATE,				//InitialNode
 			INTERFACEBLOCK,
+			INTERFACEREQUIREMENT,
+			LIFELINE,
 			OPERATION,
 			PACKAGE,
+			//PARTPROPERTY,
+			PERFORMANCEREQUIREMENT,
+			PHYSICALREQUIREMENT,
 			PORT,
 			PROPERTY,
+			REQUIREMENT,
 			SIGNAL,
 			STATE,
 			STATEMACHINE,
 			STEREOTYPE,
+			USECASE,
 			VALUEPROPERTY,
 			VALUETYPE,			
 	};
@@ -80,8 +116,14 @@ public class SysmlConstants {
 			ALLOCATE,
 			ASSOCIATION,
 //			CONNECTOR,
+			COPY,
+			DERIVEREQUIREMENT,
 			GENERALIZATION,
-			TRANSITION	
+			REFINE,
+			SATISFY,
+			TRACE,
+			TRANSITION,
+			VERIFY
 	};
 
 	public static final String[] SYSMLDIAGRAMS = {

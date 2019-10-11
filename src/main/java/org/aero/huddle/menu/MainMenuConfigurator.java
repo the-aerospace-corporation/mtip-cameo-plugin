@@ -1,8 +1,7 @@
 package org.aero.huddle.menu;
 
-import org.aero.huddle.XML.Export.ExportXmlAction;
 import org.aero.huddle.XML.Export.ExportXmlSysmlAction;
-import org.aero.huddle.XML.Import.ImportXmlAction;
+import org.aero.huddle.XML.Import.ElementTestAction;
 import org.aero.huddle.XML.Import.ImportXmlSysmlAction;
 
 import com.nomagic.actions.AMConfigurator;
@@ -41,6 +40,7 @@ public class MainMenuConfigurator implements AMConfigurator
 		category.addAction(new ExportXmlSysmlAction("", "Export Sysml to XML"));
 //		category.addAction(new ExportXmlAction("", "Export as XML"));
 		category.addAction(new AboutAction("","About"));
+		category.addAction(new ElementTestAction("", "Test Element Creation"));
 		
 		//Depreciated and unused. Uses the prior CSV format as opposed to the new
 		//XML format. Used for the initial use case scenario, but substituted for the XML format.

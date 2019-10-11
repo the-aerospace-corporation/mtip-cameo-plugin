@@ -34,22 +34,17 @@ public class ImportXmlAction extends MDAction
 {
 	private Object[] options = {"XML (Puddle)", "XML (Blocks)"};
 	
-	public ImportXmlAction(String id, String name)
-	{
+	public ImportXmlAction(String id, String name) {
 		super(id, name, null, null);
 	}
 	
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		Project project = Application.getInstance().getProject();
-		if(project == null)
-		{
+		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
 		}
-		else
-		{
-			try
-			{
+		else {
+			try {
 				int n = JOptionPane.showOptionDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Select XML import type", "Choose Export Format", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 				
 				File file = FileSelect.chooseXMLFileOpen();
@@ -57,13 +52,11 @@ public class ImportXmlAction extends MDAction
 				doc.getDocumentElement().normalize();
 				
 				//Use Puddle structure, initial mapping
-				if(n == 0)
-				{
+				if(n == 0) {
 					ImportXmlPuddle.buildModel(doc);
 				}
 				//Use Puddle structure, blocks only
-				else if(n == 1)
-				{
+				else if(n == 1)	{
 					ImportXmlBlocks.buildModel(doc);
 				}
 				

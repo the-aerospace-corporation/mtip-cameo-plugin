@@ -2,14 +2,16 @@ package org.aero.huddle.ModelElements;
 
 import java.util.List;
 
+import org.aero.huddle.util.XMLItem;
+import org.w3c.dom.Document;
+
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
-//import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.magicdraw.uml.DiagramTypeConstants;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
@@ -20,7 +22,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.impl.ElementsFactory;
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 
 public class BlockDefinitionDiagram  extends CommonElement implements ModelDiagram{
 
@@ -29,7 +30,7 @@ public class BlockDefinitionDiagram  extends CommonElement implements ModelDiagr
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner) {
+	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Block Diagram Element");
@@ -104,5 +105,11 @@ public class BlockDefinitionDiagram  extends CommonElement implements ModelDiagr
 		}
 		SessionManager.getInstance().closeSession(project);
 
+	}
+
+	@Override
+	public void writeToXML(Element element, Project project, Document root) {
+		// TODO Auto-generated method stub
+		
 	}
 }

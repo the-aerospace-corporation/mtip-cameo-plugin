@@ -1,11 +1,15 @@
 package org.aero.huddle.util;
 
+import java.util.Collection;
+
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
+import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 
 public class CameoUtils {
 	public static void logGUI(String text) {
@@ -41,4 +45,105 @@ public class CameoUtils {
 		return null;
 	}
 	
+
+	
+	public static boolean isSysmlStereotypedElement(Element element, Project project, String stereotype) {
+		Profile sysml = StereotypesHelper.getProfile(project,  "SysML");
+		Collection<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
+		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, stereotype, sysml);
+		if(stereotypes.contains(blockStereotype)) { 
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isCopy(Element element, Project project) {
+		String stereotype = SysMLProfile.COPY_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isDeriveRequirement(Element element, Project project) {
+		String stereotype = SysMLProfile.DERIVEREQT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isRefine(Element element, Project project) {
+		String stereotype = SysMLProfile.REFINE_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isSatisfy(Element element, Project project) {
+		String stereotype = SysMLProfile.SATISFY_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isTrace(Element element, Project project) {
+		String stereotype = SysMLProfile.TRACE_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isVerify(Element element, Project project) {
+		String stereotype = SysMLProfile.VERIFY_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isBlock(Element element, Project project) {
+		String stereotype = SysMLProfile.BLOCK_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isDesignConstraint(Element element, Project project) {
+		String stereotype = SysMLProfile.DESIGNCONSTRAINT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isExtendedRequirement(Element element, Project project) {
+		String stereotype = SysMLProfile.EXTENDEDREQUIREMENT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isFunctionalRequirement(Element element, Project project) {
+		String stereotype = SysMLProfile.FUNCTIONALREQUIREMENT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isInterfaceBlock(Element element, Project project) {
+		String stereotype = SysMLProfile.INTERFACEBLOCK_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isInterfaceRequirement(Element element, Project project) {
+		String stereotype = SysMLProfile.INTERFACEREQUIREMENT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isPerformanceRequirement(Element element, Project project) {
+		String stereotype = SysMLProfile.PERFORMANCEREQUIREMENT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isPhysicalRequirement(Element element, Project project) {
+		String stereotype = SysMLProfile.PHYSICALREQUIREMENT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isRequirement(Element element, Project project) {
+		String stereotype = SysMLProfile.REQUIREMENT_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isPartProperty(Element element, Project project) {
+		String stereotype = MDCustomizationForSysMLProfile.PARTPROPERTY_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isValueProperty(Element element, Project project) {
+		String stereotype = MDCustomizationForSysMLProfile.VALUEPROPERTY_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
+	
+	public static boolean isValueType(Element element, Project project) {
+		String stereotype = SysMLProfile.VALUETYPE_STEREOTYPE;
+		return isSysmlStereotypedElement(element, project, stereotype);
+	}
 }
