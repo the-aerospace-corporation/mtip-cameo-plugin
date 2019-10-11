@@ -238,6 +238,8 @@ public class ImportXmlSysml {
 				parentMap.put(id, GUID);
 				return newElement;
 			}
+		} else {
+			return (Element) project.getElementByID(modelElement.getCameoID());
 		}
 		return owner;
 	}
