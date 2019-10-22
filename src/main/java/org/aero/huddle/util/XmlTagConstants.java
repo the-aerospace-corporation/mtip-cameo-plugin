@@ -11,13 +11,17 @@ public class XmlTagConstants
 	public static final String ACTIVITY = "sysml.Activity";
 	public static final String ACTIVITYPARAMETERNODE = "sysml.ActivityParameterNode";
 	public static final String ACTOR = "sysml.Actor";
+	public static final String ASSOCIATIONBLOCK = "sysml.AssociationBlock";
 	public static final String BLOCK = "sysml.Block";
 	public static final String CLASS = "sysml.Class";
 	public static final String COLLABORATION = "sysml.Collaboration";
 	public static final String COMBINEDFRAGMENT = "sysml.CombinedFragment";
+	public static final String CONSTRAINTBLOCK = "sysml.ConstraintBlock";
 	public static final String DESIGNCONSTRAINT = "sysml.DesignConstraint";
 	public static final String EXTENDEDREQUIREMENT = "sysml.ExtendedRequirement";
 	public static final String FINALSTATE = "sysml.FinalState";
+	public static final String FLOWPORT = "sysml.FlowPort";
+	public static final String FULLPORT = "sysml.FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "sysml.FunctionalRequirement";
 	public static final String INTERACTION = "sysml.Interaction";
 	public static final String INTERACTIONUSE = "sysml.InteractionUse";
@@ -34,6 +38,7 @@ public class XmlTagConstants
 	public static final String PORT = "sysml.Port";
 	public static final String PROFILE = "sysml.Profile";
 	public static final String PROPERTY = "sysml.Property";
+	public static final String PROXYPORT = "sysml.ProxyPort";
 	public static final String REQUIREMENT = "sysml.Requirement";
 	public static final String SIGNAL = "sysml.Signal";
 	public static final String STATE = "sysml.State";

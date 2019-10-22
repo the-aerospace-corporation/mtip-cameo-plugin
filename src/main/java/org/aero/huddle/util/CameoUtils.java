@@ -4,12 +4,16 @@ import java.util.Collection;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
+import com.nomagic.uml2.impl.ElementsFactory;
 
 public class CameoUtils {
 	public static void logGUI(String text) {
@@ -29,6 +33,29 @@ public class CameoUtils {
 		}
 		
 	}
+	
+	public static Element findNearestRegion(Project project, Element owner) {
+		Region region = null;
+		Collection<Region> regions = null;
+		CameoUtils.logGUI("Searching for state machine with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
+		if(owner instanceof StateMachine) {
+			StateMachine sm = (StateMachine)owner;
+			regions = sm.getRegion();
+			if(regions != null) {
+				region = regions.iterator().next();
+				return region;
+			} else {
+				ElementsFactory f = project.getElementsFactory();
+				region = f.createRegionInstance();
+				region.setOwner(sm);
+				return region;
+			}
+		} else {
+			Element nextOwner = owner.getOwner();
+			return findNearestRegion(project, nextOwner);
+		}
+	}
+	
 	public static Stereotype getStereotype(String stereotypeName) {
 		Project project = Application.getInstance().getProject();
 		switch(stereotypeName) {
@@ -45,7 +72,13 @@ public class CameoUtils {
 		return null;
 	}
 	
-
+	public static boolean isAssociationBlock(Element element, Project project) {
+		//Add additional check for block stereotype
+		if(element instanceof AssociationClass && isBlock(element, project)) {
+			return true;
+		}
+		return false;
+	}
 	
 	public static boolean isSysmlStereotypedElement(Element element, Project project, String stereotype) {
 		Profile sysml = StereotypesHelper.getProfile(project,  "SysML");

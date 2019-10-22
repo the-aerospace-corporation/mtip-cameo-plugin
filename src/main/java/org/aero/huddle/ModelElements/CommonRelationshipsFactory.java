@@ -1,11 +1,13 @@
 package org.aero.huddle.ModelElements;
 
+import org.aero.huddle.ModelElements.InternalBlock.Connector;
 import org.aero.huddle.ModelElements.Requirements.Copy;
 import org.aero.huddle.ModelElements.Requirements.DeriveRequirement;
 import org.aero.huddle.ModelElements.Requirements.Refine;
 import org.aero.huddle.ModelElements.Requirements.Satisfy;
 import org.aero.huddle.ModelElements.Requirements.Trace;
 import org.aero.huddle.ModelElements.Requirements.Verify;
+import org.aero.huddle.ModelElements.StateMachine.Transition;
 
 public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
@@ -43,6 +45,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case "Trace":
 				relationship = new Trace(name, EAID);
+				break;
+			case "Transition":
+				relationship = new Transition(name, EAID);
 				break;
 			case "Verify":
 				relationship = new Verify(name, EAID);

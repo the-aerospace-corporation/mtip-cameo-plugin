@@ -7,32 +7,58 @@ public class SysmlConstants {
 	public static final String DIAGRAM = "Diagram";
 	
 	//Sysml Element constants
+	public static final String ACCEPTEVENTACTION = "AcceptEventAction";
+	public static final String ACTION = "Action";
 	public static final String ACTIVITY = "Activity";
+	public static final String ACTIVITYFINALNODE = "ActivityFinalNode";
 	public static final String ACTIVITYPARAMETERNODE = "ActivityParameter"; // Sysml specifies as ActivityParameterNode
+	public static final String ACTIVITYPARTITION = "ActivityPartition";
 	public static final String ACTOR = "Actor";
+	public static final String ASSOCIATIONBLOCK = "AssociationBlock";
 	public static final String BLOCK = "Block";
+	public static final String CALLBEHAVIORACTION = "CallBehaviorAction";
+	public static final String CALLOPERATIONACTION = "CallOperationAction";
+	public static final String CENTRALBUFFERNODE = "CentralBufferNode";
 	public static final String CLASS = "Class";
 	public static final String COLLABORATION = "Collaboration";
 	public static final String COMBINEDFRAGMENT = "CombinedFragment";
+	public static final String CONDITIONALNODE = "ConditionalNode";
+	public static final String CONSTRAINTBLOCK = "ConstraintBlock";
+	public static final String CREATEOBJECTACTION = "CreateObjectAction";
+	public static final String DATASTORENODE = "DataStoreNode";
+	public static final String DECISIONNODE = "DecisionNode";
 	public static final String DESIGNCONSTRAINT = "DesignConstraint";
+	public static final String DESTROYOBJECTACTION = "DestroyObjectAction";
 	public static final String EXTENDEDREQUIREMENT = "ExtendedRequirement";
 	public static final String FINALSTATE = "FinalState";
+	public static final String FLOWFINALNODE = "FlowFinalNode";
+	public static final String FLOWPORT = "FlowPort";
+	public static final String FORKNODE = "ForkNode";
+	public static final String FULLPORT = "FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "FunctionalRequirement";
-	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
 	public static final String INTERACTION = "Interaction";
 	public static final String INTERACTIONUSE = "InteractionUse";
 	public static final String INTERFACEBLOCK = "InterfaceBlock";
 	public static final String INTERFACEREQUIREMENT = "InterfaceRequirement";
+	public static final String INITIALNODE = "InitialNode";
+	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
+	public static final String INPUTPIN = "InputPin";
+	public static final String JOINNODE = "JoinNode";
 	public static final String LIFELINE = "Lifeline";
+	public static final String LOOPNODE = "LoopNode";
 	public static final String MODEL = "Model";
 	public static final String OPERATION = "Operation";
+	public static final String OPAQUEACTION = "OpaqueAction";
+	public static final String OUTPUTPIN = "OutputPin";
 	public static final String PACKAGE = "Package";
 	public static final String PARTPROPERTY = "PartProperty";
 	public static final String PERFORMANCEREQUIREMENT = "PerformanceRequirement";
 	public static final String PHYSICALREQUIREMENT = "PhysicalRequirement";
 	public static final String PORT = "Port";
 	public static final String PROPERTY = "Property";
+	public static final String PROXYPORT = "ProxyPort";
 	public static final String REQUIREMENT = "Requirement";
+	public static final String SENDSIGNALACTION = "SendSignalAction";
 	public static final String SIGNAL = "Signal";
 	public static final String STATE = "State";
 	public static final String STATEMACHINE = "StateMachine";
@@ -76,30 +102,55 @@ public class SysmlConstants {
 //	public static final String UC = "UseCaseDiagram";
 	
 	public static final String[] SYSMLELEMENTS = {
+			ACCEPTEVENTACTION,
+			ACTION,
 			ACTIVITY,
+			ACTIVITYFINALNODE,
 			ACTIVITYPARAMETERNODE,
+			ACTIVITYPARTITION,
 			ACTOR,
+			ASSOCIATIONBLOCK,
 			BLOCK,
+			CALLBEHAVIORACTION,
+			CALLOPERATIONACTION,
+			CENTRALBUFFERNODE,
 			CLASS,
 			COLLABORATION,
 			COMBINEDFRAGMENT,
+			CONDITIONALNODE,
+			CONSTRAINTBLOCK,
+			CREATEOBJECTACTION,
+			DATASTORENODE,
+			DECISIONNODE,
 			DESIGNCONSTRAINT,
+			DESTROYOBJECTACTION,
 			EXTENDEDREQUIREMENT,
 			FINALSTATE,
+			FLOWFINALNODE,
+			FLOWPORT,
+			FORKNODE,
+			FULLPORT,
 			FUNCTIONALREQUIREMENT,
+			INITIALNODE,
+			INITIALPSEUDOSTATE,
+			INPUTPIN,
 			INTERACTION,
 			INTERACTIONUSE,
-			INITIALPSEUDOSTATE,				//InitialNode
 			INTERFACEBLOCK,
 			INTERFACEREQUIREMENT,
+			JOINNODE,
 			LIFELINE,
+			LOOPNODE,
+			OPAQUEACTION,
 			OPERATION,
+			OUTPUTPIN,
 			PACKAGE,
 			//PARTPROPERTY,
 			PERFORMANCEREQUIREMENT,
 			PHYSICALREQUIREMENT,
 			PORT,
 			PROPERTY,
+			PROXYPORT,
 			REQUIREMENT,
 			SIGNAL,
 			STATE,

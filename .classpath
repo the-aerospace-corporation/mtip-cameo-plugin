@@ -175,5 +175,6 @@
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.sysml/sysml_api.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/requirements.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/requirements_api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/text.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

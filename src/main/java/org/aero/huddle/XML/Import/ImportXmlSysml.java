@@ -1,6 +1,5 @@
 package org.aero.huddle.XML.Import;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +26,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 
 public class ImportXmlSysml {
 
@@ -111,16 +110,17 @@ public class ImportXmlSysml {
 		modelElement.setCameoID(GUID);
 		parentMap.put(id, GUID);
 	
-		List<String> elementsStrings=modelElement.getChildElements();
+		List<String> elementsStrings = modelElement.getChildElements(parsedXML);
 
 		CameoUtils.logGUI("ElementStrings size: " + elementsStrings.size());
 		for (String s: elementsStrings) {
 			CameoUtils.logGUI("ADDING element id: " + s);
 		}
 
+		
 		List<Element> elements = elementsStrings.stream().map(s->(Element) getOrBuildElement(project,  parentMap,  parsedXML, s)).collect(Collectors.toList());
-
-		CameoUtils.logGUI("modelElement.getType() : " +modelElement.getType() );
+		
+		CameoUtils.logGUI("modelElement.getType() : " + modelElement.getType() );
 		CameoUtils.logGUI("elementsAFTER size: " + elements.size());
 		
 		((ModelDiagram) element).addElements(project, (Diagram) newElement, elements);
@@ -183,7 +183,14 @@ public class ImportXmlSysml {
 			supplier = buildElement(project, parentMap, parsedXML, supplierElement, supplierEAID);
 		}
 		
-		owner = CameoUtils.findNearestPackage(project,  supplier);
+		if(modelElement.getType().equals("Transition")) {
+			owner = CameoUtils.findNearestRegion(project, supplier);
+		} else {
+			owner = CameoUtils.findNearestPackage(project,  supplier);
+		}
+		if(modelElement.getType().equals("Association") && (supplier instanceof Port || client instanceof Port)) {
+			return null;
+		}
 		//Create relationship in Cameo 
 		if(!modelElement.isCreated()) {
 			CameoUtils.logGUI("Physically creating Relationship in Cameo");

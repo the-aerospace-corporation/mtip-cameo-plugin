@@ -15,6 +15,7 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityParameterNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.InitialNode;
@@ -142,6 +143,9 @@ public class ExportXmlSysml {
 	public static void exportElement(Element element, Project project, Document xmlDoc) {
 		String commonElementType = null;
 		String commonRelationshipType = null;
+		
+		//Use SysMLProfiel.is<SysmlElementName> to check types for sysml elements 
+		
 		if(element instanceof Activity) {
 			commonElementType = SysmlConstants.ACTIVITY;
 			CameoUtils.logGUI("Exporting Activity");
@@ -151,6 +155,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof Actor) {
 			commonElementType = SysmlConstants.ACTOR;
 			CameoUtils.logGUI("Exporting Actor");
+		} else if(CameoUtils.isAssociationBlock(element, project)) {
+			commonElementType = SysmlConstants.ASSOCIATIONBLOCK;
+			CameoUtils.logGUI("Exporting Association Block");
 		} else if(CameoUtils.isBlock(element, project)) {
 			commonElementType = SysmlConstants.BLOCK;
 			CameoUtils.logGUI("Exporting Block");
@@ -166,6 +173,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof CombinedFragment) {
 			commonElementType = SysmlConstants.COMBINEDFRAGMENT;
 			CameoUtils.logGUI("Exporting Combined Fragment");
+		} else if(SysMLProfile.isConstraintBlock(element)) {
+				commonElementType = SysmlConstants.CONSTRAINTBLOCK;
+				CameoUtils.logGUI("Exporting Constraint Block");
 		} else if(CameoUtils.isDeriveRequirement(element, project)) {
 			commonRelationshipType = SysmlConstants.DERIVEREQUIREMENT;
 			CameoUtils.logGUI("Exporting Derive Requirement Relation");
@@ -178,6 +188,12 @@ public class ExportXmlSysml {
 		} else if(element instanceof FinalState) {
 			commonElementType = SysmlConstants.FINALSTATE;
 			CameoUtils.logGUI("Exporting Final State");
+		} else if(SysMLProfile.isFlowPort(element)) {
+			commonElementType = SysmlConstants.FLOWPORT;
+			CameoUtils.logGUI("Exporting Flow Port");
+		} else if(SysMLProfile.isFullPort(element)) {
+			commonElementType = SysmlConstants.FULLPORT;
+			CameoUtils.logGUI("Exporting Full Port");
 		} else if(CameoUtils.isFunctionalRequirement(element, project)) {
 			commonElementType = SysmlConstants.FUNCTIONALREQUIREMENT;
 			CameoUtils.logGUI("Exporting Functional Requirement");
@@ -192,7 +208,7 @@ public class ExportXmlSysml {
 			CameoUtils.logGUI("Exporting Initial Node");
 		} else if(CameoUtils.isInterfaceBlock(element, project)) {
 			commonElementType = SysmlConstants.INTERFACEBLOCK;
-			CameoUtils.logGUI("Exporting Final State");
+			CameoUtils.logGUI("Exporting Interface Block");
 		} else if(CameoUtils.isInterfaceRequirement(element, project)) {
 			commonElementType = SysmlConstants.INTERFACEREQUIREMENT;
 			CameoUtils.logGUI("Exporting Interface Requirement");
@@ -216,6 +232,10 @@ public class ExportXmlSysml {
 		} else if(CameoUtils.isPhysicalRequirement(element, project)) {
 			commonElementType = SysmlConstants.PHYSICALREQUIREMENT;
 			CameoUtils.logGUI("Exporting Physical Requirement");
+		//Proxy Port must come before Port as all specialized ports are instanceof Port
+		} else if(SysMLProfile.isProxyPort(element)) {
+			commonElementType = SysmlConstants.PROXYPORT;
+			CameoUtils.logGUI("Exporting Proxy Port");
 		} else if(element instanceof Port) {
 			commonElementType = SysmlConstants.PORT;
 			CameoUtils.logGUI("Exporting Port");

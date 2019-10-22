@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class XMLItem {
 	private String type = "";
@@ -13,6 +14,7 @@ public class XMLItem {
 	private String parent = "";
 	private String client = "";
 	private String supplier = "";
+	private String name = "";
 	private HashMap<String, String> attributes = new HashMap<String, String>();
 	private List<String> childElements = new ArrayList<String>();
 	
@@ -35,6 +37,10 @@ public class XMLItem {
 			setSupplier(value);
 		} else if (key.equals("client_id")) {
 			setClient(value);
+		} else if (key.equals("name")) {
+			value = value.replace("(",  "").replace(")", "");
+			setName(value);
+			this.attributes.put(key, value);
 		} else {
 			this.attributes.put(key, value);
 		}
@@ -55,10 +61,21 @@ public class XMLItem {
 		this.childElements.add(element);
 	}
 	
-	public List<String>  getChildElements() {
-	    return	this.childElements;
+	public List<String>  getChildElements(Map<String, XMLItem> parsedXML) {
+		List<String> existingChildElements = new ArrayList<String>();
+		for(String childElement : this.childElements) { 
+	    	if(parsedXML.containsKey(childElement)) {
+	    		existingChildElements.add(childElement);
+	    	} else {
+	    		CameoUtils.logGUI("Element with id : " + childElement + " was not added to diagram as it does not have a data tag.");
+	    	}
+	    }
+		return existingChildElements;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getType() {
 		return type;
 	}
@@ -85,6 +102,10 @@ public class XMLItem {
 	}
 	public String getCameoID() {
 		return cameo_id;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	private void setCategory() {
