@@ -54,6 +54,8 @@ public class Requirement extends CommonElement {
 		
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		// Get requirement specific data/attributes
+		
+		//Add Requirement text to attributes in XML
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype requirementStereotype = StereotypesHelper.getStereotype(project,  "Requirement", sysmlProfile);
 		List<String> textList = StereotypesHelper.getStereotypePropertyValueAsString(element, requirementStereotype, "Text");
@@ -63,10 +65,14 @@ public class Requirement extends CommonElement {
 			text = textList.get(0);
 		}
 		
-		// Add text to attributes
+		// Add text to attributes node in XML
 		org.w3c.dom.Element textElement = xmlDoc.createElement("text");
 		textElement.appendChild(xmlDoc.createTextNode(text));
 		attributes.appendChild(textElement);
+		
+		//Add reqID to attributes in XML
+		
+		
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);

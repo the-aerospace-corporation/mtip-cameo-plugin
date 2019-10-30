@@ -24,6 +24,7 @@ import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
+import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
@@ -183,12 +184,16 @@ public class ImportXmlSysml {
 			supplier = buildElement(project, parentMap, parsedXML, supplierElement, supplierEAID);
 		}
 		
-		if(modelElement.getType().equals("Transition")) {
+		if(modelElement.getType().equals(SysmlConstants.OBJECTFLOW) || modelElement.getType().equals(SysmlConstants.CONTROLFLOW)) {
+			if(!(owner instanceof Activity)) {
+				owner = CameoUtils.findNearestActivity(project, supplier);
+			}
+		} else if(modelElement.getType().equals(SysmlConstants.TRANSITION)) {
 			owner = CameoUtils.findNearestRegion(project, supplier);
 		} else {
 			owner = CameoUtils.findNearestPackage(project,  supplier);
 		}
-		if(modelElement.getType().equals("Association") && (supplier instanceof Port || client instanceof Port)) {
+		if(modelElement.getType().equals(SysmlConstants.ASSOCIATION) && (supplier instanceof Port || client instanceof Port)) {
 			return null;
 		}
 		//Create relationship in Cameo 
@@ -392,7 +397,7 @@ public class ImportXmlSysml {
 		
 		CameoUtils.logGUI("Creating Activity");
 		CommonElement activity = cef.createElement("Activity",  "TestActivity",  "EA_123");
-		activity.createElement(project, owner, null);
+		Element cameoActivity = activity.createElement(project, owner, null);
 		
 		CameoUtils.logGUI("Creating Property");
 		CommonElement property = cef.createElement("Property", "TestProeprty", "EA_123");
@@ -524,6 +529,110 @@ public class ImportXmlSysml {
 		CommonElement actor = cef.createElement("Actor", "TestActor", "EA_123");
 		Element cameoActor = actor.createElement(project, owner, null);
 		
+		CameoUtils.logGUI("Creating Action");
+		CommonElement action = cef.createElement("Action",  "TestAction",  "EA_123");
+		Element cameoAction = action.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Accept Event Action");
+		CommonElement acceptEvent = cef.createElement("AcceptEventAction",  "TestAcceptEventAction", "EA_123");
+		acceptEvent.createElement(project,  cameoActivity,  null);
+		
+		CameoUtils.logGUI("Creating Activity Parameter Node");
+		CommonElement parameterNode = cef.createElement(SysmlConstants.ACTIVITYPARAMETERNODE, "TestParamterNode", "EA_123");
+		parameterNode.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Activity Partition");
+		CommonElement partition = cef.createElement(SysmlConstants.ACTIVITYPARTITION, "TestActivityPartition", "EA_123");
+		partition.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Call Behavior Action");
+		CommonElement callBehavior = cef.createElement(SysmlConstants.CALLBEHAVIORACTION, "TestCallBehaviorAction", "EA_123");
+		callBehavior.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Call Operation Action");
+		CommonElement callOperation = cef.createElement(SysmlConstants.CALLOPERATIONACTION, "TestCallOperationAction", "EA_123");
+		callOperation.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Central Buffer Node");
+		CommonElement centralBuffer = cef.createElement(SysmlConstants.CENTRALBUFFERNODE, "TestCentralBufferNode", "EA_123");
+		centralBuffer.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Conditional Node");
+		CommonElement conditionalNode = cef.createElement(SysmlConstants.CONDITIONALNODE, "TestConditionalNode", "EA_123");
+		conditionalNode.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Create Object Action");
+		CommonElement createObject = cef.createElement(SysmlConstants.CREATEOBJECTACTION, "TestCreateObjectAction", "EA_123");
+		createObject.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Data Store Node");
+		CommonElement dataStore = cef.createElement(SysmlConstants.DATASTORENODE, "TestDataStoreNode", "EA_123");
+		dataStore.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Decision Node");
+		CommonElement decisionNode = cef.createElement(SysmlConstants.DECISIONNODE, "TestDecisionNode", "EA_123");
+		decisionNode.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Destroy Object Action");
+		CommonElement destroyObject = cef.createElement(SysmlConstants.DESTROYOBJECTACTION, "TestDestroyObjectAction", "EA_123");
+		destroyObject.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Activity Final Node");
+		CommonElement activityFinal = cef.createElement(SysmlConstants.ACTIVITYFINALNODE, "TestActivityFinalNode", "EA_123");
+		activityFinal.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Flow Final Node");
+		CommonElement flowFinal = cef.createElement(SysmlConstants.FLOWFINALNODE, "TestFlowFinalNode", "EA_123");
+		flowFinal.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Fork Node");
+		CommonElement forkNode = cef.createElement(SysmlConstants.FORKNODE, "TestForkNode", "EA_123");
+		forkNode.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Initial Node");
+		CommonElement initialNode = cef.createElement(SysmlConstants.INITIALNODE, "TestInitialNode", "EA_123");
+		initialNode.createElement(project, cameoActivity, null);
+		
+		
+		CameoUtils.logGUI("Creating Input Pin");
+		CommonElement inputPin = cef.createElement(SysmlConstants.INPUTPIN, "TestInputPin", "EA_123");
+		inputPin.createElement(project, cameoAction, null);
+		
+		CameoUtils.logGUI("Creating Join Node");
+		CommonElement joinNode = cef.createElement(SysmlConstants.JOINNODE, "TestJoinNode", "EA_123");
+		joinNode.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Loop Node");
+		CommonElement loopNode = cef.createElement(SysmlConstants.LOOPNODE, "TestLoopNode", "EA_123");
+		loopNode.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Merge Node");
+		CommonElement mergeNode = cef.createElement(SysmlConstants.MERGENODE, "TestMergeNode", "EA_123");
+		mergeNode.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Output Pin");
+		CommonElement outputPin = cef.createElement(SysmlConstants.OUTPUTPIN, "TestOutputPin", "EA_123");
+		outputPin.createElement(project, cameoAction, null);
+		
+		CameoUtils.logGUI("Creating Send Signal Action Pin");
+		CommonElement sendSignal = cef.createElement(SysmlConstants.SENDSIGNALACTION, "TestSendSignalAction", "EA_123");
+		sendSignal.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Action");
+		Element cameoAction2 = action.createElement(project, cameoActivity, null);
+		
+		CameoUtils.logGUI("Creating Control Flow");
+		CommonRelationship controlFlow = crf.createElement(SysmlConstants.CONTROLFLOW, "TestControlFlow", "EA_123");
+		controlFlow.createElement(project, cameoActivity, cameoAction, cameoAction2);
+		
+		CameoUtils.logGUI("Creating Object Flow");
+		CommonRelationship objectFlow = crf.createElement(SysmlConstants.OBJECTFLOW, "TestObjectFlow", "EA_123");
+		objectFlow.createElement(project, cameoActivity, cameoAction, cameoAction2);
+		
+		CameoUtils.logGUI("Creating Opaque Action");
+		CommonElement opaqueAction = cef.createElement(SysmlConstants.OPAQUEACTION, "TestOpaqueAction", "EA_123");
+		opaqueAction.createElement(project, cameoActivity, null);
+				
 		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Elements created successfully!");
 	}
 }

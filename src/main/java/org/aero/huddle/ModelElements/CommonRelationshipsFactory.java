@@ -1,5 +1,7 @@
 package org.aero.huddle.ModelElements;
 
+import org.aero.huddle.ModelElements.Activity.ControlFlow;
+import org.aero.huddle.ModelElements.Activity.ObjectFlow;
 import org.aero.huddle.ModelElements.InternalBlock.Connector;
 import org.aero.huddle.ModelElements.Requirements.Copy;
 import org.aero.huddle.ModelElements.Requirements.DeriveRequirement;
@@ -31,11 +33,17 @@ public class CommonRelationshipsFactory {
 			case "Connector":
 				relationship = new Connector(name, EAID);
 				break;
+			case "ControlFlow":
+				relationship = new ControlFlow(name, EAID);
+				break;
 			case "DeriveRequirement":
 				relationship = new DeriveRequirement(name, EAID);
 				break;
 			case "Generalization":
 				relationship = new Generalization(name, EAID);
+				break;
+			case "ObjectFlow":
+				relationship = new ObjectFlow(name, EAID);
 				break;
 			case "Refine":
 				relationship = new Refine(name, EAID);

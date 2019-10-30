@@ -1,0 +1,15 @@
+<plugin
+        id="HuddleCSMPlugin"
+        name="HUDDLE Plugin"
+        version="1.0"
+        provider-name="HUDDLE"
+        class="org.aero.huddle.HuddleCSMPlugin">
+
+    <requires>
+        <api version="1.2"/>
+    </requires>
+
+    <runtime>
+        <library name="HuddleCSMPlugin.jar"/>
+    </runtime>
+</plugin>

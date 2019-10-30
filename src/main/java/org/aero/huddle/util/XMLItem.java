@@ -61,7 +61,7 @@ public class XMLItem {
 		this.childElements.add(element);
 	}
 	
-	public List<String>  getChildElements(Map<String, XMLItem> parsedXML) {
+	public List<String> getChildElements(Map<String, XMLItem> parsedXML) {
 		List<String> existingChildElements = new ArrayList<String>();
 		for(String childElement : this.childElements) { 
 	    	if(parsedXML.containsKey(childElement)) {

@@ -2,9 +2,12 @@ package org.aero.huddle.ModelElements;
 
 import java.util.Collection;
 
+import org.aero.huddle.util.CameoUtils;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -44,28 +47,52 @@ public abstract class CommonRelationship {
 		id.appendChild(cameoID);
 		data.appendChild(id);
 		
-		//Add Supplier
-		DirectedRelationship cameoRelationship = (DirectedRelationship)element;
-		Collection<Element> suppliers = cameoRelationship.getSource();
 		Element supplier = null;
-		if(suppliers.iterator().hasNext()) {
-			 supplier = suppliers.iterator().next();
-		}
-		
-		org.w3c.dom.Element supplierID = xmlDoc.createElement("supplier_id");
-		supplierID.appendChild(xmlDoc.createTextNode(supplier.getLocalID()));
-		attributes.appendChild(supplierID);		
-		
-		//Add Client		
-		Collection<Element> clients = cameoRelationship.getTarget();
 		Element client = null;
-		if(suppliers.iterator().hasNext()) {
-			 client = clients.iterator().next();
+		
+		if(element instanceof DirectedRelationship) {
+			//Get Supplier Element
+			DirectedRelationship cameoRelationship = (DirectedRelationship)element;
+			Collection<Element> suppliers = cameoRelationship.getSource();
+			if(suppliers.iterator().hasNext()) {
+				 supplier = suppliers.iterator().next();
+			}
+
+			//Get Client element	
+			Collection<Element> clients = cameoRelationship.getTarget();
+			if(clients.iterator().hasNext()) {
+				 client = clients.iterator().next();
+			}
+		} else if(element instanceof ActivityEdge) {
+			ActivityEdge cameoRelationship = (ActivityEdge)element;
+			supplier = cameoRelationship.getSource();
+			client = cameoRelationship.getTarget();
+		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) {
+//			Relationship cameoRelationship = (Relationship)element;
+			supplier = ModelHelper.getSupplierElement(element);
+			client = ModelHelper.getClientElement(element);
+//			Collection<Element> relatedElements = cameoRelationship.getRelatedElement();
+//			supplier = cameoRelationship.getOwner();
+//			for(Element relatedElement : relatedElements) {
+//				if(!relatedElement.equals(supplier)) {
+//					client = relatedElement;
+//				}
+//			}
+		} else {
+			CameoUtils.logGUI("Unable to cast relationship to DirectedRelationship or ActivityEdge to find client and supplier.");
 		}
 		
-		org.w3c.dom.Element clientID = xmlDoc.createElement("client_id");
-		clientID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
-		attributes.appendChild(clientID);
+		if(!supplier.equals(null)) {
+			org.w3c.dom.Element supplierID = xmlDoc.createElement("supplier_id");
+			supplierID.appendChild(xmlDoc.createTextNode(supplier.getLocalID()));
+			attributes.appendChild(supplierID);	
+		}
+		
+		if(!client.equals(null)) {
+			org.w3c.dom.Element clientID = xmlDoc.createElement("client_id");
+			clientID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
+			attributes.appendChild(clientID);
+		}
 		
 		//Add parent relationship
 		org.w3c.dom.Element relationship = xmlDoc.createElement("relationships");

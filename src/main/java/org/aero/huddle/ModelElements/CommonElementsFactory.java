@@ -21,6 +21,7 @@ import org.aero.huddle.ModelElements.Activity.InitialNode;
 import org.aero.huddle.ModelElements.Activity.InputPin;
 import org.aero.huddle.ModelElements.Activity.JoinNode;
 import org.aero.huddle.ModelElements.Activity.LoopNode;
+import org.aero.huddle.ModelElements.Activity.MergeNode;
 import org.aero.huddle.ModelElements.Activity.OpaqueAction;
 import org.aero.huddle.ModelElements.Activity.OutputPin;
 import org.aero.huddle.ModelElements.Activity.SendSignalAction;
@@ -29,15 +30,19 @@ import org.aero.huddle.ModelElements.Block.Block;
 import org.aero.huddle.ModelElements.Block.BlockDefinitionDiagram;
 import org.aero.huddle.ModelElements.Block.Class;
 import org.aero.huddle.ModelElements.Block.ConstraintBlock;
+import org.aero.huddle.ModelElements.Block.Enumeration;
 import org.aero.huddle.ModelElements.Block.FlowPort;
 import org.aero.huddle.ModelElements.Block.FullPort;
+import org.aero.huddle.ModelElements.Block.Interface;
 import org.aero.huddle.ModelElements.Block.InterfaceBlock;
 import org.aero.huddle.ModelElements.Block.Note;
 import org.aero.huddle.ModelElements.Block.Operation;
 import org.aero.huddle.ModelElements.Block.PartProperty;
 import org.aero.huddle.ModelElements.Block.Port;
 import org.aero.huddle.ModelElements.Block.ProxyPort;
+import org.aero.huddle.ModelElements.Block.QuantityKind;
 import org.aero.huddle.ModelElements.Block.Signal;
+import org.aero.huddle.ModelElements.Block.Unit;
 import org.aero.huddle.ModelElements.Block.ValueProperty;
 import org.aero.huddle.ModelElements.Block.ValueType;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
@@ -62,6 +67,7 @@ import org.aero.huddle.ModelElements.StateMachine.Trigger;
 import org.aero.huddle.ModelElements.UseCase.Actor;
 import org.aero.huddle.ModelElements.UseCase.UseCase;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.SysmlConstants;
 
 public class CommonElementsFactory {
 	public CommonElement createElement(String type, String name, String EAID) {
@@ -102,6 +108,7 @@ public class CommonElementsFactory {
 				break;
 			case "CallOperationAction":
 				element = new CallOperationAction(name, EAID);
+				break;
 			case "CentralBufferNode":
 				element = new CentralBufferNode(name, EAID);
 				break;
@@ -134,6 +141,9 @@ public class CommonElementsFactory {
 				break;
 			case "DestroyObjectAction":
 				element = new DestroyObjectAction(name, EAID);
+				break;
+			case "Enumeration":
+				element = new Enumeration(name, EAID);
 				break;
 			case "ExtendedRequirement":
 				element = new ExtendedRequirement(name, EAID);
@@ -171,6 +181,9 @@ public class CommonElementsFactory {
 			case "InteractionUse":
 				element = new InteractionUse(name, EAID);
 				break;
+			case SysmlConstants.INTERFACE:
+				element = new Interface(name, EAID);
+				break;
 			case "InterfaceBlock":
 				element = new InterfaceBlock(name, EAID);
 				break;
@@ -185,6 +198,9 @@ public class CommonElementsFactory {
 				break;
 			case "LoopNode":
 				element = new LoopNode(name, EAID);
+				break;
+			case "MergeNode":
+				element = new MergeNode(name, EAID);
 				break;
 			case "Model":
 				element = new Model(name, EAID);
@@ -223,6 +239,9 @@ public class CommonElementsFactory {
 			case "ProxyPort":
 				element = new ProxyPort(name, EAID);
 				break;
+			case SysmlConstants.QUANTITYKIND:
+				element = new QuantityKind(name, EAID);
+				break;
 			case "RequiredInterface":
 				element = new RequiredInterface(name, EAID);
 				break;
@@ -246,6 +265,9 @@ public class CommonElementsFactory {
 				break;
 			case "Trigger":
 				element = new Trigger(name, EAID);
+				break;
+			case SysmlConstants.UNIT:
+				element = new Unit(name, EAID);
 				break;
 			case "UseCase":
 				element = new UseCase(name, EAID);

@@ -2,6 +2,7 @@ package org.aero.huddle.ModelElements.Block;
 
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -20,7 +21,7 @@ public class Enumeration extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Class Element");
+			SessionManager.getInstance().createSession(project, "Create Enumeration Element");
 		}
 		Element sysmlElement = f.createEnumerationInstance();
 		((NamedElement)sysmlElement).setName(name);
@@ -37,8 +38,16 @@ public class Enumeration extends CommonElement {
 
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		// TODO Auto-generated method stub
+		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
 		
+		//org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		
+		// Create type field for Sysml model element types
+		org.w3c.dom.Element type = xmlDoc.createElement("type");
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.ENUMERATION));
+		data.appendChild(type);
+		
+		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
+		root.appendChild(data);
 	}
-
 }

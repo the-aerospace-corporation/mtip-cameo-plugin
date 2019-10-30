@@ -1,12 +1,14 @@
 package org.aero.huddle.util;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
@@ -56,6 +58,15 @@ public class CameoUtils {
 		}
 	}
 	
+	public static Element findNearestActivity(Project project, Element owner) {
+		CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
+		if(owner instanceof Activity) {
+			return owner;
+		} else {
+			Element nextOwner = owner.getOwner();
+			return findNearestActivity(project, nextOwner);
+		}
+	}
 	public static Stereotype getStereotype(String stereotypeName) {
 		Project project = Application.getInstance().getProject();
 		switch(stereotypeName) {
@@ -70,6 +81,35 @@ public class CameoUtils {
 	public static Stereotype getModelLibraryStereotype() {
 		
 		return null;
+	}
+	
+	public static boolean isModel(Element element, Project project) {
+		if(element.equals(project.getPrimaryModel())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isQuantityKind(Element element, Project project) {
+//		Element quantitiyKindClassifier = Finder.byQualifiedName().find(project, "Sysml::Libraries::UnitAndQuantityKind::QuantityKind");
+//		ClassifierFinder.SimpleNameResolver
+//		try {
+//			TypedElement typedElement = (TypedElement)element;
+//			Type type = typedElement.getType();
+//			CameoUtils.logGUI("ELEMENT NAME: " + element.getHumanName());
+//			if(type != null) {
+//				CameoUtils.logGUI("TYPE OF ELEMENT: " + type.getHumanName());
+//			}
+//		}catch(ClassCastException cce) {
+//			
+//		}
+
+		
+		return false;
+	}
+	
+	public static boolean isUnit(Element element, Project project) {
+		 return false;
 	}
 	
 	public static boolean isAssociationBlock(Element element, Project project) {

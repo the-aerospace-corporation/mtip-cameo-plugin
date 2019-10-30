@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -57,8 +58,16 @@ public class Unit extends CommonElement {
 
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		// TODO Auto-generated method stub
+		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
 		
+		//org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		
+		// Create type field for Sysml model element types
+		org.w3c.dom.Element type = xmlDoc.createElement("type");
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.UNIT));
+		data.appendChild(type);
+		
+		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
+		root.appendChild(data);
 	}
-
 }
