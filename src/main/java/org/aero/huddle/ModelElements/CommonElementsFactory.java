@@ -58,6 +58,7 @@ import org.aero.huddle.ModelElements.Sequence.Collaboration;
 import org.aero.huddle.ModelElements.Sequence.Interaction;
 import org.aero.huddle.ModelElements.Sequence.InteractionUse;
 import org.aero.huddle.ModelElements.Sequence.Lifeline;
+import org.aero.huddle.ModelElements.Sequence.Property;
 import org.aero.huddle.ModelElements.StateMachine.FinalState;
 import org.aero.huddle.ModelElements.StateMachine.InitialPseudoState;
 import org.aero.huddle.ModelElements.StateMachine.State;
@@ -234,7 +235,7 @@ public class CommonElementsFactory {
 				break;
 			// Property vs PartProperty - EA treats the same? Check if parent is block?
 			case "Property":
-				element = new PartProperty(name, EAID);
+				element = new Property(name, EAID);
 				break;
 			case "ProxyPort":
 				element = new ProxyPort(name, EAID);

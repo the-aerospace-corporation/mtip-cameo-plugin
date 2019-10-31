@@ -43,7 +43,6 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.JoinNo
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.MergeNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.ConditionalNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.LoopNode;
-import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -51,7 +50,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdcollaborations.Collaboration;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
@@ -142,15 +141,15 @@ public class ExportXmlSysml {
 		} catch (NullPointerException npe) {
 			noElements = true;
 		}
-		
+
 		exportElement(element, project, xmlDoc);
-		
+
 		// If value property allow only comments or attached files 
-		if(!noElements) {
+		if(!noElements && !(element instanceof Relationship)) {
 			for(Element ownedElement : ownedElements) {
 				if(ownedElement instanceof NamedElement) {
 //					CameoUtils.logGUI("Found element: " + ownedElement.getHumanName() + "\twith type: " + ownedElement.getHumanType());
-					// Check that ownedElement is not a package, otherwise will cause repeats
+					// Check that ownedElement is not a package, otherwise will cause repeats -- element also must be a NamedElement to ignore unecessary instance specifications, opaque expressions, etc.
 					if (!(ownedElement instanceof Package)) {
 						exportElementRecursive(ownedElement, project, xmlDoc);
 					}
@@ -181,7 +180,7 @@ public class ExportXmlSysml {
 		ElementsFactory cameoEF = project.getElementsFactory();
 		
 		
-		//Use SysMLProfiel.is<SysmlElementName> to check types for sysml elements 
+		//Use SysMLProfile.is<SysmlElementName> to check types for sysml elements 
 		if(element instanceof AcceptEventAction) {
 			commonElementType = SysmlConstants.ACCEPTEVENTACTION;
 			CameoUtils.logGUI("Exporting Accept Event Action");
@@ -348,7 +347,7 @@ public class ExportXmlSysml {
 		} else if(element instanceof Port) {
 			commonElementType = SysmlConstants.PORT;
 			CameoUtils.logGUI("Exporting Port");
-		} else if(element instanceof Property) {
+		} else if(CameoUtils.isProperty(element, project)) {
 			commonElementType = SysmlConstants.PROPERTY;
 			CameoUtils.logGUI("Exporting Property");
 		} else if(CameoUtils.isQuantityKind(element, project)) {

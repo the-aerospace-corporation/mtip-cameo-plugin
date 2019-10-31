@@ -11,6 +11,7 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
@@ -85,6 +86,16 @@ public class CameoUtils {
 	
 	public static boolean isModel(Element element, Project project) {
 		if(element.equals(project.getPrimaryModel())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isProperty(Element element, Project project) {
+		if(element instanceof Property) {
+			if(MDCustomizationForSysMLProfile.isPartProperty(element) || MDCustomizationForSysMLProfile.isReferenceProperty(element) ||MDCustomizationForSysMLProfile.isValueProperty(element)) {
+				return false;
+			}
 			return true;
 		}
 		return false;
