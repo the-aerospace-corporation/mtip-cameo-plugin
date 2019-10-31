@@ -66,6 +66,7 @@ public class ImportXmlSysml {
 				}
 			}
 			if (modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
+				CameoUtils.logGUI("Building Diagram from next XMLItem");
 				if (parentMap.get(id) == null) {
 					buildDiagram(project, parentMap, parsedXML, modelElement, id);
 				}
@@ -89,6 +90,7 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element buildDiagram(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
+		
 		CommonElementsFactory cef = new CommonElementsFactory();
 		Element owner = null;
 		String cameoParentID = "";
@@ -130,11 +132,10 @@ public class ImportXmlSysml {
 		((ModelDiagram) element).addElements(project, (Diagram) newElement, elements);
 		
         diagramMap.put((ModelDiagram) element, (Diagram) newElement);
-
+        modelElement.setCameoID(newElement.getID());
 
 		// add the associations
-	
-		return newElement;
+        return newElement;
 	}
 	
 	public static Element buildRelationship(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {

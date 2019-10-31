@@ -94,7 +94,6 @@ public class BlockDefinitionDiagram  extends CommonElement implements ModelDiagr
 	}
 
 	public void linkElements(Project project, Diagram diagram, Element supplierElement, Element clientElement) {
-
 		CameoUtils.logGUI("LINKELEMENTS of supplier: " + supplierElement.toString() + "client: " + clientElement.toString());
 		DiagramPresentationElement presentationDiagram = null;
 		presentationDiagram = project.getDiagram(diagram);
@@ -169,6 +168,10 @@ public class BlockDefinitionDiagram  extends CommonElement implements ModelDiagr
 			}
 		}
 
+		org.w3c.dom.Element type = xmlDoc.createElement("type");
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.BLOCKDEFINITIONDIAGRAM));
+		data.appendChild(type);
+		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
 	}

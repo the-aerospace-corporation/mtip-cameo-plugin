@@ -88,6 +88,9 @@ public class XmlTagConstants
 	
 	public static final String PARAMETER = "parameter";
 	
+	//SysML Diagrams
+	public static final String BLOCKDEFINITIONDIAGRAM = "sysml.BlockDefinitionDiagram";
+	
 	//SysML nomenclature, but not elements
 	public static final String APPLIEDSTEREOTYPE = "appliedStereotype";
 	public static final String TAG = "tag";
