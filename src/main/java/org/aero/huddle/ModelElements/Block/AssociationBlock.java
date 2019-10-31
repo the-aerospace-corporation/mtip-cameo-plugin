@@ -1,7 +1,5 @@
 package org.aero.huddle.ModelElements.Block;
 
-import java.util.List;
-
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
@@ -15,8 +13,6 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class AssociationBlock extends CommonElement {
 

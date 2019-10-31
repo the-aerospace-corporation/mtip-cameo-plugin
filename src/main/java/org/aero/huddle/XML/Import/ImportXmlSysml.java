@@ -1,5 +1,7 @@
 package org.aero.huddle.XML.Import;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +32,9 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 
 public class ImportXmlSysml {
-
+    static Map<String,Entry<Element, Element>> linktoPair = new HashMap<String,Entry<Element, Element>>();
+    static Map<ModelDiagram,Diagram> diagramMap = new HashMap<ModelDiagram,Diagram>();
+    
 	public static void createModel(Document doc) throws NullPointerException {
 		// Read file and set up XML object
 		Node packet = doc.getDocumentElement();
@@ -68,7 +72,6 @@ public class ImportXmlSysml {
 			}
 		}
 	}
-	
 
 
 	public static Element getOrBuildElement(Project project, HashMap<String, String> parentMap,
@@ -123,10 +126,11 @@ public class ImportXmlSysml {
 		
 		CameoUtils.logGUI("modelElement.getType() : " + modelElement.getType() );
 		CameoUtils.logGUI("elementsAFTER size: " + elements.size());
-		
+        // add the composed elements
 		((ModelDiagram) element).addElements(project, (Diagram) newElement, elements);
 		
-		// add the composed elements
+        diagramMap.put((ModelDiagram) element, (Diagram) newElement);
+
 
 		// add the associations
 	
@@ -197,13 +201,15 @@ public class ImportXmlSysml {
 			return null;
 		}
 		//Create relationship in Cameo 
-		if(!modelElement.isCreated()) {
+		if (!modelElement.isCreated()) {
 			CameoUtils.logGUI("Physically creating Relationship in Cameo");
-			Element newElement = relationship.createElement(project,  owner, client, supplier);
+			Element newElement = relationship.createElement(project, owner, client, supplier);
 			String GUID = newElement.getID();
 			parentMap.put(id, GUID);
 			modelElement.setCameoID(GUID);
-			
+			Map.Entry<Element, Element> entry = new AbstractMap.SimpleEntry<Element, Element>(supplier, client);
+			linktoPair.put(id, entry);
+
 			return newElement;
 		} else {
 			CameoUtils.logGUI("Relationship already created!");

@@ -9,6 +9,7 @@ import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.ModelElements.CommonElementsFactory;
 import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.ModelElements.CommonRelationshipsFactory;
+import org.aero.huddle.ModelElements.Block.BlockDefinitionDiagram;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.w3c.dom.Document;
@@ -45,6 +46,7 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.Conditio
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.LoopNode;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -404,7 +406,12 @@ public class ExportXmlSysml {
 		} else if(element instanceof CentralBufferNode) {
 			commonElementType = SysmlConstants.CENTRALBUFFERNODE;
 			CameoUtils.logGUI("Exporting Central Buffer Node");
-		}else {
+		}
+		else if(element instanceof Diagram) {
+		commonElementType = SysmlConstants.BDD;
+			CameoUtils.logGUI("Exporting Block Definition Diagram");
+		}
+		else {
 			CameoUtils.logGUI("Element with type: " + element.getHumanType() + " is not supported yet!!!");
 		}
 		

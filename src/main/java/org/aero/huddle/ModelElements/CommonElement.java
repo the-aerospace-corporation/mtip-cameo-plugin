@@ -113,4 +113,17 @@ public abstract class CommonElement {
 		}
 		return attributes;
 	}
+	
+	public org.w3c.dom.Element getType(NodeList dataNodes, String type) {
+		org.w3c.dom.Element attributes = null;
+		for(int i = 0; i < dataNodes.getLength(); i++) {
+			Node dataNode = dataNodes.item(i);
+			if(dataNode.getNodeType() == Node.ELEMENT_NODE) {
+				if(dataNode.getNodeName().equals(type.toLowerCase())) {
+					attributes = (org.w3c.dom.Element) dataNode;
+				}
+			}
+		}
+		return attributes;
+	}
 }
