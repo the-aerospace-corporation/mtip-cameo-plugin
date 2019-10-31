@@ -78,7 +78,7 @@ public class StateMachineDiagram  extends CommonElement implements ModelDiagram{
 			for (Element element : elements) {
 
 				ShapeElement shape = PresentationElementsManager.getInstance().createShapeElement(element,
-						presentationDiagram);
+						presentationDiagram, true);
 			}
 
 		} catch (ReadOnlyElementException e) {

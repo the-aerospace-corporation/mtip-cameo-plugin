@@ -85,7 +85,7 @@ public class ActivityDiagram extends CommonElement implements ModelDiagram{
 			for (Element element : elements) {
 
 				ShapeElement shape = PresentationElementsManager.getInstance().createShapeElement(element,
-						presentationDiagram);
+						presentationDiagram, true);
 
 			}
 
