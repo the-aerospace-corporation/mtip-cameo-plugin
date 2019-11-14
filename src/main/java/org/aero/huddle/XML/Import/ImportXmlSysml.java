@@ -65,15 +65,34 @@ public class ImportXmlSysml {
 					buildRelationship(project, parentMap, parsedXML, modelElement, id);
 				}
 			}
+//			if (modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
+//				CameoUtils.logGUI("Building Diagram from next XMLItem");
+//				if (parentMap.get(id) == null) {
+//					buildDiagram(project, parentMap, parsedXML, modelElement, id);
+//				}
+//			}
+		}
+
+		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
+			XMLItem modelElement = entry.getValue();
+			String id = entry.getKey();
+			
+//			CameoUtils.logGUI("Building node: keyid: " +id);
+//			CameoUtils.logGUI("Building node: name: " + modelElement.getName());
+//			CameoUtils.logGUI("Building node: cameoID: " + modelElement.getCameoID());
+//			CameoUtils.logGUI("Building node: eaID: " + modelElement.getEAID());
+//			CameoUtils.logGUI("Building node: category: " + modelElement.getCategory());
+//			CameoUtils.logGUI("Building node: type: " + modelElement.getType());
+	
 			if (modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
-				CameoUtils.logGUI("Building Diagram from next XMLItem");
+//				CameoUtils.logGUI("Building Diagram from next XMLItem");
 				if (parentMap.get(id) == null) {
+//					CameoUtils.logGUI("id was not null");
 					buildDiagram(project, parentMap, parsedXML, modelElement, id);
 				}
 			}
-		}
+		}			
 	}
-
 
 	public static Element getOrBuildElement(Project project, HashMap<String, String> parentMap,
 			Map<String, XMLItem> parsedXML, String eaID) {
@@ -158,7 +177,7 @@ public class ImportXmlSysml {
 				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerID);
 			}
 			if(modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
-				owner = buildDiagram(project, parentMap, parsedXML, modelElement, ownerID);
+				//owner = buildDiagram(project, parentMap, parsedXML, modelElement, ownerID);
 			}			
 		}
 		
@@ -236,7 +255,7 @@ public class ImportXmlSysml {
 			if(category.equals(SysmlConstants.ELEMENT)) {
 				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
 			} else if (category.equals(SysmlConstants.DIAGRAM)) {
-				owner = buildDiagram(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
+			//	owner = buildDiagram(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
 			} else {
 				CameoUtils.logGUI("Element of type " + modelElement.getType() + " is not currently supported");
 			}
@@ -301,7 +320,8 @@ public class ImportXmlSysml {
 						}
 						
 						//Add model element attributes to parsedXML hashmap passed back to main function
-						if(modelElement.getEAID() != null) {
+					//	if(modelElement.getEAID() != null) {
+							if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())){
 							modelElements.put(modelElement.getEAID(),  modelElement);
 						}
 					}
