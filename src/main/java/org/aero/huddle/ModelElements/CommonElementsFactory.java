@@ -30,9 +30,12 @@ import org.aero.huddle.ModelElements.Block.Block;
 import org.aero.huddle.ModelElements.Block.BlockDefinitionDiagram;
 import org.aero.huddle.ModelElements.Block.Class;
 import org.aero.huddle.ModelElements.Block.ConstraintBlock;
+import org.aero.huddle.ModelElements.Block.Domain;
 import org.aero.huddle.ModelElements.Block.Enumeration;
+import org.aero.huddle.ModelElements.Block.External;
 import org.aero.huddle.ModelElements.Block.FlowPort;
 import org.aero.huddle.ModelElements.Block.FullPort;
+import org.aero.huddle.ModelElements.Block.InstanceSpecification;
 import org.aero.huddle.ModelElements.Block.Interface;
 import org.aero.huddle.ModelElements.Block.InterfaceBlock;
 import org.aero.huddle.ModelElements.Block.Note;
@@ -42,6 +45,9 @@ import org.aero.huddle.ModelElements.Block.Port;
 import org.aero.huddle.ModelElements.Block.ProxyPort;
 import org.aero.huddle.ModelElements.Block.QuantityKind;
 import org.aero.huddle.ModelElements.Block.Signal;
+import org.aero.huddle.ModelElements.Block.Subsystem;
+import org.aero.huddle.ModelElements.Block.System;
+import org.aero.huddle.ModelElements.Block.SystemContext;
 import org.aero.huddle.ModelElements.Block.Unit;
 import org.aero.huddle.ModelElements.Block.ValueProperty;
 import org.aero.huddle.ModelElements.Block.ValueType;
@@ -59,11 +65,19 @@ import org.aero.huddle.ModelElements.Sequence.Interaction;
 import org.aero.huddle.ModelElements.Sequence.InteractionUse;
 import org.aero.huddle.ModelElements.Sequence.Lifeline;
 import org.aero.huddle.ModelElements.Sequence.Property;
+import org.aero.huddle.ModelElements.StateMachine.ChoicePseudoState;
+import org.aero.huddle.ModelElements.StateMachine.DeepHistory;
+import org.aero.huddle.ModelElements.StateMachine.EntryPoint;
+import org.aero.huddle.ModelElements.StateMachine.ExitPoint;
 import org.aero.huddle.ModelElements.StateMachine.FinalState;
+import org.aero.huddle.ModelElements.StateMachine.Fork;
 import org.aero.huddle.ModelElements.StateMachine.InitialPseudoState;
+import org.aero.huddle.ModelElements.StateMachine.Join;
+import org.aero.huddle.ModelElements.StateMachine.ShallowHistory;
 import org.aero.huddle.ModelElements.StateMachine.State;
 import org.aero.huddle.ModelElements.StateMachine.StateMachine;
 import org.aero.huddle.ModelElements.StateMachine.StateMachineDiagram;
+import org.aero.huddle.ModelElements.StateMachine.Terminate;
 import org.aero.huddle.ModelElements.StateMachine.Trigger;
 import org.aero.huddle.ModelElements.UseCase.Actor;
 import org.aero.huddle.ModelElements.UseCase.UseCase;
@@ -113,6 +127,9 @@ public class CommonElementsFactory {
 			case "CentralBufferNode":
 				element = new CentralBufferNode(name, EAID);
 				break;
+			case SysmlConstants.CHOICEPSEUDOSTATE:
+				element = new ChoicePseudoState(name, EAID);
+				break;
 			case "Class":
 				element = new Class(name, EAID);
 				break;
@@ -137,14 +154,23 @@ public class CommonElementsFactory {
 			case "DecisionNode":
 				element = new DecisionNode(name, EAID);
 				break;
+			case SysmlConstants.DEEPHISTORY:
+				element = new DeepHistory(name, EAID);
+				break;
 			case "DesignConstraint":
 				element = new DesignConstraint(name, EAID);
 				break;
 			case "DestroyObjectAction":
 				element = new DestroyObjectAction(name, EAID);
 				break;
+			case SysmlConstants.ENTRYPOINT:
+				element = new EntryPoint(name, EAID);
+				break;
 			case "Enumeration":
 				element = new Enumeration(name, EAID);
+				break;
+			case "ExitPoint":
+				element = new ExitPoint(name, EAID);
 				break;
 			case "ExtendedRequirement":
 				element = new ExtendedRequirement(name, EAID);
@@ -154,6 +180,9 @@ public class CommonElementsFactory {
 				break;
 			case "FlowFinalNode":
 				element = new FlowFinalNode(name, EAID);
+				break;
+			case SysmlConstants.FORK:
+				element = new Fork(name, EAID);
 				break;
 			case "FlowPort":
 				element = new FlowPort(name, EAID);
@@ -176,6 +205,9 @@ public class CommonElementsFactory {
 			case "InputPin":
 				element = new InputPin(name, EAID);
 				break;
+			case SysmlConstants.INSTANCESPECIFICATION:
+				element = new InstanceSpecification(name, EAID);
+				break;
 			case "Interaction":
 				element = new Interaction(name, EAID);
 				break;
@@ -190,6 +222,9 @@ public class CommonElementsFactory {
 				break;
 			case "InterfaceRequirement":
 				element = new InterfaceRequirement(name, EAID);
+				break;
+			case SysmlConstants.JOIN:
+				element = new Join(name, EAID);
 				break;
 			case "JoinNode":
 				element = new JoinNode(name, EAID);
@@ -233,6 +268,9 @@ public class CommonElementsFactory {
 			case "Port":
 				element = new Port(name, EAID);
 				break;
+			case "Profile":
+				element = new Profile(name, EAID);
+				break;
 			// Property vs PartProperty - EA treats the same? Check if parent is block?
 			case "Property":
 				element = new Property(name, EAID);
@@ -252,6 +290,9 @@ public class CommonElementsFactory {
 			case "SendSignalAction":
 				element = new SendSignalAction(name, EAID);
 				break;
+			case SysmlConstants.SHALLOWHISTORY:
+				element = new ShallowHistory(name, EAID);
+				break;
 			case "Signal":
 				element = new Signal(name, EAID);
 				break;
@@ -263,6 +304,9 @@ public class CommonElementsFactory {
 				break;
 			case "Stereotype":
 				element = new sysmlStereotype(name, EAID);
+				break;
+			case SysmlConstants.TERMINATE:
+				element = new Terminate(name, EAID);
 				break;
 			case "Trigger":
 				element = new Trigger(name, EAID);
@@ -278,6 +322,23 @@ public class CommonElementsFactory {
 				break;
 			case "ValueType":
 				element = new ValueType(name, EAID);
+				break;
+				
+			// Cameo Specific model Elements ************************************************
+			case SysmlConstants.DOMAIN:
+				element = new Domain(name, EAID);
+				break;
+			case SysmlConstants.EXTERNAL:
+				element = new External(name, EAID);
+				break;
+			case SysmlConstants.SUBSYSTEM:
+				element = new Subsystem(name, EAID);
+				break;
+			case SysmlConstants.SYSTEM:
+				element = new System(name, EAID);
+				break;
+			case SysmlConstants.SYSTEMCONTEXT:
+				element = new SystemContext(name, EAID);
 				break;
 				
 			// DIAGRAMS	*********************************************************************

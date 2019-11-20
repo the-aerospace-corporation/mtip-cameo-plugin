@@ -20,6 +20,7 @@ public class XmlTagConstants
 	public static final String CALLBEHAVIORACTION = "sysml.CallBehaviorAction";
 	public static final String CALLOPERATIONACTION = "sysml.CallOperationAction";
 	public static final String CENTRALBUFFERNODE = "sysml.CentralBufferNode";
+	public static final String CHOICEPSEUDOSTATE = "sysml.ChoicePseudoState";
 	public static final String CLASS = "sysml.Class";
 	public static final String COLLABORATION = "sysml.Collaboration";
 	public static final String COMBINEDFRAGMENT = "sysml.CombinedFragment";
@@ -28,24 +29,30 @@ public class XmlTagConstants
 	public static final String CREATEOBJECTACTION = "sysml.CreateObjectAction";
 	public static final String DATASTORENODE = "sysml.DataStoreNode";
 	public static final String DECISIONNODE = "sysml.DecisionNode";
+	public static final String DEEPHISTORY = "sysml.DeepHistory";
 	public static final String DESIGNCONSTRAINT = "sysml.DesignConstraint";
 	public static final String DESTROYOBJECTACTION = "sysml.DestroyObjectAction";
+	public static final String ENTRYPOINT = "sysml.EntryPoint";
 	public static final String ENUMERATION = "sysml.Enumeration";
+	public static final String EXITPOINT = "sysml.ExitPoint";
 	public static final String EXTENDEDREQUIREMENT = "sysml.ExtendedRequirement";
 	public static final String FINALSTATE = "sysml.FinalState";
 	public static final String FLOWFINALNODE = "sysml.FlowFinalNode";
 	public static final String FLOWPORT = "sysml.FlowPort";
+	public static final String FORK = "sysml.Fork";
 	public static final String FORKNODE = "sysml.ForkNode";
 	public static final String FULLPORT = "sysml.FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "sysml.FunctionalRequirement";
 	public static final String INITIALNODE = "sysml.InitialNode";
 	public static final String INITIALPSEUDOSTATE = "sysml.InitialPseudoState";
 	public static final String INPUTPIN = "sysml.InputPin";
+	public static final String INSTANCESPECIFICATION = "sysml.InstanceSpecification";
 	public static final String INTERACTION = "sysml.Interaction";
 	public static final String INTERACTIONUSE = "sysml.InteractionUse";
 	public static final String INTERFACE = "sysml.Interface";
 	public static final String INTERFACEBLOCK = "sysml.InterfaceBlock";
 	public static final String INTERFACEREQUIREMENT = "sysml.InterfaceRequirement";
+	public static final String JOIN = "sysml.Join";
 	public static final String JOINNODE = "sysml.JoinNode";
 	public static final String LIFELINE = "sysml.Lifeline";
 	public static final String LOOPNODE = "sysml.LoopNode";
@@ -66,10 +73,12 @@ public class XmlTagConstants
 	public static final String QUANTITYKIND = "sysml.QuantityKind";
 	public static final String REQUIREMENT = "sysml.Requirement";
 	public static final String SENDSIGNALACTION = "sysml.SendSignalAction";
+	public static final String SHALLOWHISTORY = "sysml.ShallowHistory";
 	public static final String SIGNAL = "sysml.Signal";
 	public static final String STATE = "sysml.State";
 	public static final String STATEMACHINE = "sysml.StateMachine";
 	public static final String STEREOTYPE = "sysml.Stereotype";
+	public static final String TERMINATE = "sysml.Terminate";
 	public static final String UNIT = "sysml.Unit";
 	public static final String USECASE = "sysml.UseCase";
 	public static final String VALUEPROPERTY = "sysml.ValueProperty";
@@ -84,9 +93,17 @@ public class XmlTagConstants
 	public static final String REFINE = "sysml.Refine";
 	public static final String SATISFY = "sysml.Satisfy";
 	public static final String TRACE = "sysml.Trace";
+	public static final String TRANSITION = "sysml.Transition";
 	public static final String VERIFY = "sysml.Verify";
 	
 	public static final String PARAMETER = "parameter";
+	
+	//Stereotypes
+	public static final String DOMAINSTEREOTYPE = "Domain";
+	public static final String EXTERNALSTEREOTYPE = "External";
+	public static final String SUBSYSTEMSTEREOTYPE = "Subsystem";
+	public static final String SYSTEMCONTEXTSTEREOTYPE = "System context";
+	public static final String SYSTEMSTEREOTYPE = "System";
 	
 	//SysML Diagrams
 	public static final String BLOCKDEFINITIONDIAGRAM = "sysml.BlockDefinitionDiagram";

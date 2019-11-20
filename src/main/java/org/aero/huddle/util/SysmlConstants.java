@@ -19,6 +19,7 @@ public class SysmlConstants {
 	public static final String CALLBEHAVIORACTION = "CallBehaviorAction";
 	public static final String CALLOPERATIONACTION = "CallOperationAction";
 	public static final String CENTRALBUFFERNODE = "CentralBufferNode";
+	public static final String CHOICEPSEUDOSTATE = "ChoicePseudoState";
 	public static final String CLASS = "Class";
 	public static final String COLLABORATION = "Collaboration";
 	public static final String COMBINEDFRAGMENT = "CombinedFragment";
@@ -27,24 +28,30 @@ public class SysmlConstants {
 	public static final String CREATEOBJECTACTION = "CreateObjectAction";
 	public static final String DATASTORENODE = "DataStoreNode";
 	public static final String DECISIONNODE = "DecisionNode";
+	public static final String DEEPHISTORY = "DeepHistory";
 	public static final String DESIGNCONSTRAINT = "DesignConstraint";
 	public static final String DESTROYOBJECTACTION = "DestroyObjectAction";
+	public static final String ENTRYPOINT = "EntryPoint";
 	public static final String ENUMERATION = "Enumeration";
+	public static final String EXITPOINT = "ExitPoint";
 	public static final String EXTENDEDREQUIREMENT = "ExtendedRequirement";
 	public static final String FINALSTATE = "FinalState";
 	public static final String FLOWFINALNODE = "FlowFinalNode";
 	public static final String FLOWPORT = "FlowPort";
+	public static final String FORK = "Fork";
 	public static final String FORKNODE = "ForkNode";
 	public static final String FULLPORT = "FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "FunctionalRequirement";
+	public static final String INITIALNODE = "InitialNode";
+	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
+	public static final String INPUTPIN = "InputPin";
+	public static final String INSTANCESPECIFICATION = "InstanceSpecification";
 	public static final String INTERACTION = "Interaction";
 	public static final String INTERACTIONUSE = "InteractionUse";
 	public static final String INTERFACE = "Interface";
 	public static final String INTERFACEBLOCK = "InterfaceBlock";
 	public static final String INTERFACEREQUIREMENT = "InterfaceRequirement";
-	public static final String INITIALNODE = "InitialNode";
-	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
-	public static final String INPUTPIN = "InputPin";
+	public static final String JOIN = "Join";
 	public static final String JOINNODE = "JoinNode";
 	public static final String LIFELINE = "Lifeline";
 	public static final String LOOPNODE = "LoopNode";
@@ -58,21 +65,29 @@ public class SysmlConstants {
 	public static final String PERFORMANCEREQUIREMENT = "PerformanceRequirement";
 	public static final String PHYSICALREQUIREMENT = "PhysicalRequirement";
 	public static final String PORT = "Port";
+	public static final String PROFILE = "Profile";
 	public static final String PROPERTY = "Property";
 	public static final String PROXYPORT = "ProxyPort";
 	public static final String QUANTITYKIND = "QuantityKind";
 	public static final String REQUIREMENT = "Requirement";
 	public static final String SENDSIGNALACTION = "SendSignalAction";
+	public static final String SHALLOWHISTORY = "ShallowHistory";
 	public static final String SIGNAL = "Signal";
 	public static final String STATE = "State";
 	public static final String STATEMACHINE = "StateMachine";
 	public static final String STEREOTYPE = "Stereotype";
+	public static final String TERMINATE = "Terminate";
 	public static final String UNIT = "Unit";
 	public static final String USECASE = "UseCase";
 	public static final String VALUEPROPERTY = "ValueProperty";
 	public static final String VALUETYPE = "ValueType";
 	
-	
+	// Cameo specific "non-normative" block extension
+	public static final String DOMAIN = "Domain";
+	public static final String EXTERNAL = "External";
+	public static final String SUBSYSTEM = "Subsystem";
+	public static final String SYSTEM = "System";
+	public static final String SYSTEMCONTEXT = "SystemContext";
 
 //	public static final String TRIGGER = "Trigger";
 //	public static final String NOTE = "Note";
@@ -108,6 +123,12 @@ public class SysmlConstants {
 //	public static final String SEQ = "SequenceDiagram";
 //	public static final String UC = "UseCaseDiagram";
 	
+	
+	//Reserved words for instances to keep from generating SysML library instance specifications
+	public static final String RESERVELINK = "Link";
+	public static final String RESERVEQUANTITYKIND = "Quantity Kind";
+	public static final String RESERVEUNIT = "Unit";
+	
 	public static final String[] SYSMLELEMENTS = {
 			ACCEPTEVENTACTION,
 			ACTION,
@@ -121,6 +142,7 @@ public class SysmlConstants {
 			CALLBEHAVIORACTION,
 			CALLOPERATIONACTION,
 			CENTRALBUFFERNODE,
+			CHOICEPSEUDOSTATE,
 			CLASS,
 			COLLABORATION,
 			COMBINEDFRAGMENT,
@@ -129,24 +151,30 @@ public class SysmlConstants {
 			CREATEOBJECTACTION,
 			DATASTORENODE,
 			DECISIONNODE,
+			DEEPHISTORY,
 			DESIGNCONSTRAINT,
 			DESTROYOBJECTACTION,
+			ENTRYPOINT,
 			ENUMERATION,
+			EXITPOINT,
 			EXTENDEDREQUIREMENT,
 			FINALSTATE,
 			FLOWFINALNODE,
 			FLOWPORT,
+			FORK,
 			FORKNODE,
 			FULLPORT,
 			FUNCTIONALREQUIREMENT,
 			INITIALNODE,
 			INITIALPSEUDOSTATE,
 			INPUTPIN,
+			INSTANCESPECIFICATION,
 			INTERACTION,
 			INTERFACE,
 			INTERACTIONUSE,
 			INTERFACEBLOCK,
 			INTERFACEREQUIREMENT,
+			JOIN,
 			JOINNODE,
 			LIFELINE,
 			LOOPNODE,
@@ -160,18 +188,27 @@ public class SysmlConstants {
 			PERFORMANCEREQUIREMENT,
 			PHYSICALREQUIREMENT,
 			PORT,
+			PROFILE,
 			PROPERTY,
 			PROXYPORT,
 			QUANTITYKIND,
 			REQUIREMENT,
+			SHALLOWHISTORY,
 			SIGNAL,
 			STATE,
 			STATEMACHINE,
 			STEREOTYPE,
+			TERMINATE,
 			UNIT,
 			USECASE,
 			VALUEPROPERTY,
 			VALUETYPE,			
+	};
+	
+	public static final String[] RESERVEINSTANCESPECIFICATION = {
+			RESERVELINK,
+			RESERVEQUANTITYKIND,
+			RESERVEUNIT,
 	};
 	
 	public static final String[] SYSMLRELATIONSHIPS = {

@@ -1,5 +1,6 @@
 package org.aero.huddle.ModelElements;
 
+import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -11,6 +12,7 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 import com.nomagic.uml2.impl.ElementsFactory;
 
@@ -75,9 +77,14 @@ public abstract class CommonElement {
 		org.w3c.dom.Element attributes = xmlDoc.createElement("attributes");
 		
 		//Add Name
-		org.w3c.dom.Element name = xmlDoc.createElement("name");
-		name.appendChild(xmlDoc.createTextNode(this.name));
-		attributes.appendChild(name);
+		if(!name.equals("") && !name.equals(null)) {
+			org.w3c.dom.Element name = xmlDoc.createElement("name");
+			name.appendChild(xmlDoc.createTextNode(this.name));
+			attributes.appendChild(name);
+		} else {
+			org.w3c.dom.Element name = xmlDoc.createElement("name");
+			attributes.appendChild(name);
+		}
 		data.appendChild(attributes);
 		
 		//Add ID
@@ -92,7 +99,15 @@ public abstract class CommonElement {
 		
 		if(element.getOwner() != null) {
 			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");
-			Element parent = element.getOwner();
+			Element parent = null;
+			if((element instanceof Pseudostate) || (element instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)) {
+				CameoUtils.logGUI(name + " is of type Pseudostate or State. Setting owner appropriately");
+				Element region = element.getOwner();
+				parent = region.getOwner();
+			} else {
+				CameoUtils.logGUI(name + " NOT STATE OR PSEUDOSTATE");
+				parent = element.getOwner();
+			}
 			hasParent.appendChild(xmlDoc.createTextNode(parent.getLocalID()));
 			relationship.appendChild(hasParent);
 		}

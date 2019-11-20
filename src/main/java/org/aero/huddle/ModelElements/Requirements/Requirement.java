@@ -66,13 +66,22 @@ public class Requirement extends CommonElement {
 		}
 		
 		// Add text to attributes node in XML
-		org.w3c.dom.Element textElement = xmlDoc.createElement("text");
-		textElement.appendChild(xmlDoc.createTextNode(text));
+		org.w3c.dom.Element textElement = xmlDoc.createElement("tagged_value");
+		textElement.setAttribute("name", "text");
+		if(text != "") {
+			textElement.appendChild(xmlDoc.createTextNode(text));
+		}
 		attributes.appendChild(textElement);
+	
 		
 		//Add reqID to attributes in XML
-		
-		
+		String id = (String) StereotypesHelper.getStereotypePropertyFirst(element, requirementStereotype, "Id");
+		org.w3c.dom.Element idElement = xmlDoc.createElement("tagged_value");
+		idElement.setAttribute("name", "id");
+		if(id != null) {
+			idElement.appendChild(xmlDoc.createTextNode(id));
+		}
+		attributes.appendChild(idElement);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);

@@ -1,7 +1,6 @@
 package org.aero.huddle.util;
 
 import java.util.Collection;
-import java.util.List;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -14,6 +13,9 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKind;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKindEnum;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.impl.ElementsFactory;
@@ -91,6 +93,13 @@ public class CameoUtils {
 		return false;
 	}
 	
+	public static boolean isProfile(Element element, Project project) {
+		if(element instanceof Profile) {
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean isProperty(Element element, Project project) {
 		if(element instanceof Property) {
 			if(MDCustomizationForSysMLProfile.isPartProperty(element) || MDCustomizationForSysMLProfile.isReferenceProperty(element) ||MDCustomizationForSysMLProfile.isValueProperty(element)) {
@@ -99,6 +108,50 @@ public class CameoUtils {
 			return true;
 		}
 		return false;
+	}
+	
+	public static String getPseudoState(Element element) {
+		try {
+			Pseudostate pseudoState = (Pseudostate)element;
+			PseudostateKind psKind = pseudoState.getKind();
+			if(psKind.equals(PseudostateKindEnum.CHOICE)) {
+				return SysmlConstants.CHOICEPSEUDOSTATE;
+			} else if(psKind.equals(PseudostateKindEnum.DEEPHISTORY)) {
+				return SysmlConstants.DEEPHISTORY;
+			} else if(psKind.equals(PseudostateKindEnum.ENTRYPOINT)) {
+				return SysmlConstants.ENTRYPOINT;
+			} else if(psKind.equals(PseudostateKindEnum.EXITPOINT)) {
+				return SysmlConstants.EXITPOINT;
+			} else if(psKind.equals(PseudostateKindEnum.FORK)) {
+				return SysmlConstants.FORK;
+			} else if(psKind.equals(PseudostateKindEnum.INITIAL)) {
+				return SysmlConstants.INITIALPSEUDOSTATE;
+			} else if(psKind.equals(PseudostateKindEnum.JOIN)) {
+				return SysmlConstants.JOIN;
+			} else if(psKind.equals(PseudostateKindEnum.SHALLOWHISTORY)) {
+				return SysmlConstants.SHALLOWHISTORY;
+			} else if(psKind.equals(PseudostateKindEnum.TERMINATE)) {
+				return SysmlConstants.TERMINATE;
+			} else {
+				return null;
+			}
+		} catch(ClassCastException cce) {
+			return null;
+		}
+	}
+	
+	public static boolean isChoicePseudoState(Element element, Project project) {
+		try {
+			Pseudostate pseudoState = (Pseudostate)element;
+			PseudostateKind psKind = pseudoState.getKind();
+			if(psKind.equals(PseudostateKindEnum.CHOICE)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch(ClassCastException cce) {
+			return false;
+		}
 	}
 	
 	public static boolean isQuantityKind(Element element, Project project) {

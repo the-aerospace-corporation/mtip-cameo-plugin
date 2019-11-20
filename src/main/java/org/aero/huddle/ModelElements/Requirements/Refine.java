@@ -42,7 +42,7 @@ public class Refine extends CommonRelationship {
 
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
-org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
+		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
