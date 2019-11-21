@@ -1,7 +1,6 @@
 package org.aero.huddle.XML.Import;
 
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.ModelElements.CommonRelationshipsFactory;
 import org.aero.huddle.ModelElements.ModelDiagram;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.HuddleUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.w3c.dom.Document;
@@ -48,7 +48,8 @@ public class ImportXmlSysml {
 	public static void buildModel(Map<String, XMLItem> parsedXML) {
 		Project project = Application.getInstance().getProject();
 		HashMap<String, String> parentMap = new HashMap<String, String>();
-
+		HuddleUtils.createHUDDLEProfile(project);
+		
 		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
 			XMLItem modelElement = entry.getValue();
 			String id = entry.getKey();

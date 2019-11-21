@@ -2,6 +2,7 @@ package org.aero.huddle.XML.Export;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.ModelElements.CommonElementsFactory;
 import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.ModelElements.CommonRelationshipsFactory;
-import org.aero.huddle.ModelElements.Block.BlockDefinitionDiagram;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.w3c.dom.Document;
@@ -49,6 +49,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
@@ -60,6 +61,7 @@ import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Interacti
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionUse;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.Actor;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.UseCase;
@@ -67,7 +69,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Fina
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
-import com.nomagic.uml2.impl.ElementsFactory;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public class ExportXmlSysml {
 	public static void buildXML(Document xmlDoc, File file) {
@@ -124,8 +126,8 @@ public class ExportXmlSysml {
 			for(Element element : elementsInPackage) {
 				//export elements that are not packages
 				String elementName = element.getHumanName();
-				//JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Exporting Element: " + element.getHumanName());
-				if(!elementName.contains("Package")) {
+				if(!(element instanceof Package) && !elementName.equals("Package Import") && !elementName.equals("Profile Application")) {
+					CameoUtils.logGUI("Exporting " + element.getHumanName());
 					exportElementRecursive(element, project, xmlDoc);
 				}
 			}
@@ -170,7 +172,9 @@ public class ExportXmlSysml {
 		//Check if package is a model and export as model if it is
 		if(CameoUtils.isModel(pkg, project)) {
 			commonElement = cef.createElement(SysmlConstants.MODEL,  namedElement.getName(), pkg.getLocalID());
-		} else {
+		} else if(CameoUtils.isProfile(pkg, project)) {
+			commonElement = cef.createElement(SysmlConstants.PROFILE, namedElement.getName(), pkg.getLocalID());
+		} else{		
 			commonElement = cef.createElement(SysmlConstants.PACKAGE,  namedElement.getName(), pkg.getLocalID());
 		}
 		commonElement.writeToXML(pkg, project, xmlDoc);
@@ -178,9 +182,7 @@ public class ExportXmlSysml {
 	
 	public static void exportElement(Element element, Project project, Document xmlDoc) {
 		String commonElementType = null;
-		String commonRelationshipType = null;
-		ElementsFactory cameoEF = project.getElementsFactory();
-		
+		String commonRelationshipType = null;		
 		
 		//Use SysMLProfile.is<SysmlElementName> to check types for sysml elements 
 		if(element instanceof AcceptEventAction) {
@@ -255,12 +257,18 @@ public class ExportXmlSysml {
 		} else if(CameoUtils.isDesignConstraint(element, project)) {
 			commonElementType = SysmlConstants.DESIGNCONSTRAINT;
 			CameoUtils.logGUI("Exporting Design Constraint");
+		} else if(SysMLProfile.isDomain(element)) {
+			commonElementType = SysmlConstants.DOMAIN;
+			CameoUtils.logGUI("Exporting Domain as block with domain stereotype");
 		} else if(element instanceof Enumeration) {
 			commonElementType = SysmlConstants.ENUMERATION;
 			CameoUtils.logGUI("Exporting Enumeration");
 		} else if(CameoUtils.isExtendedRequirement(element, project)) {
-			commonElementType= SysmlConstants.EXTENDEDREQUIREMENT;
+			commonElementType = SysmlConstants.EXTENDEDREQUIREMENT;
 			CameoUtils.logGUI("Exporting Extended Requirement");
+		} else if (SysMLProfile.isExternal(element)) {
+			commonElementType = SysmlConstants.EXTERNAL;
+			CameoUtils.logGUI("Exporting External as block with external stereotype");
 		} else if(element instanceof FinalState) {
 			commonElementType = SysmlConstants.FINALSTATE;
 			CameoUtils.logGUI("Exporting Final State");
@@ -289,12 +297,17 @@ public class ExportXmlSysml {
 			commonElementType = SysmlConstants.INITIALNODE;
 			CameoUtils.logGUI("Exporting Initial Node");
 		} else if(element instanceof Pseudostate) {
-			//CHECK HERE FOR DIFFERENT PSEUDOSTATES APPEARING ON STATE MACHINE via Kind ENUM
-			commonElementType = SysmlConstants.INITIALPSEUDOSTATE;
-			CameoUtils.logGUI("Exporting Initial Pseudo State");
+			commonElementType = CameoUtils.getPseudoState(element);
+			CameoUtils.logGUI("Exporting Pseudo State of type " + commonElementType);			
 		} else if(element instanceof InputPin) {
 			commonElementType = SysmlConstants.INPUTPIN;
 			CameoUtils.logGUI("Exporting Input Pin");
+		} else if (element instanceof InstanceSpecification) {
+			NamedElement namedElement = (NamedElement)element;
+			if(!namedElement.getName().equals("") && !namedElement.getName().equals(null) && !Arrays.asList(SysmlConstants.RESERVEINSTANCESPECIFICATION).contains(namedElement.getName())) {
+				commonElementType = SysmlConstants.INSTANCESPECIFICATION;
+				CameoUtils.logGUI("Exporting Instance Specification");
+			}
 		} else if(element instanceof Interface) {
 			commonElementType = SysmlConstants.INTERFACE;
 			CameoUtils.logGUI("Exporting Interface");
@@ -349,9 +362,6 @@ public class ExportXmlSysml {
 		} else if(element instanceof Port) {
 			commonElementType = SysmlConstants.PORT;
 			CameoUtils.logGUI("Exporting Port");
-		} else if(CameoUtils.isProperty(element, project)) {
-			commonElementType = SysmlConstants.PROPERTY;
-			CameoUtils.logGUI("Exporting Property");
 		} else if(CameoUtils.isQuantityKind(element, project)) {
 			commonElementType = SysmlConstants.QUANTITYKIND;
 			CameoUtils.logGUI("Exporting Quantity Kind");
@@ -382,6 +392,18 @@ public class ExportXmlSysml {
 		} else if(CameoUtils.isTrace(element, project)) {
 			commonRelationshipType = SysmlConstants.TRACE;
 			CameoUtils.logGUI("Exporting Trace Relation");
+		} else if(SysMLProfile.isSubsystem(element)) {
+			commonElementType = SysmlConstants.SUBSYSTEM;
+			CameoUtils.logGUI("Exporting Subystem as block with subsystem stereotype");
+		} else if(SysMLProfile.isSystemcontext(element)) {
+			commonElementType = SysmlConstants.SYSTEMCONTEXT;
+			CameoUtils.logGUI("Exporting system context as a block with system context stereotype");
+		} else if(SysMLProfile.isSystem(element)) {
+			commonElementType = SysmlConstants.SYSTEM;
+			CameoUtils.logGUI("Exporting system as a block with system stereotype");
+		} else if (element instanceof Transition) {
+			commonRelationshipType = SysmlConstants.TRANSITION;
+			CameoUtils.logGUI("Exporting Transition");
 		} else if(CameoUtils.isUnit(element, project)) {
 			commonElementType = SysmlConstants.UNIT;
 			CameoUtils.logGUI("Exporting Unit");
@@ -398,7 +420,9 @@ public class ExportXmlSysml {
 			commonRelationshipType = SysmlConstants.VERIFY;
 			CameoUtils.logGUI("Exporting Verify");
 		//Super classes listed below as to not to override their children	
-			
+		} else if(CameoUtils.isProperty(element, project)) {
+				commonElementType = SysmlConstants.PROPERTY;
+				CameoUtils.logGUI("Exporting Property");	
 		// Check ActionClass last as any child action class will be an instance of ActionClass
 		} else if(element instanceof ActionClass) {
 			commonElementType = SysmlConstants.ACTION;
@@ -419,6 +443,7 @@ public class ExportXmlSysml {
 			CommonElementsFactory cef = new CommonElementsFactory();
 			NamedElement namedElement = (NamedElement)element;
 			//Check if ID already exists from previous import
+			CameoUtils.logGUI("\tElement named: " +  namedElement.getName() + " with id: " + element.getLocalID());
 			CommonElement commonElement = cef.createElement(commonElementType,  namedElement.getName(), element.getLocalID());
 			commonElement.writeToXML(element, project, xmlDoc);
 		}
@@ -426,6 +451,7 @@ public class ExportXmlSysml {
 		if(commonRelationshipType != null) {
 			CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 			NamedElement namedRelationship = (NamedElement)element;
+			CameoUtils.logGUI("\tRelationship named: " +  namedRelationship.getName() + " with id: " + element.getLocalID());
 			CommonRelationship commonRelationship = crf.createElement(commonRelationshipType, namedRelationship.getName(), element.getLocalID());
 			commonRelationship.writeToXML(element, project, xmlDoc);
 		}

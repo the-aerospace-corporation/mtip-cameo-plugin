@@ -10,6 +10,7 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public abstract class CommonRelationship {
 	protected String name;
@@ -35,10 +36,14 @@ public abstract class CommonRelationship {
 		org.w3c.dom.Element attributes = xmlDoc.createElement("attributes");
 		
 		//Add Name
-		org.w3c.dom.Element name = xmlDoc.createElement("name");
-		name.appendChild(xmlDoc.createTextNode(this.name));
-		attributes.appendChild(name);
-		
+		if(!name.equals("") && !name.equals(null)) {
+			org.w3c.dom.Element name = xmlDoc.createElement("name");
+			name.appendChild(xmlDoc.createTextNode(this.name));
+			attributes.appendChild(name);
+		} else {
+			org.w3c.dom.Element name = xmlDoc.createElement("name");
+			attributes.appendChild(name);
+		}
 		
 		//Add ID
 		org.w3c.dom.Element id = xmlDoc.createElement("id");
@@ -65,6 +70,10 @@ public abstract class CommonRelationship {
 			}
 		} else if(element instanceof ActivityEdge) {
 			ActivityEdge cameoRelationship = (ActivityEdge)element;
+			supplier = cameoRelationship.getSource();
+			client = cameoRelationship.getTarget();
+		} else if(element instanceof Transition) {
+			Transition cameoRelationship = (Transition)element;
 			supplier = cameoRelationship.getSource();
 			client = cameoRelationship.getTarget();
 		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) {
@@ -99,7 +108,15 @@ public abstract class CommonRelationship {
 		
 		if(element.getOwner() != null) {
 			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");
-			Element parent = element.getOwner();
+			Element parent = null;
+			
+			if(element instanceof Transition) {
+				Element region = element.getOwner();
+				parent = region.getOwner();
+			} else {
+				parent = element.getOwner();
+			}
+			
 			hasParent.appendChild(xmlDoc.createTextNode(parent.getLocalID()));
 			relationship.appendChild(hasParent);
 		}

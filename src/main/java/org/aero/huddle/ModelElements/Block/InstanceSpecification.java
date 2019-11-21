@@ -1,5 +1,6 @@
-package org.aero.huddle.ModelElements;
+package org.aero.huddle.ModelElements.Block;
 
+import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -10,22 +11,20 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.impl.ElementsFactory;
 
-public class sysmlStereotype extends CommonElement {
-	public sysmlStereotype(String name, String EAID)  {
+public class InstanceSpecification extends CommonElement {
+
+	public InstanceSpecification(String name, String EAID) {
 		super(name, EAID);
 	}
-	
+
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Stereotype Element");
+			SessionManager.getInstance().createSession(project, "Create Interface Element");
 		}
-		// Do we need to set the base classifier here and differentiate between an Element Stereotype vs. a class Stereotype?
-		// What is default Metaclass?
-		Element sysmlElement = f.createStereotypeInstance();
+		Element sysmlElement = f.createInstanceSpecificationInstance();
 		((NamedElement)sysmlElement).setName(name);
-		
 		if(owner != null) {
 			sysmlElement.setOwner(owner);
 		} else {
@@ -44,11 +43,12 @@ public class sysmlStereotype extends CommonElement {
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.STEREOTYPE));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.INSTANCESPECIFICATION));
 		data.appendChild(type);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
 		
 	}
+
 }

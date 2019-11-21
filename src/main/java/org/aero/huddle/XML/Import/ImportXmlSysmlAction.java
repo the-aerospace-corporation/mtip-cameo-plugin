@@ -19,13 +19,11 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 
 @SuppressWarnings("serial")
-public class ImportXmlSysmlAction extends MDAction{
-	public ImportXmlSysmlAction(String id, String name)
-	{
+public class ImportXmlSysmlAction extends MDAction {
+	public ImportXmlSysmlAction(String id, String name)	{
 		super(id, name, null, null);
 	}
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		Project project = Application.getInstance().getProject();
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");

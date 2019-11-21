@@ -175,7 +175,6 @@
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/requirements.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/requirements_api.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/text.jar"/>
-	<classpathentry kind="lib" path="H:/Plug-In Files/HUDDLE-workspace/huddle_plugin/target/classes/org/aero/huddle/XML/Export"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/javax.jmi_1.0.0.201903082028/javax_jmi-1_0-fr.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
