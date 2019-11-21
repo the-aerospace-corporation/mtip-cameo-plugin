@@ -35,6 +35,7 @@ import org.aero.huddle.ModelElements.Block.FlowPort;
 import org.aero.huddle.ModelElements.Block.FullPort;
 import org.aero.huddle.ModelElements.Block.Interface;
 import org.aero.huddle.ModelElements.Block.InterfaceBlock;
+import org.aero.huddle.ModelElements.Block.InternalBlockDiagram;
 import org.aero.huddle.ModelElements.Block.Note;
 import org.aero.huddle.ModelElements.Block.Operation;
 import org.aero.huddle.ModelElements.Block.PartProperty;
@@ -53,12 +54,14 @@ import org.aero.huddle.ModelElements.Requirements.InterfaceRequirement;
 import org.aero.huddle.ModelElements.Requirements.PerformanceRequirement;
 import org.aero.huddle.ModelElements.Requirements.PhysicalRequirement;
 import org.aero.huddle.ModelElements.Requirements.Requirement;
+import org.aero.huddle.ModelElements.Requirements.RequirementsDiagram;
 import org.aero.huddle.ModelElements.Sequence.CECombinedFragment;
 import org.aero.huddle.ModelElements.Sequence.Collaboration;
 import org.aero.huddle.ModelElements.Sequence.Interaction;
 import org.aero.huddle.ModelElements.Sequence.InteractionUse;
 import org.aero.huddle.ModelElements.Sequence.Lifeline;
 import org.aero.huddle.ModelElements.Sequence.Property;
+import org.aero.huddle.ModelElements.Sequence.SequenceDiagram;
 import org.aero.huddle.ModelElements.StateMachine.FinalState;
 import org.aero.huddle.ModelElements.StateMachine.InitialPseudoState;
 import org.aero.huddle.ModelElements.StateMachine.State;
@@ -67,6 +70,7 @@ import org.aero.huddle.ModelElements.StateMachine.StateMachineDiagram;
 import org.aero.huddle.ModelElements.StateMachine.Trigger;
 import org.aero.huddle.ModelElements.UseCase.Actor;
 import org.aero.huddle.ModelElements.UseCase.UseCase;
+import org.aero.huddle.ModelElements.UseCase.UseCaseDiagram;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 
@@ -290,6 +294,26 @@ public class CommonElementsFactory {
 			case "StateMachineDiagram":
 				element = new StateMachineDiagram(name, EAID);
 				break;
+			case "InternalBlockDiagram":
+				element = new InternalBlockDiagram(name, EAID);
+				break;
+			case "UseCaseDiagram":
+				element = new UseCaseDiagram(name, EAID);
+				break;
+			case "RequirementsDiagram":
+				element = new RequirementsDiagram(name, EAID);
+				break;
+			case "SequenceDiagram":
+				element = new SequenceDiagram(name, EAID);
+				break;
+				
+//			case "ParametricDiagram":
+//				element = new ParametricDiagram(name, EAID);
+//				break;
+//			case "PackageDiagram":
+//				element = new PackageDiagram(name, EAID);
+//				break;
+//				
 			default:
 				break;
 		}

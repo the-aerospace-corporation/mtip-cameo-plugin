@@ -90,6 +90,14 @@ public class XmlTagConstants
 	
 	//SysML Diagrams
 	public static final String BLOCKDEFINITIONDIAGRAM = "sysml.BlockDefinitionDiagram";
+	public static final String ACTIVITYDIAGRAM = "sysml.ActivityDiagram";
+	public static final String STATEMACHINEDIAGRAM = "sysml.StateMachineDiagram";
+	public static final String USECASEDIAGRAM = "sysml.UseCaseDiagram";
+	public static final String INTERNALBLOCKDIAGRAM = "sysml.InternalBlockDiagram";
+	public static final String REQUIREMENTSDIAGRAM = "sysml.RequirementsDiagram";
+	public static final String SEQUENCEDIAGRAM = "sysml.SequenceDiagram";
+//	public static final String PARAMETRICDIAGRAM = "sysml.ParametricDiagram";
+//	public static final String PACKAGEDIAGRAM = "sysml.PackageDiagram";
 	
 	//SysML nomenclature, but not elements
 	public static final String APPLIEDSTEREOTYPE = "appliedStereotype";
