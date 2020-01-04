@@ -10,6 +10,7 @@ import org.aero.huddle.ModelElements.Activity.ActivityPartition;
 import org.aero.huddle.ModelElements.Activity.CallBehaviorAction;
 import org.aero.huddle.ModelElements.Activity.CallOperationAction;
 import org.aero.huddle.ModelElements.Activity.CentralBufferNode;
+import org.aero.huddle.ModelElements.Activity.ChangeEvent;
 import org.aero.huddle.ModelElements.Activity.ConditionalNode;
 import org.aero.huddle.ModelElements.Activity.CreateObjectAction;
 import org.aero.huddle.ModelElements.Activity.DataStoreNode;
@@ -25,10 +26,10 @@ import org.aero.huddle.ModelElements.Activity.MergeNode;
 import org.aero.huddle.ModelElements.Activity.OpaqueAction;
 import org.aero.huddle.ModelElements.Activity.OutputPin;
 import org.aero.huddle.ModelElements.Activity.SendSignalAction;
+import org.aero.huddle.ModelElements.Activity.TimeEvent;
 import org.aero.huddle.ModelElements.Block.AssociationBlock;
 import org.aero.huddle.ModelElements.Block.Block;
 import org.aero.huddle.ModelElements.Block.BlockDefinitionDiagram;
-import org.aero.huddle.ModelElements.Block.Class;
 import org.aero.huddle.ModelElements.Block.ConstraintBlock;
 import org.aero.huddle.ModelElements.Block.Domain;
 import org.aero.huddle.ModelElements.Block.Enumeration;
@@ -51,7 +52,16 @@ import org.aero.huddle.ModelElements.Block.SystemContext;
 import org.aero.huddle.ModelElements.Block.Unit;
 import org.aero.huddle.ModelElements.Block.ValueProperty;
 import org.aero.huddle.ModelElements.Block.ValueType;
+import org.aero.huddle.ModelElements.InternalBlock.BoundReference;
+import org.aero.huddle.ModelElements.InternalBlock.ClassifierBehaviorProperty;
+import org.aero.huddle.ModelElements.InternalBlock.ConstraintParameter;
+import org.aero.huddle.ModelElements.InternalBlock.ConstraintProperty;
+import org.aero.huddle.ModelElements.InternalBlock.ParticipantProperty;
+import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
+import org.aero.huddle.ModelElements.Profile.Class;
+import org.aero.huddle.ModelElements.Profile.Profile;
+import org.aero.huddle.ModelElements.Profile.sysmlStereotype;
 import org.aero.huddle.ModelElements.Requirements.DesignConstraint;
 import org.aero.huddle.ModelElements.Requirements.ExtendedRequirement;
 import org.aero.huddle.ModelElements.Requirements.FunctionalRequirement;
@@ -66,6 +76,7 @@ import org.aero.huddle.ModelElements.Sequence.InteractionUse;
 import org.aero.huddle.ModelElements.Sequence.Lifeline;
 import org.aero.huddle.ModelElements.Sequence.Property;
 import org.aero.huddle.ModelElements.StateMachine.ChoicePseudoState;
+import org.aero.huddle.ModelElements.StateMachine.ConnectionPointReference;
 import org.aero.huddle.ModelElements.StateMachine.DeepHistory;
 import org.aero.huddle.ModelElements.StateMachine.EntryPoint;
 import org.aero.huddle.ModelElements.StateMachine.ExitPoint;
@@ -100,7 +111,7 @@ public class CommonElementsFactory {
 			case "ActivityFinalNode":
 				element = new ActivityFinalNode(name, EAID);
 				break;
-			case "ActivityParameter":
+			case SysmlConstants.ACTIVITYPARAMETERNODE:
 				element = new ActivityParameterNode(name, EAID);
 				break;
 			case "ActivityPartition":
@@ -114,6 +125,9 @@ public class CommonElementsFactory {
 //				break;
 			case "AssociationBlock":
 				element = new AssociationBlock(name, EAID);
+				break;
+			case "BoundReference":
+				element = new BoundReference(name, EAID);
 				break;
 			case "Block":
 				element = new Block(name, EAID);
@@ -130,8 +144,14 @@ public class CommonElementsFactory {
 			case SysmlConstants.CHOICEPSEUDOSTATE:
 				element = new ChoicePseudoState(name, EAID);
 				break;
+			case SysmlConstants.CHANGEEVENT:
+				element = new ChangeEvent(name, EAID);
+				break;
 			case "Class":
 				element = new Class(name, EAID);
+				break;
+			case SysmlConstants.CLASSIFIERBEHAVIORPROPERTY:
+				element = new ClassifierBehaviorProperty(name, EAID);
 				break;
 			case "Collaboration":
 				element = new Collaboration(name, EAID);
@@ -142,8 +162,17 @@ public class CommonElementsFactory {
 			case "ConditionalNode":
 				element = new ConditionalNode(name, EAID);
 				break;
+			case SysmlConstants.CONNECTIONPOINTREFERENCE:
+				element = new ConnectionPointReference(name, EAID);
+				break;
 			case "ConstraintBlock":
 				element = new ConstraintBlock(name, EAID);
+				break;
+			case SysmlConstants.CONSTRAINTPARAMETER:
+				element = new ConstraintParameter(name, EAID);
+				break;
+			case SysmlConstants.CONSTRAINTPROPERTY:
+				element = new ConstraintProperty(name, EAID);
 				break;
 			case "CreateObjectAction":
 				element = new CreateObjectAction(name, EAID);
@@ -256,6 +285,9 @@ public class CommonElementsFactory {
 			case "Package":
 				element = new SysmlPackage(name, EAID);
 				break;
+			case SysmlConstants.PARTICIPANTPROPERTY:
+				element = new ParticipantProperty(name, EAID);
+				break;
 			case "PartProperty":
 				element = new PartProperty(name, EAID);
 				break;
@@ -280,6 +312,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.QUANTITYKIND:
 				element = new QuantityKind(name, EAID);
+				break;
+			case SysmlConstants.REFERENCEPROPERTY:
+				element = new ReferenceProperty(name, EAID);
 				break;
 			case "RequiredInterface":
 				element = new RequiredInterface(name, EAID);
@@ -307,6 +342,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.TERMINATE:
 				element = new Terminate(name, EAID);
+				break;
+			case SysmlConstants.TIMEEVENT:
+				element = new TimeEvent(name, EAID);
 				break;
 			case "Trigger":
 				element = new Trigger(name, EAID);

@@ -12,25 +12,25 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class ReferenceProperty extends CommonElement {
+public class ClassifierBehaviorProperty extends CommonElement {
 
-	public ReferenceProperty(String name, String EAID) {
+	public ClassifierBehaviorProperty(String name, String EAID) {
 		super(name, EAID);
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "MD Customization for SysML"); 
-		Stereotype referencePropertyStereotype = StereotypesHelper.getStereotype(project, "ReferenceProperty", mdCustomizationProfile);
+		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+		Stereotype classifierBehaviorPropertyStereotype = StereotypesHelper.getStereotype(project, "ClassifierBehaviorProperty", sysmlProfile);
 		
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Reference Property Element");
+			SessionManager.getInstance().createSession(project, "Create Classifier Behavior Property Element");
 		}
 		
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property prop = project.getElementsFactory().createPropertyInstance();
 		prop.setName(name);
 		prop.setOwner(owner);
-		StereotypesHelper.addStereotype(prop, referencePropertyStereotype);
+		StereotypesHelper.addStereotype(prop, classifierBehaviorPropertyStereotype);
 		
 		SessionManager.getInstance().closeSession(project);
 		return prop;
@@ -44,10 +44,11 @@ public class ReferenceProperty extends CommonElement {
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.REFERENCEPROPERTY));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.CLASSIFIERBEHAVIORPROPERTY));
 		data.appendChild(type);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
 	}
+
 }

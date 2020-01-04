@@ -48,6 +48,17 @@ public abstract class PseudoState extends CommonElement {
 					CameoUtils.logGUI("CREATE REGION HERE!!!!!!!!!!!!!");
 					//create region
 				}
+			} else if (owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State) {
+				Region existingRegion = findExistingRegion(owner);
+				if(existingRegion != null) {
+					CameoUtils.logGUI("Setting owner of " + name + " as existing Region.");
+					pseudoState.setOwner(existingRegion);
+				} else {
+					CameoUtils.logGUI("Creating new region for " + name + " as child of " + owner.getHumanName());
+					Region newRegion = f.createRegionInstance();
+					newRegion.setOwner(owner);
+					pseudoState.setOwner(newRegion);
+				}
 			} else {
 				owner = CameoUtils.findNearestRegion(project, owner);
 				pseudoState.setOwner(owner);
@@ -59,7 +70,7 @@ public abstract class PseudoState extends CommonElement {
 		SessionManager.getInstance().closeSession(project);
 		return pseudoState;
 	}
-
+	
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
@@ -73,5 +84,15 @@ public abstract class PseudoState extends CommonElement {
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);		
+	}
+	
+	public static Region findExistingRegion(Element owner) {
+		Collection<Element> children = owner.getOwnedElement();
+		for(Element childElement : children) {
+			if(childElement instanceof Region) {
+				return (Region) childElement;
+			}
+		}
+		return null;
 	}
 }

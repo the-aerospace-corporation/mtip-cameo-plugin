@@ -15,6 +15,19 @@ public class XMLItem {
 	private String client = "";
 	private String supplier = "";
 	private String name = "";
+	/** String id of the event for trigger element types in the importing XML file */
+	private String event = "";
+	/** String id of trigger for AcceptEventAction element types in the importing XML file */
+	private String acceptEventAction = "";
+	
+	private String newEvent = "";
+	private String newAcceptEventAction = "";
+	private String operation = "";
+	private String newOperation = "";
+	private String submachine = "";
+	private String newSubmachineID = "";
+	private boolean newSubmachineCreated = false;
+	private HashMap<String, String> stereotypes = new HashMap<String, String> ();
 	private HashMap<String, String> attributes = new HashMap<String, String>();
 	private List<String> childElements = new ArrayList<String>();
 	
@@ -41,6 +54,14 @@ public class XMLItem {
 			value = value.replace("(",  "").replace(")", "");
 			setName(value);
 			this.attributes.put(key, value);
+		} else if (key.equals(SysmlConstants.SUBMACHINE)) {
+			submachine = value;
+		} else if(key.contentEquals("acceptEventAction")) {
+			acceptEventAction = value;
+		} else if(key.contentEquals("event")) {
+			event = value;
+		} else if(key.contentEquals("operation")) {
+			this.operation = value;
 		} else {
 			this.attributes.put(key, value);
 		}
@@ -59,6 +80,14 @@ public class XMLItem {
 	
 	public void addChildElement(String element) {
 		this.childElements.add(element);
+	}
+	
+	public void addStereotype(String stereotypeName, String profileName) {
+		stereotypes.put(stereotypeName, profileName);
+	}
+	
+	public HashMap<String, String> getStereotypes() {
+		return stereotypes;
 	}
 	
 	public List<String> getChildElements(Map<String, XMLItem> parsedXML) {
@@ -106,6 +135,79 @@ public class XMLItem {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getOperation() {
+		return operation;
+	}
+	public void setNewEvent(String newEvent) {
+		this.newEvent = newEvent;
+	}
+	
+	public String getEvent() {
+		return event;
+	}
+	
+	public boolean hasEvent() {
+		if(event.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean hasAcceptEventAction() {
+		if(acceptEventAction.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getNewOperation() {
+		return newOperation;
+	}
+	
+	public void setNewOperation(String newOperation) {
+		this.newOperation = newOperation;
+	}
+	
+	public void setNewAcceptEventAction(String newAcceptEventAction) {
+		this.newAcceptEventAction = newAcceptEventAction;
+	}
+	
+	public String getNewEvent() {
+		return newEvent;
+	}
+	
+	public String getNewAcceptEventAction() {
+		return newAcceptEventAction;
+	}
+	
+	
+//	public void setTrigger(String trigger) {
+//		this.trigger = trigger;
+//	}
+	
+	public String getAcceptEventAction() {
+		return acceptEventAction;
+	}
+	
+	public void setNewSubmachineID(String newSubmachineID) {
+		this.newSubmachineID = newSubmachineID;
+		this.newSubmachineCreated = true;
+	}
+	public String getNewSubmachine() {
+		return newSubmachineID;
+	}
+	
+	public String getSubmachine() {
+		return submachine;
+	}
+	
+	public boolean newSubmachineCreated() {
+		return newSubmachineCreated;
+	}
+	public boolean isSubmachine() {
+		return !submachine.equals("");
 	}
 	
 	private void setCategory() {

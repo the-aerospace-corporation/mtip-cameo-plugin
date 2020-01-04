@@ -9,6 +9,7 @@ import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Vertex;
 
 public class Transition extends CommonRelationship {
 	public Transition(String name, String EAID) {
@@ -21,15 +22,15 @@ public class Transition extends CommonRelationship {
 			SessionManager.getInstance().createSession(project, "Create Transition Relationship");
 		}
 		
-		Element copy = project.getElementsFactory().createTransitionInstance();
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = project.getElementsFactory().createTransitionInstance();
 		
-		ModelHelper.setClientElement(copy, client);
-		ModelHelper.setSupplierElement(copy, supplier);
-		((NamedElement)copy).setName(name);
-		copy.setOwner(owner);
+		transition.setSource((Vertex) supplier);
+		transition.setTarget((Vertex) client);
+		((NamedElement)transition).setName(name);
+		transition.setOwner(owner);
 		
 		SessionManager.getInstance().closeSession(project);
-		return copy;
+		return transition;
 	}
 
 	@Override
@@ -47,5 +48,4 @@ public class Transition extends CommonRelationship {
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);	
 	}
-
 }

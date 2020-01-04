@@ -17,15 +17,21 @@ public class XmlTagConstants
 	public static final String ACTOR = "sysml.Actor";
 	public static final String ASSOCIATIONBLOCK = "sysml.AssociationBlock";
 	public static final String BLOCK = "sysml.Block";
+	public static final String BOUNDREFERENCE = "sysml.BoundReference";
 	public static final String CALLBEHAVIORACTION = "sysml.CallBehaviorAction";
 	public static final String CALLOPERATIONACTION = "sysml.CallOperationAction";
 	public static final String CENTRALBUFFERNODE = "sysml.CentralBufferNode";
+	public static final String CHANGEEVENT = "sysml.ChangeEvent";
 	public static final String CHOICEPSEUDOSTATE = "sysml.ChoicePseudoState";
 	public static final String CLASS = "sysml.Class";
+	public static final String CLASSIFIERBEHAVIORPROPERTY = "sysml.ClassifierBehaviorProperty";
 	public static final String COLLABORATION = "sysml.Collaboration";
 	public static final String COMBINEDFRAGMENT = "sysml.CombinedFragment";
 	public static final String CONDITIONALNODE = "sysml.ConditionalNode";
+	public static final String CONNECTIONPOINTREFERENCE = "sysml.ConnectionPointReference";
 	public static final String CONSTRAINTBLOCK = "sysml.ConstraintBlock";
+	public static final String CONSTRAINTPARAMETER = "sysml.ConstraintParameter";
+	public static final String CONSTRAINTPROPERTY = "sysml.ConstraintProperty";
 	public static final String CREATEOBJECTACTION = "sysml.CreateObjectAction";
 	public static final String DATASTORENODE = "sysml.DataStoreNode";
 	public static final String DECISIONNODE = "sysml.DecisionNode";
@@ -62,6 +68,7 @@ public class XmlTagConstants
 	public static final String MERGENODE = "sysml.MergeNode";
 	public static final String MODEL = "sysml.Model";
 	public static final String OPERATION = "sysml.Operation";
+	public static final String PARTICIPANTPROPERTY = "sysml.ParticipantProperty";
 	public static final String PARTPROPERTY = "sysml.PartProperty";
 	public static final String PACKAGE = "sysml.Package";
 	public static final String PERFORMANCEREQUIREMENT = "sysml.PerformanceRequirement";
@@ -71,6 +78,7 @@ public class XmlTagConstants
 	public static final String PROPERTY = "sysml.Property";
 	public static final String PROXYPORT = "sysml.ProxyPort";
 	public static final String QUANTITYKIND = "sysml.QuantityKind";
+	public static final String REFERENCEPROPERTY = "sysml.ReferneceProperty";
 	public static final String REQUIREMENT = "sysml.Requirement";
 	public static final String SENDSIGNALACTION = "sysml.SendSignalAction";
 	public static final String SHALLOWHISTORY = "sysml.ShallowHistory";
@@ -79,6 +87,8 @@ public class XmlTagConstants
 	public static final String STATEMACHINE = "sysml.StateMachine";
 	public static final String STEREOTYPE = "sysml.Stereotype";
 	public static final String TERMINATE = "sysml.Terminate";
+	public static final String TIMEEVENT = "sysml.TimeEvent";
+	public static final String TRIGGER = "sysml.Trigger";
 	public static final String UNIT = "sysml.Unit";
 	public static final String USECASE = "sysml.UseCase";
 	public static final String VALUEPROPERTY = "sysml.ValueProperty";
@@ -86,9 +96,14 @@ public class XmlTagConstants
 
 	//SysML relationships
 	public static final String ASSOCIATION = "sysml.Association";
+	public static final String BINDINGCONNECTOR = "sysml.BindingConnector";
+	public static final String CONNECTOR = "sysml.Connector";
 	public static final String CONTROLFLOW = "sysml.ControlFlow";
 	public static final String COPY = "sysml.Copy";
+	public static final String DEPENDENCY = "sysml.Dependency";
 	public static final String DERIVEREQUIREMENT = "sysml.DeriveRequirement";
+	public static final String EXTENSION = "sysml.Extension";
+	public static final String ITEMFLOW = "sysml.ItemFlow";
 	public static final String OBJECTFLOW = "sysml.ObjectFlow";
 	public static final String REFINE = "sysml.Refine";
 	public static final String SATISFY = "sysml.Satisfy";

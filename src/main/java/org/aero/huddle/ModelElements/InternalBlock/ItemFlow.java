@@ -5,43 +5,43 @@ import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
-import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
 
-public class Connector extends CommonRelationship {
-	public Connector(String name, String EAID) {
+public class ItemFlow extends CommonRelationship {
+
+	public ItemFlow(String name, String EAID) {
 		super(name, EAID);
 	}
-
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Connector Relation");
+			SessionManager.getInstance().createSession(project, "Create Item Flow Relationship");
 		}
-		ElementsFactory ef = project.getElementsFactory();
-		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = ef.createConnectorInstance();
+		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+		Stereotype itemFlowStereotype = StereotypesHelper.getStereotype(project, "ItemFlow", sysmlProfile);
 		
-		
-		if(client != null) {
-			ModelHelper.setClientElement(connector, client);
+		Element sysmlElement = f.createInformationFlowInstance();
+		((NamedElement)sysmlElement).setName(name);
+		if(owner != null) {
+			sysmlElement.setOwner(owner);
 		} else {
-			// log client null creating connector with EAID: #
+			sysmlElement.setOwner(project.getPrimaryModel());
 		}
-		if(supplier != null) {
-			ModelHelper.setSupplierElement(connector, supplier);
-		} else {
-			// log supplier null creating connector with EAID: #
-		}
+		StereotypesHelper.addStereotype(sysmlElement, itemFlowStereotype);
 		
-		((NamedElement)connector).setName(name);
-		connector.setOwner(owner);
+		ModelHelper.setClientElement(sysmlElement, client);
+		ModelHelper.setSupplierElement(sysmlElement, supplier);
+		
 		SessionManager.getInstance().closeSession(project);
-		return connector;
+		return sysmlElement;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class Connector extends CommonRelationship {
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.CONNECTOR));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.ITEMFLOW));
 		data.appendChild(type);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();

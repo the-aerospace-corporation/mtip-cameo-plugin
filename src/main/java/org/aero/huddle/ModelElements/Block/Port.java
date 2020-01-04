@@ -1,20 +1,16 @@
 package org.aero.huddle.ModelElements.Block;
 
 import org.aero.huddle.ModelElements.CommonElement;
-import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Port extends CommonElement {
@@ -56,25 +52,6 @@ public class Port extends CommonElement {
 		
 		SessionManager.getInstance().closeSession(project);
 		return sysmlElement;
-	}
-	
-	public Element createNestedPorts(Project project, Element owner) {
-		Element sysmlPackage = CameoUtils.findNearestPackage(project, owner);
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, "Block", sysmlProfile);
-		
-		Element block = createClassWithStereotype(project, owner.getHumanName().replace("Port ", ""), blockStereotype, sysmlPackage);
-		return block;
-	}
-	
-	public boolean isTyped(Element element) {
-		TypedElement elementTyped = (TypedElement)element;
-		Type type = elementTyped.getType();
-		if(type == null) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 	@Override

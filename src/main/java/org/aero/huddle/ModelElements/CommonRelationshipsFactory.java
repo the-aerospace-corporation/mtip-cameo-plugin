@@ -2,7 +2,10 @@ package org.aero.huddle.ModelElements;
 
 import org.aero.huddle.ModelElements.Activity.ControlFlow;
 import org.aero.huddle.ModelElements.Activity.ObjectFlow;
+import org.aero.huddle.ModelElements.InternalBlock.BindingConnector;
 import org.aero.huddle.ModelElements.InternalBlock.Connector;
+import org.aero.huddle.ModelElements.InternalBlock.ItemFlow;
+import org.aero.huddle.ModelElements.Profile.Extension;
 import org.aero.huddle.ModelElements.Requirements.Copy;
 import org.aero.huddle.ModelElements.Requirements.DeriveRequirement;
 import org.aero.huddle.ModelElements.Requirements.Refine;
@@ -10,6 +13,7 @@ import org.aero.huddle.ModelElements.Requirements.Satisfy;
 import org.aero.huddle.ModelElements.Requirements.Trace;
 import org.aero.huddle.ModelElements.Requirements.Verify;
 import org.aero.huddle.ModelElements.StateMachine.Transition;
+import org.aero.huddle.util.SysmlConstants;
 
 public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
@@ -23,6 +27,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case "Association":
 				relationship = new Association(name, EAID);
+				break;
+			case SysmlConstants.BINDINGCONNECTOR:
+				relationship = new BindingConnector(name, EAID);
 				break;
 			case "Composition":
 				relationship = new Composition(name, EAID);
@@ -39,8 +46,17 @@ public class CommonRelationshipsFactory {
 			case "DeriveRequirement":
 				relationship = new DeriveRequirement(name, EAID);
 				break;
+			case SysmlConstants.DEPENDENCY:
+				relationship = new Dependency(name, EAID);
+				break;
+			case SysmlConstants.EXTENSION:
+				relationship = new Extension(name, EAID);
+				break;
 			case "Generalization":
 				relationship = new Generalization(name, EAID);
+				break;
+			case SysmlConstants.ITEMFLOW:
+				relationship = new ItemFlow(name, EAID);
 				break;
 			case "ObjectFlow":
 				relationship = new ObjectFlow(name, EAID);
