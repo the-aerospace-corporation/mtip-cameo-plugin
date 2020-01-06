@@ -1,4 +1,4 @@
-package org.aero.huddle.ModelElements.InternalBlock;
+package org.aero.huddle.ModelElements.Activity;
 
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.XMLItem;
@@ -7,33 +7,34 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger;
+import com.nomagic.uml2.impl.ElementsFactory;
 
-public class ReferenceProperty extends CommonElement {
+public class TimeEvent extends CommonElement {
 
-	public ReferenceProperty(String name, String EAID) {
+	public TimeEvent(String name, String EAID) {
 		super(name, EAID);
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "MD Customization for SysML"); 
-		Stereotype referencePropertyStereotype = StereotypesHelper.getStereotype(project, "ReferenceProperty", mdCustomizationProfile);
-		
+		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Reference Property Element");
+			SessionManager.getInstance().createSession(project, "Create Time Event Element");
+		}
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.TimeEvent sysmlElement = f.createTimeEventInstance();
+
+		((NamedElement)sysmlElement).setName(name);
+		if(owner != null) {
+			sysmlElement.setOwner(owner);
+		} else {
+			sysmlElement.setOwner(project.getPrimaryModel());
 		}
 		
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property prop = project.getElementsFactory().createPropertyInstance();
-		prop.setName(name);
-		prop.setOwner(owner);
-		StereotypesHelper.addStereotype(prop, referencePropertyStereotype);
-		
 		SessionManager.getInstance().closeSession(project);
-		return prop;
+		return sysmlElement;
 	}
 
 	@Override
@@ -44,10 +45,11 @@ public class ReferenceProperty extends CommonElement {
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.REFERENCEPROPERTY));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.TIMEEVENT));
 		data.appendChild(type);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
 	}
+
 }

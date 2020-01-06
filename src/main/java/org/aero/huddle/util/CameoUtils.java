@@ -31,7 +31,7 @@ public class CameoUtils {
 		if(owner.equals(topPackage)) {
 			return topPackage;
 		}
-		if(owner.getHumanType().equals("Package")) {
+		if(owner instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package || owner instanceof Profile) {
 			return owner;
 		} else {
 			return findNearestPackage(project, owner);

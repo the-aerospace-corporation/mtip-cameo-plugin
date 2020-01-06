@@ -9,12 +9,16 @@ import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
 
-public class Connector extends CommonRelationship {
-	public Connector(String name, String EAID) {
+public class BindingConnector extends CommonRelationship {
+
+	public BindingConnector(String name, String EAID) {
 		super(name, EAID);
 	}
 
@@ -23,9 +27,11 @@ public class Connector extends CommonRelationship {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Connector Relation");
 		}
+		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+		Stereotype bindingConnectorStereotype = StereotypesHelper.getStereotype(project, "BindingConnector", sysmlProfile);
+		
 		ElementsFactory ef = project.getElementsFactory();
 		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = ef.createConnectorInstance();
-		
 		
 		if(client != null) {
 			ModelHelper.setClientElement(connector, client);
@@ -38,8 +44,11 @@ public class Connector extends CommonRelationship {
 			// log supplier null creating connector with EAID: #
 		}
 		
+		StereotypesHelper.addStereotype(connector, bindingConnectorStereotype);
+		
 		((NamedElement)connector).setName(name);
 		connector.setOwner(owner);
+		
 		SessionManager.getInstance().closeSession(project);
 		return connector;
 	}
@@ -52,7 +61,7 @@ public class Connector extends CommonRelationship {
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.CONNECTOR));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.BINDINGCONNECTOR));
 		data.appendChild(type);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();

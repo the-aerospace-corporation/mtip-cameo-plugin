@@ -19,6 +19,7 @@ import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.HuddleUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
+import org.apache.commons.collections.MapUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -26,14 +27,21 @@ import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class ImportXmlSysml {
     static Map<String,Entry<Element, Element>> linktoPair = new HashMap<String,Entry<Element, Element>>();
     static Map<ModelDiagram,Diagram> diagramMap = new HashMap<ModelDiagram,Diagram>();
+    private static HashMap<String, XMLItem> completeXML = new HashMap<String, XMLItem>();
+    private static HashMap<String, XMLItem> stereotypesXML = new HashMap<String, XMLItem>();
+    private static HashMap<String, XMLItem> profileXML = new HashMap<String, XMLItem>();
+    private static Project project = Application.getInstance().getProject();
     
 	public static void createModel(Document doc) throws NullPointerException {
 		// Read file and set up XML object
@@ -41,14 +49,17 @@ public class ImportXmlSysml {
 		NodeList dataNodes = packet.getChildNodes();
 
 		// Parse XML and build model based on data
-		Map<String, XMLItem> parsedXML = buildModelMap(dataNodes);
-		buildModel(parsedXML);
+		buildModelMap(dataNodes);
+		buildStereotypesTree();
+		
+		HuddleUtils.createHUDDLEProfile(project);
+		buildModel(profileXML);
+		buildModel(completeXML);
+		
 	}
 
-	public static void buildModel(Map<String, XMLItem> parsedXML) {
-		Project project = Application.getInstance().getProject();
+	public static void buildModel(HashMap<String, XMLItem> parsedXML) {
 		HashMap<String, String> parentMap = new HashMap<String, String>();
-		HuddleUtils.createHUDDLEProfile(project);
 		
 		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
 			XMLItem modelElement = entry.getValue();
@@ -109,7 +120,7 @@ public class ImportXmlSysml {
 		}
 	}
 	
-	public static Element buildDiagram(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
+	public static Element buildDiagram(Project project, HashMap<String, String> parentMap, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		
 		CommonElementsFactory cef = new CommonElementsFactory();
 		Element owner = null;
@@ -144,7 +155,7 @@ public class ImportXmlSysml {
 		}
 
 		
-		List<Element> elements = elementsStrings.stream().map(s->(Element) getOrBuildElement(project,  parentMap,  parsedXML, s)).collect(Collectors.toList());
+		List<Element> elements = elementsStrings.stream().map(s->(Element) getOrBuildElement(project,  parentMap, parsedXML, s)).collect(Collectors.toList());
 		
 		CameoUtils.logGUI("modelElement.getType() : " + modelElement.getType() );
 		CameoUtils.logGUI("elementsAFTER size: " + elements.size());
@@ -158,7 +169,7 @@ public class ImportXmlSysml {
         return newElement;
 	}
 	
-	public static Element buildRelationship(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
+	public static Element buildRelationship(Project project, HashMap<String, String> parentMap, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		CameoUtils.logGUI("Starting Build Relationship");
 		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 		String ownerID = modelElement.getParent();
@@ -199,14 +210,21 @@ public class ImportXmlSysml {
 				
 		//Get supplier element in Cameo if it exists or create element and set new element to supplier
 		supplierCameoID = parentMap.get(modelElement.getSupplier());
+		
 		CameoUtils.logGUI("....with Supplier cameo ID: " + supplierCameoID + "  and EA ID: " + modelElement.getSupplier());
 		Element supplier = null;
 		if(supplierCameoID != null) {
 			supplier = (Element)project.getElementByID(supplierCameoID);
 		} else {
+			//if supplier not an element of model, check if it exists in an external/auxiliary library.
 			String supplierEAID = modelElement.getSupplier();
-			XMLItem supplierElement = parsedXML.get(supplierEAID);
-			supplier = buildElement(project, parentMap, parsedXML, supplierElement, supplierEAID);
+			if(supplierEAID.startsWith("_")) {
+				supplier = (Element) project.getElementByID(supplierEAID);
+			}
+			if(supplier == null) {
+				XMLItem supplierElement = parsedXML.get(supplierEAID);
+				supplier = buildElement(project, parentMap, parsedXML, supplierElement, supplierEAID);
+			}
 		}
 		
 		if(modelElement.getType().equals(SysmlConstants.OBJECTFLOW) || modelElement.getType().equals(SysmlConstants.CONTROLFLOW)) {
@@ -215,8 +233,16 @@ public class ImportXmlSysml {
 			}
 		} else if(modelElement.getType().equals(SysmlConstants.TRANSITION)) {
 			owner = CameoUtils.findNearestRegion(project, supplier);
+		} else if (modelElement.getType().equals(SysmlConstants.BINDINGCONNECTOR) || modelElement.getType().equals(SysmlConstants.CONNECTOR)) {
+			// owner is unchanged.
 		} else {
-			owner = CameoUtils.findNearestPackage(project,  supplier);
+			// Check to see if supplier element exists in the model being imported or exists in an external library.
+			if(parentMap.containsKey(supplier.getLocalID())) {
+				owner = CameoUtils.findNearestPackage(project,  supplier);
+			} else {
+				owner = CameoUtils.findNearestPackage(project,  client);
+			}
+			
 		}
 		if(modelElement.getType().equals(SysmlConstants.ASSOCIATION) && (supplier instanceof Port || client instanceof Port)) {
 			return null;
@@ -224,6 +250,7 @@ public class ImportXmlSysml {
 		//Create relationship in Cameo 
 		if (!modelElement.isCreated()) {
 			CameoUtils.logGUI("Physically creating Relationship in Cameo");
+			CameoUtils.logGUI("Setting owner to elemnt with id " + owner.getLocalID());
 			Element newElement = relationship.createElement(project, owner, client, supplier);
 			String GUID = newElement.getID();
 			parentMap.put(id, GUID);
@@ -239,7 +266,7 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element buildElement(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
-		CameoUtils.logGUI("Starting Build Element");
+		CameoUtils.logGUI("Starting Build Element of type: " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID());
 		CommonElementsFactory cef = new CommonElementsFactory();
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
@@ -262,6 +289,33 @@ public class ImportXmlSysml {
 			}
 		}
 		
+		//Add check here to get any other referenced elements which need to be created before a CommonElement calls its createElement method
+		//Includes Events for triggers and operations for Call Operation Action which don't live under the parent.
+		//Refactor this into one method to check for specific attributes which require other elements to be built.
+		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
+			String submachineID = modelElement.getSubmachine();
+			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Creating submachine for " + modelElement.getName() + " with submachine " + submachineID);
+			XMLItem submachine = parsedXML.get(submachineID);
+			Element submachineElement = buildElement(project, parentMap, parsedXML, submachine, submachineID);
+			modelElement.setNewSubmachineID(submachineElement.getLocalID());
+		}
+		if(modelElement.getType().contentEquals(SysmlConstants.TRIGGER)) {
+			if(modelElement.hasEvent()) {
+				CameoUtils.logGUI("About to build event element with event id: " +  modelElement.getEvent());
+				Element event = buildElement(project, parentMap, parsedXML, parsedXML.get(modelElement.getEvent()), modelElement.getEvent());
+				modelElement.setNewEvent(event.getLocalID());
+			}
+			if(modelElement.hasAcceptEventAction()) {	
+				Element acceptEventAction = buildElement(project, parentMap, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
+				modelElement.setNewAcceptEventAction(acceptEventAction.getLocalID());
+			}
+		}
+		if(modelElement.getType().contentEquals(SysmlConstants.CALLOPERATIONACTION)) {
+			Element operation = buildElement(project, parentMap, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
+			modelElement.setNewOperation(operation.getLocalID());
+		}
+		
+		
 		if(!modelElement.isCreated()) {
 			if(ownerElement != null) {
 				CameoUtils.logGUI("Creating element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
@@ -275,6 +329,14 @@ public class ImportXmlSysml {
 				String GUID = newElement.getID();
 				modelElement.setCameoID(GUID);
 				parentMap.put(id, GUID);
+				
+				//Get stereotypes from paredXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
+				HashMap<String, String> stereotypes = modelElement.getStereotypes();
+				if(!MapUtils.isEmpty(stereotypes)) {
+					for(String stereotype : stereotypes.keySet()) {
+						addStereotype(newElement, stereotype, stereotypes.get(stereotype));
+					}
+				}
 				return newElement;
 			}
 		} else {
@@ -324,12 +386,52 @@ public class ImportXmlSysml {
 					//	if(modelElement.getEAID() != null) {
 							if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())){
 							modelElements.put(modelElement.getEAID(),  modelElement);
+							if(modelElement.getType().contentEquals("Stereotype")) {
+								stereotypesXML.put(modelElement.getEAID(), modelElement);
+							}
 						}
 					}
 				}
 			}
 		}
+		completeXML = modelElements;
 		return modelElements;
+	}
+	
+	public static void buildStereotypesTree() {
+		for (Entry<String, XMLItem> entry : stereotypesXML.entrySet()) {
+			XMLItem modelElement = entry.getValue();
+			String id = entry.getKey();
+			profileXML.put(id,  modelElement);
+			String parentID = modelElement.getParent();
+			addParentToProfileXML(parentID);
+		}
+	}
+	
+	public static void addParentToProfileXML(String parentID) {
+		if(parentID != "") {
+			profileXML.put(parentID, completeXML.get(parentID));
+			XMLItem nextParent = completeXML.get(parentID);
+			String nextParentID = nextParent.getParent();
+			addParentToProfileXML(nextParentID);
+		}
+	}
+	
+	public static void addStereotype(Element newElement, String stereotypeName, String profileName) {
+		//Need to implement mapping of all SysML base stereotypes and which internal library they come from (SysML, MD Customization for SysML, UML Standard Profile, etc.)
+		Profile umlStandardProfile = StereotypesHelper.getProfile(project,  "UML Standard Profile");
+		if(stereotypeName.contentEquals("metaclass")) {
+			Stereotype stereotypeObj = StereotypesHelper.getStereotype(project, "Metaclass", umlStandardProfile);
+			StereotypesHelper.addStereotype(newElement,  stereotypeObj);
+		} else {
+			Profile profile = StereotypesHelper.getProfile(project,  profileName);
+			if(profile != null) {
+				Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
+				if(stereotype != null) {
+					StereotypesHelper.addStereotype(newElement,  stereotype);
+				}
+			}
+		}
 	}
 	
 	public static XMLItem getRelationships(Node fieldNode, XMLItem modelElement) {	
@@ -355,7 +457,13 @@ public class ImportXmlSysml {
 		for(int k = 0; k < attributeNodes.getLength(); k++) {
 			Node attribute = attributeNodes.item(k);
 			if(attribute.getNodeType() == Node.ELEMENT_NODE) {
-				modelElement.addAttribute(attribute.getNodeName(), attribute.getTextContent());
+				if(attribute.getNodeName().contentEquals("stereotype")) {
+					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
+					modelElement.addStereotype(attribute.getTextContent(), attributeElement.getAttribute("profile"));
+				} else {
+					modelElement.addAttribute(attribute.getNodeName(), attribute.getTextContent());
+				}
+				
 			}
 		}
 		return modelElement;

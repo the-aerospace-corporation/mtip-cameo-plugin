@@ -30,6 +30,7 @@ public class FlowPort extends CommonElement {
 			SessionManager.getInstance().createSession(project, "Create Class Element");
 		}
 		Port port = (Port) f.createPortInstance(); 
+		port.setName(this.name);
 		port.setOwner(owner);                                               
 		port.setVisibility(VisibilityKindEnum.PRIVATE);                         
    

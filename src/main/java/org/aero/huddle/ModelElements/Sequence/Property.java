@@ -7,8 +7,10 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.VisibilityKindEnum;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Property extends CommonElement {
@@ -30,6 +32,10 @@ public class Property extends CommonElement {
 			sysmlElement.setOwner(owner);
 		} else {
 			sysmlElement.setOwner(project.getPrimaryModel());
+		}
+		
+		if(owner instanceof Interface) {
+			((NamedElement)sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
 		}
 		
 		SessionManager.getInstance().closeSession(project);

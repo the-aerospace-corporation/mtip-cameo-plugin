@@ -1,5 +1,8 @@
 package org.aero.huddle.ModelElements;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
 import org.w3c.dom.Document;
@@ -11,6 +14,10 @@ import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
@@ -55,6 +62,29 @@ public abstract class CommonElement {
 		return sysmlElement;
 	}
 	
+	public Element createElementFromElementsFactory(Project project, Element owner) {
+		ElementsFactory f = project.getElementsFactory();
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create Class Element");
+		}
+		
+		Element sysmlElement = f.createClassInstance();
+		((NamedElement)sysmlElement).setName(name);
+		
+		if(owner != null) {
+			sysmlElement.setOwner(owner);
+		} else {
+			sysmlElement.setOwner(project.getPrimaryModel());
+		}
+		
+		SessionManager.getInstance().closeSession(project);
+		return sysmlElement;
+	}
+	
+	public HashMap<String, Element> createElementInstanceMap() {
+		return null;
+	}
+	
 	public static Region createRegion(Project project, Element owner) {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Region Element");
@@ -87,6 +117,22 @@ public abstract class CommonElement {
 		}
 		data.appendChild(attributes);
 		
+		//Get stereotypes
+		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
+		for(Stereotype stereotype : stereotypes) {
+			CameoUtils.logGUI("Found stereotype : " + stereotype.getName());
+			if(stereotype.getName() != "" && stereotype.getName() != null) {
+				com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package profile = StereotypesHelper.getProfileForStereotype(stereotype);
+				String profileName = profile.getName();
+				
+				org.w3c.dom.Element xmlStereotype = xmlDoc.createElement("stereotype");
+				xmlStereotype.setAttribute("profile", profileName);
+				xmlStereotype.setAttribute("profileId",  profile.getLocalID());
+				xmlStereotype.appendChild(xmlDoc.createTextNode(stereotype.getName()));
+				attributes.appendChild(xmlStereotype);
+			}
+			
+		}
 		//Add ID
 		org.w3c.dom.Element id = xmlDoc.createElement("id");
 		org.w3c.dom.Element cameoID = xmlDoc.createElement("cameo");
@@ -101,11 +147,9 @@ public abstract class CommonElement {
 			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");
 			Element parent = null;
 			if((element instanceof Pseudostate) || (element instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)) {
-				CameoUtils.logGUI(name + " is of type Pseudostate or State. Setting owner appropriately");
 				Element region = element.getOwner();
 				parent = region.getOwner();
 			} else {
-				CameoUtils.logGUI(name + " NOT STATE OR PSEUDOSTATE");
 				parent = element.getOwner();
 			}
 			hasParent.appendChild(xmlDoc.createTextNode(parent.getLocalID()));
@@ -114,6 +158,24 @@ public abstract class CommonElement {
 		data.appendChild(relationship);
 		
 		return data;
+	}
+	
+	public Element createNestedPorts(Project project, Element owner) {
+		Element sysmlPackage = CameoUtils.findNearestPackage(project, owner);
+		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, "Block", sysmlProfile);
+		
+		Element block = createClassWithStereotype(project, owner.getHumanName().replace("Port ", ""), blockStereotype, sysmlPackage);
+		return block;
+	}
+	
+	public Element createNestedProperties(Project project, Element owner) {
+		Element sysmlPackage = CameoUtils.findNearestPackage(project, owner);
+		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, "Block", sysmlProfile);
+		
+		Element block = createClassWithStereotype(project, name, blockStereotype, sysmlPackage);
+		return block;
 	}
 	
 	public org.w3c.dom.Element getAttributes(NodeList dataNodes) {
@@ -127,6 +189,16 @@ public abstract class CommonElement {
 			}
 		}
 		return attributes;
+	}
+	
+	public boolean isTyped(Element element) {
+		TypedElement elementTyped = (TypedElement)element;
+		Type type = elementTyped.getType();
+		if(type == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public org.w3c.dom.Element getType(NodeList dataNodes, String type) {

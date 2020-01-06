@@ -1,31 +1,33 @@
 package org.aero.huddle.ModelElements;
 
-import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
-import com.nomagic.uml2.impl.ElementsFactory;
 
-public class Model extends CommonElement{
-	public Model(String name, String EAID)  {
+public class Dependency extends CommonRelationship {
+
+	public Dependency(String name, String EAID) {
 		super(name, EAID);
 	}
-	
+
 	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
+	public Element createElement(Project project, Element owner, Element client, Element supplier) {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Model Element");
+			SessionManager.getInstance().createSession(project, "Create Dependency Relationship");
 		}
-		Element model = project.getPrimaryModel();
-//		((NamedElement)model).setName(name);
-				
+		
+		com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency dependency = project.getElementsFactory().createDependencyInstance();
+		ModelHelper.setClientElement(dependency, client);
+		ModelHelper.setSupplierElement(dependency, supplier);
+		dependency.setName(name);
+		dependency.setOwner(owner);
+		
 		SessionManager.getInstance().closeSession(project);
-		return model;
+		return dependency;
 	}
 
 	@Override
@@ -36,11 +38,10 @@ public class Model extends CommonElement{
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.MODEL));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.DEPENDENCY));
 		data.appendChild(type);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
-		
 	}
 }

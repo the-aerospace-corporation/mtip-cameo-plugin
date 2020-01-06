@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.aero.huddle.util.CameoUtils;
 import org.w3c.dom.Document;
@@ -10,6 +11,9 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public abstract class CommonRelationship {
@@ -76,31 +80,47 @@ public abstract class CommonRelationship {
 			Transition cameoRelationship = (Transition)element;
 			supplier = cameoRelationship.getSource();
 			client = cameoRelationship.getTarget();
+		} else if(element instanceof Connector) {
+			List<ConnectorEnd> connectorEnds = ((Connector)element).getEnd();
+			if(connectorEnds.size() > 1) {
+				CameoUtils.logGUI("Checking connector ends for supplier and client.");
+				supplier = connectorEnds.get(0).getPartWithPort();
+				client = connectorEnds.get(1).getPartWithPort();
+				if(supplier == null) {
+					supplier = connectorEnds.get(0).getRole();
+				}
+				if(client == null) {
+					client = connectorEnds.get(1).getRole();
+				}
+			}
 		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) {
-//			Relationship cameoRelationship = (Relationship)element;
-			supplier = ModelHelper.getSupplierElement(element);
-			client = ModelHelper.getClientElement(element);
-//			Collection<Element> relatedElements = cameoRelationship.getRelatedElement();
-//			supplier = cameoRelationship.getOwner();
-//			for(Element relatedElement : relatedElements) {
-//				if(!relatedElement.equals(supplier)) {
-//					client = relatedElement;
-//				}
-//			}
+			// Cameo reads client and supplier reverse for extensions for some reason
+			if(element instanceof Extension) {
+				supplier = ModelHelper.getClientElement(element);
+				client = ModelHelper.getSupplierElement(element);
+			} else {
+				supplier = ModelHelper.getSupplierElement(element);
+				client = ModelHelper.getClientElement(element);
+			}
+			
 		} else {
 			CameoUtils.logGUI("Unable to cast relationship to DirectedRelationship or ActivityEdge to find client and supplier.");
 		}
 		
-		if(!supplier.equals(null)) {
+		if(supplier != null) {
 			org.w3c.dom.Element supplierID = xmlDoc.createElement("supplier_id");
 			supplierID.appendChild(xmlDoc.createTextNode(supplier.getLocalID()));
 			attributes.appendChild(supplierID);	
+		} else {
+			CameoUtils.logGUI("No supplier element found.");
 		}
 		
-		if(!client.equals(null)) {
+		if(client != null) {
 			org.w3c.dom.Element clientID = xmlDoc.createElement("client_id");
 			clientID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
 			attributes.appendChild(clientID);
+		} else {
+			CameoUtils.logGUI("No client element found");
 		}
 		
 		//Add parent relationship

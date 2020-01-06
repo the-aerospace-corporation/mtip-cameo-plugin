@@ -11,20 +11,26 @@ public class SysmlConstants {
 	public static final String ACTION = "Action";
 	public static final String ACTIVITY = "Activity";
 	public static final String ACTIVITYFINALNODE = "ActivityFinalNode";
-	public static final String ACTIVITYPARAMETERNODE = "ActivityParameter"; // Sysml specifies as ActivityParameterNode
+	public static final String ACTIVITYPARAMETERNODE = "ActivityParameterNode"; // Sysml specifies as ActivityParameterNode
 	public static final String ACTIVITYPARTITION = "ActivityPartition";
 	public static final String ACTOR = "Actor";
 	public static final String ASSOCIATIONBLOCK = "AssociationBlock";
+	public static final String BOUNDREFERENCE = "BoundReference";
 	public static final String BLOCK = "Block";
 	public static final String CALLBEHAVIORACTION = "CallBehaviorAction";
 	public static final String CALLOPERATIONACTION = "CallOperationAction";
 	public static final String CENTRALBUFFERNODE = "CentralBufferNode";
+	public static final String CHANGEEVENT = "ChangeEvent";
 	public static final String CHOICEPSEUDOSTATE = "ChoicePseudoState";
 	public static final String CLASS = "Class";
+	public static final String CLASSIFIERBEHAVIORPROPERTY = "ClassifierBehaviorProperty";
 	public static final String COLLABORATION = "Collaboration";
 	public static final String COMBINEDFRAGMENT = "CombinedFragment";
 	public static final String CONDITIONALNODE = "ConditionalNode";
+	public static final String CONNECTIONPOINTREFERENCE = "ConnectionPointReference";
 	public static final String CONSTRAINTBLOCK = "ConstraintBlock";
+	public static final String CONSTRAINTPARAMETER = "ConstraintParameter";
+	public static final String CONSTRAINTPROPERTY = "ConstraintProperty";
 	public static final String CREATEOBJECTACTION = "CreateObjectAction";
 	public static final String DATASTORENODE = "DataStoreNode";
 	public static final String DECISIONNODE = "DecisionNode";
@@ -61,6 +67,7 @@ public class SysmlConstants {
 	public static final String OPAQUEACTION = "OpaqueAction";
 	public static final String OUTPUTPIN = "OutputPin";
 	public static final String PACKAGE = "Package";
+	public static final String PARTICIPANTPROPERTY = "ParticipantProperty";
 	public static final String PARTPROPERTY = "PartProperty";
 	public static final String PERFORMANCEREQUIREMENT = "PerformanceRequirement";
 	public static final String PHYSICALREQUIREMENT = "PhysicalRequirement";
@@ -69,6 +76,7 @@ public class SysmlConstants {
 	public static final String PROPERTY = "Property";
 	public static final String PROXYPORT = "ProxyPort";
 	public static final String QUANTITYKIND = "QuantityKind";
+	public static final String REFERENCEPROPERTY = "ReferenceProperty";
 	public static final String REQUIREMENT = "Requirement";
 	public static final String SENDSIGNALACTION = "SendSignalAction";
 	public static final String SHALLOWHISTORY = "ShallowHistory";
@@ -77,6 +85,8 @@ public class SysmlConstants {
 	public static final String STATEMACHINE = "StateMachine";
 	public static final String STEREOTYPE = "Stereotype";
 	public static final String TERMINATE = "Terminate";
+	public static final String TIMEEVENT = "TimeEvent";
+	public static final String TRIGGER = "Trigger";
 	public static final String UNIT = "Unit";
 	public static final String USECASE = "UseCase";
 	public static final String VALUEPROPERTY = "ValueProperty";
@@ -99,11 +109,15 @@ public class SysmlConstants {
 	public static final String AGGREGATION = "Aggregation";
 	public static final String ALLOCATE = "Allocate";
 	public static final String ASSOCIATION = "Association";
+	public static final String BINDINGCONNECTOR = "BindingConnector";
 	public static final String CONNECTOR = "Connector";
 	public static final String CONTROLFLOW = "ControlFlow";
 	public static final String COPY = "Copy";
+	public static final String DEPENDENCY = "Dependency";
 	public static final String DERIVEREQUIREMENT = "DeriveRequirement";
+	public static final String EXTENSION = "Extension";
 	public static final String GENERALIZATION = "Generalization";
+	public static final String ITEMFLOW = "ItemFlow";
 	public static final String OBJECTFLOW = "ObjectFlow";
 	public static final String REFINE = "Refine";
 	public static final String SATISFY = "Satisfy";
@@ -122,7 +136,10 @@ public class SysmlConstants {
 	public static final String ACT = "ActivityDiagram";
 //	public static final String SEQ = "SequenceDiagram";
 //	public static final String UC = "UseCaseDiagram";
+	public static final String PROFILEDIAGRAM = "ProfileDiagram";
+	public static final String CLASSDIAGRAM = "ClassDiagram";
 	
+	public static final String SUBMACHINE = "submachine";
 	
 	//Reserved words for instances to keep from generating SysML library instance specifications
 	public static final String RESERVELINK = "Link";
@@ -139,15 +156,21 @@ public class SysmlConstants {
 			ACTOR,
 			ASSOCIATIONBLOCK,
 			BLOCK,
+			BOUNDREFERENCE,
 			CALLBEHAVIORACTION,
 			CALLOPERATIONACTION,
 			CENTRALBUFFERNODE,
+			CHANGEEVENT,
 			CHOICEPSEUDOSTATE,
 			CLASS,
 			COLLABORATION,
 			COMBINEDFRAGMENT,
 			CONDITIONALNODE,
+			CONNECTIONPOINTREFERENCE,
 			CONSTRAINTBLOCK,
+			CONSTRAINTPARAMETER,
+			CONSTRAINTPROPERTY,
+			CLASSIFIERBEHAVIORPROPERTY,
 			CREATEOBJECTACTION,
 			DATASTORENODE,
 			DECISIONNODE,
@@ -184,7 +207,8 @@ public class SysmlConstants {
 			OPERATION,
 			OUTPUTPIN,
 			PACKAGE,
-			//PARTPROPERTY,
+			PARTPROPERTY,
+			PARTICIPANTPROPERTY,
 			PERFORMANCEREQUIREMENT,
 			PHYSICALREQUIREMENT,
 			PORT,
@@ -192,13 +216,17 @@ public class SysmlConstants {
 			PROPERTY,
 			PROXYPORT,
 			QUANTITYKIND,
+			REFERENCEPROPERTY,
 			REQUIREMENT,
 			SHALLOWHISTORY,
+			SENDSIGNALACTION,
 			SIGNAL,
 			STATE,
 			STATEMACHINE,
 			STEREOTYPE,
 			TERMINATE,
+			TIMEEVENT,
+			TRIGGER,
 			UNIT,
 			USECASE,
 			VALUEPROPERTY,
@@ -216,11 +244,15 @@ public class SysmlConstants {
 			AGGREGATION,
 			ALLOCATE,
 			ASSOCIATION,
+			BINDINGCONNECTOR,
 			CONNECTOR,
 			CONTROLFLOW,
 			COPY,
+			DEPENDENCY,
 			DERIVEREQUIREMENT,
+			EXTENSION,
 			GENERALIZATION,
+			ITEMFLOW,
 			OBJECTFLOW,
 			REFINE,
 			SATISFY,

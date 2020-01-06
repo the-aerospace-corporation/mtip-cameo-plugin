@@ -21,6 +21,7 @@ public class Block extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.BLOCK_STEREOTYPE, sysmlProfile);
+		// find other stereotypes - Domain, External, etc.
 		if (blockStereotype != null) {
 			return createClassWithStereotype(project, name, blockStereotype, owner);
 		}

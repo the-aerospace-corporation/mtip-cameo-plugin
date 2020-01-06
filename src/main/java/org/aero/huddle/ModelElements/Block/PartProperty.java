@@ -36,7 +36,7 @@ public class PartProperty extends CommonElement {
 		if (owner != null) {
 			String ownerType = owner.getHumanType();
 			if(ownerType.equals("PartProperty")) {
-				Element newOwner = createNestedPartProperties(project, owner);
+				Element newOwner = createNestedProperties(project, owner);
 				TypedElement ownerTyped = (TypedElement)owner;
 				ownerTyped.setType((Type)newOwner);
 			}
@@ -49,15 +49,6 @@ public class PartProperty extends CommonElement {
 		
 		SessionManager.getInstance().closeSession(project);
 		return prop;
-	}
-	
-	public Element createNestedPartProperties(Project project, Element owner) {
-		Element sysmlPackage = CameoUtils.findNearestPackage(project, owner);
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, "Block", sysmlProfile);
-		
-		Element block = createClassWithStereotype(project, name, blockStereotype, sysmlPackage);
-		return block;
 	}
 
 	@Override
@@ -73,6 +64,5 @@ public class PartProperty extends CommonElement {
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
-		
 	}
 }
