@@ -3,7 +3,7 @@ package org.aero.huddle.ModelElements.Activity;
 import org.aero.huddle.ModelElements.AbstractDiagram;
 import org.aero.huddle.util.XmlTagConstants;
 
-//import com.nomagic.magicdraw.sysml.util.SysMLProfile;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.DiagramTypeConstants;
 
 
@@ -15,7 +15,7 @@ public class ActivityDiagram extends AbstractDiagram{
 	
 	@Override
 	public String getSysmlConstant() {
-		return DiagramTypeConstants.UML_ACTIVITY_DIAGRAM;
+		return SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
 	}
 	
 	@Override
