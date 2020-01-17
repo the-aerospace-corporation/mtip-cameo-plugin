@@ -61,7 +61,10 @@ import org.aero.huddle.ModelElements.InternalBlock.ParticipantProperty;
 import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
 import org.aero.huddle.ModelElements.Profile.Class;
+import org.aero.huddle.ModelElements.Profile.PackageDiagram;
+import org.aero.huddle.ModelElements.Profile.ParametricDiagram;
 import org.aero.huddle.ModelElements.Profile.Profile;
+import org.aero.huddle.ModelElements.Profile.ProfileDiagram;
 import org.aero.huddle.ModelElements.Profile.sysmlStereotype;
 import org.aero.huddle.ModelElements.Requirements.DesignConstraint;
 import org.aero.huddle.ModelElements.Requirements.ExtendedRequirement;
@@ -384,35 +387,39 @@ public class CommonElementsFactory {
 				break;
 				
 			// DIAGRAMS	*********************************************************************
-			case "ActivityDiagram":
+			case SysmlConstants.ACT:
 				element = new ActivityDiagram(name, EAID);
 				break;
-			case "BlockDefinitionDiagram":
+			case SysmlConstants.BDD:
 				element = new BlockDefinitionDiagram(name, EAID);
 				break;
-			case "StateMachineDiagram":
+			case SysmlConstants.STM:
 				element = new StateMachineDiagram(name, EAID);
 				break;
-			case "InternalBlockDiagram":
+			case SysmlConstants.IBD:
 				element = new InternalBlockDiagram(name, EAID);
 				break;
-			case "UseCaseDiagram":
+			case SysmlConstants.UC:
 				element = new UseCaseDiagram(name, EAID);
 				break;
-			case "RequirementsDiagram":
+			case SysmlConstants.REQ:
 				element = new RequirementsDiagram(name, EAID);
 				break;
-			case "SequenceDiagram":
+			case SysmlConstants.SEQ:
 				element = new SequenceDiagram(name, EAID);
 				break;
-				
-//			case "ParametricDiagram":
-//				element = new ParametricDiagram(name, EAID);
+			case SysmlConstants.PAR:
+				element = new ParametricDiagram(name, EAID);
+				break;
+			case SysmlConstants.PKG:
+				element = new PackageDiagram(name, EAID);
+				break;
+			case SysmlConstants.PROFILEDIAGRAM:
+				element = new ProfileDiagram(name, EAID);
+				break;
+//			case SysmlConstants.CLASSDIAGRAM:
+//				element = new ClassDiagram(name, EAID);
 //				break;
-//			case "PackageDiagram":
-//				element = new PackageDiagram(name, EAID);
-//				break;
-//				
 			default:
 				break;
 		}
