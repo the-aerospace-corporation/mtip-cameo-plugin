@@ -26,6 +26,8 @@ import com.nomagic.uml2.impl.ElementsFactory;
 public abstract class CommonElement {
 	protected String name;
 	protected String EAID;
+	protected String sysmlConstant;
+	protected String xmlConstant;
 	
 	public CommonElement(String name, String EAID) {
 		this.EAID = EAID;

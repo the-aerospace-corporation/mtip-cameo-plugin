@@ -17,8 +17,8 @@ import org.w3c.dom.Document;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.ActionClass;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallBehaviorAction;
@@ -47,11 +47,14 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.MergeN
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.ConditionalNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.LoopNode;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
+import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Usage;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
@@ -81,13 +84,18 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public class ExportXmlSysml {
-	public static void buildXML(Document xmlDoc, File file) {
+	public static void buildXML(Document xmlDoc, File file, Package packageElement) {
 		org.w3c.dom.Element root = xmlDoc.createElement("packet");
 		xmlDoc.appendChild(root);
 		
 		Project project = Application.getInstance().getProject();
 		Package primary = project.getPrimaryModel();
-		exportPackageRecursive(primary, project, xmlDoc);		
+		if(packageElement != null) {
+			exportPackageRecursive((Package)packageElement, project, xmlDoc);
+		} else {
+			exportPackageRecursive(primary, project, xmlDoc);
+		}
+		
 	}
 	
 	public static void exportPackageRecursive(Package pack, Project project, Document xmlDoc) {
@@ -135,7 +143,7 @@ public class ExportXmlSysml {
 				//export elements that are not packages
 				String elementName = element.getHumanName();
 				if(!(element instanceof Package) && !elementName.equals("Package Import") && !elementName.equals("Profile Application")) {
-					CameoUtils.logGUI("Exporting " + element.getHumanName());
+					CameoUtils.logGUI("Exporting " + element.getHumanType() + element.getHumanName());
 					exportElementRecursive(element, project, xmlDoc);
 				}
 			}
@@ -157,14 +165,12 @@ public class ExportXmlSysml {
 		exportElement(element, project, xmlDoc);
 
 		// If value property allow only comments or attached files 
-		if(!noElements && !(element instanceof Relationship)) {
+		// Let owned elements that are relationships call exportElementRecursive but children of relationships cannot be exported
+		if(!noElements ) {
 			for(Element ownedElement : ownedElements) {
-				if(ownedElement instanceof NamedElement) {
-//					CameoUtils.logGUI("Found element: " + ownedElement.getHumanName() + "\twith type: " + ownedElement.getHumanType());
-					// Check that ownedElement is not a package, otherwise will cause repeats -- element also must be a NamedElement to ignore unecessary instance specifications, opaque expressions, etc.
-					if (!(ownedElement instanceof Package)) {
-						exportElementRecursive(ownedElement, project, xmlDoc);
-					}
+				// Check that ownedElement is not a package, otherwise will cause repeats -- element also must be a NamedElement to ignore unecessary instance specifications, opaque expressions, etc.
+				if (!(ownedElement instanceof Package) && !(element instanceof Relationship)) {
+					exportElementRecursive(ownedElement, project, xmlDoc);
 				}
 			}
 		}
@@ -211,6 +217,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof Actor) {
 			commonElementType = SysmlConstants.ACTOR;
 			CameoUtils.logGUI("Exporting Actor");
+//		} else if(element instanceof Aggregation) {
+//			commonRelationshipType = SysmlConstants.AGGREGATION;
+//			CameoUtils.logGUI("Exporting Aggregation");
 		} else if(CameoUtils.isAssociationBlock(element, project)) {
 			commonElementType = SysmlConstants.ASSOCIATIONBLOCK;
 			CameoUtils.logGUI("Exporting Association Block");
@@ -316,6 +325,9 @@ public class ExportXmlSysml {
 		} else if(CameoUtils.isFunctionalRequirement(element, project)) {
 			commonElementType = SysmlConstants.FUNCTIONALREQUIREMENT;
 			CameoUtils.logGUI("Exporting Functional Requirement");
+		} else if(element instanceof Generalization) {
+			commonRelationshipType = SysmlConstants.GENERALIZATION;
+			CameoUtils.logGUI("Exporting Generalization");
 		} else if(element instanceof Interaction) {
 			commonElementType = SysmlConstants.INTERACTION;
 			CameoUtils.logGUI("Exporting Interaction");
@@ -400,7 +412,7 @@ public class ExportXmlSysml {
 		} else if(element instanceof Port) {
 			commonElementType = SysmlConstants.PORT;
 			CameoUtils.logGUI("Exporting Port");
-		} else if(CameoUtils.isQuantityKind(element, project)) {
+		} else if(MDCustomizationForSysMLProfile.isQuantityKind(element)) {
 			commonElementType = SysmlConstants.QUANTITYKIND;
 			CameoUtils.logGUI("Exporting Quantity Kind");
 		} else if(CameoUtils.isRefine(element, project)) {
@@ -448,9 +460,12 @@ public class ExportXmlSysml {
 		} else if (element instanceof Trigger) {
 			commonElementType = SysmlConstants.TRIGGER;
 			CameoUtils.logGUI("Exporting Trigger");
-		} else if(CameoUtils.isUnit(element, project)) {
+		} else if(MDCustomizationForSysMLProfile.isUnit(element)) {
 			commonElementType = SysmlConstants.UNIT;
 			CameoUtils.logGUI("Exporting Unit");
+		} else if(element instanceof Usage) {
+			commonRelationshipType = SysmlConstants.USAGE;
+			CameoUtils.logGUI("Exporting Usage");
 		} else if(element instanceof UseCase) {
 			commonElementType = SysmlConstants.USECASE;
 			CameoUtils.logGUI("Exporting Use Case");
@@ -458,7 +473,7 @@ public class ExportXmlSysml {
 			commonElementType = SysmlConstants.VALUEPROPERTY;
 			CameoUtils.logGUI("Exporting Value Property");
 		} else if(CameoUtils.isValueType(element, project)) {
-//			commonElementType = SysmlConstants.VALUETYPE;
+			commonElementType = SysmlConstants.VALUETYPE;
 			CameoUtils.logGUI("Exporting Value Type");
 		} else if(CameoUtils.isVerify(element, project)) {
 			commonRelationshipType = SysmlConstants.VERIFY;
@@ -478,8 +493,16 @@ public class ExportXmlSysml {
 			
 		//	Class is a super class of some elements (any requirement stereotype elements) - must come after
 		} else if(element instanceof Association) {
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd((Association)element);
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd((Association)element);
+			if(firstMemberEnd.getAggregation() == AggregationKindEnum.SHARED || secondMemberEnd.getAggregation() == AggregationKindEnum.SHARED) {
+				commonRelationshipType = SysmlConstants.AGGREGATION;
+				CameoUtils.logGUI("Exporting Association");
+			} else {
 				commonRelationshipType = SysmlConstants.ASSOCIATION;
 				CameoUtils.logGUI("Exporting Association");
+			}
+			
 		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
 			commonElementType = SysmlConstants.CLASS;
 			CameoUtils.logGUI("Exporting Class");
@@ -496,18 +519,35 @@ public class ExportXmlSysml {
 		
 		if(commonElementType != null) {
 			CommonElementsFactory cef = new CommonElementsFactory();
-			NamedElement namedElement = (NamedElement)element;
-			//Check if ID already exists from previous import
-			CameoUtils.logGUI("\tElement named: " +  namedElement.getName() + " with id: " + element.getLocalID());
-			CommonElement commonElement = cef.createElement(commonElementType,  namedElement.getName(), element.getLocalID());
+			CommonElement commonElement = null;
+			
+			if(element instanceof NamedElement) {
+				//Check if ID already exists from previous import
+				CameoUtils.logGUI("\tElement named: " +  ((NamedElement)element).getName() + " with id: " + element.getLocalID());
+				commonElement = cef.createElement(commonElementType,  ((NamedElement)element).getName(), element.getLocalID());
+			} else {
+				CameoUtils.logGUI("\tElement named: " +  element.getHumanName() + " with id: " + element.getLocalID());
+				commonElement = cef.createElement(commonElementType, "", element.getLocalID());
+			}
+			
 			commonElement.writeToXML(element, project, xmlDoc);
 		}
 		
 		if(commonRelationshipType != null) {
 			CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
-			NamedElement namedRelationship = (NamedElement)element;
-			CameoUtils.logGUI("\tRelationship named: " +  namedRelationship.getName() + " with id: " + element.getLocalID());
-			CommonRelationship commonRelationship = crf.createElement(commonRelationshipType, namedRelationship.getName(), element.getLocalID());
+			String name = "";
+			
+			CommonRelationship commonRelationship = null;
+			if(element instanceof NamedElement) {
+				name = ((NamedElement)element).getName();
+				CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getLocalID());
+				commonRelationship = crf.createElement(commonRelationshipType, name, element.getLocalID());
+			} else {
+				name = element.getHumanName();
+				CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getLocalID());
+				commonRelationship = crf.createElement(commonRelationshipType, "", element.getLocalID());
+			}
+			
 			commonRelationship.writeToXML(element, project, xmlDoc);
 		}
 		

@@ -1,5 +1,7 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
+import javax.annotation.CheckForNull;
+
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
@@ -21,7 +23,7 @@ public class Trigger extends CommonElement {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+	public Element createElement(Project project, Element owner, @CheckForNull XMLItem xmlElement) {
 		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Trigger Element");
@@ -34,11 +36,14 @@ public class Trigger extends CommonElement {
 		} else {
 			trigger.setOwner(project.getPrimaryModel());
 		}
-		CameoUtils.logGUI("Setting accept event action of Trigger to AcceptEventAction with id: " + xmlElement.getNewAcceptEventAction());
-		trigger.set_acceptEventActionOfTrigger((AcceptEventAction) project.getElementByID(xmlElement.getNewAcceptEventAction()));
-		CameoUtils.logGUI("Setting Trigger Event to event with id: " + xmlElement.getNewEvent());
-		trigger.setEvent((Event) project.getElementByID(xmlElement.getNewEvent()));
-		
+		if(xmlElement != null) {
+			CameoUtils.logGUI("Setting accept event action of Trigger to AcceptEventAction with id: " + xmlElement.getNewAcceptEventAction());
+			trigger.set_acceptEventActionOfTrigger((AcceptEventAction) project.getElementByID(xmlElement.getNewAcceptEventAction()));
+			CameoUtils.logGUI("Setting Trigger Event to event with id: " + xmlElement.getNewEvent());
+			trigger.setEvent((Event) project.getElementByID(xmlElement.getNewEvent()));
+			
+			//Set transition of trigger if it has a transition
+		}
 		
 		SessionManager.getInstance().closeSession(project);
 		return trigger;

@@ -32,6 +32,7 @@ public class SysmlConstants {
 	public static final String CONSTRAINTPARAMETER = "ConstraintParameter";
 	public static final String CONSTRAINTPROPERTY = "ConstraintProperty";
 	public static final String CREATEOBJECTACTION = "CreateObjectAction";
+	public static final String CUSTOMIZATION = "Customization";
 	public static final String DATASTORENODE = "DataStoreNode";
 	public static final String DECISIONNODE = "DecisionNode";
 	public static final String DEEPHISTORY = "DeepHistory";
@@ -123,6 +124,7 @@ public class SysmlConstants {
 	public static final String SATISFY = "Satisfy";
 	public static final String TRACE = "Trace";
 	public static final String TRANSITION = "Transition";
+	public static final String USAGE = "Usage";
 	public static final String VERIFY = "Verify";
 	
 	
@@ -172,6 +174,7 @@ public class SysmlConstants {
 			CONSTRAINTPROPERTY,
 			CLASSIFIERBEHAVIORPROPERTY,
 			CREATEOBJECTACTION,
+			CUSTOMIZATION,
 			DATASTORENODE,
 			DECISIONNODE,
 			DEEPHISTORY,
@@ -258,6 +261,7 @@ public class SysmlConstants {
 			SATISFY,
 			TRACE,
 			TRANSITION,
+			USAGE,
 			VERIFY
 	};
 

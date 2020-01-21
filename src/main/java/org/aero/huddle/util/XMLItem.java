@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class XMLItem {
 	private String type = "";
 	private String category = "";
@@ -27,6 +29,8 @@ public class XMLItem {
 	private String submachine = "";
 	private String newSubmachineID = "";
 	private boolean newSubmachineCreated = false;
+	private String guard = "";
+	private String effect = "";
 	private HashMap<String, String> stereotypes = new HashMap<String, String> ();
 	private HashMap<String, String> attributes = new HashMap<String, String>();
 	private List<String> childElements = new ArrayList<String>();
@@ -62,6 +66,10 @@ public class XMLItem {
 			event = value;
 		} else if(key.contentEquals("operation")) {
 			this.operation = value;
+		} else if(key.contentEquals("guard")) {
+			this.guard = value;
+		} else if(key.contentEquals("effect")) {
+			this.effect = value;
 		} else {
 			this.attributes.put(key, value);
 		}
@@ -207,9 +215,41 @@ public class XMLItem {
 		return newSubmachineCreated;
 	}
 	public boolean isSubmachine() {
-		return !submachine.equals("");
+		if(StringUtils.isBlank(submachine)) {
+			return false;
+		}
+		return true;
 	}
 	
+	public boolean hasGuard() {
+		if(StringUtils.isBlank(guard)) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getGuard() {
+		return guard;
+	}
+	
+	public void setGuard(String guard) {
+		this.guard = guard;
+	}
+	
+	public boolean hasEffect() {
+		if(StringUtils.isBlank(effect)) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getEffect() {
+		return effect;
+	}
+	
+	public void setEffect(String effect) {
+		this.effect = effect;
+	}
 	private void setCategory() {
 		if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(type)) {
 			category = SysmlConstants.ELEMENT;

@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements.Sequence;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.XMLItem;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -16,7 +17,7 @@ public class Message extends CommonRelationship {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Message Element");

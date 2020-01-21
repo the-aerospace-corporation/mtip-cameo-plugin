@@ -1,12 +1,11 @@
 package org.aero.huddle.ModelElements.InternalBlock;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
-import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -19,7 +18,7 @@ public class Connector extends CommonRelationship {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Connector Relation");
 		}

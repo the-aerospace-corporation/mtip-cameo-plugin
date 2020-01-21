@@ -95,6 +95,7 @@ public class XmlTagConstants
 	public static final String VALUETYPE = "sysml.ValueType";
 
 	//SysML relationships
+	public static final String AGGREGATION = "sysml.Aggregation";
 	public static final String ASSOCIATION = "sysml.Association";
 	public static final String BINDINGCONNECTOR = "sysml.BindingConnector";
 	public static final String CONNECTOR = "sysml.Connector";
@@ -103,12 +104,14 @@ public class XmlTagConstants
 	public static final String DEPENDENCY = "sysml.Dependency";
 	public static final String DERIVEREQUIREMENT = "sysml.DeriveRequirement";
 	public static final String EXTENSION = "sysml.Extension";
+	public static final String GENERALIZATION = "sysml.Generalization";
 	public static final String ITEMFLOW = "sysml.ItemFlow";
 	public static final String OBJECTFLOW = "sysml.ObjectFlow";
 	public static final String REFINE = "sysml.Refine";
 	public static final String SATISFY = "sysml.Satisfy";
 	public static final String TRACE = "sysml.Trace";
 	public static final String TRANSITION = "sysml.Transition";
+	public static final String USAGE = "sysml.Usage";
 	public static final String VERIFY = "sysml.Verify";
 	
 	public static final String PARAMETER = "parameter";

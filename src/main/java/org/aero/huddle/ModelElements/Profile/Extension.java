@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements.Profile;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
@@ -17,7 +18,7 @@ public class Extension extends CommonRelationship {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Extension Relationship");
 		}

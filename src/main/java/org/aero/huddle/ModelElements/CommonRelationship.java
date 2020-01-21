@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.XMLItem;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -25,7 +26,7 @@ public abstract class CommonRelationship {
 		this.name = name;
 	}
 	
-	public abstract Element createElement(Project project, Element owner, Element client, Element supplier);
+	public abstract Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement);
 
 	public org.w3c.dom.Element createBaseXML(Element element, Project project, Document xmlDoc) {
 		return null;

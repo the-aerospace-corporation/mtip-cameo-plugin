@@ -60,6 +60,7 @@ import org.aero.huddle.ModelElements.InternalBlock.ParticipantProperty;
 import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
 import org.aero.huddle.ModelElements.Profile.Class;
+import org.aero.huddle.ModelElements.Profile.Customization;
 import org.aero.huddle.ModelElements.Profile.Profile;
 import org.aero.huddle.ModelElements.Profile.sysmlStereotype;
 import org.aero.huddle.ModelElements.Requirements.DesignConstraint;
@@ -176,6 +177,9 @@ public class CommonElementsFactory {
 				break;
 			case "CreateObjectAction":
 				element = new CreateObjectAction(name, EAID);
+				break;
+			case SysmlConstants.CUSTOMIZATION:
+				element = new Customization(name, EAID);
 				break;
 			case "DataStoreNode":
 				element = new DataStoreNode(name, EAID);

@@ -1,6 +1,6 @@
 package org.aero.huddle;
 
-import org.aero.huddle.mab.BrowserConfigurator;
+import org.aero.huddle.menu.BrowserConfigurator;
 import org.aero.huddle.menu.MainMenuConfigurator;
 
 import com.nomagic.magicdraw.actions.ActionsConfiguratorsManager;

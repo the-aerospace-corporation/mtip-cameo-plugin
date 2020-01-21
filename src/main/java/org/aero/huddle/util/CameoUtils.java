@@ -1,6 +1,8 @@
 package org.aero.huddle.util;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -153,28 +155,30 @@ public class CameoUtils {
 			return false;
 		}
 	}
-	
-	public static boolean isQuantityKind(Element element, Project project) {
-//		Element quantitiyKindClassifier = Finder.byQualifiedName().find(project, "Sysml::Libraries::UnitAndQuantityKind::QuantityKind");
-//		ClassifierFinder.SimpleNameResolver
-//		try {
-//			TypedElement typedElement = (TypedElement)element;
-//			Type type = typedElement.getType();
-//			CameoUtils.logGUI("ELEMENT NAME: " + element.getHumanName());
-//			if(type != null) {
-//				CameoUtils.logGUI("TYPE OF ELEMENT: " + type.getHumanName());
-//			}
-//		}catch(ClassCastException cce) {
-//			
+//	
+//	@SuppressWarnings("unlikely-arg-type")
+//	public static boolean isQuantityKind(Element element, Project project) {
+//		Profile mdCustomization = StereotypesHelper.getProfile(project,  "MD Customization for SysML");
+//		Stereotype quantityKindStereotype = StereotypesHelper.getStereotype(project, "quantityKind", mdCustomization);
+//		Collection<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
+//		if(Arrays.asList(stereotypes).contains(quantityKindStereotype)) {
+//			CameoUtils.logGUI("Found Quantity Kind");
+//			return true;
 //		}
-
-		
-		return false;
-	}
-	
-	public static boolean isUnit(Element element, Project project) {
-		 return false;
-	}
+//		return false;
+//	}
+//	
+//	@SuppressWarnings("unlikely-arg-type")
+//	public static boolean isUnit(Element element, Project project) {
+//		Profile mdCustomization = StereotypesHelper.getProfile(project, "additional_stereotypes");
+//		Stereotype unitStereotype = StereotypesHelper.getStereotype(project, "unit", mdCustomization);
+//		Collection<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
+//		if(Arrays.asList(stereotypes).contains(unitStereotype)) {
+//			CameoUtils.logGUI("Found Unit");
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	public static boolean isAssociationBlock(Element element, Project project) {
 		//Add additional check for block stereotype

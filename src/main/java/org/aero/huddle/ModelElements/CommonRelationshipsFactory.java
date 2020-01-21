@@ -73,6 +73,9 @@ public class CommonRelationshipsFactory {
 			case "Transition":
 				relationship = new Transition(name, EAID);
 				break;
+			case SysmlConstants.USAGE:
+				relationship = new Usage(name, EAID);
+				break;
 			case "Verify":
 				relationship = new Verify(name, EAID);
 				break;

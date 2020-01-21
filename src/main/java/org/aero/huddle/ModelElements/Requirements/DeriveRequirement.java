@@ -1,18 +1,19 @@
 package org.aero.huddle.ModelElements.Requirements;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 
 public class DeriveRequirement extends CommonRelationship {
 
@@ -21,7 +22,7 @@ public class DeriveRequirement extends CommonRelationship {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype deriveRequirementStereotype = StereotypesHelper.getStereotype(project,  SysMLProfile.DERIVEREQT_STEREOTYPE, sysml);
 		

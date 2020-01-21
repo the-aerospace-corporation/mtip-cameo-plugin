@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements.Requirements;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
@@ -20,7 +21,7 @@ public class Satisfy extends CommonRelationship {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype satisfyStereotype = StereotypesHelper.getStereotype(project,  "Satisfy", sysml);
 		

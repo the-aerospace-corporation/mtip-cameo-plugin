@@ -17,12 +17,17 @@ import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 
 @SuppressWarnings("serial")
-public class ImportXmlSysmlAction extends MDAction {
-	public ImportXmlSysmlAction(String id, String name)	{
+public class ImportXmlSysmlPackageAction extends MDAction {
+	private Package packageElement = null;
+	
+	public ImportXmlSysmlPackageAction(String id, String name, Package packageElement)	{
 		super(id, name, null, null);
+		this.packageElement = packageElement;
 	}
+	
 	public void actionPerformed(ActionEvent e) {
 		Project project = Application.getInstance().getProject();
 		if(project == null) {
@@ -35,7 +40,7 @@ public class ImportXmlSysmlAction extends MDAction {
 			doc.getDocumentElement().normalize();
 			
 			//Use Puddle structure, initial mapping
-			ImportXmlSysml.createModel(doc, null);
+			ImportXmlSysml.createModel(doc, packageElement);
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Import complete.");
 			
 		} catch (NullPointerException npe) {

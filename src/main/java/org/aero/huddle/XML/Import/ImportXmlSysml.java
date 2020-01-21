@@ -43,7 +43,17 @@ public class ImportXmlSysml {
     private static HashMap<String, XMLItem> profileXML = new HashMap<String, XMLItem>();
     private static Project project = Application.getInstance().getProject();
     
-	public static void createModel(Document doc) throws NullPointerException {
+    private static Element primaryLocation = null;
+    
+	public static void createModel(Document doc, Element start) throws NullPointerException {
+		//Set location for imported model. Start may be a package selected on containment tree for import. If null, imported model will default to main project Model.
+		if(start == null) {
+			primaryLocation = project.getPrimaryModel();
+		} else {
+			primaryLocation = start;
+		}
+		CameoUtils.logGUI("Mounting project on package," + primaryLocation.getHumanName() + " with id: " + primaryLocation.getLocalID());
+		
 		// Read file and set up XML object
 		Node packet = doc.getDocumentElement();
 		NodeList dataNodes = packet.getChildNodes();
@@ -106,7 +116,7 @@ public class ImportXmlSysml {
 		Element owner = null;
 		String cameoParentID = "";
 		if(modelElement.getParent().equals("")) {
-			owner = project.getPrimaryModel();
+			owner = primaryLocation;
 		} else {
 			cameoParentID = parentMap.get(modelElement.getParent());
 			if(cameoParentID != null) {
@@ -160,10 +170,10 @@ public class ImportXmlSysml {
 		String clientCameoID = "";
 		String supplierCameoID = "";
 		if(ownerID.equals("")) {
-			owner = project.getPrimaryModel();
+			owner = primaryLocation;
 		} else if (!ownerElement.getCameoID().equals("")) {
-			    cameoParentID = ownerElement.getCameoID();
-				owner = (Element) project.getElementByID(cameoParentID);
+		    cameoParentID = ownerElement.getCameoID();
+			owner = (Element) project.getElementByID(cameoParentID);
 		} else {
 			if(modelElement.getCategory().equals(SysmlConstants.ELEMENT)){
 				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerID);
@@ -231,7 +241,7 @@ public class ImportXmlSysml {
 		if (!modelElement.isCreated()) {
 			CameoUtils.logGUI("Physically creating Relationship in Cameo");
 			CameoUtils.logGUI("Setting owner to elemnt with id " + owner.getLocalID());
-			Element newElement = relationship.createElement(project, owner, client, supplier);
+			Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
 			String GUID = newElement.getID();
 			parentMap.put(id, GUID);
 			modelElement.setCameoID(GUID);
@@ -254,7 +264,7 @@ public class ImportXmlSysml {
 		
 		if(modelElement.getParent().equals("") || ownerElement == null) {
 			// Set owned equal to Primary model if no hasParent attribute in XML -> parent field in XMLItem == ""
-			owner = project.getPrimaryModel();
+			owner = primaryLocation;
 		} else if(!ownerElement.getCameoID().equals("")){
 			// Check if parent Element has been created. If parent created, parentMap will return a non null string cameo ID. 
 			owner = (Element) project.getElementByID(ownerElement.getCameoID());
@@ -274,7 +284,6 @@ public class ImportXmlSysml {
 		//Refactor this into one method to check for specific attributes which require other elements to be built.
 		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
 			String submachineID = modelElement.getSubmachine();
-			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Creating submachine for " + modelElement.getName() + " with submachine " + submachineID);
 			XMLItem submachine = parsedXML.get(submachineID);
 			Element submachineElement = buildElement(project, parentMap, parsedXML, submachine, submachineID);
 			modelElement.setNewSubmachineID(submachineElement.getLocalID());
@@ -528,11 +537,11 @@ public class ImportXmlSysml {
 		
 		CameoUtils.logGUI("Creating Stereotype");
 		CommonElement stereotype = cef.createElement("Stereotype",  "TestStereotype",  "EA_123");
-		stereotype.createElement(project,  owner, null);
+		Element testStereotype = stereotype.createElement(project,  owner, null);
 		
 		CameoUtils.logGUI("Creating Class");
 		CommonElement sysmlClass = cef.createElement("Class",  "TestClass",  "EA_123");
-		sysmlClass.createElement(project,  owner, null);
+		Element cameoClass = sysmlClass.createElement(project,  owner, null);
 		
 		CameoUtils.logGUI("Creating InitialPseudoState");
 		CommonElement isState = cef.createElement("InitialPseudoState", "TestInitialPseudoState", "EA_123");
@@ -568,11 +577,11 @@ public class ImportXmlSysml {
 		
 		CameoUtils.logGUI("Creating Association");
 		CommonRelationship association = crf.createElement("Association", "TestAssociation", "EA_123");
-		association.createElement(project, owner, cameoBlock1, cameoBlock2);
+		association.createElement(project, owner, cameoBlock1, cameoBlock2, null);
 		
 		CameoUtils.logGUI("Creating Aggregation");
 		CommonRelationship aggregation = crf.createElement("Aggregation", "TestAggregation", "EA_123");
-		aggregation.createElement(project, owner, cameoBlock2, cameoBlock3);
+		aggregation.createElement(project, owner, cameoBlock2, cameoBlock3, null);
 		
 //		CameoUtils.logGUI("Creating Allocate");
 //		CommonRelationship allocate = crf.createElement("Allocate", "TestAllocate", "EA_123");
@@ -580,11 +589,11 @@ public class ImportXmlSysml {
 		
 		CameoUtils.logGUI("Creating Composition");
 		CommonRelationship composition = crf.createElement("Composition", "TestComposition", "EA_123");
-		composition.createElement(project, owner, cameoBlock4, cameoBlock1);
+		composition.createElement(project, owner, cameoBlock4, cameoBlock1, null);
 		
 		CameoUtils.logGUI("Creating Generalization");
 		CommonRelationship generalization = crf.createElement("Generalization", "TestGeneralization", "EA_123");
-		generalization.createElement(project, owner, cameoBlock, cameoBlock1);
+		generalization.createElement(project, owner, cameoBlock, cameoBlock1, null);
 		
 		CameoUtils.logGUI("Creating Requirement");
 		CommonElement requirement = cef.createElement("Requirement", "TestRequirement", "EA_123");
@@ -738,16 +747,24 @@ public class ImportXmlSysml {
 		
 		CameoUtils.logGUI("Creating Control Flow");
 		CommonRelationship controlFlow = crf.createElement(SysmlConstants.CONTROLFLOW, "TestControlFlow", "EA_123");
-		controlFlow.createElement(project, cameoActivity, cameoAction, cameoAction2);
+		controlFlow.createElement(project, cameoActivity, cameoAction, cameoAction2, null);
 		
 		CameoUtils.logGUI("Creating Object Flow");
 		CommonRelationship objectFlow = crf.createElement(SysmlConstants.OBJECTFLOW, "TestObjectFlow", "EA_123");
-		objectFlow.createElement(project, cameoActivity, cameoAction, cameoAction2);
+		objectFlow.createElement(project, cameoActivity, cameoAction, cameoAction2, null);
 		
 		CameoUtils.logGUI("Creating Opaque Action");
 		CommonElement opaqueAction = cef.createElement(SysmlConstants.OPAQUEACTION, "TestOpaqueAction", "EA_123");
 		opaqueAction.createElement(project, cameoActivity, null);
-				
+		
+		XMLItem customizationXML = new XMLItem();
+		customizationXML.addAttribute("applyToSource",  testStereotype.getLocalID());
+		customizationXML.addAttribute("applyToTarget", "");
+		customizationXML.addAttribute("allowedRelationships", "");
+		customizationXML.addAttribute("disallowedRelationships", "");
+		CameoUtils.logGUI("Creating Customization");
+		CommonElement customization = cef.createElement(SysmlConstants.CUSTOMIZATION,  "TestCustomization",  "12345");
+		customization.createElement(project, owner,  customizationXML);
 		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Elements created successfully!");
 	}
 }

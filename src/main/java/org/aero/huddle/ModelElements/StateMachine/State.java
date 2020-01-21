@@ -62,11 +62,12 @@ public class State extends CommonElement {
 		} else {
 			CameoUtils.logGUI("No region to add InitialPseudoState " + name + " to.");
 		}
-		
-		if(xmlElement.isSubmachine()) {
-			com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;
-			state.setSubmachine((StateMachine) project.getElementByID(xmlElement.getNewSubmachine()));
-		}
+		if(xmlElement != null) {
+			if(xmlElement.isSubmachine()) {
+				com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;
+				state.setSubmachine((StateMachine) project.getElementByID(xmlElement.getNewSubmachine()));
+			}
+		}		
 		
 		SessionManager.getInstance().closeSession(project);
 		return sysmlElement;

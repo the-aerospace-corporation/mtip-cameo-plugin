@@ -1,15 +1,19 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
-import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Vertex;
+import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Transition extends CommonRelationship {
 	public Transition(String name, String EAID) {
@@ -17,12 +21,26 @@ public class Transition extends CommonRelationship {
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Transition Relationship");
 		}
+		ElementsFactory ef = project.getElementsFactory();
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = ef.createTransitionInstance();
 		
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = project.getElementsFactory().createTransitionInstance();
+		if(xmlElement.hasGuard()) {
+			Constraint constraint = ef.createConstraintInstance();
+			LiteralString specification = ef.createLiteralStringInstance();
+			specification.setValue(xmlElement.getGuard());
+			constraint.setSpecification(specification);			
+			transition.setGuard(constraint);
+		}
+		
+		if(xmlElement.hasEffect()) {
+			FunctionBehavior functionBehavior = ef.createFunctionBehaviorInstance();
+			functionBehavior.getBody().add(xmlElement.getAttribute("effect"));
+			transition.setEffect(functionBehavior);
+		}
 		
 		transition.setSource((Vertex) supplier);
 		transition.setTarget((Vertex) client);

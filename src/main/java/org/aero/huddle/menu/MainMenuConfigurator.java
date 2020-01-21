@@ -23,8 +23,7 @@ public class MainMenuConfigurator implements AMConfigurator
 	{
 		//Search for Huddle action category
 		ActionsCategory aCategory = manager.getCategory("Huddle");
-		if(aCategory == null)
-		{
+		if(aCategory == null) {
 			//Create a new category
 			aCategory = new MDActionsCategory("Huddle","Huddle");
 			aCategory.setNested(true);
@@ -50,8 +49,7 @@ public class MainMenuConfigurator implements AMConfigurator
 		aCategory.addAction(category);
 	}
 	
-	public int getPriority()
-	{
+	public int getPriority() {
 		return AMConfigurator.MEDIUM_PRIORITY;
 	}
 }

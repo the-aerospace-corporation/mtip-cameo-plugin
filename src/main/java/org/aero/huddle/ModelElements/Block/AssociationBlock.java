@@ -73,12 +73,10 @@ public class AssociationBlock extends CommonElement {
 		
 		Element client = ModelHelper.getSupplierElement(element);
 		org.w3c.dom.Element clientID = xmlDoc.createElement("client_id");
-		supplierID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
+		clientID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
 		attributes.appendChild(clientID);	
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
-		
 	}
-
 }

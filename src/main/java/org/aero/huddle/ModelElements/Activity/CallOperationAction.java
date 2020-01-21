@@ -32,9 +32,11 @@ public class CallOperationAction extends CommonElement {
 			coa.setOwner(project.getPrimaryModel());
 		}
 		
-		Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
-		coa.setOperation(operation);
-		
+		if(xmlElement != null) {
+			Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
+			coa.setOperation(operation);
+		}
+				
 		SessionManager.getInstance().closeSession(project);
 		return coa;
 	}

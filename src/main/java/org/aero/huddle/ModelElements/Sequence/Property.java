@@ -25,7 +25,7 @@ public class Property extends CommonElement {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Property Element");
 		}
-		Element sysmlElement = f.createPropertyInstance();
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property sysmlElement = f.createPropertyInstance();
 		((NamedElement)sysmlElement).setName(name);
 		
 		if(owner != null) {
@@ -37,6 +37,7 @@ public class Property extends CommonElement {
 		if(owner instanceof Interface) {
 			((NamedElement)sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
 		}
+		sysmlElement.setVisibility(VisibilityKindEnum.PUBLIC);
 		
 		SessionManager.getInstance().closeSession(project);
 		return sysmlElement;

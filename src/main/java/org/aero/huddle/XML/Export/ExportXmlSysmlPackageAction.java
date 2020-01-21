@@ -8,8 +8,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javax.swing.JOptionPane;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -21,31 +19,32 @@ import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 
-public class ExportXmlSysmlAction extends MDAction {
+public class ExportXmlSysmlPackageAction extends MDAction {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6293853861208772420L;
-	public ExportXmlSysmlAction(String id, String name)
-	{
+	private Package packageElement = null;
+	
+	public ExportXmlSysmlPackageAction(String id, String name, Package packageElement) {
 		super(id, name, null, null);
+		this.packageElement = packageElement;
 	}
+	
 	public void actionPerformed(ActionEvent e)
 	{
 		Project project = Application.getInstance().getProject();
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
 		}
-		try
-		{
-//			int n = JOptionPane.showOptionDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Select XML import type", "Choose Export Format", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-//			
+		try {
 			File file = FileSelect.chooseXMLFile();
 			if(file != null) {
-				Document doc = createDocument();
+				Document doc = ExportXmlSysmlAction.createDocument();
 				
-				ExportXmlSysml.buildXML(doc, file, null);
+				ExportXmlSysml.buildXML(doc, file, packageElement);
 				FileSelect.writeXMLToFile(doc, file);
 			}
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export complete.");
@@ -70,13 +69,5 @@ public class ExportXmlSysmlAction extends MDAction {
 			e1.printStackTrace();
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export aborted - TransformerException");
 		}
-	}
-	//Creates a Document object to be used in creating the XML output
-	public static Document createDocument() throws ParserConfigurationException	{
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		dbFactory.setNamespaceAware(true);
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.newDocument();
-		return doc;
 	}
 }

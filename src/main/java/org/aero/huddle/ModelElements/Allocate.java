@@ -1,5 +1,6 @@
 package org.aero.huddle.ModelElements;
 
+import org.aero.huddle.util.XMLItem;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -17,7 +18,7 @@ public class Allocate extends CommonRelationship{
 	}
 
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		Profile mdCustomSysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype allocateStereotype = StereotypesHelper.getStereotype(project,  "Allocate", mdCustomSysml);
 		
@@ -40,7 +41,5 @@ public class Allocate extends CommonRelationship{
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
 		// TODO Auto-generated method stub
-		
 	}
-
 }
