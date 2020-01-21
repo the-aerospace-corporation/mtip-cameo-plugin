@@ -39,6 +39,7 @@ import org.aero.huddle.ModelElements.Block.FullPort;
 import org.aero.huddle.ModelElements.Block.InstanceSpecification;
 import org.aero.huddle.ModelElements.Block.Interface;
 import org.aero.huddle.ModelElements.Block.InterfaceBlock;
+import org.aero.huddle.ModelElements.Block.InternalBlockDiagram;
 import org.aero.huddle.ModelElements.Block.Note;
 import org.aero.huddle.ModelElements.Block.Operation;
 import org.aero.huddle.ModelElements.Block.PartProperty;
@@ -61,7 +62,10 @@ import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
 import org.aero.huddle.ModelElements.Profile.Class;
 import org.aero.huddle.ModelElements.Profile.Customization;
+import org.aero.huddle.ModelElements.Profile.PackageDiagram;
+import org.aero.huddle.ModelElements.Profile.ParametricDiagram;
 import org.aero.huddle.ModelElements.Profile.Profile;
+import org.aero.huddle.ModelElements.Profile.ProfileDiagram;
 import org.aero.huddle.ModelElements.Profile.sysmlStereotype;
 import org.aero.huddle.ModelElements.Requirements.DesignConstraint;
 import org.aero.huddle.ModelElements.Requirements.ExtendedRequirement;
@@ -70,12 +74,14 @@ import org.aero.huddle.ModelElements.Requirements.InterfaceRequirement;
 import org.aero.huddle.ModelElements.Requirements.PerformanceRequirement;
 import org.aero.huddle.ModelElements.Requirements.PhysicalRequirement;
 import org.aero.huddle.ModelElements.Requirements.Requirement;
+import org.aero.huddle.ModelElements.Requirements.RequirementsDiagram;
 import org.aero.huddle.ModelElements.Sequence.CECombinedFragment;
 import org.aero.huddle.ModelElements.Sequence.Collaboration;
 import org.aero.huddle.ModelElements.Sequence.Interaction;
 import org.aero.huddle.ModelElements.Sequence.InteractionUse;
 import org.aero.huddle.ModelElements.Sequence.Lifeline;
 import org.aero.huddle.ModelElements.Sequence.Property;
+import org.aero.huddle.ModelElements.Sequence.SequenceDiagram;
 import org.aero.huddle.ModelElements.StateMachine.ChoicePseudoState;
 import org.aero.huddle.ModelElements.StateMachine.ConnectionPointReference;
 import org.aero.huddle.ModelElements.StateMachine.DeepHistory;
@@ -93,6 +99,7 @@ import org.aero.huddle.ModelElements.StateMachine.Terminate;
 import org.aero.huddle.ModelElements.StateMachine.Trigger;
 import org.aero.huddle.ModelElements.UseCase.Actor;
 import org.aero.huddle.ModelElements.UseCase.UseCase;
+import org.aero.huddle.ModelElements.UseCase.UseCaseDiagram;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 
@@ -384,15 +391,39 @@ public class CommonElementsFactory {
 				break;
 				
 			// DIAGRAMS	*********************************************************************
-			case "ActivityDiagram":
+			case SysmlConstants.ACT:
 				element = new ActivityDiagram(name, EAID);
 				break;
-			case "BlockDefinitionDiagram":
+			case SysmlConstants.BDD:
 				element = new BlockDefinitionDiagram(name, EAID);
 				break;
-			case "StateMachineDiagram":
+			case SysmlConstants.STM:
 				element = new StateMachineDiagram(name, EAID);
 				break;
+			case SysmlConstants.IBD:
+				element = new InternalBlockDiagram(name, EAID);
+				break;
+			case SysmlConstants.UC:
+				element = new UseCaseDiagram(name, EAID);
+				break;
+			case SysmlConstants.REQ:
+				element = new RequirementsDiagram(name, EAID);
+				break;
+			case SysmlConstants.SEQ:
+				element = new SequenceDiagram(name, EAID);
+				break;
+			case SysmlConstants.PAR:
+				element = new ParametricDiagram(name, EAID);
+				break;
+			case SysmlConstants.PKG:
+				element = new PackageDiagram(name, EAID);
+				break;
+			case SysmlConstants.PROFILEDIAGRAM:
+				element = new ProfileDiagram(name, EAID);
+				break;
+//			case SysmlConstants.CLASSDIAGRAM:
+//				element = new ClassDiagram(name, EAID);
+//				break;
 			default:
 				break;
 		}

@@ -1,25 +1,24 @@
-package org.aero.huddle.ModelElements.StateMachine;
+package org.aero.huddle.ModelElements.Profile;
 
 import org.aero.huddle.ModelElements.AbstractDiagram;
 import org.aero.huddle.util.XmlTagConstants;
 
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 //import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.uml.DiagramTypeConstants;
 
-public class StateMachineDiagram  extends AbstractDiagram{
+public class PackageDiagram  extends AbstractDiagram{
 
-	public StateMachineDiagram(String name, String EAID) {
+	public PackageDiagram(String name, String EAID) {
 		 super(name, EAID);
 	}
 	
 	@Override
 	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_STATE_MACHINE_DIAGRAM;
+		return 	DiagramTypeConstants.UML_PACKAGE_DIAGRAM;
 	}
 	
 	@Override
 	public String getDiagramType() {
-		return XmlTagConstants.STATEMACHINEDIAGRAM;
+		return XmlTagConstants.PACKAGEDIAGRAM;
 	}
 }

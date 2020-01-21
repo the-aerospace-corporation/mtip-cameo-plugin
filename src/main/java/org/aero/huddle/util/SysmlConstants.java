@@ -130,14 +130,14 @@ public class SysmlConstants {
 	
 	//Sysml Diagram constants
 	public static final String BDD = "BlockDefinitionDiagram";
-//	public static final String IBD = "InternalBlockDiagram";
-//	public static final String PKG = "PackageDiagram";
-//	public static final String REQ = "RequirementsDiagram";
-//	public static final String PAR = "ParametricDiagram";
+	public static final String IBD = "InternalBlockDiagram";
+	public static final String PKG = "PackageDiagram";
+	public static final String REQ = "RequirementsDiagram";
+	public static final String PAR = "ParametricDiagram";
 	public static final String STM = "StateMachineDiagram";
 	public static final String ACT = "ActivityDiagram";
-//	public static final String SEQ = "SequenceDiagram";
-//	public static final String UC = "UseCaseDiagram";
+	public static final String SEQ = "SequenceDiagram";
+	public static final String UC = "UseCaseDiagram";
 	public static final String PROFILEDIAGRAM = "ProfileDiagram";
 	public static final String CLASSDIAGRAM = "ClassDiagram";
 	

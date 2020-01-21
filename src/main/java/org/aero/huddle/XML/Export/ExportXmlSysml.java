@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.aero.huddle.ModelElements.AbstractDiagram;
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.ModelElements.CommonElementsFactory;
 import org.aero.huddle.ModelElements.CommonRelationship;
@@ -19,6 +20,8 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.magicdraw.uml.DiagramType;
+import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.ActionClass;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallBehaviorAction;
@@ -510,8 +513,23 @@ public class ExportXmlSysml {
 			commonRelationshipType = SysmlConstants.DEPENDENCY;
 			CameoUtils.logGUI("Exporting Dependency");
 		} else if(element instanceof Diagram) {
-			commonElementType = SysmlConstants.BDD;
-			CameoUtils.logGUI("Exporting Block Definition Diagram");
+			Diagram diag = (Diagram) element;
+			DiagramPresentationElement presentationDiagram;
+
+			presentationDiagram = project.getDiagram(diag);
+			DiagramType diagType = presentationDiagram.getDiagramType();
+			String diagTypeStr = presentationDiagram.getRealType();
+			
+			CameoUtils.logGUI("ACTUAL diagram type: " + diagType.getType());
+			CameoUtils.logGUI("MAPPED diagram type: " + AbstractDiagram.diagramToType.get( diagType.getType()));
+			
+			commonElementType = AbstractDiagram.diagramToType.get( diagType.getType());
+			
+//			List<String> it = DiagramType.getAllDiagramTypes();
+//			for (String str: it) {
+//				CameoUtils.logGUI("DiagramList type: " + str);
+//			}
+			
 		}
 		else {
 			CameoUtils.logGUI("Element with type: " + element.getHumanType() + " is not supported yet!!!");
