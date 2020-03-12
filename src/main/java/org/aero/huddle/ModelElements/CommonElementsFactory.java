@@ -61,7 +61,10 @@ import org.aero.huddle.ModelElements.InternalBlock.ParticipantProperty;
 import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
 import org.aero.huddle.ModelElements.Profile.Class;
+import org.aero.huddle.ModelElements.Profile.Constraint;
 import org.aero.huddle.ModelElements.Profile.Customization;
+import org.aero.huddle.ModelElements.Profile.MetaClass;
+import org.aero.huddle.ModelElements.Profile.OpaqueExpression;
 import org.aero.huddle.ModelElements.Profile.PackageDiagram;
 import org.aero.huddle.ModelElements.Profile.ParametricDiagram;
 import org.aero.huddle.ModelElements.Profile.Profile;
@@ -89,6 +92,7 @@ import org.aero.huddle.ModelElements.StateMachine.EntryPoint;
 import org.aero.huddle.ModelElements.StateMachine.ExitPoint;
 import org.aero.huddle.ModelElements.StateMachine.FinalState;
 import org.aero.huddle.ModelElements.StateMachine.Fork;
+import org.aero.huddle.ModelElements.StateMachine.FunctionBehavior;
 import org.aero.huddle.ModelElements.StateMachine.InitialPseudoState;
 import org.aero.huddle.ModelElements.StateMachine.Join;
 import org.aero.huddle.ModelElements.StateMachine.ShallowHistory;
@@ -173,6 +177,9 @@ public class CommonElementsFactory {
 			case SysmlConstants.CONNECTIONPOINTREFERENCE:
 				element = new ConnectionPointReference(name, EAID);
 				break;
+			case SysmlConstants.CONSTRAINT:
+				element = new Constraint(name, EAID);
+				break;
 			case "ConstraintBlock":
 				element = new ConstraintBlock(name, EAID);
 				break;
@@ -236,6 +243,9 @@ public class CommonElementsFactory {
 			case "FunctionalRequirement":
 				element = new FunctionalRequirement(name, EAID);
 				break;
+			case SysmlConstants.FUNCTIONBEHAVIOR:
+				element = new FunctionBehavior(name, EAID);
+				break;
 			case "InitialNode":
 				element = new InitialNode(name, EAID);
 				break;
@@ -275,6 +285,9 @@ public class CommonElementsFactory {
 			case "LoopNode":
 				element = new LoopNode(name, EAID);
 				break;
+			case SysmlConstants.METACLASS:
+				element = new MetaClass(name, EAID);
+				break;
 			case "MergeNode":
 				element = new MergeNode(name, EAID);
 				break;
@@ -286,6 +299,9 @@ public class CommonElementsFactory {
 				break;
 			case "OpaqueAction":
 				element = new OpaqueAction(name, EAID);
+				break;
+			case SysmlConstants.OPAQUEEXPRESSION:
+				element = new OpaqueExpression(name, EAID);
 				break;
 			case "Operation":
 				element = new Operation(name, EAID);

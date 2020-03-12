@@ -32,16 +32,22 @@ public class Trigger extends CommonElement {
 
 		((NamedElement)trigger).setName(name);
 		if(owner != null) {
-			trigger.setOwner(owner);
+			if(owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) {
+				trigger.set_transitionOfTrigger((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)owner);
+			}
+//			trigger.setOwner(owner);
 		} else {
 			trigger.setOwner(project.getPrimaryModel());
 		}
 		if(xmlElement != null) {
-			CameoUtils.logGUI("Setting accept event action of Trigger to AcceptEventAction with id: " + xmlElement.getNewAcceptEventAction());
-			trigger.set_acceptEventActionOfTrigger((AcceptEventAction) project.getElementByID(xmlElement.getNewAcceptEventAction()));
-			CameoUtils.logGUI("Setting Trigger Event to event with id: " + xmlElement.getNewEvent());
-			trigger.setEvent((Event) project.getElementByID(xmlElement.getNewEvent()));
-			
+			if(xmlElement.hasAcceptEventAction()) {
+				CameoUtils.logGUI("Setting accept event action of Trigger to AcceptEventAction with id: " + xmlElement.getNewAcceptEventAction());
+				trigger.set_acceptEventActionOfTrigger((AcceptEventAction) project.getElementByID(xmlElement.getNewAcceptEventAction()));
+			}
+			if(xmlElement.hasEvent()) {
+				CameoUtils.logGUI("Setting Trigger Event to event with id: " + xmlElement.getNewEvent());
+				trigger.setEvent((Event) project.getElementByID(xmlElement.getNewEvent()));
+			}
 			//Set transition of trigger if it has a transition
 		}
 		
@@ -63,14 +69,19 @@ public class Trigger extends CommonElement {
 		//Add reference to Event type of the trigger - since element is child of Trigger's parent's Activity, this must be explicitly written here
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)element;
 		Event event = trigger.getEvent();
-		org.w3c.dom.Element eventTag = xmlDoc.createElement("event");
-		eventTag.appendChild(xmlDoc.createTextNode(event.getLocalID()));
-		attributes.appendChild(eventTag);
+		if(event != null) {
+			org.w3c.dom.Element eventTag = xmlDoc.createElement("event");
+			eventTag.appendChild(xmlDoc.createTextNode(event.getLocalID()));
+			attributes.appendChild(eventTag);
+		}
 		
 		AcceptEventAction aea = trigger.get_acceptEventActionOfTrigger();
-		org.w3c.dom.Element aeaTag = xmlDoc.createElement("acceptEventAction");
-		aeaTag.appendChild(xmlDoc.createTextNode(aea.getLocalID()));
-		attributes.appendChild(aeaTag);
+		if(aea != null) {
+			org.w3c.dom.Element aeaTag = xmlDoc.createElement("acceptEventAction");
+			aeaTag.appendChild(xmlDoc.createTextNode(aea.getLocalID()));
+			attributes.appendChild(aeaTag);
+		}
+		
 
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);	

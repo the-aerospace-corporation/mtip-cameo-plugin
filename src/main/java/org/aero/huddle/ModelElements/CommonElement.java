@@ -36,7 +36,17 @@ public abstract class CommonElement {
 	
 	public abstract Element createElement(Project project, Element owner, XMLItem xmlElement);
 	
-	public abstract void writeToXML(Element element, Project project, Document xmlDoc);
+	public void writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
+				
+		// Create type field for Sysml model element types
+		org.w3c.dom.Element type = xmlDoc.createElement("type");
+		type.appendChild(xmlDoc.createTextNode(this.xmlConstant));
+		data.appendChild(type);
+		
+		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
+		root.appendChild(data);
+	}
 	
 	public static Element createClassWithStereotype(Project project, String name,  Stereotype stereotype, Element owner) {;
 		boolean externalSession = false;

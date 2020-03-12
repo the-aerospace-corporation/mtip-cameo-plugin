@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 public class XMLItem {
 	private String type = "";
@@ -35,6 +36,15 @@ public class XMLItem {
 	private HashMap<String, String> attributes = new HashMap<String, String>();
 	private List<String> childElements = new ArrayList<String>();
 	
+	private String valueSpecificationID = "";
+	private String newValueSpecificationID = "";
+
+	private String relationshipStereotype = "";
+	private String relationshipStereotypeProfile = "";
+	
+	private List<String> constrainedElements = new ArrayList<String> ();
+	private List<String> newConstrainedElements = new ArrayList<String> ();
+	
 	public XMLItem() {
 		
 	}
@@ -55,7 +65,8 @@ public class XMLItem {
 		} else if (key.equals("client_id")) {
 			setClient(value);
 		} else if (key.equals("name")) {
-			value = value.replace("(",  "").replace(")", "");
+			// Refactor with list of forbidden characters
+			value = value.replace("(",  "").replace(")", "").replace("#", "No.").replace("\"", "");
 			setName(value);
 			this.attributes.put(key, value);
 		} else if (key.equals(SysmlConstants.SUBMACHINE)) {
@@ -70,9 +81,51 @@ public class XMLItem {
 			this.guard = value;
 		} else if(key.contentEquals("effect")) {
 			this.effect = value;
+		} else if(key.contentEquals("valueSpecification")) {
+			this.newValueSpecificationID = value;
+		} else if(key.contentEquals("constrainedElement")) {
+				this.constrainedElements.add(value);
 		} else {
 			this.attributes.put(key, value);
 		}
+	}
+	
+	public void addRelationshipStereotype(String profileName, String stereotypeName) {
+		relationshipStereotypeProfile = profileName;
+		relationshipStereotype = stereotypeName;
+	}
+	
+	public String getRelationshipStereotype() {
+		return relationshipStereotype;
+	}
+	
+	public String getRelationshipStereotypeProfile() {
+		return relationshipStereotypeProfile;
+	}
+	
+	public void addNewConstrainedElement(String newConstrainedElement) {
+		newConstrainedElements.add(newConstrainedElement);
+	}
+	
+	public void addConstrainedElement(String constrainedElement) {
+		constrainedElements.add(constrainedElement);
+	}
+	
+	public List<String> getNewConstrainedElements() {
+		return newConstrainedElements;
+	}
+	
+	public List<String> getConstrainedElements() {
+		return constrainedElements;
+	}
+	
+	public String printAttributes() {
+		String list = "";
+		for(String key : attributes.keySet()) {
+			list += key + ", ";
+		}
+		list = list.substring(0, list.length() - 2);
+		return list;
 	}
 	public void setClient(String client) {
 		this.client = client;
@@ -98,6 +151,16 @@ public class XMLItem {
 		return stereotypes;
 	}
 	
+	public boolean hasStereotypes() {
+		return !stereotypes.isEmpty();
+	}
+	public boolean hasAttribute(String key) {
+		Set<String> keys = attributes.keySet();
+		if(keys.contains(key)) {
+			return true;
+		}
+		return false;
+	}
 	public List<String> getChildElements(Map<String, XMLItem> parsedXML) {
 		List<String> existingChildElements = new ArrayList<String>();
 		for(String childElement : this.childElements) { 
@@ -136,6 +199,20 @@ public class XMLItem {
 	}
 	public String getSupplier() {
 		return supplier;
+	}
+	
+	public boolean hasClient() {
+		if(!client.isEmpty() && client != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean hasSupplier() {
+		if(!client.isEmpty() && client != null) {
+			return true;
+		}
+		return false;
 	}
 	public String getCameoID() {
 		return cameo_id;
@@ -194,6 +271,29 @@ public class XMLItem {
 //	public void setTrigger(String trigger) {
 //		this.trigger = trigger;
 //	}
+	
+	public boolean hasValueSpecification() {
+		if(valueSpecificationID.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	public void setValueSpecification(String valueSpecificationID) {
+		this.valueSpecificationID = valueSpecificationID;
+	}
+	
+	public String getValueSpecification() {
+		return valueSpecificationID;
+	}
+	
+	public void setNewValueSpecification(String newValueSpecificationID) {
+		this.newValueSpecificationID = newValueSpecificationID;
+	}
+	
+	public String getNewValueSpecification() {
+		return newValueSpecificationID;
+	}
 	
 	public String getAcceptEventAction() {
 		return acceptEventAction;

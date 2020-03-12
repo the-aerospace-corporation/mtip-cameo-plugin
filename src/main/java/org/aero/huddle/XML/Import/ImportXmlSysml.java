@@ -16,7 +16,6 @@ import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.ModelElements.CommonRelationshipsFactory;
 import org.aero.huddle.ModelElements.ModelDiagram;
 import org.aero.huddle.util.CameoUtils;
-import org.aero.huddle.util.HuddleUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.apache.commons.collections.MapUtils;
@@ -27,10 +26,14 @@ import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
+import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -42,11 +45,22 @@ public class ImportXmlSysml {
     private static HashMap<String, XMLItem> stereotypesXML = new HashMap<String, XMLItem>();
     private static HashMap<String, XMLItem> profileXML = new HashMap<String, XMLItem>();
     private static Project project = Application.getInstance().getProject();
+//	possible way to get active project instead of random project
+//    ProjectsManager pm = Application.getInstance().getProjectsManager();
+//    Project p = pm.getActiveProject();   
     
     private static Element primaryLocation = null;
     
 	public static void createModel(Document doc, Element start) throws NullPointerException {
+		//Reset class variables - if a previous import has been informed, old data may persist.
+		linktoPair = new HashMap<String,Entry<Element, Element>>();
+		diagramMap = new HashMap<ModelDiagram,Diagram>();
+		completeXML = new HashMap<String, XMLItem>();
+		stereotypesXML = new HashMap<String, XMLItem>();
+		profileXML = new HashMap<String, XMLItem>();
+		project = Application.getInstance().getProject();
 		//Set location for imported model. Start may be a package selected on containment tree for import. If null, imported model will default to main project Model.
+		
 		if(start == null) {
 			primaryLocation = project.getPrimaryModel();
 		} else {
@@ -62,7 +76,7 @@ public class ImportXmlSysml {
 		buildModelMap(dataNodes);
 		buildStereotypesTree();
 		
-		HuddleUtils.createHUDDLEProfile(project);
+//		HuddleUtils.createHUDDLEProfile(project);
 		buildModel(profileXML);
 		buildModel(completeXML);
 		
@@ -74,16 +88,15 @@ public class ImportXmlSysml {
 		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
 			XMLItem modelElement = entry.getValue();
 			String id = entry.getKey();
-
+			
+			CameoUtils.logGUI(modelElement.getEAID());
 			if (modelElement.getCategory().equals(SysmlConstants.ELEMENT)) {
 				if (parentMap.get(id) == null) {
-					CameoUtils.logGUI("Building Element from next XMLItem");
 					buildElement(project, parentMap, parsedXML, modelElement, id);
 				}
 			}
 			if (modelElement.getCategory().equals(SysmlConstants.RELATIONSHIP)) {
 				if (parentMap.get(id) == null) {
-					CameoUtils.logGUI("Building Relationship from next XMLItem");
 					buildRelationship(project, parentMap, parsedXML, modelElement, id);
 				}
 			}
@@ -117,7 +130,7 @@ public class ImportXmlSysml {
 	}
 
 	public static Element getOrBuildElement(Project project, HashMap<String, String> parentMap,
-			Map<String, XMLItem> parsedXML, String eaID) {
+		Map<String, XMLItem> parsedXML, String eaID) {
 		String cameoUnique = parentMap.get(eaID);
 
 		if (cameoUnique == null) {
@@ -179,8 +192,7 @@ public class ImportXmlSysml {
         return newElement;
 	}
 	
-	public static Element buildRelationship(Project project, HashMap<String, String> parentMap, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
-		CameoUtils.logGUI("Starting Build Relationship");
+	public static Element buildRelationship(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
@@ -214,10 +226,20 @@ public class ImportXmlSysml {
 			client = (Element) project.getElementByID(clientCameoID);
 		} else {
 			String clientEAID = modelElement.getClient();
-			XMLItem clientElement = parsedXML.get(clientEAID);
-			client = buildElement(project, parentMap, parsedXML, clientElement, clientEAID);
+			if(clientEAID.startsWith("_")) {
+				client = (Element)project.getElementByID(clientCameoID);
+			}
+			
+			if(clientEAID.startsWith("_9_") && client == null) {
+				client = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
+				CameoUtils.logGUI(client.getLocalID());
+			}
+			if(client == null) {
+				XMLItem clientElement = parsedXML.get(clientEAID);
+				client = buildElement(project, parentMap, parsedXML, clientElement, clientEAID);
+			}
 		}
-				
+		
 		//Get supplier element in Cameo if it exists or create element and set new element to supplier
 		supplierCameoID = parentMap.get(modelElement.getSupplier());
 		
@@ -231,6 +253,7 @@ public class ImportXmlSysml {
 			if(supplierEAID.startsWith("_")) {
 				supplier = (Element) project.getElementByID(supplierEAID);
 			}
+
 			if(supplier == null) {
 				XMLItem supplierElement = parsedXML.get(supplierEAID);
 				supplier = buildElement(project, parentMap, parsedXML, supplierElement, supplierEAID);
@@ -276,7 +299,12 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element buildElement(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
-		CameoUtils.logGUI("Starting Build Element of type: " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID());
+		if(modelElement.hasAttribute("name")) {
+			CameoUtils.logGUI("Starting Build Element with name: " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID());
+		} else {
+			CameoUtils.logGUI("Starting Build Element with no name of type: " + modelElement.getType() + " and id: " + modelElement.getEAID());
+		}
+		
 		CommonElementsFactory cef = new CommonElementsFactory();
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
@@ -292,6 +320,8 @@ public class ImportXmlSysml {
 			String category = ownerElement.getCategory();
 			if(category.equals(SysmlConstants.ELEMENT)) {
 				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
+			} else if (category.equals(SysmlConstants.RELATIONSHIP)) {
+				owner = buildRelationship(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
 			} else if (category.equals(SysmlConstants.DIAGRAM)) {
 			//	owner = buildDiagram(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
 			} else {
@@ -319,11 +349,59 @@ public class ImportXmlSysml {
 				modelElement.setNewAcceptEventAction(acceptEventAction.getLocalID());
 			}
 		}
+		
 		if(modelElement.getType().contentEquals(SysmlConstants.CALLOPERATIONACTION)) {
 			Element operation = buildElement(project, parentMap, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
 			modelElement.setNewOperation(operation.getLocalID());
 		}
 		
+		if(modelElement.getType().contentEquals(SysmlConstants.CONSTRAINT)) {
+			for(String constrainedElement : modelElement.getConstrainedElements()) {
+				if(constrainedElement.startsWith("_9_")) {
+					Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
+					modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
+				} else {
+					Element constrainedCameoElement = getOrBuildElement(project, parentMap, parsedXML, constrainedElement);
+					modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
+				}
+				
+			}
+			if(modelElement.hasValueSpecification()) {
+				Element valueSpecification = getOrBuildElement(project, parentMap, parsedXML, modelElement.getValueSpecification());
+				modelElement.setNewValueSpecification(valueSpecification.getLocalID());
+			}
+		}
+		
+		if(modelElement.getType().contentEquals(SysmlConstants.CUSTOMIZATION)) {
+			if(modelElement.hasClient()) {
+				String clientID = modelElement.getClient();
+				if(parsedXML.containsKey(clientID)) {
+					Element client = getOrBuildElement(project, parentMap,parsedXML, clientID);
+					modelElement.addAttribute("client", client.getLocalID());
+				}
+			}
+			if(modelElement.hasSupplier()) {
+				String supplierID = modelElement.getSupplier();
+				if(parsedXML.containsKey(supplierID)) {
+					Element supplier = getOrBuildElement(project, parentMap, parsedXML, modelElement.getSupplier());
+					modelElement.addAttribute("supplier",  supplier.getLocalID());
+				}
+			}
+
+			if(modelElement.getAttribute("customizationType").contentEquals("stereotyped relationship")) {
+				String customizationTargetID = modelElement.getAttribute("customizationTargetID");
+				if(customizationTargetID != null && !customizationTargetID.isEmpty()) {
+					if(parsedXML.containsKey(customizationTargetID)) {
+						Element stereotype = getOrBuildElement(project, parentMap, parsedXML, customizationTargetID);
+						modelElement.addAttribute("customizationTarget", stereotype.getLocalID());
+					}
+				}
+			}
+			String isInclusive = modelElement.getAttribute("isInclusiveOfBaseClass");
+			if(isInclusive.contentEquals("true")) {
+				//Build two more customizations here to restrict the relationships allowed.
+			}
+		}
 		
 		if(!modelElement.isCreated()) {
 			if(ownerElement != null) {
@@ -344,6 +422,7 @@ public class ImportXmlSysml {
 				if(!MapUtils.isEmpty(stereotypes)) {
 					for(String stereotype : stereotypes.keySet()) {
 						addStereotype(newElement, stereotype, stereotypes.get(stereotype));
+						addStereotypeFields(newElement, modelElement);
 					}
 				}
 				return newElement;
@@ -421,8 +500,10 @@ public class ImportXmlSysml {
 		if(parentID != "") {
 			profileXML.put(parentID, completeXML.get(parentID));
 			XMLItem nextParent = completeXML.get(parentID);
-			String nextParentID = nextParent.getParent();
-			addParentToProfileXML(nextParentID);
+			if(nextParent != null) {
+				String nextParentID = nextParent.getParent();
+				addParentToProfileXML(nextParentID);
+			}
 		}
 	}
 	
@@ -438,6 +519,31 @@ public class ImportXmlSysml {
 				Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 				if(stereotype != null) {
 					StereotypesHelper.addStereotype(newElement,  stereotype);
+				}
+			}
+		}
+	}
+	
+	public static void addStereotypeFields(Element newElement, XMLItem xmlElement) {
+		// Need more robust way of doing this including all fields of all stereotypes... eventually
+		// Have list of properties for each stereotype, iterate through them and update if xmlElement has equivalent field
+		if(newElement instanceof Constraint) {
+			List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(newElement);
+			com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile validationProfile = StereotypesHelper.getProfile(project,  "Validation Profile");
+			Stereotype validationRule = StereotypesHelper.getStereotype(project, "validationRule", validationProfile);
+			
+			//Must check if constraint has validation rule stereotype that holds these attributes
+			if(stereotypes.contains(validationRule)) {
+				if(xmlElement.hasAttribute("severity")) {
+					Enumeration severityKind = Finder.byQualifiedName().find(project, "UML Standard Profile::Validation Profile::SeverityKind");
+					for(EnumerationLiteral el : severityKind.getOwnedLiteral()) {
+						if(el.getName().contentEquals(xmlElement.getAttribute("severity"))) {
+							StereotypesHelper.setStereotypePropertyValue(newElement, validationRule, "severity", el);
+						}
+					}
+				}
+				if(xmlElement.hasAttribute("errorMessage")) {
+					StereotypesHelper.setStereotypePropertyValue(newElement, validationRule, "errorMessage", xmlElement.getAttribute("errorMessage"));
 				}
 			}
 		}
@@ -469,6 +575,10 @@ public class ImportXmlSysml {
 				if(attribute.getNodeName().contentEquals("stereotype")) {
 					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
 					modelElement.addStereotype(attribute.getTextContent(), attributeElement.getAttribute("profile"));
+				} else if (attribute.getNodeName().contentEquals("relationshipStereotype")) {
+					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
+					modelElement.addRelationshipStereotype(attributeElement.getAttribute("profile"), attribute.getTextContent());
+					modelElement.addAttribute("customizationTargetID", attributeElement.getAttribute("id"));
 				} else {
 					modelElement.addAttribute(attribute.getNodeName(), attribute.getTextContent());
 				}
@@ -787,5 +897,9 @@ public class ImportXmlSysml {
 		CommonElement customization = cef.createElement(SysmlConstants.CUSTOMIZATION,  "TestCustomization",  "12345");
 		customization.createElement(project, owner,  customizationXML);
 		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Elements created successfully!");
+	}
+	
+	public static void setProject() {
+		Application.getInstance().getProject();
 	}
 }

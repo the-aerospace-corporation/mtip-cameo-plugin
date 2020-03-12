@@ -97,8 +97,8 @@ public abstract class CommonRelationship {
 		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) {
 			// Cameo reads client and supplier reverse for extensions for some reason
 			if(element instanceof Extension) {
-				supplier = ModelHelper.getClientElement(element);
-				client = ModelHelper.getSupplierElement(element);
+				client = ModelHelper.getClientElement(element);
+				supplier = ModelHelper.getSupplierElement(element);
 			} else {
 				supplier = ModelHelper.getSupplierElement(element);
 				client = ModelHelper.getClientElement(element);

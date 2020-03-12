@@ -309,6 +309,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					//&& (!type.toLowerCase().equals("generalization")) 
 					//&& (!type.toLowerCase().equals("instance specification")) 
 					&& (!type.toLowerCase().equals("interface realization")) 
+					&& (!type.toLowerCase().equals("generalization")) 
+					&& (!type.toLowerCase().equals("control flow")) 
+					&& (!type.toLowerCase().equals("object flow")) 
 					) { 
 					// For now, skip associations in the diagram. They are added via relationships.
 					String curID = curElement.getID();

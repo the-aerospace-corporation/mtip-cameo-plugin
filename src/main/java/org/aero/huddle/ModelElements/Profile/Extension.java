@@ -25,6 +25,7 @@ public class Extension extends CommonRelationship {
 		
 		//Supplier and Client are seemingly flipped in XML
 		com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension extension = project.getElementsFactory().createExtensionInstance();
+		// Directionality is reversed from expected. Export reverses as well to be 'correct' way in XML and import into EA. 
 		ModelHelper.setClientElement(extension, client);
 		ModelHelper.setSupplierElement(extension, supplier);
 		extension.setName(name);
@@ -36,9 +37,12 @@ public class Extension extends CommonRelationship {
 		ModelHelper.setNavigable(firstMemberEnd, true);
 		firstMemberEnd.setOwner(client);
 		
+		
 		secondMemberEnd.setAggregation(AggregationKindEnum.COMPOSITE);
 		ModelHelper.setNavigable(secondMemberEnd, true);
 		secondMemberEnd.setOwner(extension);
+		
+		
 		
 		SessionManager.getInstance().closeSession(project);
 		return extension;

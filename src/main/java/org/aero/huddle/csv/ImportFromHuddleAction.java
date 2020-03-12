@@ -1,37 +1,42 @@
 package org.aero.huddle.csv;
 
 import java.awt.event.ActionEvent;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
+import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
+import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
+import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.layout.LayoutManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.magicdraw.*;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.impl.ElementsFactory;
-import com.opencsv.CSVReader;
-import com.nomagic.magicdraw.core.project.ProjectsManager;
-import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
-import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
-import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.impl.ElementsFactory;
 
 ///////////////////////		NOTICE		///////////////////////
 
@@ -139,24 +144,25 @@ public class ImportFromHuddleAction extends MDAction
 	//Wrapper list contains the rows, inner list contains the row elements
 	public static ArrayList<ArrayList<String>> parseCSV(File csvfile)
 	{
-		List<String[]> myentries = null;
-		try
-		{
-			CSVReader reader = new CSVReader(new FileReader(csvfile));
-			myentries = reader.readAll();
-			reader.close();
-		}
-		catch(IOException ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		ArrayList<ArrayList<String>> csvline = new ArrayList<ArrayList<String>>();
-		for(int i = 0; i < myentries.size(); i++)
-		{
-			ArrayList<String> line = new ArrayList<String>(Arrays.asList(myentries.get(i)));
-			csvline.add(line);
-		}
-		return csvline;
+//		List<String[]> myentries = null;
+//		try
+//		{
+//			CSVReader reader = new CSVReader(new FileReader(csvfile));
+//			myentries = reader.readAll();
+//			reader.close();
+//		}
+//		catch(IOException ex)
+//		{
+//			System.out.println(ex.getMessage());
+//		}
+//		ArrayList<ArrayList<String>> csvline = new ArrayList<ArrayList<String>>();
+//		for(int i = 0; i < myentries.size(); i++)
+//		{
+//			ArrayList<String> line = new ArrayList<String>(Arrays.asList(myentries.get(i)));
+//			csvline.add(line);
+//		}
+//		return csvline;
+		return null;
 	}
 	
 	//Returns a list of any keys used by the provided elements (i.e., any CSV rows of the given element type that have a value associated with a key)

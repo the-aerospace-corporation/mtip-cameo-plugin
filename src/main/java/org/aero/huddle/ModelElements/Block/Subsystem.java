@@ -39,9 +39,9 @@ public class Subsystem extends CommonElement {
 		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.BLOCK));
 		data.appendChild(type);
 		
-		org.w3c.dom.Element stereotype = xmlDoc.createElement("stereotype");
-		stereotype.appendChild(xmlDoc.createTextNode(XmlTagConstants.SUBSYSTEMSTEREOTYPE));
-		attributes.appendChild(stereotype);
+//		org.w3c.dom.Element stereotype = xmlDoc.createElement("stereotype");
+//		stereotype.appendChild(xmlDoc.createTextNode(XmlTagConstants.SUBSYSTEMSTEREOTYPE));
+//		attributes.appendChild(stereotype);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);

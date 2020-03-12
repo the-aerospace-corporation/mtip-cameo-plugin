@@ -62,6 +62,15 @@ public class CameoUtils {
 			return findNearestRegion(project, nextOwner);
 		}
 	}
+	public static Element findNearestBlock(Project project, Element owner) {
+		CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
+		if(SysMLProfile.isBlock(owner)) {
+			return owner;
+		} else {
+			Element nextOwner = owner.getOwner();
+			return findNearestBlock(project, nextOwner);
+		}
+	}
 	
 	public static Element findNearestActivity(Project project, Element owner) {
 		CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
@@ -81,6 +90,17 @@ public class CameoUtils {
 			return auxiliaryStereotype;
 		}
 		return null;
+	}
+	
+	public static boolean isCustomization(Project project, Element element) {
+		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
+		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
+		
+		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
+		if(stereotypes.contains(customizationStereotype)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public static Stereotype getModelLibraryStereotype() {

@@ -17,15 +17,15 @@ public class Model extends CommonElement{
 	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Model Element");
-		}
-		Element model = project.getPrimaryModel();
-//		((NamedElement)model).setName(name);
-				
-		SessionManager.getInstance().closeSession(project);
-		return model;
+//		ElementsFactory f = project.getElementsFactory();
+//		if (!SessionManager.getInstance().isSessionCreated(project)) {
+//			SessionManager.getInstance().createSession(project, "Create Model Element");
+//		}
+//		Element model = project.getPrimaryModel();
+////		((NamedElement)model).setName(name);
+//				
+//		SessionManager.getInstance().closeSession(project);
+		return project.getPrimaryModel();
 	}
 
 	@Override

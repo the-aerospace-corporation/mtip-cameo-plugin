@@ -28,11 +28,12 @@ public class SysmlConstants {
 	public static final String COMBINEDFRAGMENT = "CombinedFragment";
 	public static final String CONDITIONALNODE = "ConditionalNode";
 	public static final String CONNECTIONPOINTREFERENCE = "ConnectionPointReference";
+	public static final String CONSTRAINT = "Constraint";
 	public static final String CONSTRAINTBLOCK = "ConstraintBlock";
 	public static final String CONSTRAINTPARAMETER = "ConstraintParameter";
 	public static final String CONSTRAINTPROPERTY = "ConstraintProperty";
 	public static final String CREATEOBJECTACTION = "CreateObjectAction";
-	public static final String CUSTOMIZATION = "Customization";
+	public static final String CUSTOMIZATION = "RelationshipConstraint";
 	public static final String DATASTORENODE = "DataStoreNode";
 	public static final String DECISIONNODE = "DecisionNode";
 	public static final String DEEPHISTORY = "DeepHistory";
@@ -49,6 +50,7 @@ public class SysmlConstants {
 	public static final String FORKNODE = "ForkNode";
 	public static final String FULLPORT = "FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "FunctionalRequirement";
+	public static final String FUNCTIONBEHAVIOR = "FunctionBehavior";
 	public static final String INITIALNODE = "InitialNode";
 	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
 	public static final String INPUTPIN = "InputPin";
@@ -63,9 +65,11 @@ public class SysmlConstants {
 	public static final String LIFELINE = "Lifeline";
 	public static final String LOOPNODE = "LoopNode";
 	public static final String MERGENODE = "MergeNode";
+	public static final String METACLASS = "Metaclass";
 	public static final String MODEL = "Model";
-	public static final String OPERATION = "Operation";
 	public static final String OPAQUEACTION = "OpaqueAction";
+	public static final String OPAQUEEXPRESSION = "OpaqueExpression";
+	public static final String OPERATION = "Operation";
 	public static final String OUTPUTPIN = "OutputPin";
 	public static final String PACKAGE = "Package";
 	public static final String PARTICIPANTPROPERTY = "ParticipantProperty";
@@ -169,6 +173,7 @@ public class SysmlConstants {
 			COMBINEDFRAGMENT,
 			CONDITIONALNODE,
 			CONNECTIONPOINTREFERENCE,
+			CONSTRAINT,
 			CONSTRAINTBLOCK,
 			CONSTRAINTPARAMETER,
 			CONSTRAINTPROPERTY,
@@ -191,6 +196,7 @@ public class SysmlConstants {
 			FORKNODE,
 			FULLPORT,
 			FUNCTIONALREQUIREMENT,
+			FUNCTIONBEHAVIOR,
 			INITIALNODE,
 			INITIALPSEUDOSTATE,
 			INPUTPIN,
@@ -205,8 +211,10 @@ public class SysmlConstants {
 			LIFELINE,
 			LOOPNODE,
 			MERGENODE,
+			METACLASS,
 			MODEL,
 			OPAQUEACTION,
+			OPAQUEEXPRESSION,
 			OPERATION,
 			OUTPUTPIN,
 			PACKAGE,

@@ -40,7 +40,11 @@ public class ObjectFlow extends CommonRelationship {
 				CameoUtils.logGUI(sw.toString());
 			}
 			((NamedElement)objectFlow).setName(name);
-			objectFlow.setOwner(owner);
+			if(owner instanceof Activity) {
+				objectFlow.setOwner(owner);
+			} else {
+				objectFlow.setOwner(CameoUtils.findNearestActivity(project, owner));
+			}
 			
 			SessionManager.getInstance().closeSession(project);
 			return objectFlow;

@@ -1,12 +1,14 @@
 package org.aero.huddle.ModelElements.InternalBlock;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -38,7 +40,12 @@ public class Connector extends CommonRelationship {
 		}
 		
 		((NamedElement)connector).setName(name);
-		connector.setOwner(owner);
+		if(owner == null || !(SysMLProfile.isBlock(owner))) {
+			CameoUtils.findNearestBlock(project, supplier);
+		} else {
+			connector.setOwner(owner);
+		}
+		
 		SessionManager.getInstance().closeSession(project);
 		return connector;
 	}

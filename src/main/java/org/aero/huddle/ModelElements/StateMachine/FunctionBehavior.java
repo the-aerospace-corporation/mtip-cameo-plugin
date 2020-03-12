@@ -1,6 +1,4 @@
-package org.aero.huddle.ModelElements.Block;
-
-import java.util.HashMap;
+package org.aero.huddle.ModelElements.StateMachine;
 
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.XMLItem;
@@ -8,32 +6,38 @@ import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
+import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class Block extends CommonElement {
-	public Block(String name, String EAID) {
+public class FunctionBehavior extends CommonElement {
+
+	public FunctionBehavior(String name, String EAID) {
 		super(name, EAID);
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.BLOCK_STEREOTYPE, sysmlProfile);
-		// find other stereotypes - Domain, External, etc.
-//		if(xmlElement.hasStereotypes()) {
-//			HashMap<String, String> stereotypes = xmlElement.getStereotypes();
-//			for()
-//			Profile profile = 
-//		}
-		
-		if (blockStereotype != null) {
-			return createClassWithStereotype(project, name, blockStereotype, owner);
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create Functional Behavior Relationship");
 		}
-		return null;
+		
+		Element element = project.getElementsFactory().createFunctionBehaviorInstance();
+		((NamedElement)element).setName(name);
+		
+		if(owner != null) {
+			element.setOwner(owner);
+		} else {
+			element.setOwner(project.getPrimaryModel());
+		}
+		
+		SessionManager.getInstance().closeSession(project);
+		return element;
 	}
 
 	@Override
@@ -44,8 +48,9 @@ public class Block extends CommonElement {
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.BLOCK));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.FUNCTIONBEHAVIOR));
 		data.appendChild(type);
+
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);

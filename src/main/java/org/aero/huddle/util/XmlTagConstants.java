@@ -29,10 +29,12 @@ public class XmlTagConstants
 	public static final String COMBINEDFRAGMENT = "sysml.CombinedFragment";
 	public static final String CONDITIONALNODE = "sysml.ConditionalNode";
 	public static final String CONNECTIONPOINTREFERENCE = "sysml.ConnectionPointReference";
+	public static final String CONSTRAINT = "sysml.Constraint";
 	public static final String CONSTRAINTBLOCK = "sysml.ConstraintBlock";
 	public static final String CONSTRAINTPARAMETER = "sysml.ConstraintParameter";
 	public static final String CONSTRAINTPROPERTY = "sysml.ConstraintProperty";
 	public static final String CREATEOBJECTACTION = "sysml.CreateObjectAction";
+	public static final String CUSTOMIZATION = "profile.RelationshipConstraint";
 	public static final String DATASTORENODE = "sysml.DataStoreNode";
 	public static final String DECISIONNODE = "sysml.DecisionNode";
 	public static final String DEEPHISTORY = "sysml.DeepHistory";
@@ -49,6 +51,7 @@ public class XmlTagConstants
 	public static final String FORKNODE = "sysml.ForkNode";
 	public static final String FULLPORT = "sysml.FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "sysml.FunctionalRequirement";
+	public static final String FUNCTIONBEHAVIOR = "sysml.FunctionBehavior";
 	public static final String INITIALNODE = "sysml.InitialNode";
 	public static final String INITIALPSEUDOSTATE = "sysml.InitialPseudoState";
 	public static final String INPUTPIN = "sysml.InputPin";
@@ -66,7 +69,9 @@ public class XmlTagConstants
 	public static final String OPAQUEACTION = "sysml.OpaqueAction";
 	public static final String OUTPUTPIN = "sysml.OutputPin";
 	public static final String MERGENODE = "sysml.MergeNode";
+	public static final String METACLASS = "sysml.Metaclass";
 	public static final String MODEL = "sysml.Model";
+	public static final String OPAQUEEXPRESSION = "sysml.OpaqueExpression";
 	public static final String OPERATION = "sysml.Operation";
 	public static final String PARTICIPANTPROPERTY = "sysml.ParticipantProperty";
 	public static final String PARTPROPERTY = "sysml.PartProperty";
@@ -134,6 +139,12 @@ public class XmlTagConstants
 	public static final String PARAMETRICDIAGRAM = "sysml.ParametricDiagram";
 	public static final String PACKAGEDIAGRAM = "sysml.PackageDiagram";
 	public static final String PROFILEDIAGRAM = "sysml.ProfileDiagram";
+	
+	//XML Tags
+	public static final String CLIENT_ID = "client_id";
+	public static final String SUPPLIER_ID = "supplier_id";
+	public static final String RELATIONSHIP_STEREOTYPE = "relationshipStereotype";
+	
 	
 	//SysML nomenclature, but not elements
 	public static final String APPLIEDSTEREOTYPE = "appliedStereotype";

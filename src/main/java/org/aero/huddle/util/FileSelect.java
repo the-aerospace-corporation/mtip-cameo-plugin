@@ -26,6 +26,7 @@ public class FileSelect
 	public static File chooseXMLFileOpen() throws FileNotFoundException
 	{
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents" + System.getProperty("file.separator") + "Demo");
+//		chooser.setMultiSelectionEnabled(true);
 		int option = chooser.showOpenDialog(null);
 		
 		if(option == JFileChooser.APPROVE_OPTION)

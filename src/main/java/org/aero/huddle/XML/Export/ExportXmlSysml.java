@@ -19,9 +19,9 @@ import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.ActionClass;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallBehaviorAction;
@@ -54,15 +54,19 @@ import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Usage;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.TimeEvent;
@@ -229,7 +233,7 @@ public class ExportXmlSysml {
 		} else if (SysMLProfile.isBindingConnector(element)) {
 			commonRelationshipType = SysmlConstants.BINDINGCONNECTOR;
 			CameoUtils.logGUI("Exporting Binding Connector");
-		} else if(CameoUtils.isBlock(element, project)) {
+		} else if(SysMLProfile.isBlock(element)) {
 			commonElementType = SysmlConstants.BLOCK;
 			CameoUtils.logGUI("Exporting Block");
 		} else if (SysMLProfile.isBoundReference(element)) {
@@ -265,6 +269,16 @@ public class ExportXmlSysml {
 		} else if (element instanceof Connector) {
 			commonRelationshipType = SysmlConstants.CONNECTOR;
 			CameoUtils.logGUI("Exporting Connector Relationship");
+		} else if(element instanceof Constraint) {
+			Constraint constraint = (Constraint)element;
+			ValueSpecification vs = constraint.getSpecification();
+			if(vs instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
+				OpaqueExpression oe = (OpaqueExpression)vs;
+				exportElement(oe, project, xmlDoc);
+			}
+			// Add support for other types of Value Specifications here
+			commonElementType = SysmlConstants.CONSTRAINT;
+			CameoUtils.logGUI("Exporting Constraint");
 		} else if(SysMLProfile.isConstraintBlock(element)) {
 			commonElementType = SysmlConstants.CONSTRAINTBLOCK;
 			CameoUtils.logGUI("Exporting Constraint Block");
@@ -280,6 +294,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof CreateObjectAction) {
 			commonElementType = SysmlConstants.CREATEOBJECTACTION;
 			CameoUtils.logGUI("Exporting Create Object Action");
+		} else if(CameoUtils.isCustomization(project, element)) {
+			commonElementType = SysmlConstants.CUSTOMIZATION;
+			CameoUtils.logGUI("Exporting Customization");
 		} else if(element instanceof DataStoreNode) {
 			commonElementType = SysmlConstants.DATASTORENODE;
 			CameoUtils.logGUI("Exporting Data Store Node");
@@ -328,6 +345,9 @@ public class ExportXmlSysml {
 		} else if(CameoUtils.isFunctionalRequirement(element, project)) {
 			commonElementType = SysmlConstants.FUNCTIONALREQUIREMENT;
 			CameoUtils.logGUI("Exporting Functional Requirement");
+		} else if(element instanceof FunctionBehavior) {
+			commonElementType = SysmlConstants.FUNCTIONBEHAVIOR;
+			CameoUtils.logGUI("Exporting Function Behavior");
 		} else if(element instanceof Generalization) {
 			commonRelationshipType = SysmlConstants.GENERALIZATION;
 			CameoUtils.logGUI("Exporting Generalization");
@@ -382,6 +402,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof ObjectFlow) {
 			commonRelationshipType = SysmlConstants.OBJECTFLOW;
 			CameoUtils.logGUI("Exporting Object Flow");
+		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
+			commonElementType = SysmlConstants.OPAQUEEXPRESSION;
+			CameoUtils.logGUI("Exporting Opaque Expression");
 		} else if(element instanceof OpaqueAction) {
 			commonElementType = SysmlConstants.OPAQUEACTION;
 			CameoUtils.logGUI("Exporting Opaque Action");
