@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -108,24 +109,24 @@ public abstract class CommonRelationship {
 			CameoUtils.logGUI("Unable to cast relationship to DirectedRelationship or ActivityEdge to find client and supplier.");
 		}
 		
+		//Add Relationship Tag
+		org.w3c.dom.Element relationship = xmlDoc.createElement("relationships");
+		
 		if(supplier != null) {
-			org.w3c.dom.Element supplierID = xmlDoc.createElement("supplier_id");
+			org.w3c.dom.Element supplierID = xmlDoc.createElement(XmlTagConstants.SUPPLIER);
 			supplierID.appendChild(xmlDoc.createTextNode(supplier.getLocalID()));
-			attributes.appendChild(supplierID);	
+			relationship.appendChild(supplierID);	
 		} else {
 			CameoUtils.logGUI("No supplier element found.");
 		}
 		
 		if(client != null) {
-			org.w3c.dom.Element clientID = xmlDoc.createElement("client_id");
+			org.w3c.dom.Element clientID = xmlDoc.createElement(XmlTagConstants.CLIENT);
 			clientID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
-			attributes.appendChild(clientID);
+			relationship.appendChild(clientID);
 		} else {
 			CameoUtils.logGUI("No client element found");
 		}
-		
-		//Add parent relationship
-		org.w3c.dom.Element relationship = xmlDoc.createElement("relationships");
 		
 		if(element.getOwner() != null) {
 			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");

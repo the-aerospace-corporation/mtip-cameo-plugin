@@ -33,9 +33,8 @@ public class ImportAction extends MDAction {
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
 		}
-		try
-		{
-			File file = FileSelect.chooseXMLFileOpen();
+		try		{
+			File file = FileSelect.chooseXMLFile();
 			Document doc = FileSelect.createDocument(file);
 			doc.getDocumentElement().normalize();
 			

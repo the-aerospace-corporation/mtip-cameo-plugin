@@ -7,8 +7,13 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.uml2.ext.magicdraw.mdusecases.UseCase;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Class extends CommonElement {
@@ -22,13 +27,30 @@ public class Class extends CommonElement {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Class Element");
 		}
-		Element sysmlElement = f.createClassInstance();
-		((NamedElement)sysmlElement).setName(name);
 		
-		if(owner != null) {
-			sysmlElement.setOwner(owner);
+		Element sysmlElement = null;
+
+		if(xmlElement.hasStereotypes()) {
+			Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+			Stereotype blockStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.BLOCK_STEREOTYPE, sysmlProfile);
+			// Remove this check after the demo
+			if(owner instanceof UseCase) {
+				owner = project.getPrimaryModel();
+			}
+			sysmlElement = createClassWithStereotype(project, name, blockStereotype, owner);
 		} else {
-			sysmlElement.setOwner(project.getPrimaryModel());
+			sysmlElement = f.createClassInstance();
+			((NamedElement)sysmlElement).setName(name);
+			
+			if(owner != null) {
+				if(owner instanceof UseCase) {
+					sysmlElement.setOwner(project.getPrimaryModel());
+				} else {
+					sysmlElement.setOwner(owner);
+				}
+			} else {
+				sysmlElement.setOwner(project.getPrimaryModel());
+			}
 		}
 		
 		SessionManager.getInstance().closeSession(project);

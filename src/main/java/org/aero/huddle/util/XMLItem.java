@@ -43,7 +43,7 @@ public class XMLItem {
 	private String relationshipStereotypeProfile = "";
 	
 	private List<String> constrainedElements = new ArrayList<String> ();
-	private List<String> newConstrainedElements = new ArrayList<String> ();
+	private List<String> newConstrainedElements = new ArrayList<String>();
 	
 	public XMLItem() {
 		
@@ -60,9 +60,9 @@ public class XMLItem {
 		this.parent = parent;
 	}
 	public void addAttribute(String key, String value) {
-		if(key.equals("supplier_id")) {
+		if(key.equals("supplier_id") || key.contentEquals("supplier")) {
 			setSupplier(value);
-		} else if (key.equals("client_id")) {
+		} else if (key.equals("client_id") || key.contentEquals("client")) {
 			setClient(value);
 		} else if (key.equals("name")) {
 			// Refactor with list of forbidden characters

@@ -35,12 +35,15 @@ public class ImportXmlSysmlPackageAction extends MDAction {
 		}
 		try
 		{
-			File file = FileSelect.chooseXMLFileOpen();
-			Document doc = FileSelect.createDocument(file);
-			doc.getDocumentElement().normalize();
-			
+			File[] files = FileSelect.chooseXMLFileOpen();
+			ImportXmlSysml.resetImportParameters();
+			for(File file : files) {
+				Document doc = FileSelect.createDocument(file);
+				doc.getDocumentElement().normalize();
+				ImportXmlSysml.parseXML(doc, packageElement);
+			}
 			//Use Puddle structure, initial mapping
-			ImportXmlSysml.createModel(doc, packageElement);
+			ImportXmlSysml.createModel();
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Import complete.");
 			
 		} catch (NullPointerException npe) {

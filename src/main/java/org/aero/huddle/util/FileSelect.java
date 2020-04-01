@@ -23,19 +23,22 @@ import org.xml.sax.SAXException;
 // Basic methods for selecting import/export files
 public class FileSelect
 {
-	public static File chooseXMLFileOpen() throws FileNotFoundException
+	public static File[] chooseXMLFileOpen() throws FileNotFoundException
 	{
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents" + System.getProperty("file.separator") + "Demo");
-//		chooser.setMultiSelectionEnabled(true);
+		chooser.setMultiSelectionEnabled(true);
 		int option = chooser.showOpenDialog(null);
 		
 		if(option == JFileChooser.APPROVE_OPTION)
 		{
-			if(!chooser.getSelectedFile().getName().endsWith(".xml"))
-				throw new FileNotFoundException("File for import must be .xml");
+			for(File file : chooser.getSelectedFiles()) {
+				String filename = file.getName();
+				if(!filename.endsWith(".xml")) {
+					throw new FileNotFoundException("File for import must be .xml");
+				}
+			}
 		}
-		
-		return chooser.getSelectedFile();
+		return chooser.getSelectedFiles();
 	}
 	
 	public static File chooseXMLFile() throws FileNotFoundException	{

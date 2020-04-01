@@ -64,17 +64,17 @@ public class AssociationBlock extends CommonElement {
 		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.ASSOCIATIONBLOCK));
 		data.appendChild(type);
 		
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());		
 		
 		Element supplier = ModelHelper.getSupplierElement(element);
 		org.w3c.dom.Element supplierID = xmlDoc.createElement("supplier_id");
 		supplierID.appendChild(xmlDoc.createTextNode(supplier.getLocalID()));
-		attributes.appendChild(supplierID);	
+		relationships.appendChild(supplierID);	
 		
 		Element client = ModelHelper.getClientElement(element);
 		org.w3c.dom.Element clientID = xmlDoc.createElement("client_id");
 		clientID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
-		attributes.appendChild(clientID);	
+		relationships.appendChild(clientID);	
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);

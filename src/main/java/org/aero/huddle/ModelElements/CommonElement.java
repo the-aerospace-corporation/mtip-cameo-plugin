@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -195,7 +196,20 @@ public abstract class CommonElement {
 		for(int i = 0; i < dataNodes.getLength(); i++) {
 			Node dataNode = dataNodes.item(i);
 			if(dataNode.getNodeType() == Node.ELEMENT_NODE) {
-				if(dataNode.getNodeName().equals("attributes")) {
+				if(dataNode.getNodeName().equals(XmlTagConstants.ATTRIBUTES)) {
+					attributes = (org.w3c.dom.Element) dataNode;
+				}
+			}
+		}
+		return attributes;
+	}
+	
+	public org.w3c.dom.Element getRelationships(NodeList dataNodes) {
+		org.w3c.dom.Element attributes = null;
+		for(int i = 0; i < dataNodes.getLength(); i++) {
+			Node dataNode = dataNodes.item(i);
+			if(dataNode.getNodeType() == Node.ELEMENT_NODE) {
+				if(dataNode.getNodeName().equals(XmlTagConstants.RELATIONSHIPS)) {
 					attributes = (org.w3c.dom.Element) dataNode;
 				}
 			}

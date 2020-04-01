@@ -18,6 +18,7 @@ import org.aero.huddle.ModelElements.ModelDiagram;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.XmlTagConstants;
 import org.apache.commons.collections.MapUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -45,23 +46,26 @@ public class ImportXmlSysml {
     private static HashMap<String, XMLItem> stereotypesXML = new HashMap<String, XMLItem>();
     private static HashMap<String, XMLItem> profileXML = new HashMap<String, XMLItem>();
     private static Project project = Application.getInstance().getProject();
+    private static HashMap<String, String> parentMap = new HashMap<String, String>();
 //	possible way to get active project instead of random project
 //    ProjectsManager pm = Application.getInstance().getProjectsManager();
 //    Project p = pm.getActiveProject();   
     
     private static Element primaryLocation = null;
     
-	public static void createModel(Document doc, Element start) throws NullPointerException {
-		//Reset class variables - if a previous import has been informed, old data may persist.
-		linktoPair = new HashMap<String,Entry<Element, Element>>();
+    public static void resetImportParameters() {
+    	//Reset class variables - if a previous import has been informed, old data may persist.
+    	linktoPair = new HashMap<String,Entry<Element, Element>>();
 		diagramMap = new HashMap<ModelDiagram,Diagram>();
 		completeXML = new HashMap<String, XMLItem>();
 		stereotypesXML = new HashMap<String, XMLItem>();
 		profileXML = new HashMap<String, XMLItem>();
 		project = Application.getInstance().getProject();
-		//Set location for imported model. Start may be a package selected on containment tree for import. If null, imported model will default to main project Model.
-		
-		if(start == null) {
+		parentMap = new HashMap<String, String>();
+    }
+    
+    public static void parseXML(Document doc, Element start) throws NullPointerException{
+    	if(start == null) {
 			primaryLocation = project.getPrimaryModel();
 		} else {
 			primaryLocation = start;
@@ -75,16 +79,14 @@ public class ImportXmlSysml {
 		// Parse XML and build model based on data
 		buildModelMap(dataNodes);
 		buildStereotypesTree();
-		
-//		HuddleUtils.createHUDDLEProfile(project);
+    }
+    
+	public static void createModel() throws NullPointerException {
 		buildModel(profileXML);
 		buildModel(completeXML);
-		
 	}
 
 	public static void buildModel(HashMap<String, XMLItem> parsedXML) {
-		HashMap<String, String> parentMap = new HashMap<String, String>();
-		
 		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
 			XMLItem modelElement = entry.getValue();
 			String id = entry.getKey();
@@ -92,20 +94,14 @@ public class ImportXmlSysml {
 			CameoUtils.logGUI(modelElement.getEAID());
 			if (modelElement.getCategory().equals(SysmlConstants.ELEMENT)) {
 				if (parentMap.get(id) == null) {
-					buildElement(project, parentMap, parsedXML, modelElement, id);
+					buildElement(project, parsedXML, modelElement, id);
 				}
 			}
 			if (modelElement.getCategory().equals(SysmlConstants.RELATIONSHIP)) {
 				if (parentMap.get(id) == null) {
-					buildRelationship(project, parentMap, parsedXML, modelElement, id);
+					buildRelationship(project, parsedXML, modelElement, id);
 				}
 			}
-//			if (modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
-//				CameoUtils.logGUI("Building Diagram from next XMLItem");
-//				if (parentMap.get(id) == null) {
-//					buildDiagram(project, parentMap, parsedXML, modelElement, id);
-//				}
-//			}
 		}
 
 		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
@@ -123,19 +119,18 @@ public class ImportXmlSysml {
 //				CameoUtils.logGUI("Building Diagram from next XMLItem");
 				if (parentMap.get(id) == null) {
 //					CameoUtils.logGUI("id was not null");
-					buildDiagram(project, parentMap, parsedXML, modelElement, id);
+					buildDiagram(project, parsedXML, modelElement, id);
 				}
 			}
 		}			
 	}
 
-	public static Element getOrBuildElement(Project project, HashMap<String, String> parentMap,
-		Map<String, XMLItem> parsedXML, String eaID) {
+	public static Element getOrBuildElement(Project project, Map<String, XMLItem> parsedXML, String eaID) {
 		String cameoUnique = parentMap.get(eaID);
 
 		if (cameoUnique == null) {
 			XMLItem newItem = parsedXML.get(eaID);
-			return buildElement(project, parentMap, parsedXML, newItem, eaID);
+			return buildElement(project, parsedXML, newItem, eaID);
 
 		} else {
 			Element element = (Element) project.getElementByID(cameoUnique);
@@ -143,7 +138,7 @@ public class ImportXmlSysml {
 		}
 	}
 	
-	public static Element buildDiagram(Project project, HashMap<String, String> parentMap, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
+	public static Element buildDiagram(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		
 		CommonElementsFactory cef = new CommonElementsFactory();
 		Element owner = null;
@@ -158,7 +153,7 @@ public class ImportXmlSysml {
 			else {
 				String ownerID = modelElement.getParent();
 				XMLItem ownerElement = parsedXML.get(ownerID);
-				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerID);
+				owner = buildElement(project, parsedXML, ownerElement, ownerID);
 			}
 		}
 		
@@ -178,7 +173,7 @@ public class ImportXmlSysml {
 		}
 
 		
-		List<Element> elements = elementsStrings.stream().map(s->(Element) getOrBuildElement(project,  parentMap, parsedXML, s)).collect(Collectors.toList());
+		List<Element> elements = elementsStrings.stream().map(s->(Element) getOrBuildElement(project, parsedXML, s)).collect(Collectors.toList());
 		
 		CameoUtils.logGUI("modelElement.getType() : " + modelElement.getType() );
 		CameoUtils.logGUI("elementsAFTER size: " + elements.size());
@@ -192,7 +187,7 @@ public class ImportXmlSysml {
         return newElement;
 	}
 	
-	public static Element buildRelationship(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
+	public static Element buildRelationship(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
@@ -208,10 +203,10 @@ public class ImportXmlSysml {
 			owner = (Element) project.getElementByID(cameoParentID);
 		} else {
 			if(modelElement.getCategory().equals(SysmlConstants.ELEMENT)){
-				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerID);
+				owner = buildElement(project, parsedXML, ownerElement, ownerID);
 			}
 			if(modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
-				//owner = buildDiagram(project, parentMap, parsedXML, modelElement, ownerID);
+				//owner = buildDiagram(project, parsedXML, modelElement, ownerID);
 			}			
 		}
 		
@@ -236,7 +231,7 @@ public class ImportXmlSysml {
 			}
 			if(client == null) {
 				XMLItem clientElement = parsedXML.get(clientEAID);
-				client = buildElement(project, parentMap, parsedXML, clientElement, clientEAID);
+				client = buildElement(project, parsedXML, clientElement, clientEAID);
 			}
 		}
 		
@@ -256,7 +251,7 @@ public class ImportXmlSysml {
 
 			if(supplier == null) {
 				XMLItem supplierElement = parsedXML.get(supplierEAID);
-				supplier = buildElement(project, parentMap, parsedXML, supplierElement, supplierEAID);
+				supplier = buildElement(project, parsedXML, supplierElement, supplierEAID);
 			}
 		}
 		
@@ -298,7 +293,7 @@ public class ImportXmlSysml {
 		}
 	}
 	
-	public static Element buildElement(Project project, HashMap<String, String> parentMap, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
+	public static Element buildElement(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		if(modelElement.hasAttribute("name")) {
 			CameoUtils.logGUI("Starting Build Element with name: " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID());
 		} else {
@@ -319,11 +314,11 @@ public class ImportXmlSysml {
 		} else {
 			String category = ownerElement.getCategory();
 			if(category.equals(SysmlConstants.ELEMENT)) {
-				owner = buildElement(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
+				owner = buildElement(project, parsedXML, ownerElement, ownerElement.getEAID());
 			} else if (category.equals(SysmlConstants.RELATIONSHIP)) {
-				owner = buildRelationship(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
+				owner = buildRelationship(project, parsedXML, ownerElement, ownerElement.getEAID());
 			} else if (category.equals(SysmlConstants.DIAGRAM)) {
-			//	owner = buildDiagram(project, parentMap, parsedXML, ownerElement, ownerElement.getEAID());
+			//	owner = buildDiagram(project, parsedXML, ownerElement, ownerElement.getEAID());
 			} else {
 				CameoUtils.logGUI("Element of type " + modelElement.getType() + " is not currently supported");
 			}
@@ -335,23 +330,23 @@ public class ImportXmlSysml {
 		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
 			String submachineID = modelElement.getSubmachine();
 			XMLItem submachine = parsedXML.get(submachineID);
-			Element submachineElement = buildElement(project, parentMap, parsedXML, submachine, submachineID);
+			Element submachineElement = buildElement(project, parsedXML, submachine, submachineID);
 			modelElement.setNewSubmachineID(submachineElement.getLocalID());
 		}
 		if(modelElement.getType().contentEquals(SysmlConstants.TRIGGER)) {
 			if(modelElement.hasEvent()) {
 				CameoUtils.logGUI("About to build event element with event id: " +  modelElement.getEvent());
-				Element event = buildElement(project, parentMap, parsedXML, parsedXML.get(modelElement.getEvent()), modelElement.getEvent());
+				Element event = buildElement(project, parsedXML, parsedXML.get(modelElement.getEvent()), modelElement.getEvent());
 				modelElement.setNewEvent(event.getLocalID());
 			}
 			if(modelElement.hasAcceptEventAction()) {	
-				Element acceptEventAction = buildElement(project, parentMap, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
+				Element acceptEventAction = buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
 				modelElement.setNewAcceptEventAction(acceptEventAction.getLocalID());
 			}
 		}
 		
 		if(modelElement.getType().contentEquals(SysmlConstants.CALLOPERATIONACTION)) {
-			Element operation = buildElement(project, parentMap, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
+			Element operation = buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
 			modelElement.setNewOperation(operation.getLocalID());
 		}
 		
@@ -361,13 +356,13 @@ public class ImportXmlSysml {
 					Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
 					modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
 				} else {
-					Element constrainedCameoElement = getOrBuildElement(project, parentMap, parsedXML, constrainedElement);
+					Element constrainedCameoElement = getOrBuildElement(project, parsedXML, constrainedElement);
 					modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
 				}
 				
 			}
 			if(modelElement.hasValueSpecification()) {
-				Element valueSpecification = getOrBuildElement(project, parentMap, parsedXML, modelElement.getValueSpecification());
+				Element valueSpecification = getOrBuildElement(project, parsedXML, modelElement.getValueSpecification());
 				modelElement.setNewValueSpecification(valueSpecification.getLocalID());
 			}
 		}
@@ -376,14 +371,14 @@ public class ImportXmlSysml {
 			if(modelElement.hasClient()) {
 				String clientID = modelElement.getClient();
 				if(parsedXML.containsKey(clientID)) {
-					Element client = getOrBuildElement(project, parentMap,parsedXML, clientID);
+					Element client = getOrBuildElement(project, parsedXML, clientID);
 					modelElement.addAttribute("client", client.getLocalID());
 				}
 			}
 			if(modelElement.hasSupplier()) {
 				String supplierID = modelElement.getSupplier();
 				if(parsedXML.containsKey(supplierID)) {
-					Element supplier = getOrBuildElement(project, parentMap, parsedXML, modelElement.getSupplier());
+					Element supplier = getOrBuildElement(project, parsedXML, modelElement.getSupplier());
 					modelElement.addAttribute("supplier",  supplier.getLocalID());
 				}
 			}
@@ -392,7 +387,7 @@ public class ImportXmlSysml {
 				String customizationTargetID = modelElement.getAttribute("customizationTargetID");
 				if(customizationTargetID != null && !customizationTargetID.isEmpty()) {
 					if(parsedXML.containsKey(customizationTargetID)) {
-						Element stereotype = getOrBuildElement(project, parentMap, parsedXML, customizationTargetID);
+						Element stereotype = getOrBuildElement(project, parsedXML, customizationTargetID);
 						modelElement.addAttribute("customizationTarget", stereotype.getLocalID());
 					}
 				}
@@ -434,7 +429,7 @@ public class ImportXmlSysml {
 	}
 	
 	public static HashMap<String, XMLItem> buildModelMap(NodeList dataNodes) {
-		HashMap<String, XMLItem> modelElements = new HashMap<String,XMLItem>();
+		HashMap<String, XMLItem> modelElements = completeXML;
 		
 		//Loop through all of the <data> nodes
 		for(int i = 0; i < dataNodes.getLength(); i++) {
@@ -560,8 +555,10 @@ public class ImportXmlSysml {
 				if(idNode.getNodeName() == "element") {
 					modelElement.addChildElement(idNode.getTextContent());
 				}
+				if(idNode.getNodeName().contentEquals(XmlTagConstants.SUPPLIER) || idNode.getNodeName().contentEquals(XmlTagConstants.CLIENT)) {
+					modelElement.addAttribute(idNode.getNodeName(), idNode.getTextContent());
+				}
 			}
-				
 		}
 		return modelElement;
 	}

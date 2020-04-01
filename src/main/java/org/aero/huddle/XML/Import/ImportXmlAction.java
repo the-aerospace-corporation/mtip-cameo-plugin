@@ -47,7 +47,7 @@ public class ImportXmlAction extends MDAction
 			try {
 				int n = JOptionPane.showOptionDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Select XML import type", "Choose Export Format", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 				
-				File file = FileSelect.chooseXMLFileOpen();
+				File file = FileSelect.chooseXMLFile();
 				Document doc = createDocument(file);
 				doc.getDocumentElement().normalize();
 				

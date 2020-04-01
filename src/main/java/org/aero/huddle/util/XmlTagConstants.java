@@ -7,7 +7,12 @@ import java.util.Map.Entry;
 // Helper class with constants used in formatting the import/export XML.
 public class XmlTagConstants
 {
-	//SysML elements
+	// XML Tags
+	public static final String ATTRIBUTES = "attributes";
+	public static final String RELATIONSHIPS = "relationships";
+	public static final String CLIENT = "client";
+	public static final String SUPPLIER = "supplier";
+	//SysML element text for type tag
 	public static final String ACCEPTEVENTACTION = "sysml.AcceptEventAction";
 	public static final String ACTION = "sysml.Action";
 	public static final String ACTIVITY = "sysml.Activity";
@@ -151,8 +156,6 @@ public class XmlTagConstants
 	public static final String TAG = "tag";
 	public static final String NAME = "name";
 	public static final String VALUE = "value";
-	public static final String CLIENT = "client";
-	public static final String SUPPLIER = "supplier";
 	public static final String ELEMENT_ID = "elementID";
 	public static final String PARENT_ID = "parentID";
 	
