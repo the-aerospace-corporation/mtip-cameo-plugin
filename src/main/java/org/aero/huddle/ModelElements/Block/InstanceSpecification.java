@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -26,16 +27,21 @@ public class InstanceSpecification extends CommonElement {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Interface Element");
 		}
-		Element sysmlElement = f.createInstanceSpecificationInstance();
-		((NamedElement)sysmlElement).setName(name);
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification instance = f.createInstanceSpecificationInstance();
+		instance.setName(name);
 		if(owner != null) {
-			sysmlElement.setOwner(owner);
+			instance.setOwner(owner);
 		} else {
-			sysmlElement.setOwner(project.getPrimaryModel());
+			instance.setOwner(project.getPrimaryModel());
+		}
+		
+		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIED_BY)) {
+			Classifier classifier = (Classifier) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIED_BY));
+			ModelHelper.setClassifierForInstanceSpecification(classifier, instance, true);
 		}
 		
 		SessionManager.getInstance().closeSession(project);
-		return sysmlElement;
+		return instance;
 	}
 
 	@Override
@@ -43,6 +49,7 @@ public class InstanceSpecification extends CommonElement {
 		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
 		
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
@@ -53,9 +60,9 @@ public class InstanceSpecification extends CommonElement {
 		List<Classifier> classifiers = is.getClassifier();
 		
 		for(Classifier classifier : classifiers) {
-			org.w3c.dom.Element classifierTag = xmlDoc.createElement("classifier");
+			org.w3c.dom.Element classifierTag = xmlDoc.createElement("classifiedBy");
 			classifierTag.appendChild(xmlDoc.createTextNode(classifier.getLocalID()));
-			attributes.appendChild(classifierTag);
+			relationships.appendChild(classifierTag);
 		}
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();

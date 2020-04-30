@@ -1,11 +1,15 @@
 package org.aero.huddle.XML.Import;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
@@ -26,6 +30,7 @@ import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -35,9 +40,14 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.uml2.impl.ElementsFactory;
 
 public class ImportXmlSysml {
     static Map<String,Entry<Element, Element>> linktoPair = new HashMap<String,Entry<Element, Element>>();
@@ -47,6 +57,12 @@ public class ImportXmlSysml {
     private static HashMap<String, XMLItem> profileXML = new HashMap<String, XMLItem>();
     private static Project project = Application.getInstance().getProject();
     private static HashMap<String, String> parentMap = new HashMap<String, String>();
+    
+    //Variables for Automatic Validation Creation
+	public static final boolean CREATE_VALIDATION_ON_IMPORT = true;
+    private static Element MODEL_VALIDATION_PACKAGE = null;
+	private static Element CHECK_CLASSES = null;
+	private static Element CHECK_RELATIONSHIPS = null;
 //	possible way to get active project instead of random project
 //    ProjectsManager pm = Application.getInstance().getProjectsManager();
 //    Project p = pm.getActiveProject();   
@@ -62,6 +78,9 @@ public class ImportXmlSysml {
 		profileXML = new HashMap<String, XMLItem>();
 		project = Application.getInstance().getProject();
 		parentMap = new HashMap<String, String>();
+		MODEL_VALIDATION_PACKAGE = null;
+		CHECK_CLASSES = null;
+		CHECK_RELATIONSHIPS = null;
     }
     
     public static void parseXML(Document doc, Element start) throws NullPointerException{
@@ -83,6 +102,9 @@ public class ImportXmlSysml {
     
 	public static void createModel() throws NullPointerException {
 		buildModel(profileXML);
+		if(CREATE_VALIDATION_ON_IMPORT) {
+			buildValidationSuite();
+		}
 		buildModel(completeXML);
 	}
 
@@ -397,6 +419,22 @@ public class ImportXmlSysml {
 				//Build two more customizations here to restrict the relationships allowed.
 			}
 		}
+		if(modelElement.getType().contentEquals(XmlTagConstants.ASSOCIATIONBLOCK)) {
+			if(modelElement.hasClient()) {
+				String clientID = modelElement.getClient();
+				if(parsedXML.containsKey(clientID)) {
+					Element client = getOrBuildElement(project, parsedXML, clientID);
+					modelElement.addAttribute("client", client.getLocalID());
+				}
+			}
+			if(modelElement.hasSupplier()) {
+				String supplierID = modelElement.getSupplier();
+				if(parsedXML.containsKey(supplierID)) {
+					Element supplier = getOrBuildElement(project, parsedXML, modelElement.getSupplier());
+					modelElement.addAttribute("supplier",  supplier.getLocalID());
+				}
+			}
+		}
 		
 		if(!modelElement.isCreated()) {
 			if(ownerElement != null) {
@@ -467,7 +505,7 @@ public class ImportXmlSysml {
 						
 						//Add model element attributes to parsedXML hashmap passed back to main function
 					//	if(modelElement.getEAID() != null) {
-							if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())){
+						if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())) {
 							modelElements.put(modelElement.getEAID(),  modelElement);
 							if(modelElement.getType().contentEquals("Stereotype")) {
 								stereotypesXML.put(modelElement.getEAID(), modelElement);
@@ -501,6 +539,263 @@ public class ImportXmlSysml {
 			}
 		}
 	}
+	public static void buildValidationSuite() {
+		createModelValidationPackage();
+		findStereotypes(project.getPrimaryModel());
+		
+	}
+	
+	/**
+	 * Creates a package under the primary model of the project with the validationSuite stereotype
+	 * to hold constraints for the model validations automatically created on profile/metamodel import.
+	 * @param project Current project the metamodel/profile is being imported into.
+	 * @param element
+	 */
+	public static void createModelValidationPackage() {
+		ElementsFactory f = project.getElementsFactory();
+		Profile umlProfile = StereotypesHelper.getProfile(project, "Validation Profile");
+		Stereotype validationSuite = StereotypesHelper.getStereotype(project, "validationSuite", umlProfile);
+		MODEL_VALIDATION_PACKAGE = f.createPackageInstance();
+		((NamedElement)MODEL_VALIDATION_PACKAGE).setName("Model Validation");
+		MODEL_VALIDATION_PACKAGE.setOwner(project.getPrimaryModel());
+		StereotypesHelper.addStereotype(MODEL_VALIDATION_PACKAGE, validationSuite);
+	}
+	
+	private static void findStereotypes(Package pack) {
+		//Write Package to xml here so parent is written before child
+		
+		//Look for child packages and child elements to recursively export
+		Collection<Element> elementsInPackage = new ArrayList<Element> ();
+		Collection<Package> packagesInPackage = new ArrayList<Package> ();
+		
+		boolean noPackages = false;
+		boolean noElements = false;
+		
+		try {
+			elementsInPackage = pack.getOwnedElement();
+		} catch(NullPointerException e) {
+			noElements = true;
+		}
+		
+		try {
+			packagesInPackage = pack.getNestedPackage();
+		} catch(NullPointerException e) {
+			noPackages = true;
+		}
+		
+		if(!noElements) {
+			for(Element element : elementsInPackage) {
+				if(element instanceof Stereotype) {
+					boolean isRelationship = isMetaclassRelationship(element);
+					if(!isRelationship) {
+						if(CHECK_CLASSES == null) {
+							createCheckClasses(element);
+						} else {
+							updateCheckClasses(element);
+						}
+					} else {
+						if(CHECK_RELATIONSHIPS == null) {
+							createCheckRelationships(element);
+						} else {
+							updateCheckRelationships(element);
+						}
+					}
+				}
+			}
+		}
+						
+		if(!noPackages) {
+			for(Package nextPackage : packagesInPackage) {
+				//Description: Get stereotypes of package. Packages with stereotypes (Ex. auxiliaryResource, modellibrary) should not be exported
+				Profile magicdrawProfile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
+				Stereotype auxiliaryStereotype = StereotypesHelper.getStereotype(project,  "auxiliaryResource", magicdrawProfile);
+				List<Stereotype> packageStereotypes = StereotypesHelper.getStereotypes(nextPackage);
+				
+				// Check if package is editable -- external dependencies and imported projects will be read-only (not editable) 
+				if(!packageStereotypes.contains(auxiliaryStereotype) && !nextPackage.getHumanName().equals("Package Unit Imports")) {
+//					CameoUtils.logGUI("Package with name " + nextPackage.getHumanName() + "\twith type: " + nextPackage.getHumanType());
+//					JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Exporting Package " + nextPackage.getHumanName());
+					findStereotypes(nextPackage);					
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Checks the stereotype's metaclass to determine if it is a relationship.
+	 * @return True if the
+	 */
+	public static boolean isMetaclassRelationship(Element element) {
+		Stereotype stereotype = (Stereotype)element;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class relationshipMetaclass = StereotypesHelper.getMetaClassByName(project, "Relationship");
+		if(StereotypesHelper.hasSuperMetaClass(stereotype, relationshipMetaclass)) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Creates a constraint in the model validation folder that validates whether element classes used in the 
+	 * model are of this type. Constraint uses OCL 2.0.
+	 * @param project Project that is being imported to (i.e. current project).
+	 * @param element Stereotype being imported into the model.
+	 */
+	public static void createCheckClasses(Element element) {
+		ElementsFactory f = project.getElementsFactory();
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create Constraint Element");
+		}
+		String elementName = ((NamedElement)element).getName();
+		if(!elementName.contains(" ") && !elementName.contains("&")) {
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = f.createConstraintInstance();
+			((NamedElement)constraint).setName("checkClasses");
+			constraint.setOwner(MODEL_VALIDATION_PACKAGE);
+			
+			//Get UML Class element from metamodel and set as constrained element
+			Element umlClass = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
+			constraint.getConstrainedElement().add(umlClass);
+			
+			// Create Opaque Expression which holds the OCL expression for model validation
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
+			ValueSpecification vs = (ValueSpecification) oe;
+			constraint.setSpecification(vs);
+			
+			//Set value specification text here
+			String body = "";
+			oe.getLanguage().add("OCL2.0");
+			
+			NamedElement profile = (NamedElement) CameoUtils.findNearestProfile(project, element);
+			String profileName = profile.getName();
+			body = org.aero.huddle.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
+			oe.getBody().add(body);
+					
+			//Set stereotype of constraint to validationRule
+			com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile validationProfile = StereotypesHelper.getProfile(project,  "Validation Profile");
+			Stereotype validationRule = StereotypesHelper.getStereotype(project, "validationRule", validationProfile);
+			StereotypesHelper.addStereotype(constraint, validationRule);
+			
+			//Set Severity
+			StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "severity", "error");
+			
+			//Set error message
+			StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "errorMessage", "Class is not supported by profile.");
+			
+			CHECK_CLASSES = constraint;		
+		}
+		SessionManager.getInstance().closeSession(project);
+	}
+	
+	/**
+	 * Updates existing check classes constraint as a part of the automatic model validation set-up on import. Adds
+	 * an oclIsKindOf expression to the existing check classes constraint using an 'or' expression in OCL 2.0.
+	 * @param project
+	 * @param element
+	 */
+	public static void updateCheckClasses(Element element) {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create Constraint Element");
+		}
+		String elementName = ((NamedElement)element).getName();
+		if(!elementName.contains(" ") && !elementName.contains("&")) {
+			OpaqueExpression oe = (OpaqueExpression) ((Constraint)CHECK_CLASSES).getSpecification();
+			List<String> bodies = oe.getBody();
+			String currentBody = null;
+			Iterator<String> bodyIter = bodies.iterator();
+			
+			if(bodyIter.hasNext()) {
+				currentBody = bodyIter.next();
+			}
+			String profileName = ((NamedElement)CameoUtils.findNearestProfile(project, element)).getName();
+			currentBody = currentBody + " or " + org.aero.huddle.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
+			oe.getBody().clear();
+			oe.getBody().add(currentBody);
+			
+			oe.getLanguage().clear();
+			oe.getLanguage().add("OCL2.0");
+		} else {
+			// Log stereotype name prevents it from being included in the validation results
+			// Elements with this stereotype will be in violation of the validation rules as a result.
+		}
+		
+		SessionManager.getInstance().closeSession(project);
+	}
+	
+	/**
+	 * Creates a constraint in the model validation folder that validates whether relationship classes used in the 
+	 * model are of this type. Constraint uses OCL 2.0.
+	 * @param project Project that is being imported to (i.e. current project).
+	 * @param element Stereotype being imported into the model.
+	 */
+	public static void createCheckRelationships(Element element) {
+		ElementsFactory f = project.getElementsFactory();
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create Constraint Element");
+		}
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = f.createConstraintInstance();
+		((NamedElement)constraint).setName("checkRelationships");
+		constraint.setOwner(MODEL_VALIDATION_PACKAGE);
+		
+		//Get UML Class element from metamodel and set as constrained element
+		Element umlClass = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
+		constraint.getConstrainedElement().add(umlClass);
+		
+		// Create Opaque Expression which holds the OCL expression for model validation
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
+		ValueSpecification vs = (ValueSpecification) oe;
+		constraint.setSpecification(vs);
+		
+		//Set value specification text here
+		String language = "OCL 2.0";
+		String body = "";
+		oe.getLanguage().add(language);
+		
+		NamedElement profile = (NamedElement) CameoUtils.findNearestProfile(project, element);
+		String profileName = profile.getName();
+		String elementName = ((NamedElement)element).getName();
+		body = org.aero.huddle.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
+		oe.getBody().add(body);
+				
+		//Set stereotype of constraint to validationRule
+		com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile validationProfile = StereotypesHelper.getProfile(project,  "Validation Profile");
+		Stereotype validationRule = StereotypesHelper.getStereotype(project, "validationRule", validationProfile);
+		StereotypesHelper.addStereotype(constraint, validationRule);
+		
+		//Set Severity
+		StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "severity", "error");
+		
+		//Set error message
+		StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "errorMessage", "Class is not supported by profile.");
+		
+		CHECK_RELATIONSHIPS = constraint;		
+		SessionManager.getInstance().closeSession(project);
+	}
+	
+	/**
+	 * Updates existing check relationships constraint as a part of the automatic model validation set-up on import. 
+	 * Adds an oclIsKindOf expression to the existing check relationships constraint using an 'or' expression in OCL 2.0.
+	 * @param project
+	 * @param element
+	 */
+	public static void updateCheckRelationships(Element element) {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Update Check Relationships Validation");
+		}
+		OpaqueExpression oe = (OpaqueExpression) ((Constraint)CHECK_RELATIONSHIPS).getSpecification();
+		List<String> bodies = oe.getBody();
+		String currentBody = null;
+		Iterator<String> bodyIter = bodies.iterator();
+		
+		if(bodyIter.hasNext()) {
+			currentBody = bodyIter.next();
+		}
+		String profileName = ((NamedElement)CameoUtils.findNearestProfile(project, element)).getName();
+		String elementName = ((NamedElement)element).getName();
+		currentBody = currentBody + " or " + org.aero.huddle.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
+		oe.getBody().clear();
+		oe.getBody().add(currentBody);
+		
+		SessionManager.getInstance().closeSession(project);
+	}
 	
 	public static void addStereotype(Element newElement, String stereotypeName, String profileName) {
 		//Need to implement mapping of all SysML base stereotypes and which internal library they come from (SysML, MD Customization for SysML, UML Standard Profile, etc.)
@@ -509,8 +804,10 @@ public class ImportXmlSysml {
 			Stereotype stereotypeObj = StereotypesHelper.getStereotype(project, "Metaclass", umlStandardProfile);
 			StereotypesHelper.addStereotype(newElement,  stereotypeObj);
 		} else {
+			CameoUtils.logGUI("Looking for profile name " + profileName);
 			Profile profile = StereotypesHelper.getProfile(project,  profileName);
 			if(profile != null) {
+				CameoUtils.logGUI("Looking for stereotype name " + stereotypeName);
 				Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 				if(stereotype != null) {
 					StereotypesHelper.addStereotype(newElement,  stereotype);
@@ -558,6 +855,9 @@ public class ImportXmlSysml {
 				if(idNode.getNodeName().contentEquals(XmlTagConstants.SUPPLIER) || idNode.getNodeName().contentEquals(XmlTagConstants.CLIENT)) {
 					modelElement.addAttribute(idNode.getNodeName(), idNode.getTextContent());
 				}
+				if(idNode.getNodeName() == XmlTagConstants.CLASSIFIED_BY) {
+					modelElement.addAttribute(XmlTagConstants.CLASSIFIED_BY, idNode.getTextContent());
+				}
 			}
 		}
 		return modelElement;
@@ -571,7 +871,18 @@ public class ImportXmlSysml {
 			if(attribute.getNodeType() == Node.ELEMENT_NODE) {
 				if(attribute.getNodeName().contentEquals("stereotype")) {
 					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
-					modelElement.addStereotype(attribute.getTextContent(), attributeElement.getAttribute("profile"));
+					if(attributeElement.getAttribute("profile") == "") {
+						if(attribute.getTextContent().contains(".")) {
+							String prefix = attribute.getTextContent().split(Pattern.quote("."))[0];
+							String postfix = attribute.getTextContent().split(Pattern.quote("."))[1];
+//							CameoUtils.logGUI("Adding stereotype " + postfix + "with profile " + prefix);
+							modelElement.addStereotype(postfix, prefix);
+						} else {
+							modelElement.addStereotype(attribute.getTextContent(), attributeElement.getAttribute("profile"));
+						}
+					} else {
+						modelElement.addStereotype(attribute.getTextContent(), attributeElement.getAttribute("profile"));
+					}
 				} else if (attribute.getNodeName().contentEquals("relationshipStereotype")) {
 					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
 					modelElement.addRelationshipStereotype(attributeElement.getAttribute("profile"), attribute.getTextContent());
@@ -590,6 +901,10 @@ public class ImportXmlSysml {
 		for(int k = 0; k < idNodes.getLength(); k++) {
 			Node idNode = idNodes.item(k);
 			if(idNode.getNodeType() == Node.ELEMENT_NODE) {
+				if(idNode.getNodeName().contentEquals(XmlTagConstants.HUDDLE_ID)) {
+					modelElement.setEAID(idNode.getTextContent());
+					return modelElement;
+				}
 				modelElement.setEAID(idNode.getTextContent());
 			}
 		}

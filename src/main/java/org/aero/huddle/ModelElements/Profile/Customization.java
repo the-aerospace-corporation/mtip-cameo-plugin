@@ -1,7 +1,6 @@
 package org.aero.huddle.ModelElements.Profile;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aero.huddle.ModelElements.CommonElement;
@@ -31,6 +30,8 @@ public class Customization extends CommonElement {
 	private final String UML_PROFILE = "UML";
 //	private final HashMap<String, String> umlStereotypeMap = new HashMap<String, String> ();
 	
+	public static Element CHECK_RELATIONSHIPS_DIRECTION = null;
+	
 	public Customization(String name, String EAID) {
 		super(name, EAID);
 		this.xmlConstant = XmlTagConstants.CUSTOMIZATION;
@@ -43,8 +44,8 @@ public class Customization extends CommonElement {
 			SessionManager.getInstance().createSession(project, "Create Customization Element");
 		}
 		Element customizationTarget = null;
-		NamedElement client = (NamedElement)project.getElementByID(xmlElement.getAttribute("client"));
-		NamedElement supplier = (NamedElement)project.getElementByID(xmlElement.getAttribute("supplier"));
+		NamedElement client = (NamedElement)project.getElementByID(xmlElement.getClient());
+		NamedElement supplier = (NamedElement)project.getElementByID(xmlElement.getSupplier());
 		
 		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
 		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
@@ -77,8 +78,8 @@ public class Customization extends CommonElement {
 			StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, CUSTOMIZATIONTARGET, customizationTarget);
 		}
 		
-		String clientID = xmlElement.getAttribute("client");
-		String supplierID = xmlElement.getAttribute("supplier");
+		String clientID = xmlElement.getClient();
+		String supplierID = xmlElement.getSupplier();
 		
 		StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, TYPESFORSOURCE, project.getElementByID(supplierID));
 		StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, TYPESFORTARGET, project.getElementByID(clientID));
@@ -99,27 +100,8 @@ public class Customization extends CommonElement {
 		name.replace("___",  "_").replace("__", "_");
 		((NamedElement)customization).setName(name);
 		
-		
 		SessionManager.getInstance().closeSession(project);
 		return customization;
-		//Cameo Format below
-//		if (!SessionManager.getInstance().isSessionCreated(project)) {
-//			SessionManager.getInstance().createSession(project, "Create Customization Element");
-//		}
-//		
-//		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
-//		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
-//		Element customization = createClassWithStereotype(project, this.name, customizationStereotype, owner);
-//		
-//		List<String> fields = Arrays.asList(TYPESFORTARGET, TYPESFORSOURCE, ALLOWEDRELATIONSHIPS, DISALLOWEDRELATIONSHIPS, CUSTOMIZATIONTARGET);
-//		if(xmlElement != null) {
-//			for(String field: fields) {
-//				String elementID = xmlElement.getAttribute(field);
-//				if(elementID != null && !elementID.isEmpty()) {
-//					StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, field, project.getElementByID(elementID));
-//				}
-//			}
-//		}
 	}
 	
 	@Override

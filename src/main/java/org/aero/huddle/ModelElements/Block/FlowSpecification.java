@@ -1,13 +1,13 @@
-package org.aero.huddle.ModelElements.Profile;
+package org.aero.huddle.ModelElements.Block;
 
 import org.aero.huddle.ModelElements.CommonElement;
-import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -15,8 +15,8 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
 
-public class sysmlStereotype extends CommonElement {	
-	public sysmlStereotype(String name, String EAID)  {
+public class FlowSpecification extends CommonElement {
+	public FlowSpecification(String name, String EAID) {
 		super(name, EAID);
 	}
 	
@@ -24,12 +24,15 @@ public class sysmlStereotype extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		ElementsFactory f = project.getElementsFactory();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Stereotype Element");
+			SessionManager.getInstance().createSession(project, "Create Class Element");
 		}
-		// Do we need to set the base classifier here and differentiate between an Element Stereotype vs. a class Stereotype?
-		// What is default Metaclass?
-		Element sysmlElement = f.createStereotypeInstance();
+		
+		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+		Stereotype flowSpecificationStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.FLOWSPECIFICATION_STEREOTYPE, sysmlProfile);
+		
+		Element sysmlElement = f.createInterfaceInstance();
 		((NamedElement)sysmlElement).setName(name);
+		StereotypesHelper.addStereotype(sysmlElement, flowSpecificationStereotype);
 		
 		if(owner != null) {
 			sysmlElement.setOwner(owner);
@@ -49,10 +52,11 @@ public class sysmlStereotype extends CommonElement {
 		
 		// Create type field for Sysml model element types
 		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.STEREOTYPE));
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.FLOWSPECIFICATION));
 		data.appendChild(type);
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
+		
 	}
 }

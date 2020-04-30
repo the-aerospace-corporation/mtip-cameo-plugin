@@ -67,12 +67,12 @@ public class AssociationBlock extends CommonElement {
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());		
 		
 		Element supplier = ModelHelper.getSupplierElement(element);
-		org.w3c.dom.Element supplierID = xmlDoc.createElement("supplier_id");
+		org.w3c.dom.Element supplierID = xmlDoc.createElement(XmlTagConstants.SUPPLIER);
 		supplierID.appendChild(xmlDoc.createTextNode(supplier.getLocalID()));
 		relationships.appendChild(supplierID);	
 		
 		Element client = ModelHelper.getClientElement(element);
-		org.w3c.dom.Element clientID = xmlDoc.createElement("client_id");
+		org.w3c.dom.Element clientID = xmlDoc.createElement(XmlTagConstants.CLIENT);
 		clientID.appendChild(xmlDoc.createTextNode(client.getLocalID()));
 		relationships.appendChild(clientID);	
 		

@@ -13,6 +13,7 @@ import org.aero.huddle.ModelElements.Requirements.Satisfy;
 import org.aero.huddle.ModelElements.Requirements.Trace;
 import org.aero.huddle.ModelElements.Requirements.Verify;
 import org.aero.huddle.ModelElements.StateMachine.Transition;
+import org.aero.huddle.ModelElements.UseCase.Include;
 import org.aero.huddle.util.SysmlConstants;
 
 public class CommonRelationshipsFactory {
@@ -54,6 +55,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case "Generalization":
 				relationship = new Generalization(name, EAID);
+				break;
+			case SysmlConstants.INCLUDE:
+				relationship = new Include(name, EAID);
 				break;
 			case SysmlConstants.ITEMFLOW:
 				relationship = new ItemFlow(name, EAID);

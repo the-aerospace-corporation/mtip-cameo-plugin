@@ -12,6 +12,9 @@ public class XmlTagConstants
 	public static final String RELATIONSHIPS = "relationships";
 	public static final String CLIENT = "client";
 	public static final String SUPPLIER = "supplier";
+	public static final String HUDDLE_ID = "huddle";
+	public static final String CLASSIFIED_BY = "classifiedBy";
+	
 	//SysML element text for type tag
 	public static final String ACCEPTEVENTACTION = "sysml.AcceptEventAction";
 	public static final String ACTION = "sysml.Action";
@@ -52,11 +55,13 @@ public class XmlTagConstants
 	public static final String FINALSTATE = "sysml.FinalState";
 	public static final String FLOWFINALNODE = "sysml.FlowFinalNode";
 	public static final String FLOWPORT = "sysml.FlowPort";
+	public static final String FLOWSPECIFICATION = "sysml.FlowSpecification";
 	public static final String FORK = "sysml.Fork";
 	public static final String FORKNODE = "sysml.ForkNode";
 	public static final String FULLPORT = "sysml.FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "sysml.FunctionalRequirement";
 	public static final String FUNCTIONBEHAVIOR = "sysml.FunctionBehavior";
+	public static final String INCLUDE = "sysml.Include";
 	public static final String INITIALNODE = "sysml.InitialNode";
 	public static final String INITIALPSEUDOSTATE = "sysml.InitialPseudoState";
 	public static final String INPUTPIN = "sysml.InputPin";
@@ -150,7 +155,6 @@ public class XmlTagConstants
 	public static final String SUPPLIER_ID = "supplier_id";
 	public static final String RELATIONSHIP_STEREOTYPE = "relationshipStereotype";
 	
-	
 	//SysML nomenclature, but not elements
 	public static final String APPLIEDSTEREOTYPE = "appliedStereotype";
 	public static final String TAG = "tag";
@@ -182,7 +186,7 @@ public class XmlTagConstants
 	public static final String EVENT_TRACE = "eventTrace";
 	public static final String CHARACTERIZATIONS = "characterizations";
 	public static final String CHARACTERIZATION = "characterization";
-	public static final String HUDDLE_ID = "_huddle_id";
+	
 	public static final String JOINS = "joins";
 	public static final String EXECUTES = "executes";
 	public static final String PERFORMED_BY = "performedBy";

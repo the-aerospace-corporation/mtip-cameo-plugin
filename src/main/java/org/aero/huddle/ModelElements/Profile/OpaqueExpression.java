@@ -16,6 +16,7 @@ import com.nomagic.uml2.impl.ElementsFactory;
 
 public class OpaqueExpression extends CommonElement {
 	
+	public final static String CHECK_CLASSES_START = "self.oclIsKindOf(";
 	private final String BODY = "body";
 	private final String LANGUAGE = "language";
 	

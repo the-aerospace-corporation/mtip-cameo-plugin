@@ -38,7 +38,19 @@ public class CameoUtils {
 		} else {
 			return findNearestPackage(project, owner);
 		}
-		
+	}
+	
+	public static Element findNearestProfile(Project project, Element element) {
+		Element topPackage = project.getPrimaryModel();
+		Element owner = element.getOwner();
+		if(owner.equals(topPackage)) {
+			return topPackage;
+		}
+		if(owner instanceof Profile) {
+			return owner;
+		} else {
+			return findNearestProfile(project, owner);
+		}
 	}
 	
 	public static Element findNearestRegion(Project project, Element owner) {
@@ -103,6 +115,19 @@ public class CameoUtils {
 		return false;
 	}
 	
+	public static String oclKindValidationString(String profileName, String stereotypeName) {
+		return "self.oclIsKindOf(" + "::" + stereotypeName + ")"; 
+	}
+	
+	public static String oclSupplierDependency(String profileName, String relationshipStereotypeName, String classStereotypeName) {
+		return oclKindValidationString(profileName, relationshipStereotypeName) + " implies self.supplierDependency->exists (d| d.client->exists(e|e.oclIsKindOf(" + classStereotypeName + ")))";
+	}
+	
+	public static Stereotype getValidationSuiteStereotype(Project project) {
+		Profile profile = StereotypesHelper.getProfile(project, "UML Standard Profile");
+		Stereotype validationSuite = StereotypesHelper.getStereotype(project, "validationSuite", profile);
+		return validationSuite;
+	}
 	public static Stereotype getModelLibraryStereotype() {
 		
 		return null;
@@ -175,31 +200,7 @@ public class CameoUtils {
 			return false;
 		}
 	}
-//	
-//	@SuppressWarnings("unlikely-arg-type")
-//	public static boolean isQuantityKind(Element element, Project project) {
-//		Profile mdCustomization = StereotypesHelper.getProfile(project,  "MD Customization for SysML");
-//		Stereotype quantityKindStereotype = StereotypesHelper.getStereotype(project, "quantityKind", mdCustomization);
-//		Collection<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-//		if(Arrays.asList(stereotypes).contains(quantityKindStereotype)) {
-//			CameoUtils.logGUI("Found Quantity Kind");
-//			return true;
-//		}
-//		return false;
-//	}
-//	
-//	@SuppressWarnings("unlikely-arg-type")
-//	public static boolean isUnit(Element element, Project project) {
-//		Profile mdCustomization = StereotypesHelper.getProfile(project, "additional_stereotypes");
-//		Stereotype unitStereotype = StereotypesHelper.getStereotype(project, "unit", mdCustomization);
-//		Collection<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-//		if(Arrays.asList(stereotypes).contains(unitStereotype)) {
-//			CameoUtils.logGUI("Found Unit");
-//			return true;
-//		}
-//		return false;
-//	}
-	
+		
 	public static boolean isAssociationBlock(Element element, Project project) {
 		//Add additional check for block stereotype
 		if(element instanceof AssociationClass && isBlock(element, project)) {

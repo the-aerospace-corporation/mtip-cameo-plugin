@@ -46,11 +46,13 @@ public class SysmlConstants {
 	public static final String FINALSTATE = "FinalState";
 	public static final String FLOWFINALNODE = "FlowFinalNode";
 	public static final String FLOWPORT = "FlowPort";
+	public static final String FLOWSPECIFICATION = "FlowSpecification";
 	public static final String FORK = "Fork";
 	public static final String FORKNODE = "ForkNode";
 	public static final String FULLPORT = "FullPort";
 	public static final String FUNCTIONALREQUIREMENT = "FunctionalRequirement";
 	public static final String FUNCTIONBEHAVIOR = "FunctionBehavior";
+	public static final String INCLUDE = "Include";
 	public static final String INITIALNODE = "InitialNode";
 	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
 	public static final String INPUTPIN = "InputPin";
@@ -192,6 +194,7 @@ public class SysmlConstants {
 			FINALSTATE,
 			FLOWFINALNODE,
 			FLOWPORT,
+			FLOWSPECIFICATION,
 			FORK,
 			FORKNODE,
 			FULLPORT,
@@ -263,6 +266,7 @@ public class SysmlConstants {
 			DERIVEREQUIREMENT,
 			EXTENSION,
 			GENERALIZATION,
+			INCLUDE,
 			ITEMFLOW,
 			OBJECTFLOW,
 			REFINE,

@@ -35,6 +35,7 @@ import org.aero.huddle.ModelElements.Block.Domain;
 import org.aero.huddle.ModelElements.Block.Enumeration;
 import org.aero.huddle.ModelElements.Block.External;
 import org.aero.huddle.ModelElements.Block.FlowPort;
+import org.aero.huddle.ModelElements.Block.FlowSpecification;
 import org.aero.huddle.ModelElements.Block.FullPort;
 import org.aero.huddle.ModelElements.Block.InstanceSpecification;
 import org.aero.huddle.ModelElements.Block.Interface;
@@ -233,6 +234,9 @@ public class CommonElementsFactory {
 				break;
 			case "FlowPort":
 				element = new FlowPort(name, EAID);
+				break;
+			case SysmlConstants.FLOWSPECIFICATION:
+				element = new FlowSpecification(name, EAID);
 				break;
 			case "ForkNode":
 				element = new ForkNode(name, EAID);
