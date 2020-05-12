@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+
 public class XMLItem {
 	private String type = "";
 	private String category = "";
@@ -45,6 +47,9 @@ public class XMLItem {
 	private List<String> constrainedElements = new ArrayList<String> ();
 	private List<String> newConstrainedElements = new ArrayList<String>();
 	
+	private Element supplierElement = null;
+	private Element clientElement = null;
+	
 	public XMLItem() {
 		
 	}
@@ -60,9 +65,9 @@ public class XMLItem {
 		this.parent = parent;
 	}
 	public void addAttribute(String key, String value) {
-		if(key.equals("supplier_id") || key.contentEquals("supplier")) {
+		if(key.equals("supplier_id") || key.contentEquals(XmlTagConstants.SUPPLIER)) {
 			setSupplier(value);
-		} else if (key.equals("client_id") || key.contentEquals("client")) {
+		} else if (key.equals("client_id") || key.contentEquals(XmlTagConstants.CLIENT)) {
 			setClient(value);
 		} else if (key.equals("name")) {
 			// Refactor with list of forbidden characters
@@ -202,14 +207,14 @@ public class XMLItem {
 	}
 	
 	public boolean hasClient() {
-		if(!client.isEmpty() && client != null) {
+		if(!client.isEmpty()) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean hasSupplier() {
-		if(!client.isEmpty() && client != null) {
+		if(!client.isEmpty()) {
 			return true;
 		}
 		return false;
@@ -360,6 +365,36 @@ public class XMLItem {
 		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(type)) {
 			category = SysmlConstants.DIAGRAM;
 		}
+	}
+	
+	public void setSupplierElement(Element element) {
+		this.supplierElement = element;
+	}
+	
+	public void setClientElement(Element element) {
+		this.clientElement = element;
+	}
+	
+	public Element getSupplierElement() {
+		return supplierElement;
+	}
+	
+	public Element getClientElement() {
+		return clientElement;
+	}
+	
+	public boolean hasClientElement() {
+		if(clientElement != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean hasSupplierElement() {
+		if(supplierElement != null) {
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean isCreated() {

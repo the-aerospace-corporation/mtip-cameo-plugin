@@ -122,6 +122,7 @@ public class SysmlConstants {
 	public static final String COPY = "Copy";
 	public static final String DEPENDENCY = "Dependency";
 	public static final String DERIVEREQUIREMENT = "DeriveRequirement";
+	public static final String EXTEND = "Extend";
 	public static final String EXTENSION = "Extension";
 	public static final String GENERALIZATION = "Generalization";
 	public static final String ITEMFLOW = "ItemFlow";
@@ -264,6 +265,7 @@ public class SysmlConstants {
 			COPY,
 			DEPENDENCY,
 			DERIVEREQUIREMENT,
+			EXTEND,
 			EXTENSION,
 			GENERALIZATION,
 			INCLUDE,

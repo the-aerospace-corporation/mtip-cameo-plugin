@@ -118,6 +118,7 @@ public class XmlTagConstants
 	public static final String COPY = "sysml.Copy";
 	public static final String DEPENDENCY = "sysml.Dependency";
 	public static final String DERIVEREQUIREMENT = "sysml.DeriveRequirement";
+	public static final String EXTEND = "sysml.Extend";
 	public static final String EXTENSION = "sysml.Extension";
 	public static final String GENERALIZATION = "sysml.Generalization";
 	public static final String ITEMFLOW = "sysml.ItemFlow";

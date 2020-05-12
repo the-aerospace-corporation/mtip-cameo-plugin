@@ -26,20 +26,26 @@ public class AssociationBlock extends CommonElement {
 			SessionManager.getInstance().createSession(project, "Create Association Block Relationship");
 		}
 		AssociationClass associationClass = project.getElementsFactory().createAssociationClassInstance();
-		associationClass.setOwner(owner);
-		
-		String supplierID = xmlElement.getSupplier();
-		String clientID = xmlElement.getClient();
-		
 		Element supplier = null;
 		Element client = null;
 		
-		if(!supplierID.equals("")) {
-			supplier = (Element) project.getElementByID(supplierID);
+		if(xmlElement.hasSupplierElement()) {
+			supplier = xmlElement.getSupplierElement();
 		}
-		if(!clientID.equals("")) {
-			client = (Element)project.getElementByID(clientID);
+		if(xmlElement.hasClientElement()) {
+			client = xmlElement.getClientElement();
 		}
+		
+		// Owning package must be package where client and supplier are located. EA Imports have no hasParent.
+		// Owner will default to main model but needs to be the lower level package.
+		if(supplier != null) {
+			if(owner.equals(project.getPrimaryModel())) {
+				owner = CameoUtils.findNearestPackage(project, supplier);
+			}
+		}
+
+		associationClass.setOwner(owner);
+		associationClass.setName(name);
 		
 		if(client != null && supplier != null) {
 			ModelHelper.setSupplierElement(associationClass, supplier);

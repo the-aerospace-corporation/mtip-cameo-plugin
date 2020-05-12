@@ -83,6 +83,7 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.Actor;
+import com.nomagic.uml2.ext.magicdraw.mdusecases.Extend;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.Include;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.UseCase;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.ConnectionPointReference;
@@ -320,6 +321,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof Enumeration) {
 			commonElementType = SysmlConstants.ENUMERATION;
 			CameoUtils.logGUI("Exporting Enumeration");
+		} else if(element instanceof Extend) {
+			commonRelationshipType = SysmlConstants.EXTEND;
+			CameoUtils.logGUI("Exporting Extend");
 		} else if(CameoUtils.isExtendedRequirement(element, project)) {
 			commonElementType = SysmlConstants.EXTENDEDREQUIREMENT;
 			CameoUtils.logGUI("Exporting Extended Requirement");

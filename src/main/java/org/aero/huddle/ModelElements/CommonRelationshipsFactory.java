@@ -13,6 +13,7 @@ import org.aero.huddle.ModelElements.Requirements.Satisfy;
 import org.aero.huddle.ModelElements.Requirements.Trace;
 import org.aero.huddle.ModelElements.Requirements.Verify;
 import org.aero.huddle.ModelElements.StateMachine.Transition;
+import org.aero.huddle.ModelElements.UseCase.Extend;
 import org.aero.huddle.ModelElements.UseCase.Include;
 import org.aero.huddle.util.SysmlConstants;
 
@@ -49,6 +50,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case SysmlConstants.DEPENDENCY:
 				relationship = new Dependency(name, EAID);
+				break;
+			case SysmlConstants.EXTEND:
+				relationship = new Extend(name, EAID);
 				break;
 			case SysmlConstants.EXTENSION:
 				relationship = new Extension(name, EAID);

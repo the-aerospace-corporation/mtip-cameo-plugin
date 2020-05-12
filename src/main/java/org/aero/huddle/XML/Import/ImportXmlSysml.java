@@ -327,7 +327,7 @@ public class ImportXmlSysml {
 		XMLItem ownerElement = parsedXML.get(ownerID);
 		Element owner = null;
 		
-		if(modelElement.getParent().equals("") || ownerElement == null) {
+		if(modelElement.getParent().isEmpty() || ownerElement == null) {
 			// Set owned equal to Primary model if no hasParent attribute in XML -> parent field in XMLItem == ""
 			owner = primaryLocation;
 		} else if(!ownerElement.getCameoID().equals("")){
@@ -345,7 +345,7 @@ public class ImportXmlSysml {
 				CameoUtils.logGUI("Element of type " + modelElement.getType() + " is not currently supported");
 			}
 		}
-		
+
 		//Add check here to get any other referenced elements which need to be created before a CommonElement calls its createElement method
 		//Includes Events for triggers and operations for Call Operation Action which don't live under the parent.
 		//Refactor this into one method to check for specific attributes which require other elements to be built.
@@ -419,20 +419,30 @@ public class ImportXmlSysml {
 				//Build two more customizations here to restrict the relationships allowed.
 			}
 		}
-		if(modelElement.getType().contentEquals(XmlTagConstants.ASSOCIATIONBLOCK)) {
+		if(modelElement.getType().contentEquals(SysmlConstants.ASSOCIATIONBLOCK)) {
 			if(modelElement.hasClient()) {
 				String clientID = modelElement.getClient();
 				if(parsedXML.containsKey(clientID)) {
 					Element client = getOrBuildElement(project, parsedXML, clientID);
+					modelElement.setClientElement(client);
 					modelElement.addAttribute("client", client.getLocalID());
+				} else {
+					CameoUtils.logGUI("No data tag found for client id: " + clientID);
 				}
+			} else {
+				CameoUtils.logGUI("No client tag/id found in element's data tag.");
 			}
 			if(modelElement.hasSupplier()) {
 				String supplierID = modelElement.getSupplier();
 				if(parsedXML.containsKey(supplierID)) {
 					Element supplier = getOrBuildElement(project, parsedXML, modelElement.getSupplier());
+					modelElement.setSupplierElement(supplier);
 					modelElement.addAttribute("supplier",  supplier.getLocalID());
+				} else {
+					CameoUtils.logGUI("No data tag found for supplier id: " + supplierID);
 				}
+			} else {
+				CameoUtils.logGUI("No supplier tag/id found in element's data tag.");
 			}
 		}
 		
@@ -440,7 +450,7 @@ public class ImportXmlSysml {
 			if(ownerElement != null) {
 				CameoUtils.logGUI("Creating element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 			} else {
-				CameoUtils.logGUI("Creating model " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + ".");
+				CameoUtils.logGUI("Creating " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with no initial owner.");
 			}
 			
 			if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType())) {
