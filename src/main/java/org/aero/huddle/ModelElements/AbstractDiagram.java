@@ -1,14 +1,21 @@
 package org.aero.huddle.ModelElements;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.ModelElements.ModelDiagram;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -16,10 +23,13 @@ import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -205,7 +215,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	}
 	
 	@Override
-	public void addElements(Project project, Diagram diagram, List<Element> elements) {
+	public void addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> locations) {
 		Package parent = project.getPrimaryModel();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create a diagram");
@@ -216,18 +226,36 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			// a class diagram is created and added to a parent model element
 			presentationDiagram = project.getDiagram(diagram);
 
+			// to use auto layout
+			Application.getInstance().getProject().getDiagram(diagram).layout(true,
+					new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
+
 			// open a diagram
 			project.getDiagram(diagram).open();
 
+			int counter = 0;
 			for (Element element : elements) {
-				ShapeElement shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
+				Rectangle location = locations.get(counter);
+				Point curPoint = new Point(location.x, location.y);
+
+				ShapeElement shape;
+				if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999) {
+					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
+				} else {
+					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, curPoint);
+					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
+				}
+
+				counter++;
 			}
 		} catch (ReadOnlyElementException e) {
 		}
 
 		SessionManager.getInstance().closeSession(project);
-		Application.getInstance().getProject().getDiagram(diagram).layout(true,
-				new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
+
+		// to use auto layout
+//		Application.getInstance().getProject().getDiagram(diagram).layout(true,
+//				new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
 
 	}
 
@@ -288,6 +316,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 
 		for (int i = presentationElements.size() - 1; i >= 0; --i) {
 			PresentationElement presentationElement = (PresentationElement) presentationElements.get(i);
+			
+			Point elementLocation=presentationElement.getMiddlePoint();
+			Rectangle bounds = presentationElement.getBounds();
+			
 			// element represented in the diagram (can be null for views that do not  represent concrete element)
 
 			Element curElement = presentationElement.getElement();
@@ -333,6 +365,26 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					org.w3c.dom.Element elementTag = xmlDoc.createElement("element");
 					elementTag.appendChild(xmlDoc.createTextNode(curID));
 					elementTag.setAttribute("type", "sysml." + type);
+				
+					//Coordinates
+				
+					//top y
+					//left x
+					//bottom y+height
+					//right x + width
+					
+					//Cameo standard
+//					elementTag.setAttribute("top", String.valueOf(bounds.y));
+//					elementTag.setAttribute("left", String.valueOf(bounds.x));
+//					elementTag.setAttribute("bottom", String.valueOf(bounds.y + bounds.height));
+//					elementTag.setAttribute("right", String.valueOf(bounds.x + bounds.width));
+					
+					//Sparx EA standard
+					elementTag.setAttribute("top", String.valueOf(-bounds.y));
+					elementTag.setAttribute("left", String.valueOf(bounds.x));
+					elementTag.setAttribute("bottom", String.valueOf(-bounds.y -bounds.height));
+					elementTag.setAttribute("right", String.valueOf(bounds.x + bounds.width));
+					
 					relation.appendChild(elementTag);
 				}
 			}

@@ -1,5 +1,7 @@
 package org.aero.huddle.XML.Import;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +26,9 @@ import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.apache.commons.collections.MapUtils;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -147,6 +151,18 @@ public class ImportXmlSysml {
 		}			
 	}
 
+	public static Element tryToGetElement(Project project, Map<String, XMLItem> parsedXML, String eaID) {
+		String cameoUnique = parentMap.get(eaID);
+
+		if (cameoUnique == null) {
+			return null;
+
+		} else {
+			Element element = (Element) project.getElementByID(cameoUnique);
+			return element;
+		}
+	}
+	
 	public static Element getOrBuildElement(Project project, Map<String, XMLItem> parsedXML, String eaID) {
 		String cameoUnique = parentMap.get(eaID);
 
@@ -188,20 +204,26 @@ public class ImportXmlSysml {
 		parentMap.put(id, GUID);
 	
 		List<String> elementsStrings = modelElement.getChildElements(parsedXML);
+		List<String> elementsLocations = modelElement.getChildElements(parsedXML);
+		List<Rectangle> elementsRectangles = elementsStrings.stream().map(s -> {
+			Rectangle rect = modelElement.getLocation(s);
+			return rect;
+		}).collect(Collectors.toList());
 
 		CameoUtils.logGUI("ElementStrings size: " + elementsStrings.size());
 		for (String s: elementsStrings) {
 			CameoUtils.logGUI("ADDING element id: " + s);
 		}
 
-		
-		List<Element> elements = elementsStrings.stream().map(s->(Element) getOrBuildElement(project, parsedXML, s)).collect(Collectors.toList());
+		//map each string id to an actual element, and for all non-null created elements, add them to the elements list.
+		List<Element> elements = elementsStrings.stream().map(s->(Element) tryToGetElement(project, parsedXML, s)).filter(x -> x!=null).collect(Collectors.toList());
 		
 		CameoUtils.logGUI("modelElement.getType() : " + modelElement.getType() );
 		CameoUtils.logGUI("elementsAFTER size: " + elements.size());
-        // add the composed elements
-		((ModelDiagram) element).addElements(project, (Diagram) newElement, elements);
-		
+     
+		// add the composed elements
+		((ModelDiagram) element).addElements(project, (Diagram) newElement, elements, elementsRectangles);
+
         diagramMap.put((ModelDiagram) element, (Diagram) newElement);
         modelElement.setCameoID(newElement.getID());
 
@@ -851,27 +873,74 @@ public class ImportXmlSysml {
 		}
 	}
 	
-	public static XMLItem getRelationships(Node fieldNode, XMLItem modelElement) {	
+	public static XMLItem getRelationships(Node fieldNode, XMLItem modelElement) {
 		NodeList idNodes = fieldNode.getChildNodes();
-		for(int k = 0; k < idNodes.getLength(); k++) {
+		for (int k = 0; k < idNodes.getLength(); k++) {
 			Node idNode = idNodes.item(k);
-			if(idNode.getNodeType() == Node.ELEMENT_NODE) {
-				if(idNode.getNodeName() == "hasParent") {
+			if (idNode.getNodeType() == Node.ELEMENT_NODE) {
+				if (idNode.getNodeName() == "hasParent") {
 					modelElement.setParent(idNode.getTextContent());
 				}
-				if(idNode.getNodeName() == "element") {
+				if (idNode.getNodeName() == "element") {
 					modelElement.addChildElement(idNode.getTextContent());
+
+					// ingest optional attributes if defined
+					NamedNodeMap elementAttributes = idNode.getAttributes();
+
+					if (elementAttributes != null) {
+						int x = 0;
+						int y = 0;
+						int width = 0;
+						int height = 0;
+
+						int bottom = 0;
+						int right = 0;
+
+						int numAttrs = elementAttributes.getLength();
+						for (int i = 0; i < numAttrs; i++) {
+							Attr attr = (Attr) idNode.getAttributes().item(i);
+							String attrName = attr.getNodeName();
+							String attrValue = attr.getNodeValue();
+							// System.out.println("\t[" + attrName + "]=" + attrValue);
+							// modelElement.addAttribute(attrName, attrValue);
+//							top y
+//							left x
+//							bottom y+height
+//							right x + width
+							if (attrName.contentEquals("top")) {
+								y = Integer.parseInt(attrValue);
+							} else if (attrName.contentEquals("left")) {
+								x = Integer.parseInt(attrValue);
+							} else if (attrName.contentEquals("bottom")) {
+								bottom = Integer.parseInt(attrValue);
+							} else if (attrName.contentEquals("right")) {
+								right = Integer.parseInt(attrValue);
+							}
+						}
+
+						// convert from EA standard to Cameo standard
+						y = -y;
+						bottom = -bottom;
+
+						width = right - x;
+						height = bottom - y;
+						modelElement.addLocation(idNode.getTextContent(), new Rectangle(x, y, width, height));
+					}
+
 				}
-				if(idNode.getNodeName().contentEquals(XmlTagConstants.SUPPLIER) || idNode.getNodeName().contentEquals(XmlTagConstants.CLIENT)) {
+				
+				if (idNode.getNodeName().contentEquals(XmlTagConstants.SUPPLIER)
+						|| idNode.getNodeName().contentEquals(XmlTagConstants.CLIENT)) {
 					modelElement.addAttribute(idNode.getNodeName(), idNode.getTextContent());
 				}
-				if(idNode.getNodeName() == XmlTagConstants.CLASSIFIED_BY) {
+				if (idNode.getNodeName() == XmlTagConstants.CLASSIFIED_BY) {
 					modelElement.addAttribute(XmlTagConstants.CLASSIFIED_BY, idNode.getTextContent());
 				}
 			}
 		}
 		return modelElement;
 	}
+	
 	
 	public static XMLItem getAttributes(Node fieldNode, XMLItem modelElement) {	
 		NodeList attributeNodes = fieldNode.getChildNodes();

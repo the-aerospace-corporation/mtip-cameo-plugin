@@ -1,5 +1,6 @@
 package org.aero.huddle.util;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,6 +48,8 @@ public class XMLItem {
 	private List<String> constrainedElements = new ArrayList<String> ();
 	private List<String> newConstrainedElements = new ArrayList<String>();
 	
+	private HashMap<String, Rectangle> locations = new HashMap<String, Rectangle>();
+	
 	private Element supplierElement = null;
 	private Element clientElement = null;
 	
@@ -92,6 +95,19 @@ public class XMLItem {
 				this.constrainedElements.add(value);
 		} else {
 			this.attributes.put(key, value);
+		}
+	}
+	
+	public void addLocation(String key, Rectangle value) {
+		this.locations.put(key, value);
+	}
+
+	public Rectangle getLocation(String key) {
+		Set<String> keys = locations.keySet();
+		if (keys.contains(key)) {
+			return this.locations.get(key);
+		} else {
+			return new Rectangle(-999, -999, -999, -999);
 		}
 	}
 	
