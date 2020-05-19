@@ -76,6 +76,7 @@ public abstract class CommonElement {
 					sysmlElement.setOwner(owner);
 				} catch(IllegalArgumentException iae){
 					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
+					CameoUtils.logGUI(logMessage);
 					ImportLog.log(logMessage);
 					sysmlElement.dispose();
 				}

@@ -71,6 +71,9 @@ public class CameoUtils {
 			}
 		} else {
 			Element nextOwner = owner.getOwner();
+			if(nextOwner == null) {
+				return null;
+			}
 			return findNearestRegion(project, nextOwner);
 		}
 	}

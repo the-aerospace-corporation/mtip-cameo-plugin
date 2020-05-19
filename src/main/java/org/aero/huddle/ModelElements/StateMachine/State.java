@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -26,7 +27,7 @@ public class State extends CommonElement {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create State Element");
 		}
-		Element sysmlElement = f.createStateInstance();
+		sysmlElement = f.createStateInstance();
 		((NamedElement)sysmlElement).setName(name);
 		
 		
@@ -57,11 +58,23 @@ public class State extends CommonElement {
 				}
 			} else {
 				owner = CameoUtils.findNearestRegion(project, owner);
+				if(owner == null) {
+					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
+					CameoUtils.logGUI(logMessage);
+					ImportLog.log(logMessage);
+					sysmlElement.dispose();
+					return null;
+				}
 				sysmlElement.setOwner(owner);
 			}
 		} else {
-			CameoUtils.logGUI("No region to add InitialPseudoState " + name + " to.");
+			String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
+			CameoUtils.logGUI(logMessage);
+			ImportLog.log(logMessage);
+			sysmlElement.dispose();
+			return null;
 		}
+		
 		if(xmlElement != null) {
 			if(xmlElement.isSubmachine()) {
 				com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;

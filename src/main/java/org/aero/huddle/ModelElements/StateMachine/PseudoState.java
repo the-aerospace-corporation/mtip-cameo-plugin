@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.w3c.dom.Document;
 
@@ -31,7 +32,8 @@ public abstract class PseudoState extends CommonElement {
 			SessionManager.getInstance().createSession(project, "Create Class Element");
 		}
 		
-		Pseudostate pseudoState = f.createPseudostateInstance();
+		sysmlElement = f.createPseudostateInstance();
+		Pseudostate pseudoState = (Pseudostate)sysmlElement;
 		pseudoState.setKind(this.psKind);
 		pseudoState.setName(this.name);
 		
@@ -61,10 +63,21 @@ public abstract class PseudoState extends CommonElement {
 				}
 			} else {
 				owner = CameoUtils.findNearestRegion(project, owner);
+				if(owner == null) {
+					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
+					CameoUtils.logGUI(logMessage);
+					ImportLog.log(logMessage);
+					sysmlElement.dispose();
+					return null;
+				}
 				pseudoState.setOwner(owner);
 			}
 		} else {
-			CameoUtils.logGUI("No region to add InitialPseudoState " + name + " to.");
+			String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
+			CameoUtils.logGUI(logMessage);
+			ImportLog.log(logMessage);
+			sysmlElement.dispose();
+			return null;
 		}
 		
 		SessionManager.getInstance().closeSession(project);

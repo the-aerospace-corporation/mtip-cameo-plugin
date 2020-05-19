@@ -314,6 +314,11 @@ public class ImportXmlSysml {
 			}
 		} else if(modelElement.getType().equals(SysmlConstants.TRANSITION)) {
 			owner = CameoUtils.findNearestRegion(project, supplier);
+			if(owner == null) {
+				String logMessage = "Invalid parent. Parent invalid for element " + modelElement.getName() + " with id " + modelElement.getEAID() + ". Element could not be placed in model.";
+				ImportLog.log(logMessage);
+				return null;
+			}
 		} else if (modelElement.getType().equals(SysmlConstants.BINDINGCONNECTOR) || modelElement.getType().equals(SysmlConstants.CONNECTOR)) {
 			// owner is unchanged.
 		} else {
