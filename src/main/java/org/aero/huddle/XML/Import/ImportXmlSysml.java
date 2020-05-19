@@ -22,6 +22,7 @@ import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.ModelElements.CommonRelationshipsFactory;
 import org.aero.huddle.ModelElements.ModelDiagram;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
@@ -85,6 +86,7 @@ public class ImportXmlSysml {
 		MODEL_VALIDATION_PACKAGE = null;
 		CHECK_CLASSES = null;
 		CHECK_RELATIONSHIPS = null;
+		ImportLog.reset();
     }
     
     public static void parseXML(Document doc, Element start) throws NullPointerException{
@@ -110,6 +112,7 @@ public class ImportXmlSysml {
 			buildValidationSuite();
 		}
 		buildModel(completeXML);
+		ImportLog.save();
 	}
 
 	public static void buildModel(HashMap<String, XMLItem> parsedXML) {
@@ -300,8 +303,14 @@ public class ImportXmlSysml {
 		}
 		
 		if(modelElement.getType().equals(SysmlConstants.OBJECTFLOW) || modelElement.getType().equals(SysmlConstants.CONTROLFLOW)) {
-			if(!(owner instanceof Activity)) {
-				owner = CameoUtils.findNearestActivity(project, supplier);
+			try {
+				if(!(owner instanceof Activity)) {
+					owner = CameoUtils.findNearestActivity(project, supplier);
+				}
+			} catch(NullPointerException npe) {
+				String logMessage = "Invalid parent. Parent invalid for element " + modelElement.getName() + " with id " + modelElement.getEAID() + ". Element could not be placed in model.";
+				ImportLog.log(logMessage);
+				return null;
 			}
 		} else if(modelElement.getType().equals(SysmlConstants.TRANSITION)) {
 			owner = CameoUtils.findNearestRegion(project, supplier);
@@ -324,13 +333,16 @@ public class ImportXmlSysml {
 			CameoUtils.logGUI("Physically creating Relationship in Cameo");
 			CameoUtils.logGUI("Setting owner to elemnt with id " + owner.getLocalID());
 			Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
-			String GUID = newElement.getID();
-			parentMap.put(id, GUID);
-			modelElement.setCameoID(GUID);
-			Map.Entry<Element, Element> entry = new AbstractMap.SimpleEntry<Element, Element>(supplier, client);
-			linktoPair.put(id, entry);
+			if(newElement != null) {
+				String GUID = newElement.getID();
+				parentMap.put(id, GUID);
+				modelElement.setCameoID(GUID);
+				Map.Entry<Element, Element> entry = new AbstractMap.SimpleEntry<Element, Element>(supplier, client);
+				linktoPair.put(id, entry);
 
-			return newElement;
+				return newElement;
+			}
+			return null;
 		} else {
 			CameoUtils.logGUI("Relationship already created!");
 			return null;
@@ -478,19 +490,23 @@ public class ImportXmlSysml {
 			if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType())) {
 				CommonElement element = cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 				Element newElement = element.createElement(project, owner, modelElement);
-				String GUID = newElement.getID();
-				modelElement.setCameoID(GUID);
-				parentMap.put(id, GUID);
-				
-				//Get stereotypes from paredXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
-				HashMap<String, String> stereotypes = modelElement.getStereotypes();
-				if(!MapUtils.isEmpty(stereotypes)) {
-					for(String stereotype : stereotypes.keySet()) {
-						addStereotype(newElement, stereotype, stereotypes.get(stereotype));
-						addStereotypeFields(newElement, modelElement);
+				if(newElement != null) {
+					String GUID = newElement.getID();
+					modelElement.setCameoID(GUID);
+					parentMap.put(id, GUID);
+					
+					//Get stereotypes from paredXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
+					HashMap<String, String> stereotypes = modelElement.getStereotypes();
+					if(!MapUtils.isEmpty(stereotypes)) {
+						for(String stereotype : stereotypes.keySet()) {
+							addStereotype(newElement, stereotype, stereotypes.get(stereotype));
+							addStereotypeFields(newElement, modelElement);
+						}
 					}
+					return newElement;
+				} else {
+					ImportLog.log("Element not created. Name: " + modelElement.getAttribute("name") + ". ID: " + modelElement.getEAID());
 				}
-				return newElement;
 			}
 		} else {
 			return (Element) project.getElementByID(modelElement.getCameoID());

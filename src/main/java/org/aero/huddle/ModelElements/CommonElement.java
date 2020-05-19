@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -29,13 +32,62 @@ public abstract class CommonElement {
 	protected String EAID;
 	protected String sysmlConstant;
 	protected String xmlConstant;
+	protected String creationType;
+	protected ElementsFactory f;
+	protected Element sysmlElement;
 	
 	public CommonElement(String name, String EAID) {
 		this.EAID = EAID;
 		this.name = name;
+		this.f = Application.getInstance().getProject().getElementsFactory();
 	}
 	
-	public abstract Element createElement(Project project, Element owner, XMLItem xmlElement);
+	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTSFACTORY)) {
+			return createElementByElementFactory(project, owner, xmlElement);
+		}
+		return null;
+	}
+	
+	protected Element createElementByElementFactory(Project project, Element owner, XMLItem xmlElement) {
+		ElementsFactory f = project.getElementsFactory();
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create " +  this.sysmlConstant + " Element");
+		}
+		sysmlElement = null;
+		if(this.sysmlConstant.contentEquals(SysmlConstants.ACTION)) {
+			sysmlElement = f.createCallBehaviorActionInstance();
+		} else if(this.sysmlConstant.contentEquals(SysmlConstants.ACCEPTEVENTACTION)) {
+			sysmlElement = f.createAcceptEventActionInstance();
+		}
+		
+		if(sysmlElement != null) {
+			((NamedElement)sysmlElement).setName(name);
+			if(owner != null) {
+				try {
+					sysmlElement.setOwner(owner);
+				} catch(IllegalArgumentException iae){
+					String logMessage = "Invalid parent. Parent invalid for element " + name + " with id " + EAID + ". Element could not be placed in model.";
+					ImportLog.log(logMessage);
+					sysmlElement.dispose();
+				}	
+			} else {
+				try {
+					sysmlElement.setOwner(owner);
+				} catch(IllegalArgumentException iae){
+					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
+					ImportLog.log(logMessage);
+					sysmlElement.dispose();
+				}
+			}
+			
+			SessionManager.getInstance().closeSession(project);
+			return sysmlElement;
+		} else {
+			ImportLog.log("SysmlConstants type not set for class " + xmlElement.getType() + ". Elements Factory could not create element");
+		}
+		return null;
+	}
 	
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);

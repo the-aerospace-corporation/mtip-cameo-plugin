@@ -1,6 +1,8 @@
 package org.aero.huddle.ModelElements.Activity;
 
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -26,19 +28,27 @@ public class CallOperationAction extends CommonElement {
 		}
 		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction coa = f.createCallOperationActionInstance();
 		((NamedElement)coa).setName(name);
-		if(owner != null) {
-			coa.setOwner(owner);
-		} else {
-			coa.setOwner(project.getPrimaryModel());
+		try {
+			if(owner != null) {
+				coa.setOwner(owner);
+			} else {
+				coa.setOwner(project.getPrimaryModel());
+			}
+			
+			if(xmlElement != null) {
+				Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
+				coa.setOperation(operation);
+			}
+					
+			SessionManager.getInstance().closeSession(project);
+			return coa;
+		} catch(IllegalArgumentException iae) {
+			String logMessage = "Invalid parent. Parent invalid for element " + name + " with id " + EAID + ". Element could not be placed in model.";
+			CameoUtils.logGUI(logMessage);
+			ImportLog.log(logMessage);
+			sysmlElement.dispose();
 		}
-		
-		if(xmlElement != null) {
-			Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
-			coa.setOperation(operation);
-		}
-				
-		SessionManager.getInstance().closeSession(project);
-		return coa;
+		return null;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.io.StringWriter;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -30,14 +31,22 @@ public class ControlFlow extends CommonRelationship {
 		
 		Element controlFlow = project.getElementsFactory().createControlFlowInstance();
 		try {
+			if(supplier == null || client == null) {
+				String logMessage = "Invalid client/supplier control flow " + name + " with id " + EAID + ". Supplier or client does not exist or was not created.";
+				CameoUtils.logGUI(logMessage);
+				ImportLog.log(logMessage);
+				controlFlow.dispose();
+				return null;
+			}
 			ActivityEdge activityEdge = (ActivityEdge)controlFlow;
 			activityEdge.setSource((ActivityNode) supplier);
 			activityEdge.setTarget((ActivityNode) client);
 		} catch(ClassCastException cce) {
-			CameoUtils.logGUI("Client or supplier incorrect type to be an activity node");
-			StringWriter sw = new StringWriter();
-			cce.printStackTrace(new PrintWriter(sw));
-			CameoUtils.logGUI(sw.toString());
+			String logMessage = "Invalid client/supplier control flow " + name + " with id " + EAID + ". Supplier or client does not exist or was not created.";
+			CameoUtils.logGUI(logMessage);
+			ImportLog.log(logMessage);
+			controlFlow.dispose();
+			return null;
 		}
 		
 		((NamedElement)controlFlow).setName(name);

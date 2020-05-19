@@ -156,6 +156,11 @@ public class XmlTagConstants
 	public static final String SUPPLIER_ID = "supplier_id";
 	public static final String RELATIONSHIP_STEREOTYPE = "relationshipStereotype";
 	
+	//Model Creation Type Constants
+	public static final String ELEMENTSFACTORY = "ElementsFactory";
+	public static final String CLASSWITHSTEREOTYPE = "ClassWithStereotype";
+	
+	
 	//SysML nomenclature, but not elements
 	public static final String APPLIEDSTEREOTYPE = "appliedStereotype";
 	public static final String TAG = "tag";
