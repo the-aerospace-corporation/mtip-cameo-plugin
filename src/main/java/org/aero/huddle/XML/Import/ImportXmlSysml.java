@@ -230,17 +230,17 @@ public class ImportXmlSysml {
 		
 		for (String str : origStrings) {
 			String rawType = modelElement.getChildElementType(str);
-
+			rawType = rawType.replaceAll("\\s+", "");
 			CameoUtils.logGUI("Diagram,rawTyped: " + rawType);
 
 			String type = rawType.split(Pattern.quote("."))[1];
-		     
-		 	CameoUtils.logGUI("Diagram, element id: " + str);
-			
-				CameoUtils.logGUI("Diagram, element type: " + type);
-			
-		     
-			if (diagramAllowedTypes.contains(type)) {
+
+			CameoUtils.logGUI("Diagram, element id: " + str);
+
+			CameoUtils.logGUI("Diagram, element type: " + type);
+
+			// if (diagramAllowedTypes.contains(type)) {
+			if (CameoUtils.containsIgnoreCase(diagramAllowedTypes, type)) {
 				elementsStrings.add(str);
 				CameoUtils.logGUI("Diagram, ADDING element type: " + type);
 			} else {
@@ -254,7 +254,6 @@ public class ImportXmlSysml {
 				}
 			}
 		}
-			
 		
 		List<Rectangle> elementsRectangles = elementsStrings.stream().map(s -> {
 			Rectangle rect = modelElement.getLocation(s);

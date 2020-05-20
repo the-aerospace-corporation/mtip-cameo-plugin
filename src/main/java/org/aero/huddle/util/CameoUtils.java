@@ -314,4 +314,13 @@ public class CameoUtils {
 		String stereotype = SysMLProfile.VALUETYPE_STEREOTYPE;
 		return isSysmlStereotypedElement(element, project, stereotype);
 	}
+	
+	public static boolean containsIgnoreCase(List<String> list, String soughtFor) {
+		for (String current : list) {
+			if (current.equalsIgnoreCase(soughtFor)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
