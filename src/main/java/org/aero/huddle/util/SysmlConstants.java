@@ -67,6 +67,7 @@ public class SysmlConstants {
 	public static final String LIFELINE = "Lifeline";
 	public static final String LOOPNODE = "LoopNode";
 	public static final String MERGENODE = "MergeNode";
+	public static final String MESSAGE = "Message";
 	public static final String METACLASS = "Metaclass";
 	public static final String MODEL = "Model";
 	public static final String OPAQUEACTION = "OpaqueAction";
@@ -217,6 +218,7 @@ public class SysmlConstants {
 			MERGENODE,
 			METACLASS,
 			MODEL,
+			MESSAGE,
 			OPAQUEACTION,
 			OPAQUEEXPRESSION,
 			OPERATION,

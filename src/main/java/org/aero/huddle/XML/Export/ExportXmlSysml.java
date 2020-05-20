@@ -77,6 +77,7 @@ import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.C
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Interaction;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline;
+import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionUse;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension;
@@ -408,6 +409,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof MergeNode) {
 			commonElementType = SysmlConstants.MERGENODE;
 			CameoUtils.logGUI("Exporting Merge Node");
+		} else if(element instanceof Message) {
+			commonElementType = SysmlConstants.MESSAGE;
+			CameoUtils.logGUI("Exporting Message");
 		} else if(CameoUtils.isModel(element, project)) {
 			commonElementType = SysmlConstants.MODEL;
 			CameoUtils.logGUI("Exporting Model");

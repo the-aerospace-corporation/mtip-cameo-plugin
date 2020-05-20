@@ -8,6 +8,7 @@ import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
+import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
@@ -17,14 +18,21 @@ import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.C
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
+import com.nomagic.uml2.impl.ElementsFactory;
 
 public abstract class CommonRelationship {
 	protected String name;
 	protected String EAID;
+	protected String creationType;
+	protected String xmlConstant;
+	protected String sysmlConstant;
+	protected Element sysmlElement;
+	protected ElementsFactory f;
 	
 	public CommonRelationship(String name, String EAID) {
 		this.EAID = EAID;
 		this.name = name;
+		this.f = Application.getInstance().getProject().getElementsFactory();
 	}
 	
 	public abstract Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement);

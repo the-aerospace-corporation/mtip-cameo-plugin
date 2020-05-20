@@ -1,5 +1,6 @@
 package org.aero.huddle.ModelElements;
 
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -13,6 +14,10 @@ import com.nomagic.uml2.impl.ElementsFactory;
 public class Generalization extends CommonRelationship {
 	public Generalization(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.CLASS;
+		this.xmlConstant = XmlTagConstants.CLASS;
+		this.sysmlElement = f.createGeneralizationInstance();
 	}
 
 	@Override

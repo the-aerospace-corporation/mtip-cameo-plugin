@@ -79,6 +79,7 @@ public class XmlTagConstants
 	public static final String OPAQUEACTION = "sysml.OpaqueAction";
 	public static final String OUTPUTPIN = "sysml.OutputPin";
 	public static final String MERGENODE = "sysml.MergeNode";
+	public static final String MESSAGE = "sysml.Message";
 	public static final String METACLASS = "sysml.Metaclass";
 	public static final String MODEL = "sysml.Model";
 	public static final String OPAQUEEXPRESSION = "sysml.OpaqueExpression";
