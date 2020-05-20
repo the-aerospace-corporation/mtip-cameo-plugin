@@ -4,12 +4,14 @@ import java.util.Collection;
 import java.util.List;
 
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
@@ -26,7 +28,7 @@ public abstract class CommonRelationship {
 	protected String creationType;
 	protected String xmlConstant;
 	protected String sysmlConstant;
-	protected Element sysmlElement;
+	protected Element sysmlRelationship;
 	protected ElementsFactory f;
 	
 	public CommonRelationship(String name, String EAID) {
@@ -35,7 +37,42 @@ public abstract class CommonRelationship {
 		this.f = Application.getInstance().getProject().getElementsFactory();
 	}
 	
-	public abstract Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement);
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create " + this.sysmlConstant + " Element");
+		}
+		
+		if(supplier != null && client != null) {
+			if(owner != null) {
+				try {
+					sysmlRelationship.setOwner(owner);
+				} catch(IllegalArgumentException iaeOwner) {
+					CameoUtils.logGUI("No owner found for " + name + " with id " + EAID + ". Attempting to set supplier or client as parent.");
+				}
+			}
+			if(sysmlRelationship.getOwner() == null) {
+				try {
+					sysmlRelationship.setOwner(supplier);
+				} catch(IllegalArgumentException iae) {
+					try {
+						sysmlRelationship.setOwner(client);
+					} catch(IllegalArgumentException iae2) {
+						String logMessage = "Invalid parent. No parent provided and supplier and client invalid parent for " + name + " with id " + EAID + ". Relationship could not be placed in model.";
+						CameoUtils.logGUI(logMessage);
+						ImportLog.log(logMessage);
+						sysmlRelationship.dispose();
+						return null;
+					}
+				}
+			}
+		}
+		
+		ModelHelper.setSupplierElement(sysmlRelationship, supplier);
+		ModelHelper.setClientElement(sysmlRelationship, client);
+		
+		SessionManager.getInstance().closeSession(project);
+		return sysmlRelationship;
+	}
 
 	public org.w3c.dom.Element createBaseXML(Element element, Project project, Document xmlDoc) {
 		return null;

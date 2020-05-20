@@ -109,7 +109,9 @@ public class ImportXmlSysml {
 	public static void createModel() throws NullPointerException {
 		buildModel(profileXML);
 		if(CREATE_VALIDATION_ON_IMPORT) {
-			buildValidationSuite();
+			if(!profileXML.isEmpty() && !stereotypesXML.isEmpty()) {
+				buildValidationSuite();
+			}
 		}
 		buildModel(completeXML);
 		ImportLog.save();

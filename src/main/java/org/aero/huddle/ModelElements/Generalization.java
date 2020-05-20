@@ -17,29 +17,9 @@ public class Generalization extends CommonRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.CLASS;
 		this.xmlConstant = XmlTagConstants.CLASS;
-		this.sysmlElement = f.createGeneralizationInstance();
+		this.sysmlRelationship = f.createGeneralizationInstance();
 	}
 
-	@Override
-	public Element createElement(Project project, Element owner, Element supplier, Element client, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Generalization Element");
-		}
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization generalization = f.createGeneralizationInstance();
-		
-		if(supplier != null) {
-			generalization.setOwner(supplier);
-		} else {
-			generalization.setOwner(project.getPrimaryModel());
-		}
-		
-		ModelHelper.setSupplierElement(generalization, supplier);
-		ModelHelper.setClientElement(generalization, client);
-		
-		SessionManager.getInstance().closeSession(project);
-		return generalization;
-	}
 
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {

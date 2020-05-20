@@ -54,12 +54,6 @@ public abstract class CommonElement {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create " +  this.sysmlConstant + " Element");
 		}
-		sysmlElement = null;
-		if(this.sysmlConstant.contentEquals(SysmlConstants.ACTION)) {
-			sysmlElement = f.createCallBehaviorActionInstance();
-		} else if(this.sysmlConstant.contentEquals(SysmlConstants.ACCEPTEVENTACTION)) {
-			sysmlElement = f.createAcceptEventActionInstance();
-		}
 		
 		if(sysmlElement != null) {
 			((NamedElement)sysmlElement).setName(name);
