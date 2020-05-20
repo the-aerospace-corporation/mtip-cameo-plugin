@@ -1,5 +1,8 @@
 package org.aero.huddle.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SysmlConstants {
 	//Categorization constants
 	public static final String ELEMENT = "Element";
@@ -284,4 +287,43 @@ public class SysmlConstants {
 			STM,
 			ACT,
 	};
+	
+	
+	public static final String[] STM_TYPES = {
+			CHOICEPSEUDOSTATE,
+			CONNECTIONPOINTREFERENCE,
+			DEEPHISTORY,
+			ENTRYPOINT,
+			EXITPOINT,
+			FINALSTATE,
+			FORK,
+			FUNCTIONBEHAVIOR,
+			INITIALPSEUDOSTATE,
+			JOIN,
+			"PseudoState", // verify with Trent
+			SHALLOWHISTORY,
+			STATE,
+			STATEMACHINE,
+			TERMINATE,
+			TRANSITION,
+			TRIGGER
+	};
+	
+
+	public static Map<String, String[]> diagramTypeMap;
+	static {
+		diagramTypeMap = new HashMap<>();
+//		diagramTypeMap.put(SysmlConstants.BDD, BDD_TYPES);
+//		diagramTypeMap.put(SysmlConstants.IBD, IBD_TYPES);
+//		diagramTypeMap.put(SysmlConstants.PKG, PKG_TYPES);
+//		diagramTypeMap.put(SysmlConstants.REQ, REQ_TYPES);
+//		diagramTypeMap.put(SysmlConstants.PAR, PAR_TYPES);
+		diagramTypeMap.put(SysmlConstants.STM, STM_TYPES);
+//		diagramTypeMap.put(SysmlConstants.ACT, ACT_TYPES);
+//		diagramTypeMap.put(SysmlConstants.SEQ, SEQ_TYPES);
+//		diagramTypeMap.put(SysmlConstants.UC, UC_TYPES);
+//		diagramTypeMap.put(SysmlConstants.PROFILEDIAGRAM, PROFILEDIAGRAM_TYPES);
+//		diagramTypeMap.put(SysmlConstants.CLASSDIAGRAM, CLASSDIAGRAM_TYPES);
+
+	}
 }
