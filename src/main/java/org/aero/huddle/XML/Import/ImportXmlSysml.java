@@ -224,9 +224,9 @@ public class ImportXmlSysml {
 		String diagramType = modelElement.getType();
 		List<String> diagramAllowedTypes = 	Arrays.asList(SysmlConstants.diagramTypeMap.get(diagramType));
 				
-		for (String item: diagramAllowedTypes) {
-			CameoUtils.logGUI("Diagram,ALLOWED type: " + item);
-		}
+//		for (String item: diagramAllowedTypes) {
+//			CameoUtils.logGUI("Diagram,ALLOWED type: " + item);
+//		}
 		
 		for (String str : origStrings) {
 			String rawType = modelElement.getChildElementType(str);

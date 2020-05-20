@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.ModelElements.ModelDiagram;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
@@ -243,7 +244,12 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
 				} else {
 					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, curPoint);
-					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
+					if (shape != null) {
+						PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
+					} else {
+						CameoUtils.logGUI("addElements: SKIPPED, Issue with element:" + element.getHumanName() );
+						ImportLog.log("Element not added in diagram. Name: " +  element.getHumanName());
+					}
 				}
 
 				counter++;
