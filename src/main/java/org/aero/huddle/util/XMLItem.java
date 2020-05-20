@@ -49,6 +49,7 @@ public class XMLItem {
 	private List<String> newConstrainedElements = new ArrayList<String>();
 	
 	private HashMap<String, Rectangle> locations = new HashMap<String, Rectangle>();
+	private HashMap<String, String> childElementType = new HashMap<String, String>();
 	
 	private Element supplierElement = null;
 	private Element clientElement = null;
@@ -101,6 +102,9 @@ public class XMLItem {
 	public void addLocation(String key, Rectangle value) {
 		this.locations.put(key, value);
 	}
+	public void addChildElementType(String key, String value) {
+		this.childElementType.put(key, value);
+	}
 
 	public Rectangle getLocation(String key) {
 		Set<String> keys = locations.keySet();
@@ -108,6 +112,14 @@ public class XMLItem {
 			return this.locations.get(key);
 		} else {
 			return new Rectangle(-999, -999, -999, -999);
+		}
+	}
+	public String getChildElementType(String key) {
+		Set<String> keys = childElementType.keySet();
+		if (keys.contains(key)) {
+			return this.childElementType.get(key);
+		} else {
+			return "sysml.UNKNOWN_TYPE";
 		}
 	}
 	

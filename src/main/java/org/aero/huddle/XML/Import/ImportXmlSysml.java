@@ -158,6 +158,7 @@ public class ImportXmlSysml {
 		String cameoUnique = parentMap.get(eaID);
 
 		if (cameoUnique == null) {
+			ImportLog.log("tryToGetElement: Cannot get Element of ID: " + eaID);
 			return null;
 
 		} else {
@@ -205,9 +206,54 @@ public class ImportXmlSysml {
 		String GUID = newElement.getID();
 		modelElement.setCameoID(GUID);
 		parentMap.put(id, GUID);
-	
-		List<String> elementsStrings = modelElement.getChildElements(parsedXML);
-		List<String> elementsLocations = modelElement.getChildElements(parsedXML);
+		
+		//Orig
+//		List<String> elementsStrings = modelElement.getChildElements(parsedXML);
+//		List<String> elementsLocations = modelElement.getChildElements(parsedXML);
+//		List<Rectangle> elementsRectangles = elementsStrings.stream().map(s -> {
+//			Rectangle rect = modelElement.getLocation(s);
+//			return rect;
+//		}).collect(Collectors.toList());
+		
+		//Filter first by diagramType
+		List<String> origStrings = modelElement.getChildElements(parsedXML);
+		List<String> elementsStrings= new ArrayList<String>();
+		
+		String diagramType = modelElement.getType();
+		List<String> diagramAllowedTypes = 	Arrays.asList(SysmlConstants.diagramTypeMap.get(diagramType));
+				
+		for (String item: diagramAllowedTypes) {
+			CameoUtils.logGUI("Diagram,ALLOWED type: " + item);
+		}
+		
+		for (String str : origStrings) {
+			String rawType = modelElement.getChildElementType(str);
+
+			CameoUtils.logGUI("Diagram,rawTyped: " + rawType);
+
+			String type = rawType.split(Pattern.quote("."))[1];
+		     
+		 	CameoUtils.logGUI("Diagram, element id: " + str);
+			
+				CameoUtils.logGUI("Diagram, element type: " + type);
+			
+		     
+			if (diagramAllowedTypes.contains(type)) {
+				elementsStrings.add(str);
+				CameoUtils.logGUI("Diagram, ADDING element type: " + type);
+			} else {
+				CameoUtils.logGUI("Diagram, **NOT** ADDING element type: " + type);
+				XMLItem item = parsedXML.get(str);
+				if (item != null) {
+					ImportLog.log("Element not added to diagram. Name: " + item.getAttribute("name") + " type: " + type + " ID: "
+							+ item.getEAID());
+				} else {
+					ImportLog.log("Element not added to diagram. ID: " + str + " type: " + type);
+				}
+			}
+		}
+			
+		
 		List<Rectangle> elementsRectangles = elementsStrings.stream().map(s -> {
 			Rectangle rect = modelElement.getLocation(s);
 			return rect;
@@ -916,7 +962,7 @@ public class ImportXmlSysml {
 
 						int bottom = 0;
 						int right = 0;
-
+						String type = "";
 						int numAttrs = elementAttributes.getLength();
 						for (int i = 0; i < numAttrs; i++) {
 							Attr attr = (Attr) idNode.getAttributes().item(i);
@@ -936,6 +982,8 @@ public class ImportXmlSysml {
 								bottom = Integer.parseInt(attrValue);
 							} else if (attrName.contentEquals("right")) {
 								right = Integer.parseInt(attrValue);
+							} else if (attrName.contentEquals("type")) {
+								type = attrValue;
 							}
 						}
 
@@ -946,6 +994,7 @@ public class ImportXmlSysml {
 						width = right - x;
 						height = bottom - y;
 						modelElement.addLocation(idNode.getTextContent(), new Rectangle(x, y, width, height));
+						modelElement.addChildElementType(idNode.getTextContent(), type);
 					}
 
 				}

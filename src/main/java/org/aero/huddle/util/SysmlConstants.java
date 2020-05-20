@@ -1,5 +1,8 @@
 package org.aero.huddle.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SysmlConstants {
 	//Categorization constants
 	public static final String ELEMENT = "Element";
@@ -286,4 +289,178 @@ public class SysmlConstants {
 			STM,
 			ACT,
 	};
+	
+	public static final String[] BDD_TYPES = {
+			ASSOCIATIONBLOCK,
+			BLOCK,
+			CONSTRAINTBLOCK,
+			DOMAIN,
+			ENUMERATION,
+			EXTERNAL,
+			FLOWPORT,
+			FLOWSPECIFICATION,
+			FULLPORT,
+			INSTANCESPECIFICATION,
+			INTERFACE,
+			INTERFACEBLOCK,
+			//NOTE, // not supported?
+			OPERATION,
+			PARTPROPERTY,
+			PORT,
+			PROXYPORT,
+			QUANTITYKIND,
+			SIGNAL,
+			SUBSYSTEM,
+			SYSTEM,
+			SYSTEMCONTEXT,
+			UNIT,
+			VALUEPROPERTY,
+			VALUETYPE
+	};
+
+
+	public static final String[] IBD_TYPES = {
+			ASSOCIATIONBLOCK,
+			BLOCK,
+			CONSTRAINTBLOCK,
+			DOMAIN,
+			ENUMERATION,
+			EXTERNAL,
+			FLOWPORT,
+			FLOWSPECIFICATION,
+			FULLPORT,
+			INSTANCESPECIFICATION,
+			INTERFACE,
+			INTERFACEBLOCK,
+			//NOTE, // not supported?
+			OPERATION,
+			PARTPROPERTY,
+			PORT,
+			PROXYPORT,
+			QUANTITYKIND,
+			SIGNAL,
+			SUBSYSTEM,
+			SYSTEM,
+			SYSTEMCONTEXT,
+			UNIT,
+			VALUEPROPERTY,
+			VALUETYPE
+	};
+
+	public static final String[] REQ_TYPES = {
+			COPY,
+			DERIVEREQUIREMENT,
+			DESIGNCONSTRAINT,
+			EXTENDEDREQUIREMENT,
+			FUNCTIONALREQUIREMENT,
+			INTERFACEREQUIREMENT,
+			PERFORMANCEREQUIREMENT,
+			PHYSICALREQUIREMENT,
+			REFINE,
+			REQUIREMENT,
+			SATISFY,
+			TRACE,
+			VERIFY
+	};
+	
+	public static final String[] STM_TYPES = {
+			CHOICEPSEUDOSTATE,
+			CONNECTIONPOINTREFERENCE,
+			DEEPHISTORY,
+			ENTRYPOINT,
+			EXITPOINT,
+			FINALSTATE,
+			FORK,
+			FUNCTIONBEHAVIOR,
+			INITIALPSEUDOSTATE,
+			JOIN,
+			"PseudoState", // verify with Trent
+			SHALLOWHISTORY,
+			STATE,
+			STATEMACHINE,
+			TERMINATE,
+			TRANSITION,
+			TRIGGER
+	};
+	
+	public static final String[] ACT_TYPES = {
+			ACCEPTEVENTACTION,
+			ACTION,
+			ACTIVITY,
+			ACTIVITYFINALNODE,
+			ACTIVITYPARAMETERNODE,
+			ACTIVITYPARTITION,
+			CALLBEHAVIORACTION,
+			CALLOPERATIONACTION,
+			CENTRALBUFFERNODE,
+			CHANGEEVENT,
+			CONDITIONALNODE,
+			CONTROLFLOW,
+			CREATEOBJECTACTION,
+			DATASTORENODE,
+			DECISIONNODE,
+			DESTROYOBJECTACTION,
+			FLOWFINALNODE,
+			FORKNODE,
+			INITIALNODE,
+			INPUTPIN,
+			JOINNODE,
+			LOOPNODE,
+			MERGENODE,
+			OBJECTFLOW,
+			"ObjectNode", //OBJECTNODE,
+			OPAQUEACTION,
+			OUTPUTPIN,
+			SENDSIGNALACTION,
+			TIMEEVENT
+	};
+	
+	public static final String[] SEQ_TYPES = {
+			"CECombinedFragment",
+			COLLABORATION,
+			//"DurationConstraint",
+			INTERACTION,
+			INTERACTIONUSE,
+			LIFELINE,
+			//"Message",
+			PROPERTY,
+			//"StateInvariant",
+			//"TimeConstraint"
+	};
+	
+	public static final String[] UC_TYPES = {
+			ACTOR,
+			EXTEND,
+			INCLUDE,
+			USECASE
+	};
+	
+	public static final String[] PROFILEDIAGRAM_TYPES = {
+			CLASS,
+			CONSTRAINT,
+			CUSTOMIZATION,
+			EXTENSION,
+			METACLASS,
+			OPAQUEEXPRESSION,
+			PROFILE
+	};
+	
+	
+	
+	public static Map<String, String[]> diagramTypeMap;
+	static {
+		diagramTypeMap = new HashMap<>();
+		diagramTypeMap.put(SysmlConstants.BDD, BDD_TYPES);
+		diagramTypeMap.put(SysmlConstants.IBD, IBD_TYPES);
+//		diagramTypeMap.put(SysmlConstants.PKG, PKG_TYPES);
+		diagramTypeMap.put(SysmlConstants.REQ, REQ_TYPES);
+//		diagramTypeMap.put(SysmlConstants.PAR, PAR_TYPES);
+		diagramTypeMap.put(SysmlConstants.STM, STM_TYPES);
+		diagramTypeMap.put(SysmlConstants.ACT, ACT_TYPES);
+		diagramTypeMap.put(SysmlConstants.SEQ, SEQ_TYPES);
+		diagramTypeMap.put(SysmlConstants.UC, UC_TYPES);
+		diagramTypeMap.put(SysmlConstants.PROFILEDIAGRAM, PROFILEDIAGRAM_TYPES);
+//		diagramTypeMap.put(SysmlConstants.CLASSDIAGRAM, CLASSDIAGRAM_TYPES);
+
+	}
 }
