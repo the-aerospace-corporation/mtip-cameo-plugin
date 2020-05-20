@@ -2,6 +2,7 @@ package org.aero.huddle.ModelElements.InternalBlock;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -40,11 +41,26 @@ public class Connector extends CommonRelationship {
 		}
 		
 		((NamedElement)connector).setName(name);
-		if(owner == null || !(SysMLProfile.isBlock(owner))) {
-			CameoUtils.findNearestBlock(project, supplier);
-		} else {
-			connector.setOwner(owner);
+		try {
+			if(owner == null || !(SysMLProfile.isBlock(owner))) {
+				owner = CameoUtils.findNearestBlock(project, supplier);
+				if(owner == null) {
+					String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";
+					ImportLog.log(logMessage);
+					connector.dispose();
+					return null;
+				}
+				connector.setOwner(owner);
+			} else {
+				connector.setOwner(owner);
+			}
+		} catch(IllegalArgumentException iae) {
+			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";
+			ImportLog.log(logMessage);
+			connector.dispose();
+			return null;
 		}
+		
 		
 		SessionManager.getInstance().closeSession(project);
 		return connector;

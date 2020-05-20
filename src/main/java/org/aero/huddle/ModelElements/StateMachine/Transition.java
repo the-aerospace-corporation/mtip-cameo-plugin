@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -41,9 +42,16 @@ public class Transition extends CommonRelationship {
 			functionBehavior.getBody().add(xmlElement.getAttribute("effect"));
 			transition.setEffect(functionBehavior);
 		}
+		try {
+			transition.setSource((Vertex) supplier);
+			transition.setTarget((Vertex) client);
+		} catch(ClassCastException cce) {
+			String logMessage = "Invalid supplier or client. Supplier and client must be sub-classes of Vertex. Transition " + name + " with id " + EAID + " not created";
+			ImportLog.log(logMessage);
+			transition.dispose();
+			return null;
+		}
 		
-		transition.setSource((Vertex) supplier);
-		transition.setTarget((Vertex) client);
 		((NamedElement)transition).setName(name);
 		transition.setOwner(owner);
 		

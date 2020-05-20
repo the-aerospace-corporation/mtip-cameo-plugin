@@ -83,6 +83,9 @@ public class CameoUtils {
 			return owner;
 		} else {
 			Element nextOwner = owner.getOwner();
+			if(nextOwner == null) {
+				return null;
+			}
 			return findNearestBlock(project, nextOwner);
 		}
 	}

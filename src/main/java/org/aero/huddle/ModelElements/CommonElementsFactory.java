@@ -84,6 +84,7 @@ import org.aero.huddle.ModelElements.Sequence.Collaboration;
 import org.aero.huddle.ModelElements.Sequence.Interaction;
 import org.aero.huddle.ModelElements.Sequence.InteractionUse;
 import org.aero.huddle.ModelElements.Sequence.Lifeline;
+import org.aero.huddle.ModelElements.Sequence.Message;
 import org.aero.huddle.ModelElements.Sequence.Property;
 import org.aero.huddle.ModelElements.Sequence.SequenceDiagram;
 import org.aero.huddle.ModelElements.StateMachine.ChoicePseudoState;
@@ -294,6 +295,9 @@ public class CommonElementsFactory {
 				break;
 			case "MergeNode":
 				element = new MergeNode(name, EAID);
+				break;
+			case SysmlConstants.MESSAGE:
+				element = new Message(name, EAID);
 				break;
 			case "Model":
 				element = new Model(name, EAID);
