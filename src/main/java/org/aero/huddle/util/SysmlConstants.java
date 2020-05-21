@@ -285,9 +285,17 @@ public class SysmlConstants {
 	};
 
 	public static final String[] SYSMLDIAGRAMS = {
-			BDD,
+			BDD, 
+			IBD,
+			PKG,
+			REQ,
+			PAR,
 			STM,
 			ACT,
+			SEQ,
+			UC, 
+			PROFILEDIAGRAM,
+			CLASSDIAGRAM, 
 	};
 	
 	public static final String[] BDD_TYPES = {
