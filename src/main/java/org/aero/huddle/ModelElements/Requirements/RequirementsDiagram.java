@@ -4,6 +4,10 @@ import org.aero.huddle.ModelElements.AbstractDiagram;
 import org.aero.huddle.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
+import com.nomagic.magicdraw.uml.DiagramTypeConstants;
+import com.nomagic.requirements.util.RequirementsConstants;
+import com.nomagic.requirements.util.RequirementsHelper;
+import com.nomagic.uml2.UML2Constants;
 
 public class RequirementsDiagram  extends AbstractDiagram{
 
@@ -13,7 +17,7 @@ public class RequirementsDiagram  extends AbstractDiagram{
 	
 	@Override
 	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_REQUIREMENTS_DIAGRAM;
+		return RequirementsConstants.SYSML_REQUIREMENTS_DIAGRAM;
 	}
 	
 	@Override
