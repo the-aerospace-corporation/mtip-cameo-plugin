@@ -2,10 +2,10 @@ package org.aero.huddle.ModelElements;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
-import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -43,6 +43,7 @@ public abstract class CommonElement {
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+		((NamedElement)sysmlElement).setName(name);
 		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTSFACTORY)) {
 			return createElementByElementFactory(project, owner, xmlElement);
 		}
@@ -50,13 +51,11 @@ public abstract class CommonElement {
 	}
 	
 	protected Element createElementByElementFactory(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create " +  this.sysmlConstant + " Element");
-		}
-		
+		return sysmlElement;
+	}
+	
+	public void setOwner(Element owner) {
 		if(sysmlElement != null) {
-			((NamedElement)sysmlElement).setName(name);
 			if(owner != null) {
 				try {
 					sysmlElement.setOwner(owner);
@@ -75,13 +74,13 @@ public abstract class CommonElement {
 					sysmlElement.dispose();
 				}
 			}
-			
-			SessionManager.getInstance().closeSession(project);
-			return sysmlElement;
 		} else {
-			ImportLog.log("SysmlConstants type not set for class " + xmlElement.getType() + ". Elements Factory could not create element");
+			ImportLog.log("SysmlConstants type not set for class " + sysmlConstant + ". Elements Factory could not create element");
 		}
-		return null;
+	}
+	
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		
 	}
 	
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
@@ -218,6 +217,13 @@ public abstract class CommonElement {
 		data.appendChild(relationship);
 		
 		return data;
+	}
+	
+	public void logInvalidParent() {
+		String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
+		CameoUtils.logGUI(logMessage);
+		ImportLog.log(logMessage);
+		sysmlElement.dispose();
 	}
 	
 	public Element createNestedPorts(Project project, Element owner) {

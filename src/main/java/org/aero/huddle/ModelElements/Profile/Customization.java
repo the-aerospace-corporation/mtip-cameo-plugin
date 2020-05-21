@@ -1,9 +1,11 @@
 package org.aero.huddle.ModelElements.Profile;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -102,6 +104,38 @@ public class Customization extends CommonElement {
 		
 		SessionManager.getInstance().closeSession(project);
 		return customization;
+	}
+	
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		if(modelElement.hasClient()) {
+			String clientID = modelElement.getClient();
+			if(parsedXML.containsKey(clientID)) {
+				Element client = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientID);
+				modelElement.addAttribute("client", client.getLocalID());
+			}
+		}
+		if(modelElement.hasSupplier()) {
+			String supplierID = modelElement.getSupplier();
+			if(parsedXML.containsKey(supplierID)) {
+				Element supplier = ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getSupplier());
+				modelElement.addAttribute("supplier",  supplier.getLocalID());
+			}
+		}
+
+		if(modelElement.getAttribute("customizationType").contentEquals("stereotyped relationship")) {
+			String customizationTargetID = modelElement.getAttribute("customizationTargetID");
+			if(customizationTargetID != null && !customizationTargetID.isEmpty()) {
+				if(parsedXML.containsKey(customizationTargetID)) {
+					Element stereotype = ImportXmlSysml.getOrBuildElement(project, parsedXML, customizationTargetID);
+					modelElement.addAttribute("customizationTarget", stereotype.getLocalID());
+				}
+			}
+		}
+		
+		String isInclusive = modelElement.getAttribute("isInclusiveOfBaseClass");
+		if(isInclusive.contentEquals("true")) {
+			//Build two more customizations here to restrict the relationships allowed.
+		}
 	}
 	
 	@Override

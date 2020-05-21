@@ -1,6 +1,9 @@
 package org.aero.huddle.ModelElements.Block;
 
+import java.util.Map;
+
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
@@ -44,7 +47,7 @@ public class AssociationBlock extends CommonElement {
 			}
 		}
 
-		associationClass.setOwner(owner);
+		setOwner(owner);
 		associationClass.setName(name);
 		
 		if(client != null && supplier != null) {
@@ -59,6 +62,33 @@ public class AssociationBlock extends CommonElement {
 		StereotypesHelper.addStereotype(associationClass, SysMLProfile.getInstance(project).getBlock());
 		SessionManager.getInstance().closeSession(project);
 		return (Element)associationClass;
+	}
+	
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		if(modelElement.hasClient()) {
+			String clientID = modelElement.getClient();
+			if(parsedXML.containsKey(clientID)) {
+				Element client = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientID);
+				modelElement.setClientElement(client);
+				modelElement.addAttribute("client", client.getLocalID());
+			} else {
+				CameoUtils.logGUI("No data tag found for client id: " + clientID);
+			}
+		} else {
+			CameoUtils.logGUI("No client tag/id found in element's data tag.");
+		}
+		if(modelElement.hasSupplier()) {
+			String supplierID = modelElement.getSupplier();
+			if(parsedXML.containsKey(supplierID)) {
+				Element supplier = ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getSupplier());
+				modelElement.setSupplierElement(supplier);
+				modelElement.addAttribute("supplier",  supplier.getLocalID());
+			} else {
+				CameoUtils.logGUI("No data tag found for supplier id: " + supplierID);
+			}
+		} else {
+			CameoUtils.logGUI("No supplier tag/id found in element's data tag.");
+		}
 	}
 
 	@Override

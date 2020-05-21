@@ -1,45 +1,39 @@
 package org.aero.huddle.ModelElements.Profile;
 
 import java.util.List;
+import java.util.Map;
 
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
-import com.nomagic.magicdraw.validation.ValidationRuleHelper;
+import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.nomagic.uml2.impl.ElementsFactory;
-import com.nomagic.uml2.transaction.ModelValidationResult;
-import com.nomagic.uml2.transaction.ModelValidationResult.Severity;
 
 public class Constraint extends CommonElement {
 	public Constraint(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.CONSTRAINT;
+		this.sysmlElement = f.createConstraintInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Constraint Element");
-		}
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = f.createConstraintInstance();
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)sysmlElement;
 		((NamedElement)constraint).setName(name);
 		
-		if(owner != null) {
-			constraint.setOwner(owner);
-		} else {
-			constraint.setOwner(project.getPrimaryModel());
-		}
+		setOwner(owner);
 		
 		ValueSpecification oe = (ValueSpecification) project.getElementByID(xmlElement.getNewValueSpecification());
 		constraint.setSpecification(oe);
@@ -49,8 +43,25 @@ public class Constraint extends CommonElement {
 			constraint.getConstrainedElement().add(constrainedCameoElement);
 		}
 		
-		SessionManager.getInstance().closeSession(project);
 		return constraint;
+	}
+	
+	@Override
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		for(String constrainedElement : modelElement.getConstrainedElements()) {
+			if(constrainedElement.startsWith("_9_")) {
+				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
+				modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
+			} else {
+				Element constrainedCameoElement = ImportXmlSysml.getOrBuildElement(project, parsedXML, constrainedElement);
+				modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
+			}
+			
+		}
+		if(modelElement.hasValueSpecification()) {
+			Element valueSpecification = ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getValueSpecification());
+			modelElement.setNewValueSpecification(valueSpecification.getLocalID());
+		}
 	}
 	
 	@Override

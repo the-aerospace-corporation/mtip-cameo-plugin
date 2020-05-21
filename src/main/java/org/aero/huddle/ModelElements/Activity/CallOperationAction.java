@@ -1,56 +1,47 @@
 package org.aero.huddle.ModelElements.Activity;
 
+import java.util.Map;
+
 import org.aero.huddle.ModelElements.CommonElement;
-import org.aero.huddle.util.CameoUtils;
-import org.aero.huddle.util.ImportLog;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
-import com.nomagic.uml2.impl.ElementsFactory;
 
 public class CallOperationAction extends CommonElement {
 
 	public CallOperationAction(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.CALLOPERATIONACTION;
+		this.xmlConstant = XmlTagConstants.CALLOPERATIONACTION;
+		this.sysmlElement = f.createCallOperationActionInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Call Operation Action Element");
+		((NamedElement)sysmlElement).setName(name);
+		setOwner(owner);
+		
+		if(xmlElement != null) {
+			Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
+			((com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction)sysmlElement).setOperation(operation);
 		}
-		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction coa = f.createCallOperationActionInstance();
-		((NamedElement)coa).setName(name);
-		try {
-			if(owner != null) {
-				coa.setOwner(owner);
-			} else {
-				coa.setOwner(project.getPrimaryModel());
-			}
-			
-			if(xmlElement != null) {
-				Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
-				coa.setOperation(operation);
-			}
-					
-			SessionManager.getInstance().closeSession(project);
-			return coa;
-		} catch(IllegalArgumentException iae) {
-			String logMessage = "Invalid parent. Parent invalid for element " + name + " with id " + EAID + ". Element could not be placed in model.";
-			CameoUtils.logGUI(logMessage);
-			ImportLog.log(logMessage);
-			sysmlElement.dispose();
-		}
-		return null;
+		return sysmlElement;
 	}
-
+	
+	@Override
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		Element operation = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
+		modelElement.setNewOperation(operation.getLocalID());
+	}
+	
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
