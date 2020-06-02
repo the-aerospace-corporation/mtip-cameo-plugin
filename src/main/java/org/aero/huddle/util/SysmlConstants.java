@@ -301,6 +301,7 @@ public class SysmlConstants {
 	public static final String[] BDD_TYPES = {
 			ASSOCIATIONBLOCK,
 			BLOCK,
+			CLASS,
 			CONSTRAINTBLOCK,
 			DOMAIN,
 			ENUMERATION,

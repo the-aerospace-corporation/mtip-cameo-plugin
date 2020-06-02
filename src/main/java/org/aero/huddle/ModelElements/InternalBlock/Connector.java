@@ -28,17 +28,23 @@ public class Connector extends CommonRelationship {
 		ElementsFactory ef = project.getElementsFactory();
 		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = ef.createConnectorInstance();
 		
-		
-		if(client != null) {
-			ModelHelper.setClientElement(connector, client);
-		} else {
-			// log client null creating connector with EAID: #
+		try {
+			if(client != null) {
+				ModelHelper.setClientElement(connector, client);
+			} else {
+				// log client null creating connector with EAID: #
+			}
+			if(supplier != null) {
+				ModelHelper.setSupplierElement(connector, supplier);
+			} else {
+				// log supplier null creating connector with EAID: #
+			}
+		} catch (ClassCastException cce) {
+			ImportLog.log(CommonRelationship.INVALID_CLIENT_SUPPLIER_MESSAGE + connector.getHumanName() + " cannot have " + client.getHumanType() + " as client or " + supplier.getHumanType() + " as supplier." );
+			connector.dispose();
+			return null;
 		}
-		if(supplier != null) {
-			ModelHelper.setSupplierElement(connector, supplier);
-		} else {
-			// log supplier null creating connector with EAID: #
-		}
+			
 		
 		((NamedElement)connector).setName(name);
 		try {

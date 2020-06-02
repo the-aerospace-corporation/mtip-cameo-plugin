@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.FileSelect;
+import org.aero.huddle.util.ImportLog;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -35,6 +36,7 @@ public class ImportXmlSysmlAction extends MDAction {
 			for(File file : files) {
 				Document doc = FileSelect.createDocument(file);
 				doc.getDocumentElement().normalize();
+				ImportLog.addFilePrefix(file);
 				ImportXmlSysml.parseXML(doc, null);
 			}
 			//Use Puddle structure, initial mapping

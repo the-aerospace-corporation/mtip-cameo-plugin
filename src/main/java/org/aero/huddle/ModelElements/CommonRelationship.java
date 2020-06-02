@@ -31,6 +31,8 @@ public abstract class CommonRelationship {
 	protected Element sysmlRelationship;
 	protected ElementsFactory f;
 	
+	public static String INVALID_CLIENT_SUPPLIER_MESSAGE = "Invalid Client or Supplier - Not SysML Compliant";
+	
 	public CommonRelationship(String name, String EAID) {
 		this.EAID = EAID;
 		this.name = name;

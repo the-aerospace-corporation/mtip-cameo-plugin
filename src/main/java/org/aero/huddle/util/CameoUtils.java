@@ -30,6 +30,9 @@ public class CameoUtils {
 	public static Element findNearestPackage(Project project, Element element) {
 		Element topPackage = project.getPrimaryModel();
 		Element owner = element.getOwner();
+		if(owner == null) {
+			return null;
+		}
 		if(owner.equals(topPackage)) {
 			return topPackage;
 		}

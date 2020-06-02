@@ -28,6 +28,8 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Regi
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public abstract class CommonElement {
+	public static final String invalidParentRoot = "Invalid parent - not SysML compliant."; 
+	
 	protected String name;
 	protected String EAID;
 	protected String sysmlConstant;
@@ -35,6 +37,9 @@ public abstract class CommonElement {
 	protected String creationType;
 	protected ElementsFactory f;
 	protected Element sysmlElement;
+	
+	protected String requiredParentType;
+	protected String invalidParentMessage;
 	
 	public CommonElement(String name, String EAID) {
 		this.EAID = EAID;
@@ -61,8 +66,8 @@ public abstract class CommonElement {
 				try {
 					sysmlElement.setOwner(owner);
 				} catch(IllegalArgumentException iae){
-					String logMessage = "Invalid parent. Parent invalid for element " + name + " with id " + EAID + ". Element could not be placed in model.";
-					ImportLog.log(logMessage);
+					setInvalidParentMessage(owner);
+					ImportLog.log(invalidParentMessage);
 					sysmlElement.dispose();
 				}	
 			} else {
@@ -70,8 +75,8 @@ public abstract class CommonElement {
 					sysmlElement.setOwner(owner);
 				} catch(IllegalArgumentException iae){
 					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
-					CameoUtils.logGUI(logMessage);
-					ImportLog.log(logMessage);
+					CameoUtils.logGUI(invalidParentMessage);
+					ImportLog.log(invalidParentMessage);
 					sysmlElement.dispose();
 				}
 			}
@@ -285,5 +290,14 @@ public abstract class CommonElement {
 			}
 		}
 		return attributes;
+	}
+	
+	protected String setInvalidParentMessage(Element owner) {
+		try {
+			invalidParentMessage = CommonElement.invalidParentRoot + sysmlConstant + " must be a child of " + requiredParentType + ".\n\tName = " + name + "; ID = " + EAID + "; Invalid Parent Type = " + owner.getHumanType();
+		} catch(NullPointerException npe) {
+			invalidParentMessage = CommonElement.invalidParentRoot + sysmlConstant + " must be a child of " + requiredParentType + ".\n\tName = " + name + "; ID = " + EAID + "; Invalid Parent Type = null";
+		}
+		return invalidParentMessage;
 	}
 }
