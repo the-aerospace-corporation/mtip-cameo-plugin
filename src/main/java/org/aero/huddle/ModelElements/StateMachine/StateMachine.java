@@ -1,6 +1,9 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
+import java.util.Map;
+
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -32,6 +35,15 @@ public class StateMachine extends CommonElement {
 		
 		SessionManager.getInstance().closeSession(project);
 		return sysmlElement;
+	}
+	
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
+			String submachineID = modelElement.getSubmachine();
+			XMLItem submachine = parsedXML.get(submachineID);
+			Element submachineElement = ImportXmlSysml.buildElement(project, parsedXML, submachine, submachineID);
+			modelElement.setNewSubmachineID(submachineElement.getLocalID());
+		}
 	}
 
 	@Override

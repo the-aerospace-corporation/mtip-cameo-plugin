@@ -1,8 +1,11 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
+import java.util.Map;
+
 import javax.annotation.CheckForNull;
 
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
@@ -53,6 +56,19 @@ public class Trigger extends CommonElement {
 		
 		SessionManager.getInstance().closeSession(project);
 		return trigger;
+	}
+	
+	@Override
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		if(modelElement.hasEvent()) {
+			CameoUtils.logGUI("About to build event element with event id: " +  modelElement.getEvent());
+			Element event = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getEvent()), modelElement.getEvent());
+			modelElement.setNewEvent(event.getLocalID());
+		}
+		if(modelElement.hasAcceptEventAction()) {	
+			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
+			modelElement.setNewAcceptEventAction(acceptEventAction.getLocalID());
+		}
 	}
 
 	@Override

@@ -432,129 +432,25 @@ public class ImportXmlSysml {
 			}
 		}
 
-		//Add check here to get any other referenced elements which need to be created before a CommonElement calls its createElement method
-		//Includes Events for triggers and operations for Call Operation Action which don't live under the parent.
-		//Refactor this into one method to check for specific attributes which require other elements to be built.
-		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
-			String submachineID = modelElement.getSubmachine();
-			XMLItem submachine = parsedXML.get(submachineID);
-			Element submachineElement = buildElement(project, parsedXML, submachine, submachineID);
-			modelElement.setNewSubmachineID(submachineElement.getLocalID());
-		}
-		if(modelElement.getType().contentEquals(SysmlConstants.TRIGGER)) {
-			if(modelElement.hasEvent()) {
-				CameoUtils.logGUI("About to build event element with event id: " +  modelElement.getEvent());
-				Element event = buildElement(project, parsedXML, parsedXML.get(modelElement.getEvent()), modelElement.getEvent());
-				modelElement.setNewEvent(event.getLocalID());
-			}
-			if(modelElement.hasAcceptEventAction()) {	
-				Element acceptEventAction = buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
-				modelElement.setNewAcceptEventAction(acceptEventAction.getLocalID());
-			}
-		}
-		
-		if(modelElement.getType().contentEquals(SysmlConstants.CALLOPERATIONACTION)) {
-			Element operation = buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
-			modelElement.setNewOperation(operation.getLocalID());
-		}
-		
-		if(modelElement.getType().contentEquals(SysmlConstants.CONSTRAINT)) {
-			for(String constrainedElement : modelElement.getConstrainedElements()) {
-				if(constrainedElement.startsWith("_9_")) {
-					Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
-					modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
-				} else {
-					Element constrainedCameoElement = getOrBuildElement(project, parsedXML, constrainedElement);
-					modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
-				}
-				
-			}
-			if(modelElement.hasValueSpecification()) {
-				Element valueSpecification = getOrBuildElement(project, parsedXML, modelElement.getValueSpecification());
-				modelElement.setNewValueSpecification(valueSpecification.getLocalID());
-			}
-		}
-		
-		if(modelElement.getType().contentEquals(SysmlConstants.CUSTOMIZATION)) {
-			if(modelElement.hasClient()) {
-				String clientID = modelElement.getClient();
-				if(parsedXML.containsKey(clientID)) {
-					Element client = getOrBuildElement(project, parsedXML, clientID);
-					modelElement.addAttribute("client", client.getLocalID());
-				}
-			}
-			if(modelElement.hasSupplier()) {
-				String supplierID = modelElement.getSupplier();
-				if(parsedXML.containsKey(supplierID)) {
-					Element supplier = getOrBuildElement(project, parsedXML, modelElement.getSupplier());
-					modelElement.addAttribute("supplier",  supplier.getLocalID());
-				}
-			}
-
-			if(modelElement.getAttribute("customizationType").contentEquals("stereotyped relationship")) {
-				String customizationTargetID = modelElement.getAttribute("customizationTargetID");
-				if(customizationTargetID != null && !customizationTargetID.isEmpty()) {
-					if(parsedXML.containsKey(customizationTargetID)) {
-						Element stereotype = getOrBuildElement(project, parsedXML, customizationTargetID);
-						modelElement.addAttribute("customizationTarget", stereotype.getLocalID());
-					}
-				}
-			}
-			String isInclusive = modelElement.getAttribute("isInclusiveOfBaseClass");
-			if(isInclusive.contentEquals("true")) {
-				//Build two more customizations here to restrict the relationships allowed.
-			}
-		}
-		if(modelElement.getType().contentEquals(SysmlConstants.ASSOCIATIONBLOCK)) {
-			if(modelElement.hasClient()) {
-				String clientID = modelElement.getClient();
-				if(parsedXML.containsKey(clientID)) {
-					Element client = getOrBuildElement(project, parsedXML, clientID);
-					modelElement.setClientElement(client);
-					modelElement.addAttribute("client", client.getLocalID());
-				} else {
-					CameoUtils.logGUI("No data tag found for client id: " + clientID);
-				}
-			} else {
-				CameoUtils.logGUI("No client tag/id found in element's data tag.");
-			}
-			if(modelElement.hasSupplier()) {
-				String supplierID = modelElement.getSupplier();
-				if(parsedXML.containsKey(supplierID)) {
-					Element supplier = getOrBuildElement(project, parsedXML, modelElement.getSupplier());
-					modelElement.setSupplierElement(supplier);
-					modelElement.addAttribute("supplier",  supplier.getLocalID());
-				} else {
-					CameoUtils.logGUI("No data tag found for supplier id: " + supplierID);
-				}
-			} else {
-				CameoUtils.logGUI("No supplier tag/id found in element's data tag.");
-			}
-		}
-		
 		if(!modelElement.isCreated()) {
 			if(ownerElement != null) {
 				CameoUtils.logGUI("Creating element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 			} else {
 				CameoUtils.logGUI("Creating " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with no initial owner.");
 			}
+			if (!SessionManager.getInstance().isSessionCreated(project)) {
+				SessionManager.getInstance().createSession(project, "Create " +  modelElement.getType() + " Element");
+			}
 			
 			if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType())) {
 				CommonElement element = cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
+				element.createDependentElements(project, parsedXML, modelElement);
 				Element newElement = element.createElement(project, owner, modelElement);
 				if(newElement != null) {
 					String GUID = newElement.getID();
 					modelElement.setCameoID(GUID);
 					parentMap.put(id, GUID);
-					
-					//Get stereotypes from paredXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
-					HashMap<String, String> stereotypes = modelElement.getStereotypes();
-					if(!MapUtils.isEmpty(stereotypes)) {
-						for(String stereotype : stereotypes.keySet()) {
-							addStereotype(newElement, stereotype, stereotypes.get(stereotype));
-							addStereotypeFields(newElement, modelElement);
-						}
-					}
+					addStereotypes(newElement, modelElement);
 					return newElement;
 				} else {
 					ImportLog.log("Element not created. Name: " + modelElement.getAttribute("name") + ". ID: " + modelElement.getEAID());
@@ -564,6 +460,17 @@ public class ImportXmlSysml {
 			return (Element) project.getElementByID(modelElement.getCameoID());
 		}
 		return owner;
+	}
+	
+	//Get stereotypes from paredXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
+	public static void addStereotypes(Element newElement, XMLItem modelElement) {
+		HashMap<String, String> stereotypes = modelElement.getStereotypes();
+		if(!MapUtils.isEmpty(stereotypes)) {
+			for(String stereotype : stereotypes.keySet()) {
+				addStereotype(newElement, stereotype, stereotypes.get(stereotype));
+				addStereotypeFields(newElement, modelElement);
+			}
+		}
 	}
 	
 	public static HashMap<String, XMLItem> buildModelMap(NodeList dataNodes) {
