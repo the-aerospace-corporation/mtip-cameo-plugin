@@ -48,10 +48,16 @@ public abstract class CommonElement {
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+		
 		((NamedElement)sysmlElement).setName(name);
+		setOwner(project, owner);
 		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTSFACTORY)) {
 			return createElementByElementFactory(project, owner, xmlElement);
 		}
+		return null;
+	}
+	
+	public Element createElement(Project project, Element owner) {
 		return null;
 	}
 	
@@ -59,7 +65,7 @@ public abstract class CommonElement {
 		return sysmlElement;
 	}
 	
-	public void setOwner(Element owner) {
+	public void setOwner(Project project, Element owner) {
 		if(sysmlElement != null) {
 			if(owner != null) {
 				try {
@@ -71,7 +77,7 @@ public abstract class CommonElement {
 				}	
 			} else {
 				try {
-					sysmlElement.setOwner(owner);
+					sysmlElement.setOwner(project.getPrimaryModel());
 				} catch(IllegalArgumentException iae){
 					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
 					CameoUtils.logGUI(invalidParentMessage);
@@ -210,12 +216,7 @@ public abstract class CommonElement {
 		if(element.getOwner() != null) {
 			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");
 			Element parent = null;
-			if((element instanceof Pseudostate) || (element instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)) {
-				Element region = element.getOwner();
-				parent = region.getOwner();
-			} else {
-				parent = element.getOwner();
-			}
+			parent = element.getOwner();
 			hasParent.appendChild(xmlDoc.createTextNode(parent.getLocalID()));
 			relationship.appendChild(hasParent);
 		}
@@ -306,4 +307,6 @@ public abstract class CommonElement {
 		}
 		return invalidParentMessage;
 	}
+
+
 }

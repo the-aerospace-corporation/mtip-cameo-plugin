@@ -27,7 +27,7 @@ public class CallOperationAction extends CommonElement {
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		((NamedElement)sysmlElement).setName(name);
-		setOwner(owner);
+		setOwner(project, owner);
 		
 		if(xmlElement != null) {
 			Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());

@@ -14,7 +14,7 @@ import javax.swing.JFileChooser;
 
 import org.apache.commons.io.FilenameUtils;
 
-public class ImportLog {
+public class ExportLog {
 	protected static List<String> logData = new ArrayList<String> ();
 	private static String documentsPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
 	//private final static String logName = "Import Log " + new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + ".txt";
@@ -23,7 +23,7 @@ public class ImportLog {
 	private static Path filePath = null;	
 	private static ArrayList<String> xmlFileNames = new ArrayList<String> ();
 	
-	public ImportLog() {
+	public ExportLog() {
 		
 	}
 	
@@ -66,7 +66,7 @@ public class ImportLog {
 
 	private static void createFileName() {
 		String logName = "";
-		logName += "Huddle_Import_Log_";
+		logName += "Huddle_Export_Log_";
 		logName += new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 		logName += "_";
 		for(String xmlFileName : xmlFileNames) {

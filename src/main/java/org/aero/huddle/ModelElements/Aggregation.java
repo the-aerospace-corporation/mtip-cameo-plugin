@@ -32,7 +32,9 @@ public class Aggregation extends CommonRelationship{
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd(association);
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd(association);
 		ModelHelper.setNavigable(firstMemberEnd, true);
-		ModelHelper.setNavigable(secondMemberEnd, true);
+		
+		//Check for this
+		ModelHelper.setNavigable(secondMemberEnd, false);
 		firstMemberEnd.setAggregation(AggregationKindEnum.SHARED);
 
 		SessionManager.getInstance().closeSession(project);

@@ -44,8 +44,10 @@ public class SysmlConstants {
 	public static final String DESTROYOBJECTACTION = "DestroyObjectAction";
 	public static final String ENTRYPOINT = "EntryPoint";
 	public static final String ENUMERATION = "Enumeration";
+	public static final String ENUMERATIONLITERAL = "EnumerationLiteral";
 	public static final String EXITPOINT = "ExitPoint";
 	public static final String EXTENDEDREQUIREMENT = "ExtendedRequirement";
+	public static final String EXTENSIONPOINT = "ExtensionPoint";
 	public static final String FINALSTATE = "FinalState";
 	public static final String FLOWFINALNODE = "FlowFinalNode";
 	public static final String FLOWPORT = "FlowPort";
@@ -74,6 +76,7 @@ public class SysmlConstants {
 	public static final String METACLASS = "Metaclass";
 	public static final String MODEL = "Model";
 	public static final String OPAQUEACTION = "OpaqueAction";
+	public static final String OPAQUEBEHAVIOR = "OpaqueBehavior";
 	public static final String OPAQUEEXPRESSION = "OpaqueExpression";
 	public static final String OPERATION = "Operation";
 	public static final String OUTPUTPIN = "OutputPin";
@@ -88,8 +91,10 @@ public class SysmlConstants {
 	public static final String PROXYPORT = "ProxyPort";
 	public static final String QUANTITYKIND = "QuantityKind";
 	public static final String REFERENCEPROPERTY = "ReferenceProperty";
+	public static final String REGION = "Region";
 	public static final String REQUIREMENT = "Requirement";
 	public static final String SENDSIGNALACTION = "SendSignalAction";
+	public static final String SIGNALEVENT = "SignalEvent";
 	public static final String SHALLOWHISTORY = "ShallowHistory";
 	public static final String SIGNAL = "Signal";
 	public static final String STATE = "State";
@@ -121,6 +126,7 @@ public class SysmlConstants {
 	public static final String ALLOCATE = "Allocate";
 	public static final String ASSOCIATION = "Association";
 	public static final String BINDINGCONNECTOR = "BindingConnector";
+	public static final String COMPOSITION = "Composition";
 	public static final String CONNECTOR = "Connector";
 	public static final String CONTROLFLOW = "ControlFlow";
 	public static final String COPY = "Copy";
@@ -194,8 +200,10 @@ public class SysmlConstants {
 			DESTROYOBJECTACTION,
 			ENTRYPOINT,
 			ENUMERATION,
+			ENUMERATIONLITERAL,
 			EXITPOINT,
 			EXTENDEDREQUIREMENT,
+			EXTENSIONPOINT,
 			FINALSTATE,
 			FLOWFINALNODE,
 			FLOWPORT,
@@ -223,6 +231,7 @@ public class SysmlConstants {
 			MODEL,
 			MESSAGE,
 			OPAQUEACTION,
+			OPAQUEBEHAVIOR,
 			OPAQUEEXPRESSION,
 			OPERATION,
 			OUTPUTPIN,
@@ -236,11 +245,13 @@ public class SysmlConstants {
 			PROPERTY,
 			PROXYPORT,
 			QUANTITYKIND,
+			REGION,
 			REFERENCEPROPERTY,
 			REQUIREMENT,
 			SHALLOWHISTORY,
 			SENDSIGNALACTION,
 			SIGNAL,
+			SIGNALEVENT,
 			STATE,
 			STATEMACHINE,
 			STEREOTYPE,
@@ -265,6 +276,7 @@ public class SysmlConstants {
 			ALLOCATE,
 			ASSOCIATION,
 			BINDINGCONNECTOR,
+			COMPOSITION,
 			CONNECTOR,
 			CONTROLFLOW,
 			COPY,
@@ -384,6 +396,7 @@ public class SysmlConstants {
 			INITIALPSEUDOSTATE,
 			JOIN,
 			"PseudoState", // verify with Trent
+			REGION,
 			SHALLOWHISTORY,
 			STATE,
 			STATEMACHINE,
@@ -444,6 +457,62 @@ public class SysmlConstants {
 			USECASE
 	};
 	
+	public static final String[] PAR_TYPES = {
+			
+	};
+	
+	public static final String[] PKG_TYPES = {
+			//From Block Definition Diagram
+			ASSOCIATIONBLOCK,
+			BLOCK,
+			CLASS,
+			CONSTRAINTBLOCK,
+			DOMAIN,
+			ENUMERATION,
+			EXTERNAL,
+			FLOWPORT,
+			FLOWSPECIFICATION,
+			FULLPORT,
+			INSTANCESPECIFICATION,
+			INTERFACE,
+			INTERFACEBLOCK,
+			//NOTE, // not supported?
+			OPERATION,
+			PACKAGE,
+			PARTPROPERTY,
+			PORT,
+			PROXYPORT,
+			QUANTITYKIND,
+			SIGNAL,
+			SUBSYSTEM,
+			SYSTEM,
+			SYSTEMCONTEXT,
+			UNIT,
+			VALUEPROPERTY,
+			VALUETYPE,
+			
+			//From Requirements Diagram
+			COPY,
+			DERIVEREQUIREMENT,
+			DESIGNCONSTRAINT,
+			EXTENDEDREQUIREMENT,
+			FUNCTIONALREQUIREMENT,
+			INTERFACEREQUIREMENT,
+			PERFORMANCEREQUIREMENT,
+			PHYSICALREQUIREMENT,
+			REFINE,
+			REQUIREMENT,
+			SATISFY,
+			TRACE,
+			VERIFY,
+			
+			//From Use Case Diagram
+			ACTOR,
+			EXTEND,
+			INCLUDE,
+			USECASE
+	};
+	
 	public static final String[] PROFILEDIAGRAM_TYPES = {
 			CLASS,
 			CONSTRAINT,
@@ -454,6 +523,7 @@ public class SysmlConstants {
 			PROFILE
 	};
 	
+
 	
 	
 	public static Map<String, String[]> diagramTypeMap;
@@ -461,9 +531,9 @@ public class SysmlConstants {
 		diagramTypeMap = new HashMap<>();
 		diagramTypeMap.put(SysmlConstants.BDD, BDD_TYPES);
 		diagramTypeMap.put(SysmlConstants.IBD, IBD_TYPES);
-//		diagramTypeMap.put(SysmlConstants.PKG, PKG_TYPES);
+		diagramTypeMap.put(SysmlConstants.PKG, PKG_TYPES);
 		diagramTypeMap.put(SysmlConstants.REQ, REQ_TYPES);
-//		diagramTypeMap.put(SysmlConstants.PAR, PAR_TYPES);
+		diagramTypeMap.put(SysmlConstants.PAR, PAR_TYPES);
 		diagramTypeMap.put(SysmlConstants.STM, STM_TYPES);
 		diagramTypeMap.put(SysmlConstants.ACT, ACT_TYPES);
 		diagramTypeMap.put(SysmlConstants.SEQ, SEQ_TYPES);

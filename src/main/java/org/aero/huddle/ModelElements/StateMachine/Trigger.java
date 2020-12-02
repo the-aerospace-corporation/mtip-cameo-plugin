@@ -7,6 +7,7 @@ import javax.annotation.CheckForNull;
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -20,7 +21,7 @@ import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Trigger extends CommonElement {
-
+	private final String EVENT = "event";
 	public Trigger(String name, String EAID) {
 		super(name, EAID);
 	}
@@ -47,9 +48,13 @@ public class Trigger extends CommonElement {
 				CameoUtils.logGUI("Setting accept event action of Trigger to AcceptEventAction with id: " + xmlElement.getNewAcceptEventAction());
 				trigger.set_acceptEventActionOfTrigger((AcceptEventAction) project.getElementByID(xmlElement.getNewAcceptEventAction()));
 			}
-			if(xmlElement.hasEvent()) {
-				CameoUtils.logGUI("Setting Trigger Event to event with id: " + xmlElement.getNewEvent());
-				trigger.setEvent((Event) project.getElementByID(xmlElement.getNewEvent()));
+
+			if(xmlElement.hasElement(XmlTagConstants.EVENT_TAG)) {
+				CameoUtils.logGUI("Setting Trigger Event to event with id: " + xmlElement.getAttribute(XmlTagConstants.EVENT_TAG));
+				Event event = (Event) xmlElement.getElement(XmlTagConstants.EVENT_TAG);
+				trigger.setEvent(event);
+			} else {
+				CameoUtils.logGUI("Trigger with id: " + EAID + " has no event.");
 			}
 			//Set transition of trigger if it has a transition
 		}
@@ -60,14 +65,18 @@ public class Trigger extends CommonElement {
 	
 	@Override
 	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(modelElement.hasEvent()) {
-			CameoUtils.logGUI("About to build event element with event id: " +  modelElement.getEvent());
-			Element event = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getEvent()), modelElement.getEvent());
-			modelElement.setNewEvent(event.getLocalID());
-		}
+		CameoUtils.logGUI("Creating dependent elements for trigger...");
 		if(modelElement.hasAcceptEventAction()) {	
 			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
 			modelElement.setNewAcceptEventAction(acceptEventAction.getLocalID());
+		}
+		if(modelElement.hasAttribute(XmlTagConstants.EVENT_TAG)) {
+			String signal = modelElement.getAttribute(XmlTagConstants.EVENT_TAG);
+			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)ImportXmlSysml.getOrBuildElement(project, parsedXML, signal);
+			modelElement.addElement(XmlTagConstants.EVENT_TAG, event);
+			CameoUtils.logGUI("Event found and added to trigger XML.");
+		} else {
+			CameoUtils.logGUI("No event found in XML for trigger with id: " + EAID);
 		}
 	}
 
@@ -86,7 +95,7 @@ public class Trigger extends CommonElement {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)element;
 		Event event = trigger.getEvent();
 		if(event != null) {
-			org.w3c.dom.Element eventTag = xmlDoc.createElement("event");
+			org.w3c.dom.Element eventTag = xmlDoc.createElement(XmlTagConstants.EVENT_TAG);
 			eventTag.appendChild(xmlDoc.createTextNode(event.getLocalID()));
 			attributes.appendChild(eventTag);
 		}
@@ -98,7 +107,14 @@ public class Trigger extends CommonElement {
 			attributes.appendChild(aeaTag);
 		}
 		
-
+//		Event se = trigger.getEvent();
+//		if(se != null) {
+//			CameoUtils.logGUI("Trigger Event type is: " + se.getHumanType());
+//			org.w3c.dom.Element signalEventTag = xmlDoc.createElement(XmlTagConstants.SIGNAL_EVENT_TAG);
+//			signalEventTag.appendChild(xmlDoc.createTextNode(se.getLocalID()));
+//			attributes.appendChild(signalEventTag);
+//		}
+		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);	
 	}

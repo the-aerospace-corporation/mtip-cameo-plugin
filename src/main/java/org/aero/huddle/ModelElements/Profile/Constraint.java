@@ -30,10 +30,8 @@ public class Constraint extends CommonElement {
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+		super.createElement(project, owner, xmlElement);
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)sysmlElement;
-		((NamedElement)constraint).setName(name);
-		
-		setOwner(owner);
 		
 		ValueSpecification oe = (ValueSpecification) project.getElementByID(xmlElement.getNewValueSpecification());
 		constraint.setSpecification(oe);
@@ -46,11 +44,21 @@ public class Constraint extends CommonElement {
 		return constraint;
 	}
 	
+	public Element createElement(Project project, Element owner) {
+		super.createElement(project, owner, null);
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)sysmlElement;
+				
+		return constraint;
+	}
+	
 	@Override
 	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
 		for(String constrainedElement : modelElement.getConstrainedElements()) {
-			if(constrainedElement.startsWith("_9_")) {
+			if(constrainedElement.contentEquals("_9_0_62a020a_1105704885343_144138_7929")) {
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
+				modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
+			} else if(constrainedElement.contentEquals("_9_0_62a020a_1105704885473_18793_7971")) { 
+				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Association");
 				modelElement.addNewConstrainedElement(constrainedCameoElement.getLocalID());
 			} else {
 				Element constrainedCameoElement = ImportXmlSysml.getOrBuildElement(project, parsedXML, constrainedElement);

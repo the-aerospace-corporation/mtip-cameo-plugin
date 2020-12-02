@@ -12,7 +12,9 @@ import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.ModelElements.CommonElementsFactory;
 import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.ModelElements.CommonRelationshipsFactory;
+import org.aero.huddle.ModelElements.Profile.MetaClass;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ExportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.w3c.dom.Document;
 
@@ -59,6 +61,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -68,8 +71,10 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.TimeEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdcollaborations.Collaboration;
@@ -85,11 +90,13 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.Actor;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.Extend;
+import com.nomagic.uml2.ext.magicdraw.mdusecases.ExtensionPoint;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.Include;
 import com.nomagic.uml2.ext.magicdraw.mdusecases.UseCase;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.ConnectionPointReference;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.FinalState;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
@@ -109,7 +116,8 @@ public class ExportXmlSysml {
 		} else {
 			exportPackageRecursive(primary, project, xmlDoc);
 		}
-		
+		ExportLog.save();
+		ExportLog.reset();
 	}
 	
 	public static void exportPackageRecursive(Package pack, Project project, Document xmlDoc) {
@@ -322,6 +330,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof Enumeration) {
 			commonElementType = SysmlConstants.ENUMERATION;
 			CameoUtils.logGUI("Exporting Enumeration");
+		} else if(element instanceof EnumerationLiteral) {
+			commonElementType = SysmlConstants.ENUMERATIONLITERAL;
+			CameoUtils.logGUI("Exporting Enumeration Literal");
 		} else if(element instanceof Extend) {
 			commonRelationshipType = SysmlConstants.EXTEND;
 			CameoUtils.logGUI("Exporting Extend");
@@ -331,6 +342,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof Extension) {
 			commonRelationshipType = SysmlConstants.EXTENSION;
 			CameoUtils.logGUI("Exporting Extension Relationship");
+		} else if(element instanceof ExtensionPoint) {
+			commonElementType = SysmlConstants.EXTENSIONPOINT;
+			CameoUtils.logGUI("Exporting Extension Point");
 		} else if (SysMLProfile.isExternal(element)) {
 			commonElementType = SysmlConstants.EXTERNAL;
 			CameoUtils.logGUI("Exporting External as block with external stereotype");
@@ -424,6 +438,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof OpaqueAction) {
 			commonElementType = SysmlConstants.OPAQUEACTION;
 			CameoUtils.logGUI("Exporting Opaque Action");
+		} else if(element instanceof OpaqueBehavior) {
+			commonElementType = SysmlConstants.OPAQUEBEHAVIOR;
+			CameoUtils.logGUI("Exporting Opaque Behavior");
 		} else if(element instanceof Operation) {
 			commonElementType = SysmlConstants.OPERATION;
 			CameoUtils.logGUI("Exporting Operation");
@@ -457,6 +474,9 @@ public class ExportXmlSysml {
 		} else if(MDCustomizationForSysMLProfile.isQuantityKind(element)) {
 			commonElementType = SysmlConstants.QUANTITYKIND;
 			CameoUtils.logGUI("Exporting Quantity Kind");
+		} else if(element instanceof Region) {
+			commonElementType = SysmlConstants.REGION;
+			CameoUtils.logGUI("Exporting Region");
 		} else if(CameoUtils.isRefine(element, project)) {
 			commonRelationshipType = SysmlConstants.REFINE;
 			CameoUtils.logGUI("Exporting Refine Relation");
@@ -472,6 +492,8 @@ public class ExportXmlSysml {
 		} else if(element instanceof Signal) {
 			commonElementType = SysmlConstants.SIGNAL;
 			CameoUtils.logGUI("Exporting Signal");
+		} else if(element instanceof SignalEvent) {
+			commonElementType = SysmlConstants.SIGNALEVENT;
 		} else if(element instanceof State) {
 			commonElementType = SysmlConstants.STATE;
 			CameoUtils.logGUI("Exporting State");
@@ -540,6 +562,9 @@ public class ExportXmlSysml {
 			if(firstMemberEnd.getAggregation() == AggregationKindEnum.SHARED || secondMemberEnd.getAggregation() == AggregationKindEnum.SHARED) {
 				commonRelationshipType = SysmlConstants.AGGREGATION;
 				CameoUtils.logGUI("Exporting Association");
+			} else if(firstMemberEnd.getAggregation() == AggregationKindEnum.COMPOSITE || secondMemberEnd.getAggregation() == AggregationKindEnum.COMPOSITE) {
+				commonRelationshipType = SysmlConstants.COMPOSITION;
+				CameoUtils.logGUI("Exporting Association");
 			} else {
 				commonRelationshipType = SysmlConstants.ASSOCIATION;
 				CameoUtils.logGUI("Exporting Association");
@@ -549,8 +574,14 @@ public class ExportXmlSysml {
 			commonElementType = SysmlConstants.BLOCK;
 			CameoUtils.logGUI("Exporting Block");	
 		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
-			commonElementType = SysmlConstants.CLASS;
-			CameoUtils.logGUI("Exporting Class");
+			// Check if Metaclass
+			if(CameoUtils.isMetaclass(element)) {
+				commonElementType = SysmlConstants.METACLASS;
+				CameoUtils.logGUI("Exporting Metaclass");
+			} else {
+				commonElementType = SysmlConstants.CLASS;
+				CameoUtils.logGUI("Exporting Class");
+			}
 		} else if(element instanceof Dependency) {
 			commonRelationshipType = SysmlConstants.DEPENDENCY;
 			CameoUtils.logGUI("Exporting Dependency");
@@ -574,7 +605,9 @@ public class ExportXmlSysml {
 			
 		}
 		else {
-			CameoUtils.logGUI("Element with type: " + element.getHumanType() + " is not supported yet!!!");
+			String message = "Element with type: " + element.getHumanType() + " is not supported yet!!!";
+			ExportLog.log(message);
+			CameoUtils.logGUI(message);
 		}
 		if(!exportedElements.containsKey(element.getLocalID())) {
 			if(commonElementType != null) {
@@ -609,6 +642,13 @@ public class ExportXmlSysml {
 				}
 				commonRelationship.writeToXML(element, project, xmlDoc);
 				exportedElements.put(element.getLocalID(), "");
+				// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
+				if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
+					exportElement(commonRelationship.getSupplier(), project, xmlDoc);
+				}
+				if(!exportedElements.containsKey(commonRelationship.getClient().getLocalID())) {
+					exportElement(commonRelationship.getClient(), project, xmlDoc);
+				}
 			}
 		} else {
 			CameoUtils.logGUI("Duplicate element with id " + element.getLocalID() + " not exported.");

@@ -14,6 +14,7 @@ public class XmlTagConstants
 	public static final String SUPPLIER = "supplier";
 	public static final String HUDDLE_ID = "huddle";
 	public static final String CLASSIFIED_BY = "classifiedBy";
+	public static final String TYPED_BY = "typedBy";
 	
 	//SysML element text for type tag
 	public static final String ACCEPTEVENTACTION = "sysml.AcceptEventAction";
@@ -50,8 +51,10 @@ public class XmlTagConstants
 	public static final String DESTROYOBJECTACTION = "sysml.DestroyObjectAction";
 	public static final String ENTRYPOINT = "sysml.EntryPoint";
 	public static final String ENUMERATION = "sysml.Enumeration";
+	public static final String ENUMERATIONLITERAL = "sysml.EnumerationLiteral";
 	public static final String EXITPOINT = "sysml.ExitPoint";
 	public static final String EXTENDEDREQUIREMENT = "sysml.ExtendedRequirement";
+	public static final String EXTENSIONPOINT = "sysml.ExtensionPoint";
 	public static final String FINALSTATE = "sysml.FinalState";
 	public static final String FLOWFINALNODE = "sysml.FlowFinalNode";
 	public static final String FLOWPORT = "sysml.FlowPort";
@@ -82,6 +85,7 @@ public class XmlTagConstants
 	public static final String MESSAGE = "sysml.Message";
 	public static final String METACLASS = "sysml.Metaclass";
 	public static final String MODEL = "sysml.Model";
+	public static final String OPAQUEBEHAVIOR = "sysml.OpaqueBehavior";
 	public static final String OPAQUEEXPRESSION = "sysml.OpaqueExpression";
 	public static final String OPERATION = "sysml.Operation";
 	public static final String PARTICIPANTPROPERTY = "sysml.ParticipantProperty";
@@ -95,10 +99,12 @@ public class XmlTagConstants
 	public static final String PROXYPORT = "sysml.ProxyPort";
 	public static final String QUANTITYKIND = "sysml.QuantityKind";
 	public static final String REFERENCEPROPERTY = "sysml.ReferneceProperty";
+	public static final String REGION = "sysml.Region";
 	public static final String REQUIREMENT = "sysml.Requirement";
 	public static final String SENDSIGNALACTION = "sysml.SendSignalAction";
 	public static final String SHALLOWHISTORY = "sysml.ShallowHistory";
 	public static final String SIGNAL = "sysml.Signal";
+	public static final String SIGNALEVENT = "sysml.SignalEvent";
 	public static final String STATE = "sysml.State";
 	public static final String STATEMACHINE = "sysml.StateMachine";
 	public static final String STEREOTYPE = "sysml.Stereotype";
@@ -114,6 +120,7 @@ public class XmlTagConstants
 	public static final String AGGREGATION = "sysml.Aggregation";
 	public static final String ASSOCIATION = "sysml.Association";
 	public static final String BINDINGCONNECTOR = "sysml.BindingConnector";
+	public static final String COMPOSITION = "sysml.Composition";
 	public static final String CONNECTOR = "sysml.Connector";
 	public static final String CONTROLFLOW = "sysml.ControlFlow";
 	public static final String COPY = "sysml.Copy";
@@ -156,6 +163,21 @@ public class XmlTagConstants
 	public static final String CLIENT_ID = "client_id";
 	public static final String SUPPLIER_ID = "supplier_id";
 	public static final String RELATIONSHIP_STEREOTYPE = "relationshipStereotype";
+	public static final String BODY = "body";
+	public static final String LANGUAGE = "language";
+	public static final String SIGNAL_TAG = "signal";
+	public static final String EVENT_TAG = "event";
+	public static final String TRIGGER_TAG = "trigger";
+	public static final String PROFILE_TAG = "profile";
+	public static final String ID_TAG = "id";
+	public static final String ASSOCIATION_TAG = "association";
+	public static final String ASSOCIATION_PART_PROPERTY_ID = "associationForPartProperty";
+	public static final String SUPPLIER_CONNECTOR_END_TAG = "supplierConnectorEnd";
+	public static final String CLIENT_CONNECTOR_END_TAG = "clientConnectorEnd";
+	public static final String SUPPLIER_PART_WITH_PORT = "supplierPartWithPort";
+	public static final String CLIENT_PART_WITH_PORT = "clientPartWithPort";
+	public static final String CLASSIFIER_TYPE = "classifierType";
+	
 	
 	//Model Creation Type Constants
 	public static final String ELEMENTSFACTORY = "ElementsFactory";

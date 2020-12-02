@@ -37,6 +37,7 @@ public class XMLItem {
 	private String effect = "";
 	private HashMap<String, String> stereotypes = new HashMap<String, String> ();
 	private HashMap<String, String> attributes = new HashMap<String, String>();
+	private HashMap<String, Element> elements = new HashMap<String, Element>();
 	private List<String> childElements = new ArrayList<String>();
 	
 	private String valueSpecificationID = "";
@@ -84,6 +85,7 @@ public class XMLItem {
 			acceptEventAction = value;
 		} else if(key.contentEquals("event")) {
 			event = value;
+			this.attributes.put(XmlTagConstants.EVENT_TAG, value);
 		} else if(key.contentEquals("operation")) {
 			this.operation = value;
 		} else if(key.contentEquals("guard")) {
@@ -242,7 +244,7 @@ public class XMLItem {
 	}
 	
 	public boolean hasSupplier() {
-		if(!client.isEmpty()) {
+		if(!supplier.isEmpty()) {
 			return true;
 		}
 		return false;
@@ -420,6 +422,21 @@ public class XMLItem {
 	
 	public boolean hasSupplierElement() {
 		if(supplierElement != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void addElement(String name, Element element) {
+		this.elements.put(name, element);
+	}
+	
+	public Element getElement(String name) {
+		return elements.get(name);
+	}
+	
+	public boolean hasElement(String name) {
+		if(elements.containsKey(name)) {
 			return true;
 		}
 		return false;

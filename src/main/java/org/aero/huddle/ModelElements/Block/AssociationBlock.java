@@ -47,7 +47,7 @@ public class AssociationBlock extends CommonElement {
 			}
 		}
 
-		setOwner(owner);
+		setOwner(project, owner);
 		associationClass.setName(name);
 		
 		if(client != null && supplier != null) {

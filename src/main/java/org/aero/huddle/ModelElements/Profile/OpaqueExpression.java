@@ -43,8 +43,34 @@ public class OpaqueExpression extends CommonElement {
 		String body = xmlElement.getAttribute(BODY);
 		String language = xmlElement.getAttribute(LANGUAGE);
 		
-		oe.getLanguage().add(language);
 		oe.getBody().add(body);
+		oe.getLanguage().clear();
+		oe.getLanguage().add(language);
+		
+		SessionManager.getInstance().closeSession(project);
+		return oe;
+	}
+	/**
+	 * 
+	 * @param project Project into which you are importing data.
+	 * @param owner Parent element of the opaque expression that is created by this method.
+	 * @param body String body for the expression.
+	 * @param language Language of the body to be evaluated.
+	 * @return Opaque expression element that is created.
+	 */
+	public Element createElement(Project project, Element owner, String body, String language) {
+		ElementsFactory f = project.getElementsFactory();
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create Opaque Expression Element");
+		}
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
+		((NamedElement)oe).setName(name);
+		
+		setOwner(project, owner);
+		
+		oe.getBody().add(body);
+		oe.getLanguage().clear();
+		oe.getLanguage().add(language);
 		
 		SessionManager.getInstance().closeSession(project);
 		return oe;
@@ -91,5 +117,6 @@ public class OpaqueExpression extends CommonElement {
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
 	}
-
+	
+	
 }

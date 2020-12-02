@@ -24,7 +24,7 @@ public class StateMachine extends CommonElement {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create Class Element");
 		}
-		Element sysmlElement = f.createStateMachineInstance();
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine sysmlElement = f.createStateMachineInstance();
 		((NamedElement)sysmlElement).setName(name);
 		
 		if(owner != null) {
@@ -32,6 +32,9 @@ public class StateMachine extends CommonElement {
 		} else {
 			sysmlElement.setOwner(project.getPrimaryModel());
 		}
+		
+		// Remove auto-created region as they are defined explicitly in the XML
+		sysmlElement.getRegion().clear();
 		
 		SessionManager.getInstance().closeSession(project);
 		return sysmlElement;

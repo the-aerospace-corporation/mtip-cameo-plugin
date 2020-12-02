@@ -12,6 +12,7 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -223,6 +224,14 @@ public class CameoUtils {
 		Collection<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
 		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, stereotype, sysml);
 		if(stereotypes.contains(blockStereotype)) { 
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isMetaclass(Element element) {
+		NamedElement owner = (NamedElement)element.getOwner();
+		if(owner.getName().contentEquals("UML2 Metamodel")) {
 			return true;
 		}
 		return false;

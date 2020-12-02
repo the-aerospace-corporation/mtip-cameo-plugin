@@ -1,6 +1,11 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
+import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
@@ -13,6 +18,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Vertex;
 import com.nomagic.uml2.impl.ElementsFactory;
 
@@ -55,8 +61,25 @@ public class Transition extends CommonRelationship {
 		((NamedElement)transition).setName(name);
 		transition.setOwner(owner);
 		
+//		if(xmlElement.hasElement(XmlTagConstants.TRIGGER_TAG)) {
+//			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (Trigger) xmlElement.getElement(XmlTagConstants.TRIGGER_TAG);
+//			transition.getTrigger().add(trigger);
+//		}
+		
 		SessionManager.getInstance().closeSession(project);
 		return transition;
+	}
+	
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+//		CameoUtils.logGUI("Creating dependent elements for transition...");
+//		if(modelElement.hasAttribute(XmlTagConstants.TRIGGER_TAG)) {
+//			String triggerID = modelElement.getAttribute(XmlTagConstants.TRIGGER_TAG);
+//			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)ImportXmlSysml.getOrBuildElement(project, parsedXML, triggerID);
+//			modelElement.addElement(XmlTagConstants.TRIGGER_TAG, trigger);
+//			CameoUtils.logGUI("Trigger found and added to transition XML.");
+//		} else {
+//			CameoUtils.logGUI("No trigger found in XML for trigger with id: " + EAID);
+//		}
 	}
 
 	@Override
@@ -68,8 +91,16 @@ public class Transition extends CommonRelationship {
 		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.TRANSITION));
 		data.appendChild(type);
 		
+		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-//		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition tr = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
+		Collection<com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger> triggers = tr.getTrigger();
+		if(!triggers.isEmpty()) {
+			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = triggers.iterator().next();
+			org.w3c.dom.Element triggerTag = xmlDoc.createElement(XmlTagConstants.TRIGGER_TAG);
+			triggerTag.appendChild(xmlDoc.createTextNode(trigger.getLocalID()));
+			attributes.appendChild(triggerTag);
+		}
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);	

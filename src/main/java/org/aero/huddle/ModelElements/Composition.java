@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements;
 
 import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -18,7 +19,7 @@ public class Composition extends CommonRelationship{
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Allocate Relationship");
+			SessionManager.getInstance().createSession(project, "Create Composition Relationship");
 		}
 		
 		Association association = project.getElementsFactory().createAssociationInstance();
@@ -31,7 +32,7 @@ public class Composition extends CommonRelationship{
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd(association);
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd(association);
 		ModelHelper.setNavigable(firstMemberEnd, true);
-		ModelHelper.setNavigable(secondMemberEnd, true);
+		ModelHelper.setNavigable(secondMemberEnd, false);
 		firstMemberEnd.setAggregation(AggregationKindEnum.COMPOSITE);
 
 		SessionManager.getInstance().closeSession(project);
@@ -40,7 +41,17 @@ public class Composition extends CommonRelationship{
 
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		// TODO Auto-generated method stub
+		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
+		
+		//org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		
+		// Create type field for Sysml model element types
+		org.w3c.dom.Element type = xmlDoc.createElement("type");
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.COMPOSITION));
+		data.appendChild(type);
+		
+		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
+		root.appendChild(data);	
 		
 	}
 }

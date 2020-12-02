@@ -33,7 +33,7 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.BINDINGCONNECTOR:
 				relationship = new BindingConnector(name, EAID);
 				break;
-			case "Composition":
+			case SysmlConstants.COMPOSITION:
 				relationship = new Composition(name, EAID);
 				break;
 			case "Copy":

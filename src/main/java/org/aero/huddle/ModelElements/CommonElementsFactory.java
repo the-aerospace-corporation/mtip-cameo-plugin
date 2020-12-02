@@ -97,13 +97,17 @@ import org.aero.huddle.ModelElements.StateMachine.Fork;
 import org.aero.huddle.ModelElements.StateMachine.FunctionBehavior;
 import org.aero.huddle.ModelElements.StateMachine.InitialPseudoState;
 import org.aero.huddle.ModelElements.StateMachine.Join;
+import org.aero.huddle.ModelElements.StateMachine.OpaqueBehavior;
+import org.aero.huddle.ModelElements.StateMachine.Region;
 import org.aero.huddle.ModelElements.StateMachine.ShallowHistory;
+import org.aero.huddle.ModelElements.StateMachine.SignalEvent;
 import org.aero.huddle.ModelElements.StateMachine.State;
 import org.aero.huddle.ModelElements.StateMachine.StateMachine;
 import org.aero.huddle.ModelElements.StateMachine.StateMachineDiagram;
 import org.aero.huddle.ModelElements.StateMachine.Terminate;
 import org.aero.huddle.ModelElements.StateMachine.Trigger;
 import org.aero.huddle.ModelElements.UseCase.Actor;
+import org.aero.huddle.ModelElements.UseCase.ExtensionPoint;
 import org.aero.huddle.ModelElements.UseCase.UseCase;
 import org.aero.huddle.ModelElements.UseCase.UseCaseDiagram;
 import org.aero.huddle.util.CameoUtils;
@@ -218,11 +222,17 @@ public class CommonElementsFactory {
 			case "Enumeration":
 				element = new Enumeration(name, EAID);
 				break;
+			case SysmlConstants.ENUMERATIONLITERAL:
+				element = new EnumerationLiteral(name, EAID);
+				break;
 			case "ExitPoint":
 				element = new ExitPoint(name, EAID);
 				break;
 			case "ExtendedRequirement":
 				element = new ExtendedRequirement(name, EAID);
+				break;
+			case SysmlConstants.EXTENSIONPOINT:
+				element = new ExtensionPoint(name, EAID);
 				break;
 			case "FinalState":
 				element = new FinalState(name, EAID);
@@ -308,6 +318,9 @@ public class CommonElementsFactory {
 			case "OpaqueAction":
 				element = new OpaqueAction(name, EAID);
 				break;
+			case SysmlConstants.OPAQUEBEHAVIOR:
+				element = new OpaqueBehavior(name, EAID);
+				break;
 			case SysmlConstants.OPAQUEEXPRESSION:
 				element = new OpaqueExpression(name, EAID);
 				break;
@@ -351,6 +364,9 @@ public class CommonElementsFactory {
 			case SysmlConstants.REFERENCEPROPERTY:
 				element = new ReferenceProperty(name, EAID);
 				break;
+			case SysmlConstants.REGION:
+				element = new Region(name, EAID);
+				break;
 			case "RequiredInterface":
 				element = new RequiredInterface(name, EAID);
 				break;
@@ -365,6 +381,9 @@ public class CommonElementsFactory {
 				break;
 			case "Signal":
 				element = new Signal(name, EAID);
+				break;
+			case SysmlConstants.SIGNALEVENT:
+				element = new SignalEvent(name, EAID);
 				break;
 			case "State":
 				element = new State(name, EAID);

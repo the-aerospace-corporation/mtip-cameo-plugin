@@ -1,6 +1,9 @@
 package org.aero.huddle.ModelElements.InternalBlock;
 
+import java.util.Map;
+
 import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
@@ -9,10 +12,16 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.magicdraw.properties.Property;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Connector extends CommonRelationship {
@@ -44,7 +53,29 @@ public class Connector extends CommonRelationship {
 			connector.dispose();
 			return null;
 		}
-			
+		
+		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
+		Stereotype nestedConnectorEndStereotype = StereotypesHelper.getStereotype(project, "NestedConnectorEnd", sysmlProfile);
+		Stereotype elementPropertyPathStereotype = StereotypesHelper.getStereotype(project, "ElementPropertyPath", sysmlProfile);
+		
+		ConnectorEnd firstMemberEnd = connector.getEnd().get(0);
+		ConnectorEnd secondMemberEnd = connector.getEnd().get(1);
+		
+		StereotypesHelper.addStereotype(firstMemberEnd, nestedConnectorEndStereotype);
+		StereotypesHelper.addStereotype(secondMemberEnd, nestedConnectorEndStereotype);
+		
+		String supplierPartWithPort = xmlElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT);
+		String clientPartWithPort = xmlElement.getAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT);
+		
+		Element supplierPart = (Element) project.getElementByID(supplierPartWithPort);
+		Element clientPart = (Element) project.getElementByID(clientPartWithPort);
+		
+		secondMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)supplierPart);
+		firstMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)project.getElementByID(clientPartWithPort));
+		
+		StereotypesHelper.setStereotypePropertyValue(firstMemberEnd, elementPropertyPathStereotype, "propertyPath", clientPart);
+		StereotypesHelper.setStereotypePropertyValue(secondMemberEnd, elementPropertyPathStereotype, "propertyPath", supplierPart);
+		
 		
 		((NamedElement)connector).setName(name);
 		try {
@@ -71,7 +102,21 @@ public class Connector extends CommonRelationship {
 		SessionManager.getInstance().closeSession(project);
 		return connector;
 	}
-
+	
+	@Override
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		CameoUtils.logGUI("\t...Creating dependent elements for connector with id: " + modelElement.getEAID());
+		String supplierPartWithPortID = modelElement.getAttribute(XmlTagConstants.SUPPLIER_CONNECTOR_END_TAG);
+		String clientPartWithPortID = modelElement.getAttribute(XmlTagConstants.CLIENT_CONNECTOR_END_TAG);
+		
+		Element supplierPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, supplierPartWithPortID);
+		Element clientPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientPartWithPortID);
+		
+		modelElement.addAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT, supplierPartWithPort.getLocalID());
+		modelElement.addAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT, clientPartWithPort.getLocalID());
+		
+	}
+	
 	@Override
 	public void writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);

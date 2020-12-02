@@ -3,6 +3,7 @@ package org.aero.huddle.ModelElements.Block;
 import java.util.List;
 
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -19,25 +20,19 @@ public class InstanceSpecification extends CommonElement {
 
 	public InstanceSpecification(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.INSTANCESPECIFICATION;
+		this.xmlConstant = XmlTagConstants.INSTANCESPECIFICATION;
+		this.sysmlElement = f.createInstanceSpecificationInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Interface Element");
-		}
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification instance = f.createInstanceSpecificationInstance();
-		instance.setName(name);
-		if(owner != null) {
-			instance.setOwner(owner);
-		} else {
-			instance.setOwner(project.getPrimaryModel());
-		}
+		Element instance = super.createElement(project, owner, xmlElement);
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIED_BY)) {
 			Classifier classifier = (Classifier) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIED_BY));
-			ModelHelper.setClassifierForInstanceSpecification(classifier, instance, true);
+			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) instance, true);
 		}
 		
 		SessionManager.getInstance().closeSession(project);
