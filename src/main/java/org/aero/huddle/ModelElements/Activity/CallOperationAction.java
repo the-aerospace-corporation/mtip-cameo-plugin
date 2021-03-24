@@ -11,10 +11,9 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 
-public class CallOperationAction extends CommonElement {
+public class CallOperationAction extends ActivityNode {
 
 	public CallOperationAction(String name, String EAID) {
 		super(name, EAID);
@@ -26,8 +25,7 @@ public class CallOperationAction extends CommonElement {
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		((NamedElement)sysmlElement).setName(name);
-		setOwner(project, owner);
+		super.createElement(project, owner, xmlElement);
 		
 		if(xmlElement != null) {
 			Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
@@ -43,22 +41,15 @@ public class CallOperationAction extends CommonElement {
 	}
 	
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
-		
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.CALLOPERATIONACTION));
-		data.appendChild(type);
-		
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+				
 		Operation operation = ((com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction)element).getOperation();
-		org.w3c.dom.Element operationTag = xmlDoc.createElement("operation");
-		operationTag.appendChild(xmlDoc.createTextNode(operation.getLocalID()));
-		attributes.appendChild(operationTag);
-
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
+		if(operation != null) {
+			org.w3c.dom.Element operationTag = createRel(xmlDoc, operation, XmlTagConstants.OPERATION_TAG);
+			relationships.appendChild(operationTag);
+		}
+		return data;
 	}
 }

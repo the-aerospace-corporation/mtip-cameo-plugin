@@ -9,6 +9,8 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 
 	public InternalBlockDiagram(String name, String EAID) {
 		 super(name, EAID);
+		 this.sysmlConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
+		 this.xmlConstant = XmlTagConstants.INTERNALBLOCKDIAGRAM;
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment;
 
 public class XMLItem {
 	private String type = "";
@@ -35,10 +36,15 @@ public class XMLItem {
 	private boolean newSubmachineCreated = false;
 	private String guard = "";
 	private String effect = "";
+	private List<String> coveredBy = new ArrayList<String> ();
+	private List<String> interactionOperands = new ArrayList<String> ();
+	private List<String> newInteractionOperands = new ArrayList<String> ();
 	private HashMap<String, String> stereotypes = new HashMap<String, String> ();
 	private HashMap<String, String> attributes = new HashMap<String, String>();
 	private HashMap<String, Element> elements = new HashMap<String, Element>();
+	private HashMap<String, String> coveredByMap = new HashMap<String, String> ();
 	private List<String> childElements = new ArrayList<String>();
+	private List<String> childRelationships = new ArrayList<String>();
 	
 	private String valueSpecificationID = "";
 	private String newValueSpecificationID = "";
@@ -96,6 +102,12 @@ public class XMLItem {
 			this.newValueSpecificationID = value;
 		} else if(key.contentEquals("constrainedElement")) {
 				this.constrainedElements.add(value);
+		} else if(key.contentEquals(XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERAND)) {
+			this.interactionOperands.add(value);
+		} else if(key.contentEquals(org.aero.huddle.ModelElements.Sequence.CombinedFragment.newInteractionOperand)) {
+			this.newInteractionOperands.add(value);
+		} else if(key.contentEquals(XmlTagConstants.ATTRIBUTE_NAME_COVERED_BY)) {
+			this.coveredBy.add(value);
 		} else {
 			this.attributes.put(key, value);
 		}
@@ -178,6 +190,10 @@ public class XMLItem {
 		this.childElements.add(element);
 	}
 	
+	public void addChildRelationship(String relationship) {
+		this.childRelationships.add(relationship);
+	}
+	
 	public void addStereotype(String stereotypeName, String profileName) {
 		stereotypes.put(stereotypeName, profileName);
 	}
@@ -206,6 +222,18 @@ public class XMLItem {
 	    	}
 	    }
 		return existingChildElements;
+	}
+	
+	public List<String> getChildRelationships(Map<String, XMLItem> parsedXML) {
+		List<String> existingChildRelationships = new ArrayList<String>();
+		for(String childRelationship : this.childRelationships) { 
+	    	if(parsedXML.containsKey(childRelationship)) {
+	    		existingChildRelationships.add(childRelationship);
+	    	} else {
+	    		CameoUtils.logGUI("Element with id : " + childRelationship + " was not added to diagram as it does not have a data tag.");
+	    	}
+	    }
+		return existingChildRelationships;
 	}
 	
 	public void setName(String name) {
@@ -448,5 +476,44 @@ public class XMLItem {
 		} else {
 			return true;
 		}
+	}
+	
+	public boolean hasInteractionOperands() {
+		if(!this.interactionOperands.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public List<String> getInteractionOperands() {
+		return this.interactionOperands;
+	}
+	
+	public String getInteractionOperatorKind() {
+		return this.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERATOR_KIND);
+	}
+	
+	public List<String> getNewInteractionOperands() {
+		return this.newInteractionOperands;
+	}
+	public List<String> getCoveredBy() {
+		return this.coveredBy;
+	}
+	
+	public void setCoveredByID(String oldID, String newID) {
+		this.coveredByMap.put(oldID, newID);
+	}
+	
+	public String getCoveredByID(String oldID) {
+		return this.coveredByMap.get(oldID);
+	}
+	
+	public String toString() {
+		String allInfo = "\nParent: " + this.getParent()
+		+ "\nType: " + this.getType()
+		+ "\nName: " + this.getName()
+		+ "\nID: " + this.getEAID()
+		+ "\nOwner: " + this.getParent();
+		return allInfo;
 	}
 }

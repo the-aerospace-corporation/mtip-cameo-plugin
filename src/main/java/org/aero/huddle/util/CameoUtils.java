@@ -82,7 +82,7 @@ public class CameoUtils {
 		}
 	}
 	public static Element findNearestBlock(Project project, Element owner) {
-		CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
+		CameoUtils.logGUI("Searching for block for current element with id " + owner.getLocalID());
 		if(SysMLProfile.isBlock(owner)) {
 			return owner;
 		} else {
@@ -100,6 +100,9 @@ public class CameoUtils {
 			return owner;
 		} else {
 			Element nextOwner = owner.getOwner();
+			if(nextOwner == null) {
+				return null;
+			}
 			return findNearestActivity(project, nextOwner);
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -22,32 +23,24 @@ public class OpaqueExpression extends CommonElement {
 	
 	public OpaqueExpression(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.OPAQUEEXPRESSION;
 		this.xmlConstant = XmlTagConstants.OPAQUEEXPRESSION;
+		this.sysmlElement = f.createOpaqueExpressionInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Opaque Expression Element");
-		}
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
-		((NamedElement)oe).setName(name);
+		super.createElement(project, owner, xmlElement);
 		
-		if(owner != null) {
-			oe.setOwner(owner);
-		} else {
-			oe.setOwner(project.getPrimaryModel());
-		}
-		
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)sysmlElement;
 		String body = xmlElement.getAttribute(BODY);
 		String language = xmlElement.getAttribute(LANGUAGE);
 		
 		oe.getBody().add(body);
 		oe.getLanguage().clear();
 		oe.getLanguage().add(language);
-		
-		SessionManager.getInstance().closeSession(project);
+
 		return oe;
 	}
 	/**
@@ -76,8 +69,8 @@ public class OpaqueExpression extends CommonElement {
 		return oe;
 	}
 	
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)element;
@@ -98,24 +91,16 @@ public class OpaqueExpression extends CommonElement {
 		}
 		
 		if(body != null && !body.isEmpty()) {
-			org.w3c.dom.Element bodyTag = xmlDoc.createElement(BODY);
-			bodyTag.appendChild(xmlDoc.createTextNode(body));
+			org.w3c.dom.Element bodyTag = createStringAttribute(xmlDoc, BODY, body);
 			attributes.appendChild(bodyTag);
 		}
 		
 		if(language != null && !language.isEmpty()) {
-			org.w3c.dom.Element langTag = xmlDoc.createElement(LANGUAGE);
-			langTag.appendChild(xmlDoc.createTextNode(language));
+			org.w3c.dom.Element langTag = createStringAttribute(xmlDoc, LANGUAGE, language);
 			attributes.appendChild(langTag);
 		}
 		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(this.xmlConstant));
-		data.appendChild(type);
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
+		return data;
 	}
 	
 	

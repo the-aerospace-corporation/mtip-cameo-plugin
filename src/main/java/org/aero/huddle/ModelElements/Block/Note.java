@@ -14,13 +14,11 @@ public class Note extends CommonElement {
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		
 		return null;
 	}
 
 	@Override
-	public void writeToXML(Element element, Project project, Document root) {
-		// TODO Auto-generated method stub
-		
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document root) {
+		return null;
 	}
 }

@@ -6,7 +6,6 @@ import org.aero.huddle.XML.Import.ImportXmlSysml;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 
@@ -32,7 +31,7 @@ public class ValidationRuleGenerator {
 		String body = createCompositionBody(supplier, client);
 		
 		CommonElement constraint = cef.createElement(SysmlConstants.CONSTRAINT, "CompositionConstraint" + Integer.toString(compositionRuleCount + 1), Integer.toString(compositionRuleCount + 1));
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint cameoConstraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)constraint.createElement(project, ImportXmlSysml.MODEL_VALIDATION_PACKAGE);
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint cameoConstraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)constraint.createElement(project, ImportXmlSysml.MODEL_VALIDATION_PACKAGE, null);
 		
 		CommonElement opaqueExpression = cef.createElement(SysmlConstants.OPAQUEEXPRESSION, "CompositionConstraint" + Integer.toString(compositionRuleCount + 1), Integer.toString(compositionRuleCount + 1));
 		ValueSpecification cameoOpaqueExpression = (ValueSpecification) ((org.aero.huddle.ModelElements.Profile.OpaqueExpression)opaqueExpression).createElement(project, cameoConstraint, body, ValidationRuleGenerator.STRUCTURED_EXPRESSION);

@@ -4,47 +4,43 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.aero.huddle.ModelElements.CommonRelationship;
-import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Vertex;
-import com.nomagic.uml2.impl.ElementsFactory;
 
 public class Transition extends CommonRelationship {
 	public Transition(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.xmlConstant = XmlTagConstants.TRANSITION;
+		this.sysmlConstant = SysmlConstants.TRANSITION;
+		this.sysmlElement = f.createTransitionInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Transition Relationship");
-		}
-		ElementsFactory ef = project.getElementsFactory();
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = ef.createTransitionInstance();
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) super.createElement(project, owner, client, supplier, xmlElement);
 		
 		if(xmlElement.hasGuard()) {
-			Constraint constraint = ef.createConstraintInstance();
-			LiteralString specification = ef.createLiteralStringInstance();
+			Constraint constraint = f.createConstraintInstance();
+			LiteralString specification = f.createLiteralStringInstance();
 			specification.setValue(xmlElement.getGuard());
 			constraint.setSpecification(specification);			
 			transition.setGuard(constraint);
 		}
 		
 		if(xmlElement.hasEffect()) {
-			FunctionBehavior functionBehavior = ef.createFunctionBehaviorInstance();
+			FunctionBehavior functionBehavior = f.createFunctionBehaviorInstance();
 			functionBehavior.getBody().add(xmlElement.getAttribute("effect"));
 			transition.setEffect(functionBehavior);
 		}
@@ -58,15 +54,10 @@ public class Transition extends CommonRelationship {
 			return null;
 		}
 		
-		((NamedElement)transition).setName(name);
-		transition.setOwner(owner);
-		
 //		if(xmlElement.hasElement(XmlTagConstants.TRIGGER_TAG)) {
 //			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (Trigger) xmlElement.getElement(XmlTagConstants.TRIGGER_TAG);
 //			transition.getTrigger().add(trigger);
 //		}
-		
-		SessionManager.getInstance().closeSession(project);
 		return transition;
 	}
 	
@@ -83,14 +74,8 @@ public class Transition extends CommonRelationship {
 	}
 
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.TRANSITION));
-		data.appendChild(type);
-		
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition tr = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
@@ -101,8 +86,36 @@ public class Transition extends CommonRelationship {
 			triggerTag.appendChild(xmlDoc.createTextNode(trigger.getLocalID()));
 			attributes.appendChild(triggerTag);
 		}
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);	
+
+		return data;
+	}
+	
+	@Override
+	public void setOwner(Project project, Element owner) {
+		owner = CameoUtils.findNearestRegion(project, supplier);
+		sysmlElement.setOwner(owner);
+	}
+	@Override
+	public void setSupplier() {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		transition.setSource((Vertex) supplier);
+	}
+	
+	@Override
+	public void setClient() {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		transition.setTarget((Vertex) client);
+	}
+
+	@Override
+	public void getSupplier(Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition cameoRelationship = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
+		this.supplier = cameoRelationship.getSource();
+	}
+
+	@Override
+	public void getClient(Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition cameoRelationship = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
+		this.client = cameoRelationship.getTarget();
 	}
 }

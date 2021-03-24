@@ -1,6 +1,5 @@
 package org.aero.huddle.XML.Import;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -11,11 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
+import org.aero.huddle.ModelElements.AbstractDiagram;
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.ModelElements.CommonElementsFactory;
 import org.aero.huddle.ModelElements.CommonRelationship;
@@ -25,13 +23,10 @@ import org.aero.huddle.ModelElements.Profile.Customization;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
-import org.aero.huddle.util.ValidationRuleGenerator;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.apache.commons.collections.MapUtils;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -59,7 +54,7 @@ import com.nomagic.uml2.impl.ElementsFactory;
 public class ImportXmlSysml {
     static Map<String,Entry<Element, Element>> linktoPair = new HashMap<String,Entry<Element, Element>>();
     static Map<ModelDiagram,Diagram> diagramMap = new HashMap<ModelDiagram,Diagram>();
-    private static HashMap<String, XMLItem> completeXML = new HashMap<String, XMLItem>();
+    public static HashMap<String, XMLItem> completeXML = new HashMap<String, XMLItem>();
     private static HashMap<String, XMLItem> stereotypesXML = new HashMap<String, XMLItem>();
     private static HashMap<String, XMLItem> profileXML = new HashMap<String, XMLItem>();
     private static Project project = Application.getInstance().getProject();
@@ -121,6 +116,10 @@ public class ImportXmlSysml {
 		}
 		buildModel(completeXML);
 		ImportLog.save();
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Refresh");
+		}
+		SessionManager.getInstance().closeSession(project);
 	}
 
 	public static void buildModel(HashMap<String, XMLItem> parsedXML) {
@@ -198,9 +197,9 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element buildDiagram(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
-		
 		CommonElementsFactory cef = new CommonElementsFactory();
 		Element owner = null;
+		boolean noPosition = false;
 		String cameoParentID = "";
 		if(modelElement.getParent().equals("")) {
 			owner = primaryLocation;
@@ -215,90 +214,99 @@ public class ImportXmlSysml {
 				owner = buildElement(project, parsedXML, ownerElement, ownerID);
 			}
 		}
-		
-		CameoUtils.logGUI("Creating DIAGRAM of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
-		CommonElement element = cef.createElement(modelElement.getType(), modelElement.getAttribute("name"),
-				modelElement.getEAID());
-		Element newElement = element.createElement(project, owner, modelElement);
-		String GUID = newElement.getID();
-		modelElement.setCameoID(GUID);
-		parentMap.put(id, GUID);
-		
-		//Orig
-//		List<String> elementsStrings = modelElement.getChildElements(parsedXML);
-//		List<String> elementsLocations = modelElement.getChildElements(parsedXML);
-//		List<Rectangle> elementsRectangles = elementsStrings.stream().map(s -> {
-//			Rectangle rect = modelElement.getLocation(s);
-//			return rect;
-//		}).collect(Collectors.toList());
-		
-		//Filter first by diagramType
-		List<String> origStrings = modelElement.getChildElements(parsedXML);
-		List<String> elementsStrings= new ArrayList<String>();
-		
-		String diagramType = modelElement.getType();
-		List<String> diagramAllowedTypes = 	Arrays.asList(SysmlConstants.diagramTypeMap.get(diagramType));
-				
-//		for (String item: diagramAllowedTypes) {
-//			CameoUtils.logGUI("Diagram,ALLOWED type: " + item);
-//		}
-		
-		for (String str : origStrings) {
-			String rawType = modelElement.getChildElementType(str);
-			rawType = rawType.replaceAll("\\s+", "");
-			CameoUtils.logGUI("Diagram,rawTyped: " + rawType);
-
-			String type = rawType.split(Pattern.quote("."))[1];
-
-			CameoUtils.logGUI("Diagram, element id: " + str);
-
-			CameoUtils.logGUI("Diagram, element type: " + type);
-
-			// if (diagramAllowedTypes.contains(type)) {
-			if(IMPORT_FILTER) {
-				if (CameoUtils.containsIgnoreCase(diagramAllowedTypes, type)) {
-					elementsStrings.add(str);
-					CameoUtils.logGUI("Diagram, ADDING element type: " + type);
-				} else {
-					CameoUtils.logGUI("Diagram, **NOT** ADDING element type: " + type);
-					XMLItem item = parsedXML.get(str);
-					if (item != null) {
-						ImportLog.log("Element not added to diagram. Name: " + item.getAttribute("name") + " type: " + type + " ID: "
-								+ item.getEAID());
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, "Create " +  modelElement.getType() + " Element");
+		}
+		Diagram newDiagram = null;
+		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType())) {
+			CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
+			AbstractDiagram element = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
+			newDiagram = (Diagram) element.createElement(project, owner, modelElement);
+			project.getDiagram(newDiagram).open(); 
+			if(newDiagram != null) {
+				String GUID = newDiagram.getID();
+				modelElement.setCameoID(GUID);
+				parentMap.put(id, GUID);
+			}
+			
+			
+			SessionManager.getInstance().closeSession(project);
+			
+			element.createDependentElements(project, parsedXML, modelElement);
+			
+			//Filter first by diagramType
+			String diagramType = modelElement.getType();
+			List<String> diagramAllowedTypes = 	Arrays.asList(SysmlConstants.diagramTypeMap.get(diagramType));
+			
+			List<String> importElementIDs = modelElement.getChildElements(parsedXML);
+			List<Rectangle> elementLocations = new ArrayList<Rectangle> ();
+			List<Element> elementsOnDiagram = new ArrayList<Element> ();
+			
+			for(String importID : importElementIDs) {
+				String cameoID = parentMap.get(importID);
+				String elementType = parsedXML.get(importID).getType();
+				if(cameoID != null) {
+					if(diagramAllowedTypes.contains(elementType)) {
+						Element elementOnDiagram = (Element)project.getElementByID(cameoID);
+						if(elementOnDiagram != null) {
+							elementsOnDiagram.add(elementOnDiagram);
+							elementLocations.add(modelElement.getLocation(importID));
+							String message = "Adding element with id " + importID + " of type " + elementType + " to diagram.";
+							CameoUtils.logGUI(message);
+							ImportLog.log(message);
+						} else {
+							String message = "Could not add element with id " + importID + " of type " + elementType + " to diagram. Element was not created during import";
+							CameoUtils.logGUI(message);
+							ImportLog.log(message);
+						}
+						
 					} else {
-						ImportLog.log("Element not added to diagram. ID: " + str + " type: " + type);
+						String message = "Element with id " + importID + " of type " + elementType + " not allowed on diagrams of type " + modelElement.getType();
+						CameoUtils.logGUI(message);
+						ImportLog.log(message);
+					}				
+				}
+			}
+			
+			List<String> importRelationshipIDs = modelElement.getChildRelationships(parsedXML);
+			List<Element> relationshipsOnDiagram = new ArrayList<Element> ();
+			
+			for(String importRelationshipID : importRelationshipIDs) {
+				String cameoID = parentMap.get(importRelationshipID);
+				if(cameoID != null) {
+					Element elementOnDiagram = (Element)project.getElementByID(cameoID);
+					if(elementOnDiagram != null) {
+						String elementType = parsedXML.get(importRelationshipID).getType();
+						relationshipsOnDiagram.add((Element)project.getElementByID(cameoID));
+						String message = "Adding relationship with id " + importRelationshipID + " of type " + elementType + " to diagram.";
+						CameoUtils.logGUI(message);
+						ImportLog.log(message);
 					}
 				}
-			} else {
-				elementsStrings.add(str);
-				CameoUtils.logGUI("Diagram, ADDING element type: " + type);
+				
+//				if(diagramAllowedTypes.contains(elementType)) {
+	//				} else {
+	//					String message = "Element with id " + importID + " of type " + elementType + " not allowed on diagrams of type " + modelElement.getType();
+	//					CameoUtils.logGUI(message);
+	//					ImportLog.log(message);
+	//				}				
 			}
+			
+			if (!SessionManager.getInstance().isSessionCreated(project)) {
+				SessionManager.getInstance().createSession(project, "Adding elements to diagram with type " +  modelElement.getType() + ".");
+			}
+			
+			noPosition = element.addElements(project, newDiagram, elementsOnDiagram, elementLocations);
+			element.addRelationships(project, newDiagram, relationshipsOnDiagram);
+			
+			project.getDiagram(newDiagram).close(); 
+			SessionManager.getInstance().closeSession(project);
+			if(noPosition) {
+				Application.getInstance().getProject().getDiagram(newDiagram).layout(true, new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
+			}
+	        diagramMap.put((ModelDiagram) element, newDiagram);
 		}
-		
-		List<Rectangle> elementsRectangles = elementsStrings.stream().map(s -> {
-			Rectangle rect = modelElement.getLocation(s);
-			return rect;
-		}).collect(Collectors.toList());
-
-		CameoUtils.logGUI("ElementStrings size: " + elementsStrings.size());
-		for (String s: elementsStrings) {
-			CameoUtils.logGUI("ADDING element id: " + s);
-		}
-
-		//map each string id to an actual element, and for all non-null created elements, add them to the elements list.
-		List<Element> elements = elementsStrings.stream().map(s->(Element) tryToGetElement(project, parsedXML, s)).filter(x -> x!=null).collect(Collectors.toList());
-		
-		CameoUtils.logGUI("modelElement.getType() : " + modelElement.getType() );
-		CameoUtils.logGUI("elementsAFTER size: " + elements.size());
-     
-		// add the composed elements
-		((ModelDiagram) element).addElements(project, (Diagram) newElement, elements, elementsRectangles);
-
-        diagramMap.put((ModelDiagram) element, (Diagram) newElement);
-        modelElement.setCameoID(newElement.getID());
-
-		// add the associations
-        return newElement;
+        return newDiagram;
 	}
 	
 	public static Element buildRelationship(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
@@ -350,7 +358,6 @@ public class ImportXmlSysml {
 				} else {
 					ImportLog.log("Client Element with id : " + clientEAID + " not exported with XML.");
 				}
-				
 			}
 		}
 		
@@ -374,61 +381,33 @@ public class ImportXmlSysml {
 					supplier = buildElement(project, parsedXML, supplierElement, supplierEAID);
 				} else {
 					ImportLog.log("Supplier Element with id : " + supplierEAID + " not exported with XML.");
-					
 				}
-				
 			}
 		}
-		
+		//Create relationship in Cameo 
 		if(supplier != null && client != null) {
-			if(modelElement.getType().equals(SysmlConstants.OBJECTFLOW) || modelElement.getType().equals(SysmlConstants.CONTROLFLOW)) {
-				try {
-					if(!(owner instanceof Activity)) {
-						owner = CameoUtils.findNearestActivity(project, supplier);
-					}
-				} catch(NullPointerException npe) {
-					String logMessage = "Invalid parent. Parent invalid for element " + modelElement.getName() + " with id " + modelElement.getEAID() + ". Element could not be placed in model.";
-					ImportLog.log(logMessage);
-					return null;
-				}
-			} else if(modelElement.getType().equals(SysmlConstants.TRANSITION)) {
-				owner = CameoUtils.findNearestRegion(project, supplier);
-				if(owner == null) {
-					String logMessage = "Invalid parent. Parent invalid for element " + modelElement.getName() + " with id " + modelElement.getEAID() + ". Element could not be placed in model.";
-					ImportLog.log(logMessage);
-					return null;
-				}
-			} else if (modelElement.getType().equals(SysmlConstants.BINDINGCONNECTOR) || modelElement.getType().equals(SysmlConstants.CONNECTOR)) {
-				// owner is unchanged.
-			} else {
-				// Check to see if supplier element exists in the model being imported or exists in an external library.
-				if(parentMap.containsKey(supplier.getLocalID())) {
-					owner = CameoUtils.findNearestPackage(project,  supplier);
-				} else {
-					owner = CameoUtils.findNearestPackage(project,  client);
-				}
-				
-			}
-			if(modelElement.getType().equals(SysmlConstants.ASSOCIATION) && (supplier instanceof Port || client instanceof Port)) {
-				return null;
-			}
-			//Create relationship in Cameo 
 			if (!modelElement.isCreated()) {
-				CameoUtils.logGUI("Physically creating Relationship in Cameo");
+				CameoUtils.logGUI("Physically creating Relationship in Cameo. Supplier and client have been created.");
 				if(owner != null) {
 					CameoUtils.logGUI("Setting owner to elemnt with id " + owner.getLocalID());
 				} else {
-					CameoUtils.logGUI("Owner is null. Relationship will be placed in main model.");
+					CameoUtils.logGUI("Owner is null. Relationship will be placed in the main model.");
 				}
+				if (!SessionManager.getInstance().isSessionCreated(project)) {
+					SessionManager.getInstance().createSession(project, "Creating Relationship of type " +  modelElement.getType() + ".");
+				}
+				
 				relationship.createDependentElements(project, parsedXML, modelElement);
 				Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
+				
+				SessionManager.getInstance().closeSession(project);
 				if(newElement != null) {
 					String GUID = newElement.getID();
 					parentMap.put(id, GUID);
 					modelElement.setCameoID(GUID);
 					Map.Entry<Element, Element> entry = new AbstractMap.SimpleEntry<Element, Element>(supplier, client);
 					linktoPair.put(id, entry);
-
+	
 					return newElement;
 				}
 				return null;
@@ -437,8 +416,9 @@ public class ImportXmlSysml {
 				return null;
 			}
 		} else {
-			return null;
+			CameoUtils.logGUI("Supplier or client not created during import. Relationship with id " + id + " could not be imported.");
 		}
+		return null;
 	}
 	
 	public static Element buildElement(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
@@ -447,7 +427,6 @@ public class ImportXmlSysml {
 //		} else {
 //			CameoUtils.logGUI("Starting Build Element with no name of type: " + modelElement.getType() + " and id: " + modelElement.getEAID());
 //		}
-		
 		CommonElementsFactory cef = new CommonElementsFactory();
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
@@ -531,7 +510,7 @@ public class ImportXmlSysml {
 					
 					if(fieldNode.getNodeType() == Node.ELEMENT_NODE) {
 						//get model element type (ex. Sysml.Package)
-						if(fieldNode.getNodeName().contentEquals("type")) {
+						if(fieldNode.getNodeName().contentEquals(XmlTagConstants.TYPE)) {
 							String type = fieldNode.getTextContent();
 							if(type.contains(".")) {
 								String element = type.split("[.]")[1];
@@ -896,114 +875,203 @@ public class ImportXmlSysml {
 	public static XMLItem getRelationships(Node fieldNode, XMLItem modelElement) {
 		NodeList idNodes = fieldNode.getChildNodes();
 		for (int k = 0; k < idNodes.getLength(); k++) {
-			Node idNode = idNodes.item(k);
-			if (idNode.getNodeType() == Node.ELEMENT_NODE) {
-				if (idNode.getNodeName() == "hasParent") {
-					modelElement.setParent(idNode.getTextContent());
-				}
-				if (idNode.getNodeName() == "element") {
-					modelElement.addChildElement(idNode.getTextContent());
-
-					// ingest optional attributes if defined
-					NamedNodeMap elementAttributes = idNode.getAttributes();
-
-					if (elementAttributes != null) {
-						int x = 0;
-						int y = 0;
-						int width = 0;
-						int height = 0;
-
-						int bottom = 0;
-						int right = 0;
-						String type = "";
-						int numAttrs = elementAttributes.getLength();
-						for (int i = 0; i < numAttrs; i++) {
-							Attr attr = (Attr) idNode.getAttributes().item(i);
-							String attrName = attr.getNodeName();
-							String attrValue = attr.getNodeValue();
-							// System.out.println("\t[" + attrName + "]=" + attrValue);
-							// modelElement.addAttribute(attrName, attrValue);
-//							top y
-//							left x
-//							bottom y+height
-//							right x + width
-							if (attrName.contentEquals("top")) {
-								y = Integer.parseInt(attrValue);
-							} else if (attrName.contentEquals("left")) {
-								x = Integer.parseInt(attrValue);
-							} else if (attrName.contentEquals("bottom")) {
-								bottom = Integer.parseInt(attrValue);
-							} else if (attrName.contentEquals("right")) {
-								right = Integer.parseInt(attrValue);
-							} else if (attrName.contentEquals("type")) {
-								type = attrValue;
-							}
+			Node relationshipNode = idNodes.item(k);
+			if (relationshipNode.getNodeType() == Node.ELEMENT_NODE) {
+				if (relationshipNode.getNodeName() == XmlTagConstants.ELEMENT) {
+					NodeList elementNodes = relationshipNode.getChildNodes();
+					for(int j = 0; j < elementNodes.getLength(); j++) {
+						Node elementNode = elementNodes.item(j);
+						if (elementNode.getNodeType() == Node.ELEMENT_NODE) {
+							getDiagramElementData(elementNode, modelElement);
 						}
-
-						// convert from EA standard to Cameo standard
-						y = -y;
-						bottom = -bottom;
-
-						width = right - x;
-						height = bottom - y;
-						modelElement.addLocation(idNode.getTextContent(), new Rectangle(x, y, width, height));
-						modelElement.addChildElementType(idNode.getTextContent(), type);
 					}
-
+				} else if(relationshipNode.getNodeName() == XmlTagConstants.DIAGRAM_CONNECTOR) {
+					NodeList elementNodes = relationshipNode.getChildNodes();
+					for(int j = 0; j < elementNodes.getLength(); j++) {
+						Node elementNode = elementNodes.item(j);
+						if (elementNode.getNodeType() == Node.ELEMENT_NODE) {
+							getDiagramRelationshipData(elementNode, modelElement);
+						}
+					}
+				} else if (relationshipNode.getNodeName() == XmlTagConstants.HAS_PARENT) {
+					modelElement.setParent(getIdValueFromNode(relationshipNode));
+				} else {
+					modelElement.addAttribute(relationshipNode.getNodeName(), getIdValueFromNode(relationshipNode));
 				}
 				
-				if (idNode.getNodeName().contentEquals(XmlTagConstants.SUPPLIER)
-						|| idNode.getNodeName().contentEquals(XmlTagConstants.CLIENT)) {
-					modelElement.addAttribute(idNode.getNodeName(), idNode.getTextContent());
-				}
-				if (idNode.getNodeName() == XmlTagConstants.CLASSIFIED_BY) {
-					modelElement.addAttribute(XmlTagConstants.CLASSIFIED_BY, idNode.getTextContent());
-				}
-				if (idNode.getNodeName() == XmlTagConstants.TYPED_BY) {
-					modelElement.addAttribute(XmlTagConstants.TYPED_BY, idNode.getTextContent());
-				}
-				if (idNode.getNodeName() == XmlTagConstants.SUPPLIER_CONNECTOR_END_TAG) {
-					modelElement.addAttribute(XmlTagConstants.SUPPLIER_CONNECTOR_END_TAG, idNode.getTextContent());
-				}
-				if (idNode.getNodeName() == XmlTagConstants.CLIENT_CONNECTOR_END_TAG) {
-					modelElement.addAttribute(XmlTagConstants.CLIENT_CONNECTOR_END_TAG, idNode.getTextContent());
-				}
-				if (idNode.getNodeName() == XmlTagConstants.ASSOCIATION_TAG) {
-					modelElement.addAttribute(XmlTagConstants.ASSOCIATION_TAG, idNode.getTextContent());
-				}
-				
+//				if (relationshipNode.getNodeName().contentEquals(XmlTagConstants.SUPPLIER)) {
+//					modelElement.addAttribute(XmlTagConstants.SUPPLIER, getIdValueFromNode(relationshipNode));
+//				}
+//				if (relationshipNode.getNodeName().contentEquals(XmlTagConstants.CLIENT)) {
+//					modelElement.addAttribute(XmlTagConstants.CLIENT, getIdValueFromNode(relationshipNode));
+//				}
+//				if (relationshipNode.getNodeName() == XmlTagConstants.CLASSIFIED_BY) {
+//					modelElement.addAttribute(XmlTagConstants.CLASSIFIED_BY, getIdValueFromNode(relationshipNode));
+//				}
+//				if (relationshipNode.getNodeName() == XmlTagConstants.TYPED_BY) {
+//					modelElement.addAttribute(XmlTagConstants.TYPED_BY, getIdValueFromNode(relationshipNode));
+//				}
+//				if (relationshipNode.getNodeName() == XmlTagConstants.SUPPLIER_CONNECTOR_END_TAG) {
+//					modelElement.addAttribute(XmlTagConstants.SUPPLIER_CONNECTOR_END_TAG, getIdValueFromNode(relationshipNode));
+//				}
+//				if (relationshipNode.getNodeName() == XmlTagConstants.CLIENT_CONNECTOR_END_TAG) {
+//					modelElement.addAttribute(XmlTagConstants.CLIENT_CONNECTOR_END_TAG, getIdValueFromNode(relationshipNode));
+//				}
+//				if (relationshipNode.getNodeName() == XmlTagConstants.ASSOCIATION_TAG) {
+//					modelElement.addAttribute(XmlTagConstants.ASSOCIATION_TAG, getIdValueFromNode(relationshipNode));
+//				}
 			}
 		}
 		return modelElement;
 	}
 	
+	public static String getIdValueFromNode(Node relationship) {
+		NodeList idNodes = relationship.getChildNodes();
+		for (int k = 0; k < idNodes.getLength(); k++) {
+			Node idNode = idNodes.item(k);
+			if (idNode.getNodeType() == Node.ELEMENT_NODE) {
+				if (idNode.getNodeName() == XmlTagConstants.ID_TAG) {
+					return idNode.getTextContent();
+				}
+			}
+		}
+		ImportLog.log("No ID found in field.");
+		return "";
+	}
+	
+	public static void getDiagramElementData(Node elementNode, XMLItem modelElement) {
+		NodeList elementAttributesNodes = elementNode.getChildNodes();
+		int x = 0;
+		int y = 0;
+		int width = 0;
+		int height = 0;
+		int bottom = 0;
+		int right = 0;
+		
+		String id = "";
+		String type = "";
+		
+		for (int i = 0; i < elementAttributesNodes.getLength(); i++) {
+			Node elementAttributeNode = elementAttributesNodes.item(i);
+			if (elementAttributeNode.getNodeType() == Node.ELEMENT_NODE) {
+				if(elementAttributeNode.getNodeName() == XmlTagConstants.RELATIONSHIP_METADATA) {
+					NodeList positionNodes = elementAttributeNode.getChildNodes();
+					for (int j = 0; j < positionNodes.getLength(); j++) {
+						Node positionNode = positionNodes.item(j);
+						if(positionNode.getNodeType() == Node.ELEMENT_NODE) {
+							if (positionNode.getNodeName() == XmlTagConstants.TOP) {
+								y = Integer.parseInt(positionNode.getTextContent());
+							}
+							if (positionNode.getNodeName() == XmlTagConstants.BOTTOM) {
+								bottom = Integer.parseInt(positionNode.getTextContent());
+							}
+							if (positionNode.getNodeName() == XmlTagConstants.LEFT) {
+								x = Integer.parseInt(positionNode.getTextContent());
+							}
+							if (positionNode.getNodeName() == XmlTagConstants.RIGHT) {
+								right = Integer.parseInt(positionNode.getTextContent());
+							}
+						}
+					}
+				}
+				if (elementAttributeNode.getNodeName() == XmlTagConstants.ID) {
+					id = elementAttributeNode.getTextContent();
+				}
+				if (elementAttributeNode.getNodeName() == XmlTagConstants.TYPE) {
+					type = elementAttributeNode.getTextContent();
+				}
+			}
+		}
+		if(x != 0 && y != 0 && bottom != 0 && right != 0 && !id.isEmpty() && !type.isEmpty()) {
+			 modelElement.addChildElement(id);
+			 modelElement.addChildElementType(id, type);
+			 width = right - x;
+			 height = bottom - y;
+			 modelElement.addLocation(id, new Rectangle(x, -y, width, -height));
+		} else {
+			modelElement.addChildElement(id);
+			modelElement.addChildElementType(id, type);
+			modelElement.addLocation(id, new Rectangle(-999, -999, -999, -999));
+			CameoUtils.logGUI("Diagram element did not contain sufficient data for placement. Element will be automatically placed on diagram.");
+		}
+	}
+	
+	public static void getDiagramRelationshipData(Node relationshipNode, XMLItem modelElement) {
+		NodeList elementAttributesNodes = relationshipNode.getChildNodes();		
+		String id = "";
+		String type = "";
+		
+		for (int i = 0; i < elementAttributesNodes.getLength(); i++) {
+			Node elementAttributeNode = elementAttributesNodes.item(i);
+			if (elementAttributeNode.getNodeType() == Node.ELEMENT_NODE) {
+				if (elementAttributeNode.getNodeName() == XmlTagConstants.ID) {
+					id = elementAttributeNode.getTextContent();
+				}
+				if (elementAttributeNode.getNodeName() == XmlTagConstants.TYPE) {
+					type = elementAttributeNode.getTextContent();
+				}
+			}
+		}
+		
+		if(!id.isEmpty() && !type.isEmpty()) {
+			 modelElement.addChildRelationship(id);
+		}
+	}
+	
+	public static Node getSubAttribute(Node attributeNode) {
+		NodeList childNodes = attributeNode.getChildNodes();
+		for(int k = 0; k < childNodes.getLength(); k++) {
+			Node childNode = childNodes.item(k);
+			if(childNode.getNodeName().contentEquals(XmlTagConstants.ATTRIBUTE)) {
+				return childNode;
+			}
+		}
+		return null;
+	}
+	
+	public static Node getDirectChildByKey(Node parent, String name, String key) {
+		NodeList childNodes = parent.getChildNodes();
+		for(int k = 0; k < childNodes.getLength(); k++) {
+			Node childNode = childNodes.item(k);
+			if(childNode.getNodeType() == Node.ELEMENT_NODE) {
+				if(((org.w3c.dom.Element)childNode).getAttribute(XmlTagConstants.ATTRIBUTE_KEY).equals(key)) {
+					return childNode;
+				}
+			}
+		}
+		return null;
+	}
 	
 	public static XMLItem getAttributes(Node fieldNode, XMLItem modelElement) {	
 		NodeList attributeNodes = fieldNode.getChildNodes();
-		
 		for(int k = 0; k < attributeNodes.getLength(); k++) {
 			Node attribute = attributeNodes.item(k);
 			if(attribute.getNodeType() == Node.ELEMENT_NODE) {
-				if(attribute.getNodeName().contentEquals("stereotype")) {
-					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
-					if(attributeElement.getAttribute("profile") == "") {
-						if(attribute.getTextContent().contains(".")) {
-							String prefix = attribute.getTextContent().split(Pattern.quote("."))[0];
-							String postfix = attribute.getTextContent().split(Pattern.quote("."))[1];
-//							CameoUtils.logGUI("Adding stereotype " + postfix + "with profile " + prefix);
-							modelElement.addStereotype(postfix, prefix);
-						} else {
-							modelElement.addStereotype(attribute.getTextContent(), attributeElement.getAttribute("profile"));
-						}
-					} else {
-						modelElement.addStereotype(attribute.getTextContent(), attributeElement.getAttribute("profile"));
+				String attributeKey = ((org.w3c.dom.Element)attribute).getAttribute(XmlTagConstants.ATTRIBUTE_KEY);
+				if(attributeKey.contentEquals(XmlTagConstants.STEREOTYPE_TAG)) {
+					try {
+						// Add getSubAttribute to these.
+						String stereotypeName = getSubAttribute(getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME)).getTextContent();
+//						String stereotypeID = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID).getTextContent();
+						String profileName = getSubAttribute(getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME)).getTextContent();
+//						String profileID = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID).getTextContent();
+						modelElement.addStereotype(stereotypeName, profileName);
+					} catch (NullPointerException npe) {
+						ImportLog.log("Error parsing stereotype name or profile name from HUDS XML for element: " + modelElement.getEAID());
 					}
-				} else if (attribute.getNodeName().contentEquals("relationshipStereotype")) {
+					
+				} else if (attributeKey.contentEquals("relationshipStereotype")) {
 					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
 					modelElement.addRelationshipStereotype(attributeElement.getAttribute("profile"), attribute.getTextContent());
 					modelElement.addAttribute(Customization.CUSTOMIZATION_TARGET_XML_ID, attributeElement.getAttribute("id"));
 				} else {
-					modelElement.addAttribute(attribute.getNodeName(), attribute.getTextContent());
+					try {
+						Node subAttribute = getSubAttribute(attribute);
+						modelElement.addAttribute(attributeKey, subAttribute.getTextContent());
+					} catch (NullPointerException npe) {
+						ImportLog.log("Error parsing attribute for element with id: " + modelElement.getEAID());
+					}
+					
 				}
 				
 			}
@@ -1328,5 +1396,9 @@ public class ImportXmlSysml {
 	
 	public static void setProject() {
 		Application.getInstance().getProject();
+	}
+	
+	public static Project getProject() {
+		return ImportXmlSysml.project;
 	}
 }

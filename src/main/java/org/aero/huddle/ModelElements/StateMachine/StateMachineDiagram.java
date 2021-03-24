@@ -4,13 +4,13 @@ import org.aero.huddle.ModelElements.AbstractDiagram;
 import org.aero.huddle.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
-//import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.magicdraw.uml.DiagramTypeConstants;
 
 public class StateMachineDiagram  extends AbstractDiagram{
 
 	public StateMachineDiagram(String name, String EAID) {
 		 super(name, EAID);
+		 this.sysmlConstant = SysMLConstants.SYSML_STATE_MACHINE_DIAGRAM;
+		 this.xmlConstant = XmlTagConstants.STATEMACHINEDIAGRAM;
 	}
 	
 	@Override

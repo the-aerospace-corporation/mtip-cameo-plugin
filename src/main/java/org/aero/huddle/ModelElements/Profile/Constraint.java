@@ -15,11 +15,12 @@ import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Constraint extends CommonElement {
+	public static final String VALUE_SPECIFICATION = "valueSpecification";
+	public static final String CONSTRAINED_ELEMENT = "constrainedElement";
 	public Constraint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
@@ -73,26 +74,25 @@ public class Constraint extends CommonElement {
 	}
 	
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)element;
 		ValueSpecification vs = constraint.getSpecification();
 		
 		if(vs instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
-			org.w3c.dom.Element valueSpecTag = xmlDoc.createElement("valueSpecification");
-			valueSpecTag.appendChild(xmlDoc.createTextNode(vs.getLocalID()));
-			attributes.appendChild(valueSpecTag);
+			org.w3c.dom.Element valueSpecTag = createRel(xmlDoc, vs, Constraint.VALUE_SPECIFICATION);
+			relationships.appendChild(valueSpecTag);
 		}
 		// Check here for other value specification types to handle differently if needed
 		
 		//Export constrained Element
 		List<Element> constrainedElements = constraint.getConstrainedElement();
 		for(Element constrainedElement : constrainedElements) {
-			org.w3c.dom.Element constrainedElementTag = xmlDoc.createElement("constrainedElement");
-			constrainedElementTag.appendChild(xmlDoc.createTextNode(constrainedElement.getLocalID()));
-			attributes.appendChild(constrainedElementTag);
+			org.w3c.dom.Element constrainedElementTag = createRel(xmlDoc, constrainedElement, Constraint.CONSTRAINED_ELEMENT);
+			relationships.appendChild(constrainedElementTag);
 		}
 		
 		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
@@ -125,14 +125,7 @@ public class Constraint extends CommonElement {
 				severityTag.appendChild(xmlDoc.createTextNode(severity));
 				attributes.appendChild(severityTag);
 			}
-		}
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(this.xmlConstant));
-		data.appendChild(type);
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
+		}		
+		return data;
 	}
 }

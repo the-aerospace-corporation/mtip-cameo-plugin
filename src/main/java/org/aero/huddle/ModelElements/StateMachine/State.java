@@ -5,32 +5,38 @@ import java.util.Collection;
 import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
-import com.nomagic.uml2.impl.ElementsFactory;
 
 public class State extends CommonElement {
 	public State(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.STATE;
+		this.xmlConstant = XmlTagConstants.STATE;
+		this.sysmlElement = f.createStateInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create State Element");
-		}
-		sysmlElement = f.createStateInstance();
-		((NamedElement)sysmlElement).setName(name);
+		super.createElement(project, owner, xmlElement);
 		
-		
+		if(xmlElement != null) {
+			if(xmlElement.isSubmachine()) {
+				com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;
+				state.setSubmachine((StateMachine) project.getElementByID(xmlElement.getNewSubmachine()));
+			}
+		}		
+
+		return sysmlElement;
+	}
+	public void setOwner(Project project, Element owner) {
 		Region region = null;
 		Collection<Region> regions = null;
 		if(owner != null) {
@@ -63,7 +69,6 @@ public class State extends CommonElement {
 					CameoUtils.logGUI(logMessage);
 					ImportLog.log(logMessage);
 					sysmlElement.dispose();
-					return null;
 				}
 				sysmlElement.setOwner(owner);
 			}
@@ -72,30 +77,13 @@ public class State extends CommonElement {
 			CameoUtils.logGUI(logMessage);
 			ImportLog.log(logMessage);
 			sysmlElement.dispose();
-			return null;
 		}
-		
-		if(xmlElement != null) {
-			if(xmlElement.isSubmachine()) {
-				com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;
-				state.setSubmachine((StateMachine) project.getElementByID(xmlElement.getNewSubmachine()));
-			}
-		}		
-		
-		SessionManager.getInstance().closeSession(project);
-		return sysmlElement;
 	}
 
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
-		
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.STATE));
-		data.appendChild(type);
 		
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
 		if(state.isSubmachineState()) {
@@ -104,8 +92,6 @@ public class State extends CommonElement {
 			attributes.appendChild(submachine);
 		}
 		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
-		
+		return data;
 	}
 }

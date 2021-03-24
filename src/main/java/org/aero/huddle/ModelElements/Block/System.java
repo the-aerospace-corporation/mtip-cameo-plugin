@@ -1,9 +1,9 @@
 package org.aero.huddle.ModelElements.Block;
 
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
@@ -16,34 +16,17 @@ public class System extends CommonElement {
 
 	public System(String name, String EAID) {
 		super(name, EAID);
+		this.sysmlConstant = SysmlConstants.SYSTEM;
+		this.xmlConstant = XmlTagConstants.BLOCK;
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype domainStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.SYSTEM_STEREOTYPE, sysmlProfile);
-		if (domainStereotype != null) {
-			return createClassWithStereotype(project, name, domainStereotype, owner);
+		Stereotype systemStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.SYSTEM_STEREOTYPE, sysmlProfile);
+		if (systemStereotype != null) {
+			return createClassWithStereotype(project, name, systemStereotype, owner);
 		}
 		return null;
-	}
-
-	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
-		
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.BLOCK));
-		data.appendChild(type);
-		
-		org.w3c.dom.Element stereotype = xmlDoc.createElement("stereotype");
-		stereotype.appendChild(xmlDoc.createTextNode(XmlTagConstants.SYSTEMSTEREOTYPE));
-		attributes.appendChild(stereotype);
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
 	}
 }

@@ -2,21 +2,21 @@ package org.aero.huddle.ModelElements;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.aero.huddle.ModelElements.CommonElement;
-import org.aero.huddle.ModelElements.ModelDiagram;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -24,23 +24,33 @@ import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
+import com.nomagic.magicdraw.uml.symbols.NoRectangleDefinedException;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
+import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
+import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public abstract class  AbstractDiagram  extends CommonElement implements ModelDiagram{
-    public static Map<String,String> diagramToType;
+	public static Map<String,String> diagramToType;
+	protected int elementCount = 0;
+	protected int relationshipCount = 0;
+	protected HashMap<String, ShapeElement> shapeElements = new HashMap<String, ShapeElement>();
+	protected List<String> diagramElementIDs = new ArrayList<String> ();
+	
+	protected Element exportingDiagram = null;
     static {
     	
 // ALL POSSIBLE DIAGRAM TYPES
@@ -150,13 +160,13 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 //        aMap.put("User Interface Modeling Diagram", );
 //        aMap.put("Views and Viewpoints Diagram", );
 //        aMap.put("Content Diagram", );
-//        aMap.put("Dependency Matrix", );
+        aMap.put("Dependency Matrix", SysmlConstants.DEPENDENCY_MATRIX);
 //        aMap.put("Derive Requirement Matrix", );
 //        aMap.put("Refine Requirement Matrix", );
 //        aMap.put("Satisfy Requirement Matrix", );
 //        aMap.put("SysML Allocation Matrix", );
 //        aMap.put("Verify Requirement Matrix", );
-//        aMap.put("Generic Table", );
+        aMap.put("Generic Table", SysmlConstants.GENERIC_TABLE);
 //        aMap.put("Instance Table", );
 //        aMap.put("Glossary Table", );
 //        aMap.put("Activity Decomposition Map", );
@@ -186,221 +196,272 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Diagram Element");
-		}
-
-		Diagram sysmlElement = null;
 		try {
-			// a class diagram is created and added to a parent model element
-
-			sysmlElement = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(),
-					(Namespace) owner);
-			
-		//	diagramToType.put(sysmlElement, getSysmlConstant());
-
+			CameoUtils.logGUI("Creating element from abstract diagram class");
+			sysmlElement = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
+			CameoUtils.logGUI("Caught read only exception");
 		}
-
+//		setOwner(project, sysmlElement);
 		((NamedElement) sysmlElement).setName(name);
 
-		if (owner != null) {
-			sysmlElement.setOwner(owner);
-		} else {
-			sysmlElement.setOwner(project.getPrimaryModel());
-		}
-
-		SessionManager.getInstance().closeSession(project);
 		return sysmlElement;
 	}
 	
 	@Override
-	public void addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> locations) {
-		Package parent = project.getPrimaryModel();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create a diagram");
-		}
-
-		DiagramPresentationElement presentationDiagram;
+	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> locations) {
+		boolean noPosition = false;
 		try {
-			// a class diagram is created and added to a parent model element
-			presentationDiagram = project.getDiagram(diagram);
-
-			// to use auto layout
-			Application.getInstance().getProject().getDiagram(diagram).layout(true,
-					new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
-
-			// open a diagram
-			project.getDiagram(diagram).open();
+			DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
+			exportingDiagram = (Element)diagram;
+			
+//			project.getDiagram(diagram).open();
 
 			int counter = 0;
+			ShapeElement shape = null;
 			for (Element element : elements) {
+//				ViewHelper.canElementHaveSymbolInDiagram(Element element) 
 				Rectangle location = locations.get(counter);
-				Point curPoint = new Point(location.x, location.y);
-
-				ShapeElement shape;
+				Point point = new Point(location.x, location.y);
 				if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999) {
 					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
+					noPosition = true;
 				} else {
-					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, curPoint);
-					if (shape != null) {
-						PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
-					} else {
-						CameoUtils.logGUI("addElements: SKIPPED, Issue with element:" + element.getHumanName() );
-						ImportLog.log("Element not added in diagram. Name: " +  element.getHumanName());
+					if(!(element instanceof ActivityPartition)) {
+						shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
+						if(shape != null) {
+							PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);	
+							shapeElements.put(element.getLocalID(), shape);
+							CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
+						} else {
+							CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+							ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+						}
 					}
 				}
-
 				counter++;
 			}
 		} catch (ReadOnlyElementException e) {
+			CameoUtils.logGUI("Diagram " + diagram.getHumanName() + " is ready only. No elements will be added.");
 		}
-
-		SessionManager.getInstance().closeSession(project);
-
-		// to use auto layout
-//		Application.getInstance().getProject().getDiagram(diagram).layout(true,
-//				new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
-
+//		project.getDiagram(diagram).close();
+		return noPosition;
 	}
-
-	public void linkElements(Project project, Diagram diagram, Element supplierElement, Element clientElement) {
-		CameoUtils.logGUI("LINKELEMENTS of supplier: " + supplierElement.toString() + "client: " + clientElement.toString());
-		DiagramPresentationElement presentationDiagram = null;
-		presentationDiagram = project.getDiagram(diagram);
-
-		if (presentationDiagram.isElementInDiagram(clientElement)
-				&& presentationDiagram.isElementInDiagram(supplierElement)) {
-
-			//verify
-			Package parent = project.getPrimaryModel();
-			SessionManager.getInstance().createSession(project, "Link diagram elements");
-			ElementsFactory f = project.getElementsFactory();
-
-			// add Dependency links
-			com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency link = f.createDependencyInstance();
-
-			PresentationElement clientPE = presentationDiagram.findPresentationElementForPathConnecting(clientElement, null);
-
-			PresentationElement supplierPE = presentationDiagram.findPresentationElementForPathConnecting(supplierElement, null);
-
-			if ((clientPE != null) && (supplierPE != null)) {
-				try {
-					CameoUtils.logGUI("Going to add path element: ");
-
-					PathElement path = PresentationElementsManager.getInstance().createPathElement(link, clientPE,
-							supplierPE);
-				} catch (ReadOnlyElementException e) {
-// TODO Auto-generated catch block
-					e.printStackTrace();
+	
+	@Override
+	public void addRelationships(Project project, Diagram diagram, List<Element> relationships) {
+		try {
+			DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
+//			Application.getInstance().getProject().getDiagram(diagram).layout(true, new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
+//			project.getDiagram(diagram).open();
+			List<PresentationElement> presentationElements = presentationDiagram.getPresentationElements();
+			for(PresentationElement presentationElement : presentationElements) {
+				if(presentationElement instanceof PathElement) {
+					PresentationElementsManager.getInstance().deletePresentationElement(presentationElement);
 				}
 			}
+			for (Element relationship : relationships) {
+				Element client = ModelHelper.getClientElement(relationship);
+				Element supplier = ModelHelper.getSupplierElement(relationship);
+				PresentationElement clientPE = presentationDiagram.findPresentationElementForPathConnecting(client, null);
+				PresentationElement supplierPE = presentationDiagram.findPresentationElementForPathConnecting(supplier, null);
+				
+				if(clientPE != null && supplierPE != null) {
+					PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
+					CameoUtils.logGUI("Placing relationship " + relationship.getHumanName() + " on to diagram.");
+				} else {
+					ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+					CameoUtils.logGUI("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+				}
+								
+			}
+		} catch (ReadOnlyElementException e) {
+			CameoUtils.logGUI("Diagram " + diagram.getHumanName() + " is ready only. No relationships will be added.");
 		}
-		SessionManager.getInstance().closeSession(project);
+//		project.getDiagram(diagram).close();
+	}
+	
+	@Override
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		List<String> diagramElements = modelElement.getChildElements(parsedXML);
+		for(String diagramElement : diagramElements) {
+			XMLItem diagramElementXML = parsedXML.get(diagramElement);
+			ImportXmlSysml.buildElement(project, parsedXML, diagramElementXML, diagramElement);
+		}
+		List<String> diagramRelationships = modelElement.getChildRelationships(parsedXML);
+		for(String diagramRelationship : diagramRelationships) {
+			XMLItem diagramRelationshipXML = parsedXML.get(diagramRelationship);
+			if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(diagramRelationshipXML.getType())) {
+				ImportXmlSysml.buildRelationship(project, parsedXML, diagramRelationshipXML, diagramRelationship);
+			}
+		}
 	}
 
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 
 		// get attributes part
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		org.w3c.dom.Element displayID = xmlDoc.createElement("display_as");
-		displayID.appendChild(xmlDoc.createTextNode("Diagram"));
-		attributes.appendChild(displayID);
-
-		// get relationships part
-		// for all elements in diagram, write to relationships section
-		org.w3c.dom.Element relation = getType(data.getChildNodes(), "relationships");
-
+		org.w3c.dom.Element displayTag = createStringAttribute(xmlDoc, XmlTagConstants.DISPLAY_AS, XmlTagConstants.DISPLAY_AS_DIAGRAM);
+		attributes.appendChild(displayTag);
+		
+		org.w3c.dom.Element relationships = getType(data.getChildNodes(), XmlTagConstants.RELATIONSHIPS);
+		org.w3c.dom.Element elementListTag = xmlDoc.createElement(XmlTagConstants.ELEMENT);
+		elementListTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_LIST);
+		
+		
+		org.w3c.dom.Element relationshipListTag = xmlDoc.createElement(XmlTagConstants.DIAGRAM_CONNECTOR);
+		relationshipListTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_LIST);
+		
+		writeElements(xmlDoc, project, elementListTag, relationshipListTag, element);
+		
+		relationships.appendChild(elementListTag);
+		relationships.appendChild(relationshipListTag);
+		
+		return data;
+	}
+	
+	protected void writeElements(Document xmlDoc, Project project, org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, Element element) {
+		CameoUtils.logGUI("Finding presentation elements to add to diagram xml...");
 		Diagram diagram = (Diagram) element;
-		DiagramPresentationElement presentationDiagram;
-
-		presentationDiagram = project.getDiagram(diagram);
-		List presentationElements = presentationDiagram.getPresentationElements();
-
-		for (int i = presentationElements.size() - 1; i >= 0; --i) {
-			PresentationElement presentationElement = (PresentationElement) presentationElements.get(i);
-			
-			Point elementLocation=presentationElement.getMiddlePoint();
-			Rectangle bounds = presentationElement.getBounds();
-			
-			// element represented in the diagram (can be null for views that do not  represent concrete element)
-
-			Element curElement = presentationElement.getElement();
-
-			if (curElement != null) {
-				String type = curElement.getHumanType();
-		            
-				//Element debug info
-//				 CameoUtils.logGUI("OUTPUT: ");
-//				 CameoUtils.logGUI("curElement getHumanName: " + curElement.getHumanName());
-//				 CameoUtils.logGUI("curElement getHumanType: " + curElement.getHumanType());
-//				 if ((curElement != null) && (curElement instanceof NamedElement)){
-//					 CameoUtils.logGUI("curElement getName: " + ((NamedElement)curElement).getName());
-//				 }
-//				 CameoUtils.logGUI("curElement get_representationText: " + curElement.get_representationText());
-//				 CameoUtils.logGUI("curElement get_directedRelationshipOfSource: " + curElement.get_directedRelationshipOfSource());
-//				 CameoUtils.logGUI("curElement get_directedRelationshipOfTarget: " + curElement.get_directedRelationshipOfTarget());
-//				 CameoUtils.logGUI("curElement has_directedRelationshipOfSource: " + curElement.has_directedRelationshipOfSource());
-//				 CameoUtils.logGUI("curElement has_directedRelationshipOfSource: " + curElement.has_directedRelationshipOfSource());
-				 
-				boolean abortType = false;
-				Element actualElement = presentationElement.getActualElement();
-				
-				// Check whether the actual element is relationship (could be hybrid type), and filter it out from the diagram explicit list
-				if ((curElement instanceof Relationship) || (actualElement instanceof Relationship)) {
-					abortType = true;
+		DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
+		presentationDiagram.open();
+		List<PresentationElement> presentationElements = presentationDiagram.getPresentationElements();
+		Collection<Element> elements = presentationDiagram.getUsedModelElements();
+		CameoUtils.logGUI("Found " + Integer.toString(elements.size()) + " elements used on the diagram.");
+		int presElementCount = presentationElements.size();
+//		for(Element elementOnDiagram : elements) {
+//			PresentationElement presElement = presentationDiagram.findPresentationElement(elementOnDiagram, elementOnDiagram.getClass());
+//			if(presElement != null) {
+//				if(presElement instanceof PathElement) {
+//					CameoUtils.logGUI("Adding relationship to diagram...");
+//					org.w3c.dom.Element relationshipTag = createDiagramRelationshipTag(xmlDoc, presElement);
+//					if(relationshipTag != null) {
+//						relationshipListTag.appendChild(relationshipTag);
+//					}
+//				} else {
+//					CameoUtils.logGUI("Adding element to diagram...");
+//					org.w3c.dom.Element elementTag = createDiagramElementTag(xmlDoc, presElement);
+//					if(elementTag != null) {
+//						elementListTag.appendChild(elementTag);
+//					}
+//				}
+//			}
+//		}
+//		
+		CameoUtils.logGUI("Found " + Integer.toString(presElementCount) + " presentation elements.");
+		for(PresentationElement presentationElement : presentationElements) {
+			if(presentationElement instanceof PathElement) {
+				CameoUtils.logGUI("Adding relationship to diagram...");
+				org.w3c.dom.Element relationshipTag = createDiagramRelationshipTag(xmlDoc, presentationElement);
+				if(relationshipTag != null) {
+					relationshipListTag.appendChild(relationshipTag);
 				}
-				
-				if (   (!abortType) 
-					&& (!type.toLowerCase().equals("association")) 
-				    && (!type.toLowerCase().equals("diagram")) 
-				    && (!type.toLowerCase().equals("transition"))
-					&& (!type.toLowerCase().equals("controlflow")) 
-					&& (!type.toLowerCase().equals("usage")) 
-					//&& (!type.toLowerCase().equals("generalization")) 
-					//&& (!type.toLowerCase().equals("instance specification")) 
-					&& (!type.toLowerCase().equals("interface realization")) 
-					&& (!type.toLowerCase().equals("generalization")) 
-					&& (!type.toLowerCase().equals("control flow")) 
-					&& (!type.toLowerCase().equals("object flow")) 
-					) { 
-					String curID = curElement.getID();
-					org.w3c.dom.Element elementTag = xmlDoc.createElement("element");
-					elementTag.appendChild(xmlDoc.createTextNode(curID));
-					elementTag.setAttribute("type", "sysml." + type);
-				
-					//Coordinates
-				
-					//top y
-					//left x
-					//bottom y+height
-					//right x + width
-					
-					//Cameo standard
-//					elementTag.setAttribute("top", String.valueOf(bounds.y));
-//					elementTag.setAttribute("left", String.valueOf(bounds.x));
-//					elementTag.setAttribute("bottom", String.valueOf(bounds.y + bounds.height));
-//					elementTag.setAttribute("right", String.valueOf(bounds.x + bounds.width));
-					
-					//Sparx EA standard
-					elementTag.setAttribute("top", String.valueOf(-bounds.y));
-					elementTag.setAttribute("left", String.valueOf(bounds.x));
-					elementTag.setAttribute("bottom", String.valueOf(-bounds.y -bounds.height));
-					elementTag.setAttribute("right", String.valueOf(bounds.x + bounds.width));
-					
-					relation.appendChild(elementTag);
+			} else {
+				CameoUtils.logGUI("Adding element to diagram...");
+				org.w3c.dom.Element elementTag = createDiagramElementTag(xmlDoc, presentationElement);
+				if(elementTag != null) {
+					elementListTag.appendChild(elementTag);
 				}
 			}
 		}
+		presentationDiagram.close();
+	}
+	
+	protected org.w3c.dom.Element createDiagramElementTag(Document xmlDoc, PresentationElement presentationElement) {
+		Element curElement = presentationElement.getElement();
+		if(curElement != null && !curElement.getHumanType().contentEquals("Diagram")) {
+			Rectangle bounds = null;
+			try {
+				bounds = presentationElement.getBounds();
+			} catch(NoRectangleDefinedException nrde) {
+				CameoUtils.logGUI("Presentation element with name " + curElement.getHumanName() + " has no bounds. Cannot write position");
+			}
+			 
+			if(curElement != null && bounds != null) {
+				// Check whether the actual element is relationship (could be hybrid type), and filter it out from the diagram explicit list
+//				if (!(curElement instanceof Relationship) && !(curElement instanceof Connector) && !(curElement instanceof ActivityEdge) && !(curElement instanceof Transition)) {
+				if(!this.diagramElementIDs.contains(curElement.getLocalID())) {
+					diagramElementIDs.add(curElement.getLocalID());
+				
+					String curID = curElement.getID();
+					String type = "sysml." + curElement.getHumanType();
+					
+					CameoUtils.logGUI("Adding element with id " + curID + " of type " + type + " to diagram " + this.name + 
+							" with x:" + String.valueOf(bounds.x) + " y:" + String.valueOf(bounds.y) + " height:" + 
+							String.valueOf(bounds.height) + " and width: " + String.valueOf(bounds.width));
+					org.w3c.dom.Element elementTag = createListElement(xmlDoc, Integer.toString(elementCount));
+					org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);
+					idTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+					idTag.appendChild(xmlDoc.createTextNode(curID));
+					
+					org.w3c.dom.Element typeTag = xmlDoc.createElement(XmlTagConstants.TYPE);
+					typeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+					typeTag.appendChild(xmlDoc.createTextNode(type));
+									
+					org.w3c.dom.Element relationshipMetadataTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_METADATA);
+					relationshipMetadataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+					
+					org.w3c.dom.Element topTag = xmlDoc.createElement(XmlTagConstants.TOP);
+					topTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+					topTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y)));
+					
+					org.w3c.dom.Element bottomTag = xmlDoc.createElement(XmlTagConstants.BOTTOM);
+					bottomTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+					bottomTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y - bounds.height)));
+					
+					org.w3c.dom.Element leftTag = xmlDoc.createElement(XmlTagConstants.LEFT);
+					leftTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+					leftTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x)));
+					
+					org.w3c.dom.Element rightTag = xmlDoc.createElement(XmlTagConstants.RIGHT);
+					rightTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+					rightTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x + bounds.width)));
+			
+					elementTag.appendChild(idTag);
+					elementTag.appendChild(typeTag);
+					elementTag.appendChild(relationshipMetadataTag);
+					relationshipMetadataTag.appendChild(topTag);
+					relationshipMetadataTag.appendChild(bottomTag);
+					relationshipMetadataTag.appendChild(leftTag);
+					relationshipMetadataTag.appendChild(rightTag);
+					
+					this.diagramElementIDs.add(curElement.getLocalID());
+					elementCount++;
+					return elementTag;
+				}
+			}
+		}
+		return null;
+	}
+	
+	protected org.w3c.dom.Element createDiagramRelationshipTag(Document xmlDoc, PresentationElement presentationElement) {
+		Element relationship = presentationElement.getElement();
+		if(relationship != null) {
+			if(!this.diagramElementIDs.contains(relationship.getLocalID())) {
+				diagramElementIDs.add(relationship.getLocalID());
+				org.w3c.dom.Element relationshipTag = createDictRelationship(xmlDoc, Integer.toString(relationshipCount));
+				org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);
+				idTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+				idTag.appendChild(xmlDoc.createTextNode(relationship.getLocalID()));
+				
+				org.w3c.dom.Element typeTag = xmlDoc.createElement(XmlTagConstants.TYPE);
+				typeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+				typeTag.appendChild(xmlDoc.createTextNode(relationship.getHumanType()));
+				
+				org.w3c.dom.Element relDataTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_METADATA);
+				relDataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+				relationshipTag.appendChild(relDataTag);
+				
+				relationshipTag.appendChild(idTag);
+				relationshipTag.appendChild(typeTag);
 
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(getDiagramType()));
-		data.appendChild(type);
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
+				
+				relationshipCount++;
+				return relationshipTag;
+			}
+		}
+		return null;		
 	}
 }

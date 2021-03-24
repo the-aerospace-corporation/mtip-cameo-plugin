@@ -6,6 +6,7 @@ import java.util.List;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 
 //public abstract class ModelDiagram extends CommonElement {
 //	protected String name;
@@ -23,6 +24,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 
 public interface ModelDiagram  {
-	public void addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> elementsLocations);
-	public void linkElements(Project project, Diagram diagram, Element supplierElement, Element clientElement);
+	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> elementsLocations);
+	public void addRelationships(Project project, Diagram diagram, List<Element> relationships);
 }

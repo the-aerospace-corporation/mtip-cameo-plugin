@@ -176,5 +176,11 @@
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/requirements_api.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.requirements/text.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/lib/bundles/javax.jmi_1.0.0.201903082028/javax_jmi-1_0-fr.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.diagramtable/diagramtable.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.diagramtable/diagramtable_api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.glossary/glossary.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.glossary/glossary_api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.dependencymatrix/dependencymatrix.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Cameo Systems Modeler 19.0/plugins/com.nomagic.magicdraw.dependencymatrix/dependencymatrix_api.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

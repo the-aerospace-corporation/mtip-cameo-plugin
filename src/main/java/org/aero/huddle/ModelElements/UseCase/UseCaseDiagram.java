@@ -9,6 +9,8 @@ public class UseCaseDiagram  extends AbstractDiagram{
 
 	public UseCaseDiagram(String name, String EAID) {
 		 super(name, EAID);
+		 this.sysmlConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
+		 this.xmlConstant = XmlTagConstants.USECASEDIAGRAM;
 	}
 	
 	@Override

@@ -1,30 +1,124 @@
 package org.aero.huddle.ModelElements.Sequence;
 
-import org.aero.huddle.ModelElements.CommonElement;
+import java.util.Collection;
+import java.util.Map;
+
+import org.aero.huddle.ModelElements.CommonRelationship;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
+import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd;
+import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageSort;
+import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageSortEnum;
+import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.OccurrenceSpecification;
 
-public class Message extends CommonElement {
-
+public class Message extends CommonRelationship {
 	public Message(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.MESSAGE;
 		this.xmlConstant = XmlTagConstants.MESSAGE;
-		this.sysmlElement = f.createCallBehaviorActionInstance();
+		this.sysmlElement = f.createMessageInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-
-		//Set Message Sort
-		//Set mEssage Kind
-
+		
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)sysmlElement;
+		String messageSort = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_SORT);
+		MessageSort messageSortEnum = MessageSortEnum.getByName(messageSort);
+		message.setMessageSort(messageSortEnum);
+//		String messageKind = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_KIND);
+//		MessageKind messageKindEnum = MessageKindEnum.getByName(messageKind);
+//		message.setMessageKind(messageKindEnum);
+		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT)) {
+			MessageEnd receiveEvent = (MessageEnd) project.getElementByID(ImportXmlSysml.completeXML.get(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT)).getCameoID());
+			message.setReceiveEvent(receiveEvent);
+		}
+		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT)) {
+			MessageEnd sendEvent = (MessageEnd) project.getElementByID(ImportXmlSysml.completeXML.get(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT)).getCameoID());
+			message.setSendEvent(sendEvent);
+		}
+		
 		return sysmlElement;
+	}
+	
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT)) {
+			String receiveEvent = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT);
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(receiveEvent), receiveEvent);
+		}
+		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT)) {
+			String sendEvent = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT);
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(sendEvent), sendEvent);
+		}		
+	}
+	
+	@Override
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
+		message.getArgument();
+		message.getConnector();
+		message.getGuard();
+		message.getInteraction();
+//		MessageKind mk = message.getMessageKind();
+//		org.w3c.dom.Element mkTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_KIND, mk.toString());
+		MessageSort ms = message.getMessageSort();
+		org.w3c.dom.Element msTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_SORT, ms.toString());
+		message.getReceiveEvent();
+//		MessageEnd receiveEvent = message.getReceiveEvent();
+//		MessageEnd sendEvent = message.getSendEvent();
+//		if(receiveEvent != null) {
+//			org.w3c.dom.Element reTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT, receiveEvent.getLocalID());
+//			attributes.appendChild(reTag);
+//		}
+//		message.getReplyMessage();
+//
+//		if(sendEvent != null) {
+//			org.w3c.dom.Element seTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT, sendEvent.getLocalID());
+//			attributes.appendChild(seTag);
+//		}
+		message.getSignature();
+		message.getTarget();
+		
+//		attributes.appendChild(mkTag);
+		attributes.appendChild(msTag);
+		return data;
+	}
+	
+	@Override
+	public void getSupplier(Element element) {
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
+		if(message.getSendEvent() instanceof OccurrenceSpecification) {
+			OccurrenceSpecification sendEvent = (OccurrenceSpecification) message.getSendEvent();
+			Collection<com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline> covered = sendEvent.getCovered();
+			this.supplier = covered.iterator().next();
+		} else {
+			this.supplier = null;
+		}
+		
+	}
+	
+	@Override
+	public void getClient(Element element) {
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
+		if(message.getReceiveEvent() instanceof OccurrenceSpecification) {
+			OccurrenceSpecification sendEvent = (OccurrenceSpecification) message.getReceiveEvent();
+			Collection<com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline> covered = sendEvent.getCovered();
+			this.client = covered.iterator().next();
+		} else {
+			this.client = null;
+		}
+		
 	}
 }

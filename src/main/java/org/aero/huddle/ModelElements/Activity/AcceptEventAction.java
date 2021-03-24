@@ -3,7 +3,6 @@ package org.aero.huddle.ModelElements.Activity;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -12,7 +11,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger;
 
-public class AcceptEventAction extends CommonElement {
+public class AcceptEventAction extends ActivityNode {
 
 	public AcceptEventAction(String name, String EAID) {
 		super(name, EAID);
@@ -23,15 +22,10 @@ public class AcceptEventAction extends CommonElement {
 	}
 
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
-		
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.ACCEPTEVENTACTION));
-		data.appendChild(type);
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+
 		
 		Collection<Trigger> triggers = ((com.nomagic.uml2.ext.magicdraw.actions.mdcompleteactions.AcceptEventAction)element).getTrigger();
 		Iterator<Trigger> triggerIter = triggers.iterator();
@@ -39,13 +33,9 @@ public class AcceptEventAction extends CommonElement {
 		
 		if(triggerIter.hasNext()) {
 			trigger = triggerIter.next();
-			
-			org.w3c.dom.Element eventElement = xmlDoc.createElement("trigger");
-			eventElement.appendChild(xmlDoc.createTextNode(trigger.getLocalID()));
-			attributes.appendChild(eventElement);
+			org.w3c.dom.Element triggerTag = createRel(xmlDoc, trigger, XmlTagConstants.TRIGGER_TAG);
+			relationships.appendChild(triggerTag);
 		}
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
+		return data;
 	}
 }

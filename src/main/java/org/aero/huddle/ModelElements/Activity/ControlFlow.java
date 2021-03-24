@@ -1,75 +1,54 @@
 package org.aero.huddle.ModelElements.Activity;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.util.CameoUtils;
-import org.aero.huddle.util.ImportLog;
-import org.aero.huddle.util.XMLItem;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
+import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 
 public class ControlFlow extends CommonRelationship {
 
 	public ControlFlow(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.CONTROLFLOW;
+		this.xmlConstant = XmlTagConstants.CONTROLFLOW;
+		this.sysmlElement = f.createControlFlowInstance();
 	}
-
+	
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Control Flow Relationship");
+	public void setOwner(Project project, Element owner) {
+		if(!(owner instanceof Activity)) {
+			owner = CameoUtils.findNearestActivity(project, supplier);
 		}
-		
-		Element controlFlow = project.getElementsFactory().createControlFlowInstance();
-		try {
-			if(supplier == null || client == null) {
-				String logMessage = "Invalid client/supplier control flow " + name + " with id " + EAID + ". Supplier or client does not exist or was not created.";
-				CameoUtils.logGUI(logMessage);
-				ImportLog.log(logMessage);
-				controlFlow.dispose();
-				return null;
-			}
-			ActivityEdge activityEdge = (ActivityEdge)controlFlow;
-			activityEdge.setSource((ActivityNode) supplier);
-			activityEdge.setTarget((ActivityNode) client);
-		} catch(ClassCastException cce) {
-			String logMessage = "Invalid client/supplier control flow " + name + " with id " + EAID + ". Supplier or client does not exist or was not created.";
-			CameoUtils.logGUI(logMessage);
-			ImportLog.log(logMessage);
-			controlFlow.dispose();
-			return null;
-		}
-		
-		((NamedElement)controlFlow).setName(name);
-		controlFlow.setOwner(owner);
-		
-		SessionManager.getInstance().closeSession(project);
-		return controlFlow;
+		sysmlElement.setOwner(owner);
 	}
-
+	
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.CONTROLFLOW));
-		data.appendChild(type);
-		
-		
-//		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);	
-		
+	public void setSupplier() {
+		ActivityEdge activityEdge = (ActivityEdge)sysmlElement;
+		activityEdge.setSource((ActivityNode) supplier);
+	}
+	
+	public void setClient() {
+		ActivityEdge activityEdge = (ActivityEdge)sysmlElement;
+		activityEdge.setTarget((ActivityNode) client);
+	}
+	
+	@Override
+	public void getSupplier(Element element) {
+		ActivityEdge activityEdge = (ActivityEdge)element;
+		this.supplier = activityEdge.getSource();
+	}
+	
+	@Override
+	public void getClient(Element element) {
+		ActivityEdge activityEdge = (ActivityEdge)element;
+		this.client = activityEdge.getTarget();
 	}
 }

@@ -29,6 +29,7 @@ public class SysmlConstants {
 	public static final String CLASSIFIERBEHAVIORPROPERTY = "ClassifierBehaviorProperty";
 	public static final String COLLABORATION = "Collaboration";
 	public static final String COMBINEDFRAGMENT = "CombinedFragment";
+	public static final String COMMENT = "Comment";
 	public static final String CONDITIONALNODE = "ConditionalNode";
 	public static final String CONNECTIONPOINTREFERENCE = "ConnectionPointReference";
 	public static final String CONSTRAINT = "Constraint";
@@ -42,6 +43,9 @@ public class SysmlConstants {
 	public static final String DEEPHISTORY = "DeepHistory";
 	public static final String DESIGNCONSTRAINT = "DesignConstraint";
 	public static final String DESTROYOBJECTACTION = "DestroyObjectAction";
+	public static final String DESTRUCTIONOCCURRENCESPECIFICATION = "DestructionOccurrenceSpecification";
+	public static final String DURATIONCONSTRAINT = "DurationConstraint";
+	public static final String DURATIONOBSERVATION = "DurationObservation";
 	public static final String ENTRYPOINT = "EntryPoint";
 	public static final String ENUMERATION = "Enumeration";
 	public static final String ENUMERATIONLITERAL = "EnumerationLiteral";
@@ -63,9 +67,11 @@ public class SysmlConstants {
 	public static final String INPUTPIN = "InputPin";
 	public static final String INSTANCESPECIFICATION = "InstanceSpecification";
 	public static final String INTERACTION = "Interaction";
+	public static final String INTERACTIONOPERAND = "InteractionOperand";
 	public static final String INTERACTIONUSE = "InteractionUse";
 	public static final String INTERFACE = "Interface";
 	public static final String INTERFACEBLOCK = "InterfaceBlock";
+	public static final String INTERFACEREALIZATION = "InterfaceRealization";
 	public static final String INTERFACEREQUIREMENT = "InterfaceRequirement";
 	public static final String JOIN = "Join";
 	public static final String JOINNODE = "JoinNode";
@@ -73,6 +79,7 @@ public class SysmlConstants {
 	public static final String LOOPNODE = "LoopNode";
 	public static final String MERGENODE = "MergeNode";
 	public static final String MESSAGE = "Message";
+	public static final String MESSAGEOCCURRENCESPECIFICATION = "MessageOccurrenceSpecification";
 	public static final String METACLASS = "Metaclass";
 	public static final String MODEL = "Model";
 	public static final String OPAQUEACTION = "OpaqueAction";
@@ -98,15 +105,30 @@ public class SysmlConstants {
 	public static final String SHALLOWHISTORY = "ShallowHistory";
 	public static final String SIGNAL = "Signal";
 	public static final String STATE = "State";
+	public static final String STATEINVARIANT = "StateInvariant";
 	public static final String STATEMACHINE = "StateMachine";
 	public static final String STEREOTYPE = "Stereotype";
 	public static final String TERMINATE = "Terminate";
+	public static final String TERM = "Term";
+	public static final String TIMECONSTRAINT = "TimeConstraint";
 	public static final String TIMEEVENT = "TimeEvent";
+	public static final String TIMEEXPRESSION = "TimeExpression";
+	public static final String TIMEOBSERVATION = "TimeObservation";
 	public static final String TRIGGER = "Trigger";
 	public static final String UNIT = "Unit";
 	public static final String USECASE = "UseCase";
 	public static final String VALUEPROPERTY = "ValueProperty";
 	public static final String VALUETYPE = "ValueType";
+	
+	// Tables
+	public static final String GENERIC_TABLE = "GenericTable";
+	public static final String INSTANCE_TABLE = "InstanceTable";
+	public static final String GLOSSARY_TABLE = "GlossaryTable";
+	public static final String METRIC_TABLE = "MetricTable";
+	public static final String REQUIREMENT_TABLE = "RequirementTable";
+	
+	//Matrices
+	public static final String DEPENDENCY_MATRIX = "DependencyMatrix";
 	
 	// Cameo specific "non-normative" block extension
 	public static final String DOMAIN = "Domain";
@@ -135,6 +157,7 @@ public class SysmlConstants {
 	public static final String EXTEND = "Extend";
 	public static final String EXTENSION = "Extension";
 	public static final String GENERALIZATION = "Generalization";
+	public static final String INFORMATIONFLOW = "InformationFlow";
 	public static final String ITEMFLOW = "ItemFlow";
 	public static final String OBJECTFLOW = "ObjectFlow";
 	public static final String REFINE = "Refine";
@@ -184,6 +207,7 @@ public class SysmlConstants {
 			CLASS,
 			COLLABORATION,
 			COMBINEDFRAGMENT,
+//			COMMENT, Filtered out for correct import of Terms
 			CONDITIONALNODE,
 			CONNECTIONPOINTREFERENCE,
 			CONSTRAINT,
@@ -198,6 +222,9 @@ public class SysmlConstants {
 			DEEPHISTORY,
 			DESIGNCONSTRAINT,
 			DESTROYOBJECTACTION,
+			DESTRUCTIONOCCURRENCESPECIFICATION,
+			DURATIONCONSTRAINT,
+			DURATIONOBSERVATION,
 			ENTRYPOINT,
 			ENUMERATION,
 			ENUMERATIONLITERAL,
@@ -218,6 +245,7 @@ public class SysmlConstants {
 			INPUTPIN,
 			INSTANCESPECIFICATION,
 			INTERACTION,
+			INTERACTIONOPERAND,
 			INTERFACE,
 			INTERACTIONUSE,
 			INTERFACEBLOCK,
@@ -227,6 +255,7 @@ public class SysmlConstants {
 			LIFELINE,
 			LOOPNODE,
 			MERGENODE,
+			MESSAGEOCCURRENCESPECIFICATION,
 			METACLASS,
 			MODEL,
 			MESSAGE,
@@ -253,10 +282,15 @@ public class SysmlConstants {
 			SIGNAL,
 			SIGNALEVENT,
 			STATE,
+			STATEINVARIANT,
 			STATEMACHINE,
 			STEREOTYPE,
 			TERMINATE,
+			TERM,
+			TIMECONSTRAINT,
 			TIMEEVENT,
+			TIMEEXPRESSION,
+			TIMEOBSERVATION,
 			TRIGGER,
 			UNIT,
 			USECASE,
@@ -308,6 +342,8 @@ public class SysmlConstants {
 			UC, 
 			PROFILEDIAGRAM,
 			CLASSDIAGRAM, 
+//			GENERIC_TABLE,
+//			DEPENDENCY_MATRIX,
 	};
 	
 	public static final String[] BDD_TYPES = {
@@ -326,10 +362,12 @@ public class SysmlConstants {
 			INTERFACEBLOCK,
 			//NOTE, // not supported?
 			OPERATION,
+			PACKAGE,
 			PARTPROPERTY,
 			PORT,
 			PROXYPORT,
 			QUANTITYKIND,
+			REQUIREMENT,
 			SIGNAL,
 			SUBSYSTEM,
 			SYSTEM,
@@ -355,6 +393,7 @@ public class SysmlConstants {
 			INTERFACEBLOCK,
 			//NOTE, // not supported?
 			OPERATION,
+			PACKAGE,
 			PARTPROPERTY,
 			PORT,
 			PROXYPORT,
@@ -369,12 +408,15 @@ public class SysmlConstants {
 	};
 
 	public static final String[] REQ_TYPES = {
+			ACTIVITY,
+			BLOCK,
 			COPY,
 			DERIVEREQUIREMENT,
 			DESIGNCONSTRAINT,
 			EXTENDEDREQUIREMENT,
 			FUNCTIONALREQUIREMENT,
 			INTERFACEREQUIREMENT,
+			PACKAGE,
 			PERFORMANCEREQUIREMENT,
 			PHYSICALREQUIREMENT,
 			REFINE,
@@ -438,16 +480,18 @@ public class SysmlConstants {
 	};
 	
 	public static final String[] SEQ_TYPES = {
-			"CECombinedFragment",
+			COMBINEDFRAGMENT,
 			COLLABORATION,
-			//"DurationConstraint",
+			DESTRUCTIONOCCURRENCESPECIFICATION,
+			DURATIONCONSTRAINT,
 			INTERACTION,
+			INTERACTIONOPERAND,
 			INTERACTIONUSE,
 			LIFELINE,
-			//"Message",
+			MESSAGE,
 			PROPERTY,
-			//"StateInvariant",
-			//"TimeConstraint"
+			STATEINVARIANT,
+			TIMECONSTRAINT
 	};
 	
 	public static final String[] UC_TYPES = {
@@ -539,7 +583,18 @@ public class SysmlConstants {
 		diagramTypeMap.put(SysmlConstants.SEQ, SEQ_TYPES);
 		diagramTypeMap.put(SysmlConstants.UC, UC_TYPES);
 		diagramTypeMap.put(SysmlConstants.PROFILEDIAGRAM, PROFILEDIAGRAM_TYPES);
+//		diagramTypeMap.put(SysmlConstants.DEPENDENCY_MATRIX, ?);
 //		diagramTypeMap.put(SysmlConstants.CLASSDIAGRAM, CLASSDIAGRAM_TYPES);
 
 	}
+	
+	public static final String MD_CUSTOMIZATION_PROFILE_NAME = "MD Customization for SysML";
+	public static final String SYSML_PROFILE_NAME = "SysML";
+	public static final String UML_PROFILE_NAME = "UML Standard Profile";
+	public static final String MAGICDRAW_PROFILE_NAME = "MagicDraw Profile";
+	
+	public static final String[] defaultClassifiers = {
+			QUANTITYKIND,
+			UNIT
+	};
 }

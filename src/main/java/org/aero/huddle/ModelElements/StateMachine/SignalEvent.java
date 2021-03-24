@@ -1,6 +1,5 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
-import java.util.List;
 import java.util.Map;
 
 import org.aero.huddle.ModelElements.CommonElement;
@@ -47,16 +46,10 @@ public class SignalEvent extends CommonElement {
 	}
 	
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
-		
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(xmlConstant));
-		data.appendChild(type);
-		
+
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent se= (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)element;
 		Signal signal = se.getSignal();
 		if(signal != null) {
@@ -66,8 +59,7 @@ public class SignalEvent extends CommonElement {
 			attributes.appendChild(signalTag);
 		}
 		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
+		return data;
 	}
 
 }

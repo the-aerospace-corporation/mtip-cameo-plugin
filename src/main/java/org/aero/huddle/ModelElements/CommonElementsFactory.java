@@ -27,6 +27,7 @@ import org.aero.huddle.ModelElements.Activity.OpaqueAction;
 import org.aero.huddle.ModelElements.Activity.OutputPin;
 import org.aero.huddle.ModelElements.Activity.SendSignalAction;
 import org.aero.huddle.ModelElements.Activity.TimeEvent;
+import org.aero.huddle.ModelElements.Activity.TimeExpression;
 import org.aero.huddle.ModelElements.Block.AssociationBlock;
 import org.aero.huddle.ModelElements.Block.Block;
 import org.aero.huddle.ModelElements.Block.BlockDefinitionDiagram;
@@ -40,6 +41,7 @@ import org.aero.huddle.ModelElements.Block.FullPort;
 import org.aero.huddle.ModelElements.Block.InstanceSpecification;
 import org.aero.huddle.ModelElements.Block.Interface;
 import org.aero.huddle.ModelElements.Block.InterfaceBlock;
+import org.aero.huddle.ModelElements.Block.InterfaceRealization;
 import org.aero.huddle.ModelElements.Block.InternalBlockDiagram;
 import org.aero.huddle.ModelElements.Block.Note;
 import org.aero.huddle.ModelElements.Block.Operation;
@@ -58,6 +60,7 @@ import org.aero.huddle.ModelElements.InternalBlock.BoundReference;
 import org.aero.huddle.ModelElements.InternalBlock.ClassifierBehaviorProperty;
 import org.aero.huddle.ModelElements.InternalBlock.ConstraintParameter;
 import org.aero.huddle.ModelElements.InternalBlock.ConstraintProperty;
+import org.aero.huddle.ModelElements.InternalBlock.ItemFlow;
 import org.aero.huddle.ModelElements.InternalBlock.ParticipantProperty;
 import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
@@ -70,7 +73,7 @@ import org.aero.huddle.ModelElements.Profile.PackageDiagram;
 import org.aero.huddle.ModelElements.Profile.ParametricDiagram;
 import org.aero.huddle.ModelElements.Profile.Profile;
 import org.aero.huddle.ModelElements.Profile.ProfileDiagram;
-import org.aero.huddle.ModelElements.Profile.sysmlStereotype;
+import org.aero.huddle.ModelElements.Profile.Stereotype;
 import org.aero.huddle.ModelElements.Requirements.DesignConstraint;
 import org.aero.huddle.ModelElements.Requirements.ExtendedRequirement;
 import org.aero.huddle.ModelElements.Requirements.FunctionalRequirement;
@@ -79,14 +82,22 @@ import org.aero.huddle.ModelElements.Requirements.PerformanceRequirement;
 import org.aero.huddle.ModelElements.Requirements.PhysicalRequirement;
 import org.aero.huddle.ModelElements.Requirements.Requirement;
 import org.aero.huddle.ModelElements.Requirements.RequirementsDiagram;
-import org.aero.huddle.ModelElements.Sequence.CECombinedFragment;
 import org.aero.huddle.ModelElements.Sequence.Collaboration;
+import org.aero.huddle.ModelElements.Sequence.CombinedFragment;
+import org.aero.huddle.ModelElements.Sequence.DestructionOccurrenceSpecification;
+import org.aero.huddle.ModelElements.Sequence.DurationConstraint;
+import org.aero.huddle.ModelElements.Sequence.DurationObservation;
 import org.aero.huddle.ModelElements.Sequence.Interaction;
+import org.aero.huddle.ModelElements.Sequence.InteractionOperand;
 import org.aero.huddle.ModelElements.Sequence.InteractionUse;
 import org.aero.huddle.ModelElements.Sequence.Lifeline;
 import org.aero.huddle.ModelElements.Sequence.Message;
+import org.aero.huddle.ModelElements.Sequence.MessageOccurrenceSpecification;
 import org.aero.huddle.ModelElements.Sequence.Property;
 import org.aero.huddle.ModelElements.Sequence.SequenceDiagram;
+import org.aero.huddle.ModelElements.Sequence.StateInvariant;
+import org.aero.huddle.ModelElements.Sequence.TimeConstraint;
+import org.aero.huddle.ModelElements.Sequence.TimeObservation;
 import org.aero.huddle.ModelElements.StateMachine.ChoicePseudoState;
 import org.aero.huddle.ModelElements.StateMachine.ConnectionPointReference;
 import org.aero.huddle.ModelElements.StateMachine.DeepHistory;
@@ -117,22 +128,22 @@ public class CommonElementsFactory {
 	public CommonElement createElement(String type, String name, String EAID) {
 		CommonElement element = null;
 		switch(type) {
-			case "AcceptEventAction":
+			case SysmlConstants.ACCEPTEVENTACTION:
 				element = new AcceptEventAction(name, EAID);
 				break;
-			case "Action":
+			case SysmlConstants.ACTION:
 				element = new Action(name, EAID);
 				break;
-			case "Activity":
+			case SysmlConstants.ACTIVITY:
 				element = new Activity(name, EAID);
 				break;
-			case "ActivityFinalNode":
+			case SysmlConstants.ACTIVITYFINALNODE:
 				element = new ActivityFinalNode(name, EAID);
 				break;
 			case SysmlConstants.ACTIVITYPARAMETERNODE:
 				element = new ActivityParameterNode(name, EAID);
 				break;
-			case "ActivityPartition":
+			case SysmlConstants.ACTIVITYPARTITION:
 				element = new ActivityPartition(name, EAID);
 				break;
 			case "Actor":
@@ -175,7 +186,10 @@ public class CommonElementsFactory {
 				element = new Collaboration(name, EAID);
 				break;
 			case "CombinedFragment":
-				element = new CECombinedFragment(name, EAID);
+				element = new CombinedFragment(name, EAID);
+				break;
+			case SysmlConstants.COMMENT:
+				element = new Comment(name, EAID);
 				break;
 			case "ConditionalNode":
 				element = new ConditionalNode(name, EAID);
@@ -215,6 +229,15 @@ public class CommonElementsFactory {
 				break;
 			case "DestroyObjectAction":
 				element = new DestroyObjectAction(name, EAID);
+				break;
+			case SysmlConstants.DESTRUCTIONOCCURRENCESPECIFICATION:
+				element = new DestructionOccurrenceSpecification(name, EAID);
+				break;
+			case SysmlConstants.DURATIONCONSTRAINT:
+				element = new DurationConstraint(name, EAID);
+				break;
+			case SysmlConstants.DURATIONOBSERVATION:
+				element = new DurationObservation(name, EAID);
 				break;
 			case SysmlConstants.ENTRYPOINT:
 				element = new EntryPoint(name, EAID);
@@ -276,6 +299,9 @@ public class CommonElementsFactory {
 			case "Interaction":
 				element = new Interaction(name, EAID);
 				break;
+			case SysmlConstants.INTERACTIONOPERAND:
+				element = new InteractionOperand(name, EAID);
+				break;
 			case "InteractionUse":
 				element = new InteractionUse(name, EAID);
 				break;
@@ -285,8 +311,14 @@ public class CommonElementsFactory {
 			case "InterfaceBlock":
 				element = new InterfaceBlock(name, EAID);
 				break;
+			case SysmlConstants.INTERFACEREALIZATION:
+				element = new InterfaceRealization(name, EAID);
+				break;
 			case "InterfaceRequirement":
 				element = new InterfaceRequirement(name, EAID);
+				break;
+			case SysmlConstants.ITEMFLOW:
+				element = new ItemFlow(name, EAID);
 				break;
 			case SysmlConstants.JOIN:
 				element = new Join(name, EAID);
@@ -308,6 +340,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.MESSAGE:
 				element = new Message(name, EAID);
+				break;
+			case SysmlConstants.MESSAGEOCCURRENCESPECIFICATION:
+				element = new MessageOccurrenceSpecification(name, EAID);
 				break;
 			case "Model":
 				element = new Model(name, EAID);
@@ -388,17 +423,29 @@ public class CommonElementsFactory {
 			case "State":
 				element = new State(name, EAID);
 				break;
+			case SysmlConstants.STATEINVARIANT:
+				element = new StateInvariant(name, EAID);
+				break;
 			case "StateMachine":
 				element = new StateMachine(name, EAID);
 				break;
 			case "Stereotype":
-				element = new sysmlStereotype(name, EAID);
+				element = new Stereotype(name, EAID);
 				break;
 			case SysmlConstants.TERMINATE:
 				element = new Terminate(name, EAID);
 				break;
+			case SysmlConstants.TIMECONSTRAINT:
+				element = new TimeConstraint(name, EAID);
+				break;
 			case SysmlConstants.TIMEEVENT:
 				element = new TimeEvent(name, EAID);
+				break;
+			case SysmlConstants.TIMEEXPRESSION:
+				element = new TimeExpression(name, EAID);
+				break;
+			case SysmlConstants.TIMEOBSERVATION:
+				element = new TimeObservation(name, EAID);
 				break;
 			case "Trigger":
 				element = new Trigger(name, EAID);
@@ -467,6 +514,14 @@ public class CommonElementsFactory {
 //			case SysmlConstants.CLASSDIAGRAM:
 //				element = new ClassDiagram(name, EAID);
 //				break;
+				
+			// Tables	*********************************************************************
+			case SysmlConstants.GENERIC_TABLE:
+				element = new GenericTable(name, EAID);
+				break;
+			// Matrices	*********************************************************************	
+			case SysmlConstants.DEPENDENCY_MATRIX:
+				element = new DependencyMatrix(name, EAID);
 			default:
 				break;
 		}

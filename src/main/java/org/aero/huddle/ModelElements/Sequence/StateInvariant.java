@@ -1,27 +1,16 @@
 package org.aero.huddle.ModelElements.Sequence;
 
 import org.aero.huddle.ModelElements.CommonElement;
-import org.aero.huddle.util.XMLItem;
-import org.w3c.dom.Document;
-
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import org.aero.huddle.util.SysmlConstants;
+import org.aero.huddle.util.XmlTagConstants;
 
 public class StateInvariant extends CommonElement {
 
 	public StateInvariant(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.sysmlConstant = SysmlConstants.STATEINVARIANT;
+		this.xmlConstant = XmlTagConstants.STATEINVARIANT;
+		this.sysmlElement = f.createStateInvariantInstance();
 	}
-
-	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		return null;
-	}
-
-	@Override
-	public void writeToXML(Element element, Project project, Document root) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

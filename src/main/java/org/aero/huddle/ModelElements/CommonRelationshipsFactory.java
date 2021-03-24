@@ -4,6 +4,7 @@ import org.aero.huddle.ModelElements.Activity.ControlFlow;
 import org.aero.huddle.ModelElements.Activity.ObjectFlow;
 import org.aero.huddle.ModelElements.InternalBlock.BindingConnector;
 import org.aero.huddle.ModelElements.InternalBlock.Connector;
+import org.aero.huddle.ModelElements.InternalBlock.InformationFlow;
 import org.aero.huddle.ModelElements.InternalBlock.ItemFlow;
 import org.aero.huddle.ModelElements.Profile.Extension;
 import org.aero.huddle.ModelElements.Requirements.Copy;
@@ -62,6 +63,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case SysmlConstants.INCLUDE:
 				relationship = new Include(name, EAID);
+				break;
+			case SysmlConstants.INFORMATIONFLOW:
+				relationship = new InformationFlow(name, EAID);
 				break;
 			case SysmlConstants.ITEMFLOW:
 				relationship = new ItemFlow(name, EAID);

@@ -167,8 +167,8 @@ public class Customization extends CommonElement {
 	}
 	
 	@Override
-	public void writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = createBaseXML(element, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
@@ -201,7 +201,7 @@ public class Customization extends CommonElement {
 				attributes.appendChild(customizationTargetTag);
 			} else {
 				//Export Log
-				return;
+				return null;
 			}
 		}
 		
@@ -245,45 +245,46 @@ public class Customization extends CommonElement {
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
-	}
-	
-	@Override
-	public org.w3c.dom.Element createBaseXML(Element element, Document xmlDoc) {
-		org.w3c.dom.Element data = xmlDoc.createElement("data");
-		
-		//Add attributes
-		org.w3c.dom.Element attributes = xmlDoc.createElement("attributes");
-		
-		//Add Name
-		if(!name.equals("") && !name.equals(null)) {
-			org.w3c.dom.Element name = xmlDoc.createElement("name");
-			name.appendChild(xmlDoc.createTextNode(this.name));
-			attributes.appendChild(name);
-		} else {
-			org.w3c.dom.Element name = xmlDoc.createElement("name");
-			attributes.appendChild(name);
-		}
-		data.appendChild(attributes);
-		
-		//Add ID
-		org.w3c.dom.Element id = xmlDoc.createElement("id");
-		org.w3c.dom.Element cameoID = xmlDoc.createElement("cameo");
-		cameoID.appendChild(xmlDoc.createTextNode(element.getLocalID()));
-		id.appendChild(cameoID);
-		data.appendChild(id);
-		
-		//Add parent relationship
-		org.w3c.dom.Element relationship = xmlDoc.createElement("relationships");
-		
-		if(element.getOwner() != null) {
-			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");
-			Element parent = null;
-			parent = element.getOwner();
-			hasParent.appendChild(xmlDoc.createTextNode(parent.getLocalID()));
-			relationship.appendChild(hasParent);
-		}
-		data.appendChild(relationship);
-		
 		return data;
 	}
+	
+//	@Override
+//	public org.w3c.dom.Element createBaseXML(Element element, Document xmlDoc) {
+//		org.w3c.dom.Element data = xmlDoc.createElement("data");
+//		
+//		//Add attributes
+//		org.w3c.dom.Element attributes = xmlDoc.createElement("attributes");
+//		
+//		//Add Name
+//		if(!name.equals("") && !name.equals(null)) {
+//			org.w3c.dom.Element name = xmlDoc.createElement("name");
+//			name.appendChild(xmlDoc.createTextNode(this.name));
+//			attributes.appendChild(name);
+//		} else {
+//			org.w3c.dom.Element name = xmlDoc.createElement("name");
+//			attributes.appendChild(name);
+//		}
+//		data.appendChild(attributes);
+//		
+//		//Add ID
+//		org.w3c.dom.Element id = xmlDoc.createElement("id");
+//		org.w3c.dom.Element cameoID = xmlDoc.createElement("cameo");
+//		cameoID.appendChild(xmlDoc.createTextNode(element.getLocalID()));
+//		id.appendChild(cameoID);
+//		data.appendChild(id);
+//		
+//		//Add parent relationship
+//		org.w3c.dom.Element relationship = xmlDoc.createElement("relationships");
+//		
+//		if(element.getOwner() != null) {
+//			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");
+//			Element parent = null;
+//			parent = element.getOwner();
+//			hasParent.appendChild(xmlDoc.createTextNode(parent.getLocalID()));
+//			relationship.appendChild(hasParent);
+//		}
+//		data.appendChild(relationship);
+//		
+//		return data;
+//	}
 }
