@@ -13,10 +13,11 @@ import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Vertex;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 
 public abstract class CommonRelationship extends CommonElement {
 	protected Element supplier = null;
@@ -161,31 +162,4 @@ public abstract class CommonRelationship extends CommonElement {
 			ModelHelper.setClientElement(sysmlElement, client);
 		}
 	}
-	
-//	} else if(element instanceof ActivityEdge) {
-//	ActivityEdge cameoRelationship = (ActivityEdge)element;
-//	this.supplier = cameoRelationship.getSource();
-//	this.client = cameoRelationship.getTarget();
-//
-//} else if(element instanceof Connector) {
-//	List<ConnectorEnd> connectorEnds = ((Connector)element).getEnd();
-//	if(connectorEnds.size() > 1) {
-//		CameoUtils.logGUI("Checking connector ends for supplier and client.");
-//		this.supplier = connectorEnds.get(0).getPartWithPort();
-//		this.client = connectorEnds.get(1).getPartWithPort();
-//		if(supplier == null) {
-//			this.supplier = connectorEnds.get(0).getRole();
-//		}
-//		if(client == null) {
-//			this.client = connectorEnds.get(1).getRole();
-//		}
-//	}
-//} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) {
-//		this.client = ModelHelper.getClientElement(element);
-//		this.supplier = ModelHelper.getSupplierElement(element);
-//} else {
-//	CameoUtils.logGUI("Unable to cast relationship to DirectedRelationship or ActivityEdge to find client and supplier.");
-//}
-
-//Add Relationship Tag
 }

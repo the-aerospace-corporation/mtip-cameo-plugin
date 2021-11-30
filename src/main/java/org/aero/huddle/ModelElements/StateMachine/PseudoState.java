@@ -7,6 +7,7 @@ import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
+import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -84,5 +85,17 @@ public abstract class PseudoState extends CommonElement {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	protected org.w3c.dom.Element createRelationships(Document xmlDoc, Element element) {
+		org.w3c.dom.Element relationships = xmlDoc.createElement(XmlTagConstants.RELATIONSHIPS);
+		relationships.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		if(element.getOwner().getOwner() != null) {
+			org.w3c.dom.Element hasParent = createRel(xmlDoc, element.getOwner().getOwner(), XmlTagConstants.HAS_PARENT);
+			relationships.appendChild(hasParent);
+		}
+		
+		return relationships;
 	}
 }

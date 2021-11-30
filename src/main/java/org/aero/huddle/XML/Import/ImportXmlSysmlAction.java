@@ -27,6 +27,7 @@ public class ImportXmlSysmlAction extends MDAction {
 		super(id, name, null, null);
 	}
 	public void actionPerformed(ActionEvent e) {
+		ImportXmlSysml.resetImportParameters();
 		Project project = Application.getInstance().getProject();
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
@@ -34,15 +35,15 @@ public class ImportXmlSysmlAction extends MDAction {
 		try
 		{
 			File[] files = FileSelect.chooseXMLFileOpen();
-			ImportXmlSysml.resetImportParameters();
 			for(File file : files) {
 				Document doc = FileSelect.createDocument(file);
 				doc.getDocumentElement().normalize();
 				ImportLog.addFilePrefix(file);
 				ImportXmlSysml.parseXML(doc, null);
 			}
-			//Use Puddle structure, initial mapping
+	
 			ImportXmlSysml.createModel();
+			ImportXmlSysml.resetImportParameters();
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Import complete.");
 			
 		} catch (NullPointerException npe) {

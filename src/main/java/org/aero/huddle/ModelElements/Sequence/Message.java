@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageSort;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageSortEnum;
@@ -45,6 +46,11 @@ public class Message extends CommonRelationship {
 			MessageEnd sendEvent = (MessageEnd) project.getElementByID(ImportXmlSysml.completeXML.get(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT)).getCameoID());
 			message.setSendEvent(sendEvent);
 		}
+		if(xmlElement.hasAttribute(XmlTagConstants.SIGNATURE_TAG)) {
+			String signatureCameoId = ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.SIGNATURE_TAG));
+			NamedElement signature = (NamedElement) project.getElementByID(signatureCameoId);
+			message.setSignature(signature);
+		}
 		
 		return sysmlElement;
 	}
@@ -57,7 +63,11 @@ public class Message extends CommonRelationship {
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT)) {
 			String sendEvent = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT);
 			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(sendEvent), sendEvent);
-		}		
+		}
+		if(modelElement.hasAttribute(XmlTagConstants.SIGNATURE_TAG)) {
+			String signatureID = modelElement.getAttribute(XmlTagConstants.SIGNATURE_TAG);
+			ImportXmlSysml.getOrBuildElement(project, parsedXML, signatureID);
+		}
 	}
 	
 	@Override
@@ -88,7 +98,11 @@ public class Message extends CommonRelationship {
 //			org.w3c.dom.Element seTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT, sendEvent.getLocalID());
 //			attributes.appendChild(seTag);
 //		}
-		message.getSignature();
+		Element signature = message.getSignature();
+		if(signature != null && signature instanceof com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal) {
+			org.w3c.dom.Element signalTag = createRel(xmlDoc, signature, XmlTagConstants.SIGNATURE_TAG);
+			relationships.appendChild(signalTag);
+		}
 		message.getTarget();
 		
 //		attributes.appendChild(mkTag);

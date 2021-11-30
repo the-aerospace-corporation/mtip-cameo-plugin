@@ -66,8 +66,8 @@ public class ImportLog {
 
 	private static void createFileName() {
 		String logName = "";
-		logName += "Huddle_Import_Log_";
-		logName += new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+//		logName += "Huddle_Import_Log_";
+		logName += new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
 		logName += "_";
 		for(String xmlFileName : xmlFileNames) {
 			if(xmlFileName != null) {
@@ -75,6 +75,7 @@ public class ImportLog {
 			}
 		}
 		
+		logName = logName.substring(0, logName.length() - 1);
 		logName += ".txt";
 		if(logName.length() > 250) {
 			logName = logName.substring(0, 249);

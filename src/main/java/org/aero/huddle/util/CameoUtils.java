@@ -2,18 +2,31 @@ package org.aero.huddle.util;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.annotation.CheckForNull;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
@@ -24,6 +37,20 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class CameoUtils {
+	public static HashMap<String, String> primitiveValueTypes = new HashMap<String, String>() {{
+		put(SysmlConstants.BOOLEAN, "16_5_1_12c903cb_1245415335546_39033_4086");
+		put(SysmlConstants.INTEGER, "_16_5_1_12c903cb_1245415335546_8641_4088");
+		put(SysmlConstants.REAL, "_11_5EAPbeta_be00301_1147431819399_50461_1671");
+	    put(SysmlConstants.STRING, "_16_5_1_12c903cb_1245415335546_479030_4092");
+	}};
+	
+	public static HashMap<String, String> primitiveValueTypesByID = new HashMap<String, String>() {{
+		put("16_5_1_12c903cb_1245415335546_39033_4086", SysmlConstants.BOOLEAN);
+		put("_16_5_1_12c903cb_1245415335546_8641_4088", SysmlConstants.INTEGER);
+		put("_11_5EAPbeta_be00301_1147431819399_50461_1671", SysmlConstants.REAL);
+	    put("_16_5_1_12c903cb_1245415335546_479030_4092", SysmlConstants.STRING);
+	}};
+	
 	public static void logGUI(String text) {
 		Application.getInstance().getGUILog().log(text);
 	}
@@ -213,6 +240,28 @@ public class CameoUtils {
 			return false;
 		}
 	}
+	
+	@CheckForNull
+	public static org.w3c.dom.Element getDirectChild(org.w3c.dom.Element parent, String name) {
+	    for(Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
+	        if(child instanceof Element && name.equals(child.getNodeName())) return (org.w3c.dom.Element) child;
+	    }
+	    return null;
+	}
+	
+	@CheckForNull
+	public static Node getDirectChild(Node parent, String name) {
+		NodeList childNodes = parent.getChildNodes();
+		for(int k = 0; k < childNodes.getLength(); k++) {
+			Node childNode = childNodes.item(k);
+			if(childNode.getNodeType() == Node.ELEMENT_NODE) {
+				if(childNode.getNodeName().contentEquals(name)) {
+					return childNode;
+				}
+			}
+		}
+		return null;
+	}
 		
 	public static boolean isAssociationBlock(Element element, Project project) {
 		//Add additional check for block stereotype
@@ -337,5 +386,25 @@ public class CameoUtils {
 			}
 		}
 		return false;
+	}
+	
+	public static boolean isPrimitiveValueType(String valueTypeString) {
+		if(Arrays.asList(SysmlConstants.primitiveValueTypes).contains(valueTypeString)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isPrimitiveValueType(Element element) {
+		if(Arrays.asList(SysmlConstants.primitiveValueTypeIDs).contains(element.getLocalID())) {
+			return true;
+		}
+		return false;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static Element getPrimitiveValueType(String valueTypeEnum) {
+		String primitiveValuePath = "SysML::Libraries::PrimitiveValueTypes::" + valueTypeEnum;
+		return ModelHelper.findElementWithPath(primitiveValuePath);
 	}
 }

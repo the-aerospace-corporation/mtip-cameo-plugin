@@ -39,29 +39,18 @@ public class Requirement extends CommonElement {
 		String text = "";
 				
 		if(textList.size() > 0) {
-			text = textList.get(0);
+			text = textList.get(0).replaceAll("\\<.*?>","");
 		}
-		
-		// Add text to attributes node in XML
-		org.w3c.dom.Element textElement = xmlDoc.createElement("tagged_value");
-		textElement.setAttribute("name", "text");
-		if(text != "") {
-			textElement.appendChild(xmlDoc.createTextNode(text));
-		}
-		attributes.appendChild(textElement);
-	
+		if(!text.isEmpty()) {
+			org.w3c.dom.Element textTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_TEXT, text);
+			attributes.appendChild(textTag);
+		}	
 		
 		//Add reqID to attributes in XML
 		String id = (String) StereotypesHelper.getStereotypePropertyFirst(element, requirementStereotype, "Id");
-		org.w3c.dom.Element idElement = xmlDoc.createElement("tagged_value");
-		idElement.setAttribute("name", "id");
-		if(id != null) {
-			idElement.appendChild(xmlDoc.createTextNode(id));
-		}
-		attributes.appendChild(idElement);
+		org.w3c.dom.Element idTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_ID, id);
+		attributes.appendChild(idTag);
 
 		return data;
-		
 	}
-
 }

@@ -29,11 +29,12 @@ public class InstanceSpecification extends CommonElement {
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Element instance = super.createElement(project, owner, xmlElement);
+		super.createElement(project, owner, xmlElement);
 		for(Classifier classifier : this.classifiers) { 
-			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) instance, true);
+			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) sysmlElement, true);
 		}
-		return instance;
+		
+		return sysmlElement;
 	}
 	
 	@Override

@@ -10,7 +10,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class BindingConnector extends Connector{
+public class BindingConnector extends Connector {
 
 	public BindingConnector(String name, String EAID) {
 		super(name, EAID);

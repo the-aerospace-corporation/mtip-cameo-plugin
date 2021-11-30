@@ -3,13 +3,17 @@ package org.aero.huddle.ModelElements.Activity;
 import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
+import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
+import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 
 public class ObjectFlow extends CommonRelationship {
 
@@ -19,6 +23,41 @@ public class ObjectFlow extends CommonRelationship {
 		this.sysmlConstant = SysmlConstants.OBJECTFLOW;
 		this.xmlConstant = XmlTagConstants.OBJECTFLOW;
 		this.sysmlElement = f.createObjectFlowInstance();
+	}
+	
+	@Override
+	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
+		super.createElement(project,owner, client, supplier, xmlElement);
+		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)sysmlElement;
+		
+		if(xmlElement.hasGuard()) {
+			ValueSpecification guard = of.getGuard();
+			if(guard != null) {
+				guard.dispose();
+			}
+			LiteralString specification = f.createLiteralStringInstance();
+			specification.setValue(xmlElement.getGuard());			
+			of.setGuard(specification);
+		}
+		
+		return of;
+	}
+	
+	@Override
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		
+		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)element;
+		ValueSpecification vs = of.getGuard();
+		if(vs != null) {
+			org.w3c.dom.Element attribute = createAttributefromValueSpecification(vs, XmlTagConstants.GUARD, xmlDoc);
+			if(attribute != null) {
+				attributes.appendChild(attribute);
+			}
+		}
+		
+		return data;
 	}
 	
 	@Override

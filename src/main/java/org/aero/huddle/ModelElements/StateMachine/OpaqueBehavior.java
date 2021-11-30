@@ -50,16 +50,14 @@ public class OpaqueBehavior extends CommonElement {
 		if(ob.hasBody()) {
 			List<String> bodies = ob.getBody();
 			String body = bodies.get(0);
-			org.w3c.dom.Element bodyTag = xmlDoc.createElement(XmlTagConstants.BODY);
-			bodyTag.appendChild(xmlDoc.createTextNode(body));
+			org.w3c.dom.Element bodyTag = createStringAttribute(xmlDoc, XmlTagConstants.BODY, body);
 			attributes.appendChild(bodyTag);
 		}
 		
 		if(ob.hasLanguage()) {
 			List<String> languages = ob.getLanguage();
 			String language = languages.get(0);
-			org.w3c.dom.Element languageTag = xmlDoc.createElement(XmlTagConstants.LANGUAGE);
-			languageTag.appendChild(xmlDoc.createTextNode(language));
+			org.w3c.dom.Element languageTag = createStringAttribute(xmlDoc,XmlTagConstants.LANGUAGE, language);
 			attributes.appendChild(languageTag);
 		}
 

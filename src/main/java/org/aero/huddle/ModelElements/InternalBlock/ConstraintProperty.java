@@ -1,6 +1,11 @@
 package org.aero.huddle.ModelElements.InternalBlock;
 
+import java.util.Map;
+
 import org.aero.huddle.ModelElements.CommonElement;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
+import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
@@ -29,6 +34,28 @@ public class ConstraintProperty extends CommonElement {
 		Stereotype partPropertyStereotype = StereotypesHelper.getStereotype(project, "ConstraintProperty", mdCustomizationProfile);
 		StereotypesHelper.addStereotype(sysmlElement, partPropertyStereotype);
 		
+//		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIER_TYPE)) {
+//			Type classifierType = (Type) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIER_TYPE));
+//			((TypedElement)sysmlElement).setType(classifierType);
+//		}
+		
 		return sysmlElement;
+	}
+	
+	@Override
+	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		CameoUtils.logGUI("\t...Creating dependent elements for PartProperty with id: " + modelElement.getEAID());
+		
+		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
+			String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
+			try {
+				Element type = ImportXmlSysml.getOrBuildElement(project, parsedXML, classifierID);
+				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getLocalID());
+			} catch (NullPointerException npe) {
+				CameoUtils.logGUI("Failed to create/get typed by element for element with id" + this.EAID);
+				ImportLog.log("Failed to create/get typed by element for element with id" + this.EAID);
+			}
+			
+		}		
 	}
 }

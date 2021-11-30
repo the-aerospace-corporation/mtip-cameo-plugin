@@ -1,4 +1,4 @@
-package org.aero.huddle.ModelElements;
+package org.aero.huddle.ModelElements.Matrix;
 
 import java.util.ArrayList;
 
@@ -10,15 +10,10 @@ import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.dependencymatrix.MatrixManager;
 import com.nomagic.magicdraw.dependencymatrix.diagram.DependencyMatrixDiagramDescriptor;
-import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
-import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.uml2.ext.jmi.helpers.InstanceSpecificationHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
@@ -31,23 +26,12 @@ public class DependencyMatrix extends AbstractMatrix {
 		super(name, EAID);
 		this.sysmlConstant = SysmlConstants.DEPENDENCY_MATRIX;
 		this.xmlConstant = XmlTagConstants.DEPENDENCY_MATRIX;
+		this.cameoConstant = DependencyMatrixDiagramDescriptor.DEFAULT_DEPENDENCY_MATRIX_DIAGRAM_TYPE;
 	}
-	
+		
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Diagram diagram = null;
-		try {
-			diagram = ModelElementsManager.getInstance().createDiagram(DependencyMatrixDiagramDescriptor.DEFAULT_DEPENDENCY_MATRIX_DIAGRAM_TYPE, (Namespace) owner);
-		} catch (ReadOnlyElementException e) {
-			CameoUtils.logGUI("Read only exception caught");
-		}
-		com.nomagic.magicdraw.dependencymatrix.DependencyMatrix matrix = MatrixManager.getInstance(project).getMatrix(diagram);
-		if(diagram != null) {
-			StereotypesHelper.addStereotypeByString(diagram, "DependencyMatrix");
-			StereotypesHelper.addStereotypeByString(diagram, "DiagramInfo");
-			StereotypesHelper.addStereotypeByString(diagram, "MatrixFilter");
-		}
-		return null;
+		return super.createElement(project, owner, xmlElement);
 	}	
 	
 	@Override
@@ -150,5 +134,4 @@ public class DependencyMatrix extends AbstractMatrix {
 	public String getDiagramType() {
 		return this.xmlConstant;
 	}
-
 }

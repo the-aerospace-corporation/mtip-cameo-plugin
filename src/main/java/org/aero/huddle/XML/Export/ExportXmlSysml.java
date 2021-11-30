@@ -19,11 +19,11 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.dependencymatrix.DependencyMatrix;
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
+import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.ActionClass;
@@ -52,12 +52,14 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.JoinNo
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.MergeNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.ConditionalNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.LoopNode;
+import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationItem;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Usage;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.InterfaceRealization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -70,6 +72,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
@@ -130,6 +133,56 @@ public class ExportXmlSysml {
 		ExportLog.reset();
 	}
 	
+	public static void buildXMLFromDiagram(Document xmlDoc, File file, DiagramPresentationElement diagramPresentationElement) {
+		project = Application.getInstance().getProject();
+		exportedElements = new HashMap<String, String>();
+		org.w3c.dom.Element root = xmlDoc.createElement("packet");
+		xmlDoc.appendChild(root);
+		
+		Element diagramElement = diagramPresentationElement.getElement();
+		exportElementRecursiveUp(diagramElement, xmlDoc);
+		
+		//Add hook to get nested presentation elements due to encapsulation of diagrams
+		List<PresentationElement> presentationElements = diagramPresentationElement.getPresentationElements();
+		for(int i = 0; i < presentationElements.size(); i++) {
+			Element element = presentationElements.get(i).getElement();
+			if(element != null) {
+				exportElementRecursiveUp(element, xmlDoc);
+			} else {
+				String message = "presentationElement of class " + presentationElements.get(i).getClass().toString() + " has no element.";
+				CameoUtils.logGUI(message);
+				ExportLog.log(message);
+			}
+			
+		}
+		ExportLog.save();
+		ExportLog.reset();		
+	}
+	/**
+	 * 
+	 * @param element Element to be exported. This begins at an arbitrary level of nested within the model.
+	 * @param project Current project being exported
+	 * @param xmlDoc XML Document representing the model being exported
+	 */
+	public static void exportElementRecursiveUp(Element element, Document xmlDoc) {
+		//Find any parent element and export recursively
+		Element parent = element.getOwner();
+		if(parent != null) {
+			if(!parent.equals(project.getPrimaryModel())) {
+				exportElementRecursiveUp(parent, xmlDoc);
+			}
+			ExportLog.log("Parent element of element with id " + element.getLocalID() + " is null.");
+			CameoUtils.logGUI("Parent element of element with id " + element.getLocalID() + " is null.");
+		}
+		
+		if(element instanceof Package) {
+			exportPackage(element, project, xmlDoc);
+		} else {
+			exportElement(element, project, xmlDoc);
+		}
+	}
+	
+	
 	public static void exportPackageRecursive(Package pack, Project project, Document xmlDoc) {
 		//Write Package to xml here so parent is written before child
 		
@@ -183,8 +236,6 @@ public class ExportXmlSysml {
 	}
 	
 	public static void exportElementRecursive(Element element, Project project, Document xmlDoc) {
-		//Write to XML here so parents appear before children
-		
 		//Find any child elements and recursively export		
 		boolean noElements = false;
 		Collection<Element> ownedElements = new ArrayList<Element> ();
@@ -231,6 +282,7 @@ public class ExportXmlSysml {
 		String commonRelationshipType = null;		
 		
 		//Use SysMLProfile.is<SysmlElementName> to check types for sysml elements 
+		
 		if(element instanceof AcceptEventAction) {
 			commonElementType = SysmlConstants.ACCEPTEVENTACTION;
 			CameoUtils.logGUI("Exporting Accept Event Action");
@@ -294,17 +346,7 @@ public class ExportXmlSysml {
 		} else if (element instanceof Connector) {
 			commonRelationshipType = SysmlConstants.CONNECTOR;
 			CameoUtils.logGUI("Exporting Connector Relationship");
-		} else if(element instanceof Constraint) {
-			Constraint constraint = (Constraint)element;
-			ValueSpecification vs = constraint.getSpecification();
-			if(vs instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
-				OpaqueExpression oe = (OpaqueExpression)vs;
-				exportElement(oe, project, xmlDoc);
-			}
-			// Add support for other types of Value Specifications here
-			commonElementType = SysmlConstants.CONSTRAINT;
-			CameoUtils.logGUI("Exporting Constraint");
-		} else if(SysMLProfile.isConstraintBlock(element)) {
+		}  else if(SysMLProfile.isConstraintBlock(element)) {
 			commonElementType = SysmlConstants.CONSTRAINTBLOCK;
 			CameoUtils.logGUI("Exporting Constraint Block");
 		} else if(MDCustomizationForSysMLProfile.isConstraintParameter(element)) {
@@ -380,6 +422,9 @@ public class ExportXmlSysml {
 		} else if(SysMLProfile.isFlowPort(element)) {
 			commonElementType = SysmlConstants.FLOWPORT;
 			CameoUtils.logGUI("Exporting Flow Port");
+		} else if(SysMLProfile.isFlowProperty(element)) {
+			commonElementType = SysmlConstants.FLOWPROPERTY;
+			CameoUtils.logGUI("Exporting Flow Property");
 		} else if(SysMLProfile.isFlowSpecification(element)) {
 			commonElementType = SysmlConstants.FLOWSPECIFICATION;
 			CameoUtils.logGUI("Exporting Flow Specification");
@@ -398,6 +443,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof Generalization) {
 			commonRelationshipType = SysmlConstants.GENERALIZATION;
 			CameoUtils.logGUI("Exporting Generalization");
+		} else if(element instanceof InformationItem) {
+			commonElementType = SysmlConstants.INFORMATIONITEM;
+			CameoUtils.logGUI("Exporting Information Item");
 		} else if(element instanceof Include) {
 			commonRelationshipType = SysmlConstants.INCLUDE;
 			CameoUtils.logGUI("Exporting Include");
@@ -520,6 +568,21 @@ public class ExportXmlSysml {
 			CameoUtils.logGUI("Exporting Signal");
 		} else if(element instanceof SignalEvent) {
 			commonElementType = SysmlConstants.SIGNALEVENT;
+		} else if(element instanceof Slot) {
+			Element parent = element.getOwner();
+			if(parent instanceof InstanceSpecification) {
+				InstanceSpecification is = (InstanceSpecification)parent;
+				List<Classifier> classifiers = is.getClassifier();
+				if(classifiers.size() > 0) {
+					Classifier classifier = classifiers.get(0);
+					if(!(classifier instanceof Stereotype)) {
+						commonElementType = SysmlConstants.SLOT;
+						CameoUtils.logGUI("Exporting Slot");
+					}
+				}
+			}else {
+				CameoUtils.logGUI("Slots of stereotypes are not supported yet.");
+			}
 		} else if(element instanceof State) {
 			commonElementType = SysmlConstants.STATE;
 			CameoUtils.logGUI("Exporting State");
@@ -576,13 +639,23 @@ public class ExportXmlSysml {
 			
 			
 			
-		//Super classes listed below as to not to override their children	
+		//Super classes listed below as to not to override their children
+		} else if(element instanceof Constraint) {
+			Constraint constraint = (Constraint)element;
+			ValueSpecification vs = constraint.getSpecification();
+			if(vs instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
+				OpaqueExpression oe = (OpaqueExpression)vs;
+				exportElement(oe, project, xmlDoc);
+			}
+			// Add support for other types of Value Specifications here
+			commonElementType = SysmlConstants.CONSTRAINT;
+			CameoUtils.logGUI("Exporting Constraint");
 		} else if(CameoUtils.isProperty(element, project)) {
 				commonElementType = SysmlConstants.PROPERTY;
 				CameoUtils.logGUI("Exporting Property");	
 		} else if (element instanceof InstanceSpecification) {
 			NamedElement namedElement = (NamedElement)element;
-			if(!namedElement.getName().equals("") && !namedElement.getName().equals(null) && !Arrays.asList(SysmlConstants.RESERVEINSTANCESPECIFICATION).contains(namedElement.getName())) {
+			if (!namedElement.getName().equals("") && !namedElement.getName().equals(null) && !Arrays.asList(SysmlConstants.RESERVEINSTANCESPECIFICATION).contains(namedElement.getName())) {
 				commonElementType = SysmlConstants.INSTANCESPECIFICATION;
 				CameoUtils.logGUI("Exporting Instance Specification");
 			}
@@ -794,6 +867,8 @@ public class ExportXmlSysml {
 			commonElementType = SysmlConstants.FLOWFINALNODE;
 		} else if(SysMLProfile.isFlowPort(element)) {
 			commonElementType = SysmlConstants.FLOWPORT;
+		} else if(SysMLProfile.isFlowProperty(element)) {
+			commonElementType = SysmlConstants.FLOWPROPERTY;
 		} else if(SysMLProfile.isFlowSpecification(element)) {
 			commonElementType = SysmlConstants.FLOWSPECIFICATION;
 		} else if(element instanceof ForkNode) {
@@ -808,6 +883,8 @@ public class ExportXmlSysml {
 			commonRelationshipType = SysmlConstants.GENERALIZATION;
 		} else if(element instanceof Include) {
 			commonRelationshipType = SysmlConstants.INCLUDE;
+		} else if(element instanceof InformationItem) {
+			commonElementType = SysmlConstants.INFORMATIONITEM;
 		} else if(element instanceof Interaction) {
 			commonElementType = SysmlConstants.INTERACTION;
 		} else if(element instanceof InteractionOperand) {

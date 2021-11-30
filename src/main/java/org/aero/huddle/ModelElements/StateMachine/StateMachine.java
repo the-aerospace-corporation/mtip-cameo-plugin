@@ -24,8 +24,9 @@ public class StateMachine extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		// Remove auto-created region as they are defined explicitly in the XML
-		((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine) sysmlElement).getRegion().clear();
-
+//		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine stateMachine = ((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine) sysmlElement);
+//		stateMachine.getRegion().clear();
+		
 		return sysmlElement;
 	}
 	

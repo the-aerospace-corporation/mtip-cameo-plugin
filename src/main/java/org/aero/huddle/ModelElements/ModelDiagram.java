@@ -3,10 +3,11 @@ package org.aero.huddle.ModelElements;
 import java.awt.Rectangle;
 import java.util.List;
 
+import org.aero.huddle.util.XMLItem;
+
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 
 //public abstract class ModelDiagram extends CommonElement {
 //	protected String name;
@@ -24,6 +25,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 
 
 public interface ModelDiagram  {
-	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> elementsLocations);
+	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> elementsLocations, XMLItem xmlElement);
 	public void addRelationships(Project project, Diagram diagram, List<Element> relationships);
 }

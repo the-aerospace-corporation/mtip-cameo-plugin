@@ -4,12 +4,12 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.aero.huddle.XML.Export.ExportXmlSysml;
 import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
@@ -18,37 +18,32 @@ import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
-import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.NoRectangleDefinedException;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
+import com.nomagic.magicdraw.uml.symbols.paths.LinkView;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
-import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
-import com.nomagic.uml2.impl.ElementsFactory;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 
-public abstract class  AbstractDiagram  extends CommonElement implements ModelDiagram{
+public abstract class  AbstractDiagram  extends CommonElement implements ModelDiagram {
 	public static Map<String,String> diagramToType;
 	protected int elementCount = 0;
 	protected int relationshipCount = 0;
 	protected HashMap<String, ShapeElement> shapeElements = new HashMap<String, ShapeElement>();
 	protected List<String> diagramElementIDs = new ArrayList<String> ();
+	protected String[] allowableElements = null;
+	
 	
 	protected Element exportingDiagram = null;
     static {
@@ -161,24 +156,24 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 //        aMap.put("Views and Viewpoints Diagram", );
 //        aMap.put("Content Diagram", );
         aMap.put("Dependency Matrix", SysmlConstants.DEPENDENCY_MATRIX);
-//        aMap.put("Derive Requirement Matrix", );
-//        aMap.put("Refine Requirement Matrix", );
-//        aMap.put("Satisfy Requirement Matrix", );
-//        aMap.put("SysML Allocation Matrix", );
-//        aMap.put("Verify Requirement Matrix", );
+        aMap.put("Derive Requirement Matrix", SysmlConstants.DERIVE_REQUIREMENT_MATRIX);
+        aMap.put("Refine Requirement Matrix", SysmlConstants.REFINE_REQUIREMENT_MATRIX);
+        aMap.put("Satisfy Requirement Matrix", SysmlConstants.SATISFY_REQUIREMENT_MATRIX);
+        aMap.put("SysML Allocation Matrix", SysmlConstants.ALLOCATION_MATRIX);
+        aMap.put("Verify Requirement Matrix", SysmlConstants.VERIFY_REQUIREMENT_MATRIX);
         aMap.put("Generic Table", SysmlConstants.GENERIC_TABLE);
-//        aMap.put("Instance Table", );
-//        aMap.put("Glossary Table", );
+        aMap.put("Instance Table", SysmlConstants.INSTANCE_TABLE);
+        aMap.put("Glossary Table", SysmlConstants.GLOSSARY_TABLE);
 //        aMap.put("Activity Decomposition Map", );
 //        aMap.put("Instance Map", );
 //        aMap.put("Relation Map Diagram", );
 //        aMap.put("Requirement Containment Map", );
 //        aMap.put("Requirement Derivation Map", );
 //        aMap.put("Structure Decomposition Map", );
-//        aMap.put("Requirement Table", );
+        aMap.put("Requirement Table", SysmlConstants.REQUIREMENT_TABLE);
 //        aMap.put("ProfileUpgradeStereotypesOrTagsMappingTable", );
 //        aMap.put("ProfileUpgradeStereotypesOrTagsClearingTable", );
-//        aMap.put("Metric Table", );
+        aMap.put("Metric Table", SysmlConstants.METRIC_TABLE);
 //        aMap.put("Blackbox ICD Table", );
 //        aMap.put("Whitebox ICD Table", );
         
@@ -208,43 +203,50 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		return sysmlElement;
 	}
 	
-	@Override
-	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> locations) {
+	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> locations, XMLItem xmlElement) {
 		boolean noPosition = false;
 		try {
 			DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
 			exportingDiagram = (Element)diagram;
-			
-//			project.getDiagram(diagram).open();
-
 			int counter = 0;
-			ShapeElement shape = null;
+			
 			for (Element element : elements) {
-//				ViewHelper.canElementHaveSymbolInDiagram(Element element) 
-				Rectangle location = locations.get(counter);
-				Point point = new Point(location.x, location.y);
-				if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999) {
-					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
-					noPosition = true;
-				} else {
-					if(!(element instanceof ActivityPartition)) {
-						shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
-						if(shape != null) {
-							PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);	
-							shapeElements.put(element.getLocalID(), shape);
-							CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
-						} else {
-							CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
-							ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
-						}
-					}
-				}
+				noPosition = createPresentationElement(project, element, locations, presentationDiagram, counter, noPosition);
 				counter++;
 			}
 		} catch (ReadOnlyElementException e) {
 			CameoUtils.logGUI("Diagram " + diagram.getHumanName() + " is ready only. No elements will be added.");
 		}
-//		project.getDiagram(diagram).close();
+		return noPosition;
+	}
+	
+	public boolean createPresentationElement(Project project, Element element, List<Rectangle> locations, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {
+		Rectangle location = locations.get(counter);
+		Point point = new Point(location.x, location.y);
+		
+		ShapeElement shape = null;
+		try {
+			if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999 && !CameoUtils.isAssociationBlock(element, project)) {
+				shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
+				noPosition = true;
+			} else {
+				shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
+				if(shape != null) {
+					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
+				} else {
+					CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+					ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+				}
+			}
+		} catch(ClassCastException cce) {
+			CameoUtils.logGUI("Caught Class cast exception adding " + element.getHumanName() + " " + "with id " + element.getLocalID() + " to diagram.");
+			ImportLog.log("Caught Class cast exception adding " + element.getLocalID() + " to diagram.");
+		}
+		
+		if(shape != null) {
+			CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
+			this.shapeElements.put(element.getLocalID(), shape);
+		}
 		return noPosition;
 	}
 	
@@ -323,60 +325,54 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	}
 	
 	protected void writeElements(Document xmlDoc, Project project, org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, Element element) {
-		CameoUtils.logGUI("Finding presentation elements to add to diagram xml...");
 		Diagram diagram = (Diagram) element;
 		DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
 		presentationDiagram.open();
-		List<PresentationElement> presentationElements = presentationDiagram.getPresentationElements();
-		Collection<Element> elements = presentationDiagram.getUsedModelElements();
-		CameoUtils.logGUI("Found " + Integer.toString(elements.size()) + " elements used on the diagram.");
-		int presElementCount = presentationElements.size();
-//		for(Element elementOnDiagram : elements) {
-//			PresentationElement presElement = presentationDiagram.findPresentationElement(elementOnDiagram, elementOnDiagram.getClass());
-//			if(presElement != null) {
-//				if(presElement instanceof PathElement) {
-//					CameoUtils.logGUI("Adding relationship to diagram...");
-//					org.w3c.dom.Element relationshipTag = createDiagramRelationshipTag(xmlDoc, presElement);
-//					if(relationshipTag != null) {
-//						relationshipListTag.appendChild(relationshipTag);
-//					}
-//				} else {
-//					CameoUtils.logGUI("Adding element to diagram...");
-//					org.w3c.dom.Element elementTag = createDiagramElementTag(xmlDoc, presElement);
-//					if(elementTag != null) {
-//						elementListTag.appendChild(elementTag);
-//					}
-//				}
-//			}
-//		}
-//		
-		CameoUtils.logGUI("Found " + Integer.toString(presElementCount) + " presentation elements.");
-		for(PresentationElement presentationElement : presentationElements) {
-			if(presentationElement instanceof PathElement) {
-				CameoUtils.logGUI("Adding relationship to diagram...");
-				org.w3c.dom.Element relationshipTag = createDiagramRelationshipTag(xmlDoc, presentationElement);
-				if(relationshipTag != null) {
-					relationshipListTag.appendChild(relationshipTag);
-				}
-			} else {
-				CameoUtils.logGUI("Adding element to diagram...");
-				org.w3c.dom.Element elementTag = createDiagramElementTag(xmlDoc, presentationElement);
-				if(elementTag != null) {
-					elementListTag.appendChild(elementTag);
-				}
-			}
+		
+		for(PresentationElement presentationElement : presentationDiagram.getPresentationElements()) {
+			writeElement(xmlDoc, elementListTag, relationshipListTag, presentationElement, null);
 		}
+		
 		presentationDiagram.close();
 	}
 	
-	protected org.w3c.dom.Element createDiagramElementTag(Document xmlDoc, PresentationElement presentationElement) {
+	public void writeElement(Document xmlDoc, org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
+		if(presentationElement instanceof PathElement) {
+			org.w3c.dom.Element relationshipTag = createDiagramRelationshipTag(xmlDoc, presentationElement);
+			if(relationshipTag != null) {
+				relationshipListTag.appendChild(relationshipTag);
+			}
+			if(presentationElement instanceof LinkView) {
+				exportLink(xmlDoc, presentationElement);
+			}
+		} else {
+			org.w3c.dom.Element elementTag = createDiagramElementTag(xmlDoc, presentationElement, parentPresentationElement);
+			if(elementTag != null) {
+				elementListTag.appendChild(elementTag);
+			}
+		}
+		
+		for(PresentationElement subPresentationElement : presentationElement.getPresentationElements()) {
+			writeElement(xmlDoc, elementListTag, relationshipListTag, subPresentationElement, presentationElement);
+		}
+	}
+	
+	protected org.w3c.dom.Element exportLink(Document xmlDoc, PresentationElement presentationElement) {
+		Element element = presentationElement.getElement();
+		InstanceSpecification link = (InstanceSpecification)element;
+		Link commonLink = new Link(link.getName(), link.getLocalID());
+		org.w3c.dom.Element data = commonLink.writeToXML(element, this.project, xmlDoc, presentationElement);
+		return data;
+	}
+	
+	protected org.w3c.dom.Element createDiagramElementTag(Document xmlDoc, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
 		Element curElement = presentationElement.getElement();
-		if(curElement != null && !curElement.getHumanType().contentEquals("Diagram")) {
+		if(curElement != null && !curElement.getHumanType().contentEquals("Diagram") && !(curElement instanceof ConnectorEnd) && Arrays.asList(this.allowableElements).contains(ExportXmlSysml.getElementType(curElement))) {
 			Rectangle bounds = null;
 			try {
 				bounds = presentationElement.getBounds();
 			} catch(NoRectangleDefinedException nrde) {
-				CameoUtils.logGUI("Presentation element with name " + curElement.getHumanName() + " has no bounds. Cannot write position");
+				CameoUtils.logGUI("Presentation element with id " + curElement.getLocalID() + " has no bounds. Cannot write position");
 			}
 			 
 			if(curElement != null && bounds != null) {
@@ -386,12 +382,13 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					diagramElementIDs.add(curElement.getLocalID());
 				
 					String curID = curElement.getID();
-					String type = "sysml." + curElement.getHumanType();
+					String type = "sysml." + curElement.getHumanType().replace(" ", "");
 					
 					CameoUtils.logGUI("Adding element with id " + curID + " of type " + type + " to diagram " + this.name + 
 							" with x:" + String.valueOf(bounds.x) + " y:" + String.valueOf(bounds.y) + " height:" + 
 							String.valueOf(bounds.height) + " and width: " + String.valueOf(bounds.width));
-					org.w3c.dom.Element elementTag = createListElement(xmlDoc, Integer.toString(elementCount));
+					org.w3c.dom.Element elementTag = createDictElement(xmlDoc, Integer.toString(elementCount));
+					
 					org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);
 					idTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
 					idTag.appendChild(xmlDoc.createTextNode(curID));
@@ -426,15 +423,72 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					relationshipMetadataTag.appendChild(bottomTag);
 					relationshipMetadataTag.appendChild(leftTag);
 					relationshipMetadataTag.appendChild(rightTag);
-					
+
 					this.diagramElementIDs.add(curElement.getLocalID());
 					elementCount++;
 					return elementTag;
 				}
 			}
+		} else {
+			CameoUtils.logGUI("No element associated with presentation element type " + presentationElement.getClass().toString() + ". Not added to element list.");
 		}
 		return null;
-	}
+	}	
+	
+	protected org.w3c.dom.Element createDiagramElementTagNoElement(Document xmlDoc, PresentationElement presentationElement, PresentationElement parentPresentationElement, String type) {
+		Rectangle bounds = null;
+		try {
+			bounds = presentationElement.getBounds();
+		} catch(NoRectangleDefinedException nrde) {
+			CameoUtils.logGUI("Presentation element with id " + presentationElement.getID() + " has no bounds. Cannot write position");
+		}
+		 
+		if(bounds != null) {
+			CameoUtils.logGUI("Adding element with id " + presentationElement.getID() + " of type " + type + " to diagram " + this.name + 
+					" with x:" + String.valueOf(bounds.x) + " y:" + String.valueOf(bounds.y) + " height:" + 
+					String.valueOf(bounds.height) + " and width: " + String.valueOf(bounds.width));
+			org.w3c.dom.Element elementTag = createDictElement(xmlDoc, Integer.toString(elementCount));
+			
+			org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);
+			idTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+			idTag.appendChild(xmlDoc.createTextNode(presentationElement.getID()));
+			
+			org.w3c.dom.Element typeTag = xmlDoc.createElement(XmlTagConstants.TYPE);
+			typeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+			typeTag.appendChild(xmlDoc.createTextNode(type));
+							
+			org.w3c.dom.Element relationshipMetadataTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_METADATA);
+			relationshipMetadataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+			
+			org.w3c.dom.Element topTag = xmlDoc.createElement(XmlTagConstants.TOP);
+			topTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+			topTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y)));
+			
+			org.w3c.dom.Element bottomTag = xmlDoc.createElement(XmlTagConstants.BOTTOM);
+			bottomTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+			bottomTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y - bounds.height)));
+			
+			org.w3c.dom.Element leftTag = xmlDoc.createElement(XmlTagConstants.LEFT);
+			leftTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+			leftTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x)));
+			
+			org.w3c.dom.Element rightTag = xmlDoc.createElement(XmlTagConstants.RIGHT);
+			rightTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+			rightTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x + bounds.width)));
+	
+			elementTag.appendChild(idTag);
+			elementTag.appendChild(typeTag);
+			elementTag.appendChild(relationshipMetadataTag);
+			relationshipMetadataTag.appendChild(topTag);
+			relationshipMetadataTag.appendChild(bottomTag);
+			relationshipMetadataTag.appendChild(leftTag);
+			relationshipMetadataTag.appendChild(rightTag);
+
+			elementCount++;
+			return elementTag;
+		}
+		return null;
+	}	
 	
 	protected org.w3c.dom.Element createDiagramRelationshipTag(Document xmlDoc, PresentationElement presentationElement) {
 		Element relationship = presentationElement.getElement();
@@ -454,6 +508,30 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				relDataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
 				relationshipTag.appendChild(relDataTag);
 				
+				// Get Position
+				Rectangle bounds = presentationElement.getBounds();
+				
+				org.w3c.dom.Element topTag = xmlDoc.createElement(XmlTagConstants.TOP);
+				topTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+				topTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y)));
+				
+				org.w3c.dom.Element bottomTag = xmlDoc.createElement(XmlTagConstants.BOTTOM);
+				bottomTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+				bottomTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y - bounds.height)));
+				
+				org.w3c.dom.Element leftTag = xmlDoc.createElement(XmlTagConstants.LEFT);
+				leftTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+				leftTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x)));
+				
+				org.w3c.dom.Element rightTag = xmlDoc.createElement(XmlTagConstants.RIGHT);
+				rightTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
+				rightTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x + bounds.width)));
+				
+				relDataTag.appendChild(topTag);
+				relDataTag.appendChild(bottomTag);
+				relDataTag.appendChild(leftTag);
+				relDataTag.appendChild(rightTag);
+				
 				relationshipTag.appendChild(idTag);
 				relationshipTag.appendChild(typeTag);
 
@@ -465,3 +543,22 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		return null;		
 	}
 }
+
+
+//String importID = xmlElement.getImportID(element.getLocalID());
+//CameoUtils.logGUI("Import id : " + importID);
+//String parentImportID = xmlElement.getDiagramParent(importID);
+//CameoUtils.logGUI("Diagram Parent Import id : " + parentImportID);
+//if(parentImportID != null) {
+//	String parentCameoID = ImportXmlSysml.idConversion(parentImportID);
+//	CameoUtils.logGUI(importID + " should have diagram parent " + parentImportID);
+//	PresentationElement parentPresentationElement = this.shapeElements.get(parentCameoID);
+//	if(parentPresentationElement == null) {
+//		createPresentationElement(project, (Element) project.getElementByID(parentCameoID), locations, presentationDiagram, counter, noPosition);
+//	}
+//	if(!(parentPresentationElement instanceof AssociationView)) {
+//		noPosition = createPresentationElement(project, element, locations, parentPresentationElement, counter, noPosition);
+//	} else {
+//		noPosition = createPresentationElement(project, element, locations, presentationDiagram, counter, noPosition);
+//	}
+//} else {

@@ -1,12 +1,16 @@
 package org.aero.huddle.ModelElements;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
 import org.aero.huddle.XML.Export.ExportXmlSysml;
+import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ExportLog;
 import org.aero.huddle.util.ImportLog;
@@ -24,9 +28,16 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
@@ -64,11 +75,14 @@ public abstract class CommonElement {
 			createClassWithStereotype(project, this.creationStereotype, owner);
 		}
 		addDocumentation(xmlElement);
+		addMultiplicity(xmlElement);
+		addType(xmlElement);
 		
 		return sysmlElement;
 	}
 		
 	protected Element createElementByElementFactory(Project project, Element owner, XMLItem xmlElement) {
+		this.project = project;
 		if(sysmlElement instanceof NamedElement) {
 			((NamedElement)sysmlElement).setName(name);
 		}
@@ -108,9 +122,14 @@ public abstract class CommonElement {
 		
 	}
 	
+	public void addDependentElements(Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+		
+	}
+	
 	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = xmlDoc.createElement(XmlTagConstants.DATA);
 		org.w3c.dom.Element attributes = xmlDoc.createElement(XmlTagConstants.ATTRIBUTES);
+		attributes.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
 		
 		if(name != null && !name.isEmpty()) {
 			org.w3c.dom.Element nameTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME,	this.name);
@@ -122,7 +141,7 @@ public abstract class CommonElement {
 			org.w3c.dom.Element attributeStereotypeTag = createStereotype(xmlDoc, stereotype);
 			attributes.appendChild(attributeStereotypeTag);
 		}
-		String documentation = ModelHelper.getComment(element);
+		String documentation = ModelHelper.getComment(element).replaceAll("\\<.*?>","").replace("p {padding:0px; margin:0px;}", "").trim();
 		if(!documentation.isEmpty()) {
 			org.w3c.dom.Element documentationTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_DOCUMENTATION, documentation);
 			attributes.appendChild(documentationTag);
@@ -130,16 +149,30 @@ public abstract class CommonElement {
 		
 		
 		org.w3c.dom.Element id = createIdTag(xmlDoc, element);
-		if(element.getOwner() != null) {
-			org.w3c.dom.Element relationships = createRelationships(xmlDoc, element);
-			data.appendChild(relationships);
-		}
+		
+		org.w3c.dom.Element relationships = createRelationships(xmlDoc, element);
+		data.appendChild(relationships);
 		
 		org.w3c.dom.Element type = createTypeTag(xmlDoc);
 		
 		data.appendChild(id);
 		data.appendChild(attributes);
 		data.appendChild(type);
+		
+		if(element instanceof TypedElement) {
+			org.w3c.dom.Element typedByTag = createTypedByTag(element, xmlDoc);
+			if(typedByTag != null) {
+				relationships.appendChild(typedByTag);
+			}
+		}
+		
+		if(element instanceof MultiplicityElement) {
+			String multiplicity = ModelHelper.getMultiplicity((MultiplicityElement) element);
+			if(!multiplicity.isEmpty()) {
+				org.w3c.dom.Element multiplicityTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_MULTIPLICITY, multiplicity);
+				attributes.appendChild(multiplicityTag);
+			}
+		}
 		
 		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
 		root.appendChild(data);
@@ -312,6 +345,69 @@ public abstract class CommonElement {
 			ModelHelper.setComment(sysmlElement, xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DOCUMENTATION));
 		}
 	}
+	
+	protected void addMultiplicity(XMLItem xmlElement) {
+		if(sysmlElement instanceof MultiplicityElement) {
+			if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_MULTIPLICITY)) {
+				ModelHelper.setMultiplicity(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_MULTIPLICITY), (MultiplicityElement) sysmlElement);
+			}
+		}
+	}
+	/**
+	 * Gets typed by attribute and sets the type field based on the id in the typedBy field under relationships. 
+	 * Checks for element in model with project.getElementByID() with the import ID, then checks for newly created 
+	 * element with ImportXmlSysml.idConversion().
+	 * @param xmlElement XMLItem containing attributes in memory from XML file such as typed by.
+	 */
+	protected void addType(XMLItem xmlElement) {
+		try {
+			if(sysmlElement instanceof TypedElement) {
+				Element typeElement = null;
+				if(xmlElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
+					String typeImportID = xmlElement.getAttribute(XmlTagConstants.TYPED_BY);
+					CameoUtils.logGUI("Looking for type with id " + typeImportID);
+					
+					if(CameoUtils.isPrimitiveValueType(typeImportID)) {
+						typeElement = CameoUtils.getPrimitiveValueType(typeImportID);
+					} else if(typeImportID.startsWith("_9_")) {
+						if(typeImportID.contentEquals("_9_0_2_91a0295_1110274713995_297054_0")) {
+							CameoUtils.logGUI("Getting reference to UML primitive String ValueType.");
+							typeElement = ModelHelper.findElementWithPath("UML Standard Profile::UML2 Metamodel::PrimitiveTypes::String");
+							CameoUtils.logGUI(typeElement.getHumanName());
+						}
+					} else {
+						try {
+							typeElement = (Element) project.getElementByID(typeImportID);
+						} catch (NullPointerException npe) {
+							
+						}
+					}
+					
+					if(typeElement == null) {
+						CameoUtils.logGUI("Getting cameo id for type with import id: " + typeImportID);
+						String cameoID = ImportXmlSysml.idConversion(typeImportID);
+						CameoUtils.logGUI("Cameo id of type is: " + cameoID);
+						typeElement = (Element) project.getElementByID(cameoID);
+					}
+					if(typeElement instanceof Type) {
+						((TypedElement)sysmlElement).setType((Type) typeElement);
+					} else {
+						CameoUtils.logGUI("typedBy element not a Type. Type field cannot be set.");
+						ImportLog.log("typedBy element not a Type. Type field cannot be set for element with id: " + this.EAID);
+					}
+				} else {
+					CameoUtils.logGUI("No typedBy field found in relationships.");
+				}
+			}
+		} catch(NullPointerException npe) {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			npe.printStackTrace(pw);
+			String sStackTrace = sw.toString();
+			ImportLog.log("Null pointer exception setting type for element with id " + this.EAID);
+			ImportLog.log(sStackTrace);
+		}
+	}
 
 	protected org.w3c.dom.Element createAttribute(Document xmlDoc, String keyValue, String dataTypeValue, String attributeValue) {
 		org.w3c.dom.Element tag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
@@ -333,12 +429,28 @@ public abstract class CommonElement {
 		return createAttribute(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_STRING, attributeValue);
 	}
 	
+	protected org.w3c.dom.Element createFloatAttribute(Document xmlDoc, String keyValue, String attributeValue) {
+		return createAttribute(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_FLOAT, attributeValue);
+	}
+	
+	protected org.w3c.dom.Element createIntAttribute(Document xmlDoc, String keyValue, String attributeValue) {
+		return createAttribute(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_INT, attributeValue);
+	}
+	
+	protected org.w3c.dom.Element createBoolAttribute(Document xmlDoc, String keyValue, String attributeValue) {
+		return createAttribute(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_BOOL, attributeValue);
+	}
+	
 	protected org.w3c.dom.Element createDictAttribute(Document xmlDoc, String keyValue) {
 		return createAttribute(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_DICT, null);
 	}
 	
 	protected org.w3c.dom.Element createListElement(Document xmlDoc, String keyValue) {
 		return createElement(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_LIST, null);
+	}
+	
+	protected org.w3c.dom.Element createDictElement(Document xmlDoc, String keyValue) {
+		return createElement(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_DICT, null);
 	}
 	
 	protected org.w3c.dom.Element createDictRelationship(Document xmlDoc, String keyValue) {
@@ -414,8 +526,11 @@ public abstract class CommonElement {
 	protected org.w3c.dom.Element createRelationships(Document xmlDoc, Element element) {
 		org.w3c.dom.Element relationships = xmlDoc.createElement(XmlTagConstants.RELATIONSHIPS);
 		relationships.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-		org.w3c.dom.Element hasParent = createRel(xmlDoc, element.getOwner(), XmlTagConstants.HAS_PARENT);
-		relationships.appendChild(hasParent);
+		if(element.getOwner() != null) {
+			org.w3c.dom.Element hasParent = createRel(xmlDoc, element.getOwner(), XmlTagConstants.HAS_PARENT);
+			relationships.appendChild(hasParent);
+		}
+		
 		
 		return relationships;
 	}
@@ -440,6 +555,24 @@ public abstract class CommonElement {
 		hasRel.appendChild(type);
 		hasRel.appendChild(value);
 		hasRel.appendChild(relDataTag);
+		return hasRel;
+	}
+	
+	protected org.w3c.dom.Element createPrimitiveTypedByTag(Document xmlDoc, Element element) {
+		String name = ((NamedElement)element).getName();
+		org.w3c.dom.Element hasRel = xmlDoc.createElement(XmlTagConstants.TYPED_BY);
+		hasRel.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		
+		org.w3c.dom.Element value = xmlDoc.createElement(XmlTagConstants.ID);
+		value.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		value.appendChild(xmlDoc.createTextNode(CameoUtils.primitiveValueTypesByID.get(element.getLocalID())));
+		
+		org.w3c.dom.Element type = xmlDoc.createElement(XmlTagConstants.TYPE);
+		type.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		type.appendChild(xmlDoc.createTextNode(XmlTagConstants.PRIMITIVE_VALUE_TYPE));
+		
+		hasRel.appendChild(type);
+		hasRel.appendChild(value);
 		return hasRel;
 	}
 	
@@ -469,5 +602,76 @@ public abstract class CommonElement {
 //			ImportLog.log("Unable to add classifier to " + this.name + " with id "  + this.EAID);
 //			CameoUtils.logGUI("Unable to add classifier to " + this.name + " with id "  + this.EAID);
 //		}
+	}
+	
+	protected boolean isElement(String strValue) {
+		if(strValue.matches("_\\d{1,2}_(0)")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public org.w3c.dom.Element createAttributefromValueSpecification(ValueSpecification vs, String attrName, Document xmlDoc) {
+		org.w3c.dom.Element strAttr = null;
+		if(vs instanceof LiteralString) {
+			LiteralString ls = (LiteralString)vs;
+			String value = ls.getValue();
+			strAttr = createStringAttribute(xmlDoc, attrName, value);
+		} else if(vs instanceof LiteralReal) {
+			LiteralReal lr = (LiteralReal)vs;
+			double value = lr.getValue();
+			String strVal = String.valueOf(value);
+			strAttr = createFloatAttribute(xmlDoc, attrName, strVal);
+		} else if(vs instanceof LiteralInteger) {
+			LiteralInteger lr = (LiteralInteger)vs;
+			int value = lr.getValue();
+			String strVal = String.valueOf(value);
+			strAttr = createIntAttribute(xmlDoc, attrName, strVal);
+		} else if(vs instanceof LiteralBoolean) {
+			LiteralBoolean lr = (LiteralBoolean)vs;
+			boolean value = lr.isValue();
+			String strVal = String.valueOf(value);
+			strAttr = createBoolAttribute(xmlDoc, attrName, strVal);
+		} else if(vs instanceof OpaqueExpression) {
+			OpaqueExpression oe = (OpaqueExpression)vs;
+			List<String> bodies= oe.getBody();
+			Iterator<String> bodyIter = bodies.iterator();
+			String body = null;
+			if(bodyIter.hasNext()) {
+				body = bodyIter.next();
+			}
+			if(body != null) {
+				strAttr = createStringAttribute(xmlDoc, attrName, body);
+			} else {
+				ExportLog.log("Body of opaque expression with id " + vs.getLocalID() + " has empty body.");
+			}
+		} else {
+			String message = "Value specification with id " + vs.getLocalID() + " was not string, real, int, or bool.";
+			ExportLog.log(message);
+			CameoUtils.logGUI(message);
+		}
+		return strAttr;
+	}
+	
+	@CheckForNull
+	protected org.w3c.dom.Element createTypedByTag(Element element, Document xmlDoc) {
+		org.w3c.dom.Element typedByTag = null;
+		Type cameoType =  ((TypedElement)element).getType();
+		if(cameoType != null) {
+			String typeName = ((NamedElement)cameoType).getName();
+			ExportLog.log("Typed by element/value type with name: " + typeName);
+			if(cameoType != null) {
+				if(CameoUtils.isPrimitiveValueType(cameoType)) {
+					typedByTag = createPrimitiveTypedByTag(xmlDoc, cameoType);
+					CameoUtils.logGUI("Element with id " + element.getLocalID() + " typed by primitive value");
+					ExportLog.log("Element with id " + element.getLocalID() + " typed by primitive value");
+				}else {
+					ExportLog.log("Element with id: " + element.getLocalID() + " has type with id: " + cameoType.getLocalID());
+					typedByTag = createRel(xmlDoc, cameoType, XmlTagConstants.TYPED_BY);
+				}
+			}
+		}
+		
+		return typedByTag;
 	}
 }

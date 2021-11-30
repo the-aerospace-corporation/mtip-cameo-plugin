@@ -22,13 +22,13 @@ public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
 		CommonRelationship relationship = null;
 		switch(type) {
-			case "Abstraction":
+			case SysmlConstants.ABSTRACTION:
 				relationship = new Abstraction(name, EAID);
 				break;
-			case "Aggregation":
+			case SysmlConstants.AGGREGATION:
 				relationship = new Aggregation(name, EAID);
 				break;
-			case "Association":
+			case SysmlConstants.ASSOCIATION:
 				relationship = new Association(name, EAID);
 				break;
 			case SysmlConstants.BINDINGCONNECTOR:
@@ -37,16 +37,16 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.COMPOSITION:
 				relationship = new Composition(name, EAID);
 				break;
-			case "Copy":
+			case SysmlConstants.COPY:
 				relationship = new Copy(name, EAID);
 				break;
-			case "Connector":
+			case SysmlConstants.CONNECTOR:
 				relationship = new Connector(name, EAID);
 				break;
-			case "ControlFlow":
+			case SysmlConstants.CONTROLFLOW:
 				relationship = new ControlFlow(name, EAID);
 				break;
-			case "DeriveRequirement":
+			case SysmlConstants.DERIVEREQUIREMENT:
 				relationship = new DeriveRequirement(name, EAID);
 				break;
 			case SysmlConstants.DEPENDENCY:

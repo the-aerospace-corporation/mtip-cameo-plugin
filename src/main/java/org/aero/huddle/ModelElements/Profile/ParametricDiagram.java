@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements.Profile;
 
 import org.aero.huddle.ModelElements.AbstractDiagram;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
@@ -9,6 +10,9 @@ public class ParametricDiagram extends AbstractDiagram {
 
 	public ParametricDiagram(String name, String EAID) {
 		super(name, EAID);
+		 this.sysmlConstant = SysMLConstants.SYSML_PARAMETERIC_DIAGRAM;
+		 this.xmlConstant = XmlTagConstants.PARAMETRICDIAGRAM;
+		 this.allowableElements = SysmlConstants.PAR_TYPES;
 	}
 
 	@Override

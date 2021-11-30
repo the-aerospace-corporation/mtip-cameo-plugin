@@ -33,6 +33,9 @@ public class XmlTagConstants
 	public static final String LEFT = "left";
 	public static final String RIGHT = "right";
 	public static final String DIAGRAM_CONNECTOR = "diagramConnector";
+	public static final String DIAGRAM_PARENT = "diagramParent";
+	public static final String RELATIONSHIP_PROPERTY = "property";
+	public static final String BEHAVIOR = "behavior";
 	
 	// XML Tag Attributes
 	public static final String ATTRIBUTE_NAME = "name";
@@ -42,6 +45,8 @@ public class XmlTagConstants
 	public static final String ATTRIBUTE_TYPE_DICT = "dict";
 	public static final String ATTRIBUTE_TYPE_LIST = "list";
 	public static final String ATTRIBUTE_TYPE_INT = "int";
+	public static final String ATTRIBUTE_TYPE_FLOAT = "float";
+	public static final String ATTRIBUTE_TYPE_BOOL = "boolean";
 	public static final String ATTRIBUTE_KEY_VALUE = "value";
 	public static final String ATTRIBUTE_KEY_STEREOTYPE = "stereotype";
 	public static final String ATTRIBUTE_KEY_STEREOTYPE_NAME = "stereotypeName";
@@ -49,7 +54,14 @@ public class XmlTagConstants
 	public static final String ATTRIBUTE_KEY_PROFILE_NAME = "profileName";
 	public static final String ATTRIBUTE_KEY_PROFILE_ID = "profileId";
 	public static final String ATTRIBUTE_KEY_DOCUMENTATION = "documentation";
+	public static final String ATTRIBUTE_KEY_DEFAULT_VALUE = "defaultValue";
+	public static final String ATTRIBUTE_KEY_MULTIPLICITY = "multiplicity";
 	public static final String ATTRIBUTE_KEY_BODY = "body";
+	public static final String ATTRIBUTE_KEY_TEXT = "text";
+	public static final String ATTRIBUTE_KEY_ID = "id";
+	public static final String ATTRIBUTE_KEY_DIRECTION = "direction";
+	public static final String ATTRIBUTE_KEY_MIN = "min";
+	public static final String ATTRIBUTE_KEY_MAX = "max";
 	public static final String ATTRIBUTE_INDEX_0 = "0";
 	public static final String ATTRIBUTE_INDEX_1 = "1";
 	public static final String ATTRIBUTE_INDEX_2 = "2";
@@ -63,6 +75,14 @@ public class XmlTagConstants
 	public static final String ATTRIBUTE_NAME_COVERED_BY = "coveredBy";
 	public static final String ATTRIBUTE_NAME_TYPED_BY = "typedBy";
 	public static final String ATTRIBUTE_NAME_REPRESENTS = "represents";
+	public static final String ATTRIBUTE_NAME_ACTIVITY = "activity";
+	public static final String ATTRIBUTE_NAME_COLUMN_ELEMENT_TYPE = "columnElementType";
+	public static final String ATTRIBUTE_NAME_ROW_ELEMENT_TYPE = "rowElementType";
+	
+	public static final String COVERED_BY = "coveredBy";
+	
+	public static final String RELATIONSHIP_DEFAULT_VALUE= "defaultValueElement";
+	public static final String MESSAGE_NUMBER = "messageNumber";
 	
 	//Matrix Tags
 	public static final String ROW_SCOPE = "rowScope";
@@ -118,6 +138,7 @@ public class XmlTagConstants
 	public static final String FINALSTATE = "sysml.FinalState";
 	public static final String FLOWFINALNODE = "sysml.FlowFinalNode";
 	public static final String FLOWPORT = "sysml.FlowPort";
+	public static final String FLOWPROPERTY = "sysml.FlowProperty";
 	public static final String FLOWSPECIFICATION = "sysml.FlowSpecification";
 	public static final String FORK = "sysml.Fork";
 	public static final String FORKNODE = "sysml.ForkNode";
@@ -125,6 +146,7 @@ public class XmlTagConstants
 	public static final String FUNCTIONALREQUIREMENT = "sysml.FunctionalRequirement";
 	public static final String FUNCTIONBEHAVIOR = "sysml.FunctionBehavior";
 	public static final String INCLUDE = "sysml.Include";
+	public static final String INFORMATIONITEM = "sysml.InformationItem";
 	public static final String INITIALNODE = "sysml.InitialNode";
 	public static final String INITIALPSEUDOSTATE = "sysml.InitialPseudoState";
 	public static final String INPUTPIN = "sysml.InputPin";
@@ -138,6 +160,7 @@ public class XmlTagConstants
 	public static final String JOIN = "sysml.Join";
 	public static final String JOINNODE = "sysml.JoinNode";
 	public static final String LIFELINE = "sysml.Lifeline";
+	public static final String LINK = "sysml.Link";
 	public static final String LOOPNODE = "sysml.LoopNode";
 //	public static final String OBJECTNODE = "sysml.ObjetNode;
 	public static final String OPAQUEACTION = "sysml.OpaqueAction";
@@ -167,6 +190,7 @@ public class XmlTagConstants
 	public static final String SHALLOWHISTORY = "sysml.ShallowHistory";
 	public static final String SIGNAL = "sysml.Signal";
 	public static final String SIGNALEVENT = "sysml.SignalEvent";
+	public static final String SLOT = "sysml.Slot";
 	public static final String STATE = "sysml.State";
 	public static final String STATEINVARIANT = "sysml.StateInvariant";
 	public static final String STATEMACHINE = "sysml.StateMachine";
@@ -218,7 +242,12 @@ public class XmlTagConstants
 	public static final String REQUIREMENT_TABLE = "sysml.RequirementTable";
 	
 	//Matrices
+	public static final String ALLOCATION_MATRIX = "sysml.AllocationMatrix";
 	public static final String DEPENDENCY_MATRIX = "sysml.DependencyMatrix";
+	public static final String DERIVE_REQUIREMENT_MATRIX = "sysml.DeriveRequirementMatrix";
+	public static final String REFINE_REQUIREMENT_MATRIX = "sysml.RefineRequirementMatrix";
+	public static final String SATISFY_REQUIREMENT_MATRIX = "sysml.SatisfyRequirementMatrix";
+	public static final String VERIFY_REQUIREMENT_MATRIX = "sysml.VerifyRequirementMatrix";
 	
 	//Stereotypes
 	public static final String DOMAINSTEREOTYPE = "Domain";
@@ -238,6 +267,7 @@ public class XmlTagConstants
 	public static final String PARAMETRICDIAGRAM = "sysml.ParametricDiagram";
 	public static final String PACKAGEDIAGRAM = "sysml.PackageDiagram";
 	public static final String PROFILEDIAGRAM = "sysml.ProfileDiagram";
+	public static final String CLASSDIAGRAM = "sysml.ClassDiagram";
 	
 	//XML Tags
 	public static final String CLIENT_ID = "client_id";
@@ -245,10 +275,12 @@ public class XmlTagConstants
 	public static final String RELATIONSHIP_STEREOTYPE = "relationshipStereotype";
 	public static final String BODY = "body";
 	public static final String LANGUAGE = "language";
+	public static final String SIGNATURE_TAG = "signature";
 	public static final String SIGNAL_TAG = "signal";
 	public static final String EVENT_TAG = "event";
 	public static final String TRIGGER_TAG = "trigger";
 	public static final String OPERATION_TAG = "operation";
+	public static final String INVARIANT_TAG = "invariant";
 	public static final String PROFILE_TAG = "profile";
 	public static final String ID_TAG = "id";
 	public static final String ASSOCIATION_TAG = "association";
@@ -258,6 +290,13 @@ public class XmlTagConstants
 	public static final String SUPPLIER_PART_WITH_PORT = "supplierPartWithPort";
 	public static final String CLIENT_PART_WITH_PORT = "clientPartWithPort";
 	public static final String CLASSIFIER_TYPE = "classifierType";
+	public static final String SUBMACHINE = "submachine";
+	public static final String DO_ACTIVITY = "doActivity";
+	public static final String ENTRY = "entry";
+	public static final String EXIT = "exit";
+	public static final String GUARD = "guard";
+	public static final String PRIMITIVE_VALUE_TYPE = "PrimitiveValueType";
+	public static final String SWIMLANE = "swimlane";
 	
 	
 	//Model Creation Type Constants

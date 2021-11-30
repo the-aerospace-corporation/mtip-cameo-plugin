@@ -11,7 +11,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment;
 
 public class XMLItem {
 	private String type = "";
@@ -41,8 +40,12 @@ public class XMLItem {
 	private List<String> newInteractionOperands = new ArrayList<String> ();
 	private HashMap<String, String> stereotypes = new HashMap<String, String> ();
 	private HashMap<String, String> attributes = new HashMap<String, String>();
+	private HashMap<String, List<String>> listAttributes = new HashMap<String, List<String>>();
+	
 	private HashMap<String, Element> elements = new HashMap<String, Element>();
 	private HashMap<String, String> coveredByMap = new HashMap<String, String> ();
+	private HashMap<String, String> diagramParents = new HashMap<String, String> ();
+	private HashMap<String, String> importIdMap = new HashMap<String, String> ();
 	private List<String> childElements = new ArrayList<String>();
 	private List<String> childRelationships = new ArrayList<String>();
 	
@@ -94,8 +97,9 @@ public class XMLItem {
 			this.attributes.put(XmlTagConstants.EVENT_TAG, value);
 		} else if(key.contentEquals("operation")) {
 			this.operation = value;
-		} else if(key.contentEquals("guard")) {
+		} else if(key.contentEquals(XmlTagConstants.GUARD)) {
 			this.guard = value;
+			this.attributes.put(key, value);
 		} else if(key.contentEquals("effect")) {
 			this.effect = value;
 		} else if(key.contentEquals("valueSpecification")) {
@@ -111,6 +115,24 @@ public class XMLItem {
 		} else {
 			this.attributes.put(key, value);
 		}
+	}
+	
+	public void addListAttribute(String key, String value) {
+		if(!this.listAttributes.containsKey(key)) {
+			this.listAttributes.put(key, new ArrayList<String> ());
+		} 
+		this.listAttributes.get(key).add(value);
+	}
+	
+	public List<String> getListAttributes(String key) {
+		return this.listAttributes.get(key);
+	}
+	
+	public boolean hasListAttributes(String key) {
+		if(this.listAttributes.containsKey(key)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void addLocation(String key, Rectangle value) {
@@ -515,5 +537,21 @@ public class XMLItem {
 		+ "\nID: " + this.getEAID()
 		+ "\nOwner: " + this.getParent();
 		return allInfo;
+	}
+	
+	public void addDiagramParent(String id, String parentID) {
+		diagramParents.put(id,  parentID);
+	}
+	
+	public String getDiagramParent(String id) {
+		return diagramParents.get(id);
+	}
+	
+	public void addImportID(String cameoID, String importID) {
+		importIdMap.put(cameoID, importID);
+	}
+	
+	public String getImportID(String cameoID) {
+		return importIdMap.get(cameoID);
 	}
 }

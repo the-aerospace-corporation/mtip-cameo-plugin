@@ -48,15 +48,13 @@ public class SignalEvent extends CommonElement {
 	@Override
 	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent se= (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)element;
 		Signal signal = se.getSignal();
 		if(signal != null) {
-			String signalId = signal.getLocalID();
-			org.w3c.dom.Element signalTag = xmlDoc.createElement(XmlTagConstants.SIGNAL_TAG);
-			signalTag.appendChild(xmlDoc.createTextNode(signalId));
-			attributes.appendChild(signalTag);
+			org.w3c.dom.Element signalTag = createRel(xmlDoc, signal, XmlTagConstants.SIGNAL_TAG);
+			relationships.appendChild(signalTag);
 		}
 		
 		return data;

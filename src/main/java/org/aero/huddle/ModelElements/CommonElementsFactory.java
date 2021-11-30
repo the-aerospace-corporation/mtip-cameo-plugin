@@ -38,11 +38,11 @@ import org.aero.huddle.ModelElements.Block.External;
 import org.aero.huddle.ModelElements.Block.FlowPort;
 import org.aero.huddle.ModelElements.Block.FlowSpecification;
 import org.aero.huddle.ModelElements.Block.FullPort;
+import org.aero.huddle.ModelElements.Block.InformationItem;
 import org.aero.huddle.ModelElements.Block.InstanceSpecification;
 import org.aero.huddle.ModelElements.Block.Interface;
 import org.aero.huddle.ModelElements.Block.InterfaceBlock;
 import org.aero.huddle.ModelElements.Block.InterfaceRealization;
-import org.aero.huddle.ModelElements.Block.InternalBlockDiagram;
 import org.aero.huddle.ModelElements.Block.Note;
 import org.aero.huddle.ModelElements.Block.Operation;
 import org.aero.huddle.ModelElements.Block.PartProperty;
@@ -50,6 +50,7 @@ import org.aero.huddle.ModelElements.Block.Port;
 import org.aero.huddle.ModelElements.Block.ProxyPort;
 import org.aero.huddle.ModelElements.Block.QuantityKind;
 import org.aero.huddle.ModelElements.Block.Signal;
+import org.aero.huddle.ModelElements.Block.Slot;
 import org.aero.huddle.ModelElements.Block.Subsystem;
 import org.aero.huddle.ModelElements.Block.System;
 import org.aero.huddle.ModelElements.Block.SystemContext;
@@ -60,11 +61,20 @@ import org.aero.huddle.ModelElements.InternalBlock.BoundReference;
 import org.aero.huddle.ModelElements.InternalBlock.ClassifierBehaviorProperty;
 import org.aero.huddle.ModelElements.InternalBlock.ConstraintParameter;
 import org.aero.huddle.ModelElements.InternalBlock.ConstraintProperty;
+import org.aero.huddle.ModelElements.InternalBlock.FlowProperty;
+import org.aero.huddle.ModelElements.InternalBlock.InternalBlockDiagram;
 import org.aero.huddle.ModelElements.InternalBlock.ItemFlow;
 import org.aero.huddle.ModelElements.InternalBlock.ParticipantProperty;
 import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
 import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
+import org.aero.huddle.ModelElements.Matrix.AllocationMatrix;
+import org.aero.huddle.ModelElements.Matrix.DependencyMatrix;
+import org.aero.huddle.ModelElements.Matrix.DeriveRequirementMatrix;
+import org.aero.huddle.ModelElements.Matrix.RefineRequirementMatrix;
+import org.aero.huddle.ModelElements.Matrix.SatisfyRequirementMatrix;
+import org.aero.huddle.ModelElements.Matrix.VerifyRequirementMatrix;
 import org.aero.huddle.ModelElements.Profile.Class;
+import org.aero.huddle.ModelElements.Profile.ClassDiagram;
 import org.aero.huddle.ModelElements.Profile.Constraint;
 import org.aero.huddle.ModelElements.Profile.Customization;
 import org.aero.huddle.ModelElements.Profile.MetaClass;
@@ -117,6 +127,11 @@ import org.aero.huddle.ModelElements.StateMachine.StateMachine;
 import org.aero.huddle.ModelElements.StateMachine.StateMachineDiagram;
 import org.aero.huddle.ModelElements.StateMachine.Terminate;
 import org.aero.huddle.ModelElements.StateMachine.Trigger;
+import org.aero.huddle.ModelElements.Table.GenericTable;
+import org.aero.huddle.ModelElements.Table.GlossaryTable;
+import org.aero.huddle.ModelElements.Table.InstanceTable;
+import org.aero.huddle.ModelElements.Table.MetricTable;
+import org.aero.huddle.ModelElements.Table.RequirementTable;
 import org.aero.huddle.ModelElements.UseCase.Actor;
 import org.aero.huddle.ModelElements.UseCase.ExtensionPoint;
 import org.aero.huddle.ModelElements.UseCase.UseCase;
@@ -266,8 +281,11 @@ public class CommonElementsFactory {
 			case SysmlConstants.FORK:
 				element = new Fork(name, EAID);
 				break;
-			case "FlowPort":
+			case SysmlConstants.FLOWPORT:
 				element = new FlowPort(name, EAID);
+				break;
+			case SysmlConstants.FLOWPROPERTY:
+				element = new FlowProperty(name, EAID);
 				break;
 			case SysmlConstants.FLOWSPECIFICATION:
 				element = new FlowSpecification(name, EAID);
@@ -283,6 +301,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.FUNCTIONBEHAVIOR:
 				element = new FunctionBehavior(name, EAID);
+				break;
+			case SysmlConstants.INFORMATIONITEM:
+				element = new InformationItem(name, EAID);
 				break;
 			case "InitialNode":
 				element = new InitialNode(name, EAID);
@@ -328,6 +349,9 @@ public class CommonElementsFactory {
 				break;
 			case "Lifeline":
 				element = new Lifeline(name, EAID);
+				break;
+			case SysmlConstants.LINK:
+				element = new Link(name, EAID);
 				break;
 			case "LoopNode":
 				element = new LoopNode(name, EAID);
@@ -408,7 +432,7 @@ public class CommonElementsFactory {
 			case "Requirement":
 				element = new Requirement(name, EAID);
 				break;
-			case "SendSignalAction":
+			case SysmlConstants.SENDSIGNALACTION:
 				element = new SendSignalAction(name, EAID);
 				break;
 			case SysmlConstants.SHALLOWHISTORY:
@@ -419,6 +443,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.SIGNALEVENT:
 				element = new SignalEvent(name, EAID);
+				break;
+			case SysmlConstants.SLOT:
+				element = new Slot(name, EAID);
 				break;
 			case "State":
 				element = new State(name, EAID);
@@ -511,17 +538,45 @@ public class CommonElementsFactory {
 			case SysmlConstants.PROFILEDIAGRAM:
 				element = new ProfileDiagram(name, EAID);
 				break;
-//			case SysmlConstants.CLASSDIAGRAM:
-//				element = new ClassDiagram(name, EAID);
-//				break;
+			case SysmlConstants.CLASSDIAGRAM:
+				element = new ClassDiagram(name, EAID);
+				break;
 				
 			// Tables	*********************************************************************
 			case SysmlConstants.GENERIC_TABLE:
 				element = new GenericTable(name, EAID);
 				break;
+			case SysmlConstants.GLOSSARY_TABLE:
+				element = new GlossaryTable(name, EAID);
+				break;
+			case SysmlConstants.INSTANCE_TABLE:
+				element = new InstanceTable(name, EAID);
+				break;
+			case SysmlConstants.METRIC_TABLE:
+				element = new MetricTable(name, EAID);
+				break;
+			case SysmlConstants.REQUIREMENT_TABLE:
+				element = new RequirementTable(name, EAID);
+				break;
 			// Matrices	*********************************************************************	
+			case SysmlConstants.ALLOCATION_MATRIX:
+				element = new AllocationMatrix(name, EAID);
+				break;
 			case SysmlConstants.DEPENDENCY_MATRIX:
 				element = new DependencyMatrix(name, EAID);
+				break;
+			case SysmlConstants.DERIVE_REQUIREMENT_MATRIX:
+				element = new DeriveRequirementMatrix(name, EAID);
+				break;
+			case SysmlConstants.REFINE_REQUIREMENT_MATRIX:
+				element = new RefineRequirementMatrix(name, EAID);
+				break;
+			case SysmlConstants.SATISFY_REQUIREMENT_MATRIX:
+				element = new SatisfyRequirementMatrix(name, EAID);
+				break;
+			case SysmlConstants.VERIFY_REQUIREMENT_MATRIX:
+				element = new VerifyRequirementMatrix(name, EAID);
+				break;
 			default:
 				break;
 		}

@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements.Profile;
 
 import org.aero.huddle.ModelElements.AbstractDiagram;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
@@ -13,6 +14,7 @@ public class PackageDiagram  extends AbstractDiagram{
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_PACKAGE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PACKAGEDIAGRAM;
+		 this.allowableElements = SysmlConstants.PKG_TYPES;
 	}
 	
 	@Override

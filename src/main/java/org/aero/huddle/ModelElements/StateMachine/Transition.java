@@ -82,8 +82,7 @@ public class Transition extends CommonRelationship {
 		Collection<com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger> triggers = tr.getTrigger();
 		if(!triggers.isEmpty()) {
 			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = triggers.iterator().next();
-			org.w3c.dom.Element triggerTag = xmlDoc.createElement(XmlTagConstants.TRIGGER_TAG);
-			triggerTag.appendChild(xmlDoc.createTextNode(trigger.getLocalID()));
+			org.w3c.dom.Element triggerTag = createRel(xmlDoc, trigger, XmlTagConstants.TRIGGER_TAG);
 			attributes.appendChild(triggerTag);
 		}
 
@@ -117,5 +116,18 @@ public class Transition extends CommonRelationship {
 	public void getClient(Element element) {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition cameoRelationship = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		this.client = cameoRelationship.getTarget();
+	}
+	
+	@Override
+	protected org.w3c.dom.Element createRelationships(Document xmlDoc, Element element) {
+		org.w3c.dom.Element relationships = xmlDoc.createElement(XmlTagConstants.RELATIONSHIPS);
+		relationships.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		if(element.getOwner().getOwner() != null) {
+			org.w3c.dom.Element hasParent = createRel(xmlDoc, element.getOwner().getOwner(), XmlTagConstants.HAS_PARENT);
+			relationships.appendChild(hasParent);
+		}
+		
+		
+		return relationships;
 	}
 }

@@ -71,6 +71,7 @@ public class ExportXmlSysmlAction extends MDAction {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export aborted - TransformerException");
 		}
 	}
+	
 	//Creates a Document object to be used in creating the XML output
 	public static Document createDocument() throws ParserConfigurationException	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

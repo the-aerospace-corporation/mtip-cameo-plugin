@@ -10,11 +10,13 @@ import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
+import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectableElement;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
@@ -34,51 +36,73 @@ public class Connector extends CommonRelationship {
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = (com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) sysmlElement;
 		
+		// Cameo considers client as the second connector end [ends.get(1)] and supplier as first. Must reverse to fit supplier/client defined in Huddle.
 		try {
-			ModelHelper.setSupplierElement(sysmlElement, supplier);
-			ModelHelper.setClientElement(sysmlElement, client);
+			ModelHelper.setClientElement(sysmlElement, supplier);
+			ModelHelper.setSupplierElement(sysmlElement, client);
+			
 		}catch(ClassCastException cce) {
 			ImportLog.log("Invalid supplier/client for connector with id: " + this.EAID + ". Supplier/client must be ConnectableElements.");
 			sysmlElement.dispose();
 			return null;
 		}
+		
 
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype nestedConnectorEndStereotype = StereotypesHelper.getStereotype(project, "NestedConnectorEnd", sysmlProfile);
 		Stereotype elementPropertyPathStereotype = StereotypesHelper.getStereotype(project, "ElementPropertyPath", sysmlProfile);
-//			if(supplier instanceof ConnectableElement && client instanceof ConnectableElement) {
-//				connector.getEnd().get(0).setRole((ConnectableElement) supplier);
-//				connector.getEnd().get(1).setRole((ConnectableElement) client);
-//			} else {
-//				ImportLog.log("Unable to create connector with id: " + this.EAID + ". Supplier or client not a ConnectableElement (Part, port, etc.)");
-//				sysmlElement.dispose();
-//				return null;
-//			}
-
+		
+//		if(supplier instanceof ConnectableElement && client instanceof ConnectableElement) {
+//			connector.getEnd().get(0).setRole((ConnectableElement) supplier);
+//			connector.getEnd().get(1).setRole((ConnectableElement) client);
+//		} else {
+//			ImportLog.log("Unable to create connector with id: " + this.EAID + ". Supplier or client not a ConnectableElement (Part, port, etc.)");
+//			sysmlElement.dispose();
+//			return null;
+//		}
+		
 		ConnectorEnd firstMemberEnd = connector.getEnd().get(0);
 		ConnectorEnd secondMemberEnd = connector.getEnd().get(1);
 		
-		StereotypesHelper.addStereotype(firstMemberEnd, nestedConnectorEndStereotype);
-		StereotypesHelper.addStereotype(secondMemberEnd, nestedConnectorEndStereotype);
+		Element supplierPart = (Element) project.getElementByID(ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT)));
+		if(supplierPart != null) {
+			CameoUtils.logGUI("Supplier part found with id: " + supplierPart.getLocalID());
+			firstMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)supplierPart);
+			firstMemberEnd.setRole((ConnectableElement) supplier);
+			StereotypesHelper.addStereotype(firstMemberEnd, nestedConnectorEndStereotype);
+			StereotypesHelper.setStereotypePropertyValue(firstMemberEnd, elementPropertyPathStereotype, "propertyPath", supplierPart);
+		} else {
+			CameoUtils.logGUI("Supplier port not from part property.");
+			firstMemberEnd.setRole((ConnectableElement) supplier);
+		}
+		
+		Element clientPart = (Element) project.getElementByID(ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT)));
+		if(clientPart != null) {
+			CameoUtils.logGUI("Client part found with id: " + clientPart.getLocalID());
+			secondMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)clientPart);
+			secondMemberEnd.setRole(((List<ConnectorEnd>) ((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property) clientPart).get_connectorEndOfPartWithPort()).get(0).getRole());
+			StereotypesHelper.addStereotype(secondMemberEnd, nestedConnectorEndStereotype);
+			StereotypesHelper.setStereotypePropertyValue(secondMemberEnd, elementPropertyPathStereotype, "propertyPath", clientPart);
+		} else {
+			CameoUtils.logGUI("Client port not from part property.");
+			secondMemberEnd.setRole((ConnectableElement)client);
+		}		
+		
+		Element typeElement = (Element) project.getElementByID(ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.TYPED_BY)));
+		if(typeElement != null) {
+			try {
+				connector.setType((Association) typeElement);
+				CameoUtils.logGUI("Connector type set to element with id " + typeElement.getLocalID());
+			} catch(ClassCastException cce) {
+				CameoUtils.logGUI("Connector type is not an association. Type not set for connector with id " + this.EAID);
+			}
+		}
 		try {
 			setOwner(project, owner);
 		} catch(IllegalArgumentException iae) {
 			sysmlElement.dispose();
 			connector.dispose();
 		}
-//		String supplierPartWithPort = xmlElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT);
-//		String clientPartWithPort = xmlElement.getAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT);
-//		
-//		
-//		Element supplierPart = (Element) project.getElementByID(supplierPartWithPort);
-//		secondMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)supplierPart);
-//		StereotypesHelper.setStereotypePropertyValue(secondMemberEnd, elementPropertyPathStereotype, "propertyPath", supplierPart);
-//		
-//		Element clientPart = (Element) project.getElementByID(clientPartWithPort);
-//		firstMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)project.getElementByID(clientPartWithPort));
-//		StereotypesHelper.setStereotypePropertyValue(firstMemberEnd, elementPropertyPathStereotype, "propertyPath", clientPart);
-		
-		
 		return connector;
 	}
 	@Override
@@ -122,10 +146,7 @@ public class Connector extends CommonRelationship {
 		if(element instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) {
 			List<ConnectorEnd> connectorEnds = ((com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector)element).getEnd();
 			if(connectorEnds.size() > 1) {
-				this.supplier = connectorEnds.get(0).getPartWithPort();
-				if(supplier == null) {
-					this.supplier = connectorEnds.get(0).getRole();
-				}
+				this.supplier = connectorEnds.get(0).getRole();					
 			}
 		}
 	}
@@ -134,10 +155,7 @@ public class Connector extends CommonRelationship {
 		if(element instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) {
 			List<ConnectorEnd> connectorEnds = ((com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector)element).getEnd();
 			if(connectorEnds.size() > 1) {
-				this.client = connectorEnds.get(1).getPartWithPort();
-				if(client == null) {
-					this.client = connectorEnds.get(1).getRole();
-				}
+				this.client = connectorEnds.get(1).getRole();
 			}
 		}
 	}
@@ -145,17 +163,45 @@ public class Connector extends CommonRelationship {
 	@Override
 	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
 		CameoUtils.logGUI("\t...Creating dependent elements for connector with id: " + modelElement.getEAID());
-		String supplierPartWithPortID = modelElement.getAttribute(XmlTagConstants.SUPPLIER_CONNECTOR_END_TAG);
-		String clientPartWithPortID = modelElement.getAttribute(XmlTagConstants.CLIENT_CONNECTOR_END_TAG);
+		String supplierPartWithPortID = modelElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT);
+		String clientPartWithPortID = modelElement.getAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT);
+		String typedByID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 		
 		if(supplierPartWithPortID != null) {
 			Element supplierPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, supplierPartWithPortID);
-			modelElement.addAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT, supplierPartWithPort.getLocalID());
 		}
 		
 		if(clientPartWithPortID != null) {
 			Element clientPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientPartWithPortID);
-			modelElement.addAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT, clientPartWithPort.getLocalID());
 		}
+		
+		if(typedByID != null) {
+			Element typedBy = ImportXmlSysml.getOrBuildElement(project, parsedXML, typedByID);
+		}
+	}
+	@Override
+	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+		
+		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = (com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) element;
+		Element supplierPart = connector.getEnd().get(0).getPartWithPort();
+		Element clientPart = connector.getEnd().get(1).getPartWithPort();
+		Association type = connector.getType();
+
+		if(supplierPart != null) {
+			org.w3c.dom.Element supplierPartWithPort = createRel(xmlDoc, supplierPart, XmlTagConstants.SUPPLIER_PART_WITH_PORT);
+			relationships.appendChild(supplierPartWithPort);
+		}
+		
+		if(clientPart != null) {
+			org.w3c.dom.Element clientPartWithPort = createRel(xmlDoc, clientPart, XmlTagConstants.CLIENT_PART_WITH_PORT);
+			relationships.appendChild(clientPartWithPort);
+		}
+		if(type != null) {
+			org.w3c.dom.Element typedByTag = createRel(xmlDoc, type, XmlTagConstants.TYPED_BY);
+			relationships.appendChild(typedByTag);
+		}
+		return data;
 	}
 }

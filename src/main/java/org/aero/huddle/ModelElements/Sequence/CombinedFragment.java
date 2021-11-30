@@ -1,10 +1,8 @@
 package org.aero.huddle.ModelElements.Sequence;
 
 import java.util.List;
-import java.util.Map;
 
 import org.aero.huddle.ModelElements.CommonElement;
-import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;

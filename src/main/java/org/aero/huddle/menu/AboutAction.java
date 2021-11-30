@@ -1,11 +1,11 @@
 package org.aero.huddle.menu;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.JOptionPane;
+
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
-
-import javax.swing.*;
-
-import java.awt.event.ActionEvent;
 
 
 /*

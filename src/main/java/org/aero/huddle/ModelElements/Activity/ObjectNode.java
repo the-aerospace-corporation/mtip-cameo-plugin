@@ -1,10 +1,9 @@
 package org.aero.huddle.ModelElements.Activity;
 
-import org.aero.huddle.ModelElements.CommonElement;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XmlTagConstants;
 
-public class ObjectNode extends CommonElement {
+public class ObjectNode extends ActivityNode {
 
 	public ObjectNode(String name, String EAID) {
 		super(name, EAID);

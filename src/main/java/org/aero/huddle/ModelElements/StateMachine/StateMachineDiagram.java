@@ -1,6 +1,7 @@
 package org.aero.huddle.ModelElements.StateMachine;
 
 import org.aero.huddle.ModelElements.AbstractDiagram;
+import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
@@ -11,6 +12,7 @@ public class StateMachineDiagram  extends AbstractDiagram{
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_STATE_MACHINE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.STATEMACHINEDIAGRAM;
+		 this.allowableElements = SysmlConstants.STM_TYPES;
 	}
 	
 	@Override

@@ -55,6 +55,7 @@ public class SysmlConstants {
 	public static final String FINALSTATE = "FinalState";
 	public static final String FLOWFINALNODE = "FlowFinalNode";
 	public static final String FLOWPORT = "FlowPort";
+	public static final String FLOWPROPERTY = "FlowProperty";
 	public static final String FLOWSPECIFICATION = "FlowSpecification";
 	public static final String FORK = "Fork";
 	public static final String FORKNODE = "ForkNode";
@@ -62,6 +63,7 @@ public class SysmlConstants {
 	public static final String FUNCTIONALREQUIREMENT = "FunctionalRequirement";
 	public static final String FUNCTIONBEHAVIOR = "FunctionBehavior";
 	public static final String INCLUDE = "Include";
+	public static final String INFORMATIONITEM = "InformationItem";
 	public static final String INITIALNODE = "InitialNode";
 	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
 	public static final String INPUTPIN = "InputPin";
@@ -76,6 +78,7 @@ public class SysmlConstants {
 	public static final String JOIN = "Join";
 	public static final String JOINNODE = "JoinNode";
 	public static final String LIFELINE = "Lifeline";
+	public static final String LINK = "Link";
 	public static final String LOOPNODE = "LoopNode";
 	public static final String MERGENODE = "MergeNode";
 	public static final String MESSAGE = "Message";
@@ -104,6 +107,7 @@ public class SysmlConstants {
 	public static final String SIGNALEVENT = "SignalEvent";
 	public static final String SHALLOWHISTORY = "ShallowHistory";
 	public static final String SIGNAL = "Signal";
+	public static final String SLOT = "Slot";
 	public static final String STATE = "State";
 	public static final String STATEINVARIANT = "StateInvariant";
 	public static final String STATEMACHINE = "StateMachine";
@@ -128,7 +132,25 @@ public class SysmlConstants {
 	public static final String REQUIREMENT_TABLE = "RequirementTable";
 	
 	//Matrices
+	public static final String ALLOCATION_MATRIX = "AllocationMatrix";
 	public static final String DEPENDENCY_MATRIX = "DependencyMatrix";
+	public static final String DERIVE_REQUIREMENT_MATRIX = "DeriveRequirementMatrix";
+	public static final String REFINE_REQUIREMENT_MATRIX = "RefineRequirementMatrix";
+	public static final String SATISFY_REQUIREMENT_MATRIX = "SatisfyRequirementMatrix";
+	public static final String VERIFY_REQUIREMENT_MATRIX = "VerifyRequirementMatrix";
+	
+	// Matrix and Table constants as known by Cameo
+	public static final String CAMEO_ALLOCATION_MATRIX = "SysML Allocation Matrix";
+	public static final String CAMEO_DERIVE_REQUIREMENT_MATRIX = "Derive Requirement Matrix";
+	public static final String CAMEO_REFINE_REQUIREMENT_MATRIX = "Refine Requirement Matrix";
+	public static final String CAMEO_SATISFY_REQUIREMENT_MATRIX = "Satisfy Requirement Matrix";
+	public static final String CAMEO_VERIFY_REQUIREMENT_MATRIX = "Verify Requirement Matrix";
+	
+	public static final String CAMEO_GENERIC_TABLE = "Generic Table";
+	public static final String CAMEO_GLOSSARY_TABLE = "Glossary Table";
+	public static final String CAMEO_REQUIREMENT_TABLE = "Requirement Table";
+	public static final String CAMEO_INSTANCE_TABLE = "Instance Table";
+	public static final String CAMEO_METRIC_TABLE = "Metric Table";
 	
 	// Cameo specific "non-normative" block extension
 	public static final String DOMAIN = "Domain";
@@ -167,7 +189,6 @@ public class SysmlConstants {
 	public static final String USAGE = "Usage";
 	public static final String VERIFY = "Verify";
 	
-	
 	//Sysml Diagram constants
 	public static final String BDD = "BlockDefinitionDiagram";
 	public static final String IBD = "InternalBlockDiagram";
@@ -182,6 +203,9 @@ public class SysmlConstants {
 	public static final String CLASSDIAGRAM = "ClassDiagram";
 	
 	public static final String SUBMACHINE = "submachine";
+	
+	// Profile Names
+	public static final String DEPENDENCY_MATRIX_PROFILE = "Dependency Matrix Profile";
 	
 	//Reserved words for instances to keep from generating SysML library instance specifications
 	public static final String RESERVELINK = "Link";
@@ -234,12 +258,14 @@ public class SysmlConstants {
 			FINALSTATE,
 			FLOWFINALNODE,
 			FLOWPORT,
+			FLOWPROPERTY,
 			FLOWSPECIFICATION,
 			FORK,
 			FORKNODE,
 			FULLPORT,
 			FUNCTIONALREQUIREMENT,
 			FUNCTIONBEHAVIOR,
+			INFORMATIONITEM,
 			INITIALNODE,
 			INITIALPSEUDOSTATE,
 			INPUTPIN,
@@ -253,6 +279,7 @@ public class SysmlConstants {
 			JOIN,
 			JOINNODE,
 			LIFELINE,
+			LINK,
 			LOOPNODE,
 			MERGENODE,
 			MESSAGEOCCURRENCESPECIFICATION,
@@ -281,6 +308,7 @@ public class SysmlConstants {
 			SENDSIGNALACTION,
 			SIGNAL,
 			SIGNALEVENT,
+			SLOT,
 			STATE,
 			STATEINVARIANT,
 			STATEMACHINE,
@@ -295,7 +323,14 @@ public class SysmlConstants {
 			UNIT,
 			USECASE,
 			VALUEPROPERTY,
-			VALUETYPE,			
+			VALUETYPE,	
+			
+			// Table treated as Element - cannot be cast to Diagram
+			GENERIC_TABLE,
+			GLOSSARY_TABLE,
+			INSTANCE_TABLE,
+			METRIC_TABLE,
+			REQUIREMENT_TABLE,
 	};
 	
 	public static final String[] RESERVEINSTANCESPECIFICATION = {
@@ -342,8 +377,14 @@ public class SysmlConstants {
 			UC, 
 			PROFILEDIAGRAM,
 			CLASSDIAGRAM, 
-//			GENERIC_TABLE,
-//			DEPENDENCY_MATRIX,
+			
+			// Matrix types
+			ALLOCATION_MATRIX,
+			DEPENDENCY_MATRIX,
+			DERIVE_REQUIREMENT_MATRIX,
+			REFINE_REQUIREMENT_MATRIX,
+			SATISFY_REQUIREMENT_MATRIX,
+			VERIFY_REQUIREMENT_MATRIX,
 	};
 	
 	public static final String[] BDD_TYPES = {
@@ -357,7 +398,9 @@ public class SysmlConstants {
 			FLOWPORT,
 			FLOWSPECIFICATION,
 			FULLPORT,
+			INFORMATIONITEM,
 			INSTANCESPECIFICATION,
+			INTERACTION,
 			INTERFACE,
 			INTERFACEBLOCK,
 			//NOTE, // not supported?
@@ -365,6 +408,7 @@ public class SysmlConstants {
 			PACKAGE,
 			PARTPROPERTY,
 			PORT,
+			PROPERTY,
 			PROXYPORT,
 			QUANTITYKIND,
 			REQUIREMENT,
@@ -373,6 +417,7 @@ public class SysmlConstants {
 			SYSTEM,
 			SYSTEMCONTEXT,
 			UNIT,
+			USECASE,
 			VALUEPROPERTY,
 			VALUETYPE
 	};
@@ -380,7 +425,6 @@ public class SysmlConstants {
 
 	public static final String[] IBD_TYPES = {
 			ASSOCIATIONBLOCK,
-			BLOCK,
 			CONSTRAINTBLOCK,
 			DOMAIN,
 			ENUMERATION,
@@ -502,7 +546,12 @@ public class SysmlConstants {
 	};
 	
 	public static final String[] PAR_TYPES = {
-			
+			CONSTRAINTPARAMETER,
+			CONSTRAINTPROPERTY,
+			PARTPROPERTY,
+			PORT,
+			PROPERTY,
+			PROXYPORT			
 	};
 	
 	public static final String[] PKG_TYPES = {
@@ -564,11 +613,25 @@ public class SysmlConstants {
 			EXTENSION,
 			METACLASS,
 			OPAQUEEXPRESSION,
-			PROFILE
+			PROFILE,
+			STEREOTYPE
 	};
 	
-
-	
+	public static final String[] CLASSDIAGRAM_TYPES = {
+			ACTIVITY,
+			BLOCK,
+			CLASS,
+			CONSTRAINT,
+			CUSTOMIZATION,
+			EXTENSION,
+			INTERFACE,
+			METACLASS,
+			OPAQUEEXPRESSION,
+			PORT,
+			PROFILE,
+			REQUIREMENT,
+			SIGNAL,
+	};
 	
 	public static Map<String, String[]> diagramTypeMap;
 	static {
@@ -596,5 +659,25 @@ public class SysmlConstants {
 	public static final String[] defaultClassifiers = {
 			QUANTITYKIND,
 			UNIT
+	};
+	
+	// Primitive Value Types
+	public static final String BOOLEAN = "Boolean";
+	public static final String INTEGER = "Integer";
+	public static final String REAL = "Real";
+	public static final String STRING = "String";
+	
+	public static final String[] primitiveValueTypes = {
+			BOOLEAN,
+			INTEGER,
+			REAL,
+			STRING
+	};
+	
+	public static final String[] primitiveValueTypeIDs = {
+			"16_5_1_12c903cb_1245415335546_39033_4086",
+		    "_16_5_1_12c903cb_1245415335546_8641_4088",
+		    "_11_5EAPbeta_be00301_1147431819399_50461_1671",
+		    "_16_5_1_12c903cb_1245415335546_479030_4092"
 	};
 }

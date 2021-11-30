@@ -1,7 +1,6 @@
 package org.aero.huddle.menu;
 
 import org.aero.huddle.XML.Export.ExportXmlSysmlAction;
-import org.aero.huddle.XML.Import.ElementTestAction;
 import org.aero.huddle.XML.Import.ImportXmlSysmlAction;
 
 import com.nomagic.actions.AMConfigurator;
@@ -19,8 +18,7 @@ public class MainMenuConfigurator implements AMConfigurator
 	 * Here creates the "Huddle" menu.
 	 * @param manager: the actions manager to be configured.
 	 */
-	public void configure(ActionsManager manager)
-	{
+	public void configure(ActionsManager manager) {
 		//Search for Huddle action category
 		ActionsCategory aCategory = manager.getCategory("Huddle");
 		if(aCategory == null) {
@@ -34,17 +32,9 @@ public class MainMenuConfigurator implements AMConfigurator
 		
 		//Add actions to Huddle category here
 		ActionsCategory category = new ActionsCategory("","");
-//		category.addAction(new ImportXmlAction("", "Import from XML"));
-		category.addAction(new ImportXmlSysmlAction("", "Import Sysml from XML"));
-		category.addAction(new ExportXmlSysmlAction("", "Export Sysml to XML"));
-//		category.addAction(new ExportXmlAction("", "Export as XML"));
+		category.addAction(new ImportXmlSysmlAction("", "Import model"));
+		category.addAction(new ExportXmlSysmlAction("", "Export model"));
 		category.addAction(new AboutAction("","About"));
-		category.addAction(new ElementTestAction("", "Test Element Creation"));
-		
-		//Depreciated and unused. Uses the prior CSV format as opposed to the new
-		//XML format. Used for the initial use case scenario, but substituted for the XML format.
-		//Left here for reference and if there is a need for re-importing the initial use case via CSV.
-//		category.addAction(new ImportFromHuddleAction("", "Import from Huddle"));
 		
 		aCategory.addAction(category);
 	}

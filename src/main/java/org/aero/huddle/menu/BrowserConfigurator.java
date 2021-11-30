@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.aero.huddle.XML.Export.ExportXmlSysmlPackageAction;
 import org.aero.huddle.XML.Import.ImportXmlSysmlPackageAction;
-import org.aero.huddle.mab.ImportAction;
 
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
@@ -13,7 +12,6 @@ import com.nomagic.magicdraw.actions.ActionsID;
 import com.nomagic.magicdraw.actions.BrowserContextAMConfigurator;
 import com.nomagic.magicdraw.actions.MDActionsCategory;
 import com.nomagic.magicdraw.ui.browser.Tree;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 
 public class BrowserConfigurator implements BrowserContextAMConfigurator {
@@ -23,9 +21,9 @@ public class BrowserConfigurator implements BrowserContextAMConfigurator {
 	}
 
 	public void configure(ActionsManager manager, Tree tree) {
-		ActionsCategory huddleCategory = manager.getCategory("HUDDLE");
+		ActionsCategory huddleCategory = manager.getCategory("Huddle");
 		if(huddleCategory == null) {
-			huddleCategory = new MDActionsCategory("HUDDLE", "HUDDLE");
+			huddleCategory = new MDActionsCategory("Huddle", "Huddle");
 			huddleCategory.setNested(true);
 			ActionsCategory helpCategory = manager.getCategory(ActionsID.HELP);
 			if(helpCategory !=null) {
@@ -40,13 +38,6 @@ public class BrowserConfigurator implements BrowserContextAMConfigurator {
 		
 		if(tree.getSelectedNode() != null) {
 			Object selectedObj = tree.getSelectedNode().getUserObject();
-			if(selectedObj instanceof Element) {
-				Element element = (Element)selectedObj;
-				
-				ActionsCategory transformCategory = new ActionsCategory(null, "Import MAB");
-				huddleCategory.addAction(transformCategory);
-			    transformCategory.addAction(new ImportAction(null, "MAB XML Import", element));	
-			}
 			if(selectedObj instanceof Package) {
 				Package startPackage = (Package)selectedObj;
 				
@@ -60,7 +51,6 @@ public class BrowserConfigurator implements BrowserContextAMConfigurator {
 		        importExportCategory.addAction(category);
 				huddleCategory.addAction(importExportCategory);
 			}
-			
 		}
 	}
 }

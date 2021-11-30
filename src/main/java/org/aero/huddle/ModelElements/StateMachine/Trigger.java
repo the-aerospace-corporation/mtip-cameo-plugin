@@ -18,7 +18,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event;
 
 public class Trigger extends CommonElement {
-	private final String EVENT = "event";
 	public Trigger(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
@@ -88,8 +87,7 @@ public class Trigger extends CommonElement {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)element;
 		Event event = trigger.getEvent();
 		if(event != null) {
-			org.w3c.dom.Element eventTag = xmlDoc.createElement(XmlTagConstants.EVENT_TAG);
-			eventTag.appendChild(xmlDoc.createTextNode(event.getLocalID()));
+			org.w3c.dom.Element eventTag = createRel(xmlDoc, event, XmlTagConstants.EVENT_TAG);
 			attributes.appendChild(eventTag);
 		}
 		
