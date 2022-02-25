@@ -27,7 +27,7 @@ public class Extension extends CommonRelationship {
 		com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension extension = (com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension)sysmlElement;
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd(extension);
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd(extension);
-		
+
 		firstMemberEnd.setAggregation(AggregationKindEnum.NONE);
 		ModelHelper.setNavigable(firstMemberEnd, true);
 		firstMemberEnd.setOwner(client);

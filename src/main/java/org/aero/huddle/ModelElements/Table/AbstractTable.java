@@ -37,7 +37,7 @@ public class AbstractTable extends CommonElement {
 			CameoUtils.logGUI("Read only Exception caught.");
 			e.printStackTrace();
 		}
-		addStereotype();
+		addInitialStereotype();
 		return sysmlElement;
 	}
 	

@@ -29,22 +29,22 @@ public class MetaClass extends CommonElement {
 			SessionManager.getInstance().createSession(project, "Create Profile Element");
 		}
 		
-		Element metaclass = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::" + this.name);
+		sysmlElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::" + this.name);
 		// Add checks for other metaclass profiles (i.e. SysML)
 		// StereotypesHelper.getMetaClassByName(project, "Class");
-		if (!(metaclass == null)) {
+		if (!(sysmlElement == null)) {
 			CameoUtils.logGUI("Creating metaclass with name: " + this.name);
-			CameoUtils.logGUI(metaclass.getLocalID());
+			CameoUtils.logGUI(sysmlElement.getLocalID());
 			SessionManager.getInstance().closeSession(project);
 			
 		} else {
-			metaclass = f.createClassInstance();
+			sysmlElement = f.createClassInstance();
 			Profile standardProfile = StereotypesHelper.getProfile(project,  "StandardProfile");
 			Stereotype metaclassStereotype = StereotypesHelper.getStereotype(project, "Metaclass", standardProfile);
-			StereotypesHelper.addStereotype(metaclass, metaclassStereotype);
-			((NamedElement)metaclass).setName(name);
+			StereotypesHelper.addStereotype(sysmlElement, metaclassStereotype);
+			((NamedElement)sysmlElement).setName(name);
 		}
-		return metaclass;
+		return sysmlElement;
 	}
 	
 }

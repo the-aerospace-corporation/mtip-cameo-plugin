@@ -64,6 +64,8 @@ public class XMLItem {
 	private Element supplierElement = null;
 	private Element clientElement = null;
 	
+	private List<TaggedValue> taggedValues = new ArrayList<TaggedValue> ();
+	
 	public XMLItem() {
 		
 	}
@@ -553,5 +555,13 @@ public class XMLItem {
 	
 	public String getImportID(String cameoID) {
 		return importIdMap.get(cameoID);
+	}
+	
+	public void addStereotypeTaggedValue(TaggedValue tv) {
+		taggedValues.add(tv);
+	}
+	
+	public List<TaggedValue> getTaggedValues() {
+		return taggedValues;
 	}
 }

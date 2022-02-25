@@ -42,6 +42,7 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.InitialNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow;
 import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.DataStoreNode;
+import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.InterruptibleActivityRegion;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition;
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.CentralBufferNode;
@@ -73,6 +74,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
@@ -173,6 +176,13 @@ public class ExportXmlSysml {
 			}
 			ExportLog.log("Parent element of element with id " + element.getLocalID() + " is null.");
 			CameoUtils.logGUI("Parent element of element with id " + element.getLocalID() + " is null.");
+		}
+		if(element instanceof TypedElement) {
+			TypedElement typedElement = (TypedElement)element;
+			Type type = typedElement.getType();
+			if(type != null) {
+				exportElementRecursiveUp(type, xmlDoc);
+			}
 		}
 		
 		if(element instanceof Package) {
@@ -282,7 +292,6 @@ public class ExportXmlSysml {
 		String commonRelationshipType = null;		
 		
 		//Use SysMLProfile.is<SysmlElementName> to check types for sysml elements 
-		
 		if(element instanceof AcceptEventAction) {
 			commonElementType = SysmlConstants.ACCEPTEVENTACTION;
 			CameoUtils.logGUI("Exporting Accept Event Action");
@@ -461,6 +470,8 @@ public class ExportXmlSysml {
 		} else if(element instanceof InitialNode) {
 			commonElementType = SysmlConstants.INITIALNODE;
 			CameoUtils.logGUI("Exporting Initial Node");
+		} else if(element instanceof InterruptibleActivityRegion) {
+			commonElementType = SysmlConstants.INTERRUPTIBLEACTIVITYREGION;
 		} else if(element instanceof Pseudostate) {
 			commonElementType = CameoUtils.getPseudoState(element);
 			CameoUtils.logGUI("Exporting Pseudo State of type " + commonElementType);			

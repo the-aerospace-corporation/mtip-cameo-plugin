@@ -12,6 +12,7 @@ import java.util.Map;
 import org.aero.huddle.XML.Export.ExportXmlSysml;
 import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ExportLog;
 import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XMLItem;
@@ -353,7 +354,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		}
 		
 		for(PresentationElement subPresentationElement : presentationElement.getPresentationElements()) {
-			writeElement(xmlDoc, elementListTag, relationshipListTag, subPresentationElement, presentationElement);
+			if(!(subPresentationElement instanceof com.nomagic.magicdraw.uml.symbols.shapes.RoleView)) {
+				writeElement(xmlDoc, elementListTag, relationshipListTag, subPresentationElement, presentationElement);
+			}
+			
 		}
 	}
 	
@@ -379,6 +383,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				// Check whether the actual element is relationship (could be hybrid type), and filter it out from the diagram explicit list
 //				if (!(curElement instanceof Relationship) && !(curElement instanceof Connector) && !(curElement instanceof ActivityEdge) && !(curElement instanceof Transition)) {
 				if(!this.diagramElementIDs.contains(curElement.getLocalID())) {
+					ExportLog.log("Adding presentation element of type " + presentationElement.getClass().toString() + " to diagram.");
 					diagramElementIDs.add(curElement.getLocalID());
 				
 					String curID = curElement.getID();

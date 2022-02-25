@@ -21,10 +21,11 @@ import org.aero.huddle.ModelElements.CommonRelationship;
 import org.aero.huddle.ModelElements.CommonRelationshipsFactory;
 import org.aero.huddle.ModelElements.ModelDiagram;
 import org.aero.huddle.ModelElements.Matrix.AbstractMatrix;
-import org.aero.huddle.ModelElements.Profile.Customization;
+import org.aero.huddle.ModelElements.Profile.RelationshipConstraint;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
+import org.aero.huddle.util.TaggedValue;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.apache.commons.collections.MapUtils;
@@ -471,6 +472,7 @@ public class ImportXmlSysml {
 					pluginCreatedIDs.put(GUID, "");
 					parentMap.put(id, GUID);
 					addStereotypes(newElement, modelElement);
+					element.addStereotypeTaggedValues(modelElement);
 					
 					element.addDependentElements(parsedXML, modelElement);
 					return newElement;
@@ -538,6 +540,9 @@ public class ImportXmlSysml {
 						if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())) {
 							modelElements.put(modelElement.getEAID(),  modelElement);
 							if(modelElement.getType().contentEquals("Stereotype")) {
+								stereotypesXML.put(modelElement.getEAID(), modelElement);
+							}
+							if(modelElement.getType().contentEquals(SysmlConstants.PROPERTY) && completeXML.get(modelElement.getParent()).getType().contentEquals(SysmlConstants.STEREOTYPE)) {
 								stereotypesXML.put(modelElement.getEAID(), modelElement);
 							}
 						} else {
@@ -1042,7 +1047,7 @@ public class ImportXmlSysml {
 		return null;
 	}
 	
-	public static Node getDirectChildByKey(Node parent, String name, String key) {
+	public static Node getDirectChildByKey(Node parent, String key) {
 		NodeList childNodes = parent.getChildNodes();
 		for(int k = 0; k < childNodes.getLength(); k++) {
 			Node childNode = childNodes.item(k);
@@ -1064,20 +1069,33 @@ public class ImportXmlSysml {
 				String attributeType = ((org.w3c.dom.Element)attribute).getAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE);
 				if(attributeKey.contentEquals(XmlTagConstants.STEREOTYPE_TAG)) {
 					try {
-						// Add getSubAttribute to these.
-						String stereotypeName = getSubAttribute(getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME)).getTextContent();
+						String stereotypeName = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME).getTextContent();
 //						String stereotypeID = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID).getTextContent();
-						String profileName = getSubAttribute(getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME)).getTextContent();
+						String profileName = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME).getTextContent();
 //						String profileID = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID).getTextContent();
 						modelElement.addStereotype(stereotypeName, profileName);
 					} catch (NullPointerException npe) {
 						ImportLog.log("Error parsing stereotype name or profile name from HUDS XML for element: " + modelElement.getEAID());
 					}
+				} else if(attributeKey.contentEquals(XmlTagConstants.STEREOTYPE_TAGGED_VALUE)) {
+					CameoUtils.logGUI("Parsing stereotype tagged value attribute.");
+					try {
+						String stereotypeName = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME).getTextContent();
+						String profileName = getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME).getTextContent();
+						String taggedValueName = getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_NAME).getTextContent();
+						String taggedValueType = getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_TYPE).getTextContent();
+						String value = getDirectChildByKey(attribute, XmlTagConstants.VALUE).getTextContent();
+						TaggedValue tv = new TaggedValue(stereotypeName, profileName, taggedValueName, taggedValueType, value);
+						modelElement.addStereotypeTaggedValue(tv);
+						CameoUtils.logGUI("Added tagged value data from XML.");
+					} catch (NullPointerException npe) {
+						ImportLog.log("Error parsing stereotype tagged value from HUDS XML for element: " + modelElement.getEAID());
+					}
 					
 				} else if (attributeKey.contentEquals("relationshipStereotype")) {
 					org.w3c.dom.Element attributeElement = (org.w3c.dom.Element)attribute;
 					modelElement.addRelationshipStereotype(attributeElement.getAttribute("profile"), attribute.getTextContent());
-					modelElement.addAttribute(Customization.CUSTOMIZATION_TARGET_XML_ID, attributeElement.getAttribute("id"));
+					modelElement.addAttribute(RelationshipConstraint.CUSTOMIZATION_TARGET_XML_ID, attributeElement.getAttribute("id"));
 				} else if(attributeType.contentEquals(XmlTagConstants.ATTRIBUTE_TYPE_LIST)) {
 					// Add logic to parse list attributes into a dict of lists in XMLItem
 					try {

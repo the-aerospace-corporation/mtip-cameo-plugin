@@ -14,6 +14,8 @@ import org.aero.huddle.XML.Import.ImportXmlSysml;
 import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.ExportLog;
 import org.aero.huddle.util.ImportLog;
+import org.aero.huddle.util.SysmlConstants;
+import org.aero.huddle.util.TaggedValue;
 import org.aero.huddle.util.XMLItem;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -25,9 +27,9 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
@@ -35,6 +37,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
@@ -74,22 +78,27 @@ public abstract class CommonElement {
 		if(this.creationType.contentEquals(XmlTagConstants.CLASS_WITH_STEREOTYPE)) {
 			createClassWithStereotype(project, this.creationStereotype, owner);
 		}
+		setName();
+		setOwner(project, owner);
+		addInitialStereotype();
+		setClassifier();
+		applyClassifier();
 		addDocumentation(xmlElement);
 		addMultiplicity(xmlElement);
 		addType(xmlElement);
 		
 		return sysmlElement;
 	}
-		
-	protected Element createElementByElementFactory(Project project, Element owner, XMLItem xmlElement) {
-		this.project = project;
+	
+	protected String setName() {
 		if(sysmlElement instanceof NamedElement) {
 			((NamedElement)sysmlElement).setName(name);
 		}
-		setOwner(project, owner);
-		addStereotype();
-		setClassifier();
-		applyClassifier();
+		return name;
+	}
+		
+	protected Element createElementByElementFactory(Project project, Element owner, XMLItem xmlElement) {
+		this.project = project;		
 		return sysmlElement;
 	}
 	
@@ -140,6 +149,8 @@ public abstract class CommonElement {
 		for(Stereotype stereotype : stereotypes) {
 			org.w3c.dom.Element attributeStereotypeTag = createStereotype(xmlDoc, stereotype);
 			attributes.appendChild(attributeStereotypeTag);
+			
+			createStereotypeAttributes(xmlDoc, project, element, stereotype, attributes);
 		}
 		String documentation = ModelHelper.getComment(element).replaceAll("\\<.*?>","").replace("p {padding:0px; margin:0px;}", "").trim();
 		if(!documentation.isEmpty()) {
@@ -180,23 +191,142 @@ public abstract class CommonElement {
 		return data;
 	}
 	
+	public void createStereotypeAttributes(Document xmlDoc, Project project, Element element, Stereotype stereotype, org.w3c.dom.Element attributes) {
+		List<Property> properties = StereotypesHelper.getPropertiesWithDerivedOrdered(stereotype);
+		for(Property property : properties) {
+			Slot slot = StereotypesHelper.getSlot(element, stereotype, property, false, false);
+			if(slot != null) {
+				List<ValueSpecification> vss = slot.getValue();
+				if(vss != null && (!vss.isEmpty())) {
+					ValueSpecification vs = vss.get(0);
+					String valueType = getValueSpecificationValueType(vs);
+					String slotValue = getSlotValueAsString(vs);
+					if(valueType != null && slotValue != null) {
+						ExportLog.log("Creating tagged value block for element " + element.getLocalID() + " with type " + valueType + " and value " + slotValue);
+						org.w3c.dom.Element stereotypeAttributeTag = createStereotypeAttributeTag(xmlDoc, stereotype.getName(), StereotypesHelper.getProfileForStereotype(stereotype).getName(), property.getName(), valueType, slotValue);
+						attributes.appendChild(stereotypeAttributeTag);
+					} else {
+						ExportLog.log("Value type or slot value null. Value specification may not be string, real, int, bool, or opaque expression.");
+					}
+				} else {
+					// null valuespecification list from slot
+				}
+			}
+		}
+	}
+	
+	@CheckForNull
+	public String getValueSpecificationValueType(ValueSpecification vs) {
+		if(vs instanceof LiteralString) {
+			return SysmlConstants.STRING;
+		} else if(vs instanceof LiteralReal) {
+			return SysmlConstants.REAL;
+		} else if(vs instanceof LiteralInteger) {
+			return SysmlConstants.INTEGER;
+		} else if(vs instanceof LiteralBoolean) {
+			return SysmlConstants.BOOLEAN;
+		} else if(vs instanceof ElementValue) {
+			return SysmlConstants.ELEMENT;
+//		} else if(vs instanceof OpaqueExpression) {
+//			return SysmlConstants.OPAQUEEXPRESSION;
+		} else {
+			String message = "Value specification with id " + vs.getLocalID() + " was not string, real, int, or bool.";
+			ExportLog.log(message);
+			CameoUtils.logGUI(message);
+		}
+		return null;
+	}
+	
+	@CheckForNull
+	public String getSlotValueAsString(ValueSpecification vs) {
+		String strVal = null;
+		if(vs instanceof LiteralString) {
+			LiteralString ls = (LiteralString)vs;
+			strVal = ls.getValue();
+		} else if(vs instanceof LiteralReal) {
+			LiteralReal lr = (LiteralReal)vs;
+			double value = lr.getValue();
+			strVal = String.valueOf(value);
+		} else if(vs instanceof LiteralInteger) {
+			LiteralInteger lr = (LiteralInteger)vs;
+			int value = lr.getValue();
+			strVal = String.valueOf(value);
+		} else if(vs instanceof LiteralBoolean) {
+			LiteralBoolean lr = (LiteralBoolean)vs;
+			boolean value = lr.isValue();
+			strVal = String.valueOf(value);
+		} else if(vs instanceof ElementValue) {
+			ElementValue ev = (ElementValue)vs;
+			strVal = ev.getElement().getLocalID();
+		} else if(vs instanceof OpaqueExpression) {
+			OpaqueExpression oe = (OpaqueExpression)vs;
+			List<String> bodies= oe.getBody();
+			Iterator<String> bodyIter = bodies.iterator();
+			if(bodyIter.hasNext()) {
+				strVal = bodyIter.next();
+			}
+		} else {
+			String message = "Value specification with id " + vs.getLocalID() + " was not string, real, int, bool, or opaque expression.";
+			ExportLog.log(message);
+			CameoUtils.logGUI(message);
+		}
+		return strVal;
+	}
+	
+	public org.w3c.dom.Element createStereotypeAttributeTag(Document xmlDoc, String stereotypeName, String profileName, String propertyName, String valueType, String value) {
+		org.w3c.dom.Element attribute = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		attribute.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		attribute.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.STEREOTYPE_TAGGED_VALUE);
+		
+		org.w3c.dom.Element stereotypeNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		stereotypeNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		stereotypeNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME);
+		stereotypeNameTag.appendChild(xmlDoc.createTextNode(stereotypeName));
+		attribute.appendChild(stereotypeNameTag);
+		
+		org.w3c.dom.Element profileNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		profileNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		profileNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME);
+		profileNameTag.appendChild(xmlDoc.createTextNode(profileName));		
+		
+		org.w3c.dom.Element taggedValueNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		taggedValueNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		taggedValueNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_NAME);
+		taggedValueNameTag.appendChild(xmlDoc.createTextNode(propertyName));
+		
+		org.w3c.dom.Element taggedValueTypeTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		taggedValueTypeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		taggedValueTypeTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_TYPE);
+		taggedValueTypeTag.appendChild(xmlDoc.createTextNode(valueType));
+		
+		org.w3c.dom.Element taggedValueValueTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		taggedValueValueTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		taggedValueValueTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_VALUE);
+		taggedValueValueTag.appendChild(xmlDoc.createTextNode(value));
+		
+		attribute.appendChild(stereotypeNameTag);
+		attribute.appendChild(profileNameTag);
+		attribute.appendChild(taggedValueNameTag);
+		attribute.appendChild(taggedValueTypeTag);
+		attribute.appendChild(taggedValueValueTag);
+		
+		return attribute;		
+	}
+	
 	public Element createClassWithStereotype(Project project, Stereotype stereotype, Element owner) {
 		sysmlElement = project.getElementsFactory().createClassInstance();
 		if (stereotype != null) {
 			StereotypesHelper.addStereotype(sysmlElement, stereotype);
 		}
 		
-		setOwner(project, owner);
-		if(sysmlElement instanceof NamedElement) {
-			((NamedElement)sysmlElement).setName(name);
-		}
-
 		return sysmlElement;
 	}
 	public Element createClassWithStereotype(Project project, String name, Stereotype stereotype, Element owner) {
-		Class sysmlElement = project.getElementsFactory().createClassInstance();
-		setOwner(project, sysmlElement);
-		sysmlElement.setName(name);
+		sysmlElement = project.getElementsFactory().createClassInstance();
+	
+		if(sysmlElement instanceof NamedElement) {
+			((NamedElement)sysmlElement).setName(name);
+		}
 		
 		if (stereotype != null) {
 			StereotypesHelper.addStereotype(sysmlElement, stereotype);
@@ -425,6 +555,16 @@ public abstract class CommonElement {
 		return tag;
 	}
 	
+	protected org.w3c.dom.Element createKeyValueAttribute(Document xmlDoc, String keyValue, String dataTypeValue, String attributeValue) {
+		org.w3c.dom.Element tag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		if(!(attributeValue == null)) {
+			tag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, dataTypeValue);
+			tag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, keyValue);
+			tag.appendChild(xmlDoc.createTextNode(attributeValue));
+		}
+		return tag;
+	}
+	
 	protected org.w3c.dom.Element createStringAttribute(Document xmlDoc, String keyValue, String attributeValue) {
 		return createAttribute(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_STRING, attributeValue);
 	}
@@ -456,6 +596,12 @@ public abstract class CommonElement {
 	protected org.w3c.dom.Element createDictRelationship(Document xmlDoc, String keyValue) {
 		return createRelationship(xmlDoc, keyValue, XmlTagConstants.ATTRIBUTE_TYPE_DICT, null);
 	}
+	
+	protected org.w3c.dom.Element createListRelationship(Document xmlDoc, String tagName) {
+		org.w3c.dom.Element tag = xmlDoc.createElement(tagName);
+		tag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_LIST);
+		return tag;
+	}
 
 	protected org.w3c.dom.Element createRelationship(Document xmlDoc, String keyValue, String dataTypeValue, String attributeValue) {
 		org.w3c.dom.Element tag = xmlDoc.createElement(XmlTagConstants.DIAGRAM_CONNECTOR);
@@ -484,10 +630,10 @@ public abstract class CommonElement {
 			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package profile = StereotypesHelper.getProfileForStereotype(stereotype);
 			
 			org.w3c.dom.Element stereotypeAttribute = createDictAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE);
-			org.w3c.dom.Element stereotypeNameAttribute = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME, stereotype.getName());
-			org.w3c.dom.Element stereotypeIdAttribute = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID, stereotype.getLocalID());
-			org.w3c.dom.Element profileNameAttribute = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME, profile.getName());
-			org.w3c.dom.Element profileIdAttribute = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID, profile.getLocalID());
+			org.w3c.dom.Element stereotypeNameAttribute = createKeyValueAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, stereotype.getName());
+			org.w3c.dom.Element stereotypeIdAttribute = createKeyValueAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, stereotype.getLocalID());
+			org.w3c.dom.Element profileNameAttribute = createKeyValueAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, profile.getName());
+			org.w3c.dom.Element profileIdAttribute = createKeyValueAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, profile.getLocalID());
 			
 			stereotypeAttribute.appendChild(stereotypeNameAttribute);
 			stereotypeAttribute.appendChild(stereotypeIdAttribute);
@@ -534,6 +680,28 @@ public abstract class CommonElement {
 		
 		return relationships;
 	}
+	protected org.w3c.dom.Element createListRel(Document xmlDoc, Element element, String xmlTag, String index) {
+		org.w3c.dom.Element hasRel = xmlDoc.createElement(xmlTag);
+		hasRel.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, index);
+		hasRel.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		
+		org.w3c.dom.Element type = xmlDoc.createElement(XmlTagConstants.TYPE);
+		type.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		String typeStr = ExportXmlSysml.getElementType(element);
+		type.appendChild(xmlDoc.createTextNode("sysml." + typeStr));
+		
+		org.w3c.dom.Element value = xmlDoc.createElement(XmlTagConstants.ID);
+		value.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		value.appendChild(xmlDoc.createTextNode(element.getLocalID()));
+		
+		org.w3c.dom.Element relDataTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_METADATA);
+		relDataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		
+		hasRel.appendChild(type);
+		hasRel.appendChild(value);
+		hasRel.appendChild(relDataTag);
+		return hasRel;
+	}
 
 	protected org.w3c.dom.Element createRel(Document xmlDoc, Element element, String xmlTag) {
 		org.w3c.dom.Element hasRel = xmlDoc.createElement(xmlTag);
@@ -576,7 +744,7 @@ public abstract class CommonElement {
 		return hasRel;
 	}
 	
-	protected void addStereotype() {
+	protected void addInitialStereotype() {
 		if(initialStereotypes != null) {
 			for(Stereotype stereotype : initialStereotypes) {
 				if(stereotype != null) {
@@ -632,6 +800,10 @@ public abstract class CommonElement {
 			boolean value = lr.isValue();
 			String strVal = String.valueOf(value);
 			strAttr = createBoolAttribute(xmlDoc, attrName, strVal);
+		} else if(vs instanceof ElementValue) {
+			ElementValue ev = (ElementValue)vs;
+			String strVal = ev.getElement().getLocalID();
+			strAttr = createStringAttribute(xmlDoc, attrName, strVal);
 		} else if(vs instanceof OpaqueExpression) {
 			OpaqueExpression oe = (OpaqueExpression)vs;
 			List<String> bodies= oe.getBody();
@@ -673,5 +845,60 @@ public abstract class CommonElement {
 		}
 		
 		return typedByTag;
+	}
+	
+	public void addStereotypeTaggedValues(XMLItem xmlElement) {
+		CameoUtils.logGUI("Adding " + xmlElement.getTaggedValues().size() + " tagged values to element with id " + xmlElement.getEAID());
+		for(TaggedValue tv : xmlElement.getTaggedValues()) {
+			try {
+				CameoUtils.logGUI(tv.toString());
+				Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), tv.getProfileName());
+				Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), tv.getStereotypeName(), profile);
+				Property prop = StereotypesHelper.getPropertyByName(stereotype, tv.getValueName());
+				Slot slot = StereotypesHelper.getSlot(sysmlElement, prop, true, false);
+				ValueSpecification value = updateValue(tv.getValueType(), tv.getValue());
+				if(value != null) {
+					slot.getValue().add(value);
+				}
+				CameoUtils.logGUI("Set slot value of " + tv.getValueName() + " to " + tv.getValue() + ".");
+			} catch (NullPointerException npe) {
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				npe.printStackTrace(pw);
+				String sStackTrace = sw.toString();
+				ImportLog.log("Unable to add stereotype tagged value to element." + sStackTrace);
+			}
+		}
+	}
+	
+	protected ValueSpecification updateValue(String valueType, String value) {
+		if(valueType.contentEquals(SysmlConstants.STRING)) {
+			LiteralString ls = f.createLiteralStringInstance();
+			ls.setValue(value);
+			return ls;
+		} else if(valueType.contentEquals(SysmlConstants.REAL)) {
+			LiteralReal lr = f.createLiteralRealInstance();
+			lr.setValue(Double.parseDouble(value));
+			return lr;
+		} else if(valueType.contentEquals(SysmlConstants.INTEGER)) {
+			LiteralInteger li = f.createLiteralIntegerInstance();
+			li.setValue(Integer.parseInt(value));
+			return li;
+		} else if(valueType.contentEquals(SysmlConstants.BOOLEAN)) {
+			LiteralBoolean lb = f.createLiteralBooleanInstance();
+			lb.setValue(Boolean.parseBoolean(value));
+			return lb;
+		} else if(valueType.contentEquals(SysmlConstants.ELEMENT)) {
+			// Add checker to create dependent elements of common element 
+			ElementValue ev = f.createElementValueInstance();
+			ev.setElement((Element) ImportXmlSysml.getProject().getElementByID(ImportXmlSysml.idConversion(value)));
+			return ev;
+		} else if(valueType.contentEquals(XmlTagConstants.OPAQUEEXPRESSION)) {
+			OpaqueExpression oe = f.createOpaqueExpressionInstance();
+			List<String> bodies= oe.getBody();
+			bodies.add(value);
+			return oe;
+		}
+		return null;
 	}
 }

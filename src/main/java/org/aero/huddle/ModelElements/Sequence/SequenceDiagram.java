@@ -11,6 +11,7 @@ import javax.annotation.CheckForNull;
 
 import org.aero.huddle.ModelElements.AbstractDiagram;
 import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.ImportLog;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -65,10 +66,15 @@ public class SequenceDiagram  extends AbstractDiagram{
 				
 				if(relationship instanceof Message) {
 					Message message = (Message)relationship;
-					ShapeElement clientSE = shapeElements.get(client.getLocalID());
-					ShapeElement supplierSE = shapeElements.get(client.getLocalID());
-					PresentationElementsManager.getInstance().createSequenceMessage(message, ((Message)message).getMessageSort(), supplierSE, clientSE, false, 0, previousMessage, 25);
-					previousMessage = message;
+					if(clientPE != null && supplierPE != null) {
+						ShapeElement clientSE = shapeElements.get(client.getLocalID());
+						ShapeElement supplierSE = shapeElements.get(supplier.getLocalID());
+						PresentationElementsManager.getInstance().createSequenceMessage(message, ((Message)message).getMessageSort(), supplierSE, clientSE, false, 0, previousMessage, 25);
+						previousMessage = message;
+					} else {
+						ImportLog.log("Client or supplier presentation element for message " + relationship.getLocalID() + " was not creatd.");
+					}
+					
 				} else {
 					PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
 				}

@@ -36,6 +36,10 @@ public class XmlTagConstants
 	public static final String DIAGRAM_PARENT = "diagramParent";
 	public static final String RELATIONSHIP_PROPERTY = "property";
 	public static final String BEHAVIOR = "behavior";
+	public static final String STEREOTYPE_TAGGED_VALUE = "stereotypeTaggedValue";
+	public static final String TAGGED_VALUE_NAME = "taggedValueName";
+	public static final String TAGGED_VALUE_TYPE = "taggedValueType";
+	public static final String TAGGED_VALUE_VALUE = "value";
 	
 	// XML Tag Attributes
 	public static final String ATTRIBUTE_NAME = "name";
@@ -120,7 +124,7 @@ public class XmlTagConstants
 	public static final String CONSTRAINTPARAMETER = "sysml.ConstraintParameter";
 	public static final String CONSTRAINTPROPERTY = "sysml.ConstraintProperty";
 	public static final String CREATEOBJECTACTION = "sysml.CreateObjectAction";
-	public static final String CUSTOMIZATION = "profile.RelationshipConstraint";
+	public static final String CUSTOMIZATION = "cameo.Customization";
 	public static final String DATASTORENODE = "sysml.DataStoreNode";
 	public static final String DECISIONNODE = "sysml.DecisionNode";
 	public static final String DEEPHISTORY = "sysml.DeepHistory";
@@ -157,6 +161,7 @@ public class XmlTagConstants
 	public static final String INTERFACE = "sysml.Interface";
 	public static final String INTERFACEBLOCK = "sysml.InterfaceBlock";
 	public static final String INTERFACEREQUIREMENT = "sysml.InterfaceRequirement";
+	public static final String INTERRUPTIBLEACTIVITYREGION = "sysml.InterruptibleActivityRegion";
 	public static final String JOIN = "sysml.Join";
 	public static final String JOINNODE = "sysml.JoinNode";
 	public static final String LIFELINE = "sysml.Lifeline";

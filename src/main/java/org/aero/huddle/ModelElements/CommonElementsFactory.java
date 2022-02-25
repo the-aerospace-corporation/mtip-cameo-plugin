@@ -20,6 +20,7 @@ import org.aero.huddle.ModelElements.Activity.FlowFinalNode;
 import org.aero.huddle.ModelElements.Activity.ForkNode;
 import org.aero.huddle.ModelElements.Activity.InitialNode;
 import org.aero.huddle.ModelElements.Activity.InputPin;
+import org.aero.huddle.ModelElements.Activity.InterruptibleActivityRegion;
 import org.aero.huddle.ModelElements.Activity.JoinNode;
 import org.aero.huddle.ModelElements.Activity.LoopNode;
 import org.aero.huddle.ModelElements.Activity.MergeNode;
@@ -337,6 +338,9 @@ public class CommonElementsFactory {
 				break;
 			case "InterfaceRequirement":
 				element = new InterfaceRequirement(name, EAID);
+				break;
+			case SysmlConstants.INTERRUPTIBLEACTIVITYREGION:
+				element = new InterruptibleActivityRegion(name, EAID);
 				break;
 			case SysmlConstants.ITEMFLOW:
 				element = new ItemFlow(name, EAID);

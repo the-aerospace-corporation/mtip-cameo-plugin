@@ -37,7 +37,7 @@ public class SysmlConstants {
 	public static final String CONSTRAINTPARAMETER = "ConstraintParameter";
 	public static final String CONSTRAINTPROPERTY = "ConstraintProperty";
 	public static final String CREATEOBJECTACTION = "CreateObjectAction";
-	public static final String CUSTOMIZATION = "RelationshipConstraint";
+	public static final String CUSTOMIZATION = "Customization";
 	public static final String DATASTORENODE = "DataStoreNode";
 	public static final String DECISIONNODE = "DecisionNode";
 	public static final String DEEPHISTORY = "DeepHistory";
@@ -75,6 +75,7 @@ public class SysmlConstants {
 	public static final String INTERFACEBLOCK = "InterfaceBlock";
 	public static final String INTERFACEREALIZATION = "InterfaceRealization";
 	public static final String INTERFACEREQUIREMENT = "InterfaceRequirement";
+	public static final String INTERRUPTIBLEACTIVITYREGION = "InterruptibleActivityRegion";
 	public static final String JOIN = "Join";
 	public static final String JOINNODE = "JoinNode";
 	public static final String LIFELINE = "Lifeline";
@@ -276,6 +277,7 @@ public class SysmlConstants {
 			INTERACTIONUSE,
 			INTERFACEBLOCK,
 			INTERFACEREQUIREMENT,
+			INTERRUPTIBLEACTIVITYREGION,
 			JOIN,
 			JOINNODE,
 			LIFELINE,
@@ -355,6 +357,7 @@ public class SysmlConstants {
 			EXTENSION,
 			GENERALIZATION,
 			INCLUDE,
+			INFORMATIONFLOW,
 			ITEMFLOW,
 			OBJECTFLOW,
 			REFINE,
