@@ -287,6 +287,16 @@ public class XmlTagConstants
 	public static final String PROFILEDIAGRAM = "sysml.ProfileDiagram";
 	public static final String CLASSDIAGRAM = "sysml.ClassDiagram";
 	
+	//UAF Element text for XML type tag
+		// Strategic
+	public static final String CAPABILITY = "uaf.Capability";
+	
+	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
+	
+	//UAF Diagram text for XML type tag
+	public static final String STRATEGIC_TAXONOMY = "uaf.StrategicTaxonomy";
+	
+	
 	//XML Tags
 	public static final String CLIENT_ID = "client_id";
 	public static final String SUPPLIER_ID = "supplier_id";

@@ -1,6 +1,7 @@
 /* The Aerospace Corporation MTIP_Cameo
 Copyright 2022 The Aerospace Corporation
 
+<<<<<<< HEAD:src/main/java/org/aero/mtip/ModelElements/CommonElementsFactory.java
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
@@ -149,6 +150,151 @@ import org.aero.mtip.ModelElements.View.View;
 import org.aero.mtip.ModelElements.View.Viewpoint;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
+=======
+import org.aero.huddle.ModelElements.Activity.AcceptEventAction;
+import org.aero.huddle.ModelElements.Activity.Action;
+import org.aero.huddle.ModelElements.Activity.Activity;
+import org.aero.huddle.ModelElements.Activity.ActivityDiagram;
+import org.aero.huddle.ModelElements.Activity.ActivityFinalNode;
+import org.aero.huddle.ModelElements.Activity.ActivityParameterNode;
+import org.aero.huddle.ModelElements.Activity.ActivityPartition;
+import org.aero.huddle.ModelElements.Activity.CallBehaviorAction;
+import org.aero.huddle.ModelElements.Activity.CallOperationAction;
+import org.aero.huddle.ModelElements.Activity.CentralBufferNode;
+import org.aero.huddle.ModelElements.Activity.ChangeEvent;
+import org.aero.huddle.ModelElements.Activity.ConditionalNode;
+import org.aero.huddle.ModelElements.Activity.CreateObjectAction;
+import org.aero.huddle.ModelElements.Activity.DataStoreNode;
+import org.aero.huddle.ModelElements.Activity.DecisionNode;
+import org.aero.huddle.ModelElements.Activity.DestroyObjectAction;
+import org.aero.huddle.ModelElements.Activity.FlowFinalNode;
+import org.aero.huddle.ModelElements.Activity.ForkNode;
+import org.aero.huddle.ModelElements.Activity.InitialNode;
+import org.aero.huddle.ModelElements.Activity.InputPin;
+import org.aero.huddle.ModelElements.Activity.InterruptibleActivityRegion;
+import org.aero.huddle.ModelElements.Activity.JoinNode;
+import org.aero.huddle.ModelElements.Activity.LoopNode;
+import org.aero.huddle.ModelElements.Activity.MergeNode;
+import org.aero.huddle.ModelElements.Activity.OpaqueAction;
+import org.aero.huddle.ModelElements.Activity.OutputPin;
+import org.aero.huddle.ModelElements.Activity.SendSignalAction;
+import org.aero.huddle.ModelElements.Activity.TimeEvent;
+import org.aero.huddle.ModelElements.Activity.TimeExpression;
+import org.aero.huddle.ModelElements.Block.AssociationBlock;
+import org.aero.huddle.ModelElements.Block.Block;
+import org.aero.huddle.ModelElements.Block.BlockDefinitionDiagram;
+import org.aero.huddle.ModelElements.Block.ConstraintBlock;
+import org.aero.huddle.ModelElements.Block.Domain;
+import org.aero.huddle.ModelElements.Block.Enumeration;
+import org.aero.huddle.ModelElements.Block.External;
+import org.aero.huddle.ModelElements.Block.FlowPort;
+import org.aero.huddle.ModelElements.Block.FlowSpecification;
+import org.aero.huddle.ModelElements.Block.FullPort;
+import org.aero.huddle.ModelElements.Block.InformationItem;
+import org.aero.huddle.ModelElements.Block.InstanceSpecification;
+import org.aero.huddle.ModelElements.Block.Interface;
+import org.aero.huddle.ModelElements.Block.InterfaceBlock;
+import org.aero.huddle.ModelElements.Block.InterfaceRealization;
+import org.aero.huddle.ModelElements.Block.Note;
+import org.aero.huddle.ModelElements.Block.Operation;
+import org.aero.huddle.ModelElements.Block.PartProperty;
+import org.aero.huddle.ModelElements.Block.Port;
+import org.aero.huddle.ModelElements.Block.ProxyPort;
+import org.aero.huddle.ModelElements.Block.QuantityKind;
+import org.aero.huddle.ModelElements.Block.Signal;
+import org.aero.huddle.ModelElements.Block.Slot;
+import org.aero.huddle.ModelElements.Block.Subsystem;
+import org.aero.huddle.ModelElements.Block.System;
+import org.aero.huddle.ModelElements.Block.SystemContext;
+import org.aero.huddle.ModelElements.Block.Unit;
+import org.aero.huddle.ModelElements.Block.ValueProperty;
+import org.aero.huddle.ModelElements.Block.ValueType;
+import org.aero.huddle.ModelElements.InternalBlock.BoundReference;
+import org.aero.huddle.ModelElements.InternalBlock.ClassifierBehaviorProperty;
+import org.aero.huddle.ModelElements.InternalBlock.ConstraintParameter;
+import org.aero.huddle.ModelElements.InternalBlock.ConstraintProperty;
+import org.aero.huddle.ModelElements.InternalBlock.FlowProperty;
+import org.aero.huddle.ModelElements.InternalBlock.InternalBlockDiagram;
+import org.aero.huddle.ModelElements.InternalBlock.ItemFlow;
+import org.aero.huddle.ModelElements.InternalBlock.ParticipantProperty;
+import org.aero.huddle.ModelElements.InternalBlock.ReferenceProperty;
+import org.aero.huddle.ModelElements.InternalBlock.RequiredInterface;
+import org.aero.huddle.ModelElements.Matrix.AllocationMatrix;
+import org.aero.huddle.ModelElements.Matrix.DependencyMatrix;
+import org.aero.huddle.ModelElements.Matrix.DeriveRequirementMatrix;
+import org.aero.huddle.ModelElements.Matrix.RefineRequirementMatrix;
+import org.aero.huddle.ModelElements.Matrix.SatisfyRequirementMatrix;
+import org.aero.huddle.ModelElements.Matrix.VerifyRequirementMatrix;
+import org.aero.huddle.ModelElements.Profile.Class;
+import org.aero.huddle.ModelElements.Profile.ClassDiagram;
+import org.aero.huddle.ModelElements.Profile.Constraint;
+import org.aero.huddle.ModelElements.Profile.Customization;
+import org.aero.huddle.ModelElements.Profile.MetaClass;
+import org.aero.huddle.ModelElements.Profile.OpaqueExpression;
+import org.aero.huddle.ModelElements.Profile.PackageDiagram;
+import org.aero.huddle.ModelElements.Profile.ParametricDiagram;
+import org.aero.huddle.ModelElements.Profile.Profile;
+import org.aero.huddle.ModelElements.Profile.ProfileDiagram;
+import org.aero.huddle.ModelElements.Profile.Stereotype;
+import org.aero.huddle.ModelElements.Requirements.DesignConstraint;
+import org.aero.huddle.ModelElements.Requirements.ExtendedRequirement;
+import org.aero.huddle.ModelElements.Requirements.FunctionalRequirement;
+import org.aero.huddle.ModelElements.Requirements.InterfaceRequirement;
+import org.aero.huddle.ModelElements.Requirements.PerformanceRequirement;
+import org.aero.huddle.ModelElements.Requirements.PhysicalRequirement;
+import org.aero.huddle.ModelElements.Requirements.Requirement;
+import org.aero.huddle.ModelElements.Requirements.RequirementsDiagram;
+import org.aero.huddle.ModelElements.Sequence.Collaboration;
+import org.aero.huddle.ModelElements.Sequence.CombinedFragment;
+import org.aero.huddle.ModelElements.Sequence.DestructionOccurrenceSpecification;
+import org.aero.huddle.ModelElements.Sequence.DurationConstraint;
+import org.aero.huddle.ModelElements.Sequence.DurationObservation;
+import org.aero.huddle.ModelElements.Sequence.Interaction;
+import org.aero.huddle.ModelElements.Sequence.InteractionOperand;
+import org.aero.huddle.ModelElements.Sequence.InteractionUse;
+import org.aero.huddle.ModelElements.Sequence.Lifeline;
+import org.aero.huddle.ModelElements.Sequence.Message;
+import org.aero.huddle.ModelElements.Sequence.MessageOccurrenceSpecification;
+import org.aero.huddle.ModelElements.Sequence.Property;
+import org.aero.huddle.ModelElements.Sequence.SequenceDiagram;
+import org.aero.huddle.ModelElements.Sequence.StateInvariant;
+import org.aero.huddle.ModelElements.Sequence.TimeConstraint;
+import org.aero.huddle.ModelElements.Sequence.TimeObservation;
+import org.aero.huddle.ModelElements.StateMachine.ChoicePseudoState;
+import org.aero.huddle.ModelElements.StateMachine.ConnectionPointReference;
+import org.aero.huddle.ModelElements.StateMachine.DeepHistory;
+import org.aero.huddle.ModelElements.StateMachine.EntryPoint;
+import org.aero.huddle.ModelElements.StateMachine.ExitPoint;
+import org.aero.huddle.ModelElements.StateMachine.FinalState;
+import org.aero.huddle.ModelElements.StateMachine.Fork;
+import org.aero.huddle.ModelElements.StateMachine.FunctionBehavior;
+import org.aero.huddle.ModelElements.StateMachine.InitialPseudoState;
+import org.aero.huddle.ModelElements.StateMachine.Join;
+import org.aero.huddle.ModelElements.StateMachine.OpaqueBehavior;
+import org.aero.huddle.ModelElements.StateMachine.Region;
+import org.aero.huddle.ModelElements.StateMachine.ShallowHistory;
+import org.aero.huddle.ModelElements.StateMachine.SignalEvent;
+import org.aero.huddle.ModelElements.StateMachine.State;
+import org.aero.huddle.ModelElements.StateMachine.StateMachine;
+import org.aero.huddle.ModelElements.StateMachine.StateMachineDiagram;
+import org.aero.huddle.ModelElements.StateMachine.Terminate;
+import org.aero.huddle.ModelElements.StateMachine.Trigger;
+import org.aero.huddle.ModelElements.Table.GenericTable;
+import org.aero.huddle.ModelElements.Table.GlossaryTable;
+import org.aero.huddle.ModelElements.Table.InstanceTable;
+import org.aero.huddle.ModelElements.Table.MetricTable;
+import org.aero.huddle.ModelElements.Table.RequirementTable;
+import org.aero.huddle.ModelElements.UseCase.Actor;
+import org.aero.huddle.ModelElements.UseCase.ExtensionPoint;
+import org.aero.huddle.ModelElements.UseCase.UseCase;
+import org.aero.huddle.ModelElements.UseCase.UseCaseDiagram;
+import org.aero.huddle.util.CameoUtils;
+import org.aero.huddle.util.SysmlConstants;
+import org.aero.huddle.util.UAFConstants;
+
+import uaf.Strategic.Capability;
+import uaf.Strategic.StrategicTaxonomyPackage;
+>>>>>>> 798166d (Initial UAF Support with capability and strategic taxonomy package exports.):src/main/java/org/aero/huddle/ModelElements/CommonElementsFactory.java
 
 public class CommonElementsFactory {
 	public CommonElement createElement(String type, String name, String EAID) {
@@ -606,6 +752,14 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.VERIFY_REQUIREMENT_MATRIX:
 				element = new VerifyRequirementMatrix(name, EAID);
+				break;
+				
+			// UAF Elements ******************************************************************
+			case UAFConstants.CAPABILITY:
+				element = new Capability(name, EAID);
+				break;
+			case UAFConstants.STRATEGIC_TAXONOMY_PACKAGE:
+				element = new StrategicTaxonomyPackage(name, EAID);
 				break;
 			default:
 				break;
