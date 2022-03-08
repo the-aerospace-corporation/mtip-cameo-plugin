@@ -1,3 +1,9 @@
+/* The Aerospace Corporation Huddle_Cameo
+Copyright 2022 The Aerospace Corporation
+
+This product includes software developed at
+The Aerospace Corporation (http://www.aerospace.org/). */
+
 package org.aero.huddle.ModelElements;
 
 import java.util.Map;
@@ -13,11 +19,8 @@ import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 
 public abstract class CommonRelationship extends CommonElement {
 	protected Element supplier = null;
