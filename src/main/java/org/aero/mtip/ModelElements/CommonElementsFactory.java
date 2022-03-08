@@ -292,7 +292,9 @@ import org.aero.huddle.util.CameoUtils;
 import org.aero.huddle.util.SysmlConstants;
 import org.aero.huddle.util.UAFConstants;
 
+import uaf.Strategic.ActualEnterprisePhase;
 import uaf.Strategic.Capability;
+import uaf.Strategic.CapabilityProperty;
 import uaf.Strategic.StrategicTaxonomyPackage;
 >>>>>>> 798166d (Initial UAF Support with capability and strategic taxonomy package exports.):src/main/java/org/aero/huddle/ModelElements/CommonElementsFactory.java
 
@@ -755,8 +757,14 @@ public class CommonElementsFactory {
 				break;
 				
 			// UAF Elements ******************************************************************
+			case UAFConstants.ACTUAL_ENTERPRISE_PHASE:
+				element = new ActualEnterprisePhase(name, EAID);
+				break;
 			case UAFConstants.CAPABILITY:
 				element = new Capability(name, EAID);
+				break;
+			case UAFConstants.CAPABILITY_PROPERTY:
+				element = new CapabilityProperty(name, EAID);
 				break;
 			case UAFConstants.STRATEGIC_TAXONOMY_PACKAGE:
 				element = new StrategicTaxonomyPackage(name, EAID);

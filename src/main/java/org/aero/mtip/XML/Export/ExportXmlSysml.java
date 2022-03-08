@@ -392,9 +392,13 @@ public class ExportXmlSysml {
 	public static String getUAFElementType(Element element) {
 		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
 		
-		if(stereotypes.contains(UAFProfile.CAPABILITY_STEREOTYPE)) {
+		if(stereotypes.contains(UAFProfile.ACTUAL_ENTERPRISE_PHASE_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_ENTERPRISE_PHASE;
+		} else if(stereotypes.contains(UAFProfile.CAPABILITY_STEREOTYPE)) {
 			return UAFConstants.CAPABILITY;
-		} 
+		} else if(stereotypes.contains(UAFProfile.CAPABILITY_PROPERTY_STEREOTYPE)) {
+			return UAFConstants.CAPABILITY_PROPERTY;
+		}
 		
 		return null;
 	}
@@ -404,6 +408,7 @@ public class ExportXmlSysml {
 		
 		if(stereotypes.contains(UAFProfile.STRATEGIC_TAXONOMY_PACKAGE_STEREOTYPE)) {
 			return UAFConstants.STRATEGIC_TAXONOMY_PACKAGE;
+			
 		} else {
 			return SysmlConstants.PACKAGE;
 		}
