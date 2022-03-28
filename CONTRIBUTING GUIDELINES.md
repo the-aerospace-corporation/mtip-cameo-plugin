@@ -1,4 +1,4 @@
-## Contributing to Huddle – Cameo Plugin
+## Contributing to MTIP – Cameo Plugin
 We value your contributions and suggestions! We want to make contributing to this project as easy and transparent as possible, whether it's:
 -	Reporting a bug
 -	Discussing the current state of the code
