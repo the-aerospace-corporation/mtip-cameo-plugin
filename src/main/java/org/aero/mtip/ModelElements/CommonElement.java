@@ -36,6 +36,7 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
@@ -959,6 +960,50 @@ public abstract class CommonElement {
 			List<String> bodies= oe.getBody();
 			bodies.add(value);
 			return oe;
+		}
+		return null;
+	}
+	
+	public org.w3c.dom.Element createDefaultValueTag(Document xmlDoc, ValueSpecification vs, org.w3c.dom.Element attributes, org.w3c.dom.Element relationships) {
+		Object obj = ModelHelper.getValueSpecificationValue(vs);
+		Element instance = null;
+		
+		if(obj instanceof String) {
+			String defaultValue = (String)obj;
+			org.w3c.dom.Element defaultValueTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE, defaultValue);
+			attributes.appendChild(defaultValueTag);
+			return defaultValueTag;
+		}
+		
+		if(obj instanceof Boolean) {
+			boolean defaultValue = (boolean)obj;
+			org.w3c.dom.Element defaultValueTag = createBoolAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE, Boolean.toString(defaultValue));
+			attributes.appendChild(defaultValueTag);
+			return defaultValueTag;
+		}
+		
+		if(obj instanceof Integer) {
+			int defaultValue = (int)obj;
+			org.w3c.dom.Element defaultValueTag = createIntAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE, Integer.toString(defaultValue));
+			attributes.appendChild(defaultValueTag);
+			return defaultValueTag;
+		}
+		
+		if(obj instanceof Double) {
+			Double defaultValue = (Double)obj;
+			org.w3c.dom.Element defaultValueTag = createFloatAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE, Double.toString(defaultValue));
+			attributes.appendChild(defaultValueTag);
+			return defaultValueTag;
+		}
+		
+		if(vs instanceof InstanceValue) {
+			InstanceValue iv = (InstanceValue)vs;
+			instance = iv.getInstance();
+			if(instance != null) {
+				org.w3c.dom.Element defaultValueTag = createRel(xmlDoc, instance, XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE);
+				relationships.appendChild(defaultValueTag);
+				return defaultValueTag;
+			}
 		}
 		return null;
 	}

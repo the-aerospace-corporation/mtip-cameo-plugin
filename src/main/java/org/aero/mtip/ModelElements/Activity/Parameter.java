@@ -1,10 +1,4 @@
-/* The Aerospace Corporation MTIP_Cameo
-Copyright 2022 The Aerospace Corporation
-
-This product includes software developed at
-The Aerospace Corporation (http://www.aerospace.org/). */
-
-package org.aero.mtip.ModelElements.Sequence;
+package org.aero.mtip.ModelElements.Activity;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,53 +13,66 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ParameterDirectionKind;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ParameterDirectionKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.VisibilityKindEnum;
 
-public class Property extends CommonElement {
-
-	public Property(String name, String EAID) {
+public class Parameter extends CommonElement {
+	// Parameter Direction Kind Enumerations
+	public static final String IN = "in";
+	public static final String OUT = "out";
+	public static final String INOUT = "inout";
+	public static final String RETURN = "return";
+			
+	public Parameter(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.PROPERTY;
-		this.xmlConstant = XmlTagConstants.PROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.sysmlConstant = SysmlConstants.PARAMETER;
+		this.xmlConstant = XmlTagConstants.SYSML_PARAMETER;
+		this.sysmlElement = f.createParameterInstance();
 	}
-
-	@Override
+	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)sysmlElement;
+		
+		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
+			if(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION).contentEquals(IN)) {
+				parameter.setDirection(ParameterDirectionKindEnum.IN);
+			} else if(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION).contentEquals(OUT)) {
+				parameter.setDirection(ParameterDirectionKindEnum.OUT);
+			} else if(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION).contentEquals(INOUT)) {
+				parameter.setDirection(ParameterDirectionKindEnum.INOUT);
+			} else if(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION).contentEquals(RETURN)) {
+				parameter.setDirection(ParameterDirectionKindEnum.RETURN);
+			}
+		}
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE)) {
 			String defaultValue = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE);
 		
 			try {
-				if(property.getType() != null) {
+				if(parameter.getType() != null) {
 					if(xmlElement.getAttribute(XmlTagConstants.TYPED_BY).contentEquals(SysmlConstants.BOOLEAN)) {
 						boolean boolVal = Boolean.valueOf(defaultValue);
-						LiteralBoolean valueSpecification = (LiteralBoolean)ModelHelper.createValueSpecification(project, property.getType(), boolVal, null);
-						property.setDefaultValue(valueSpecification);
+						LiteralBoolean valueSpecification = (LiteralBoolean)ModelHelper.createValueSpecification(project, parameter.getType(), boolVal, null);
+						parameter.setDefaultValue(valueSpecification);
 					} else if (xmlElement.getAttribute(XmlTagConstants.TYPED_BY).contentEquals(SysmlConstants.INTEGER)) {
 						int intVal = Integer.parseInt(defaultValue);
-						ValueSpecification valueSpecification = ModelHelper.createValueSpecification(project, property.getType(), intVal, null);
-						property.setDefaultValue(valueSpecification);
+						ValueSpecification valueSpecification = ModelHelper.createValueSpecification(project, parameter.getType(), intVal, null);
+						parameter.setDefaultValue(valueSpecification);
 					} else if (xmlElement.getAttribute(XmlTagConstants.TYPED_BY).contentEquals(SysmlConstants.REAL)) {
 						double realVal = Double.parseDouble(defaultValue);
-						LiteralReal valueSpecification = (LiteralReal)ModelHelper.createValueSpecification(project, property.getType(), realVal, null);
+						LiteralReal valueSpecification = (LiteralReal)ModelHelper.createValueSpecification(project, parameter.getType(), realVal, null);
 						valueSpecification.setValue(realVal);
-						property.setDefaultValue(valueSpecification);
+						parameter.setDefaultValue(valueSpecification);
 					} else if(xmlElement.getAttribute(XmlTagConstants.TYPED_BY).contentEquals(SysmlConstants.STRING)) {
-						LiteralString valueSpecification = (LiteralString)ModelHelper.createValueSpecification(project, property.getType(), defaultValue, null);
-						property.setDefaultValue(valueSpecification);
+						LiteralString valueSpecification = (LiteralString)ModelHelper.createValueSpecification(project, parameter.getType(), defaultValue, null);
+						parameter.setDefaultValue(valueSpecification);
 					} else {
 						CameoUtils.logGUI("Primitive type not recognized: " + xmlElement.getAttribute(XmlTagConstants.TYPED_BY));
 					}
@@ -85,27 +92,24 @@ public class Property extends CommonElement {
 				ImportLog.log(stackTrace);
 			}
 		}
-		
-		if(owner instanceof Interface) {
-			((NamedElement)sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
-		}
-		((NamedElement) sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
-		
 		return sysmlElement;
 	}
 	
-	// Create Dependent Element default value if isElement()
 	
 	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		// Get default Value and write to attributes
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)element;
-		ValueSpecification vs = property.getDefaultValue();
-		createDefaultValueTag(xmlDoc, vs, attributes, relationships);
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)element;
+		ParameterDirectionKind dk = parameter.getDirection();
 		
+		org.w3c.dom.Element textTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_DIRECTION, dk.toString());
+		attributes.appendChild(textTag);	
+		
+		ValueSpecification vs = parameter.getDefaultValue();
+		createDefaultValueTag(xmlDoc, vs, attributes, relationships);
+
 		return data;
 	}
 }

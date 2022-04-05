@@ -238,6 +238,7 @@ public class XmlTagConstants
 	public static final String TRANSITION = "sysml.Transition";
 	public static final String USAGE = "sysml.Usage";
 	public static final String VERIFY = "sysml.Verify";
+	public static final String SYSML_PARAMETER = "sysml.Parameter";
 	
 	public static final String PARAMETER = "parameter";
 	

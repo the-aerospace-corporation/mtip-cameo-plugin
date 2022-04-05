@@ -32,6 +32,7 @@ import org.aero.mtip.ModelElements.Activity.LoopNode;
 import org.aero.mtip.ModelElements.Activity.MergeNode;
 import org.aero.mtip.ModelElements.Activity.OpaqueAction;
 import org.aero.mtip.ModelElements.Activity.OutputPin;
+import org.aero.mtip.ModelElements.Activity.Parameter;
 import org.aero.mtip.ModelElements.Activity.SendSignalAction;
 import org.aero.mtip.ModelElements.Activity.TimeEvent;
 import org.aero.mtip.ModelElements.Activity.TimeExpression;
@@ -168,28 +169,28 @@ public class CommonElementsFactory {
 			case SysmlConstants.ACTIVITYPARTITION:
 				element = new ActivityPartition(name, EAID);
 				break;
-			case "Actor":
+			case SysmlConstants.ACTOR:
 				element = new Actor(name, EAID);
 				break;
 //			case "Attribute":
 //				element = new Attribute(name, EAID);
 //				break;
-			case "AssociationBlock":
+			case SysmlConstants.ASSOCIATIONBLOCK:
 				element = new AssociationBlock(name, EAID);
 				break;
-			case "BoundReference":
+			case SysmlConstants.BOUNDREFERENCE:
 				element = new BoundReference(name, EAID);
 				break;
-			case "Block":
+			case SysmlConstants.BLOCK:
 				element = new Block(name, EAID);
 				break;
-			case "CallBehaviorAction":
+			case SysmlConstants.CALLBEHAVIORACTION:
 				element = new CallBehaviorAction(name, EAID);
 				break;
-			case "CallOperationAction":
+			case SysmlConstants.CALLOPERATIONACTION:
 				element = new CallOperationAction(name, EAID);
 				break;
-			case "CentralBufferNode":
+			case SysmlConstants.CENTRALBUFFERNODE:
 				element = new CentralBufferNode(name, EAID);
 				break;
 			case SysmlConstants.CHOICEPSEUDOSTATE:
@@ -198,13 +199,13 @@ public class CommonElementsFactory {
 			case SysmlConstants.CHANGEEVENT:
 				element = new ChangeEvent(name, EAID);
 				break;
-			case "Class":
+			case SysmlConstants.CLASS:
 				element = new Class(name, EAID);
 				break;
 			case SysmlConstants.CLASSIFIERBEHAVIORPROPERTY:
 				element = new ClassifierBehaviorProperty(name, EAID);
 				break;
-			case "Collaboration":
+			case SysmlConstants.COLLABORATION:
 				element = new Collaboration(name, EAID);
 				break;
 			case "CombinedFragment":
@@ -401,6 +402,9 @@ public class CommonElementsFactory {
 				break;
 			case "Package":
 				element = new SysmlPackage(name, EAID);
+				break;
+			case SysmlConstants.PARAMETER:
+				element = new Parameter(name, EAID);
 				break;
 			case SysmlConstants.PARTICIPANTPROPERTY:
 				element = new ParticipantProperty(name, EAID);

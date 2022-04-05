@@ -98,6 +98,7 @@ public class SysmlConstants {
 	public static final String OPERATION = "Operation";
 	public static final String OUTPUTPIN = "OutputPin";
 	public static final String PACKAGE = "Package";
+	public static final String PARAMETER = "Parameter";
 	public static final String PARTICIPANTPROPERTY = "ParticipantProperty";
 	public static final String PARTPROPERTY = "PartProperty";
 	public static final String PERFORMANCEREQUIREMENT = "PerformanceRequirement";
@@ -300,6 +301,7 @@ public class SysmlConstants {
 			OPERATION,
 			OUTPUTPIN,
 			PACKAGE,
+			PARAMETER,
 			PARTPROPERTY,
 			PARTICIPANTPROPERTY,
 			PERFORMANCEREQUIREMENT,

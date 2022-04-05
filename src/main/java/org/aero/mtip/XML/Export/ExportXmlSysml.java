@@ -78,6 +78,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
@@ -549,6 +550,8 @@ public class ExportXmlSysml {
 			CameoUtils.logGUI("Exporting Output Pin");
 		} else if(element instanceof Package) {
 			CameoUtils.logGUI("PACKAGE SHOULD NOT BE EXPORTING HERE");
+		} else if(element instanceof Parameter) {
+			commonElementType = SysmlConstants.PARAMETER;
 		} else if(CameoUtils.isPerformanceRequirement(element, project)) {
 			commonElementType = SysmlConstants.PERFORMANCEREQUIREMENT;
 			CameoUtils.logGUI("Exporting Performance Requirement");
@@ -588,10 +591,20 @@ public class ExportXmlSysml {
 		} else if(element instanceof Slot) {
 			Element parent = element.getOwner();
 			if(parent instanceof InstanceSpecification) {
-				commonElementType = SysmlConstants.SLOT;
-				CameoUtils.logGUI("Exporting Slot");
-			} else {
-				CameoUtils.logGUI("Slots of stereotypes are not supported yet.");
+				InstanceSpecification is = (InstanceSpecification)parent;
+				List<Classifier> classifiers = is.getClassifier();
+				boolean hasStereotypeClassifier = false;
+				for(Classifier classifier : classifiers) {
+					if(classifier instanceof Stereotype) {
+						hasStereotypeClassifier = true;
+					}
+				}
+				if(!hasStereotypeClassifier) {
+					commonElementType = SysmlConstants.SLOT;
+					CameoUtils.logGUI("Exporting Slot");
+				} else {
+					CameoUtils.logGUI("Slots of stereotypes are capture as Tagged Values.");
+				}
 			}
 		} else if(element instanceof State) {
 			commonElementType = SysmlConstants.STATE;
