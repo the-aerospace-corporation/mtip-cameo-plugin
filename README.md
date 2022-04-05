@@ -51,6 +51,6 @@ Trent Severson, Aerospace Corporation
 
 ## License
 
-This project is licensed under the Apache Commons License 2.0 - see the LICENSE.md file for details
+This project is licensed under the Apache Commons License 2.0 - see the LICENSE.html file for details
 
 ## Acknowledgments
