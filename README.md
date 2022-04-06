@@ -33,18 +33,10 @@ To import a model
 * Select import from the drop down under the Huddle toolbar
 * Plug-in will open a dialog stating import has completed.
 
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
-
 ## Authors
 
-Contributors names and contact info
-
 Trent Severson, Aerospace Corporation
+oss@aero.org
 
 ## Version History
 * 1.0
@@ -53,5 +45,3 @@ Trent Severson, Aerospace Corporation
 ## License
 
 This project is licensed under the Apache Commons License 2.0 - see the LICENSE.html file for details
-
-## Acknowledgments
