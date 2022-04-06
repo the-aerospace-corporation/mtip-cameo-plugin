@@ -1,6 +1,4 @@
-# Project Title
-
-MTIP Cameo
+# MTIP Cameo
 
 ## Description
 
