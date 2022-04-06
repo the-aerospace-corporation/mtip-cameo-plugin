@@ -39,7 +39,7 @@ Trent Severson, Aerospace Corporation
 oss@aero.org
 
 ## Version History
-* 1.0
+* 1.0.0
     * Initial Release
 
 ## License
