@@ -1,4 +1,4 @@
-# MTIP Cameo
+# Modeling Tool Integration Plugin for Cameo Systems Modeler (MTIP-Cameo)
 
 ## Description
 
