@@ -9,8 +9,11 @@ This project is the source code for a Java plug-in written for Cameo Systems Mod
 ### Dependencies
 
 * org.apache.commons
-* MagicDraw's  OpenAPI distributed with MD or CSM
-* Cameo Systems Modeler v19.0 is required to use the built plug-in.
+* MagicDraw's OpenAPI distributed with MD or CSM
+* Cameo Systems Modeler v19.0 is required to use the built plug-in. **The current version of this plugin is incompatible with 2021x.**
+
+#### Setting up Classpath for Development
+Please follow the directions provided by NoMagic at https://docs.nomagic.com/display/MD190/Development+in+Eclipse to set the classpath for MagicDraw's OpenAPI bundled with your version of MD or CSM.
 
 ### Installing
 
