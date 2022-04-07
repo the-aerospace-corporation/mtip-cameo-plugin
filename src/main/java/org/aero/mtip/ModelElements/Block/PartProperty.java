@@ -67,7 +67,6 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 		if(owner == null) {
 			String logMessage = "Owner is null. Could not add connector with id: " + this.EAID + " to the model.";
 			ImportLog.log(logMessage);
-			throw new IllegalArgumentException("Invalid Parent");
 		}
 		try {
 			if(!(SysMLProfile.isBlock(owner))) {
@@ -84,7 +83,6 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";
 			ImportLog.log(logMessage);
-			throw new IllegalArgumentException("Invalid Parent");
 		}
 	}
 }

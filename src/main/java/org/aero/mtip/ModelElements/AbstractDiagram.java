@@ -237,12 +237,12 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
 				noPosition = true;
 			} else {
-				shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
-				if(shape != null) {
+				try {
+					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
-				} else {
-					CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
-					ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+				} catch(NullPointerException npe) {
+					CameoUtils.logGUI("Error creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+					ImportLog.log("Error creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
 				}
 			}
 		} catch(ClassCastException cce) {
@@ -275,13 +275,20 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				PresentationElement clientPE = presentationDiagram.findPresentationElementForPathConnecting(client, null);
 				PresentationElement supplierPE = presentationDiagram.findPresentationElementForPathConnecting(supplier, null);
 				
-				if(clientPE != null && supplierPE != null) {
-					PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
-					CameoUtils.logGUI("Placing relationship " + relationship.getHumanName() + " on to diagram.");
-				} else {
-					ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
-					CameoUtils.logGUI("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+				try {
+					if(clientPE != null && supplierPE != null) {
+						PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
+						CameoUtils.logGUI("Placing relationship " + relationship.getHumanName() + " on to diagram.");
+					} else {
+						ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+						CameoUtils.logGUI("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+					}
+				} catch(ClassCastException cce) {
+					ImportLog.log("Class cast exception creating path element.");
+				} catch(NullPointerException npe) {
+					ImportLog.log("Null pointer exception creating path element.");
 				}
+				
 								
 			}
 		} catch (ReadOnlyElementException e) {

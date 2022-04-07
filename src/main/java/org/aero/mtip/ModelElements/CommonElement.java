@@ -378,7 +378,7 @@ public abstract class CommonElement {
 		sysmlElement = project.getElementsFactory().createClassInstance();
 	
 		if(sysmlElement instanceof NamedElement) {
-			((NamedElement)sysmlElement).setName(name);
+			((NamedElement)sysmlElement).setName(name.replaceAll("[^a-zA-Z0-9]+",""));
 		}
 		
 		if (stereotype != null) {

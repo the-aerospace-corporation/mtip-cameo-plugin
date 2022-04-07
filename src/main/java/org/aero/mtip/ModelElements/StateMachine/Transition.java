@@ -35,20 +35,30 @@ public class Transition extends CommonRelationship {
 
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) super.createElement(project, owner, client, supplier, xmlElement);
+		super.createElement(project, owner, client, supplier, xmlElement);
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
 		
-		if(xmlElement.hasGuard()) {
-			Constraint constraint = f.createConstraintInstance();
-			LiteralString specification = f.createLiteralStringInstance();
-			specification.setValue(xmlElement.getGuard());
-			constraint.setSpecification(specification);			
-			transition.setGuard(constraint);
-		}
-		
-		if(xmlElement.hasEffect()) {
-			FunctionBehavior functionBehavior = f.createFunctionBehaviorInstance();
-			functionBehavior.getBody().add(xmlElement.getAttribute("effect"));
-			transition.setEffect(functionBehavior);
+		try {
+			if(xmlElement.hasGuard()) {
+				Constraint constraint = f.createConstraintInstance();
+				LiteralString specification = f.createLiteralStringInstance();
+				specification.setValue(xmlElement.getGuard());
+				constraint.setSpecification(specification);			
+				transition.setGuard(constraint);
+			}
+			
+			if(xmlElement.hasEffect()) {
+				FunctionBehavior functionBehavior = f.createFunctionBehaviorInstance();
+				functionBehavior.getBody().add(xmlElement.getAttribute("effect"));
+				transition.setEffect(functionBehavior);
+			}
+		} catch(NullPointerException npe) {
+			String logMessage = "Error creating transition " + name + " with id " + EAID;
+			ImportLog.log(logMessage);
+			if(transition != null) {
+				transition.dispose();
+			}
+			return null;
 		}
 		try {
 			transition.setSource((Vertex) supplier);
@@ -56,7 +66,9 @@ public class Transition extends CommonRelationship {
 		} catch(ClassCastException cce) {
 			String logMessage = "Invalid supplier or client. Supplier and client must be sub-classes of Vertex. Transition " + name + " with id " + EAID + " not created";
 			ImportLog.log(logMessage);
-			transition.dispose();
+			if(transition != null) {
+				transition.dispose();
+			}
 			return null;
 		}
 		

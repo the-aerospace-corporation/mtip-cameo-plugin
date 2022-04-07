@@ -109,29 +109,35 @@ public class CameoUtils {
 		}
 	}
 	public static Element findNearestBlock(Project project, Element owner) {
-		CameoUtils.logGUI("Searching for block for current element with id " + owner.getLocalID());
-		if(SysMLProfile.isBlock(owner)) {
-			return owner;
-		} else {
-			Element nextOwner = owner.getOwner();
-			if(nextOwner == null) {
-				return null;
+		if(owner != null) {
+			CameoUtils.logGUI("Searching for block for current element with id " + owner.getLocalID());
+			if(SysMLProfile.isBlock(owner)) {
+				return owner;
+			} else {
+				Element nextOwner = owner.getOwner();
+				if(nextOwner == null) {
+					return null;
+				}
+				return findNearestBlock(project, nextOwner);
 			}
-			return findNearestBlock(project, nextOwner);
 		}
+		return null;
 	}
 	
 	public static Element findNearestActivity(Project project, Element owner) {
-		CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
-		if(owner instanceof Activity) {
-			return owner;
-		} else {
-			Element nextOwner = owner.getOwner();
-			if(nextOwner == null) {
-				return null;
+		if(owner != null) {
+			CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
+			if(owner instanceof Activity) {
+				return owner;
+			} else {
+				Element nextOwner = owner.getOwner();
+				if(nextOwner == null) {
+					return null;
+				}
+				return findNearestActivity(project, nextOwner);
 			}
-			return findNearestActivity(project, nextOwner);
 		}
+		return null;
 	}
 	public static Stereotype getStereotype(String stereotypeName) {
 		Project project = Application.getInstance().getProject();

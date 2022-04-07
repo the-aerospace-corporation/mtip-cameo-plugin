@@ -411,6 +411,15 @@ public class ImportXmlSysml {
 				relationship.createDependentElements(project, parsedXML, modelElement);
 				Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
 				
+				if(newElement != null) {
+					if(newElement.getOwner() == null) {
+						newElement.dispose();
+						String logMessage = "Owner failed to be set including any default owners. Relationship not created.";
+						ImportLog.log(logMessage);
+						return null;
+					}
+				}
+				
 				SessionManager.getInstance().closeSession(project);
 				if(newElement != null) {
 					String GUID = newElement.getID();
@@ -480,6 +489,15 @@ public class ImportXmlSysml {
 						ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 					} else {
 						ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with no initial owner.");
+					}
+					
+					if(newElement != null) {
+						if(newElement.getOwner() == null) {
+							newElement.dispose();
+							String logMessage = "Owner failed to be set including any default owners. Element not created.";
+							ImportLog.log(logMessage);
+							return null;
+						}
 					}
 					
 					return newElement;

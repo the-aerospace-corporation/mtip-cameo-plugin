@@ -45,7 +45,7 @@ public class Requirement extends CommonElement {
 		String text = "";
 				
 		if(textList.size() > 0) {
-			text = textList.get(0).replaceAll("\\<.*?>","");
+			text = textList.get(0).replaceAll("\\<.*?>(){}","");
 		}
 		if(!text.isEmpty()) {
 			org.w3c.dom.Element textTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_TEXT, text);
