@@ -7,6 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -34,13 +35,21 @@ public class Extension extends CommonRelationship {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd(extension);
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd(extension);
 
-		firstMemberEnd.setAggregation(AggregationKindEnum.NONE);
-		ModelHelper.setNavigable(firstMemberEnd, true);
-		firstMemberEnd.setOwner(client);
+		if(firstMemberEnd != null) {
+			firstMemberEnd.setAggregation(AggregationKindEnum.NONE);
+			ModelHelper.setNavigable(firstMemberEnd, true);
+			firstMemberEnd.setOwner(client);
+		} else {
+			ImportLog.log("First member end not created for extension " + this.EAID);
+		}
 		
-		secondMemberEnd.setAggregation(AggregationKindEnum.COMPOSITE);
-		ModelHelper.setNavigable(secondMemberEnd, true);
-		secondMemberEnd.setOwner(extension);
+		if(secondMemberEnd != null) {
+			secondMemberEnd.setAggregation(AggregationKindEnum.COMPOSITE);
+			ModelHelper.setNavigable(secondMemberEnd, true);
+			secondMemberEnd.setOwner(extension);
+		} else {
+			ImportLog.log("Second member end not created for extension " + this.EAID);
+		}
 
 		return extension;
 	}
