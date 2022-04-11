@@ -6,8 +6,7 @@ We value your contributions and suggestions! We want to make contributing to thi
 -	Proposing new features
 ## We Develop with Github
 We use github to host code, to track issues and feature requests, as well as accept pull requests.
-## Any contributions you make will be under the Apche License 2.0
-In short, when you submit code changes, your submissions are understood to be under the same Apache License 2.0 that covers the project. Feel free to contact the maintainers if that's a concern.
+
 ## Report bugs using Github's issues
 We use GitHub issues to track public bugs. Report a bug by opening a new issue.
 Write bug reports with detail, background, and sample code. Reports should include (not required):
@@ -28,8 +27,7 @@ Pull requests are the best way to propose changes to the codebase (we use Github
 6.	Issue that pull request!
 ## Tests
 We have not developed any standardized testing. Any help with this is greatly appreciated.
-## License
-By contributing, you agree that your contributions will be licensed under its Apache License 2.0.
-References
+## Any contributions you make will be under the Apche License 2.0
+In short, when you submit code changes, your submissions are understood to be under the same Apache License 2.0 that covers the project. Feel free to contact the maintainers if that's a concern.
 This document was adapted from the open-source contribution guidelines for Facebook's Draft
 
