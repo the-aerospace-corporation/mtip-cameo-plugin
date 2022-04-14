@@ -144,17 +144,29 @@ public class ImportXmlSysml {
 				if(!category.isEmpty()) {
 					if (category.equals(SysmlConstants.ELEMENT)) {
 						if (parentMap.get(id) == null) {
-							buildElement(project, parsedXML, modelElement, id);
+							try {
+								buildElement(project, parsedXML, modelElement, id);
+							} catch (NullPointerException npe) {
+								ImportLog.log("Null pointer exception building element " + id);
+							}
 						}
 					}
 					if (category.equals(SysmlConstants.RELATIONSHIP)) {
 						if (parentMap.get(id) == null) {
-							buildRelationship(project, parsedXML, modelElement, id);
+							try {
+								buildRelationship(project, parsedXML, modelElement, id);
+							} catch (NullPointerException npe) {
+								ImportLog.log("Null pointer exception building relationship " + id);
+							}
 						}
 					}
 					if (modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
 						if (parentMap.get(id) == null) {
-							buildDiagram(project, parsedXML, modelElement, id);
+							try {
+								buildDiagram(project, parsedXML, modelElement, id);
+							} catch (NullPointerException npe) {
+								ImportLog.log("Null pointer exception building diagram " + id);
+							}
 						}
 					}
 				} else {

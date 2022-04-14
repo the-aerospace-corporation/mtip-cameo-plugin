@@ -241,8 +241,11 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 				} catch(NullPointerException npe) {
-					CameoUtils.logGUI("Error creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
-					ImportLog.log("Error creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+					CameoUtils.logGUI("Null Pointer Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+					ImportLog.log("Null Pointer Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+				} catch(IllegalArgumentException iae) {
+					CameoUtils.logGUI("Illegal Argument Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+					ImportLog.log("Illegal Argument Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
 				}
 			}
 		} catch(ClassCastException cce) {

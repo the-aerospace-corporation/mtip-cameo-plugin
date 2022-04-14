@@ -1,7 +1,7 @@
 <plugin
         id="HuddleCSMPlugin"
         name="HUDDLE Plugin"
-        version="1.0"
+        version="1.0.2"
         provider-name="HUDDLE"
         class="org.aero.huddle.HuddleCSMPlugin">
 
