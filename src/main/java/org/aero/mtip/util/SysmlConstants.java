@@ -74,6 +74,7 @@ public class SysmlConstants {
 	public static final String INITIALPSEUDOSTATE = "InitialPseudoState";
 	public static final String INPUTPIN = "InputPin";
 	public static final String INSTANCESPECIFICATION = "InstanceSpecification";
+	public static final String INSTANCEVALUE = "InstanceValue";
 	public static final String INTERACTION = "Interaction";
 	public static final String INTERACTIONOPERAND = "InteractionOperand";
 	public static final String INTERACTIONUSE = "InteractionUse";

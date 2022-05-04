@@ -494,8 +494,7 @@ public class ImportXmlSysml {
 					pluginCreatedIDs.put(GUID, "");
 					parentMap.put(id, GUID);
 					addStereotypes(newElement, modelElement);
-					element.addStereotypeTaggedValues(modelElement);
-					
+					element.addStereotypeTaggedValues(modelElement);					
 					element.addDependentElements(parsedXML, modelElement);
 					if(ownerElement != null) {
 						ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());

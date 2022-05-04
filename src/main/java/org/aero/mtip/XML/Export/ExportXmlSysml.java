@@ -928,6 +928,8 @@ public class ExportXmlSysml {
 			commonElementType = SysmlConstants.INTERFACEREALIZATION;
 		} else if(CameoUtils.isInterfaceRequirement(element, project)) {
 			commonElementType = SysmlConstants.INTERFACEREQUIREMENT;
+		} else if(element instanceof InterruptibleActivityRegion) {
+			commonElementType = SysmlConstants.INTERRUPTIBLEACTIVITYREGION;
 		} else if (SysMLProfile.isItemFlow(element)) {
 			commonRelationshipType = SysmlConstants.ITEMFLOW;
 		} else if(element instanceof JoinNode) {

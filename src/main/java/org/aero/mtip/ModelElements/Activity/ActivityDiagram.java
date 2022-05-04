@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
@@ -26,6 +27,7 @@ import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.InterruptibleActivityRegionView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneHeaderView;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneView;
@@ -53,6 +55,12 @@ public class ActivityDiagram extends AbstractDiagram {
 			if(elementTag != null) {
 				elementListTag.appendChild(elementTag);
 			}	
+		} else if (presentationElement instanceof InterruptibleActivityRegionView) {
+			ExportLog.log("InterruptibleActivityRegionView found.");
+			org.w3c.dom.Element iarTag = createInterruptibleActivityRegionTag(xmlDoc, presentationElement, parentPresentationElement);
+			if(iarTag != null) {
+				elementListTag.appendChild(iarTag);
+			}	
 		} else {
 			org.w3c.dom.Element elementTag = createDiagramElementTag(xmlDoc, presentationElement, parentPresentationElement);
 			if(elementTag != null) {
@@ -63,6 +71,11 @@ public class ActivityDiagram extends AbstractDiagram {
 		for(PresentationElement subPresentationElement : presentationElement.getPresentationElements()) {
 			writeElement(xmlDoc, elementListTag, relationshipListTag, subPresentationElement, presentationElement);
 		}
+	}
+	
+	public org.w3c.dom.Element createInterruptibleActivityRegionTag(Document xmlDoc, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
+		org.w3c.dom.Element interruptibleActivityRegionTag = createDiagramElementTagNoElement(xmlDoc, presentationElement, parentPresentationElement, XmlTagConstants.INTERRUPTIBLEACTIVITYREGION);
+		return interruptibleActivityRegionTag;
 	}
 	
 	public org.w3c.dom.Element createSwimlaneTag(Document xmlDoc, PresentationElement presentationElement, PresentationElement parentPresentationElement) {

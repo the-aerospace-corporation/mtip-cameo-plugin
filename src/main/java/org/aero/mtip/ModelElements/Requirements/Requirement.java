@@ -45,7 +45,8 @@ public class Requirement extends CommonElement {
 		String text = "";
 				
 		if(textList.size() > 0) {
-			text = textList.get(0).replaceAll("\\<.*?>(){}","");
+			// Removes special characters, html tags, and any tags beginning with & and ending with ;. Add \\p{P} to remove punctuation if necessary
+			text = textList.get(0).replaceAll("<.*?>", "").replaceAll("&.*?;" , "").replaceAll("\\p{S}","");
 		}
 		if(!text.isEmpty()) {
 			org.w3c.dom.Element textTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_TEXT, text);

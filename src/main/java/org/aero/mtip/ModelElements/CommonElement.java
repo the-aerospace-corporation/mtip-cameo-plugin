@@ -8,6 +8,7 @@ package org.aero.mtip.ModelElements;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,9 +34,11 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.jmi.helpers.ValueSpecificationHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
@@ -244,6 +247,7 @@ public abstract class CommonElement {
 	
 	@CheckForNull
 	public String getValueSpecificationValueType(ValueSpecification vs) {
+		ExportLog.log("Value specification type " + vs.getHumanType());
 		if(vs instanceof LiteralString) {
 			return SysmlConstants.STRING;
 		} else if(vs instanceof LiteralReal) {
@@ -254,6 +258,10 @@ public abstract class CommonElement {
 			return SysmlConstants.BOOLEAN;
 		} else if(vs instanceof ElementValue) {
 			return SysmlConstants.ELEMENT;
+		} else if(vs instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral) {
+			return SysmlConstants.ENUMERATIONLITERAL;
+		} else if(vs instanceof InstanceValue) {
+			return SysmlConstants.INSTANCEVALUE;
 //		} else if(vs instanceof OpaqueExpression) {
 //			return SysmlConstants.OPAQUEEXPRESSION;
 		} else {
@@ -287,12 +295,22 @@ public abstract class CommonElement {
 			strVal = ev.getElement().getLocalID();
 		} else if(vs instanceof OpaqueExpression) {
 			OpaqueExpression oe = (OpaqueExpression)vs;
-			List<String> bodies= oe.getBody();
+			List<String> bodies = oe.getBody();
 			Iterator<String> bodyIter = bodies.iterator();
 			if(bodyIter.hasNext()) {
 				strVal = bodyIter.next();
 			}
-		} else {
+		} else if(vs instanceof EnumerationLiteral) {
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral literal = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral)vs;
+			strVal = literal.getName();
+		} else if(vs instanceof InstanceValue ) {
+			strVal = ModelHelper.getValueString(vs);
+//			EnumerationLiteral  litVal = (EnumerationLiteral)ValueSpecificationHelper.getValueSpecficationValue(vs);
+//			InstanceValue iv = (InstanceValue)vs;
+//			InstanceSpecification is = iv.getInstance();
+//			ValueSpecification vs2 = is.getSpecification();
+//			strVal = getSlotValueAsString(vs2);
+		}else {
 			String message = "Value specification with id " + vs.getLocalID() + " was not string, real, int, bool, or opaque expression.";
 			ExportLog.log(message);
 			CameoUtils.logGUI(message);
@@ -1006,5 +1024,12 @@ public abstract class CommonElement {
 			}
 		}
 		return null;
+	}
+	
+	public String getElementID() {
+		if(sysmlElement != null) {
+			return sysmlElement.getLocalID();
+		}
+		return "";
 	}
 }

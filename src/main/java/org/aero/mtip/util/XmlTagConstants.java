@@ -85,6 +85,7 @@ public class XmlTagConstants
 	public static final String ATTRIBUTE_NAME_COLUMN_ELEMENT_TYPE = "columnElementType";
 	public static final String ATTRIBUTE_NAME_ROW_ELEMENT_TYPE = "rowElementType";
 	public static final String ATTRIBUTE_NAME_DECISION_INPUT = "decisionInput";
+	public static final String ATTRIBUTE_NAME_INTERRUPTIBLE_ACTIVITY_REGION = "interruptibleActivityRegion";
 	
 	public static final String COVERED_BY = "coveredBy";
 	
