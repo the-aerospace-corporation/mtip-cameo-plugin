@@ -66,6 +66,8 @@ public class Property extends CommonElement {
 					} else if(xmlElement.getAttribute(XmlTagConstants.TYPED_BY).contentEquals(SysmlConstants.STRING)) {
 						LiteralString valueSpecification = (LiteralString)ModelHelper.createValueSpecification(project, property.getType(), defaultValue, null);
 						property.setDefaultValue(valueSpecification);
+					} else if(xmlElement.getAttribute(XmlTagConstants.TYPED_BY).contentEquals(SysmlConstants.ELEMENT_VALUE)) {
+//						ElementValue ev = ModelHelper.createValueSpecification(arg0, arg1, arg2, arg3)
 					} else {
 						CameoUtils.logGUI("Primitive type not recognized: " + xmlElement.getAttribute(XmlTagConstants.TYPED_BY));
 					}

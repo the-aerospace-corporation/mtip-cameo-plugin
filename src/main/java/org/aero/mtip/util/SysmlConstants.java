@@ -678,6 +678,7 @@ public class SysmlConstants {
 	public static final String INTEGER = "Integer";
 	public static final String REAL = "Real";
 	public static final String STRING = "String";
+	public static final String ELEMENT_VALUE = "ElementValue";
 	
 	public static final String[] primitiveValueTypes = {
 			BOOLEAN,

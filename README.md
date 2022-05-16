@@ -39,6 +39,10 @@ Trent Severson, Aerospace Corporation
 oss@aero.org
 
 ## Version History
+* 1.0.3
+    * Requirement text bug fix and basic html filtering.
+* 1.0.2
+    * Additional error checking for common issues with EA imports.
 * 1.0.1
     * Added checks for null pointer exception for extension class when failing to created elements due to invalid parent-child relationships coming from original EA model.
 * 1.0.0
