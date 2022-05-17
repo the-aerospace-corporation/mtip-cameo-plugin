@@ -16,6 +16,7 @@ public class UAFProfile {
 	public static Stereotype ACTUAL_ENTERPRISE_PHASE_STEREOTYPE = null;
 	public static Stereotype CAPABILITY_STEREOTYPE = null;
 	public static Stereotype CAPABILITY_PROPERTY_STEREOTYPE = null;
+	public static Stereotype ENTERPRISE_PHASE_STEREOTYPE = null;
 	public static Stereotype STRATEGIC_TAXONOMY_PACKAGE_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
@@ -25,6 +26,7 @@ public class UAFProfile {
 		ACTUAL_ENTERPRISE_PHASE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_ENTERPRISE_PHASE, UAF_PROFILE);
 		CAPABILITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.CAPABILITY, UAF_PROFILE);
 		CAPABILITY_PROPERTY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.CAPABILITY_PROPERTY, UAF_PROFILE);
+		ENTERPRISE_PHASE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ENTERPRISE_PHASE, UAF_PROFILE);
 		STRATEGIC_TAXONOMY_PACKAGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.STRATEGIC_TAXONOMY_PACKAGE, UPDM_CUSTOMIZATION_PROFILE);
 	}
 }

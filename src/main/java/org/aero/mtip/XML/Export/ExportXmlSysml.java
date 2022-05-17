@@ -398,8 +398,9 @@ public class ExportXmlSysml {
 			return UAFConstants.CAPABILITY;
 		} else if(stereotypes.contains(UAFProfile.CAPABILITY_PROPERTY_STEREOTYPE)) {
 			return UAFConstants.CAPABILITY_PROPERTY;
+		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_PHASE_STEREOTYPE)) {
+			return UAFConstants.ENTERPRISE_PHASE;
 		}
-		
 		return null;
 	}
 	

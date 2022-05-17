@@ -292,6 +292,7 @@ public class XmlTagConstants
 	public static final String ACTUAL_ENTERPRISE_PHASE = "uaf.ActualEnterprisePhase";
 	public static final String CAPABILITY = "uaf.Capability";
 	public static final String CAPABILITY_PROPERTY = "uaf.CapabilityProperty";
+	public static final String ENTERPRISE_PHASE = "uaf.EnterprsiePhase";
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
 	

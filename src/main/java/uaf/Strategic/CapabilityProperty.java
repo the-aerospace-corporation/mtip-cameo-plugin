@@ -1,10 +1,9 @@
 package uaf.Strategic;
 
-import org.aero.huddle.ModelElements.Sequence.Property;
-import org.aero.huddle.util.SysmlConstants;
-import org.aero.huddle.util.UAFConstants;
-import org.aero.huddle.util.XMLItem;
-import org.aero.huddle.util.XmlTagConstants;
+import org.aero.mtip.ModelElements.Sequence.Property;
+import org.aero.mtip.util.UAFConstants;
+import org.aero.mtip.util.XMLItem;
+import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;

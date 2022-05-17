@@ -10,6 +10,7 @@ public class UAFConstants {
 	public static final String CAPABILITY = "Capability";
 	public static final String CAPABILITY_PROPERTY = "CapabilityProperty";
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "Strategic Taxonomy Package";
+	public static final String ENTERPRISE_PHASE = "EnterprisePhase";
 	
 	//Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
