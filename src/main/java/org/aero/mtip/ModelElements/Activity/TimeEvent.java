@@ -11,7 +11,6 @@ import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 public class TimeEvent extends CommonElement {
-
 	public TimeEvent(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;

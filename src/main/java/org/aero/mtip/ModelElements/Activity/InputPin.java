@@ -55,6 +55,4 @@ public class InputPin extends ActivityNode {
 		}
 		sysmlElement.setOwner(owner);
 	}
-	
-	
 }

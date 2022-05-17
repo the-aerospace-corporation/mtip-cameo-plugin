@@ -17,7 +17,9 @@ import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
-public class OutputPin extends ActivityNode {
+import org.aero.mtip.ModelElements.CommonElement;
+
+public class OutputPin extends CommonElement {
 
 	public OutputPin(String name, String EAID) {
 		super(name, EAID);

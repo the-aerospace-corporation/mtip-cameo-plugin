@@ -13,6 +13,7 @@ import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.TaggedValue;
+
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -43,7 +44,7 @@ public class ConstraintParameter extends CommonElement {
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		
+
 		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, SysmlConstants.MD_CUSTOMIZATION_PROFILE_NAME); 
 		Stereotype constraintParameterStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.CONSTRAINTPARAMETER, mdCustomizationProfile);
 		StereotypesHelper.addStereotype(sysmlElement, constraintParameterStereotype);

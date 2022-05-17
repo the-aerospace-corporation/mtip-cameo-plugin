@@ -3,7 +3,6 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.Activity;
 
 import java.awt.Point;
@@ -19,7 +18,6 @@ import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
@@ -30,12 +28,10 @@ import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
-import com.nomagic.magicdraw.uml.symbols.shapes.CallBehaviorActionView;
 import com.nomagic.magicdraw.uml.symbols.shapes.InterruptibleActivityRegionView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneHeaderView;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneView;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 

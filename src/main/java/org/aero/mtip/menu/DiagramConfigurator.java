@@ -1,3 +1,4 @@
+
 /* The Aerospace Corporation MTIP_Cameo
 Copyright 2022 The Aerospace Corporation
 
@@ -25,14 +26,14 @@ public class DiagramConfigurator implements DiagramContextAMConfigurator
 
 	@Override
 	public void configure(ActionsManager manager, DiagramPresentationElement diagramPresentationElement, PresentationElement[] selectedElements, PresentationElement requestor) {
-		ActionsCategory huddleCategory = new MDActionsCategory("MTIPDiagram", "MTIP");
-		huddleCategory.setNested(true);
-		manager.addCategory(huddleCategory);
+		ActionsCategory mtipCategory = new MDActionsCategory("MTIPDiagram", "MTIP");
+		mtipCategory.setNested(true);
+		manager.addCategory(mtipCategory);
 		
 		//Add actions to MTIP category here
 		ActionsCategory category = new ActionsCategory("","");
 		category.addAction(new InspectDiagramElementAction(null, "Inspect Diagram Element", diagramPresentationElement, selectedElements, requestor));
 		category.addAction(new ExportDiagramAction(null, "Export Diagram", diagramPresentationElement));
-		huddleCategory.addAction(category);
+		mtipCategory.addAction(category);
 	}
 }

@@ -55,5 +55,4 @@ public class DecisionNode extends ActivityNode {
 		}
 		return data;
 	}
-	
 }

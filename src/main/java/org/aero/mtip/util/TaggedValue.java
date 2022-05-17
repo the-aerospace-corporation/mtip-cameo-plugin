@@ -22,14 +22,6 @@ public class TaggedValue {
 	private boolean isMultiValue = false;
 	private List<String> values = new ArrayList<String> ();
 	
-	public TaggedValue(String stereotypeName, String profileName, String valueName, String valueType, String value) {
-		setStereotypeName(stereotypeName);
-		setProfileName(profileName);
-		setValueName(valueName);
-		setValueType(valueType);
-		setValue(value);
-	}
-	
 	public TaggedValue(String stereotypeName, String profileName, String valueName, String valueType, List<String> values) {
 		setStereotypeName(stereotypeName);
 		setProfileName(profileName);
@@ -101,10 +93,6 @@ public class TaggedValue {
 		this.valueType = valueType;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
 	public void setValues(List<String> values) {
 		this.values= values;
 	}
