@@ -1,15 +1,15 @@
 <plugin
-        id="HuddleCSMPlugin"
-        name="HUDDLE Plugin"
-        version="1.0.2"
-        provider-name="HUDDLE"
-        class="org.aero.huddle.HuddleCSMPlugin">
+        id="MTIPCSMPlugin"
+        name="MTIP Plugin"
+        version="1.0.3"
+        provider-name="MTIP"
+        class="org.aero.mtip.MTIPCSMPlugin">
 
     <requires>
         <api version="1.2"/>
     </requires>
 
     <runtime>
-        <library name="HuddleCSMPlugin.jar"/>
+        <library name="MTIPCSMPlugin.jar"/>
     </runtime>
 </plugin>
