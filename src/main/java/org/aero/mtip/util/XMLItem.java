@@ -454,13 +454,13 @@ public class XMLItem {
 		this.effect = effect;
 	}
 	private void setCategory() {
-		if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(type)) {
+		if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(type) || Arrays.asList(UAFConstants.UAF_ELEMENTS).contains(type)) {
 			category = SysmlConstants.ELEMENT;
 		}
-		if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(type)) {
+		if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(type) || Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(type)) {
 			category = SysmlConstants.RELATIONSHIP;
 		}
-		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(type)) {
+		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(type) || Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(type)) {
 			category = SysmlConstants.DIAGRAM;
 		}
 	}

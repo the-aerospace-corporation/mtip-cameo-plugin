@@ -31,6 +31,7 @@ import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.TaggedValue;
+import org.aero.mtip.util.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.apache.commons.collections.MapUtils;
@@ -289,6 +290,7 @@ public class ImportXmlSysml {
 		if (modelElement.isCreated()) {
 			return (Element) project.getElementByID(modelElement.getCameoID());
 		}
+		
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
