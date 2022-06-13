@@ -308,13 +308,10 @@ public class XmlTagConstants
 	public static final String PRIMITIVE_VALUE_TYPE = "PrimitiveValueType";
 	public static final String SWIMLANE = "swimlane";
 	
-	
 	//Model Creation Type Constants
 	public static final String ELEMENTSFACTORY = "ElementsFactory";
 	public static final String CLASS_WITH_STEREOTYPE = "ClassWithStereotype";
 	public static final String SOURCE_TARGET = "SourceTarget";
-	
-	
 	
 	//SysML nomenclature, but not elements
 	public static final String APPLIEDSTEREOTYPE = "appliedStereotype";
@@ -323,6 +320,9 @@ public class XmlTagConstants
 	public static final String VALUE = "value";
 	public static final String ELEMENT_ID = "elementID";
 	public static final String PARENT_ID = "parentID";
+	
+	//Type Prefixes
+	public static final String CUSTOM = "custom.Diagram";
 	
 	//List of sysmlTags
 	public static final String[] sysmlElementList = {

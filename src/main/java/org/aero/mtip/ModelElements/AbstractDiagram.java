@@ -184,7 +184,6 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 //        aMap.put("Blackbox ICD Table", );
 //        aMap.put("Whitebox ICD Table", );
         
-           
         diagramToType = Collections.unmodifiableMap(aMap);
     }
     
@@ -387,7 +386,8 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	
 	protected org.w3c.dom.Element createDiagramElementTag(Document xmlDoc, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
 		Element curElement = presentationElement.getElement();
-		if(curElement != null && !curElement.getHumanType().contentEquals("Diagram") && !(curElement instanceof ConnectorEnd) && Arrays.asList(this.allowableElements).contains(ExportXmlSysml.getElementType(curElement))) {
+		if(curElement != null && !curElement.getHumanType().contentEquals("Diagram") && !(curElement instanceof ConnectorEnd)) {
+			// Remove the following check as you don't need to filter on export Arrays.asList(this.allowableElements).contains(ExportXmlSysml.getElementType(curElement)
 			Rectangle bounds = null;
 			try {
 				bounds = presentationElement.getBounds();

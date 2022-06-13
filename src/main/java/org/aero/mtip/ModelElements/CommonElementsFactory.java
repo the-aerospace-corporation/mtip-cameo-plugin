@@ -556,6 +556,10 @@ public class CommonElementsFactory {
 				element = new ClassDiagram(name, EAID);
 				break;
 				
+			case SysmlConstants.CUSTOM_DIAGRAM:
+				element = new CustomDiagram(name, EAID);
+				break;
+				
 			// Tables	*********************************************************************
 			case SysmlConstants.GENERIC_TABLE:
 				element = new GenericTable(name, EAID);

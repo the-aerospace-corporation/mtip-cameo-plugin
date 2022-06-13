@@ -722,16 +722,19 @@ public class ExportXmlSysml {
 			CameoUtils.logGUI("Exporting Dependency");
 		} else if(element instanceof Diagram) {
 			Diagram diag = (Diagram) element;
-			DiagramPresentationElement presentationDiagram;
-
-			presentationDiagram = project.getDiagram(diag);
+			DiagramPresentationElement presentationDiagram = project.getDiagram(diag);
 			DiagramType diagType = presentationDiagram.getDiagramType();
 			String diagTypeStr = presentationDiagram.getRealType();
 			
 			CameoUtils.logGUI("ACTUAL diagram type: " + diagType.getType());
 			CameoUtils.logGUI("MAPPED diagram type: " + AbstractDiagram.diagramToType.get( diagType.getType()));
+			String diagramType = AbstractDiagram.diagramToType.get(diagType.getType());
 			
-			commonElementType = AbstractDiagram.diagramToType.get( diagType.getType());
+			if(diagramType == null) {
+				commonElementType = SysmlConstants.CUSTOM_DIAGRAM;
+			} else {
+				commonElementType = AbstractDiagram.diagramToType.get( diagType.getType());
+			}
 			
 //			List<String> it = DiagramType.getAllDiagramTypes();
 //			for (String str: it) {

@@ -210,6 +210,7 @@ public class SysmlConstants {
 	public static final String UC = "UseCaseDiagram";
 	public static final String PROFILEDIAGRAM = "ProfileDiagram";
 	public static final String CLASSDIAGRAM = "ClassDiagram";
+	public static final String CUSTOM_DIAGRAM = "CustomDiagram";
 	
 	public static final String SUBMACHINE = "submachine";
 	
@@ -389,6 +390,7 @@ public class SysmlConstants {
 			UC, 
 			PROFILEDIAGRAM,
 			CLASSDIAGRAM, 
+			CUSTOM_DIAGRAM,
 			
 			// Matrix types
 			ALLOCATION_MATRIX,
