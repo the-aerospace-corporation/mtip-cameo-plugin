@@ -151,11 +151,26 @@ import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.UAFConstants;
 
+import uaf.Operational.HighLevelOperationalConcept;
+import uaf.Operational.InformationalElement;
+import uaf.Operational.KnownResource;
+import uaf.Operational.OperationalAgent;
+import uaf.Operational.OperationalInterface;
+import uaf.Operational.OperationalPerformer;
+import uaf.Operational.OperationalRole;
+import uaf.Strategic.Achiever;
+import uaf.Strategic.ActualEnduringTask;
 import uaf.Strategic.ActualEnterprisePhase;
 import uaf.Strategic.Capability;
 import uaf.Strategic.CapabilityProperty;
+import uaf.Strategic.Desirer;
+import uaf.Strategic.EnduringTask;
 import uaf.Strategic.EnterprisePhase;
+import uaf.Strategic.EnterpriseVision;
 import uaf.Strategic.StrategicTaxonomyPackage;
+import uaf.Strategic.StructuralPart;
+import uaf.Strategic.TemporalPart;
+import uaf.Strategic.WholeLifeEnterprise;
 
 public class CommonElementsFactory {
 	public CommonElement createElement(String type, String name, String EAID) {
@@ -628,8 +643,57 @@ public class CommonElementsFactory {
 			case UAFConstants.ENTERPRISE_PHASE:
 				element = new EnterprisePhase(name, EAID);
 				break;
+			case UAFConstants.ENTERPRISE_VISION:
+				element = new EnterpriseVision(name, EAID);
+				break;
+			case UAFConstants.WHOLE_LIFE_ENTERPRISE:
+				element = new WholeLifeEnterprise(name, EAID);
+				break;
 			case UAFConstants.STRATEGIC_TAXONOMY_PACKAGE:
 				element = new StrategicTaxonomyPackage(name, EAID);
+				break;
+			case UAFConstants.ENDURING_TASK:
+				element = new EnduringTask(name, EAID);
+				break;
+			case UAFConstants.DESIRER:
+				element = new Desirer(name, EAID);
+				break;
+			case UAFConstants.STRUCTURAL_PART:
+				element = new StructuralPart(name, EAID);
+				break;
+			case UAFConstants.TEMPORAL_PART:
+				element = new TemporalPart(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_ENDURING_TASK:
+				element = new ActualEnduringTask(name, EAID);
+				break;
+			case UAFConstants.ACHIEVER:
+				element = new Achiever(name, EAID);
+				break;
+			//Operational
+			case UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT:
+				element = new HighLevelOperationalConcept(name, EAID);
+				break;
+			case UAFConstants.KNOWN_RESOURCE:
+				element = new KnownResource(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_AGENT:
+				element = new OperationalAgent(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_ARCHITECTURE:
+				element = new OperationalAgent(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_PERFORMER:
+				element = new OperationalPerformer(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_INTERFACE:
+				element = new OperationalInterface(name, EAID);
+				break;
+			case UAFConstants.INFORMATIONAL_ELEMENT:
+				element = new InformationalElement(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_ROLE:
+				element = new OperationalRole(name, EAID);
 				break;
 			default:
 				break;

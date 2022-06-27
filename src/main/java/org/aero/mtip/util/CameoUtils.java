@@ -44,6 +44,8 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Regi
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.impl.ElementsFactory;
 
+import uaf.UAFProfile;
+
 public class CameoUtils {
 	public static HashMap<String, String> primitiveValueTypes = new HashMap<String, String>() {{
 		put(SysmlConstants.BOOLEAN, "16_5_1_12c903cb_1245415335546_39033_4086");
@@ -441,5 +443,15 @@ public class CameoUtils {
 	public static Element getPrimitiveValueType(String valueTypeEnum) {
 		String primitiveValuePath = "SysML::Libraries::PrimitiveValueTypes::" + valueTypeEnum;
 		return ModelHelper.findElementWithPath(primitiveValuePath);
+	}
+	
+	public static String determineMetamodel(Project project) {
+		Profile uafProfile = StereotypesHelper.getProfile(project, UAFConstants.UAF_PROFILE_NAME);
+		if(uafProfile != null) {
+			new UAFProfile(project);
+			return UAFConstants.UAF;
+		} else {
+			return  SysmlConstants.SYSML;
+		}
 	}
 }

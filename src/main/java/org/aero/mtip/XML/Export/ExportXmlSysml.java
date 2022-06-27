@@ -49,7 +49,6 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.InitialNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow;
 import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.DataStoreNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.InterruptibleActivityRegion;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition;
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.CentralBufferNode;
@@ -67,7 +66,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.InterfaceRealization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -76,16 +74,13 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
@@ -140,7 +135,7 @@ public class ExportXmlSysml {
 		Project project = Application.getInstance().getProject();
 		Package primary = project.getPrimaryModel();
 		
-		metamodel = determineMetamodel(project);
+		metamodel = CameoUtils.determineMetamodel(project);
 		
 		CameoUtils.logGUI("Exporting project with " + metamodel + " metamodel.");
 		
@@ -158,7 +153,7 @@ public class ExportXmlSysml {
 		exportedElements = new HashMap<String, String>();
 		org.w3c.dom.Element root = xmlDoc.createElement("packet");
 		xmlDoc.appendChild(root);
-		String metamodel = determineMetamodel(project);
+		String metamodel = CameoUtils.determineMetamodel(project);
 		
 		Element diagramElement = diagramPresentationElement.getElement();
 		exportElementRecursiveUp(diagramElement, xmlDoc, metamodel);
@@ -400,7 +395,59 @@ public class ExportXmlSysml {
 			return UAFConstants.CAPABILITY_PROPERTY;
 		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_PHASE_STEREOTYPE)) {
 			return UAFConstants.ENTERPRISE_PHASE;
+		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_VISION_STEREOTYPE)) {
+			return UAFConstants.ENTERPRISE_VISION;
+		} else if(stereotypes.contains(UAFProfile.WHOLE_LIFE_ENTERPRISE_STEREOTYPE)) {
+			return UAFConstants.WHOLE_LIFE_ENTERPRISE;
+		} else if(stereotypes.contains(UAFProfile.ENDURING_TASK_STEREOTYPE)) {
+			return UAFConstants.ENDURING_TASK;
+		} else if(stereotypes.contains(UAFProfile.STRUCTURAL_PART_STEREOTYPE)) {
+			return UAFConstants.STRUCTURAL_PART;
+		} else if(stereotypes.contains(UAFProfile.TEMPORAL_PART_STEREOTYPE)) {
+			return UAFConstants.TEMPORAL_PART;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_ENDURING_TASK_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_ENDURING_TASK;
+		} else if(stereotypes.contains(UAFProfile.ACHIEVER_STEREOTYPE)) {
+			return UAFConstants.ACHIEVER;
+		} else if(stereotypes.contains(UAFProfile.CAPABILITY_FOR_TASK_STEREOTYPE)) {
+			return UAFConstants.CAPABILITY_FOR_TASK;
+		} else if(stereotypes.contains(UAFProfile.DESIRED_EFFECT_STEREOTYPE)) {
+			return UAFConstants.DESIRED_EFFECT;
+		} else if(stereotypes.contains(UAFProfile.ACHIEVED_EFFECT_STEREOTYPE)) {
+			return UAFConstants.ACHIEVED_EFFECT;
+		} else if(stereotypes.contains(UAFProfile.EXHIBITS_STEREOTYPE)) {
+			return UAFConstants.EXHIBITS;
+		} else if(stereotypes.contains(UAFProfile.ORGANIZATION_IN_ENTERPRISE_STEREOTYPE)) {
+			return UAFConstants.ORGANIZATION_IN_ENTERPRISE;
+		} else if(stereotypes.contains(UAFProfile.MAPS_TO_CAPABILITY_STEREOTYPE)) {
+			return UAFConstants.MAPS_TO_CAPABILITY;
 		}
+		//OPERATIONAL
+		  else if(stereotypes.contains(UAFProfile.HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE)) {
+			return UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT;
+		} else if(stereotypes.contains(UAFProfile.KNOWN_RESOURCE_STEREOTYPE)) {
+			return UAFConstants.KNOWN_RESOURCE;
+		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_AGENT_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_AGENT;
+		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_ARCHITECTURE_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_ARCHITECTURE;
+		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_PERFORMER_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_PERFORMER;
+		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_INTERFACE_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_INTERFACE;
+		} else if (stereotypes.contains(UAFProfile.INFORMATIONAL_ELEMENT_STEREOTYPE)) {
+			return UAFConstants.INFORMATIONAL_ELEMENT;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ROLE_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_ROLE;
+		}
+		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_CONTROL_FLOW;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONNECTOR_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_CONNECTOR;
+		} else if (stereotypes.contains(UAFProfile.INFORMATION_FLOW_STEREOTYPE)) {
+			return UAFConstants.INFORMATION_FLOW;
+		} else if (stereotypes.contains(UAFProfile.OBJECT_FLOW_STEREOTYPE)) {
+			return UAFConstants.OBJECT_FLOW;*/
 		return null;
 	}
 	
@@ -711,13 +758,5 @@ public class ExportXmlSysml {
 		}
 	}
 	
-	public static String determineMetamodel(Project project) {
-		Profile uafProfile = StereotypesHelper.getProfile(project, UAFConstants.UAF_PROFILE_NAME);
-		if(uafProfile != null) {
-			new UAFProfile(project);
-			return UAFConstants.UAF;
-		} else {
-			return  SysmlConstants.SYSML;
-		}
-	}
+
 }

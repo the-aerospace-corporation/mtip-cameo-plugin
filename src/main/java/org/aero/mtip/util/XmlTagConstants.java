@@ -293,6 +293,41 @@ public class XmlTagConstants
 	public static final String CAPABILITY = "uaf.Capability";
 	public static final String CAPABILITY_PROPERTY = "uaf.CapabilityProperty";
 	public static final String ENTERPRISE_PHASE = "uaf.EnterprisePhase";
+	public static final String ENTERPIRSE_VISION = "uaf.EnterpriseVision";
+	public static final String WHOLE_LIFE_ENTERPRISE = "uaf.WholeLifeEnterprise";
+	public static final String ENDURING_TASK = "uaf.EnduringTask";
+	public static final String DESIRER = "uaf.Desirer";
+	public static final String ENTERPRISE_VISION = "uaf.EnterpriseVision";
+	public static final String VISION_STATEMENT = "uaf.VisionStatement";
+	public static final String STRUCTURAL_PART = "uaf.StructuralPart";
+	public static final String TEMPORAL_PART = "uaf.TemporalPart";
+	public static final String ACTUAL_ENDURING_TASK = "uaf.ActualEnduringTask";
+	public static final String ACHIEVER = "uaf.Achiever";
+		//Operational
+	public static final String HIGH_LEVEL_OPERATIONAL_CONCEPT = "uaf.HighLevelOperationalConcept";
+	public static final String KNOWN_RESOURCE = "uaf.KnownResource";
+	public static final String OPERATIONAL_AGENT = "uaf.OperationalAgent";
+	public static final String OPERATIONAL_ARCHITECTURE = "uaf.OperationalArchitecture";
+	public static final String OPERATIONAL_PERFORMER = "uaf.OperationalPerformer";
+	public static final String OPERATIONAL_INTERFACE = "uaf.OperationalInterface";
+	public static final String INFORMATIONAL_ELEMENT = "uaf.InformationalElement";
+	
+	public static final String OPERATIONAL_ROLE= "uaf.OperationalRole";
+	
+	//UAF Relationships
+	public static final String CAPABILITY_FOR_TASK = "uaf.CapabilityForTask";
+	public static final String DESIRED_EFFECT = "uaf.DesiredEffect";
+	public static final String ACHIEVED_EFFECT = "uaf.AchievedEffect";
+	public static final String EXHIBITS = "uaf.Exhibits";
+	public static final String ORGANIZATION_IN_ENTERPRISE="uaf.OrganizationInEnterprise";
+	public static final String MAPS_TO_CAPABILITY ="uaf.MapsToCapability";
+	//Operational
+	/*public static final String OPERATIONAL_CONTROL_FLOW = "uaf.OperationalControlFlow";
+	public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
+	public static final String INFORMATION_FLOW = "uaf.InformationFlow";
+	public static final String OBJECT_FLOW = "uaf.ObjectFlow";*/
+			
+	
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
 	

@@ -66,7 +66,7 @@ public class ImportXmlSysml {
     private static Project project = Application.getInstance().getProject();
     private static HashMap<String, String> parentMap = new HashMap<String, String>();
     private static HashMap<String, String> pluginCreatedIDs = new HashMap<String, String>();
-    
+    private static String  metaModel = null;
     //Variables for Automatic Validation Creation
 	public static final boolean CREATE_VALIDATION_ON_IMPORT = false;
 	public static final boolean IMPORT_FILTER = false;
@@ -93,6 +93,7 @@ public class ImportXmlSysml {
 		MODEL_VALIDATION_PACKAGE = null;
 		CHECK_CLASSES = null;
 		CHECK_RELATIONSHIPS = null;
+		metaModel = null;
 		ImportLog.reset();
     }
     
@@ -129,6 +130,7 @@ public class ImportXmlSysml {
 	}
 
 	public static void buildModel(HashMap<String, XMLItem> parsedXML) {
+		metaModel = CameoUtils.determineMetamodel(project);
 		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
 			XMLItem modelElement = entry.getValue();
 			String id = entry.getKey();

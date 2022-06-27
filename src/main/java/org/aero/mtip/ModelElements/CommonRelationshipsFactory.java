@@ -24,6 +24,14 @@ import org.aero.mtip.ModelElements.StateMachine.Transition;
 import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.UAFConstants;
+
+import uaf.Strategic.AchievedEffect;
+import uaf.Strategic.CapabilityForTask;
+import uaf.Strategic.DesiredEffect;
+import uaf.Strategic.Exhibits;
+import uaf.Strategic.MapsToCapability;
+import uaf.Strategic.OrganizationInEnterprise;
 
 public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
@@ -101,6 +109,41 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.VERIFY:
 				relationship = new Verify(name, EAID);
 				break;
+				
+				
+			//UAF
+			case UAFConstants.CAPABILITY_FOR_TASK:
+				relationship = new CapabilityForTask(name, EAID);
+				break;
+			case UAFConstants.DESIRED_EFFECT:
+				relationship = new DesiredEffect(name, EAID);
+				break;
+			case UAFConstants.ACHIEVED_EFFECT:
+				relationship = new AchievedEffect(name, EAID);
+				break;
+			case UAFConstants.EXHIBITS:
+				relationship = new Exhibits(name, EAID);
+				break;
+			case UAFConstants.ORGANIZATION_IN_ENTERPRISE:
+				relationship = new OrganizationInEnterprise(name, EAID);
+				break;
+			case UAFConstants.MAPS_TO_CAPABILITY:
+				relationship = new MapsToCapability(name, EAID);
+				break;
+			//Operational
+			/*case UAFConstants.OPERATIONAL_CONTROL_FLOW:
+				relationship = new OperationalControlFlow(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_CONNECTOR:
+				relationship = new OperationalConnector(name, EAID);
+				break;*/
+		    /*case UAFConstants.INFORMATION_FLOW:
+				relationship = new uaf.Operational.InformationFlow(name, EAID);
+				break;
+			case UAFConstants.OBJECT_FLOW:
+				relationship = new uaf.Operational.ObjectFlow(name, EAID);
+				break;*/
+				
 			default:
 				break;
 		}
