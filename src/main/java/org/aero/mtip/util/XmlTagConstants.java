@@ -313,6 +313,7 @@ public class XmlTagConstants
 	public static final String INFORMATIONAL_ELEMENT = "uaf.InformationalElement";
 	
 	public static final String OPERATIONAL_ROLE= "uaf.OperationalRole";
+	public static final String OPERATIONAL_ACTIVITY = "uaf.OperationalActivity";
 	
 	//UAF Relationships
 	public static final String CAPABILITY_FOR_TASK = "uaf.CapabilityForTask";

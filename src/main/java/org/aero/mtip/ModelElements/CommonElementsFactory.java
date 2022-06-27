@@ -154,6 +154,7 @@ import org.aero.mtip.util.UAFConstants;
 import uaf.Operational.HighLevelOperationalConcept;
 import uaf.Operational.InformationalElement;
 import uaf.Operational.KnownResource;
+import uaf.Operational.OperationalActivity;
 import uaf.Operational.OperationalAgent;
 import uaf.Operational.OperationalInterface;
 import uaf.Operational.OperationalPerformer;
@@ -694,6 +695,9 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.OPERATIONAL_ROLE:
 				element = new OperationalRole(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_ACTIVITY:
+				element = new OperationalActivity(name, EAID);
 				break;
 			default:
 				break;

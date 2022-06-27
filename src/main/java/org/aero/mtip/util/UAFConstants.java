@@ -38,6 +38,7 @@ public class UAFConstants {
 	public static final String OPERATIONAL_CONTROL_FLOW = "OperationalControlFlow";
 	public static final String OPERATIONAL_CONNECTOR = "OperationalConnector";
 	public static final String OPERATIONAL_ROLE = "OperationalRole";
+	public static final String OPERATIONAL_ACTIVITY = "OperationalActivity";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -72,7 +73,8 @@ public class UAFConstants {
 			OPERATIONAL_PERFORMER,
 			OPERATIONAL_INTERFACE,
 			INFORMATIONAL_ELEMENT,
-			OPERATIONAL_ROLE
+			OPERATIONAL_ROLE,
+			OPERATIONAL_ACTIVITY
 			
 			
 
