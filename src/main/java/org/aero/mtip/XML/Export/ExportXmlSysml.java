@@ -441,6 +441,8 @@ public class ExportXmlSysml {
 			return UAFConstants.OPERATIONAL_ROLE;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTIVITY_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_ACTIVITY;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTIVITY_ACTION_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_ACTIVITY_ACTION;
 		}
 		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONTROL_FLOW;

@@ -155,6 +155,7 @@ import uaf.Operational.HighLevelOperationalConcept;
 import uaf.Operational.InformationalElement;
 import uaf.Operational.KnownResource;
 import uaf.Operational.OperationalActivity;
+import uaf.Operational.OperationalActivityAction;
 import uaf.Operational.OperationalAgent;
 import uaf.Operational.OperationalInterface;
 import uaf.Operational.OperationalPerformer;
@@ -698,6 +699,9 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.OPERATIONAL_ACTIVITY:
 				element = new OperationalActivity(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_ACTIVITY_ACTION:
+				element = new OperationalActivityAction(name, EAID);
 				break;
 			default:
 				break;

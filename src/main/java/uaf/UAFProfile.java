@@ -48,6 +48,7 @@ public class UAFProfile {
 	public static Stereotype OBJECT_FLOW_STEREOTYPE = null;*/
 	public static Stereotype OPERATIONAL_ROLE_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_ACTIVITY_STEREOTYPE = null;
+	public static Stereotype OPERATIONAL_ACTIVITY_ACTION_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
@@ -89,5 +90,6 @@ public class UAFProfile {
 	    OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OBJECT_FLOW, UAF_PROFILE);*/
 	    OPERATIONAL_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ROLE, UAF_PROFILE);
 	    OPERATIONAL_ACTIVITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ACTIVITY, UAF_PROFILE);
+	    OPERATIONAL_ACTIVITY_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ACTIVITY_ACTION, UAF_PROFILE);
 	}
 }
