@@ -117,6 +117,8 @@ public class ImportXmlSysml {
     }
     
 	public static void createModel() throws NullPointerException {
+		project.getOptions().setAutoNumbering(false);
+		
 		buildModel(profileXML);
 		if(CREATE_VALIDATION_ON_IMPORT) {
 			if(!profileXML.isEmpty() && !stereotypesXML.isEmpty()) {
@@ -129,6 +131,7 @@ public class ImportXmlSysml {
 			SessionManager.getInstance().createSession(project, "Refresh");
 		}
 		SessionManager.getInstance().closeSession(project);
+		project.getOptions().setAutoNumbering(true);
 	}
 
 	public static void buildModel(HashMap<String, XMLItem> parsedXML) {
