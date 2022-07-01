@@ -289,34 +289,37 @@ public class XmlTagConstants
 	
 	//UAF Element text for XML type tag
 		// Strategic
+	public static final String ACHIEVER = "uaf.Achiever";
+	public static final String ACTUAL_ENDURING_TASK = "uaf.ActualEnduringTask";
 	public static final String ACTUAL_ENTERPRISE_PHASE = "uaf.ActualEnterprisePhase";
 	public static final String CAPABILITY = "uaf.Capability";
 	public static final String CAPABILITY_PROPERTY = "uaf.CapabilityProperty";
+	public static final String DESIRER = "uaf.Desirer";
+	public static final String ENDURING_TASK = "uaf.EnduringTask";
 	public static final String ENTERPRISE_PHASE = "uaf.EnterprisePhase";
 	public static final String ENTERPIRSE_VISION = "uaf.EnterpriseVision";
-	public static final String WHOLE_LIFE_ENTERPRISE = "uaf.WholeLifeEnterprise";
-	public static final String ENDURING_TASK = "uaf.EnduringTask";
-	public static final String DESIRER = "uaf.Desirer";
-	public static final String ENTERPRISE_VISION = "uaf.EnterpriseVision";
-	public static final String VISION_STATEMENT = "uaf.VisionStatement";
 	public static final String STRUCTURAL_PART = "uaf.StructuralPart";
 	public static final String TEMPORAL_PART = "uaf.TemporalPart";
-	public static final String ACTUAL_ENDURING_TASK = "uaf.ActualEnduringTask";
-	public static final String ACHIEVER = "uaf.Achiever";
-		//Operational
+	public static final String VISION_STATEMENT = "uaf.VisionStatement";
+	public static final String WHOLE_LIFE_ENTERPRISE = "uaf.WholeLifeEnterprise";
+
+	//Operational
 	public static final String HIGH_LEVEL_OPERATIONAL_CONCEPT = "uaf.HighLevelOperationalConcept";
-	public static final String KNOWN_RESOURCE = "uaf.KnownResource";
-	public static final String OPERATIONAL_AGENT = "uaf.OperationalAgent";
-	public static final String OPERATIONAL_ARCHITECTURE = "uaf.OperationalArchitecture";
-	public static final String OPERATIONAL_PERFORMER = "uaf.OperationalPerformer";
-	public static final String OPERATIONAL_INTERFACE = "uaf.OperationalInterface";
 	public static final String INFORMATIONAL_ELEMENT = "uaf.InformationalElement";
-	
-	public static final String OPERATIONAL_ROLE= "uaf.OperationalRole";
+	public static final String KNOWN_RESOURCE = "uaf.KnownResource";
 	public static final String OPERATIONAL_ACTIVITY = "uaf.OperationalActivity";
 	public static final String OPERATIONAL_ACTIVITY_ACTION = "uaf.OperationalActivityAction";
+	public static final String OPERATIONAL_AGENT = "uaf.OperationalAgent";
+	public static final String OPERATIONAL_ARCHITECTURE = "uaf.OperationalArchitecture";
+	public static final String OPERATIONAL_INTERFACE = "uaf.OperationalInterface";
+	public static final String OPERATIONAL_PERFORMER = "uaf.OperationalPerformer";
+	public static final String OPERATIONAL_ROLE= "uaf.OperationalRole";
+	public static final String OPERATIONAL_SIGNAL = "uaf.OperationalSignal";
+	public static final String OPERATIONAL_SIGNAL_PROPERTY = "uaf.OperationalSignalProperty";
+	public static final String STANDARD_OPERATIONAL_ACTIVITY = "uaf.StandardOperationalActivity";
 	
 	//UAF Relationships
+	//Strategic
 	public static final String CAPABILITY_FOR_TASK = "uaf.CapabilityForTask";
 	public static final String DESIRED_EFFECT = "uaf.DesiredEffect";
 	public static final String ACHIEVED_EFFECT = "uaf.AchievedEffect";
@@ -324,6 +327,7 @@ public class XmlTagConstants
 	public static final String ORGANIZATION_IN_ENTERPRISE="uaf.OrganizationInEnterprise";
 	public static final String MAPS_TO_CAPABILITY ="uaf.MapsToCapability";
 	//Operational
+	public static final String ARBITRARY_CONNECTOR = "uaf.ArbitraryConnector";
 	/*public static final String OPERATIONAL_CONTROL_FLOW = "uaf.OperationalControlFlow";
 	public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
 	public static final String INFORMATION_FLOW = "uaf.InformationFlow";

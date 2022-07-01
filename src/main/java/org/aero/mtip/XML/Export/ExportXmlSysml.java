@@ -386,63 +386,71 @@ public class ExportXmlSysml {
 	
 	public static String getUAFElementType(Element element) {
 		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-		
-		if(stereotypes.contains(UAFProfile.ACTUAL_ENTERPRISE_PHASE_STEREOTYPE)) {
+	    
+	    if(stereotypes.contains(UAFProfile.ACHIEVED_EFFECT_STEREOTYPE)) {
+	    	return UAFConstants.ACHIEVED_EFFECT;
+		} else if(stereotypes.contains(UAFProfile.ACHIEVER_STEREOTYPE)) {
+			return UAFConstants.ACHIEVER;
+	    } else if(stereotypes.contains(UAFProfile.ACTUAL_ENDURING_TASK_STEREOTYPE)) {
+	    	return UAFConstants.ACTUAL_ENDURING_TASK;
+	    } else if(stereotypes.contains(UAFProfile.ACTUAL_ENTERPRISE_PHASE_STEREOTYPE)) {
 			return UAFConstants.ACTUAL_ENTERPRISE_PHASE;
 		} else if(stereotypes.contains(UAFProfile.CAPABILITY_STEREOTYPE)) {
 			return UAFConstants.CAPABILITY;
+		} else if(stereotypes.contains(UAFProfile.CAPABILITY_FOR_TASK_STEREOTYPE)) {
+			return UAFConstants.CAPABILITY_FOR_TASK;
 		} else if(stereotypes.contains(UAFProfile.CAPABILITY_PROPERTY_STEREOTYPE)) {
 			return UAFConstants.CAPABILITY_PROPERTY;
+		} else if(stereotypes.contains(UAFProfile.DESIRED_EFFECT_STEREOTYPE)) {
+			return UAFConstants.DESIRED_EFFECT;
+		} else if(stereotypes.contains(UAFProfile.ENDURING_TASK_STEREOTYPE)) {
+			return UAFConstants.ENDURING_TASK;
 		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_PHASE_STEREOTYPE)) {
 			return UAFConstants.ENTERPRISE_PHASE;
 		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_VISION_STEREOTYPE)) {
 			return UAFConstants.ENTERPRISE_VISION;
-		} else if(stereotypes.contains(UAFProfile.WHOLE_LIFE_ENTERPRISE_STEREOTYPE)) {
-			return UAFConstants.WHOLE_LIFE_ENTERPRISE;
-		} else if(stereotypes.contains(UAFProfile.ENDURING_TASK_STEREOTYPE)) {
-			return UAFConstants.ENDURING_TASK;
+		} else if(stereotypes.contains(UAFProfile.EXHIBITS_STEREOTYPE)) {
+			return UAFConstants.EXHIBITS;	
+		} else if(stereotypes.contains(UAFProfile.MAPS_TO_CAPABILITY_STEREOTYPE)) {
+			return UAFConstants.MAPS_TO_CAPABILITY;
+		} else if(stereotypes.contains(UAFProfile.ORGANIZATION_IN_ENTERPRISE_STEREOTYPE)) {
+			return UAFConstants.ORGANIZATION_IN_ENTERPRISE;	
 		} else if(stereotypes.contains(UAFProfile.STRUCTURAL_PART_STEREOTYPE)) {
 			return UAFConstants.STRUCTURAL_PART;
 		} else if(stereotypes.contains(UAFProfile.TEMPORAL_PART_STEREOTYPE)) {
 			return UAFConstants.TEMPORAL_PART;
-		} else if(stereotypes.contains(UAFProfile.ACTUAL_ENDURING_TASK_STEREOTYPE)) {
-			return UAFConstants.ACTUAL_ENDURING_TASK;
-		} else if(stereotypes.contains(UAFProfile.ACHIEVER_STEREOTYPE)) {
-			return UAFConstants.ACHIEVER;
-		} else if(stereotypes.contains(UAFProfile.CAPABILITY_FOR_TASK_STEREOTYPE)) {
-			return UAFConstants.CAPABILITY_FOR_TASK;
-		} else if(stereotypes.contains(UAFProfile.DESIRED_EFFECT_STEREOTYPE)) {
-			return UAFConstants.DESIRED_EFFECT;
-		} else if(stereotypes.contains(UAFProfile.ACHIEVED_EFFECT_STEREOTYPE)) {
-			return UAFConstants.ACHIEVED_EFFECT;
-		} else if(stereotypes.contains(UAFProfile.EXHIBITS_STEREOTYPE)) {
-			return UAFConstants.EXHIBITS;
-		} else if(stereotypes.contains(UAFProfile.ORGANIZATION_IN_ENTERPRISE_STEREOTYPE)) {
-			return UAFConstants.ORGANIZATION_IN_ENTERPRISE;
-		} else if(stereotypes.contains(UAFProfile.MAPS_TO_CAPABILITY_STEREOTYPE)) {
-			return UAFConstants.MAPS_TO_CAPABILITY;
+		} else if(stereotypes.contains(UAFProfile.WHOLE_LIFE_ENTERPRISE_STEREOTYPE)) {
+			return UAFConstants.WHOLE_LIFE_ENTERPRISE;
 		}
 		//OPERATIONAL
-		  else if(stereotypes.contains(UAFProfile.HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE)) {
+	     else if (stereotypes.contains(UAFProfile.ARBITRARY_CONNECTOR_STEREOTYPE)) {
+	    	return UAFConstants.ARBITRARY_CONNECTOR;
+	    } else if(stereotypes.contains(UAFProfile.HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE)) {
 			return UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT;
+		} else if (stereotypes.contains(UAFProfile.INFORMATIONAL_ELEMENT_STEREOTYPE)) {
+			return UAFConstants.INFORMATIONAL_ELEMENT;	
 		} else if(stereotypes.contains(UAFProfile.KNOWN_RESOURCE_STEREOTYPE)) {
-			return UAFConstants.KNOWN_RESOURCE;
+			return UAFConstants.KNOWN_RESOURCE;	
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTIVITY_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_ACTIVITY;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTIVITY_ACTION_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_ACTIVITY_ACTION;	
 		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_AGENT_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_AGENT;
 		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_ARCHITECTURE_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_ARCHITECTURE;
+		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_INTERFACE_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_INTERFACE;	
 		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_PERFORMER_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PERFORMER;
-		} else if(stereotypes.contains(UAFProfile.OPERATIONAL_INTERFACE_STEREOTYPE)) {
-			return UAFConstants.OPERATIONAL_INTERFACE;
-		} else if (stereotypes.contains(UAFProfile.INFORMATIONAL_ELEMENT_STEREOTYPE)) {
-			return UAFConstants.INFORMATIONAL_ELEMENT;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ROLE_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_ROLE;
-		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTIVITY_STEREOTYPE)) {
-			return UAFConstants.OPERATIONAL_ACTIVITY;
-		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTIVITY_ACTION_STEREOTYPE)) {
-			return UAFConstants.OPERATIONAL_ACTIVITY_ACTION;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_SIGNAL_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_SIGNAL;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_SIGNAL_PROPERTY_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_SIGNAL_PROPERTY;
+		} else if (stereotypes.contains(UAFProfile.STANDARD_OPERATIONAL_ACTIVITY_STEREOTYPE)) {
+			return UAFConstants.STANDARD_OPERATIONAL_ACTIVITY;
 		}
 		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONTROL_FLOW;

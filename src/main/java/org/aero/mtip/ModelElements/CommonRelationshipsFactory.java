@@ -26,6 +26,7 @@ import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.UAFConstants;
 
+import uaf.Operational.ArbitraryConnector;
 import uaf.Strategic.AchievedEffect;
 import uaf.Strategic.CapabilityForTask;
 import uaf.Strategic.DesiredEffect;
@@ -112,23 +113,24 @@ public class CommonRelationshipsFactory {
 				
 				
 			//UAF
+			case UAFConstants.ACHIEVED_EFFECT:
+				relationship = new AchievedEffect(name, EAID);
+				break;
 			case UAFConstants.CAPABILITY_FOR_TASK:
 				relationship = new CapabilityForTask(name, EAID);
 				break;
 			case UAFConstants.DESIRED_EFFECT:
 				relationship = new DesiredEffect(name, EAID);
 				break;
-			case UAFConstants.ACHIEVED_EFFECT:
-				relationship = new AchievedEffect(name, EAID);
-				break;
+
 			case UAFConstants.EXHIBITS:
 				relationship = new Exhibits(name, EAID);
 				break;
-			case UAFConstants.ORGANIZATION_IN_ENTERPRISE:
-				relationship = new OrganizationInEnterprise(name, EAID);
-				break;
 			case UAFConstants.MAPS_TO_CAPABILITY:
 				relationship = new MapsToCapability(name, EAID);
+				break;
+			case UAFConstants.ORGANIZATION_IN_ENTERPRISE:
+				relationship = new OrganizationInEnterprise(name, EAID);
 				break;
 			//Operational
 			/*case UAFConstants.OPERATIONAL_CONTROL_FLOW:
@@ -143,6 +145,9 @@ public class CommonRelationshipsFactory {
 			case UAFConstants.OBJECT_FLOW:
 				relationship = new uaf.Operational.ObjectFlow(name, EAID);
 				break;*/
+			case UAFConstants.ARBITRARY_CONNECTOR:
+				relationship = new ArbitraryConnector(name, EAID);
+				break;
 				
 			default:
 				break;

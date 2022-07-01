@@ -40,6 +40,10 @@ public class UAFConstants {
 	public static final String OPERATIONAL_ROLE = "OperationalRole";
 	public static final String OPERATIONAL_ACTIVITY = "OperationalActivity";
 	public static final String OPERATIONAL_ACTIVITY_ACTION = "OperationalActivityAction";
+	public static final String STANDARD_OPERATIONAL_ACTIVITY = "StandardOperationalActivity";
+	public static final String OPERATIONAL_SIGNAL = "OperationalSignal";
+	public static final String OPERATIONAL_SIGNAL_PROPERTY = "OperationalSignalProperty";
+	public static final String ARBITRARY_CONNECTOR = "ArbitraryConnector";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -52,40 +56,44 @@ public class UAFConstants {
 	
 	
 	public static final String[] UAF_ELEMENTS = {
+			ACHIEVER,
+			ACTUAL_ENDURING_TASK,
 			ACTUAL_ENTERPRISE_PHASE,
 			CAPABILITY,
 			CAPABILITY_PROPERTY,
+			DESIRER,
+			ENDURING_TASK,
 			ENTERPRISE_PHASE,
 			ENTERPRISE_VISION,
 			WHOLE_LIFE_ENTERPRISE,
 			STRATEGIC_TAXONOMY_PACKAGE,
-			ENDURING_TASK,
-			DESIRER,
-			VISION_STATEMENT,
 			STRUCTURAL_PART,
 			TEMPORAL_PART,
-			ACTUAL_ENDURING_TASK,
-			ACHIEVER,
+			VISION_STATEMENT,
+			
 			//Operational
 			HIGH_LEVEL_OPERATIONAL_CONCEPT,
+			INFORMATIONAL_ELEMENT,
 			KNOWN_RESOURCE,
+			OPERATIONAL_ACTIVITY,
+			OPERATIONAL_ACTIVITY_ACTION,
 			OPERATIONAL_AGENT,
 			OPERATIONAL_ARCHITECTURE,
-			OPERATIONAL_PERFORMER,
 			OPERATIONAL_INTERFACE,
-			INFORMATIONAL_ELEMENT,
+			STANDARD_OPERATIONAL_ACTIVITY,
+			OPERATIONAL_PERFORMER,
 			OPERATIONAL_ROLE,
-			OPERATIONAL_ACTIVITY,
-			OPERATIONAL_ACTIVITY_ACTION
-			
+			OPERATIONAL_SIGNAL,
+			OPERATIONAL_SIGNAL_PROPERTY
 			
 
 	};
 	
 	public static final String[] UAF_RELATIONSHIPS = {
+			//STRATEGIC
+			ACHIEVED_EFFECT,
 			CAPABILITY_FOR_TASK,
 			DESIRED_EFFECT,
-			ACHIEVED_EFFECT,
 			EXHIBITS,
 			ORGANIZATION_IN_ENTERPRISE,
 			MAPS_TO_CAPABILITY,
@@ -94,6 +102,7 @@ public class UAFConstants {
 			OPERATIONAL_CONNECTOR,
 			INFORMATION_FLOW,
 			OBJECT_FLOW*/
+			ARBITRARY_CONNECTOR
 	};
 	
 	public static final String[] UAF_DIAGRAMS = {
