@@ -305,7 +305,7 @@ public class XmlTagConstants
 
 	//Operational
 	public static final String HIGH_LEVEL_OPERATIONAL_CONCEPT = "uaf.HighLevelOperationalConcept";
-	public static final String INFORMATIONAL_ELEMENT = "uaf.InformationalElement";
+	public static final String INFORMATION_ELEMENT = "uaf.InformationElement";
 	public static final String KNOWN_RESOURCE = "uaf.KnownResource";
 	public static final String OPERATIONAL_ACTIVITY = "uaf.OperationalActivity";
 	public static final String OPERATIONAL_ACTIVITY_ACTION = "uaf.OperationalActivityAction";
@@ -317,6 +317,8 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_SIGNAL = "uaf.OperationalSignal";
 	public static final String OPERATIONAL_SIGNAL_PROPERTY = "uaf.OperationalSignalProperty";
 	public static final String STANDARD_OPERATIONAL_ACTIVITY = "uaf.StandardOperationalActivity";
+	public static final String OPERATIONAL_METHOD = "uaf.OperationalMethod";
+	public static final String PROBLEM_DOMAIN = "uaf.ProblemDomain";
 	
 	//UAF Relationships
 	//Strategic
@@ -328,8 +330,13 @@ public class XmlTagConstants
 	public static final String MAPS_TO_CAPABILITY ="uaf.MapsToCapability";
 	//Operational
 	public static final String ARBITRARY_CONNECTOR = "uaf.ArbitraryConnector";
-	/*public static final String OPERATIONAL_CONTROL_FLOW = "uaf.OperationalControlFlow";
+	public static final String OPERATIONAL_CONTROL_FLOW = "uaf.OperationalControlFlow";
+	public static final String OPERATIONAL_OBJECT_FLOW = "uaf.OperationalObjectFLow";
 	public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
+	public static final String OPERATIONAL_EXCHANGE = "uaf.OperationalExchange";
+	public static final String OPERATIONAL_MESSAGE = "uaf.OperationalMessage";
+	public static final String OPERATIONAL_PORT = "uaf.OperationalPort";
+	/*public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
 	public static final String INFORMATION_FLOW = "uaf.InformationFlow";
 	public static final String OBJECT_FLOW = "uaf.ObjectFlow";*/
 			

@@ -152,16 +152,20 @@ import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.UAFConstants;
 
 import uaf.Operational.HighLevelOperationalConcept;
-import uaf.Operational.InformationalElement;
+import uaf.Operational.InformationElement;
 import uaf.Operational.KnownResource;
 import uaf.Operational.OperationalActivity;
 import uaf.Operational.OperationalActivityAction;
 import uaf.Operational.OperationalAgent;
+import uaf.Operational.OperationalArchitecture;
 import uaf.Operational.OperationalInterface;
+import uaf.Operational.OperationalMethod;
 import uaf.Operational.OperationalPerformer;
+import uaf.Operational.OperationalPort;
 import uaf.Operational.OperationalRole;
 import uaf.Operational.OperationalSignal;
 import uaf.Operational.OperationalSignalProperty;
+import uaf.Operational.ProblemDomain;
 import uaf.Operational.StandardOperationalActivity;
 import uaf.Strategic.Achiever;
 import uaf.Strategic.ActualEnduringTask;
@@ -679,8 +683,8 @@ public class CommonElementsFactory {
 			case UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT:
 				element = new HighLevelOperationalConcept(name, EAID);
 				break;
-			case UAFConstants.INFORMATIONAL_ELEMENT:
-				element = new InformationalElement(name, EAID);
+			case UAFConstants.INFORMATION_ELEMENT:
+				element = new InformationElement(name, EAID);
 				break;
 			case UAFConstants.KNOWN_RESOURCE:
 				element = new KnownResource(name, EAID);
@@ -695,7 +699,7 @@ public class CommonElementsFactory {
 				element = new OperationalAgent(name, EAID);
 				break;
 			case UAFConstants.OPERATIONAL_ARCHITECTURE:
-				element = new OperationalAgent(name, EAID);
+				element = new OperationalArchitecture(name, EAID);
 				break;
 			case UAFConstants.OPERATIONAL_INTERFACE:
 				element = new OperationalInterface(name, EAID);
@@ -714,6 +718,15 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.STANDARD_OPERATIONAL_ACTIVITY:
 				element = new StandardOperationalActivity(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_METHOD:
+				element = new OperationalMethod(name, EAID);
+				break;
+			case UAFConstants.PROBLEM_DOMAIN:
+				element = new ProblemDomain(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_PORT:
+				element = new OperationalPort(name, EAID);
 				break;
 			default:
 				break;

@@ -34,7 +34,7 @@ public class UAFConstants {
 	public static final String OPERATIONAL_ARCHITECTURE = "OperationalArchitecture";
 	public static final String OPERATIONAL_PERFORMER = "OperationalPerformer";
 	public static final String OPERATIONAL_INTERFACE = "OperationalInterface";
-	public static final String INFORMATIONAL_ELEMENT = "InformationalElement";
+	public static final String INFORMATION_ELEMENT = "InformationElement";
 	public static final String OPERATIONAL_CONTROL_FLOW = "OperationalControlFlow";
 	public static final String OPERATIONAL_CONNECTOR = "OperationalConnector";
 	public static final String OPERATIONAL_ROLE = "OperationalRole";
@@ -44,6 +44,12 @@ public class UAFConstants {
 	public static final String OPERATIONAL_SIGNAL = "OperationalSignal";
 	public static final String OPERATIONAL_SIGNAL_PROPERTY = "OperationalSignalProperty";
 	public static final String ARBITRARY_CONNECTOR = "ArbitraryConnector";
+	public static final String OPERATIONAL_METHOD = "OperationalMethod";
+	public static final String PROBLEM_DOMAIN = "ProblemDomain";
+	public static final String OPERATIONAL_OBJECT_FLOW = "OperationalObjectFlow";
+	public static final String OPERATIONAL_EXCHANGE = "OperationalExchange";
+	public static final String OPERATIONAL_MESSAGE = "OperationalMessage";
+	public static final String OPERATIONAL_PORT = "OperationalPort";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -73,7 +79,7 @@ public class UAFConstants {
 			
 			//Operational
 			HIGH_LEVEL_OPERATIONAL_CONCEPT,
-			INFORMATIONAL_ELEMENT,
+			INFORMATION_ELEMENT,
 			KNOWN_RESOURCE,
 			OPERATIONAL_ACTIVITY,
 			OPERATIONAL_ACTIVITY_ACTION,
@@ -84,7 +90,10 @@ public class UAFConstants {
 			OPERATIONAL_PERFORMER,
 			OPERATIONAL_ROLE,
 			OPERATIONAL_SIGNAL,
-			OPERATIONAL_SIGNAL_PROPERTY
+			OPERATIONAL_SIGNAL_PROPERTY,
+			OPERATIONAL_METHOD,
+			PROBLEM_DOMAIN,
+			OPERATIONAL_PORT
 			
 
 	};
@@ -97,12 +106,18 @@ public class UAFConstants {
 			EXHIBITS,
 			ORGANIZATION_IN_ENTERPRISE,
 			MAPS_TO_CAPABILITY,
+			
 			//OPERATIONAL
-			/*OPERATIONAL_CONTROL_FLOW,
+			/*
 			OPERATIONAL_CONNECTOR,
 			INFORMATION_FLOW,
 			OBJECT_FLOW*/
-			ARBITRARY_CONNECTOR
+			OPERATIONAL_CONNECTOR,
+			OPERATIONAL_CONTROL_FLOW,
+			OPERATIONAL_OBJECT_FLOW,
+			ARBITRARY_CONNECTOR,
+			OPERATIONAL_EXCHANGE,
+			OPERATIONAL_MESSAGE
 	};
 	
 	public static final String[] UAF_DIAGRAMS = {

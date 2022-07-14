@@ -8,14 +8,14 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 
 import uaf.UAFElement;
 
-public class InformationalElement extends CommonElement implements UAFElement {
+public class InformationElement extends CommonElement implements UAFElement {
 	
-	public InformationalElement(String name, String EAID) {
+	public InformationElement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = UAFConstants.INFORMATIONAL_ELEMENT;
-		this.xmlConstant = XmlTagConstants.INFORMATIONAL_ELEMENT;
+		this.sysmlConstant = UAFConstants.INFORMATION_ELEMENT;
+		this.xmlConstant = XmlTagConstants.INFORMATION_ELEMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), UAFConstants.UAF_PROFILE_NAME); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), UAFConstants.INFORMATIONAL_ELEMENT, creationProfile);
+		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), UAFConstants.INFORMATION_ELEMENT, creationProfile);
 	}
 }

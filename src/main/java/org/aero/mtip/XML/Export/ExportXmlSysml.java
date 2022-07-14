@@ -427,8 +427,8 @@ public class ExportXmlSysml {
 	    	return UAFConstants.ARBITRARY_CONNECTOR;
 	    } else if(stereotypes.contains(UAFProfile.HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE)) {
 			return UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT;
-		} else if (stereotypes.contains(UAFProfile.INFORMATIONAL_ELEMENT_STEREOTYPE)) {
-			return UAFConstants.INFORMATIONAL_ELEMENT;	
+		} else if (stereotypes.contains(UAFProfile.INFORMATION_ELEMENT_STEREOTYPE)) {
+			return UAFConstants.INFORMATION_ELEMENT;	
 		} else if(stereotypes.contains(UAFProfile.KNOWN_RESOURCE_STEREOTYPE)) {
 			return UAFConstants.KNOWN_RESOURCE;	
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTIVITY_STEREOTYPE)) {
@@ -451,6 +451,16 @@ public class ExportXmlSysml {
 			return UAFConstants.OPERATIONAL_SIGNAL_PROPERTY;
 		} else if (stereotypes.contains(UAFProfile.STANDARD_OPERATIONAL_ACTIVITY_STEREOTYPE)) {
 			return UAFConstants.STANDARD_OPERATIONAL_ACTIVITY;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_OBJECT_FLOW_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_OBJECT_FLOW;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONNECTOR_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_CONNECTOR;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_EXCHANGE_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_EXCHANGE;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_MESSAGE_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_MESSAGE;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PORT_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_PORT;
 		}
 		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONTROL_FLOW;
