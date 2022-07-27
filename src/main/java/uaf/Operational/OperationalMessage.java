@@ -22,7 +22,7 @@ public class OperationalMessage extends Message {
 	}
 	
 	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
+	public Element createElement(Project project, Element owner, Element client, Element supplier,XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.OPERATIONAL_MESSAGE_STEREOTYPE);
 		

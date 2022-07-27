@@ -151,6 +151,7 @@ import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.UAFConstants;
 
+import uaf.Operational.ConceptRole;
 import uaf.Operational.HighLevelOperationalConcept;
 import uaf.Operational.InformationElement;
 import uaf.Operational.KnownResource;
@@ -158,13 +159,17 @@ import uaf.Operational.OperationalActivity;
 import uaf.Operational.OperationalActivityAction;
 import uaf.Operational.OperationalAgent;
 import uaf.Operational.OperationalArchitecture;
+import uaf.Operational.OperationalConstraint;
+import uaf.Operational.OperationalExchangeKind;
 import uaf.Operational.OperationalInterface;
 import uaf.Operational.OperationalMethod;
+import uaf.Operational.OperationalParameter;
 import uaf.Operational.OperationalPerformer;
 import uaf.Operational.OperationalPort;
 import uaf.Operational.OperationalRole;
 import uaf.Operational.OperationalSignal;
 import uaf.Operational.OperationalSignalProperty;
+import uaf.Operational.OperationalStateDescription;
 import uaf.Operational.ProblemDomain;
 import uaf.Operational.StandardOperationalActivity;
 import uaf.Strategic.Achiever;
@@ -680,6 +685,12 @@ public class CommonElementsFactory {
 				element = new WholeLifeEnterprise(name, EAID);
 				break;
 			//Operational
+			case UAFConstants.CONCEPT_ROLE:
+				element = new ConceptRole(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_EXCHANGE_KIND:
+				element = new OperationalExchangeKind(name, EAID);
+				break;
 			case UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT:
 				element = new HighLevelOperationalConcept(name, EAID);
 				break;
@@ -727,6 +738,15 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.OPERATIONAL_PORT:
 				element = new OperationalPort(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_CONSTRAINT:
+				element = new OperationalConstraint(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_STATE_DESCRIPTION:
+				element = new OperationalStateDescription(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_PARAMETER:
+				element = new OperationalParameter(name, EAID);
 				break;
 			default:
 				break;

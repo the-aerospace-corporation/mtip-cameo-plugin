@@ -22,8 +22,9 @@ public class OperationalControlFlow extends ControlFlow {
 	}
 	
 	@Override
+	
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
+		super.createElement(project, owner, client, supplier, xmlElement);
 		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE);
 		
 		return sysmlElement;

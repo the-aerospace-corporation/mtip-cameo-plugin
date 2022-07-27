@@ -11,19 +11,19 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 import uaf.UAFProfile;
 
-public class ProblemDomain extends Property {
+public class ConceptRole extends Property {
 
-	public ProblemDomain(String name, String EAID) {
+	public ConceptRole(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = UAFConstants.PROBLEM_DOMAIN;
-		this.xmlConstant = XmlTagConstants.PROBLEM_DOMAIN;
+		this.sysmlConstant = UAFConstants.CONCEPT_ROLE;
+		this.xmlConstant = XmlTagConstants.CONCEPT_ROLE;
 		this.sysmlElement = f.createPropertyInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.PROBLEM_DOMAIN_STEREOTYPE);
+		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.CONCEPT_ROLE_STEREOTYPE);
 		
 		return sysmlElement;
 	}

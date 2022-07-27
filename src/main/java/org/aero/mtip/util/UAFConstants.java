@@ -28,6 +28,7 @@ public class UAFConstants {
 	public static final String MAPS_TO_CAPABILITY = "MapsToCapability";
 	
 	//Operational
+	public static final String CONCEPT_ROLE = "ConceptRole";
 	public static final String HIGH_LEVEL_OPERATIONAL_CONCEPT ="HighLevelOperationalConcept";
 	public static final String KNOWN_RESOURCE="KnownResource";
 	public static final String OPERATIONAL_AGENT = "OperationalAgent";
@@ -50,6 +51,10 @@ public class UAFConstants {
 	public static final String OPERATIONAL_EXCHANGE = "OperationalExchange";
 	public static final String OPERATIONAL_MESSAGE = "OperationalMessage";
 	public static final String OPERATIONAL_PORT = "OperationalPort";
+	public static final String OPERATIONAL_CONSTRAINT = "OperationalConstraint";
+	public static final String OPERATIONAL_STATE_DESCRIPTION = "OperationalStateDescription";
+	public static final String OPERATIONAL_PARAMETER = "OperationalParameter";
+	public static final String OPERATIONAL_EXCHANGE_KIND = "OperationalExchangeKind";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -78,6 +83,7 @@ public class UAFConstants {
 			VISION_STATEMENT,
 			
 			//Operational
+			CONCEPT_ROLE,
 			HIGH_LEVEL_OPERATIONAL_CONCEPT,
 			INFORMATION_ELEMENT,
 			KNOWN_RESOURCE,
@@ -93,7 +99,11 @@ public class UAFConstants {
 			OPERATIONAL_SIGNAL_PROPERTY,
 			OPERATIONAL_METHOD,
 			PROBLEM_DOMAIN,
-			OPERATIONAL_PORT
+			OPERATIONAL_PORT,
+			OPERATIONAL_CONSTRAINT,
+			OPERATIONAL_STATE_DESCRIPTION,
+			OPERATIONAL_PARAMETER,
+			OPERATIONAL_EXCHANGE_KIND,
 			
 
 	};

@@ -23,7 +23,7 @@ public class OperationalObjectFlow extends ObjectFlow {
 	
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
+		super.createElement(project, owner, client, supplier, xmlElement);
 		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.OPERATIONAL_OBJECT_FLOW_STEREOTYPE);
 		
 		return sysmlElement;

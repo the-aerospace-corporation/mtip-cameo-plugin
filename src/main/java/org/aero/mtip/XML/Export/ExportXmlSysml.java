@@ -425,7 +425,9 @@ public class ExportXmlSysml {
 		//OPERATIONAL
 	     else if (stereotypes.contains(UAFProfile.ARBITRARY_CONNECTOR_STEREOTYPE)) {
 	    	return UAFConstants.ARBITRARY_CONNECTOR;
-	    } else if(stereotypes.contains(UAFProfile.HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE)) {
+	    } else if (stereotypes.contains(UAFProfile.CONCEPT_ROLE_STEREOTYPE)) {
+	    	return UAFConstants.CONCEPT_ROLE;
+		} else if(stereotypes.contains(UAFProfile.HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE)) {
 			return UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT;
 		} else if (stereotypes.contains(UAFProfile.INFORMATION_ELEMENT_STEREOTYPE)) {
 			return UAFConstants.INFORMATION_ELEMENT;	
@@ -461,10 +463,24 @@ public class ExportXmlSysml {
 			return UAFConstants.OPERATIONAL_MESSAGE;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PORT_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PORT;
-		}
-		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONSTRAINT_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_CONSTRAINT;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_STATE_DESCRIPTION;
+		} else if (stereotypes.contains(UAFProfile.PROBLEM_DOMAIN_STEREOTYPE)) {
+			return UAFConstants.PROBLEM_DOMAIN;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_METHOD_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_METHOD;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PARAMETER_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_PARAMETER;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONTROL_FLOW;
-		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONNECTOR_STEREOTYPE)) {
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_OBJECT_FLOW_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_OBJECT_FLOW;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_EXCHANGE_KIND_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_EXCHANGE_KIND;
+		}
+		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONNECTOR_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONNECTOR;
 		} else if (stereotypes.contains(UAFProfile.INFORMATION_FLOW_STEREOTYPE)) {
 			return UAFConstants.INFORMATION_FLOW;

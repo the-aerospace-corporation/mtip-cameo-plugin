@@ -304,6 +304,7 @@ public class XmlTagConstants
 	public static final String WHOLE_LIFE_ENTERPRISE = "uaf.WholeLifeEnterprise";
 
 	//Operational
+	public static final String CONCEPT_ROLE = "uaf.ConceptRole";
 	public static final String HIGH_LEVEL_OPERATIONAL_CONCEPT = "uaf.HighLevelOperationalConcept";
 	public static final String INFORMATION_ELEMENT = "uaf.InformationElement";
 	public static final String KNOWN_RESOURCE = "uaf.KnownResource";
@@ -319,6 +320,10 @@ public class XmlTagConstants
 	public static final String STANDARD_OPERATIONAL_ACTIVITY = "uaf.StandardOperationalActivity";
 	public static final String OPERATIONAL_METHOD = "uaf.OperationalMethod";
 	public static final String PROBLEM_DOMAIN = "uaf.ProblemDomain";
+	public static final String OPERATIONAL_CONSTRAINT = "uaf.OperationalConstraint";
+	public static final String OPERATIONAL_STATE_DESCRIPTION = "uaf.OperationalStateDescription";
+	public static final String OPERATIONAL_PARAMETER = "uaf.OperationalParameter";
+	public static final String OPERATIONAL_EXCHANGE_KIND = "uaf.OperationalExchangeKind";
 	
 	//UAF Relationships
 	//Strategic

@@ -35,6 +35,7 @@ public class UAFProfile {
 	public static Stereotype MAPS_TO_CAPABILITY_STEREOTYPE = null;
 	
 	//Operational
+	public static Stereotype CONCEPT_ROLE_STEREOTYPE = null;
 	public static Stereotype HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE = null;
 	public static Stereotype KNOWN_RESOURCE_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_AGENT_STEREOTYPE = null;
@@ -52,16 +53,20 @@ public class UAFProfile {
 	
 	/*public static Stereotype INFORMATION_FLOW_STEREOTYPE = null;
 	public static Stereotype OBJECT_FLOW_STEREOTYPE = null;*/
+	public static Stereotype ARBITRARY_CONNECTOR_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_ROLE_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_ACTIVITY_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_ACTIVITY_ACTION_STEREOTYPE = null;
 	public static Stereotype STANDARD_OPERATIONAL_ACTIVITY_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_SIGNAL_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_SIGNAL_PROPERTY_STEREOTYPE = null;
-	public static Stereotype ARBITRARY_CONNECTOR_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_EXCHANGE_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_MESSAGE_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_PORT_STEREOTYPE = null;
+	public static Stereotype OPERATIONAL_CONSTRAINT_STEREOTYPE = null;
+	public static Stereotype OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE = null;
+	public static Stereotype OPERATIONAL_PARAMETER_STEREOTYPE = null;
+	public static Stereotype OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
@@ -92,6 +97,7 @@ public class UAFProfile {
 	    
 	    //Operational
 	    ARBITRARY_CONNECTOR_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ARBITRARY_CONNECTOR, UAF_PROFILE);
+	    CONCEPT_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.CONCEPT_ROLE, UAF_PROFILE);
 	    HIGH_LEVEL_OPERATIONAL_CONCEPT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT, UAF_PROFILE);
 	    INFORMATION_ELEMENT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION_ELEMENT, UAF_PROFILE);
 	    KNOWN_RESOURCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.KNOWN_RESOURCE, UAF_PROFILE);
@@ -113,6 +119,11 @@ public class UAFProfile {
 	    OPERATIONAL_EXCHANGE_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.OPERATIONAL_EXCHANGE, UAF_PROFILE);
 	    OPERATIONAL_MESSAGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_MESSAGE, UAF_PROFILE);
 	    OPERATIONAL_PORT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_PORT, UAF_PROFILE);
+	    OPERATIONAL_CONSTRAINT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_CONSTRAINT, UAF_PROFILE);
+	    OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_STATE_DESCRIPTION, UAF_PROFILE);
+	    OPERATIONAL_PARAMETER_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_PARAMETER, UAF_PROFILE);
+	    OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_EXCHANGE_KIND, UAF_PROFILE);
+	    
 	    /*INFORMATION_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION_FLOW, UAF_PROFILE);
 	    OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OBJECT_FLOW, UAF_PROFILE);*/
 	    	   

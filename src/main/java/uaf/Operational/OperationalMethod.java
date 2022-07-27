@@ -18,7 +18,7 @@ public class OperationalMethod extends Operation {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = UAFConstants.OPERATIONAL_METHOD;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_METHOD;
-		this.sysmlElement = f.createSignalInstance();
+		this.sysmlElement = f.createOperationInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
