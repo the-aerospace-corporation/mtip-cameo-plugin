@@ -1,7 +1,7 @@
 package uaf.Strategic;
 
 import org.aero.mtip.ModelElements.Sequence.Property;
-import org.aero.mtip.util.UAFConstants;
+import org.aero.mtip.uaf.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 

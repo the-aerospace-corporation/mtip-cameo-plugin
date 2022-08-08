@@ -55,10 +55,14 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected List<String> diagramElementIDs = new ArrayList<String> ();
 	protected String[] allowableElements = null;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	protected List<Element> subElements = null;
 =======
 	protected String cameoDiagramConstant = null;
 >>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
+=======
+	protected String cameoDiagramConstant = null;
+>>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 	
 	
 	protected Element exportingDiagram = null;
@@ -230,6 +234,19 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
 
         
+<<<<<<< HEAD
+=======
+        // DoDAF Diagram mapping
+        aMap.put("CV-1 Vision", DoDAFConstants.CV1);
+        aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
+        aMap.put("CV-3", DoDAFConstants.CV3);
+        aMap.put("CV-4 Capability Dependencies", DoDAFConstants.CV4);
+        aMap.put("DODAF2_CV-5", DoDAFConstants.CV5);
+        aMap.put("CV-6 Capability to Operational Activities Mapping", DoDAFConstants.CV6);
+        aMap.put("CV-7 Capability to Services Mapping", DoDAFConstants.CV7);
+        
+           
+>>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
         diagramToType = Collections.unmodifiableMap(aMap);
     }
     

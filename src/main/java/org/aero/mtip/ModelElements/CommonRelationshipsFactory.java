@@ -25,7 +25,10 @@ import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.util.SysmlConstants;
 
+<<<<<<< HEAD
 import uaf.Dictionary.SameAs;
+=======
+>>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 import uaf.UAFConstants;
 import uaf.Operational.ArbitraryConnector;
 import uaf.Operational.OperationalConnector;

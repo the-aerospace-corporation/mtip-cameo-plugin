@@ -1,10 +1,11 @@
 package org.aero.mtip.dodaf.cv;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
+import org.aero.mtip.ModelElements.Profile.ClassDiagram;
 import org.aero.mtip.dodaf.DoDAFConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-public class CV1 extends AbstractDiagram {
+public class CV1 extends ClassDiagram {
 
 	public CV1(String name, String EAID) {
 		super(name, EAID);

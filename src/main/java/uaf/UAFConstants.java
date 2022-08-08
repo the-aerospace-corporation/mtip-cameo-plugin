@@ -2,8 +2,6 @@ package uaf;
 
 import org.aero.mtip.util.SysmlConstants;
 
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
-
 public class UAFConstants {
 	public static final String UAF = "UAF";
 	public static final String XML_METAMODEL_UAF = "uaf";
@@ -216,11 +214,10 @@ public class UAFConstants {
 			//Dictionary
 			DEFINITION,
 			ALIAS,
-			INFORMATION
+			INFORMATION,
 			
 			
-
->>>>>>> f26ffef (Implemented Projects Domain)
+			OPERATIONAL_PORT
 	};
 	
 	public static final String[] UAF_RELATIONSHIPS = {
@@ -303,8 +300,5 @@ public class UAFConstants {
 			SysmlConstants.INTERRUPTIBLEACTIVITYREGION
 			//TODO: SysmlConstants.STRUCTUREDACTIVITYNODE,
 			//TODO: SysmlConstants.EXPANSIONREGION
-			
-			
-			
 	};
 }

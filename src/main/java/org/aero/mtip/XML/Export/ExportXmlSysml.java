@@ -48,6 +48,7 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.InitialNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow;
 import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.DataStoreNode;
+import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.InterruptibleActivityRegion;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition;
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.CentralBufferNode;
@@ -118,13 +119,11 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
-
 import com.nomagic.magicdraw.uml.BaseElement;
 import com.nomagic.magicdraw.uml.ClassTypes;
 
 
 import uaf.UAFConstants;
-
 import uaf.UAFProfile;
 
 public class ExportXmlSysml {
@@ -351,17 +350,9 @@ public class ExportXmlSysml {
 		elementType = getElementType(element);
 
 		if(element instanceof Diagram) {
-			
-			
-			
 			Diagram diag = (Diagram) element;
 			DiagramPresentationElement presentationDiagram = project.getDiagram(diag);
 			DiagramType diagType = presentationDiagram.getDiagramType();
-<<<<<<< HEAD
-
-=======
-			CameoUtils.logGUI("DIAGRAM exportXMLSysml..."+diagType.getType());
->>>>>>> ab56ed7 (Added Operational Action)
 			elementType = AbstractDiagram.diagramToType.get(diagType.getType());
 		}
 

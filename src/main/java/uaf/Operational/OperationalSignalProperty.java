@@ -1,6 +1,10 @@
 package uaf.Operational;
 
 import org.aero.mtip.ModelElements.Sequence.Property;
+<<<<<<< HEAD
+=======
+import org.aero.mtip.util.SysmlConstants;
+>>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 

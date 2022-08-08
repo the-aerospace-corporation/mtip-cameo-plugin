@@ -144,9 +144,12 @@ import org.aero.mtip.ModelElements.UseCase.Actor;
 import org.aero.mtip.ModelElements.UseCase.ExtensionPoint;
 import org.aero.mtip.ModelElements.UseCase.UseCase;
 import org.aero.mtip.ModelElements.UseCase.UseCaseDiagram;
+<<<<<<< HEAD
 import org.aero.mtip.ModelElements.View.Stakeholder;
 import org.aero.mtip.ModelElements.View.View;
 import org.aero.mtip.ModelElements.View.Viewpoint;
+=======
+>>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 import org.aero.mtip.dodaf.DoDAFConstants;
 import org.aero.mtip.dodaf.cv.CV1;
 import org.aero.mtip.dodaf.cv.CV2;
@@ -155,6 +158,7 @@ import org.aero.mtip.dodaf.cv.CV4;
 import org.aero.mtip.dodaf.cv.CV5;
 import org.aero.mtip.dodaf.cv.CV6;
 import org.aero.mtip.dodaf.cv.CV7;
+<<<<<<< HEAD
 import org.aero.mtip.dodaf.ov.OV1;
 import org.aero.mtip.dodaf.ov.OV2;
 import org.aero.mtip.dodaf.ov.OV3;
@@ -179,7 +183,12 @@ import uaf.Dictionary.Alias;
 import uaf.Dictionary.Definition;
 import uaf.Dictionary.Information;
 import uaf.Operational.ConceptRole;
+=======
+import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.SysmlConstants;
+>>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 
+import uaf.UAFConstants;
 import uaf.Operational.HighLevelOperationalConcept;
 import uaf.Operational.InformationElement;
 import uaf.Operational.KnownResource;
@@ -810,6 +819,27 @@ public class CommonElementsFactory {
 			// DoDAF Diagram Constants
 			case DoDAFConstants.CV1:
 				element = new CV1(name, EAID);
+<<<<<<< HEAD
+=======
+				break;
+			case DoDAFConstants.CV2:
+				element = new CV2(name, EAID);
+				break;
+			case DoDAFConstants.CV3:
+				element = new CV3(name, EAID);
+				break;
+			case DoDAFConstants.CV4:
+				element = new CV4(name, EAID);
+				break;
+			case DoDAFConstants.CV5:
+				element = new CV5(name, EAID);
+				break;
+			case DoDAFConstants.CV6:
+				element = new CV6(name, EAID);
+				break;
+			case DoDAFConstants.CV7:
+				element = new CV7(name, EAID);
+>>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 				break;
 			case DoDAFConstants.CV2:
 				element = new CV2(name, EAID);
