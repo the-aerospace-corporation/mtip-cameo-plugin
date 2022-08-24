@@ -169,7 +169,7 @@ public class SysmlConstants {
 	public static final String DOMAIN = "Domain";
 	public static final String EXTERNAL = "External";
 	public static final String SUBSYSTEM = "Subsystem";
-	public static final String SYSTEM = "System";
+	public static final String SYSTEM = "CameoSystem";
 	public static final String SYSTEMCONTEXT = "SystemContext";
 
 //	public static final String TRIGGER = "Trigger";

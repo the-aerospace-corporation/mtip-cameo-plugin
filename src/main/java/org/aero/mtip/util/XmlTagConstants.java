@@ -325,6 +325,31 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_PARAMETER = "uaf.OperationalParameter";
 	public static final String OPERATIONAL_EXCHANGE_KIND = "uaf.OperationalExchangeKind";
 	
+	//Resources
+	public static final String CAPABILITY_CONFIGURATION = "uaf.CapabilityConfiguration";
+	public static final String NATURAL_RESOURCE = "uaf.NaturalResource";
+	public static final String RESOURCE_ARCHITECTURE = "uaf.ResourceArchitecture";
+	public static final String RESOURCE_ARTIFACT = "uaf.ResourceArtifact";
+	public static final String SOFTWARE = "uaf.Software";
+	public static final String SYSTEM = "uaf.System";
+	public static final String RESOURCE_INTERFACE = "uaf.ResourceInterface";
+	public static final String DATA_ELEMENT = "uaf.DataElement";
+	public static final String TECHNOLOGY = "uaf.Technology";
+	public static final String WHOLE_LIFE_CONFIGURATION = "uaf.WholeLifeConfiguration";
+	public static final String RESOURCE_METHOD = "uaf.ResourceMethod";
+	public static final String RESOURCE_PARAMETER = "uaf.ResourceParameter";
+	public static final String RESOURCE_PORT = "uaf.ResourcePort";
+	public static final String RESOURCE_ROLE = "uaf.ResourceRole";
+	public static final String ROLE_KIND = "uaf.RoleKind";
+	public static final String RESOURCE_EXCHANGE_KIND = "uaf.ResourceExchangeKind";
+	public static final String RESOURCE_SIGNAL = "uaf.ResourceSignal";
+	public static final String RESOURCE_SIGNAL_PROPERTY = "uaf.ResourceSignalProperty";
+	public static final String FUNCTION = "uaf.Function";
+	public static final String FUNCTION_ACTION = "uaf.FunctionAction";
+	public static final String RESOURCE_STATE_DESCRIPTION = "uaf.ResourceStateDescription";
+	public static final String RESOURCE_CONSTRAINT = "uaf.ResourceConstraint";
+	public static final String WHOLE_LIFE_CONFIGURATION_KIND = "uaf.WholeLifeConfigurationKind";
+	
 	//UAF Relationships
 	//Strategic
 	public static final String CAPABILITY_FOR_TASK = "uaf.CapabilityForTask";
@@ -344,7 +369,18 @@ public class XmlTagConstants
 	/*public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
 	public static final String INFORMATION_FLOW = "uaf.InformationFlow";
 	public static final String OBJECT_FLOW = "uaf.ObjectFlow";*/
-			
+	
+	//Resources
+	public static final String RESOURCE_CONNECTOR = "uaf.ResourceConnector";
+	public static final String RESOURCE_EXCHANGE = "uaf.ResourceExchange";
+	public static final String FUNCTION_CONTROL_FLOW = "uaf.FunctionControlFlow";
+	public static final String FUNCTION_OBJECT_FLOW = "uaf.FunctionObjectFlow";
+	public static final String RESOURCE_MESSAGE = "uaf.ResourceMessage";
+	
+	public static final String FORECAST = "uaf.Forecast";
+	public static final String VERSION_SUCCESSION = "uaf.VersionSuccession";
+	public static final String VERSION_OF_CONFIGURATION = "uaf.VersionOfConfiguration";
+	
 	
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
@@ -411,31 +447,4 @@ public class XmlTagConstants
 			PROPERTY,
 			PARAMETER
 	};
-	
-	//Puddle nomenclature
-	public static final String SPLASH = "splash";
-	public static final String SYSTEM = "system";
-	public static final String FUNCTION = "function";
-	public static final String EVENT = "event";
-	public static final String PROCESS = "process";
-	public static final String OUTPORT = "outport";
-	public static final String EVENT_TRACE = "eventTrace";
-	public static final String CHARACTERIZATIONS = "characterizations";
-	public static final String CHARACTERIZATION = "characterization";
-	
-	public static final String JOINS = "joins";
-	public static final String EXECUTES = "executes";
-	public static final String PERFORMED_BY = "performedBy";
-	public static final String PERFORMS = "performs";
-	public static final String EXECUTED_BY = "executedBy";
-	public static final String EXPOSES = "exposes";
-	public static final String POINTS_TO = "pointsTo";
-	public static final String PRODUCED_BY = "producedBy";
-	public static final String PRODUCES = "produces";
-	public static final String EXPOSED_BY = "exposedBy";
-	public static final String CONSUMED_BY = "consumedBy";
-	
-	public static final String LOCAL_ID = "_local_id";
-	
-	public static enum Type {SYSTEM, INTERACTION, FUNCTION, EVENT, PROCESS, OUTPORT, EVENT_TRACE};
 }

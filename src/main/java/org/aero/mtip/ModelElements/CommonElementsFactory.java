@@ -172,6 +172,29 @@ import uaf.Operational.OperationalSignalProperty;
 import uaf.Operational.OperationalStateDescription;
 import uaf.Operational.ProblemDomain;
 import uaf.Operational.StandardOperationalActivity;
+import uaf.Resources.CapabilityConfiguration;
+import uaf.Resources.DataElement;
+import uaf.Resources.Function;
+import uaf.Resources.FunctionAction;
+import uaf.Resources.NaturalResource;
+import uaf.Resources.ResourceArchitecture;
+import uaf.Resources.ResourceArtifact;
+import uaf.Resources.ResourceConstraint;
+import uaf.Resources.ResourceExchangeKind;
+import uaf.Resources.ResourceInterface;
+import uaf.Resources.ResourceMethod;
+import uaf.Resources.ResourceParameter;
+import uaf.Resources.ResourcePort;
+import uaf.Resources.ResourceRole;
+import uaf.Resources.ResourceSignal;
+import uaf.Resources.ResourceSignalProperty;
+import uaf.Resources.ResourceStateDescription;
+import uaf.Resources.RoleKind;
+import uaf.Resources.Software;
+import uaf.Resources.Technology;
+import uaf.Resources.VersionOfConfiguration;
+import uaf.Resources.WholeLifeConfiguration;
+import uaf.Resources.WholeLifeConfigurationKind;
 import uaf.Strategic.Achiever;
 import uaf.Strategic.ActualEnduringTask;
 import uaf.Strategic.ActualEnterprisePhase;
@@ -748,6 +771,81 @@ public class CommonElementsFactory {
 			case UAFConstants.OPERATIONAL_PARAMETER:
 				element = new OperationalParameter(name, EAID);
 				break;
+			//Resources
+			case UAFConstants.CAPABILITY_CONFIGURATION:
+				element = new CapabilityConfiguration(name, EAID);
+				break;
+			case UAFConstants.NATURAL_RESOURCE:
+				element = new NaturalResource(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_ARCHITECTURE:
+				element = new ResourceArchitecture(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_ARTIFACT:
+				element = new ResourceArtifact(name, EAID);
+				break;
+			case UAFConstants.SOFTWARE:
+				element = new Software(name, EAID);
+				break;
+			case UAFConstants.SYSTEM:
+				element = new System(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_INTERFACE:
+				element = new ResourceInterface(name, EAID);
+				break;
+			case UAFConstants.DATA_ELEMENT:
+				element = new DataElement(name, EAID);
+				break;
+			case UAFConstants.TECHNOLOGY:
+				element = new Technology(name, EAID);
+				break;
+			case UAFConstants.WHOLE_LIFE_CONFIGURATION:
+				element = new WholeLifeConfiguration(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_METHOD:
+				element = new ResourceMethod(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_PARAMETER:
+				element = new ResourceParameter(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_PORT:
+				element = new ResourcePort(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_ROLE:
+				element = new ResourceRole(name, EAID);
+				break;
+			case UAFConstants.ROLE_KIND:
+				element = new RoleKind(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_EXCHANGE_KIND:
+				element = new ResourceExchangeKind(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_SIGNAL:
+				element = new ResourceSignal(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_SIGNAL_PROPERTY:
+				element = new ResourceSignalProperty(name, EAID);
+				break;
+			case UAFConstants.FUNCTION:
+				element = new Function(name, EAID);
+				break;
+			case UAFConstants.FUNCTION_ACTION:
+				element = new FunctionAction(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_STATE_DESCRIPTION:
+				element = new ResourceStateDescription(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_CONSTRAINT:
+				element = new ResourceConstraint(name, EAID);
+				break;
+			case UAFConstants.VERSION_OF_CONFIGURATION:
+				element = new VersionOfConfiguration(name, EAID);
+				break;
+			case UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND:
+				element = new WholeLifeConfigurationKind(name, EAID);
+				break;
+				
+>>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
 			default:
 				break;
 		}

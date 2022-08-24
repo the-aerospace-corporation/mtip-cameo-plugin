@@ -48,9 +48,6 @@ public class UAFProfile {
 	public static Stereotype OPERATIONAL_METHOD_STEREOTYPE = null;
 	public static Stereotype PROBLEM_DOMAIN_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_OBJECT_FLOW_STEREOTYPE = null;
-	
-
-	
 	/*public static Stereotype INFORMATION_FLOW_STEREOTYPE = null;
 	public static Stereotype OBJECT_FLOW_STEREOTYPE = null;*/
 	public static Stereotype ARBITRARY_CONNECTOR_STEREOTYPE = null;
@@ -67,6 +64,39 @@ public class UAFProfile {
 	public static Stereotype OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_PARAMETER_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = null;
+	
+	//Resources
+	public static Stereotype CAPABILITY_CONFIGURATION_STEREOTYPE = null;
+	public static Stereotype NATURAL_RESOURCE_STEREOTYPE = null;
+	public static Stereotype RESOURCE_ARCHITECTURE_STEREOTYPE = null;
+	public static Stereotype RESOURCE_ARTIFACT_STEREOTYPE = null;
+	public static Stereotype SOFTWARE_STEREOTYPE = null;
+	public static Stereotype SYSTEM_STEREOTYPE = null;
+	public static Stereotype RESOURCE_INTERFACE_STEREOTYPE = null;
+	public static Stereotype DATA_ELEMENT_STEREOTYPE = null;
+	public static Stereotype TECHNOLOGY_STEREOTYPE = null;
+	public static Stereotype WHOLE_LIFE_CONFIGURATION_STEREOTYPE = null;
+	public static Stereotype RESOURCE_METHOD_STEREOTYPE = null;
+	public static Stereotype RESOURCE_PARAMETER_STEREOTYPE = null;
+	public static Stereotype RESOURCE_PORT_STEREOTYPE = null;
+	public static Stereotype RESOURCE_ROLE_STEREOTYPE = null;
+	public static Stereotype ROLE_KIND_STEREOTYPE = null;
+	public static Stereotype RESOURCE_CONNECTOR_STEREOTYPE = null;
+	public static Stereotype RESOURCE_EXCHANGE_STEREOTYPE = null;
+	public static Stereotype RESOURCE_EXCHANGE_KIND_STEREOTYPE = null;
+	public static Stereotype RESOURCE_SIGNAL_STEREOTYPE = null;
+	public static Stereotype RESOURCE_SIGNAL_PROPERTY_STEREOTYPE = null;
+	public static Stereotype FUNCTION_STEREOTYPE = null;
+	public static Stereotype FUNCTION_ACTION_STEREOTYPE = null;
+	public static Stereotype FUNCTION_CONTROL_FLOW_STEREOTYPE = null;
+	public static Stereotype FUNCTION_OBJECT_FLOW_STEREOTYPE = null;
+	public static Stereotype RESOURCE_STATE_DESCRIPTION_STEREOTYPE = null;
+	public static Stereotype RESOURCE_MESSAGE_STEREOTYPE = null;
+	public static Stereotype RESOURCE_CONSTRAINT_STEREOTYPE = null;
+	public static Stereotype FORECAST_STEREOTYPE = null;
+	public static Stereotype VERSION_SUCCESSION_STEREOTYPE = null;
+	public static Stereotype VERSION_OF_CONFIGURATION_STEREOTYPE = null;
+	public static Stereotype WHOLE_LIFE_CONFIGURATION_KIND_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
@@ -127,9 +157,40 @@ public class UAFProfile {
 	    /*INFORMATION_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION_FLOW, UAF_PROFILE);
 	    OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OBJECT_FLOW, UAF_PROFILE);*/
 	    	   
-	   
-	    
-	    
-	    	    
+	    //Resources
+	    CAPABILITY_CONFIGURATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.CAPABILITY_CONFIGURATION, UAF_PROFILE);
+	    NATURAL_RESOURCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.NATURAL_RESOURCE, UAF_PROFILE);
+	    RESOURCE_ARCHITECTURE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_ARCHITECTURE, UAF_PROFILE);	    
+	    RESOURCE_ARTIFACT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_ARTIFACT, UAF_PROFILE);
+	    SOFTWARE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SOFTWARE, UAF_PROFILE);
+	    SYSTEM_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SYSTEM, UAF_PROFILE);
+	    RESOURCE_INTERFACE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_INTERFACE, UAF_PROFILE);
+	    DATA_ELEMENT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.DATA_ELEMENT, UAF_PROFILE);
+	    TECHNOLOGY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.TECHNOLOGY, UAF_PROFILE);
+	    WHOLE_LIFE_CONFIGURATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.WHOLE_LIFE_CONFIGURATION, UAF_PROFILE);
+	    RESOURCE_METHOD_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_METHOD, UAF_PROFILE);
+	    RESOURCE_PARAMETER_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_PARAMETER, UAF_PROFILE);
+	    RESOURCE_PORT_STEREOTYPE =  StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_PORT, UAF_PROFILE);
+	    RESOURCE_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.RESOURCE_ROLE, UAF_PROFILE);
+	    ROLE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ROLE_KIND, UAF_PROFILE);
+	    //8/3/2022
+	    RESOURCE_CONNECTOR_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_CONNECTOR, UAF_PROFILE);
+	    RESOURCE_EXCHANGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_EXCHANGE, UAF_PROFILE);
+	    RESOURCE_EXCHANGE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_EXCHANGE_KIND, UAF_PROFILE);
+	    RESOURCE_SIGNAL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_SIGNAL, UAF_PROFILE);
+	    RESOURCE_SIGNAL_PROPERTY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_SIGNAL_PROPERTY, UAF_PROFILE);
+	    //8/15/2022
+	    FUNCTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FUNCTION, UAF_PROFILE);
+	    FUNCTION_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FUNCTION_ACTION, UAF_PROFILE);
+	    FUNCTION_CONTROL_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FUNCTION_CONTROL_FLOW, UAF_PROFILE);
+	    FUNCTION_OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FUNCTION_OBJECT_FLOW, UAF_PROFILE);
+	    RESOURCE_STATE_DESCRIPTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_STATE_DESCRIPTION, UAF_PROFILE);
+	    RESOURCE_MESSAGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_MESSAGE, UAF_PROFILE);
+	
+	    RESOURCE_CONSTRAINT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_CONSTRAINT, UAF_PROFILE);
+	    FORECAST_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FORECAST, UAF_PROFILE);
+	    VERSION_SUCCESSION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.VERSION_SUCCESSION, UAF_PROFILE);
+	    VERSION_OF_CONFIGURATION_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.VERSION_OF_CONFIGURATION, UAF_PROFILE);
+	    WHOLE_LIFE_CONFIGURATION_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND, UAF_PROFILE);
 	}
 }

@@ -32,6 +32,13 @@ import uaf.Operational.OperationalControlFlow;
 import uaf.Operational.OperationalExchange;
 import uaf.Operational.OperationalMessage;
 import uaf.Operational.OperationalObjectFlow;
+import uaf.Resources.Forecast;
+import uaf.Resources.FunctionControlFlow;
+import uaf.Resources.FunctionObjectFlow;
+import uaf.Resources.ResourceConnector;
+import uaf.Resources.ResourceExchange;
+import uaf.Resources.ResourceMessage;
+import uaf.Resources.VersionSuccession;
 import uaf.Strategic.AchievedEffect;
 import uaf.Strategic.CapabilityForTask;
 import uaf.Strategic.DesiredEffect;
@@ -165,6 +172,27 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.ARBITRARY_CONNECTOR:
 				relationship = new ArbitraryConnector(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_CONNECTOR:
+				relationship = new ResourceConnector(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_EXCHANGE:
+				relationship = new ResourceExchange(name, EAID);
+				break;
+			case UAFConstants.FUNCTION_CONTROL_FLOW:
+				relationship = new FunctionControlFlow(name, EAID);
+				break;
+			case UAFConstants.FUNCTION_OBJECT_FLOW:
+				relationship = new FunctionObjectFlow(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_MESSAGE:
+				relationship = new ResourceMessage(name, EAID);
+				break;
+			case UAFConstants.FORECAST:
+				relationship = new Forecast(name, EAID);
+				break;
+			case UAFConstants.VERSION_SUCCESSION:
+				relationship = new VersionSuccession(name, EAID);
 				break;
 				
 			default:

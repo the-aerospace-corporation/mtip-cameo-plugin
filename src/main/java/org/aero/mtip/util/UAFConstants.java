@@ -58,6 +58,40 @@ public class UAFConstants {
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
+	//Resources
+	public static final String CAPABILITY_CONFIGURATION = "CapabilityConfiguration";
+	public static final String NATURAL_RESOURCE = "NaturalResource";
+	public static final String RESOURCE_ARCHITECTURE = "ResourceArchitecture";
+	public static final String RESOURCE_ARTIFACT = "ResourceArtifact";
+	public static final String SOFTWARE = "Software";
+	public static final String SYSTEM = "System";
+	public static final String RESOURCE_INTERFACE = "ResourceInterface";
+	public static final String DATA_ELEMENT = "DataElement";
+	public static final String TECHNOLOGY = "Technology";
+	public static final String WHOLE_LIFE_CONFIGURATION = "WholeLifeConfiguration";
+	public static final String RESOURCE_METHOD = "ResourceMethod";
+	public static final String RESOURCE_PARAMETER = "ResourceParameter";
+	public static final String RESOURCE_PORT = "ResourcePort";
+	public static final String RESOURCE_ROLE = "ResourceRole";
+	public static final String ROLE_KIND = "RoleKind";
+	public static final String RESOURCE_CONNECTOR = "ResourceConnector";
+	public static final String RESOURCE_EXCHANGE = "ResourceExchange";
+	public static final String RESOURCE_EXCHANGE_KIND = "ReourceExchangeKind";
+	public static final String RESOURCE_SIGNAL = "ResourceSignal";
+	public static final String RESOURCE_SIGNAL_PROPERTY = "ResourceSignalProperty";
+	public static final String FUNCTION = "Function";
+	public static final String FUNCTION_ACTION = "FunctionAction";
+	public static final String FUNCTION_CONTROL_FLOW = "FunctionControlFlow";
+	public static final String FUNCTION_OBJECT_FLOW = "FunctionObjectFlow";
+	public static final String RESOURCE_STATE_DESCRIPTION = "ResourceStateDescription";
+	public static final String RESOURCE_MESSAGE = "ResourceMessage";
+	public static final String RESOURCE_CONSTRAINT = "ResourceConstraint";
+	public static final String FORECAST = "Forecast";
+	public static final String VERSION_SUCCESSION = "VersionSuccession";
+	public static final String VERSION_OF_CONFIGURATION = "VersionOfConfiguration";
+	public static final String WHOLE_LIFE_CONFIGURATION_KIND = "WholeLifeConfigurationKind";
+		
+	
 	// Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
 	
@@ -105,6 +139,33 @@ public class UAFConstants {
 			OPERATIONAL_PARAMETER,
 			OPERATIONAL_EXCHANGE_KIND,
 			
+			//Resources
+			CAPABILITY_CONFIGURATION,
+			NATURAL_RESOURCE,
+			RESOURCE_ARCHITECTURE,
+			RESOURCE_ARTIFACT,
+			SOFTWARE,
+			SYSTEM,
+			RESOURCE_INTERFACE,
+			DATA_ELEMENT,
+			TECHNOLOGY,
+			WHOLE_LIFE_CONFIGURATION,
+			RESOURCE_METHOD,
+			RESOURCE_PARAMETER,
+			RESOURCE_PORT,
+			RESOURCE_ROLE,
+			ROLE_KIND,
+			RESOURCE_EXCHANGE_KIND,
+			RESOURCE_SIGNAL,
+			RESOURCE_SIGNAL_PROPERTY,
+			FUNCTION,
+			FUNCTION_ACTION,
+			RESOURCE_STATE_DESCRIPTION,
+			RESOURCE_CONSTRAINT,
+			VERSION_OF_CONFIGURATION,
+			WHOLE_LIFE_CONFIGURATION_KIND
+>>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
+			
 
 	};
 	
@@ -127,7 +188,16 @@ public class UAFConstants {
 			OPERATIONAL_OBJECT_FLOW,
 			ARBITRARY_CONNECTOR,
 			OPERATIONAL_EXCHANGE,
-			OPERATIONAL_MESSAGE
+			OPERATIONAL_MESSAGE,
+			//RESOURCES
+			RESOURCE_CONNECTOR,
+			RESOURCE_EXCHANGE,
+			FUNCTION_CONTROL_FLOW,
+			FUNCTION_OBJECT_FLOW,
+			RESOURCE_MESSAGE,
+			FORECAST,
+			VERSION_SUCCESSION
+			
 	};
 	
 	public static final String[] UAF_DIAGRAMS = {

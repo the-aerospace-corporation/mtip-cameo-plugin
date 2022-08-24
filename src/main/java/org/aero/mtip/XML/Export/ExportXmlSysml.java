@@ -463,6 +463,7 @@ public class ExportXmlSysml {
 			return UAFConstants.OPERATIONAL_MESSAGE;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PORT_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PORT;
+<<<<<<< HEAD
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONSTRAINT_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONSTRAINT;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE)) {
@@ -474,6 +475,75 @@ public class ExportXmlSysml {
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PARAMETER_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PARAMETER;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
+=======
+		}
+	    //RESOURCES
+		else if (stereotypes.contains(UAFProfile.CAPABILITY_CONFIGURATION_STEREOTYPE)) {
+			return UAFConstants.CAPABILITY_CONFIGURATION;
+		} else if (stereotypes.contains(UAFProfile.NATURAL_RESOURCE_STEREOTYPE)) {
+			return UAFConstants.NATURAL_RESOURCE;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_ARCHITECTURE_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_ARCHITECTURE;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_ARTIFACT_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_ARTIFACT;
+		} else if (stereotypes.contains(UAFProfile.SOFTWARE_STEREOTYPE)) {
+			return UAFConstants.SOFTWARE;
+		} else if (stereotypes.contains(UAFProfile.SYSTEM_STEREOTYPE)) {
+			return UAFConstants.SYSTEM;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_INTERFACE_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_INTERFACE;
+		} else if (stereotypes.contains(UAFProfile.DATA_ELEMENT_STEREOTYPE)) {
+			return UAFConstants.DATA_ELEMENT;
+		} else if (stereotypes.contains(UAFProfile.TECHNOLOGY_STEREOTYPE)) {
+			return UAFConstants.TECHNOLOGY;
+		} else if (stereotypes.contains(UAFProfile.WHOLE_LIFE_CONFIGURATION_STEREOTYPE)) {
+			return UAFConstants.WHOLE_LIFE_CONFIGURATION;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_METHOD_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_METHOD;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_PARAMETER_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_PARAMETER;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_PORT_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_PORT;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_ROLE_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_ROLE;
+		} else if (stereotypes.contains(UAFProfile.ROLE_KIND_STEREOTYPE)) {
+			return UAFConstants.ROLE_KIND;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_CONNECTOR_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_CONNECTOR;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_EXCHANGE_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_EXCHANGE;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_EXCHANGE_KIND_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_EXCHANGE_KIND;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_SIGNAL_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_SIGNAL;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_SIGNAL_PROPERTY_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_SIGNAL_PROPERTY;
+		} else if (stereotypes.contains(UAFProfile.FUNCTION_STEREOTYPE)) {
+			return UAFConstants.FUNCTION;
+		} else if (stereotypes.contains(UAFProfile.FUNCTION_ACTION_STEREOTYPE)) {
+			return UAFConstants.FUNCTION_ACTION;
+		} else if (stereotypes.contains(UAFProfile.FUNCTION_CONTROL_FLOW_STEREOTYPE)) {
+			return UAFConstants.FUNCTION_CONTROL_FLOW;
+		} else if (stereotypes.contains(UAFProfile.FUNCTION_OBJECT_FLOW_STEREOTYPE)) {
+			return UAFConstants.FUNCTION_OBJECT_FLOW;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_STATE_DESCRIPTION_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_STATE_DESCRIPTION;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_MESSAGE_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_MESSAGE;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_CONSTRAINT_STEREOTYPE)) {
+			return UAFConstants.RESOURCE_CONSTRAINT;
+		} else if (stereotypes.contains(UAFProfile.FORECAST_STEREOTYPE)) {
+			return UAFConstants.FORECAST;
+		} else if (stereotypes.contains(UAFProfile.VERSION_SUCCESSION_STEREOTYPE)) {
+			return UAFConstants.VERSION_SUCCESSION;
+		} else if (stereotypes.contains(UAFProfile.VERSION_OF_CONFIGURATION_STEREOTYPE)) {
+			return UAFConstants.VERSION_OF_CONFIGURATION;
+		} else if (stereotypes.contains(UAFProfile.WHOLE_LIFE_CONFIGURATION_KIND_STEREOTYPE)) {
+			return UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND;
+		}
+	    
+		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
+>>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
 			return UAFConstants.OPERATIONAL_CONTROL_FLOW;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_OBJECT_FLOW_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_OBJECT_FLOW;
