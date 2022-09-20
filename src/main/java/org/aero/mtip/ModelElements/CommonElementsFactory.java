@@ -844,8 +844,11 @@ public class CommonElementsFactory {
 			case UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND:
 				element = new WholeLifeConfigurationKind(name, EAID);
 				break;
+<<<<<<< HEAD
 				
 >>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
+=======
+>>>>>>> 292a944 (merged resource branch)
 			default:
 				break;
 		}

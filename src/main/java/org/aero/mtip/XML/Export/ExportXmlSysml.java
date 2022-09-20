@@ -494,7 +494,6 @@ public class ExportXmlSysml {
 		//	return UAFConstants.OPERATIONAL_MESSAGE;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PORT_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PORT;
-<<<<<<< HEAD
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONSTRAINT_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONSTRAINT;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE)) {
@@ -506,7 +505,7 @@ public class ExportXmlSysml {
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PARAMETER_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PARAMETER;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
-=======
+
 		}
 	    //RESOURCES
 		else if (stereotypes.contains(UAFProfile.CAPABILITY_CONFIGURATION_STEREOTYPE)) {

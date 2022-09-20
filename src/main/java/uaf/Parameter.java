@@ -8,4 +8,3 @@ public abstract class Parameter extends CommonElement {
 		super(name, EAID);
 	}
 }
-

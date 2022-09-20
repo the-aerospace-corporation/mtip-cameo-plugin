@@ -164,9 +164,6 @@ public class UAFConstants {
 			RESOURCE_CONSTRAINT,
 			VERSION_OF_CONFIGURATION,
 			WHOLE_LIFE_CONFIGURATION_KIND
->>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
-			
-
 	};
 	
 	public static final String[] UAF_RELATIONSHIPS = {
