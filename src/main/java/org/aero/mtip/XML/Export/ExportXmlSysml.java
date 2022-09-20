@@ -119,6 +119,9 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
+import com.nomagic.magicdraw.uml.BaseElement;
+import com.nomagic.magicdraw.uml.ClassTypes;
+
 import uaf.UAFProfile;
 
 public class ExportXmlSysml {
@@ -311,10 +314,37 @@ public class ExportXmlSysml {
 		
 	}
 	
+	
+	public static boolean isRelationship(Element element, Project project)
+	{
+		boolean isRelationship = false;
+		//commented out code for now but this should handle resource messages to be relationships not elements
+		
+		/*Class elementClassType = element.getClassType();
+		Class messageClass = ClassTypes.getClassType("Message");
+		
+		//message class to return true when it is a relationship
+		if (elementClassType == messageClass)
+		{
+			isRelationship = true;
+		}
+		else
+		{
+			isRelationship = ModelHelper.isRelationship(element);
+		}
+		
+		return isRelationship;*/
+		isRelationship = ModelHelper.isRelationship(element);
+		return isRelationship;
+	}
+	
+	
+	
 	public static void exportElement(Element element, Project project, Document xmlDoc, String metamodel) {
 		String elementType = null;
-		boolean isRelationship = ModelHelper.isRelationship(element);
-
+		boolean isRelationship = isRelationship(element, project);
+		CameoUtils.logGUI(element.toString());
+		
 		elementType = getElementType(element);
 
 		if(element instanceof Diagram) {
@@ -327,6 +357,7 @@ public class ExportXmlSysml {
 
 		if(!exportedElements.containsKey(element.getLocalID())) {
 			if(elementType != null) {
+				CameoUtils.logGUI("319 EXPORTXMLSYSML: "+element.getHumanName()+" "+isRelationship);
 				if(isRelationship) {
 					CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 					String name = "";
@@ -459,8 +490,8 @@ public class ExportXmlSysml {
 			return UAFConstants.OPERATIONAL_CONNECTOR;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_EXCHANGE_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_EXCHANGE;
-		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_MESSAGE_STEREOTYPE)) {
-			return UAFConstants.OPERATIONAL_MESSAGE;
+		//} else if (stereotypes.contains(UAFProfile.OPERATIONAL_MESSAGE_STEREOTYPE)) {
+		//	return UAFConstants.OPERATIONAL_MESSAGE;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PORT_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PORT;
 <<<<<<< HEAD
@@ -529,8 +560,8 @@ public class ExportXmlSysml {
 		} else if (stereotypes.contains(UAFProfile.RESOURCE_STATE_DESCRIPTION_STEREOTYPE)) {
 			return UAFConstants.RESOURCE_STATE_DESCRIPTION;
 		} else if (stereotypes.contains(UAFProfile.RESOURCE_MESSAGE_STEREOTYPE)) {
-			return UAFConstants.RESOURCE_MESSAGE;
-		} else if (stereotypes.contains(UAFProfile.RESOURCE_CONSTRAINT_STEREOTYPE)) {
+		//	return UAFConstants.RESOURCE_MESSAGE;
+		//} else if (stereotypes.contains(UAFProfile.RESOURCE_CONSTRAINT_STEREOTYPE)) {
 			return UAFConstants.RESOURCE_CONSTRAINT;
 		} else if (stereotypes.contains(UAFProfile.FORECAST_STEREOTYPE)) {
 			return UAFConstants.FORECAST;

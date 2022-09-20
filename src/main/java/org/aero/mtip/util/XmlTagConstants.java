@@ -364,7 +364,7 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_OBJECT_FLOW = "uaf.OperationalObjectFLow";
 	public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
 	public static final String OPERATIONAL_EXCHANGE = "uaf.OperationalExchange";
-	public static final String OPERATIONAL_MESSAGE = "uaf.OperationalMessage";
+	//public static final String OPERATIONAL_MESSAGE = "uaf.OperationalMessage";
 	public static final String OPERATIONAL_PORT = "uaf.OperationalPort";
 	/*public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
 	public static final String INFORMATION_FLOW = "uaf.InformationFlow";
@@ -375,7 +375,7 @@ public class XmlTagConstants
 	public static final String RESOURCE_EXCHANGE = "uaf.ResourceExchange";
 	public static final String FUNCTION_CONTROL_FLOW = "uaf.FunctionControlFlow";
 	public static final String FUNCTION_OBJECT_FLOW = "uaf.FunctionObjectFlow";
-	public static final String RESOURCE_MESSAGE = "uaf.ResourceMessage";
+	//public static final String RESOURCE_MESSAGE = "uaf.ResourceMessage";
 	
 	public static final String FORECAST = "uaf.Forecast";
 	public static final String VERSION_SUCCESSION = "uaf.VersionSuccession";

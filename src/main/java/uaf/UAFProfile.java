@@ -147,7 +147,7 @@ public class UAFProfile {
 	    OPERATIONAL_OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_OBJECT_FLOW, UAF_PROFILE);
 	    OPERATIONAL_CONNECTOR_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.OPERATIONAL_CONNECTOR, UAF_PROFILE);
 	    OPERATIONAL_EXCHANGE_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.OPERATIONAL_EXCHANGE, UAF_PROFILE);
-	    OPERATIONAL_MESSAGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_MESSAGE, UAF_PROFILE);
+	    //OPERATIONAL_MESSAGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_MESSAGE, UAF_PROFILE);
 	    OPERATIONAL_PORT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_PORT, UAF_PROFILE);
 	    OPERATIONAL_CONSTRAINT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_CONSTRAINT, UAF_PROFILE);
 	    OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_STATE_DESCRIPTION, UAF_PROFILE);
@@ -185,7 +185,7 @@ public class UAFProfile {
 	    FUNCTION_CONTROL_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FUNCTION_CONTROL_FLOW, UAF_PROFILE);
 	    FUNCTION_OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FUNCTION_OBJECT_FLOW, UAF_PROFILE);
 	    RESOURCE_STATE_DESCRIPTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_STATE_DESCRIPTION, UAF_PROFILE);
-	    RESOURCE_MESSAGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_MESSAGE, UAF_PROFILE);
+	    //RESOURCE_MESSAGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_MESSAGE, UAF_PROFILE);
 	
 	    RESOURCE_CONSTRAINT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_CONSTRAINT, UAF_PROFILE);
 	    FORECAST_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FORECAST, UAF_PROFILE);
