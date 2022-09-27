@@ -12,6 +12,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import uaf.UAFProfile;
 
 public class FunctionControlFlow extends ControlFlow{
+	
 	public FunctionControlFlow(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
@@ -21,8 +22,9 @@ public class FunctionControlFlow extends ControlFlow{
 	}
 	
 	@Override
+	
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
+		super.createElement(project, owner, client, supplier, xmlElement);
 		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.FUNCTION_CONTROL_FLOW_STEREOTYPE);
 		
 		return sysmlElement;

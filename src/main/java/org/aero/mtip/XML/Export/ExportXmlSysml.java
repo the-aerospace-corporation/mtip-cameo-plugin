@@ -505,7 +505,7 @@ public class ExportXmlSysml {
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_PARAMETER_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_PARAMETER;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
-
+			return UAFConstants.OPERATIONAL_CONTROL_FLOW;
 		}
 	    //RESOURCES
 		else if (stereotypes.contains(UAFProfile.CAPABILITY_CONFIGURATION_STEREOTYPE)) {
@@ -558,9 +558,9 @@ public class ExportXmlSysml {
 			return UAFConstants.FUNCTION_OBJECT_FLOW;
 		} else if (stereotypes.contains(UAFProfile.RESOURCE_STATE_DESCRIPTION_STEREOTYPE)) {
 			return UAFConstants.RESOURCE_STATE_DESCRIPTION;
-		} else if (stereotypes.contains(UAFProfile.RESOURCE_MESSAGE_STEREOTYPE)) {
+		//} else if (stereotypes.contains(UAFProfile.RESOURCE_MESSAGE_STEREOTYPE)) {
 		//	return UAFConstants.RESOURCE_MESSAGE;
-		//} else if (stereotypes.contains(UAFProfile.RESOURCE_CONSTRAINT_STEREOTYPE)) {
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_CONSTRAINT_STEREOTYPE)) {
 			return UAFConstants.RESOURCE_CONSTRAINT;
 		} else if (stereotypes.contains(UAFProfile.FORECAST_STEREOTYPE)) {
 			return UAFConstants.FORECAST;

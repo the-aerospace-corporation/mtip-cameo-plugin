@@ -289,6 +289,8 @@ public class ImportXmlSysml {
 			return null;
 		}
 		
+		CommonElementsFactory cef = new CommonElementsFactory();
+		
 		if (modelElement.isCreated()) {
 			return (Element) project.getElementByID(modelElement.getCameoID());
 		}
