@@ -23,7 +23,7 @@ public class OperationalConnector extends Connector {
 	
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
+		super.createElement(project, owner, client, supplier, xmlElement);
 		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.OPERATIONAL_CONNECTOR_STEREOTYPE);
 		
 		return sysmlElement;

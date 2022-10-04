@@ -23,7 +23,7 @@ public class ResourceConnector extends Connector {
 	
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
+		super.createElement(project, owner,client, supplier, xmlElement);
 		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.RESOURCE_CONNECTOR_STEREOTYPE);
 		
 		return sysmlElement;
