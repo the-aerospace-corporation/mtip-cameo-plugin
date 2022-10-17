@@ -70,6 +70,9 @@ public class Connector extends CommonRelationship {
 		ConnectorEnd firstMemberEnd = connector.getEnd().get(0);
 		ConnectorEnd secondMemberEnd = connector.getEnd().get(1);
 		
+		CameoUtils.logGUI("Connector.java: FirstMemberEnd: "+firstMemberEnd);
+		CameoUtils.logGUI("Connetor.java: SecondMemberEnd: "+secondMemberEnd);
+		
 		Element supplierPart = (Element) project.getElementByID(ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT)));
 		if(supplierPart != null) {
 			CameoUtils.logGUI("Supplier part found with id: " + supplierPart.getID());

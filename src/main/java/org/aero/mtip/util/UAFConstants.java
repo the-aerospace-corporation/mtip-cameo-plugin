@@ -90,7 +90,24 @@ public class UAFConstants {
 	public static final String VERSION_SUCCESSION = "VersionSuccession";
 	public static final String VERSION_OF_CONFIGURATION = "VersionOfConfiguration";
 	public static final String WHOLE_LIFE_CONFIGURATION_KIND = "WholeLifeConfigurationKind";
-		
+	//Projects
+	public static final String ACTUAL_MILESTONE_KIND = "ActualMilestoneKind";
+	public static final String PROJECT ="Project";
+	public static final String PROJECT_KIND = "ProjectKind";
+	public static final String PROJECT_MILESTONE = "ProjectMilestone";
+	public static final String PROJECT_MILESTONE_ROLE = "ProjectMilestoneRole";
+	public static final String PROJECT_ROLE = "ProjectRole";
+	public static final String PROJECT_THEME = "ProjectTheme";
+	public static final String PROJECT_ACTIVITY = "ProjectActivity";
+	public static final String PROJECT_ACTIVITY_ACTION = "ProjectActivityAction";
+	public static final String PROJECT_STATUS = "ProjectStatus";
+	public static final String ACTUAL_PROJECT_MILESTONE_ROLE = "ActualProjectMileStrone";
+	public static final String ACTUAL_PROJECT_ROLE = "ActualProjectRole";
+	public static final String MILESTONE_DEPENDENCY = "MilestoneDependency";
+	public static final String PROJECT_SEQUENCE = "ProjectSequence";
+	public static final String STATUS_INDICATORS = "StatusIndicators";
+	public static final String ACTUAL_PROJECT = "ActualProject";
+	public static final String ACTUAL_PROJECT_MILESTONE = "ActualProjectMilestone";
 	
 	// Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
@@ -163,7 +180,28 @@ public class UAFConstants {
 			RESOURCE_STATE_DESCRIPTION,
 			RESOURCE_CONSTRAINT,
 			VERSION_OF_CONFIGURATION,
-			WHOLE_LIFE_CONFIGURATION_KIND
+			WHOLE_LIFE_CONFIGURATION_KIND,
+			
+			//Projects
+			ACTUAL_MILESTONE_KIND,
+			PROJECT,
+			PROJECT_KIND,
+			PROJECT_MILESTONE,
+			PROJECT_MILESTONE_ROLE,
+			PROJECT_ROLE,
+			PROJECT_THEME,
+			PROJECT_ACTIVITY,
+			PROJECT_ACTIVITY_ACTION,
+			PROJECT_STATUS,
+			ACTUAL_PROJECT_MILESTONE_ROLE,
+			ACTUAL_PROJECT_ROLE,
+			STATUS_INDICATORS,
+			ACTUAL_PROJECT,
+			ACTUAL_PROJECT_MILESTONE
+			
+			
+
+>>>>>>> f26ffef (Implemented Projects Domain)
 	};
 	
 	public static final String[] UAF_RELATIONSHIPS = {
@@ -193,7 +231,11 @@ public class UAFConstants {
 			FUNCTION_OBJECT_FLOW,
 			//RESOURCE_MESSAGE,
 			FORECAST,
-			VERSION_SUCCESSION
+			VERSION_SUCCESSION,
+			
+			//PROJECT
+			MILESTONE_DEPENDENCY,
+			PROJECT_SEQUENCE,
 			
 	};
 	

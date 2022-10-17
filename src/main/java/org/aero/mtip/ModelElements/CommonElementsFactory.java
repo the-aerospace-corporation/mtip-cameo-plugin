@@ -172,6 +172,20 @@ import uaf.Operational.OperationalSignalProperty;
 import uaf.Operational.OperationalStateDescription;
 import uaf.Operational.ProblemDomain;
 import uaf.Operational.StandardOperationalActivity;
+import uaf.Projects.ActualMilestoneKind;
+import uaf.Projects.ActualProject;
+import uaf.Projects.ActualProjectMilestone;
+import uaf.Projects.ActualProjectMilestoneRole;
+import uaf.Projects.ActualProjectRole;
+import uaf.Projects.Project;
+import uaf.Projects.ProjectActivity;
+import uaf.Projects.ProjectActivityAction;
+import uaf.Projects.ProjectMilestone;
+import uaf.Projects.ProjectMilestoneRole;
+import uaf.Projects.ProjectRole;
+import uaf.Projects.ProjectStatus;
+import uaf.Projects.ProjectTheme;
+import uaf.Projects.StatusIndicators;
 import uaf.Resources.CapabilityConfiguration;
 import uaf.Resources.DataElement;
 import uaf.Resources.Function;
@@ -844,11 +858,51 @@ public class CommonElementsFactory {
 			case UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND:
 				element = new WholeLifeConfigurationKind(name, EAID);
 				break;
-<<<<<<< HEAD
-				
->>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
-=======
->>>>>>> 292a944 (merged resource branch)
+			case UAFConstants.ACTUAL_MILESTONE_KIND:
+				element = new ActualMilestoneKind(name, EAID);
+				break;
+			case UAFConstants.PROJECT:
+				element = new Project(name, EAID);
+				break;
+			case UAFConstants.PROJECT_KIND:
+				element = new Project(name, EAID);
+				break;
+			case UAFConstants.PROJECT_MILESTONE:
+				element = new ProjectMilestone(name, EAID);
+				break;
+			case UAFConstants.PROJECT_MILESTONE_ROLE:
+				element = new ProjectMilestoneRole(name, EAID);
+				break;
+			case UAFConstants.PROJECT_ROLE:
+				element = new ProjectRole(name, EAID);
+				break;
+			case UAFConstants.PROJECT_THEME:
+				element = new ProjectTheme(name, EAID);
+				break;
+			case UAFConstants.PROJECT_ACTIVITY:
+				element = new ProjectActivity(name, EAID);
+				break;
+			case UAFConstants.PROJECT_ACTIVITY_ACTION:
+				element = new ProjectActivityAction(name, EAID);
+				break;
+			case UAFConstants.PROJECT_STATUS:
+				element = new ProjectStatus(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_PROJECT_MILESTONE_ROLE:
+				element = new ActualProjectMilestoneRole(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_PROJECT_ROLE:
+				element = new ActualProjectRole(name, EAID);
+				break;
+			case UAFConstants.STATUS_INDICATORS:
+				element = new StatusIndicators(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_PROJECT:
+				element = new ActualProject(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_PROJECT_MILESTONE:
+				element = new ActualProjectMilestone(name, EAID);
+				break;
 			default:
 				break;
 		}

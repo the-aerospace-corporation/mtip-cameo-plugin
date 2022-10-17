@@ -31,6 +31,8 @@ import uaf.Operational.OperationalConnector;
 import uaf.Operational.OperationalControlFlow;
 import uaf.Operational.OperationalExchange;
 import uaf.Operational.OperationalObjectFlow;
+import uaf.Projects.MilestoneDependency;
+import uaf.Projects.ProjectSequence;
 import uaf.Resources.Forecast;
 import uaf.Resources.FunctionControlFlow;
 import uaf.Resources.FunctionObjectFlow;
@@ -191,6 +193,12 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.VERSION_SUCCESSION:
 				relationship = new VersionSuccession(name, EAID);
+				break;
+			case UAFConstants.MILESTONE_DEPENDENCY:
+				relationship = new MilestoneDependency(name, EAID);
+				break;
+			case UAFConstants.PROJECT_SEQUENCE:
+				relationship = new ProjectSequence(name, EAID);
 				break;
 				
 			default:

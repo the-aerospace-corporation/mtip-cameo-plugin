@@ -571,6 +571,42 @@ public class ExportXmlSysml {
 		} else if (stereotypes.contains(UAFProfile.WHOLE_LIFE_CONFIGURATION_KIND_STEREOTYPE)) {
 			return UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND;
 		}
+	    //Projects
+		  else if(stereotypes.contains(UAFProfile.ACTUAL_MILESTONE_KIND_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_MILESTONE_KIND;
+		} else if(stereotypes.contains(UAFProfile.PROJECT_STEREOTYPE)) {
+			return UAFConstants.PROJECT;
+		} else if(stereotypes.contains(UAFProfile.PROJECT_KIND_STEREOTYPE)) {
+			return UAFConstants.PROJECT_KIND;
+		} else if (stereotypes.contains(UAFProfile.PROJECT_MILESTONE_STEREOTYPE)) {
+			return UAFConstants.PROJECT_MILESTONE;
+		} else if (stereotypes.contains(UAFProfile.PROJECT_MILESTONE_ROLE_STEREOTYPE)) {
+			return UAFConstants.PROJECT_MILESTONE_ROLE;
+		} else if (stereotypes.contains(UAFProfile.PROJECT_ROLE_STEREOTYPE)) {
+			return UAFConstants.PROJECT_ROLE;
+		} else if (stereotypes.contains(UAFProfile.PROJECT_THEME_STEREOTYPE)) {
+			return UAFConstants.PROJECT_THEME;
+		} else if (stereotypes.contains(UAFProfile.PROJECT_ACTIVITY_STEREOTYPE)) {
+			return UAFConstants.PROJECT_ACTIVITY;
+		} else if (stereotypes.contains(UAFProfile.PROJECT_ACTIVITY_ACTION_STEREOTYPE)) {
+			return UAFConstants.PROJECT_ACTIVITY_ACTION;
+		} else if (stereotypes.contains(UAFProfile.PROJECT_STATUS_STEREOTYPE)) {
+			return UAFConstants.PROJECT_STATUS;
+		} else if (stereotypes.contains(UAFProfile.ACTUAL_PROJECT_MILESTONE_ROLE_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_PROJECT_MILESTONE_ROLE;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_PROJECT_ROLE_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_PROJECT_ROLE;
+		} else if(stereotypes.contains(UAFProfile.MILESTONE_DEPENDENCY_STEREOTYPE)) {
+			return UAFConstants.MILESTONE_DEPENDENCY;
+		} else if(stereotypes.contains(UAFProfile.PROJECT_SEQUENCE_STEREOTYPE)) {
+			return UAFConstants.PROJECT_SEQUENCE;
+		} else if(stereotypes.contains(UAFProfile.STATUS_INDICATORS_STEREOTYPE)) {
+			return UAFConstants.STATUS_INDICATORS;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_PROJECT_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_PROJECT;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_PROJECT_MILESTONE_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_PROJECT_MILESTONE;
+		}
 	    
 		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
 >>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)

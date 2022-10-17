@@ -98,6 +98,24 @@ public class UAFProfile {
 	public static Stereotype VERSION_OF_CONFIGURATION_STEREOTYPE = null;
 	public static Stereotype WHOLE_LIFE_CONFIGURATION_KIND_STEREOTYPE = null;
 	
+	public static Stereotype ACTUAL_MILESTONE_KIND_STEREOTYPE = null;
+	public static Stereotype PROJECT_STEREOTYPE = null;
+	public static Stereotype PROJECT_KIND_STEREOTYPE = null;
+	public static Stereotype PROJECT_MILESTONE_STEREOTYPE = null;
+	public static Stereotype PROJECT_MILESTONE_ROLE_STEREOTYPE = null;
+	public static Stereotype PROJECT_ROLE_STEREOTYPE = null;
+	public static Stereotype PROJECT_THEME_STEREOTYPE = null;
+	public static Stereotype PROJECT_ACTIVITY_STEREOTYPE = null;
+	public static Stereotype PROJECT_ACTIVITY_ACTION_STEREOTYPE = null;
+	public static Stereotype PROJECT_STATUS_STEREOTYPE = null;
+	public static Stereotype ACTUAL_PROJECT_MILESTONE_ROLE_STEREOTYPE = null;
+	public static Stereotype ACTUAL_PROJECT_ROLE_STEREOTYPE = null;
+	public static Stereotype MILESTONE_DEPENDENCY_STEREOTYPE = null;
+	public static Stereotype PROJECT_SEQUENCE_STEREOTYPE = null;
+	public static Stereotype STATUS_INDICATORS_STEREOTYPE = null;
+	public static Stereotype ACTUAL_PROJECT_STEREOTYPE = null;
+	public static Stereotype ACTUAL_PROJECT_MILESTONE_STEREOTYPE = null;
+	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
 		UPDM_CUSTOMIZATION_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UPDM_CUSTOMIZATION_PROFILE);
@@ -192,5 +210,25 @@ public class UAFProfile {
 	    VERSION_SUCCESSION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.VERSION_SUCCESSION, UAF_PROFILE);
 	    VERSION_OF_CONFIGURATION_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.VERSION_OF_CONFIGURATION, UAF_PROFILE);
 	    WHOLE_LIFE_CONFIGURATION_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND, UAF_PROFILE);
+	
+	    //Projects
+	    ACTUAL_MILESTONE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_MILESTONE_KIND, UAF_PROFILE);
+	    PROJECT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT, UAF_PROFILE);
+	    PROJECT_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_KIND, UAF_PROFILE);
+	    PROJECT_MILESTONE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_MILESTONE, UAF_PROFILE);
+	    PROJECT_MILESTONE_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_MILESTONE_ROLE, UAF_PROFILE);
+	    PROJECT_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_ROLE, UAF_PROFILE);
+	    PROJECT_THEME_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_THEME, UAF_PROFILE);
+	    PROJECT_ACTIVITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_ACTIVITY, UAF_PROFILE);
+	    PROJECT_ACTIVITY_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_ACTIVITY_ACTION, UAF_PROFILE);
+	    PROJECT_STATUS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_STATUS, UAF_PROFILE);
+	    ACTUAL_PROJECT_MILESTONE_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PROJECT_MILESTONE_ROLE, UAF_PROFILE);
+	    ACTUAL_PROJECT_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PROJECT_ROLE, UAF_PROFILE);
+	    MILESTONE_DEPENDENCY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.MILESTONE_DEPENDENCY, UAF_PROFILE);
+	    PROJECT_SEQUENCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROJECT_SEQUENCE, UAF_PROFILE);
+	    STATUS_INDICATORS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.STATUS_INDICATORS, UAF_PROFILE);
+	    ACTUAL_PROJECT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PROJECT, UAF_PROFILE);
+	    ACTUAL_PROJECT_MILESTONE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PROJECT_MILESTONE, UAF_PROFILE);
+	    
 	}
 }

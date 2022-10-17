@@ -350,6 +350,24 @@ public class XmlTagConstants
 	public static final String RESOURCE_CONSTRAINT = "uaf.ResourceConstraint";
 	public static final String WHOLE_LIFE_CONFIGURATION_KIND = "uaf.WholeLifeConfigurationKind";
 	
+	//Projects
+	public static final String ACTUAL_MILESTONE_KIND = "uaf.ActualMilestoneKind";
+	public static final String PROJECT =" uaf.Project";
+	public static final String PROJECT_KIND = "uaf.ProjectKind";
+	public static final String PROJECT_MILESTONE = "uaf.ProjectMilestone";
+	public static final String PROJECT_MILESTONE_ROLE = "uaf.ProjectMilestoneRole";
+	public static final String PROJECT_ROLE = "uaf.ProjectRole";
+	public static final String PROJECT_THEME = "uaf.ProjectTheme";
+	public static final String PROJECT_ACTIVITY = "uaf.ProjectActivity";
+	public static final String PROJECT_ACTIVITY_ACTION = "uaf.ProjectActivityAction";
+	public static final String PROJECT_STATUS = "uaf.ProjectStatus";
+	public static final String ACTUAL_PROJECT_MILESTONE_ROLE = "uaf.ActualProjectMilestoneRole";
+	public static final String ACTUAL_PROJECT_ROLE = "uaf.ActualProjectRole";
+	public static final String STATUS_INDICATORS = "uaf.StatusIndicators";
+	public static final String ACTUAL_PROJECT = "uaf.ActualProject";
+	public static final String ACTUAL_PROJECT_MILESTONE = "uaf.ActualProjectMilestone";
+	
+	
 	//UAF Relationships
 	//Strategic
 	public static final String CAPABILITY_FOR_TASK = "uaf.CapabilityForTask";
@@ -380,6 +398,11 @@ public class XmlTagConstants
 	public static final String FORECAST = "uaf.Forecast";
 	public static final String VERSION_SUCCESSION = "uaf.VersionSuccession";
 	public static final String VERSION_OF_CONFIGURATION = "uaf.VersionOfConfiguration";
+	
+	
+	//Project
+	public static final String MILESTONE_DEPENDENCY = "uaf.MilestoneDependency";
+	public static final String PROJECT_SEQUENCE = "uaf.ProjectSequence";
 	
 	
 	
