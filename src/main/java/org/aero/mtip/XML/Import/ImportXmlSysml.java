@@ -97,7 +97,7 @@ public class ImportXmlSysml {
 		ImportLog.reset();
     }
     
-    public static void parseXML(Document doc, Element start) throws NullPointerException{
+    public static void parseXML(Document doc, Element start) throws NullPointerException {
     	if(start == null) {
 			primaryLocation = project.getPrimaryModel();
 			CameoUtils.logGUI("\nMounting project on package," + primaryLocation.getHumanName() + " with id: " + primaryLocation.getLocalID());
@@ -125,6 +125,7 @@ public class ImportXmlSysml {
 				buildValidationSuite();
 			}
 		}
+		CameoUtils.logGUI(String.format("Importing %2d elements", completeXML.keySet().size()));
 		buildModel(completeXML);
 		ImportLog.save();
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
@@ -500,6 +501,7 @@ public class ImportXmlSysml {
 					element.addStereotypeTaggedValues(modelElement);					
 					element.addDependentElements(parsedXML, modelElement);
 					if(ownerElement != null) {
+						CameoUtils.logGUI("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with original id: " + modelElement.getEAID() + " and new id: " + newElement.getLocalID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 						ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 					} else {
 						ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with no initial owner.");
@@ -539,6 +541,7 @@ public class ImportXmlSysml {
 	
 	public static HashMap<String, XMLItem> buildModelMap(NodeList dataNodes) {
 		HashMap<String, XMLItem> modelElements = completeXML;
+		List<XMLItem> properties = new ArrayList<XMLItem> ();
 		
 		//Loop through all of the <data> nodes
 		for(int i = 0; i < dataNodes.getLength(); i++) {
@@ -575,14 +578,16 @@ public class ImportXmlSysml {
 						}
 						
 						//Add model element attributes to parsedXML hashmap passed back to main function
-					//	if(modelElement.getEAID() != null) {
 						if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())) {
 							modelElements.put(modelElement.getEAID(),  modelElement);
 							if(modelElement.getType().contentEquals("Stereotype")) {
 								stereotypesXML.put(modelElement.getEAID(), modelElement);
 							}
-							if(modelElement.getType().contentEquals(SysmlConstants.PROPERTY) && completeXML.get(modelElement.getParent()).getType().contentEquals(SysmlConstants.STEREOTYPE)) {
-								stereotypesXML.put(modelElement.getEAID(), modelElement);
+							if(modelElement.getType().contentEquals(SysmlConstants.PROPERTY)) {
+								if(modelElement.getParent() != null) {
+									// Parent may not exists in modelElements yet. Add to list to check if should be included in stereotypesXML post modelElements building
+									properties.add(modelElement);
+								}
 							}
 						} else {
 							String message = "No ID. Element will not be parsed correctly.";
@@ -591,6 +596,19 @@ public class ImportXmlSysml {
 				}
 			}
 		}
+		// 
+		for(XMLItem modelElement : properties) {
+			if(modelElement.getParent() != null) {
+				if(modelElements.get(modelElement.getParent()) != null) {
+					if(modelElements.get(modelElement.getParent()).getType().contentEquals(SysmlConstants.STEREOTYPE)) {
+						stereotypesXML.put(modelElement.getEAID(), modelElement);
+					}
+				} else {
+					CameoUtils.logGUI("No parent found for property with id " + modelElement.getEAID());
+				}
+			}
+		}
+		
 		completeXML = modelElements;
 		return modelElements;
 	}
@@ -1131,7 +1149,6 @@ public class ImportXmlSysml {
 						ImportLog.log("Error parsing stereotype name or profile name from HUDS XML for element: " + modelElement.getEAID());
 					}
 				} else if(attributeKey.contentEquals(XmlTagConstants.STEREOTYPE_TAGGED_VALUE)) {
-					CameoUtils.logGUI("Parsing stereotype tagged value attribute.");
 					try {
 						TaggedValue tv = new TaggedValue(attribute);
 						modelElement.addStereotypeTaggedValue(tv);

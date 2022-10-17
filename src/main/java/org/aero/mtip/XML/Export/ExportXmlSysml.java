@@ -78,6 +78,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
@@ -214,6 +215,9 @@ public class ExportXmlSysml {
 		
 		try {
 			elementsInPackage = pack.getOwnedElement();
+			if(elementsInPackage != null) {
+				CameoUtils.logGUI(elementsInPackage.size() + " elements found in package.");
+			}
 		} catch(NullPointerException e) {
 			noElements = true;
 		}
@@ -244,9 +248,15 @@ public class ExportXmlSysml {
 			for(Element element : elementsInPackage) {
 				//export elements that are not packages
 				String elementName = element.getHumanName();
-				if(!(element instanceof Package) && !elementName.equals("Package Import") && !elementName.equals("Profile Application")) {
-					CameoUtils.logGUI("Exporting " + element.getHumanType() + element.getHumanName());
-					exportElementRecursive(element, project, xmlDoc);
+				if(!(element instanceof Package) && !elementName.equals("Profile Application")) {
+					if(!elementName.equals("Package Import") || elementName.equals("Package Import") && !CameoUtils.isModel(element.getOwner(), project)) {
+						CameoUtils.logGUI("Exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getLocalID());
+						exportElementRecursive(element, project, xmlDoc);
+					} else {
+						CameoUtils.logGUI("Not exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getLocalID());
+					}
+				} else {
+					CameoUtils.logGUI("Not exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getLocalID());
 				}
 			}
 		}
@@ -536,6 +546,9 @@ public class ExportXmlSysml {
 		} else if(element instanceof Operation) {
 			commonElementType = SysmlConstants.OPERATION;
 			CameoUtils.logGUI("Exporting Operation");
+		} else if(element instanceof PackageImport) {
+			commonRelationshipType = SysmlConstants.PACKAGEIMPORT;
+			CameoUtils.logGUI("Exporting Package Import");
 		} else if(SysMLProfile.isParticipantProperty(element)) {
 			commonElementType = SysmlConstants.PARTICIPANTPROPERTY;
 			CameoUtils.logGUI("Exporting Participant Property");
@@ -606,6 +619,9 @@ public class ExportXmlSysml {
 					CameoUtils.logGUI("Slots of stereotypes are capture as Tagged Values.");
 				}
 			}
+		} else if(SysMLProfile.isStakeholder(element)) {
+			commonElementType = SysmlConstants.STAKEHOLDER;
+			CameoUtils.logGUI("Exporting Stakeholder");
 		} else if(element instanceof State) {
 			commonElementType = SysmlConstants.STATE;
 			CameoUtils.logGUI("Exporting State");
@@ -659,7 +675,12 @@ public class ExportXmlSysml {
 		} else if(CameoUtils.isVerify(element, project)) {
 			commonRelationshipType = SysmlConstants.VERIFY;
 			CameoUtils.logGUI("Exporting Verify");
-			
+		} else if(SysMLProfile.isView(element)) {
+			commonElementType = SysmlConstants.VIEW;
+			CameoUtils.logGUI("Exporting View");
+		} else if(SysMLProfile.isViewpoint(element)) {
+			commonElementType = SysmlConstants.VIEWPOINT;
+			CameoUtils.logGUI("Exporitng Viewpoint");		
 			
 			
 		//Super classes listed below as to not to override their children
@@ -959,6 +980,8 @@ public class ExportXmlSysml {
 			commonElementType = SysmlConstants.OPAQUEBEHAVIOR;
 		} else if(element instanceof Operation) {
 			commonElementType = SysmlConstants.OPERATION;
+		} else if(element instanceof PackageImport) {
+			commonRelationshipType = SysmlConstants.PACKAGEIMPORT;
 		} else if(SysMLProfile.isParticipantProperty(element)) {
 			commonElementType = SysmlConstants.PARTICIPANTPROPERTY;
 		} else if(MDCustomizationForSysMLProfile.isPartProperty(element)) {

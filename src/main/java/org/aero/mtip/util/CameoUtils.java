@@ -408,6 +408,13 @@ public class CameoUtils {
 		return false;
 	}
 	
+	public static boolean isCameoID(String id) {
+		if(id.startsWith("_")) {
+			return true;
+		}
+		return false;
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static Element getPrimitiveValueType(String valueTypeEnum) {
 		String primitiveValuePath = "SysML::Libraries::PrimitiveValueTypes::" + valueTypeEnum;

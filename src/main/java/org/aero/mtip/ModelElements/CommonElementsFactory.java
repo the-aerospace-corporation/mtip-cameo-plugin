@@ -144,6 +144,9 @@ import org.aero.mtip.ModelElements.UseCase.Actor;
 import org.aero.mtip.ModelElements.UseCase.ExtensionPoint;
 import org.aero.mtip.ModelElements.UseCase.UseCase;
 import org.aero.mtip.ModelElements.UseCase.UseCaseDiagram;
+import org.aero.mtip.ModelElements.View.Stakeholder;
+import org.aero.mtip.ModelElements.View.View;
+import org.aero.mtip.ModelElements.View.Viewpoint;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 
@@ -461,16 +464,19 @@ public class CommonElementsFactory {
 			case SysmlConstants.SLOT:
 				element = new Slot(name, EAID);
 				break;
-			case "State":
+			case SysmlConstants.STAKEHOLDER:
+				element = new Stakeholder(name, EAID);
+				break;
+			case SysmlConstants.STATE:
 				element = new State(name, EAID);
 				break;
 			case SysmlConstants.STATEINVARIANT:
 				element = new StateInvariant(name, EAID);
 				break;
-			case "StateMachine":
+			case SysmlConstants.STATEMACHINE:
 				element = new StateMachine(name, EAID);
 				break;
-			case "Stereotype":
+			case SysmlConstants.STEREOTYPE:
 				element = new Stereotype(name, EAID);
 				break;
 			case SysmlConstants.TERMINATE:
@@ -488,7 +494,7 @@ public class CommonElementsFactory {
 			case SysmlConstants.TIMEOBSERVATION:
 				element = new TimeObservation(name, EAID);
 				break;
-			case "Trigger":
+			case SysmlConstants.TRIGGER:
 				element = new Trigger(name, EAID);
 				break;
 			case SysmlConstants.UNIT:
@@ -502,6 +508,12 @@ public class CommonElementsFactory {
 				break;
 			case "ValueType":
 				element = new ValueType(name, EAID);
+				break;
+			case SysmlConstants.VIEW:
+				element = new View(name, EAID);
+				break;
+			case SysmlConstants.VIEWPOINT:
+				element = new Viewpoint(name, EAID);
 				break;
 				
 			// Cameo Specific model Elements ************************************************

@@ -874,6 +874,10 @@ public abstract class CommonElement {
 			ElementValue ev = (ElementValue)vs;
 			String strVal = ev.getElement().getLocalID();
 			strAttr = createStringAttribute(xmlDoc, attrName, strVal);
+		} else if(vs instanceof InstanceValue) {
+			InstanceValue iv = (InstanceValue)vs;
+			String strVal = iv.getInstance().getLocalID();
+			strAttr = createStringAttribute(xmlDoc, attrName, strVal);
 		} else if(vs instanceof OpaqueExpression) {
 			OpaqueExpression oe = (OpaqueExpression)vs;
 			List<String> bodies= oe.getBody();

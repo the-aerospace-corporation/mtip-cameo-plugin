@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.aero.mtip.XML.Export.ExportXmlSysml;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
@@ -35,6 +34,7 @@ import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.LinkView;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.CallBehaviorActionView;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -50,6 +50,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected HashMap<String, ShapeElement> shapeElements = new HashMap<String, ShapeElement>();
 	protected List<String> diagramElementIDs = new ArrayList<String> ();
 	protected String[] allowableElements = null;
+	protected List<Element> subElements = null;
 	
 	
 	protected Element exportingDiagram = null;
@@ -372,7 +373,6 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			if(!(subPresentationElement instanceof com.nomagic.magicdraw.uml.symbols.shapes.RoleView)) {
 				writeElement(xmlDoc, elementListTag, relationshipListTag, subPresentationElement, presentationElement);
 			}
-			
 		}
 	}
 	

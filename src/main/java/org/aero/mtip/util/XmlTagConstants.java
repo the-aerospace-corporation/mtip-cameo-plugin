@@ -37,11 +37,14 @@ public class XmlTagConstants
 	public static final String DIAGRAM_CONNECTOR = "diagramConnector";
 	public static final String DIAGRAM_PARENT = "diagramParent";
 	public static final String RELATIONSHIP_PROPERTY = "property";
+	public static final String RELATIONSHIP_ENUMERATION = "enumeration";
 	public static final String BEHAVIOR = "behavior";
 	public static final String STEREOTYPE_TAGGED_VALUE = "stereotypeTaggedValue";
 	public static final String TAGGED_VALUE_NAME = "taggedValueName";
 	public static final String TAGGED_VALUE_TYPE = "taggedValueType";
 	public static final String TAGGED_VALUE_VALUE = "value";
+	public static final String CLIENT_MULTIPLICITY = "clientMultiplicity";
+	public static final String SUPPLIER_MULTIPLICITY = "supplierMultiplicity";
 	
 	// XML Tag Attributes
 	public static final String ATTRIBUTE_NAME = "name";
@@ -71,6 +74,7 @@ public class XmlTagConstants
 	public static final String ATTRIBUTE_INDEX_0 = "0";
 	public static final String ATTRIBUTE_INDEX_1 = "1";
 	public static final String ATTRIBUTE_INDEX_2 = "2";
+	public static final String ATTRIBUTE_KEY_INSTANCE_VALUE = "instanceValue";
 	
 	public static final String ATTRIBUTE_NAME_INTERACTION_OPERATOR_KIND = "interactionOperatorKind";
 	public static final String ATTRIBUTE_NAME_INTERACTION_OPERAND = "interactionOperand";
@@ -200,6 +204,7 @@ public class XmlTagConstants
 	public static final String SIGNAL = "sysml.Signal";
 	public static final String SIGNALEVENT = "sysml.SignalEvent";
 	public static final String SLOT = "sysml.Slot";
+	public static final String STAKEHOLDER = "sysml.Stakeholder";
 	public static final String STATE = "sysml.State";
 	public static final String STATEINVARIANT = "sysml.StateInvariant";
 	public static final String STATEMACHINE = "sysml.StateMachine";
@@ -215,6 +220,8 @@ public class XmlTagConstants
 	public static final String USECASE = "sysml.UseCase";
 	public static final String VALUEPROPERTY = "sysml.ValueProperty";
 	public static final String VALUETYPE = "sysml.ValueType";
+	public static final String VIEW = "sysml.View";
+	public static final String VIEWPOINT = "sysml.Viewpoint";
 
 	//SysML relationships
 	public static final String ABSTRACTION = "sysml.Abstraction";
@@ -234,6 +241,7 @@ public class XmlTagConstants
 	public static final String INFORMATIONFLOW = "sysml.InformationFlow";
 	public static final String ITEMFLOW = "sysml.ItemFlow";
 	public static final String OBJECTFLOW = "sysml.ObjectFlow";
+	public static final String PACKAGEIMPORT = "sysml.PackageImport";
 	public static final String REFINE = "sysml.Refine";
 	public static final String SATISFY = "sysml.Satisfy";
 	public static final String TRACE = "sysml.Trace";
@@ -320,6 +328,7 @@ public class XmlTagConstants
 	public static final String VALUE = "value";
 	public static final String ELEMENT_ID = "elementID";
 	public static final String PARENT_ID = "parentID";
+	public static final String SYNC_ELEMENT = "syncElement";
 	
 	//Type Prefixes
 	public static final String CUSTOM = "custom.Diagram";

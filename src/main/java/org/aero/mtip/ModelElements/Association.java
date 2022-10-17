@@ -13,6 +13,7 @@ import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 
 public class Association extends CommonRelationship{
 	public Association(String name, String EAID) {
@@ -33,6 +34,26 @@ public class Association extends CommonRelationship{
 			ModelHelper.setNavigable(firstMemberEnd, true);
 			ModelHelper.setNavigable(secondMemberEnd, true);
 		}
+		
+		if(xmlElement.hasAttribute(XmlTagConstants.SUPPLIER_MULTIPLICITY)) {
+			ModelHelper.setMultiplicity(xmlElement.getAttribute(XmlTagConstants.SUPPLIER_MULTIPLICITY), ModelHelper.getFirstMemberEnd(association));
+		}
+		if(xmlElement.hasAttribute(XmlTagConstants.CLIENT_MULTIPLICITY)) {
+			ModelHelper.setMultiplicity(xmlElement.getAttribute(XmlTagConstants.CLIENT_MULTIPLICITY), ModelHelper.getSecondMemberEnd(association));
+		}
+		
 		return association;
+	}
+	
+	@Override
+	public String getSupplierMultiplicity(Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association association = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) element;
+		return ModelHelper.getMultiplicity((MultiplicityElement) ModelHelper.getFirstMemberEnd(association));
+	}
+	
+	@Override
+	public String getClientMultiplicity(Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association association = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) element;
+		return ModelHelper.getMultiplicity((MultiplicityElement) ModelHelper.getSecondMemberEnd(association));
 	}
 }

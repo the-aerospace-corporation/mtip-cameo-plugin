@@ -10,13 +10,16 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
@@ -27,16 +30,18 @@ import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.CallBehaviorActionView;
 import com.nomagic.magicdraw.uml.symbols.shapes.InterruptibleActivityRegionView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneHeaderView;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneView;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 
 
 public class ActivityDiagram extends AbstractDiagram {
-
+	protected Map<String, PresentationElement> presentationElementById = new HashMap<String, PresentationElement> ();
 	public ActivityDiagram(String name, String EAID) {
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
@@ -92,20 +97,24 @@ public class ActivityDiagram extends AbstractDiagram {
 		
 		ShapeElement shape = null;
 		try {
-			if(element instanceof com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition) {
-				CameoUtils.logGUI("Creating swimlane view for ActivityPartition with id: " + element.getLocalID());
-				shape = PresentationElementsManager.getInstance().createSwimlane(Collections.emptyList(), (List<? extends com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition>) Arrays.asList(element), (DiagramPresentationElement)presentationDiagram);
-				PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
-			} else if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999 && !CameoUtils.isAssociationBlock(element, project)) {
-				shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
-				noPosition = true;
-			} else {
-				shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
-				if(shape != null) {
+			// Adding Pins to the diagram re-adds their parent element duplicating elements on the diagram on import. Filtering them out fixes this.
+			if(!(element instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.OutputPin) && !(element instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.InputPin)) {
+				if(element instanceof com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition) {
+					CameoUtils.logGUI("Creating swimlane view for ActivityPartition with id: " + element.getLocalID());
+					shape = PresentationElementsManager.getInstance().createSwimlane(Collections.emptyList(), (List<? extends com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition>) Arrays.asList(element), (DiagramPresentationElement)presentationDiagram);
 					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
+				} else if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999 && !CameoUtils.isAssociationBlock(element, project)) {
+					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
+					noPosition = true;
 				} else {
-					CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
-					ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
+					if(shape != null) {
+						presentationElementById.put(element.getLocalID(), shape);
+						PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
+					} else {
+						CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+						ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+					}
 				}
 			}
 		} catch(ClassCastException cce) {

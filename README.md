@@ -15,6 +15,19 @@ This project is the source code for a Java plug-in written for Cameo Systems Mod
 #### Setting up Classpath for Development
 Please follow the directions provided by NoMagic at https://docs.nomagic.com/display/MD190/Development+in+Eclipse to set the classpath for MagicDraw's OpenAPI bundled with your version of MD or CSM.
 
+You may also need to manually add references to the following JAR files:
+* <cameo install path>\plugins\com.nomagic.requirements\text.jar
+* <cameo install path>\plugins\com.nomagic.requirements\requirements_api.jar
+* <cameo install path>\plugins\com.nomagic.requirements\requirements.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.sysml\sysml.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.sysml\sysml_api.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.glossary\glossary.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.glossary\glossary_api.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.diagramtable\diagramtable_api.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.diagramtable\diagramtable.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.dependencymatrix\dependencymatrix_api.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.dependencymatrix\dependencymatrix.jar
+
 ### Installing
 
 * It is recommended to follow MagicDraw's guide for setting up integration with IDEs located here: https://docs.nomagic.com/display/MD190/Developing+plugins+using+IDE 
@@ -33,12 +46,24 @@ To import a model
 * Select import from the drop down under the Huddle toolbar
 * Plug-in will open a dialog stating import has completed.
 
+### Log Files
+On import and export, a log of any errors that occur will be written to /Documents/Cameo Logs. This captures elements that were not imported or exported correctly as well as other errors that may occur.
+
 ## Authors
 
 Trent Severson, Aerospace Corporation
 oss@aero.org
 
 ## Version History
+
+* 1.0.5
+    * Fixed support for views, viewpoints, and stakeholders when exchanging models with Sparx EA
+    * Added support for PackageImport relationships while filtering out underlying libraries
+    * Added clientMultiplicity and supplierMultiplicity attrbiutes to associations
+    * Addressed placement of part properties on diagrams
+    * Various fixes for NPEs in rare cases
+* 1.0.4
+    * Updates to fix NPEs
 * 1.0.3
     * Requirement text bug fix and basic html filtering.
 * 1.0.2

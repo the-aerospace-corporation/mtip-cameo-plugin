@@ -30,7 +30,7 @@ public class AboutAction extends MDAction
 		//Display information about the plugin.
 		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogParent(),
 				"Modeling Tool Integration Plugin for Cameo Systems Modeler (MTIP-CSM Plugin)\n\n"
-				+ "Version: 1.0.4\n\n",
+				+ "Version: 1.0.5\n\n",
 				"About", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

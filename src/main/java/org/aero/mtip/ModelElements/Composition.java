@@ -16,7 +16,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
-public class Composition extends CommonRelationship {
+public class Composition extends org.aero.mtip.ModelElements.Association {
 	public Composition(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
@@ -37,8 +37,6 @@ public class Composition extends CommonRelationship {
 			ModelHelper.setNavigable(secondMemberEnd, false);
 			firstMemberEnd.setAggregation(AggregationKindEnum.COMPOSITE);
 		}
-		
-
 		return association;
 	}
 }

@@ -4,7 +4,6 @@
   <artifactId>mtip_csm_plugin</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
-    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -22,6 +21,5 @@
 	    <artifactId>commons-lang3</artifactId>
 	    <version>3.7</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
   </dependencies>
 </project>

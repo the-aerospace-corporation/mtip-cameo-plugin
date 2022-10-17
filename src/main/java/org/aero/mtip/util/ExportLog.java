@@ -24,7 +24,8 @@ public class ExportLog {
 	protected static List<String> logData = new ArrayList<String> ();
 	private static String documentsPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
 	//private final static String logName = "Import Log " + new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + ".txt";
-	private final static String logFolder = "Cameo Import Logs";
+	private final static String logFolder = "Cameo Logs";
+	private final static String subFolder = "Export";
 	private static String logFileName;
 	private static Path filePath = null;	
 	private static ArrayList<String> xmlFileNames = new ArrayList<String> ();
@@ -41,9 +42,9 @@ public class ExportLog {
 	}
 	
 	public static void save() {
-		new File(Paths.get(documentsPath, logFolder).toString()).mkdirs();
+		new File(Paths.get(documentsPath, logFolder, subFolder).toString()).mkdirs();
 		createFileName();
-		filePath = Paths.get(documentsPath, logFolder, logFileName);
+		filePath = Paths.get(documentsPath, logFolder, subFolder, logFileName);
 		
 		if(!logData.isEmpty()) {
 			try {

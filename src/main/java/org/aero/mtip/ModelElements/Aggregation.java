@@ -16,7 +16,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
-public class Aggregation extends CommonRelationship{
+public class Aggregation extends org.aero.mtip.ModelElements.Association {
 	public Aggregation(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;

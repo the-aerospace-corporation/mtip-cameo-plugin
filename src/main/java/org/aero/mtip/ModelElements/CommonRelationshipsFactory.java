@@ -8,6 +8,7 @@ package org.aero.mtip.ModelElements;
 
 import org.aero.mtip.ModelElements.Activity.ControlFlow;
 import org.aero.mtip.ModelElements.Activity.ObjectFlow;
+import org.aero.mtip.ModelElements.Block.PackageImport;
 import org.aero.mtip.ModelElements.InternalBlock.BindingConnector;
 import org.aero.mtip.ModelElements.InternalBlock.Connector;
 import org.aero.mtip.ModelElements.InternalBlock.InformationFlow;
@@ -64,7 +65,7 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.EXTENSION:
 				relationship = new Extension(name, EAID);
 				break;
-			case "Generalization":
+			case SysmlConstants.GENERALIZATION:
 				relationship = new Generalization(name, EAID);
 				break;
 			case SysmlConstants.INCLUDE:
@@ -76,25 +77,28 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.ITEMFLOW:
 				relationship = new ItemFlow(name, EAID);
 				break;
-			case "ObjectFlow":
+			case SysmlConstants.OBJECTFLOW:
 				relationship = new ObjectFlow(name, EAID);
 				break;
-			case "Refine":
+			case SysmlConstants.PACKAGEIMPORT:
+				relationship = new PackageImport(name, EAID);
+				break;
+			case SysmlConstants.REFINE:
 				relationship = new Refine(name, EAID);
 				break;
-			case "Satisfy":
+			case SysmlConstants.SATISFY:
 				relationship = new Satisfy(name, EAID);
 				break;
-			case "Trace":
+			case SysmlConstants.TRACE:
 				relationship = new Trace(name, EAID);
 				break;
-			case "Transition":
+			case SysmlConstants.TRANSITION:
 				relationship = new Transition(name, EAID);
 				break;
 			case SysmlConstants.USAGE:
 				relationship = new Usage(name, EAID);
 				break;
-			case "Verify":
+			case SysmlConstants.VERIFY:
 				relationship = new Verify(name, EAID);
 				break;
 			default:

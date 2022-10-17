@@ -18,9 +18,11 @@ import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.CoreHelper;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 
 public abstract class CommonRelationship extends CommonElement {
 	protected Element supplier = null;
@@ -109,6 +111,8 @@ public abstract class CommonRelationship extends CommonElement {
 	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
 		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		
 		if(relationships == null) {
 			relationships = createRelationships(xmlDoc, element);
 		}
@@ -129,6 +133,19 @@ public abstract class CommonRelationship extends CommonElement {
 			CameoUtils.logGUI("No client element found.\n");
 		}
 		
+		// Check for client and supplier multiplicities
+		String clientMultiplicity = getClientMultiplicity(element);
+		String supplierMultiplicity = getSupplierMultiplicity(element);
+		
+		if(supplierMultiplicity != null && !supplierMultiplicity.isEmpty()) {
+			org.w3c.dom.Element supplierMultiplicityTag = createStringAttribute(xmlDoc, XmlTagConstants.SUPPLIER_MULTIPLICITY, supplierMultiplicity);
+			attributes.appendChild(supplierMultiplicityTag);
+		}
+		if(supplierMultiplicity != null && !clientMultiplicity.isEmpty()) {
+			org.w3c.dom.Element clientMultiplicityTag = createStringAttribute(xmlDoc, XmlTagConstants.CLIENT_MULTIPLICITY, clientMultiplicity);
+			attributes.appendChild(clientMultiplicityTag);
+		}
+		
 		return data;
 	}
 	
@@ -147,6 +164,16 @@ public abstract class CommonRelationship extends CommonElement {
 	public void getClient(Element element) {
 		this.client = ModelHelper.getClientElement(element);
 	}
+	
+	public String getSupplierMultiplicity(Element element) {
+		return null;
+	}
+	
+	public String getClientMultiplicity(Element element) {
+		return null;
+	}
+	
+
 	
 	public void setSupplier() {
 		if(sysmlElement instanceof DirectedRelationship) {

@@ -117,6 +117,7 @@ public class SysmlConstants {
 	public static final String SHALLOWHISTORY = "ShallowHistory";
 	public static final String SIGNAL = "Signal";
 	public static final String SLOT = "Slot";
+	public static final String STAKEHOLDER = "Stakeholder";
 	public static final String STATE = "State";
 	public static final String STATEINVARIANT = "StateInvariant";
 	public static final String STATEMACHINE = "StateMachine";
@@ -132,6 +133,8 @@ public class SysmlConstants {
 	public static final String USECASE = "UseCase";
 	public static final String VALUEPROPERTY = "ValueProperty";
 	public static final String VALUETYPE = "ValueType";
+	public static final String VIEW = "View";
+	public static final String VIEWPOINT = "Viewpoint";
 	
 	// Tables
 	public static final String GENERIC_TABLE = "GenericTable";
@@ -191,6 +194,7 @@ public class SysmlConstants {
 	public static final String INFORMATIONFLOW = "InformationFlow";
 	public static final String ITEMFLOW = "ItemFlow";
 	public static final String OBJECTFLOW = "ObjectFlow";
+	public static final String PACKAGEIMPORT = "PackageImport";
 	public static final String REFINE = "Refine";
 	public static final String SATISFY = "Satisfy";
 	public static final String TRACE = "Trace";
@@ -321,6 +325,7 @@ public class SysmlConstants {
 			SIGNAL,
 			SIGNALEVENT,
 			SLOT,
+			STAKEHOLDER,
 			STATE,
 			STATEINVARIANT,
 			STATEMACHINE,
@@ -336,6 +341,9 @@ public class SysmlConstants {
 			USECASE,
 			VALUEPROPERTY,
 			VALUETYPE,	
+			VIEW,
+			VIEWPOINT,
+			
 			
 			// Table treated as Element - cannot be cast to Diagram
 			GENERIC_TABLE,
@@ -370,6 +378,7 @@ public class SysmlConstants {
 			INFORMATIONFLOW,
 			ITEMFLOW,
 			OBJECTFLOW,
+			PACKAGEIMPORT,
 			REFINE,
 			SATISFY,
 			TRACE,
@@ -420,6 +429,7 @@ public class SysmlConstants {
 			//NOTE, // not supported?
 			OPERATION,
 			PACKAGE,
+			PACKAGEIMPORT,
 			PARTPROPERTY,
 			PORT,
 			PROPERTY,
@@ -427,13 +437,16 @@ public class SysmlConstants {
 			QUANTITYKIND,
 			REQUIREMENT,
 			SIGNAL,
+			STAKEHOLDER,
 			SUBSYSTEM,
 			SYSTEM,
 			SYSTEMCONTEXT,
 			UNIT,
 			USECASE,
 			VALUEPROPERTY,
-			VALUETYPE
+			VALUETYPE,
+			VIEW,
+			VIEWPOINT
 	};
 
 
@@ -586,17 +599,21 @@ public class SysmlConstants {
 			//NOTE, // not supported?
 			OPERATION,
 			PACKAGE,
+			PACKAGEIMPORT,
 			PARTPROPERTY,
 			PORT,
 			PROXYPORT,
 			QUANTITYKIND,
 			SIGNAL,
+			STAKEHOLDER,
 			SUBSYSTEM,
 			SYSTEM,
 			SYSTEMCONTEXT,
 			UNIT,
 			VALUEPROPERTY,
 			VALUETYPE,
+			VIEW,
+			VIEWPOINT,
 			
 			//From Requirements Diagram
 			COPY,
