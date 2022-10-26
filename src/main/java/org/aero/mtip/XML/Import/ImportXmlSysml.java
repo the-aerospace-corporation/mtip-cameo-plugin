@@ -27,12 +27,9 @@ import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.ModelElements.ModelDiagram;
-<<<<<<< HEAD
-=======
 import org.aero.mtip.ModelElements.Matrix.AbstractMatrix;
 import org.aero.mtip.ModelElements.Profile.RelationshipConstraint;
 import org.aero.mtip.dodaf.DoDAFConstants;
->>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -212,9 +209,14 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element buildDiagram(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
-		if(!Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType())) {
+		if(!Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType()) 
+				&& !Arrays.asList(DoDAFConstants.DODAF_DIAGRAMS).contains(modelElement.getType())  
+				&& !Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(modelElement.getType())) {
+
 			ImportLog.log(modelElement.getType() + " type is not supported. " + modelElement.getEAID());
+			return null;
 		}
+		
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
@@ -222,8 +224,6 @@ public class ImportXmlSysml {
 		}
 		
 		Diagram newDiagram = null;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	 
 		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
@@ -236,102 +236,6 @@ public class ImportXmlSysml {
 		// Opens and closes its own session while populating the diagram
 		populateDiagram(diagram, newDiagram, modelElement, parsedXML);
 		return newDiagram;
-=======
-		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType())||Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(modelElement.getType())) {
-=======
-		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType()) || Arrays.asList(DoDAFConstants.DODAF_DIAGRAMS).contains(modelElement.getType()) || Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(modelElement.getType())) {
->>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
-			CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
-			AbstractDiagram element = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
-			newDiagram = (Diagram) element.createElement(project, owner, modelElement);
-			project.getDiagram(newDiagram).open(); 
-			if(newDiagram != null) {
-				String GUID = newDiagram.getID();
-				modelElement.setCameoID(GUID);
-				parentMap.put(id, GUID);
-			}
-			SessionManager.getInstance().closeSession(project);
-			
-			element.createDependentElements(project, parsedXML, modelElement);
-			
-			//Filter first by diagramType
-			if(!(element instanceof AbstractMatrix))  {
-				List<String> diagramAllowedTypes = 	Arrays.asList(element.getAllowableElements());
-				
-				List<String> importElementIDs = modelElement.getChildElements(parsedXML);
-				List<Rectangle> elementLocations = new ArrayList<Rectangle> ();
-				List<Element> elementsOnDiagram = new ArrayList<Element> ();
-				
-				for(String importID : importElementIDs) {
-					String cameoID = parentMap.get(importID);
-					modelElement.addImportID(cameoID, importID);
-					String elementType = parsedXML.get(importID).getType();
-					if(cameoID != null) {
-						if(diagramAllowedTypes.contains(elementType)) {
-							Element elementOnDiagram = (Element)project.getElementByID(cameoID);
-							if(elementOnDiagram != null) {
-								elementsOnDiagram.add(elementOnDiagram);
-								elementLocations.add(modelElement.getLocation(importID));
-								String message = "Adding element with id " + importID + " of type " + elementType + " to diagram.";
-								CameoUtils.logGUI(message);
-	//							ImportLog.log(message);
-							} else {
-								String message = "Could not add element with id " + importID + " of type " + elementType + " to diagram. Element was not created during import";
-								CameoUtils.logGUI(message);
-								ImportLog.log(message);
-							}
-							
-						} else {
-							String message = "Element with id " + importID + " of type " + elementType + " not allowed on diagrams of type " + modelElement.getType();
-							CameoUtils.logGUI(message);
-							ImportLog.log(message);
-						}				
-					}
-				}
-				
-				List<String> importRelationshipIDs = modelElement.getChildRelationships(parsedXML);
-				List<Element> relationshipsOnDiagram = new ArrayList<Element> ();
-				
-				for(String importRelationshipID : importRelationshipIDs) {
-					String cameoID = parentMap.get(importRelationshipID);
-					if(cameoID != null) {
-						Element elementOnDiagram = (Element)project.getElementByID(cameoID);
-						if(elementOnDiagram != null) {
-							String elementType = parsedXML.get(importRelationshipID).getType();
-							relationshipsOnDiagram.add((Element)project.getElementByID(cameoID));
-							String message = "Adding relationship with id " + importRelationshipID + " of type " + elementType + " to diagram.";
-							CameoUtils.logGUI(message);
-//							ImportLog.log(message);
-						}
-					}
-					
-	//				if(diagramAllowedTypes.contains(elementType)) {
-		//				} else {
-		//					String message = "Element with id " + importID + " of type " + elementType + " not allowed on diagrams of type " + modelElement.getType();
-		//					CameoUtils.logGUI(message);
-		//					ImportLog.log(message);
-		//				}				
-				}
-				
-				if (!SessionManager.getInstance().isSessionCreated(project)) {
-					SessionManager.getInstance().createSession(project, "Adding elements to diagram with type " +  modelElement.getType() + ".");
-				}
-				
-				noPosition = element.addElements(project, newDiagram, elementsOnDiagram, elementLocations, modelElement);
-				element.addRelationships(project, newDiagram, relationshipsOnDiagram);
-				
-				project.getDiagram(newDiagram).close(); 
-				SessionManager.getInstance().closeSession(project);
-				if(noPosition) {
-					Application.getInstance().getProject().getDiagram(newDiagram).layout(true, new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
-				}
-			} else {
-				// Add abstract table and abstract matrix elements to table here
-			}
-	        diagramMap.put((ModelDiagram) element, newDiagram);
-		}
-        return newDiagram;
->>>>>>> ab56ed7 (Added Operational Action)
 	}
 	
 	public static Element buildRelationship(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {

@@ -421,12 +421,9 @@ public class XmlTagConstants
 	// UAF Diagram text for XML type tag
 	public static final String STRATEGIC_TAXONOMY = "uaf.StrategicTaxonomy";
 	
-<<<<<<< HEAD
 	// DoDAF Diagram Types
 	// Capability Views
-=======
-	//DoDAF Diagram Types
->>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
+
 	public static final String CV1 = "dodaf.CV-1";
 	public static final String CV2 = "dodaf.CV-2";
 	public static final String CV3 = "dodaf.CV-3";
@@ -434,7 +431,6 @@ public class XmlTagConstants
 	public static final String CV5 = "dodaf.CV-5";
 	public static final String CV6 = "dodaf.CV-6";
 	public static final String CV7 = "dodaf.CV-7";
-<<<<<<< HEAD
 	
 	// Systems Views
 	public static final String SV1 = "dodaf.SV-1";
@@ -462,8 +458,6 @@ public class XmlTagConstants
 	public static final String OV6A = "dodaf.OV-6a";
 	public static final String OV6B = "dodaf.OV-6b";
 	public static final String OV6C = "dodaf.OV-6c";
-=======
->>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 	
 	//XML Tags
 	public static final String CLIENT_ID = "client_id";

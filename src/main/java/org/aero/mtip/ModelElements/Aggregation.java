@@ -15,6 +15,7 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.updm.utils.DoDAFClassLibraryProfile;
 
 public class Aggregation extends org.aero.mtip.ModelElements.Association {
 	public Aggregation(String name, String EAID) {

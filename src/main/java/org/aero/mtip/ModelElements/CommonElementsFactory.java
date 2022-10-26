@@ -144,12 +144,9 @@ import org.aero.mtip.ModelElements.UseCase.Actor;
 import org.aero.mtip.ModelElements.UseCase.ExtensionPoint;
 import org.aero.mtip.ModelElements.UseCase.UseCase;
 import org.aero.mtip.ModelElements.UseCase.UseCaseDiagram;
-<<<<<<< HEAD
 import org.aero.mtip.ModelElements.View.Stakeholder;
 import org.aero.mtip.ModelElements.View.View;
 import org.aero.mtip.ModelElements.View.Viewpoint;
-=======
->>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 import org.aero.mtip.dodaf.DoDAFConstants;
 import org.aero.mtip.dodaf.cv.CV1;
 import org.aero.mtip.dodaf.cv.CV2;
@@ -158,7 +155,6 @@ import org.aero.mtip.dodaf.cv.CV4;
 import org.aero.mtip.dodaf.cv.CV5;
 import org.aero.mtip.dodaf.cv.CV6;
 import org.aero.mtip.dodaf.cv.CV7;
-<<<<<<< HEAD
 import org.aero.mtip.dodaf.ov.OV1;
 import org.aero.mtip.dodaf.ov.OV2;
 import org.aero.mtip.dodaf.ov.OV3;
@@ -174,7 +170,10 @@ import org.aero.mtip.dodaf.sv.SV10b;
 import org.aero.mtip.dodaf.sv.SV10c;
 import org.aero.mtip.dodaf.sv.SV2;
 import org.aero.mtip.dodaf.sv.SV4;
+<<<<<<< HEAD
 >>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
+=======
+>>>>>>> 76648e6 (Added support for DoDAF CV, SV, and OV views. Stubs placed for tables and matrices for when base support are provided for those classes)
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 
@@ -904,6 +903,7 @@ public class CommonElementsFactory {
 			case DoDAFConstants.OV6C:
 				element = new OV6c(name, EAID);
 				break;
+<<<<<<< HEAD
 			case UAFConstants.OPERATIONAL_CONSTRAINT:
 				element = new OperationalConstraint(name, EAID);
 				break;
@@ -1048,6 +1048,8 @@ public class CommonElementsFactory {
 			case UAFConstants.INFORMATION:
 				element = new Information(name, EAID);
 			
+=======
+>>>>>>> 76648e6 (Added support for DoDAF CV, SV, and OV views. Stubs placed for tables and matrices for when base support are provided for those classes)
 			default:
 				break;
 				

@@ -9,6 +9,8 @@ package org.aero.mtip.util;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.aero.mtip.util.CameoUtils;
+
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.uml.DiagramType;
@@ -36,8 +38,6 @@ public class InspectDiagramElementAction extends MDAction {
 		DiagramPresentationElement presentationDiagram = Application.getInstance().getProject().getDiagram(diag);
 
 		CameoUtils.logGUI("Diagram element has id:" + diagramElement.getLocalID() + " and is of type: "+ presentationDiagram.getDiagramType().getType());
-
-		CameoUtils.logGUI(Integer.toString(selectedPresentationElements.length) + " elements selected on diagram.");
 		
 		int allElementCount = findNestedPresentationElements(diagramPresentationElement.getPresentationElements());
 		CameoUtils.logGUI(Integer.toString(allElementCount) + " total elements on diagram found via api.");
