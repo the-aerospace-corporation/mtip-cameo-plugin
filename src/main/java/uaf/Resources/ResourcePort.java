@@ -1,7 +1,7 @@
 package uaf.Resources;
 
 import org.aero.mtip.ModelElements.Block.Port;
-import org.aero.mtip.util.UAFConstants;
+import uaf.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 

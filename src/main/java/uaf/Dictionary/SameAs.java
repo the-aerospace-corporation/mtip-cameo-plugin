@@ -1,7 +1,7 @@
 package uaf.Dictionary;
 
 import org.aero.mtip.ModelElements.Dependency;
-import org.aero.mtip.util.UAFConstants;
+import uaf.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 

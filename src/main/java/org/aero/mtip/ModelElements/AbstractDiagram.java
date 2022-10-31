@@ -18,11 +18,12 @@ import java.util.Map;
 
 import org.aero.mtip.XML.Export.ExportXmlSysml;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.dodaf.DoDAFConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.UAFConstants;
+import uaf.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -53,7 +54,11 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected HashMap<String, ShapeElement> shapeElements = new HashMap<String, ShapeElement>();
 	protected List<String> diagramElementIDs = new ArrayList<String> ();
 	protected String[] allowableElements = null;
+<<<<<<< HEAD
 	protected List<Element> subElements = null;
+=======
+	protected String cameoDiagramConstant = null;
+>>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
 	
 	
 	protected Element exportingDiagram = null;
@@ -187,9 +192,43 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("Metric Table", SysmlConstants.METRIC_TABLE);
 //        aMap.put("Blackbox ICD Table", );
 //        aMap.put("Whitebox ICD Table", );
-        
+       
         //UAF Diagram Mapping
         aMap.put("Operational Process Flow", UAFConstants.OPERATIONAL_PROCESS_FLOW);
+
+        // DoDAF Diagram mapping
+        aMap.put("CV-1 Vision", DoDAFConstants.CV1);
+        aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
+        aMap.put("CV-3", DoDAFConstants.CV3);
+        aMap.put("CV-4 Capability Dependencies", DoDAFConstants.CV4);
+        aMap.put("DODAF2_CV-5", DoDAFConstants.CV5);
+        aMap.put("CV-6 Capability to Operational Activities Mapping", DoDAFConstants.CV6);
+        aMap.put("CV-7 Capability to Services Mapping", DoDAFConstants.CV7);
+        
+        aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV1);
+        aMap.put("SV-2 Systems Communications Description", DoDAFConstants.SV2);
+        // aMap.put("SV-3 Systems-Systems Matrix", DoDAFConstants.SV3);
+        aMap.put("SV-4 Systems Functionality Description", DoDAFConstants.SV4);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5A);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5B);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5C);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV6);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV7);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV8);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV9);
+        aMap.put("SV-10a Systems Parametric", DoDAFConstants.SV10A);
+        aMap.put("SV-10b Systems State Transition Description", DoDAFConstants.SV10B);
+        aMap.put("SV-10c Systems Event-Trace Description", DoDAFConstants.SV10C);
+        aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV1);
+        aMap.put("OV-2 Operational Resource Flow Description", DoDAFConstants.OV2);
+        // aMap.put("OV-3 Operational Resource Flow Description", DoDAFConstants.OV3); Table
+        aMap.put("OV-4 Organizational Relationships Chart", DoDAFConstants.OV4);
+        aMap.put("OV-5a Operational Activity Decomposition Tree", DoDAFConstants.OV5A);
+        aMap.put("OV-5b Operational Activity Model", DoDAFConstants.OV5B);
+        // aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV6A); Table
+        aMap.put("OV-6b Operational State Transition Description", DoDAFConstants.OV6B);
+        aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
+
         
         diagramToType = Collections.unmodifiableMap(aMap);
     }
@@ -201,7 +240,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	//Abstract methods
 	public abstract String getSysmlConstant();
 	public abstract String getDiagramType();
-
+	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		try {
@@ -210,7 +249,6 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		} catch (ReadOnlyElementException e) {
 			CameoUtils.logGUI("Caught read only exception");
 		}
-//		setOwner(project, sysmlElement);
 		((NamedElement) sysmlElement).setName(name);
 
 		return sysmlElement;
@@ -562,4 +600,31 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		}
 		return null;		
 	}
+<<<<<<< HEAD
 }
+=======
+	
+	public String[] getAllowableElements() {
+		return this.allowableElements;
+	}
+}
+
+
+//String importID = xmlElement.getImportID(element.getLocalID());
+//CameoUtils.logGUI("Import id : " + importID);
+//String parentImportID = xmlElement.getDiagramParent(importID);
+//CameoUtils.logGUI("Diagram Parent Import id : " + parentImportID);
+//if(parentImportID != null) {
+//	String parentCameoID = ImportXmlSysml.idConversion(parentImportID);
+//	CameoUtils.logGUI(importID + " should have diagram parent " + parentImportID);
+//	PresentationElement parentPresentationElement = this.shapeElements.get(parentCameoID);
+//	if(parentPresentationElement == null) {
+//		createPresentationElement(project, (Element) project.getElementByID(parentCameoID), locations, presentationDiagram, counter, noPosition);
+//	}
+//	if(!(parentPresentationElement instanceof AssociationView)) {
+//		noPosition = createPresentationElement(project, element, locations, parentPresentationElement, counter, noPosition);
+//	} else {
+//		noPosition = createPresentationElement(project, element, locations, presentationDiagram, counter, noPosition);
+//	}
+//} else {
+>>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)

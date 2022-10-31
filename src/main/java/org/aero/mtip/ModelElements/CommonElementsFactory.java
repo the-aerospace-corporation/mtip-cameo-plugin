@@ -147,14 +147,39 @@ import org.aero.mtip.ModelElements.UseCase.UseCaseDiagram;
 import org.aero.mtip.ModelElements.View.Stakeholder;
 import org.aero.mtip.ModelElements.View.View;
 import org.aero.mtip.ModelElements.View.Viewpoint;
+import org.aero.mtip.dodaf.DoDAFConstants;
+import org.aero.mtip.dodaf.cv.CV1;
+import org.aero.mtip.dodaf.cv.CV2;
+import org.aero.mtip.dodaf.cv.CV3;
+import org.aero.mtip.dodaf.cv.CV4;
+import org.aero.mtip.dodaf.cv.CV5;
+import org.aero.mtip.dodaf.cv.CV6;
+import org.aero.mtip.dodaf.cv.CV7;
+import org.aero.mtip.dodaf.ov.OV1;
+import org.aero.mtip.dodaf.ov.OV2;
+import org.aero.mtip.dodaf.ov.OV3;
+import org.aero.mtip.dodaf.ov.OV4;
+import org.aero.mtip.dodaf.ov.OV5a;
+import org.aero.mtip.dodaf.ov.OV5b;
+import org.aero.mtip.dodaf.ov.OV6a;
+import org.aero.mtip.dodaf.ov.OV6b;
+import org.aero.mtip.dodaf.ov.OV6c;
+import org.aero.mtip.dodaf.sv.SV1;
+import org.aero.mtip.dodaf.sv.SV10a;
+import org.aero.mtip.dodaf.sv.SV10b;
+import org.aero.mtip.dodaf.sv.SV10c;
+import org.aero.mtip.dodaf.sv.SV2;
+import org.aero.mtip.dodaf.sv.SV4;
+>>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.UAFConstants;
 
+import uaf.UAFConstants;
 import uaf.Dictionary.Alias;
 import uaf.Dictionary.Definition;
 import uaf.Dictionary.Information;
 import uaf.Operational.ConceptRole;
+
 import uaf.Operational.HighLevelOperationalConcept;
 import uaf.Operational.InformationElement;
 import uaf.Operational.KnownResource;
@@ -406,7 +431,7 @@ public class CommonElementsFactory {
 			case SysmlConstants.INSTANCESPECIFICATION:
 				element = new InstanceSpecification(name, EAID);
 				break;
-			case "Interaction":
+			case SysmlConstants.INTERACTION:
 				element = new Interaction(name, EAID);
 				break;
 			case SysmlConstants.INTERACTIONOPERAND:
@@ -780,6 +805,74 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.OPERATIONAL_PORT:
 				element = new OperationalPort(name, EAID);
+				break;				
+				
+			// DoDAF Diagram Constants
+			case DoDAFConstants.CV1:
+				element = new CV1(name, EAID);
+				break;
+			case DoDAFConstants.CV2:
+				element = new CV2(name, EAID);
+				break;
+			case DoDAFConstants.CV3:
+				element = new CV3(name, EAID);
+				break;
+			case DoDAFConstants.CV4:
+				element = new CV4(name, EAID);
+				break;
+			case DoDAFConstants.CV5:
+				element = new CV5(name, EAID);
+				break;
+			case DoDAFConstants.CV6:
+				element = new CV6(name, EAID);
+				break;
+			case DoDAFConstants.CV7:
+				element = new CV7(name, EAID);
+				break;
+			case DoDAFConstants.SV1:
+				element = new SV1(name, EAID);
+				break;
+			case DoDAFConstants.SV2:
+				element = new SV2(name, EAID);
+				break;
+			case DoDAFConstants.SV4:
+				element = new SV4(name, EAID);
+				break;
+			case DoDAFConstants.SV10A:
+				element = new SV10a(name, EAID);
+				break;
+			case DoDAFConstants.SV10B:
+				element = new SV10b(name, EAID);
+				break;
+			case DoDAFConstants.SV10C:
+				element = new SV10c(name, EAID);
+				break;
+			case DoDAFConstants.OV1:
+				element = new OV1(name, EAID);
+				break;
+			case DoDAFConstants.OV2:
+				element = new OV2(name, EAID);
+				break;
+			case DoDAFConstants.OV3:
+				element = new OV3(name, EAID);
+				break;
+			case DoDAFConstants.OV4:
+				element = new OV4(name, EAID);
+				break;
+			case DoDAFConstants.OV5A:
+				element = new OV5a(name, EAID);
+				break;
+			case DoDAFConstants.OV5B:
+				element = new OV5b(name, EAID);
+				break;
+			case DoDAFConstants.OV6A:
+				element = new OV6a(name, EAID);
+				break;
+			case DoDAFConstants.OV6B:
+				element = new OV6b(name, EAID);
+				break;
+			case DoDAFConstants.OV6C:
+				element = new OV6c(name, EAID);
 				break;
 			case UAFConstants.OPERATIONAL_CONSTRAINT:
 				element = new OperationalConstraint(name, EAID);
@@ -927,6 +1020,7 @@ public class CommonElementsFactory {
 			
 			default:
 				break;
+				
 		}
 		if(element == null) {
 			CameoUtils.logGUI("Element of type " + type + " not supported by CommonElementsFactory.");

@@ -2,11 +2,11 @@ package uaf.Strategic;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.UAFConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 
+import uaf.UAFConstants;
 import uaf.UAFElement;
 
 public class WholeLifeEnterprise extends CommonElement implements UAFElement{

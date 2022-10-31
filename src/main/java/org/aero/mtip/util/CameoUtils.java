@@ -44,6 +44,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Regi
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.impl.ElementsFactory;
 
+import uaf.UAFConstants;
 import uaf.UAFProfile;
 
 public class CameoUtils {

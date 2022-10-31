@@ -21,7 +21,6 @@ import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.UAFConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Application;
@@ -119,8 +118,12 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
+
 import com.nomagic.magicdraw.uml.BaseElement;
 import com.nomagic.magicdraw.uml.ClassTypes;
+
+
+import uaf.UAFConstants;
 
 import uaf.UAFProfile;
 
@@ -400,8 +403,13 @@ public class ExportXmlSysml {
 						CameoUtils.logGUI("\tElement named: " +  element.getHumanName() + " with id: " + element.getLocalID());
 						commonElement = cef.createElement(elementType, "", element.getLocalID());
 					}
-					commonElement.writeToXML(element, project, xmlDoc);
-					exportedElements.put(element.getLocalID(), "");
+					if(commonElement != null) {
+						commonElement.writeToXML(element, project, xmlDoc);
+						exportedElements.put(element.getLocalID(), "");
+					} else {
+						ExportLog.log("Common Elements Factory return null for element of type " + element.getHumanType() );
+					}
+					
 				}
 			} else {
 				CameoUtils.logGUI("Element type " + element.getHumanType() + " not supported!!!");
@@ -414,9 +422,14 @@ public class ExportXmlSysml {
 	}
 	
 	public static String getElementType(Element element) {
-		if(ExportXmlSysml.metamodel.contentEquals(UAFConstants.UAF)) {
+		if(ExportXmlSysml.metamodel.contentEquals(UAFConstants.UAF))  {
 			ExportLog.log("Getting UAF Element Type");
-			return getUAFElementType(element);
+			String elementType = getUAFElementType(element);
+			if(elementType == null) {
+				return getSysMLElementType(element);
+			} else {
+				return elementType;
+			}
 		} else {
 			return getSysMLElementType(element);
 		}

@@ -13,9 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.aero.mtip.dodaf.DoDAFConstants;
 import org.apache.commons.lang.StringUtils;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+
+import uaf.UAFConstants;
 
 public class XMLItem {
 	private String type = "";
@@ -454,13 +457,13 @@ public class XMLItem {
 		this.effect = effect;
 	}
 	private void setCategory() {
-		if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(type) || Arrays.asList(UAFConstants.UAF_ELEMENTS).contains(type)) {
+		if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(type) || Arrays.asList(UAFConstants.UAF_ELEMENTS).contains(type) || Arrays.asList(DoDAFConstants.DODAF_ELEMENTS).contains(type)) {
 			category = SysmlConstants.ELEMENT;
 		}
-		if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(type) || Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(type)) {
+		if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(type) || Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(type) || Arrays.asList(DoDAFConstants.DODAF_RELATIONSHIPS).contains(type)) {
 			category = SysmlConstants.RELATIONSHIP;
 		}
-		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(type) || Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(type)) {
+		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(type) || Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(type) || Arrays.asList(DoDAFConstants.DODAF_DIAGRAMS).contains(type)) {
 			category = SysmlConstants.DIAGRAM;
 		}
 	}

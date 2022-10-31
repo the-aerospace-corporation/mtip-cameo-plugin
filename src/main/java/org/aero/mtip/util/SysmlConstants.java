@@ -8,6 +8,8 @@ package org.aero.mtip.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import uaf.UAFConstants;
+
 public class SysmlConstants {
 	//Categorization constants
 	public static final String SYSML = "SysML";
@@ -706,6 +708,7 @@ public class SysmlConstants {
 			REAL,
 			STRING
 	};
+	
 	
 	public static final String[] primitiveValueTypeIDs = {
 			"16_5_1_12c903cb_1245415335546_39033_4086",

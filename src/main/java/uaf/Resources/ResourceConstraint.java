@@ -2,7 +2,7 @@ package uaf.Resources;
 
 import org.aero.mtip.ModelElements.Profile.Constraint;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.UAFConstants;
+import uaf.UAFConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.aero.mtip.ModelElements.Comment;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.UAFConstants;
+import uaf.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;

@@ -1,4 +1,6 @@
-package org.aero.mtip.util;
+package uaf;
+
+import org.aero.mtip.util.SysmlConstants;
 
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 

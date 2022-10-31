@@ -1,7 +1,7 @@
 package uaf.Operational;
 
 import org.aero.mtip.ModelElements.Activity.ActivityDiagram;
-import org.aero.mtip.util.UAFConstants;
+import uaf.UAFConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 public class OperationalProcessFlow extends ActivityDiagram{

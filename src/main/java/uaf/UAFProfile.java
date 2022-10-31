@@ -1,7 +1,5 @@
 package uaf;
 
-import org.aero.mtip.util.UAFConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;

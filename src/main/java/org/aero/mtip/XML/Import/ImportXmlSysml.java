@@ -27,11 +27,16 @@ import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.ModelElements.ModelDiagram;
+<<<<<<< HEAD
+=======
+import org.aero.mtip.ModelElements.Matrix.AbstractMatrix;
+import org.aero.mtip.ModelElements.Profile.RelationshipConstraint;
+import org.aero.mtip.dodaf.DoDAFConstants;
+>>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.TaggedValue;
-import org.aero.mtip.util.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.apache.commons.collections.MapUtils;
@@ -56,6 +61,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
+
+import uaf.UAFConstants;
 
 public class ImportXmlSysml {
     static Map<String,Entry<Element, Element>> linktoPair = new HashMap<String,Entry<Element, Element>>();
@@ -216,6 +223,7 @@ public class ImportXmlSysml {
 		
 		Diagram newDiagram = null;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	 
 		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
@@ -230,6 +238,9 @@ public class ImportXmlSysml {
 		return newDiagram;
 =======
 		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType())||Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(modelElement.getType())) {
+=======
+		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType()) || Arrays.asList(DoDAFConstants.DODAF_DIAGRAMS).contains(modelElement.getType()) || Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(modelElement.getType())) {
+>>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
 			CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
 			AbstractDiagram element = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 			newDiagram = (Diagram) element.createElement(project, owner, modelElement);
@@ -245,8 +256,7 @@ public class ImportXmlSysml {
 			
 			//Filter first by diagramType
 			if(!(element instanceof AbstractMatrix))  {
-				String diagramType = modelElement.getType();
-				List<String> diagramAllowedTypes = 	Arrays.asList(SysmlConstants.diagramTypeMap.get(diagramType));
+				List<String> diagramAllowedTypes = 	Arrays.asList(element.getAllowableElements());
 				
 				List<String> importElementIDs = modelElement.getChildElements(parsedXML);
 				List<Rectangle> elementLocations = new ArrayList<Rectangle> ();

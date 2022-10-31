@@ -418,9 +418,45 @@ public class XmlTagConstants
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
 	
-	//UAF Diagram text for XML type tag
+	// UAF Diagram text for XML type tag
 	public static final String STRATEGIC_TAXONOMY = "uaf.StrategicTaxonomy";
 	
+	// DoDAF Diagram Types
+	// Capability Views
+	public static final String CV1 = "dodaf.CV-1";
+	public static final String CV2 = "dodaf.CV-2";
+	public static final String CV3 = "dodaf.CV-3";
+	public static final String CV4 = "dodaf.CV-4";
+	public static final String CV5 = "dodaf.CV-5";
+	public static final String CV6 = "dodaf.CV-6";
+	public static final String CV7 = "dodaf.CV-7";
+	
+	// Systems Views
+	public static final String SV1 = "dodaf.SV-1";
+	public static final String SV2 = "dodaf.SV-2";
+	public static final String SV3 = "dodaf.SV-3";
+	public static final String SV4 = "dodaf.SV-4";
+	public static final String SV5A = "dodaf.SV-5a";
+	public static final String SV5B = "dodaf.SV-5b";
+	public static final String SV5C = "dodaf.SV-5c";
+	public static final String SV6 = "dodaf.SV-6";
+	public static final String SV7 = "dodaf.SV-7";
+	public static final String SV8 = "dodaf.SV-8";
+	public static final String SV9 = "dodaf.SV-9";
+	public static final String SV10A = "dodaf.SV-10a";
+	public static final String SV10B = "dodaf.SV-10b";
+	public static final String SV10C = "dodaf.SV-10c";
+	
+	// Operational Views
+	public static final String OV1 = "dodaf.OV-1";
+	public static final String OV2 = "dodaf.OV-2";
+	public static final String OV3 = "dodaf.OV-3";
+	public static final String OV4 = "dodaf.OV-4";
+	public static final String OV5A = "dodaf.OV-5a";
+	public static final String OV5B = "dodaf.OV-5b";
+	public static final String OV6A = "dodaf.OV-6a";
+	public static final String OV6B = "dodaf.OV-6b";
+	public static final String OV6C = "dodaf.OV-6c";
 	
 	//XML Tags
 	public static final String CLIENT_ID = "client_id";

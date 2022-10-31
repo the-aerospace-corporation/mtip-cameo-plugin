@@ -1,7 +1,7 @@
 package uaf.Projects;
 
 import org.aero.mtip.ModelElements.Block.InstanceSpecification;
-import org.aero.mtip.util.UAFConstants;
+import uaf.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 

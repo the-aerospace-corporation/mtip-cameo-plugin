@@ -10,8 +10,11 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import com.nomagic.magicdraw.actions.MDAction;
+import com.nomagic.magicdraw.core.Application;
+import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 @SuppressWarnings("serial")
@@ -29,7 +32,11 @@ public class InspectDiagramElementAction extends MDAction {
 	
 	public void actionPerformed(ActionEvent e) {
 		Element diagramElement = diagramPresentationElement.getElement();
-		CameoUtils.logGUI("Diagram element has id:" + diagramElement.getID());
+		Diagram diag = (Diagram) diagramElement;
+		DiagramPresentationElement presentationDiagram = Application.getInstance().getProject().getDiagram(diag);
+
+		CameoUtils.logGUI("Diagram element has id:" + diagramElement.getLocalID() + " and is of type: "+ presentationDiagram.getDiagramType().getType());
+
 		CameoUtils.logGUI(Integer.toString(selectedPresentationElements.length) + " elements selected on diagram.");
 		
 		int allElementCount = findNestedPresentationElements(diagramPresentationElement.getPresentationElements());

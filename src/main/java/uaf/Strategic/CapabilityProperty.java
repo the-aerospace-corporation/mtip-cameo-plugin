@@ -9,6 +9,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
+import uaf.UAFConstants;
 import uaf.UAFProfile;
 
 public class CapabilityProperty extends Property {

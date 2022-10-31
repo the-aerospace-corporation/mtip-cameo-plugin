@@ -24,9 +24,9 @@ import org.aero.mtip.ModelElements.StateMachine.Transition;
 import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.UAFConstants;
 
 import uaf.Dictionary.SameAs;
+import uaf.UAFConstants;
 import uaf.Operational.ArbitraryConnector;
 import uaf.Operational.OperationalConnector;
 import uaf.Operational.OperationalControlFlow;
