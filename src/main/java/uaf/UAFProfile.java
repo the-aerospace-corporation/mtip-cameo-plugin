@@ -64,6 +64,7 @@ public class UAFProfile {
 	public static Stereotype OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_PARAMETER_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = null;
+	public static Stereotype OPERATIONAL_ACTION_STEREOTYPE = null;
 	
 	//Resources
 	public static Stereotype CAPABILITY_CONFIGURATION_STEREOTYPE = null;
@@ -115,6 +116,12 @@ public class UAFProfile {
 	public static Stereotype STATUS_INDICATORS_STEREOTYPE = null;
 	public static Stereotype ACTUAL_PROJECT_STEREOTYPE = null;
 	public static Stereotype ACTUAL_PROJECT_MILESTONE_STEREOTYPE = null;
+	
+	//Dictionary
+	public static Stereotype DEFINITION_STEREOTYPE = null;
+	public static Stereotype ALIAS_STEREOTYPE = null;
+	public static Stereotype INFORMATION_STEREOTYPE = null;
+	public static Stereotype SAME_AS_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
@@ -171,6 +178,7 @@ public class UAFProfile {
 	    OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_STATE_DESCRIPTION, UAF_PROFILE);
 	    OPERATIONAL_PARAMETER_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_PARAMETER, UAF_PROFILE);
 	    OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_EXCHANGE_KIND, UAF_PROFILE);
+	    OPERATIONAL_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ACTION, UAF_PROFILE);
 	    
 	    /*INFORMATION_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION_FLOW, UAF_PROFILE);
 	    OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OBJECT_FLOW, UAF_PROFILE);*/
@@ -230,5 +238,10 @@ public class UAFProfile {
 	    ACTUAL_PROJECT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PROJECT, UAF_PROFILE);
 	    ACTUAL_PROJECT_MILESTONE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PROJECT_MILESTONE, UAF_PROFILE);
 	    
+	    //Dictionary
+	    DEFINITION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.DEFINITION, UAF_PROFILE);
+	    ALIAS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ALIAS, UAF_PROFILE);
+	    INFORMATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION, UAF_PROFILE);
+	    SAME_AS_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.SAME_AS, UAF_PROFILE);
 	}
 }

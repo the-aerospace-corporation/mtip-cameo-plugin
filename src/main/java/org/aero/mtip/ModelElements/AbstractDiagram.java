@@ -22,6 +22,7 @@ import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.UAFConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
@@ -186,6 +187,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("Metric Table", SysmlConstants.METRIC_TABLE);
 //        aMap.put("Blackbox ICD Table", );
 //        aMap.put("Whitebox ICD Table", );
+        
+        //UAF Diagram Mapping
+        aMap.put("Operational Process Flow", UAFConstants.OPERATIONAL_PROCESS_FLOW);
         
         diagramToType = Collections.unmodifiableMap(aMap);
     }

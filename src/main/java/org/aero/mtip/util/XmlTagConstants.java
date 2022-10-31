@@ -324,6 +324,9 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_STATE_DESCRIPTION = "uaf.OperationalStateDescription";
 	public static final String OPERATIONAL_PARAMETER = "uaf.OperationalParameter";
 	public static final String OPERATIONAL_EXCHANGE_KIND = "uaf.OperationalExchangeKind";
+	public static final String OPERATIONAL_ACTION = "uaf.OperationalAction";
+	
+	public static final String OPERATIONAL_PROCESS_FLOW = "uaf.OperationalProcessFlow";
 	
 	//Resources
 	public static final String CAPABILITY_CONFIGURATION = "uaf.CapabilityConfiguration";
@@ -367,6 +370,11 @@ public class XmlTagConstants
 	public static final String ACTUAL_PROJECT = "uaf.ActualProject";
 	public static final String ACTUAL_PROJECT_MILESTONE = "uaf.ActualProjectMilestone";
 	
+	//Dictionary
+	public static final String DEFINITION = "uaf.Definition";
+	public static final String ALIAS = "uaf.alias";
+	public static final String INFORMATION = "uaf.Information";
+	
 	
 	//UAF Relationships
 	//Strategic
@@ -404,6 +412,8 @@ public class XmlTagConstants
 	public static final String MILESTONE_DEPENDENCY = "uaf.MilestoneDependency";
 	public static final String PROJECT_SEQUENCE = "uaf.ProjectSequence";
 	
+	//Dictionary
+	public static final String SAME_AS = "uaf.SameAs";
 	
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";

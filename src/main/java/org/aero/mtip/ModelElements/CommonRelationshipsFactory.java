@@ -26,6 +26,7 @@ import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.UAFConstants;
 
+import uaf.Dictionary.SameAs;
 import uaf.Operational.ArbitraryConnector;
 import uaf.Operational.OperationalConnector;
 import uaf.Operational.OperationalControlFlow;
@@ -199,6 +200,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.PROJECT_SEQUENCE:
 				relationship = new ProjectSequence(name, EAID);
+				break;
+			case UAFConstants.SAME_AS:
+				relationship = new SameAs(name, EAID);
 				break;
 				
 			default:

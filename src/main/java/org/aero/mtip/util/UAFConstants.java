@@ -1,5 +1,7 @@
 package org.aero.mtip.util;
 
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
+
 public class UAFConstants {
 	public static final String UAF = "UAF";
 	public static final String XML_METAMODEL_UAF = "uaf";
@@ -55,6 +57,8 @@ public class UAFConstants {
 	public static final String OPERATIONAL_STATE_DESCRIPTION = "OperationalStateDescription";
 	public static final String OPERATIONAL_PARAMETER = "OperationalParameter";
 	public static final String OPERATIONAL_EXCHANGE_KIND = "OperationalExchangeKind";
+	
+	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcessFlow";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -108,6 +112,13 @@ public class UAFConstants {
 	public static final String STATUS_INDICATORS = "StatusIndicators";
 	public static final String ACTUAL_PROJECT = "ActualProject";
 	public static final String ACTUAL_PROJECT_MILESTONE = "ActualProjectMilestone";
+	public static final String OPERATIONAL_ACTION = "OperationalAction";
+	
+	//Dictionary
+	public static final String DEFINITION = "Definition";
+	public static final String ALIAS = "Alias";
+	public static final String INFORMATION = "Information";
+	public static final String SAME_AS = "SameAs";
 	
 	// Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
@@ -155,6 +166,7 @@ public class UAFConstants {
 			OPERATIONAL_STATE_DESCRIPTION,
 			OPERATIONAL_PARAMETER,
 			OPERATIONAL_EXCHANGE_KIND,
+			OPERATIONAL_ACTION,
 			
 			//Resources
 			CAPABILITY_CONFIGURATION,
@@ -197,7 +209,12 @@ public class UAFConstants {
 			ACTUAL_PROJECT_ROLE,
 			STATUS_INDICATORS,
 			ACTUAL_PROJECT,
-			ACTUAL_PROJECT_MILESTONE
+			ACTUAL_PROJECT_MILESTONE,
+			
+			//Dictionary
+			DEFINITION,
+			ALIAS,
+			INFORMATION
 			
 			
 
@@ -237,9 +254,55 @@ public class UAFConstants {
 			MILESTONE_DEPENDENCY,
 			PROJECT_SEQUENCE,
 			
+			//Dictionary
+			SAME_AS
+			
 	};
 	
 	public static final String[] UAF_DIAGRAMS = {
-			STRATEGIC_TAXONOMY
+			STRATEGIC_TAXONOMY,
+			OPERATIONAL_PROCESS_FLOW
+	};
+	
+	public static final String [] OPERATIONAL_PROCESS_FLOW_TYPES = {
+			
+			//TODO:
+			UAFConstants.DEFINITION,
+			//UAFConstants.ALIAS,
+			//UAFConstants.INFORMATION,
+			//UAFConstants.SAME_AS,
+			
+			UAFConstants.OPERATIONAL_ACTIVITY_ACTION,
+			UAFConstants.OPERATIONAL_ACTION,
+			UAFConstants.OPERATIONAL_CONTROL_FLOW,
+			UAFConstants.OPERATIONAL_OBJECT_FLOW,
+			
+			SysmlConstants.INPUTPIN,
+			SysmlConstants.OUTPUTPIN,
+			
+			UAFConstants.OPERATIONAL_PARAMETER,
+			UAFConstants.OPERATIONAL_EXCHANGE,
+			
+			SysmlConstants.ACTION,
+			//TODO: SysmlConstants.OBJECTNODE,
+			SysmlConstants.OBJECTFLOW,
+			SysmlConstants.CONTROLFLOW,
+			SysmlConstants.SENDSIGNALACTION,
+			SysmlConstants.ACCEPTEVENTACTION,
+			SysmlConstants.TIMEEVENT,
+			SysmlConstants.INITIALNODE,
+			SysmlConstants.ACTIVITYFINALNODE,
+			SysmlConstants.FLOWFINALNODE,
+			SysmlConstants.DECISIONNODE,
+			SysmlConstants.MERGENODE,
+			SysmlConstants.FORKNODE,
+			SysmlConstants.JOINNODE,
+			//TODO: SysmlConstants.EXCEPTIONHANDLER,
+			SysmlConstants.INTERRUPTIBLEACTIVITYREGION
+			//TODO: SysmlConstants.STRUCTUREDACTIVITYNODE,
+			//TODO: SysmlConstants.EXPANSIONREGION
+			
+			
+			
 	};
 }

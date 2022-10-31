@@ -151,10 +151,14 @@ import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.UAFConstants;
 
+import uaf.Dictionary.Alias;
+import uaf.Dictionary.Definition;
+import uaf.Dictionary.Information;
 import uaf.Operational.ConceptRole;
 import uaf.Operational.HighLevelOperationalConcept;
 import uaf.Operational.InformationElement;
 import uaf.Operational.KnownResource;
+import uaf.Operational.OperationalAction;
 import uaf.Operational.OperationalActivity;
 import uaf.Operational.OperationalActivityAction;
 import uaf.Operational.OperationalAgent;
@@ -166,6 +170,7 @@ import uaf.Operational.OperationalMethod;
 import uaf.Operational.OperationalParameter;
 import uaf.Operational.OperationalPerformer;
 import uaf.Operational.OperationalPort;
+import uaf.Operational.OperationalProcessFlow;
 import uaf.Operational.OperationalRole;
 import uaf.Operational.OperationalSignal;
 import uaf.Operational.OperationalSignalProperty;
@@ -785,6 +790,13 @@ public class CommonElementsFactory {
 			case UAFConstants.OPERATIONAL_PARAMETER:
 				element = new OperationalParameter(name, EAID);
 				break;
+			case UAFConstants.OPERATIONAL_ACTION:
+				element = new OperationalAction(name, EAID);
+				break;
+			//OPERATIONAL Diagrams
+			case UAFConstants.OPERATIONAL_PROCESS_FLOW:
+				element = new OperationalProcessFlow(name, EAID);
+				break;
 			//Resources
 			case UAFConstants.CAPABILITY_CONFIGURATION:
 				element = new CapabilityConfiguration(name, EAID);
@@ -903,6 +915,16 @@ public class CommonElementsFactory {
 			case UAFConstants.ACTUAL_PROJECT_MILESTONE:
 				element = new ActualProjectMilestone(name, EAID);
 				break;
+			//Definition
+			case UAFConstants.DEFINITION:
+				element = new Definition(name, EAID);
+				break;
+			case UAFConstants.ALIAS:
+				element = new Alias(name, EAID);
+				break;
+			case UAFConstants.INFORMATION:
+				element = new Information(name, EAID);
+			
 			default:
 				break;
 		}

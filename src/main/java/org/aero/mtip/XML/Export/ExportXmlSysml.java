@@ -348,16 +348,23 @@ public class ExportXmlSysml {
 		elementType = getElementType(element);
 
 		if(element instanceof Diagram) {
+			
+			
+			
 			Diagram diag = (Diagram) element;
 			DiagramPresentationElement presentationDiagram = project.getDiagram(diag);
 			DiagramType diagType = presentationDiagram.getDiagramType();
+<<<<<<< HEAD
 
+=======
+			CameoUtils.logGUI("DIAGRAM exportXMLSysml..."+diagType.getType());
+>>>>>>> ab56ed7 (Added Operational Action)
 			elementType = AbstractDiagram.diagramToType.get(diagType.getType());
 		}
 
 		if(!exportedElements.containsKey(element.getLocalID())) {
 			if(elementType != null) {
-				CameoUtils.logGUI("319 EXPORTXMLSYSML: "+element.getHumanName()+" "+isRelationship);
+				CameoUtils.logGUI("349 EXPORTXMLSYSML: "+element.getHumanName()+" "+isRelationship);
 				if(isRelationship) {
 					CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 					String name = "";
@@ -506,6 +513,8 @@ public class ExportXmlSysml {
 			return UAFConstants.OPERATIONAL_PARAMETER;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_CONTROL_FLOW;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_ACTION_STEREOTYPE)) {
+			return UAFConstants.OPERATIONAL_ACTION;
 		}
 	    //RESOURCES
 		else if (stereotypes.contains(UAFProfile.CAPABILITY_CONFIGURATION_STEREOTYPE)) {
@@ -606,7 +615,17 @@ public class ExportXmlSysml {
 			return UAFConstants.ACTUAL_PROJECT;
 		} else if(stereotypes.contains(UAFProfile.ACTUAL_PROJECT_MILESTONE_STEREOTYPE)) {
 			return UAFConstants.ACTUAL_PROJECT_MILESTONE;
+	    //Dictionary
+		} else if(stereotypes.contains(UAFProfile.DEFINITION_STEREOTYPE)) {
+			return UAFConstants.DEFINITION;
+		} else if(stereotypes.contains(UAFProfile.ALIAS_STEREOTYPE)) {
+			return UAFConstants.ALIAS;
+		} else if(stereotypes.contains(UAFProfile.INFORMATION_STEREOTYPE)) {
+			return UAFConstants.INFORMATION;
+		} else if(stereotypes.contains(UAFProfile.SAME_AS_STEREOTYPE)) {
+			return UAFConstants.SAME_AS;
 		}
+	    
 	    
 		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
 >>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
