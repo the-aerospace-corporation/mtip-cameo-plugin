@@ -254,6 +254,7 @@ import uaf.Strategic.Capability;
 import uaf.Strategic.CapabilityProperty;
 import uaf.Strategic.Desirer;
 import uaf.Strategic.EnduringTask;
+import uaf.Strategic.EnterpriseGoal;
 import uaf.Strategic.EnterprisePhase;
 import uaf.Strategic.EnterpriseVision;
 import uaf.Strategic.StrategicTaxonomyPackage;
@@ -740,6 +741,9 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.ENDURING_TASK:
 				element = new EnduringTask(name, EAID);
+				break;
+			case UAFConstants.ENTERPRISE_GOAL:
+				element = new EnterpriseGoal(name, EAID);
 				break;
 			case UAFConstants.ENTERPRISE_PHASE:
 				element = new EnterprisePhase(name, EAID);

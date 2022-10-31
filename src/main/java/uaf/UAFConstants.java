@@ -28,6 +28,7 @@ public class UAFConstants {
 	public static final String EXHIBITS = "Exhibits";
 	public static final String ORGANIZATION_IN_ENTERPRISE = "OrganizationInEnterprise";
 	public static final String MAPS_TO_CAPABILITY = "MapsToCapability";
+	public static final String ENTERPRISE_GOAL = "EnterpriseGoal";
 	
 	//Operational
 	public static final String CONCEPT_ROLE = "ConceptRole";
@@ -136,6 +137,7 @@ public class UAFConstants {
 			CAPABILITY_PROPERTY,
 			DESIRER,
 			ENDURING_TASK,
+			ENTERPRISE_GOAL,
 			ENTERPRISE_PHASE,
 			ENTERPRISE_VISION,
 			WHOLE_LIFE_ENTERPRISE,

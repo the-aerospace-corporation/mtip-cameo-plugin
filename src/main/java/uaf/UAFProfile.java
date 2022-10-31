@@ -11,6 +11,8 @@ public class UAFProfile {
 	public static Profile UAF_PROFILE = null;
 	public static Profile UPDM_CUSTOMIZATION_PROFILE = null;
 	
+	
+	// Strategic
 	public static Stereotype ACTUAL_ENTERPRISE_PHASE_STEREOTYPE = null;
 	public static Stereotype CAPABILITY_STEREOTYPE = null;
 	public static Stereotype CAPABILITY_PROPERTY_STEREOTYPE = null;
@@ -31,6 +33,7 @@ public class UAFProfile {
 	public static Stereotype EXHIBITS_STEREOTYPE = null;
 	public static Stereotype ORGANIZATION_IN_ENTERPRISE_STEREOTYPE = null;
 	public static Stereotype MAPS_TO_CAPABILITY_STEREOTYPE = null;
+	public static Stereotype ENTERPRISE_GOAL = null;
 	
 	//Operational
 	public static Stereotype CONCEPT_ROLE_STEREOTYPE = null;
@@ -146,7 +149,8 @@ public class UAFProfile {
 	    STRUCTURAL_PART_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.STRUCTURAL_PART, UAF_PROFILE);
 	    TEMPORAL_PART_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.TEMPORAL_PART, UAF_PROFILE);
 	    VISION_STATEMENT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.VISION_STATEMENT, UAF_PROFILE);
-	    WHOLE_LIFE_ENTERPRISE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.WHOLE_LIFE_ENTERPRISE, UAF_PROFILE);   
+	    WHOLE_LIFE_ENTERPRISE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.WHOLE_LIFE_ENTERPRISE, UAF_PROFILE); 
+	    ENTERPRISE_GOAL = StereotypesHelper.getStereotype(project, UAFConstants.ENTERPRISE_GOAL, UAF_PROFILE); 
 	    
 	    //Operational
 	    ARBITRARY_CONNECTOR_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ARBITRARY_CONNECTOR, UAF_PROFILE);

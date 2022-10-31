@@ -302,6 +302,7 @@ public class XmlTagConstants
 	public static final String TEMPORAL_PART = "uaf.TemporalPart";
 	public static final String VISION_STATEMENT = "uaf.VisionStatement";
 	public static final String WHOLE_LIFE_ENTERPRISE = "uaf.WholeLifeEnterprise";
+	public static final String ENTERPRISE_GOAL = "uaf.EnterpriseGoal";
 
 	//Operational
 	public static final String CONCEPT_ROLE = "uaf.ConceptRole";

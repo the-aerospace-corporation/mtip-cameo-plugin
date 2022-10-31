@@ -1,5 +1,8 @@
 package org.aero.mtip.dodaf;
 
+import org.aero.mtip.util.SysmlConstants;
+import org.apache.commons.lang.ArrayUtils;
+
 import uaf.UAFConstants;
 
 public class DoDAFConstants {
@@ -72,10 +75,43 @@ public class DoDAFConstants {
 			OV6C
 	};
 	
-	public static final String[] CV1_TYPES = {
+	public static final String[] CV1_TYPES = (String[]) ArrayUtils.addAll((String[]) ArrayUtils.addAll(new String[] {
+			UAFConstants.ACTUAL_ENTERPRISE_PHASE,
 			UAFConstants.WHOLE_LIFE_ENTERPRISE,
-			UAFConstants.ENTERPRISE_VISION
-	};
+			UAFConstants.ENTERPRISE_PHASE,
+			UAFConstants.CAPABILITY,
+			UAFConstants.EXHIBITS,
+			UAFConstants.CAPABILITY_PROPERTY,
+			UAFConstants.ENTERPRISE_GOAL,
+			UAFConstants.ENTERPRISE_VISION,
+			UAFConstants.VISION_STATEMENT,
+			UAFConstants.ORGANIZATION_IN_ENTERPRISE,
+			UAFConstants.DESIRED_EFFECT,
+			UAFConstants.ACHIEVED_EFFECT,
+			UAFConstants.STRUCTURAL_PART,
+			UAFConstants.TEMPORAL_PART,
+			UAFConstants.ENDURING_TASK,
+			UAFConstants.ACTUAL_ENDURING_TASK,
+			UAFConstants.CAPABILITY_FOR_TASK,
+			
+			// Parametric Elements
+			//UAFConstants.ACTUAL_CONDITION,
+			//UAFConstants.ACTUAL_ENVIRONMENT,
+			//UAFConstants.ACTUAL_LOCATION,
+			//UAFConstants.CONDITION,
+			//UAFConstants.ENVIRONMENT,
+			//UAFConstants.LOCATION,
+			
+			UAFConstants.OPERATIONAL_PERFORMER,
+			UAFConstants.OPERATIONAL_ACTIVITY,
+			UAFConstants.MAPS_TO_CAPABILITY,
+			
+			// UAFConstants.FUNCTION
+			
+
+	}, 
+	SysmlConstants.BDD_TYPES), 
+	SysmlConstants.REQ_TYPES);
 	
 	public static final String[] CV2_TYPES = {
 			UAFConstants.ACTUAL_ENDURING_TASK,

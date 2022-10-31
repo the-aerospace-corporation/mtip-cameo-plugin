@@ -447,6 +447,8 @@ public class ExportXmlSysml {
 			return UAFConstants.DESIRED_EFFECT;
 		} else if(stereotypes.contains(UAFProfile.ENDURING_TASK_STEREOTYPE)) {
 			return UAFConstants.ENDURING_TASK;
+		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_GOAL)) {
+			return UAFConstants.ENTERPRISE_GOAL;
 		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_PHASE_STEREOTYPE)) {
 			return UAFConstants.ENTERPRISE_PHASE;
 		} else if(stereotypes.contains(UAFProfile.ENTERPRISE_VISION_STEREOTYPE)) {
