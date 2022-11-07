@@ -416,8 +416,8 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		Diagram diagram = (Diagram) element;
 		DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
 		presentationDiagram.open();
-		
 		for(PresentationElement presentationElement : presentationDiagram.getPresentationElements()) {
+			
 			writeElement(xmlDoc, elementListTag, relationshipListTag, presentationElement, null);
 		}
 		
@@ -439,7 +439,6 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				elementListTag.appendChild(elementTag);
 			}
 		}
-		
 		for(PresentationElement subPresentationElement : presentationElement.getPresentationElements()) {
 			if(!(subPresentationElement instanceof com.nomagic.magicdraw.uml.symbols.shapes.RoleView)) {
 				writeElement(xmlDoc, elementListTag, relationshipListTag, subPresentationElement, presentationElement);

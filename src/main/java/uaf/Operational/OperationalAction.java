@@ -12,7 +12,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import uaf.UAFProfile;
 
 public class OperationalAction extends CallBehaviorAction {
-
 	public OperationalAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;

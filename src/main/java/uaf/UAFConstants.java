@@ -58,6 +58,7 @@ public class UAFConstants {
 	public static final String OPERATIONAL_STATE_DESCRIPTION = "OperationalStateDescription";
 	public static final String OPERATIONAL_PARAMETER = "OperationalParameter";
 	public static final String OPERATIONAL_EXCHANGE_KIND = "OperationalExchangeKind";
+	public static final String OPERATIONAL_ACTION = "OperationalAction";
 	
 	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcessFlow";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
@@ -113,7 +114,7 @@ public class UAFConstants {
 	public static final String STATUS_INDICATORS = "StatusIndicators";
 	public static final String ACTUAL_PROJECT = "ActualProject";
 	public static final String ACTUAL_PROJECT_MILESTONE = "ActualProjectMilestone";
-	public static final String OPERATIONAL_ACTION = "OperationalAction";
+	
 	
 	//Dictionary
 	public static final String DEFINITION = "Definition";
@@ -299,8 +300,11 @@ public class UAFConstants {
 			SysmlConstants.FORKNODE,
 			SysmlConstants.JOINNODE,
 			//TODO: SysmlConstants.EXCEPTIONHANDLER,
-			SysmlConstants.INTERRUPTIBLEACTIVITYREGION
+			SysmlConstants.INTERRUPTIBLEACTIVITYREGION,
 			//TODO: SysmlConstants.STRUCTUREDACTIVITYNODE,
 			//TODO: SysmlConstants.EXPANSIONREGION
+			
+			UAFConstants.OPERATIONAL_MESSAGE
+
 	};
 }

@@ -180,7 +180,7 @@ public class UAFProfile {
 	    OPERATIONAL_STATE_DESCRIPTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_STATE_DESCRIPTION, UAF_PROFILE);
 	    OPERATIONAL_PARAMETER_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_PARAMETER, UAF_PROFILE);
 	    OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_EXCHANGE_KIND, UAF_PROFILE);
-	    OPERATIONAL_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ACTION, UAF_PROFILE);
+	    OPERATIONAL_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ACTION, UPDM_CUSTOMIZATION_PROFILE);
 	    
 	    /*INFORMATION_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION_FLOW, UAF_PROFILE);
 	    OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OBJECT_FLOW, UAF_PROFILE);*/
