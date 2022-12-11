@@ -376,12 +376,7 @@ public class ExportXmlSysml {
 					commonRelationship.writeToXML(element, project, xmlDoc);
 					exportedElements.put(element.getLocalID(), "");
 					// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
-					if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
-						exportElement(commonRelationship.getSupplier(), project, xmlDoc, metamodel);
-					}
-					if(!exportedElements.containsKey(commonRelationship.getClient().getLocalID())) {
-						exportElement(commonRelationship.getClient(), project, xmlDoc, metamodel);
-					}
+					
 				} else {				
 					CommonElementsFactory cef = new CommonElementsFactory();
 					CommonElement commonElement = null;
@@ -409,7 +404,6 @@ public class ExportXmlSysml {
 		} else {
 			CameoUtils.logGUI("Duplicate element with id " + element.getID() + " not exported.");
 		}
-		
 	}
 	
 	public static String getElementType(Element element) {

@@ -1,0 +1,26 @@
+package org.aero.mtip.dodaf.pv;
+
+import org.aero.mtip.ModelElements.Matrix.AbstractMatrix;
+import org.aero.mtip.dodaf.DoDAFConstants;
+import org.aero.mtip.util.XmlTagConstants;
+
+public class PV3 extends AbstractMatrix {
+
+	public PV3(String name, String EAID) {
+		super(name, EAID);		
+		this.sysmlConstant = DoDAFConstants.PV3;
+		this.xmlConstant = XmlTagConstants.PV3;
+		this.cameoDiagramConstant = "";
+		this.allowableElements = DoDAFConstants.PV3_TYPES;
+	}
+
+//	@Override
+//	public String getSysmlConstant() {
+//		return cameoDiagramConstant;
+//	}
+//
+//	@Override
+//	public String getDiagramType() {
+//		return xmlConstant;
+//	}
+}

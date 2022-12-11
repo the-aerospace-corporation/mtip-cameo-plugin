@@ -709,7 +709,6 @@ public class SysmlConstants {
 			STRING
 	};
 	
-	
 	public static final String[] primitiveValueTypeIDs = {
 			"16_5_1_12c903cb_1245415335546_39033_4086",
 		    "_16_5_1_12c903cb_1245415335546_8641_4088",

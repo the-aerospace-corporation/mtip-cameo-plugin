@@ -2,10 +2,11 @@ package uaf.Projects;
 
 import org.aero.mtip.ModelElements.Block.Enumeration;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import uaf.UAFConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+
+import uaf.UAFConstants;
 
 public class ActualMilestoneKind extends Enumeration{
 	public ActualMilestoneKind(String name, String EAID) {

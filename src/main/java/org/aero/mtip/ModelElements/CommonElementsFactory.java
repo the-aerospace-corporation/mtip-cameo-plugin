@@ -6,6 +6,13 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
+import org.aero.mtip.ModelElements.Comment;
+import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.ModelElements.CustomDiagram;
+import org.aero.mtip.ModelElements.EnumerationLiteral;
+import org.aero.mtip.ModelElements.Link;
+import org.aero.mtip.ModelElements.Model;
+import org.aero.mtip.ModelElements.SysmlPackage;
 import org.aero.mtip.ModelElements.Activity.AcceptEventAction;
 import org.aero.mtip.ModelElements.Activity.Action;
 import org.aero.mtip.ModelElements.Activity.Activity;
@@ -148,6 +155,8 @@ import org.aero.mtip.ModelElements.View.Stakeholder;
 import org.aero.mtip.ModelElements.View.View;
 import org.aero.mtip.ModelElements.View.Viewpoint;
 import org.aero.mtip.dodaf.DoDAFConstants;
+import org.aero.mtip.dodaf.av.AV1;
+import org.aero.mtip.dodaf.av.AV2;
 import org.aero.mtip.dodaf.cv.CV1;
 import org.aero.mtip.dodaf.cv.CV2;
 import org.aero.mtip.dodaf.cv.CV3;
@@ -155,6 +164,9 @@ import org.aero.mtip.dodaf.cv.CV4;
 import org.aero.mtip.dodaf.cv.CV5;
 import org.aero.mtip.dodaf.cv.CV6;
 import org.aero.mtip.dodaf.cv.CV7;
+import org.aero.mtip.dodaf.div.DIV1;
+import org.aero.mtip.dodaf.div.DIV2;
+import org.aero.mtip.dodaf.div.DIV3;
 import org.aero.mtip.dodaf.ov.OV1;
 import org.aero.mtip.dodaf.ov.OV2;
 import org.aero.mtip.dodaf.ov.OV3;
@@ -164,16 +176,15 @@ import org.aero.mtip.dodaf.ov.OV5b;
 import org.aero.mtip.dodaf.ov.OV6a;
 import org.aero.mtip.dodaf.ov.OV6b;
 import org.aero.mtip.dodaf.ov.OV6c;
+import org.aero.mtip.dodaf.pv.PV1;
+import org.aero.mtip.dodaf.pv.PV2;
+import org.aero.mtip.dodaf.pv.PV3;
 import org.aero.mtip.dodaf.sv.SV1;
 import org.aero.mtip.dodaf.sv.SV10a;
 import org.aero.mtip.dodaf.sv.SV10b;
 import org.aero.mtip.dodaf.sv.SV10c;
 import org.aero.mtip.dodaf.sv.SV2;
 import org.aero.mtip.dodaf.sv.SV4;
-<<<<<<< HEAD
->>>>>>> 03f657b (fixed merge conflicts and import for UAFConstant for resource and projects)
-=======
->>>>>>> 76648e6 (Added support for DoDAF CV, SV, and OV views. Stubs placed for tables and matrices for when base support are provided for those classes)
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 
@@ -182,12 +193,6 @@ import uaf.Dictionary.Alias;
 import uaf.Dictionary.Definition;
 import uaf.Dictionary.Information;
 import uaf.Operational.ConceptRole;
-=======
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.SysmlConstants;
->>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
-
-import uaf.UAFConstants;
 import uaf.Operational.HighLevelOperationalConcept;
 import uaf.Operational.InformationElement;
 import uaf.Operational.KnownResource;
@@ -822,27 +827,6 @@ public class CommonElementsFactory {
 			// DoDAF Diagram Constants
 			case DoDAFConstants.CV1:
 				element = new CV1(name, EAID);
-<<<<<<< HEAD
-=======
-				break;
-			case DoDAFConstants.CV2:
-				element = new CV2(name, EAID);
-				break;
-			case DoDAFConstants.CV3:
-				element = new CV3(name, EAID);
-				break;
-			case DoDAFConstants.CV4:
-				element = new CV4(name, EAID);
-				break;
-			case DoDAFConstants.CV5:
-				element = new CV5(name, EAID);
-				break;
-			case DoDAFConstants.CV6:
-				element = new CV6(name, EAID);
-				break;
-			case DoDAFConstants.CV7:
-				element = new CV7(name, EAID);
->>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 				break;
 			case DoDAFConstants.CV2:
 				element = new CV2(name, EAID);
@@ -907,7 +891,30 @@ public class CommonElementsFactory {
 			case DoDAFConstants.OV6C:
 				element = new OV6c(name, EAID);
 				break;
-<<<<<<< HEAD
+			case DoDAFConstants.AV1:
+				element = new AV1(name, EAID);
+				break;
+			case DoDAFConstants.AV2:
+				element = new AV2(name, EAID);
+				break;
+			case DoDAFConstants.DIV1:
+				element = new DIV1(name, EAID);
+				break;
+			case DoDAFConstants.DIV2:
+				element = new DIV2(name, EAID);
+				break;
+			case DoDAFConstants.DIV3:
+				element = new DIV3(name, EAID);
+				break;
+			case DoDAFConstants.PV1:
+				element = new PV1(name, EAID);
+				break;
+			case DoDAFConstants.PV2:
+				element = new PV2(name, EAID);
+				break;
+			case DoDAFConstants.PV3:
+				element = new PV3(name, EAID);
+				break;			
 			case UAFConstants.OPERATIONAL_CONSTRAINT:
 				element = new OperationalConstraint(name, EAID);
 				break;
@@ -1051,9 +1058,6 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.INFORMATION:
 				element = new Information(name, EAID);
-			
-=======
->>>>>>> 76648e6 (Added support for DoDAF CV, SV, and OV views. Stubs placed for tables and matrices for when base support are provided for those classes)
 			default:
 				break;
 				

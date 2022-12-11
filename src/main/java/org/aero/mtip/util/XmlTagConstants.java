@@ -1,6 +1,7 @@
 /* The Aerospace Corporation MTIP_Cameo
 Copyright 2022 The Aerospace Corporation
 
+<<<<<<< HEAD
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
@@ -459,6 +460,24 @@ public class XmlTagConstants
 	public static final String OV6A = "dodaf.OV-6a";
 	public static final String OV6B = "dodaf.OV-6b";
 	public static final String OV6C = "dodaf.OV-6c";
+	
+	// All Views
+	public static final String AV1 = "dodaf.AV-1";
+	public static final String AV2 = "dodaf.AV-2";
+	
+	// Data and Information Viewpoints
+	public static final String DIV1 = "dodaf.DIV-1";
+	public static final String DIV2 = "dodaf.DIV-2";
+	public static final String DIV3 = "dodaf.DIV-3";
+	
+	// Project Viewpoints
+	public static final String PV1 = "dodaf.PV-1";
+	public static final String PV2 = "dodaf.PV-2";
+	public static final String PV3 = "dodaf.PV-3";
+	
+	// Standards Viewpoints
+	public static final String STDV1 = "dodaf.StdV-1";
+	public static final String STDV2 = "dodaf.StdV-2";
 	
 	//XML Tags
 	public static final String CLIENT_ID = "client_id";

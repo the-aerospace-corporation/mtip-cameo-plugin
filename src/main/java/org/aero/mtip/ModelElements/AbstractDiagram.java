@@ -188,7 +188,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("Metric Table", SysmlConstants.METRIC_TABLE);
 //        aMap.put("Blackbox ICD Table", );
 //        aMap.put("Whitebox ICD Table", );
-       
+        
         //UAF Diagram Mapping
         aMap.put("Operational Process Flow", UAFConstants.OPERATIONAL_PROCESS_FLOW);
 
@@ -225,6 +225,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("OV-6b Operational State Transition Description", DoDAFConstants.OV6B);
         aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
 
+<<<<<<< HEAD
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
         aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
@@ -257,6 +258,18 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         // aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV6A); Table
         aMap.put("OV-6b Operational State Transition Description", DoDAFConstants.OV6B);
         aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
+=======
+        aMap.put("AV-1 Overview and Summary Information", DoDAFConstants.AV1);
+//        aMap.put("AV-2?", DoDAFConstants.AV2);
+        
+        aMap.put("DIV-1 Conceptual Data Model", DoDAFConstants.DIV1);
+        aMap.put("DIV-2 Logical Data Model", DoDAFConstants.DIV2);
+        aMap.put("DIV-3 Physical Data Model", DoDAFConstants.DIV3);
+        
+        aMap.put("PV-1 Project Portfolio Relationships", DoDAFConstants.PV1);
+//        aMap.put("PV-2", DoDAFConstants.PV2);
+//        aMap.put("PV-3", DoDAFConstants.PV3);
+>>>>>>> 9e12c13 (Added all DoDAF views with the exception of SvcV.)
         
         diagramToType = Collections.unmodifiableMap(aMap);
     }

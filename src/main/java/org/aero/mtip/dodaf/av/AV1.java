@@ -1,17 +1,17 @@
-package org.aero.mtip.dodaf.cv;
+package org.aero.mtip.dodaf.av;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.dodaf.DoDAFConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-public class CV1 extends AbstractDiagram {
+public class AV1 extends AbstractDiagram {
 
-	public CV1(String name, String EAID) {
+	public AV1(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.CV1;
-		this.xmlConstant = XmlTagConstants.CV1;
-		this.cameoDiagramConstant = "CV-1 Vision";
-		this.allowableElements = DoDAFConstants.CV1_TYPES;
+		this.sysmlConstant = DoDAFConstants.AV1;
+		this.xmlConstant = XmlTagConstants.AV1;
+		this.cameoDiagramConstant = "AV-1 Overview and Summary Information";
+		this.allowableElements = DoDAFConstants.AV1_TYPES;
 	}
 	
 	@Override
@@ -23,4 +23,5 @@ public class CV1 extends AbstractDiagram {
 	public String getDiagramType() {
 		return this.xmlConstant;
 	}
+
 }
