@@ -59,6 +59,7 @@ public class UAFConstants {
 	public static final String OPERATIONAL_PARAMETER = "OperationalParameter";
 	public static final String OPERATIONAL_EXCHANGE_KIND = "OperationalExchangeKind";
 	public static final String OPERATIONAL_ACTION = "OperationalAction";
+	public static final String OPERATIONAL_ASSOCIATION = "OperationalAssociation";
 	
 	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcessFlow";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
@@ -96,6 +97,9 @@ public class UAFConstants {
 	public static final String VERSION_SUCCESSION = "VersionSuccession";
 	public static final String VERSION_OF_CONFIGURATION = "VersionOfConfiguration";
 	public static final String WHOLE_LIFE_CONFIGURATION_KIND = "WholeLifeConfigurationKind";
+	public static final String RESOURCE_ACTION = "ResourceAction";
+	public static final String RESOURCES_PROCESS_FLOW = "ResourcesProcessFlow";
+	
 	//Projects
 	public static final String ACTUAL_MILESTONE_KIND = "ActualMilestoneKind";
 	public static final String PROJECT ="Project";
@@ -122,6 +126,17 @@ public class UAFConstants {
 	public static final String INFORMATION = "Information";
 	public static final String SAME_AS = "SameAs";
 	
+<<<<<<< HEAD
+=======
+	//Security
+	public static final String SECURITY_PROCESS_ACTION = "SecurityProcessAction";
+	
+
+	/*public static final String INFORMATION_FLOW = "InformationFlow";
+	public static final String OBJECT_FLOW = "ObjectFlow";*/
+	
+
+>>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
 	// Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
 	
@@ -196,6 +211,7 @@ public class UAFConstants {
 			RESOURCE_CONSTRAINT,
 			VERSION_OF_CONFIGURATION,
 			WHOLE_LIFE_CONFIGURATION_KIND,
+			RESOURCE_ACTION,
 			
 			//Projects
 			ACTUAL_MILESTONE_KIND,
@@ -218,6 +234,14 @@ public class UAFConstants {
 			DEFINITION,
 			ALIAS,
 			INFORMATION,
+<<<<<<< HEAD
+=======
+			OPERATIONAL_PORT,
+			
+			//Security
+			SECURITY_PROCESS_ACTION
+
+>>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
 			
 			
 			OPERATIONAL_PORT
@@ -242,6 +266,11 @@ public class UAFConstants {
 			OPERATIONAL_OBJECT_FLOW,
 			ARBITRARY_CONNECTOR,
 			OPERATIONAL_EXCHANGE,
+<<<<<<< HEAD
+=======
+			OPERATIONAL_ASSOCIATION,
+
+>>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
 			//OPERATIONAL_MESSAGE,
 			//RESOURCES
 			RESOURCE_CONNECTOR,
@@ -259,11 +288,59 @@ public class UAFConstants {
 			//Dictionary
 			SAME_AS
 			
+			
+			
 	};
 	
 	public static final String[] UAF_DIAGRAMS = {
 			STRATEGIC_TAXONOMY,
-			OPERATIONAL_PROCESS_FLOW
+			OPERATIONAL_PROCESS_FLOW,
+			RESOURCES_PROCESS_FLOW
+	};
+	
+	public static final String [] RESOURCES_PROCESS_FLOW_TYPES = {
+		UAFConstants.DEFINITION,
+		UAFConstants.ALIAS,
+		UAFConstants.INFORMATION,
+		UAFConstants.SAME_AS,
+		
+		UAFConstants.FUNCTION_ACTION,
+		UAFConstants.RESOURCE_ACTION,
+		UAFConstants.FUNCTION_CONTROL_FLOW,
+		UAFConstants.FUNCTION_OBJECT_FLOW,
+		
+		SysmlConstants.INPUTPIN,
+		SysmlConstants.OUTPUTPIN,
+		
+		UAFConstants.RESOURCE_PARAMETER,
+		
+		UAFConstants.RESOURCE_EXCHANGE,
+		
+		UAFConstants.SECURITY_PROCESS_ACTION,
+		
+		SysmlConstants.ACTION,
+		//SysmlConstants.OBJECTNODE,
+		SysmlConstants.OBJECTFLOW,
+		SysmlConstants.CONTROLFLOW,
+		SysmlConstants.SENDSIGNALACTION,
+		SysmlConstants.ACCEPTEVENTACTION,
+		SysmlConstants.TIMEEVENT,
+		SysmlConstants.INITIALNODE,
+		SysmlConstants.ACTIVITYFINALNODE,
+		SysmlConstants.FLOWFINALNODE,
+		SysmlConstants.DECISIONNODE,
+		SysmlConstants.MERGENODE,
+		//SysmlConstants.FORKHORIZONTAL, //FORKNODE?
+		//SysmlConstants.JOINHORIZONTAL, //JOINNODE?
+		//SysmlConstants.EXCEPTIONHANDLER,
+		SysmlConstants.INTERRUPTIBLEACTIVITYREGION,
+		//SysmlConstants.STRUCTUREDACTIVITYNODE,
+		//SysmlConstants.EXPANSIONREGION,
+		SysmlConstants.CONDITIONALNODE
+		
+		
+		
+		
 	};
 	
 	public static final String [] OPERATIONAL_PROCESS_FLOW_TYPES = {

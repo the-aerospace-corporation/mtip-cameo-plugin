@@ -191,6 +191,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         
         //UAF Diagram Mapping
         aMap.put("Operational Process Flow", UAFConstants.OPERATIONAL_PROCESS_FLOW);
+        aMap.put("Resources Process Flow", UAFConstants.RESOURCES_PROCESS_FLOW);
 
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
@@ -488,8 +489,22 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					diagramElementIDs.add(curElement.getID());
 				
 					String curID = curElement.getID();
-					String type = "sysml." + curElement.getHumanType().replace(" ", "");
+					String metaModel = ExportXmlSysml.getMetaModel(curElement);
 					
+<<<<<<< HEAD
+=======
+					String elementType = ExportXmlSysml.getElementType(curElement);
+					String type;
+					if (elementType == null) {
+						type = metaModel+"."+"null";
+					} else
+					{
+						type = metaModel+"."+curElement.getHumanType().replace(" ", "");
+					}
+					CameoUtils.logGUI("Adding element with id " + curID + " of type " + type + " to diagram " + this.name + 
+							" with x:" + String.valueOf(bounds.x) + " y:" + String.valueOf(bounds.y) + " height:" + 
+							String.valueOf(bounds.height) + " and width: " + String.valueOf(bounds.width));
+>>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
 					org.w3c.dom.Element elementTag = createDictElement(xmlDoc, Integer.toString(elementCount));
 					
 					org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);

@@ -182,12 +182,30 @@ public abstract class CommonRelationship extends CommonElement {
 		}
 	}
 	
+	public void setSupplier(Element element) {
+		if(element instanceof DirectedRelationship) {
+			DirectedRelationship directedRelationship = (DirectedRelationship)element;
+			directedRelationship.getSource().add(supplier);
+		} else {
+			ModelHelper.setSupplierElement(element, supplier);
+		}
+	}
+	
 	public void setClient() {
 		if(sysmlElement instanceof DirectedRelationship) {
 			DirectedRelationship directedRelationship = (DirectedRelationship)sysmlElement;
 			directedRelationship.getTarget().add(client);
 		}  else {
 			ModelHelper.setClientElement(sysmlElement, client);
+		}
+	}
+	
+	public void setClient(Element element) {
+		if(element instanceof DirectedRelationship) {
+			DirectedRelationship directedRelationship = (DirectedRelationship)element;
+			directedRelationship.getTarget().add(client);
+		}  else {
+			ModelHelper.setClientElement(element, client);
 		}
 	}
 }

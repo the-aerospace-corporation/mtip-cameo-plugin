@@ -234,6 +234,7 @@ import uaf.Resources.DataElement;
 import uaf.Resources.Function;
 import uaf.Resources.FunctionAction;
 import uaf.Resources.NaturalResource;
+import uaf.Resources.ResourceAction;
 import uaf.Resources.ResourceArchitecture;
 import uaf.Resources.ResourceArtifact;
 import uaf.Resources.ResourceConstraint;
@@ -246,12 +247,14 @@ import uaf.Resources.ResourceRole;
 import uaf.Resources.ResourceSignal;
 import uaf.Resources.ResourceSignalProperty;
 import uaf.Resources.ResourceStateDescription;
+import uaf.Resources.ResourcesProcessFlow;
 import uaf.Resources.RoleKind;
 import uaf.Resources.Software;
 import uaf.Resources.Technology;
 import uaf.Resources.VersionOfConfiguration;
 import uaf.Resources.WholeLifeConfiguration;
 import uaf.Resources.WholeLifeConfigurationKind;
+import uaf.Security.SecurityProcessAction;
 import uaf.Strategic.Achiever;
 import uaf.Strategic.ActualEnduringTask;
 import uaf.Strategic.ActualEnterprisePhase;
@@ -1004,6 +1007,12 @@ public class CommonElementsFactory {
 			case UAFConstants.WHOLE_LIFE_CONFIGURATION_KIND:
 				element = new WholeLifeConfigurationKind(name, EAID);
 				break;
+			case UAFConstants.RESOURCE_ACTION:
+				element = new ResourceAction(name, EAID);
+				break;
+			case UAFConstants.RESOURCES_PROCESS_FLOW:
+				element = new ResourcesProcessFlow(name, EAID);
+				break;
 			case UAFConstants.ACTUAL_MILESTONE_KIND:
 				element = new ActualMilestoneKind(name, EAID);
 				break;
@@ -1058,6 +1067,11 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.INFORMATION:
 				element = new Information(name, EAID);
+
+			//Security
+			case UAFConstants.SECURITY_PROCESS_ACTION:
+				element = new SecurityProcessAction(name, EAID);
+				break;
 			default:
 				break;
 				

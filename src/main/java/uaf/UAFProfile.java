@@ -66,6 +66,7 @@ public class UAFProfile {
 	public static Stereotype OPERATIONAL_PARAMETER_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_ACTION_STEREOTYPE = null;
+	public static Stereotype OPERATIONAL_ASSOCIATION_STEREOTYPE = null;
 	
 	//Resources
 	public static Stereotype CAPABILITY_CONFIGURATION_STEREOTYPE = null;
@@ -99,6 +100,7 @@ public class UAFProfile {
 	public static Stereotype VERSION_SUCCESSION_STEREOTYPE = null;
 	public static Stereotype VERSION_OF_CONFIGURATION_STEREOTYPE = null;
 	public static Stereotype WHOLE_LIFE_CONFIGURATION_KIND_STEREOTYPE = null;
+	public static Stereotype RESOURCE_ACTION_STEREOTYPE = null;
 	
 	public static Stereotype ACTUAL_MILESTONE_KIND_STEREOTYPE = null;
 	public static Stereotype PROJECT_STEREOTYPE = null;
@@ -123,6 +125,8 @@ public class UAFProfile {
 	public static Stereotype ALIAS_STEREOTYPE = null;
 	public static Stereotype INFORMATION_STEREOTYPE = null;
 	public static Stereotype SAME_AS_STEREOTYPE = null;
+	
+	public static Stereotype SECURITY_PROCESS_ACTION_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
@@ -181,6 +185,7 @@ public class UAFProfile {
 	    OPERATIONAL_PARAMETER_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_PARAMETER, UAF_PROFILE);
 	    OPERATIONAL_EXCHANGE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_EXCHANGE_KIND, UAF_PROFILE);
 	    OPERATIONAL_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ACTION, UPDM_CUSTOMIZATION_PROFILE);
+	    OPERATIONAL_ASSOCIATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_ASSOCIATION, UPDM_CUSTOMIZATION_PROFILE);
 	    
 	    /*INFORMATION_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION_FLOW, UAF_PROFILE);
 	    OBJECT_FLOW_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OBJECT_FLOW, UAF_PROFILE);*/
@@ -201,6 +206,7 @@ public class UAFProfile {
 	    RESOURCE_PORT_STEREOTYPE =  StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_PORT, UAF_PROFILE);
 	    RESOURCE_ROLE_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.RESOURCE_ROLE, UAF_PROFILE);
 	    ROLE_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ROLE_KIND, UAF_PROFILE);
+	    RESOURCE_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_ACTION, UPDM_CUSTOMIZATION_PROFILE);
 	    //8/3/2022
 	    RESOURCE_CONNECTOR_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_CONNECTOR, UAF_PROFILE);
 	    RESOURCE_EXCHANGE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_EXCHANGE, UAF_PROFILE);
@@ -245,5 +251,8 @@ public class UAFProfile {
 	    ALIAS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ALIAS, UAF_PROFILE);
 	    INFORMATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION, UAF_PROFILE);
 	    SAME_AS_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.SAME_AS, UAF_PROFILE);
+	    
+	    //Security
+	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);
 	}
 }

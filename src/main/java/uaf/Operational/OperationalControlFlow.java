@@ -1,6 +1,7 @@
 package uaf.Operational;
 
 import org.aero.mtip.ModelElements.Activity.ControlFlow;
+import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -25,6 +26,7 @@ public class OperationalControlFlow extends ControlFlow {
 	
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		super.createElement(project, owner, client, supplier, xmlElement);
+		
 		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE);
 		
 		return sysmlElement;

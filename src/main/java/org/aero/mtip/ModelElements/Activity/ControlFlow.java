@@ -84,6 +84,19 @@ public class ControlFlow extends CommonRelationship {
 		activityEdge.setSource((ActivityNode) supplier);
 	}
 	
+	@Override
+	public void setSupplier(Element element) {
+		ActivityEdge activityEdge = (ActivityEdge)element;
+		this.client = activityEdge.getSource();
+	}
+	
+	@Override
+	public void setClient(Element element) {
+		ActivityEdge activityEdge = (ActivityEdge)element;
+		this.client = activityEdge.getTarget();
+	}
+	
+	@Override
 	public void setClient() {
 		ActivityEdge activityEdge = (ActivityEdge)sysmlElement;
 		activityEdge.setTarget((ActivityNode) client);

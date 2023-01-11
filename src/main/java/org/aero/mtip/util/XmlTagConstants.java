@@ -327,6 +327,7 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_PARAMETER = "uaf.OperationalParameter";
 	public static final String OPERATIONAL_EXCHANGE_KIND = "uaf.OperationalExchangeKind";
 	public static final String OPERATIONAL_ACTION = "uaf.OperationalAction";
+	public static final String OPERATIONAL_ASSOCIATION = "uaf.OperationalAssociation";
 	
 	public static final String OPERATIONAL_PROCESS_FLOW = "uaf.OperationalProcessFlow";
 	
@@ -354,6 +355,9 @@ public class XmlTagConstants
 	public static final String RESOURCE_STATE_DESCRIPTION = "uaf.ResourceStateDescription";
 	public static final String RESOURCE_CONSTRAINT = "uaf.ResourceConstraint";
 	public static final String WHOLE_LIFE_CONFIGURATION_KIND = "uaf.WholeLifeConfigurationKind";
+	public static final String RESOURCE_ACTION = "uaf.ResourceAction";
+	
+	public static final String RESOURCES_PROCESS_FLOW = "uaf.ResourcesProcessFlow";
 	
 	//Projects
 	public static final String ACTUAL_MILESTONE_KIND = "uaf.ActualMilestoneKind";
@@ -377,6 +381,8 @@ public class XmlTagConstants
 	public static final String ALIAS = "uaf.alias";
 	public static final String INFORMATION = "uaf.Information";
 	
+	//Security
+	public static final String SECURITY_PROCESS_ACTION = "uaf.SecurityProcessAction";
 	
 	//UAF Relationships
 	//Strategic

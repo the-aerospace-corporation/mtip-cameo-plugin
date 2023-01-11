@@ -25,12 +25,10 @@ import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.util.SysmlConstants;
 
-<<<<<<< HEAD
-import uaf.Dictionary.SameAs;
-=======
->>>>>>> 2d7e9fc (Added support for exporting capability views from UAF/DoDAF models.)
 import uaf.UAFConstants;
+import uaf.Dictionary.SameAs;
 import uaf.Operational.ArbitraryConnector;
+import uaf.Operational.OperationalAssociation;
 import uaf.Operational.OperationalConnector;
 import uaf.Operational.OperationalControlFlow;
 import uaf.Operational.OperationalExchange;
@@ -173,6 +171,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.OPERATIONAL_CONTROL_FLOW:
 				relationship = new OperationalControlFlow(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_ASSOCIATION:
+				relationship = new OperationalAssociation(name, EAID);
 				break;
 			case UAFConstants.ARBITRARY_CONNECTOR:
 				relationship = new ArbitraryConnector(name, EAID);
