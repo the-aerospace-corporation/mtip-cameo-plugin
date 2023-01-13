@@ -189,6 +189,8 @@ public abstract class CommonRelationship extends CommonElement {
 		} else {
 			ModelHelper.setSupplierElement(element, supplier);
 		}
+		
+		
 	}
 	
 	public void setClient() {
@@ -207,5 +209,6 @@ public abstract class CommonRelationship extends CommonElement {
 		}  else {
 			ModelHelper.setClientElement(element, client);
 		}
+		
 	}
 }

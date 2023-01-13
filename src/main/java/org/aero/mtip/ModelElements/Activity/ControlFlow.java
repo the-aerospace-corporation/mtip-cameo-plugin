@@ -87,7 +87,7 @@ public class ControlFlow extends CommonRelationship {
 	@Override
 	public void setSupplier(Element element) {
 		ActivityEdge activityEdge = (ActivityEdge)element;
-		this.client = activityEdge.getSource();
+		this.supplier = activityEdge.getSource();
 	}
 	
 	@Override

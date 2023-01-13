@@ -338,7 +338,7 @@ public class ExportXmlSysml {
 				return "dodaf";
 			}
 		}
-		
+
 		String [] dodafDiagrams = DoDAFConstants.DODAF_DIAGRAMS;
 		for (String type : dodafDiagrams)
 		{
@@ -347,7 +347,7 @@ public class ExportXmlSysml {
 				return "dodaf";
 			}
 		}
-		
+
 		String [] uafElements = UAFConstants.UAF_ELEMENTS;
 		for (String type : uafElements)
 		{
@@ -364,7 +364,7 @@ public class ExportXmlSysml {
 				return "uaf";
 			}
 		}
-		
+
 		String [] uafDiagrams = UAFConstants.UAF_DIAGRAMS;
 		for(String type : uafDiagrams)
 		{
@@ -373,7 +373,7 @@ public class ExportXmlSysml {
 				return "uaf";
 			}
 		}
-		
+
 		String [] sysmlElements = SysmlConstants.SYSMLELEMENTS;
 		for (String type: sysmlElements)
 		{
@@ -382,7 +382,7 @@ public class ExportXmlSysml {
 				return "sysml";
 			}
 		}
-		
+
 		String [] sysmlRelationships = SysmlConstants.SYSMLRELATIONSHIPS;
 		for (String type: sysmlRelationships)
 		{
@@ -460,56 +460,59 @@ public class ExportXmlSysml {
 						CameoUtils.logGUI("\tRelationship named 2: " +  name + " Type:"+elementType +" with id: " + element.getLocalID());
 						commonRelationship = crf.createElement(elementType, "", element.getLocalID());
 					}
-					
+
 					commonRelationship.setClient(element);
 					commonRelationship.setSupplier(element);
 
 					boolean isSupplierExported = false;
 					boolean isClientExported = false;
-					
+
 					//1/10/2023 this doesnt work for OPERATIONAL PROCESS FLOWS!
 					if (commonRelationship.getSupplier() == null)
 					{
 						CameoUtils.logGUI("SUPPLIER IS NULL!!!!!!!!!!!!");
 					}
+					else {
+						CameoUtils.logGUI("SUPPLIER: "+commonRelationship.getSupplier().getHumanName());
+					}
 					if (commonRelationship.getClient()==null)
 					{
 						CameoUtils.logGUI("CLIENT IS NULL!!!!!!!!!!!!");
 					}
+					else {
+						CameoUtils.logGUI("CLIENT: "+commonRelationship.getClient().getHumanName());
+					}
 					/*if (commonRelationship.getSupplier() == null || commonRelationship.getClient() == null)
-					{
-						CameoUtils.logGUI("Supplier or Client is null. Skipping relationship");
-						ExportLog.log("Relationship find where the Client and or Supplier is null. This is usually due to an element not being supported/exported");
-					}*/
+						{
+							CameoUtils.logGUI("Supplier or Client is null. Skipping relationship");
+							ExportLog.log("Relationship find where the Client and or Supplier is null. This is usually due to an element not being supported/exported");
+						}*/
 
 					//else {
-						// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
-						if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
-							isSupplierExported = exportElement(commonRelationship.getSupplier(), project, xmlDoc, metamodel);
-						}
-						if(!exportedElements.containsKey(commonRelationship.getClient().getLocalID())) {
-							isClientExported = exportElement(commonRelationship.getClient(), project, xmlDoc, metamodel);
-						}
+					// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
+					if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
+						isSupplierExported = exportElement(commonRelationship.getSupplier(), project, xmlDoc, metamodel);
+					}
+					if(!exportedElements.containsKey(commonRelationship.getClient().getLocalID())) {
+						isClientExported = exportElement(commonRelationship.getClient(), project, xmlDoc, metamodel);
+					}
 
-						if(isSupplierExported && isClientExported) {
-							commonRelationship.writeToXML(element, project, xmlDoc);
-							exportedElements.put(element.getLocalID(), "");
-							return true;
+					if(isSupplierExported && isClientExported) {
+						commonRelationship.writeToXML(element, project, xmlDoc);
+						exportedElements.put(element.getLocalID(), "");
+						return true;
+					}
+					else {
+						String logMsg = "Relationship with: "+element.getHumanName()+"not exported for the following reason(s): ";
+						if(!isSupplierExported) {
+							logMsg+="Supplier failed to export. SupplierId:"+commonRelationship.getSupplier().getLocalID()+" ";
 						}
-						else {
-							String logMsg = "Relationship with: "+element.getHumanName()+"not exported for the following reason(s): ";
-							if(!isSupplierExported) {
-								logMsg+="Supplier failed to export. SupplierId:"+commonRelationship.getSupplier().getLocalID()+" ";
-							}
-							if(!isClientExported) {
-								logMsg+="Client failed to export. Clientd: "+commonRelationship.getSupplier().getLocalID()+" ";
-							}
-							ExportLog.log(logMsg);
+						if(!isClientExported) {
+							logMsg+="Client failed to export. Clientd: "+commonRelationship.getSupplier().getLocalID()+" ";
 						}
-					//}
+						ExportLog.log(logMsg);
+					}
 					return false;
-
-
 				} else {				
 					CommonElementsFactory cef = new CommonElementsFactory();
 					CommonElement commonElement = null;
