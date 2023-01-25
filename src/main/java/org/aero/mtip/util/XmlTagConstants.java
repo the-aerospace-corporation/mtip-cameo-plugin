@@ -395,7 +395,7 @@ public class XmlTagConstants
 	//Operational
 	public static final String ARBITRARY_CONNECTOR = "uaf.ArbitraryConnector";
 	public static final String OPERATIONAL_CONTROL_FLOW = "uaf.OperationalControlFlow";
-	public static final String OPERATIONAL_OBJECT_FLOW = "uaf.OperationalObjectFLow";
+	public static final String OPERATIONAL_OBJECT_FLOW = "uaf.OperationalObjectFlow";
 	public static final String OPERATIONAL_CONNECTOR = "uaf.OperationalConnector";
 	public static final String OPERATIONAL_EXCHANGE = "uaf.OperationalExchange";
 	//public static final String OPERATIONAL_MESSAGE = "uaf.OperationalMessage";

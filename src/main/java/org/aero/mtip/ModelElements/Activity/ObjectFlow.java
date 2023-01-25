@@ -36,14 +36,18 @@ public class ObjectFlow extends CommonRelationship {
 		super.createElement(project,owner, client, supplier, xmlElement);
 		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)sysmlElement;
 		
-		if(xmlElement.hasGuard()) {
+		//if(xmlElement.hasGuard()) {
+		if (xmlElement.hasAttribute(XmlTagConstants.GUARD)) {
 			ValueSpecification guard = of.getGuard();
 			if(guard != null) {
 				guard.dispose();
 			}
 			LiteralString specification = f.createLiteralStringInstance();
-			specification.setValue(xmlElement.getGuard());			
+			//specification.setValue(xmlElement.getGuard());			
+			specification.setValue(xmlElement.getAttribute(XmlTagConstants.GUARD));
 			of.setGuard(specification);
+		} else {
+			CameoUtils.logGUI("Object flow "+ xmlElement.getEAID() + "has no guard.");
 		}
 		
 		return of;
@@ -86,7 +90,24 @@ public class ObjectFlow extends CommonRelationship {
 		activityEdge.setTarget((ActivityNode) client);
 	}
 	
+	/*
+	 * 
+	 */
 	
+	@Override
+	public void setSupplier(Element element) {
+		ActivityEdge activityEdge = (ActivityEdge)element;
+		this.supplier = activityEdge.getSource();
+	}
+	
+	@Override
+	public void setClient(Element element) {
+		ActivityEdge activityEdge = (ActivityEdge)element;
+		this.client = activityEdge.getTarget();
+	}
+	
+	
+	//
 	@Override
 	public void getSupplier(Element element) {
 		ActivityEdge activityEdge = (ActivityEdge)element;

@@ -442,7 +442,7 @@ public class ExportXmlSysml {
 
 		if(!exportedElements.containsKey(element.getLocalID())) {
 			if(elementType != null) {
-				CameoUtils.logGUI("349 EXPORTXMLSYSML: "+element.getHumanName()+" "+isRelationship);
+				CameoUtils.logGUI("444 EXPORTXMLSYSML: "+element.getHumanName()+" "+isRelationship);
 				if(isRelationship) {
 
 					CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
@@ -519,10 +519,10 @@ public class ExportXmlSysml {
 
 					if(element instanceof NamedElement) {
 						//Check if ID already exists from previous import
-						CameoUtils.logGUI("\tElement named: " +  ((NamedElement)element).getName() + " with id: " + element.getLocalID());
+						CameoUtils.logGUI("\tElement named 1: " +  ((NamedElement)element).getName() + " with id: " + element.getLocalID());
 						commonElement = cef.createElement(elementType,  ((NamedElement)element).getName(), element.getLocalID());
 					} else {
-						CameoUtils.logGUI("\tElement named: " +  element.getHumanName() + " with id: " + element.getLocalID());
+						CameoUtils.logGUI("\tElement named 2: " +  element.getHumanName() + " with id: " + element.getLocalID());
 						commonElement = cef.createElement(elementType, "", element.getLocalID());
 					}
 					if(commonElement != null) {
