@@ -260,8 +260,8 @@ public class ExportXmlSysml {
 			for(Element element : elementsInPackage) {
 				//export elements that are not packages
 				String elementName = element.getHumanName();
-				
-				if(!(element instanceof Package) && !elementName.equals("Package Import") && !elementName.equals("Profile Application")) {
+
+				if(!(element instanceof Package) && !elementName.equals("Package Import") && !elementName.equals("Profile Application") && !element.getHumanType().equals("Legend")) {
 					CameoUtils.logGUI("Exporting " + element.getHumanType() + element.getHumanName());
 					exportElementRecursive(element, project, xmlDoc, metamodel);
 				}
@@ -549,7 +549,7 @@ public class ExportXmlSysml {
 	public static String getElementType(Element element) {
 		if (ExportXmlSysml.metamodel == null)
 		{
-			CameoUtils.logGUI("ExportXmlSysml.getElementType metamodel is null");
+			CameoUtils.logGUI(element.getHumanName()+" ExportXmlSysml.getElementType metamodel is null");
 			return "null";
 		}
 		if(ExportXmlSysml.metamodel.contentEquals(UAFConstants.UAF))  {
