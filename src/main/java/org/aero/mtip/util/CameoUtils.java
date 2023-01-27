@@ -449,9 +449,11 @@ public class CameoUtils {
 	public static String determineMetamodel(Project project) {
 		Profile uafProfile = StereotypesHelper.getProfile(project, UAFConstants.UAF_PROFILE_NAME);
 		if(uafProfile != null) {
+			CameoUtils.logGUI("Exporting model as UAF model.");
 			new UAFProfile(project);
 			return UAFConstants.UAF;
 		} else {
+			CameoUtils.logGUI("Exporting model as SysML model.");
 			return  SysmlConstants.SYSML;
 		}
 	}

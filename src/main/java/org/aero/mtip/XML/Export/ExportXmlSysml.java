@@ -146,30 +146,34 @@ public class ExportXmlSysml {
 		CameoUtils.logGUI("Exporting project with " + metamodel + " metamodel.");
 
 		if(packageElement != null) {
-			exportPackageRecursive((Package)packageElement, project, xmlDoc, metamodel);
+			exportPackageRecursive((Package)packageElement, project, xmlDoc);
 		} else {
-			exportPackageRecursive(primary, project, xmlDoc, metamodel);
+			exportPackageRecursive(primary, project, xmlDoc);
 		}
 		ExportLog.save();
 		ExportLog.reset();
 	}
 
 	public static void buildXMLFromDiagram(Document xmlDoc, File file, DiagramPresentationElement diagramPresentationElement) {
+		//TODO: Export dependent elements such as behaviors, etc.
 		project = Application.getInstance().getProject();
 		exportedElements = new HashMap<String, String>();
 		org.w3c.dom.Element root = xmlDoc.createElement("packet");
 		xmlDoc.appendChild(root);
-		String metamodel = CameoUtils.determineMetamodel(project);
+		ExportXmlSysml.metamodel = CameoUtils.determineMetamodel(project);
 
 		Element diagramElement = diagramPresentationElement.getElement();
-		exportElementRecursiveUp(diagramElement, xmlDoc, metamodel);
+		exportElementRecursiveUp(diagramElement, xmlDoc);
+		
+		// Ensures elements at the sibling level of the diagram are captured regardless of nesting object structure of presentation elements
+		exportElementRecursive(diagramElement.getOwner(), project, xmlDoc);
 
 		//Add hook to get nested presentation elements due to encapsulation of diagrams
 		List<PresentationElement> presentationElements = diagramPresentationElement.getPresentationElements();
 		for(int i = 0; i < presentationElements.size(); i++) {
 			Element element = presentationElements.get(i).getElement();
 			if(element != null) {
-				exportElementRecursiveUp(element, xmlDoc, metamodel);
+				exportElementRecursiveUp(element, xmlDoc);
 			} else {
 				String message = "presentationElement of class " + presentationElements.get(i).getClass().toString() + " has no element.";
 				CameoUtils.logGUI(message);
@@ -186,12 +190,12 @@ public class ExportXmlSysml {
 	 * @param project Current project being exported
 	 * @param xmlDoc XML Document representing the model being exported
 	 */
-	public static void exportElementRecursiveUp(Element element, Document xmlDoc, String metamodel) {
+	public static void exportElementRecursiveUp(Element element, Document xmlDoc) {
 		//Find any parent element and export recursively
 		Element parent = element.getOwner();
 		if(parent != null) {
 			if(!parent.equals(project.getPrimaryModel())) {
-				exportElementRecursiveUp(parent, xmlDoc, metamodel);
+				exportElementRecursiveUp(parent, xmlDoc);
 			}
 			ExportLog.log("Parent element of element with id " + element.getID() + " is null.");
 			CameoUtils.logGUI("Parent element of element with id " + element.getID() + " is null.");
@@ -200,19 +204,19 @@ public class ExportXmlSysml {
 			TypedElement typedElement = (TypedElement)element;
 			Type type = typedElement.getType();
 			if(type != null) {
-				exportElementRecursiveUp(type, xmlDoc, metamodel);
+				exportElementRecursiveUp(type, xmlDoc);
 			}
 		}
-
+		
 		if(element instanceof Package) {
-			exportPackage(element, project, xmlDoc, metamodel);
+			exportPackage(element, project, xmlDoc);
 		} else {
-			exportElement(element, project, xmlDoc, metamodel);
+			exportElement(element, project, xmlDoc);
 		}
 	}
 
 
-	public static void exportPackageRecursive(Package pack, Project project, Document xmlDoc, String metamodel) {
+	public static void exportPackageRecursive(Package pack, Project project, Document xmlDoc) {
 		//Write Package to xml here so parent is written before child
 
 		//Look for child packages and child elements to recursively export
@@ -222,7 +226,7 @@ public class ExportXmlSysml {
 		boolean noPackages = false;
 		boolean noElements = false;
 
-		exportPackage(pack, project, xmlDoc, metamodel);
+		exportPackage(pack, project, xmlDoc);
 
 		try {
 			elementsInPackage = pack.getOwnedElement();
@@ -250,7 +254,7 @@ public class ExportXmlSysml {
 				if(!packageStereotypes.contains(auxiliaryStereotype) && !nextPackage.getHumanName().equals("Package Unit Imports")) {
 					//					CameoUtils.logGUI("Package with name " + nextPackage.getHumanName() + "\twith type: " + nextPackage.getHumanType());
 					//					JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Exporting Package " + nextPackage.getHumanName());
-					exportPackageRecursive(nextPackage, project, xmlDoc, metamodel);					
+					exportPackageRecursive(nextPackage, project, xmlDoc);					
 				}
 			}
 		}
@@ -262,13 +266,13 @@ public class ExportXmlSysml {
 
 				if(!(element instanceof Package) && !elementName.equals("Package Import") && !elementName.equals("Profile Application") && !element.getHumanType().equals("Legend")) {
 					CameoUtils.logGUI("Exporting " + element.getHumanType() + element.getHumanName());
-					exportElementRecursive(element, project, xmlDoc, metamodel);
+					exportElementRecursive(element, project, xmlDoc);
 				}
 			}
 		}
 	}
 
-	public static void exportElementRecursive(Element element, Project project, Document xmlDoc, String metamodel) {
+	public static void exportElementRecursive(Element element, Project project, Document xmlDoc) {
 		//Find any child elements and recursively export		
 		boolean noElements = false;
 		Collection<Element> ownedElements = new ArrayList<Element> ();
@@ -278,7 +282,7 @@ public class ExportXmlSysml {
 			noElements = true;
 		}
 
-		exportElement(element, project, xmlDoc, metamodel);
+		exportElement(element, project, xmlDoc);
 
 		// If value property allow only comments or attached files 
 		// Let owned elements that are relationships call exportElementRecursive but children of relationships cannot be exported
@@ -286,13 +290,13 @@ public class ExportXmlSysml {
 			for(Element ownedElement : ownedElements) {
 				// Check that ownedElement is not a package, otherwise will cause repeats -- element also must be a NamedElement to ignore unecessary instance specifications, opaque expressions, etc.
 				if (!(ownedElement instanceof Package) && !(element instanceof Relationship)) {
-					exportElementRecursive(ownedElement, project, xmlDoc, metamodel);
+					exportElementRecursive(ownedElement, project, xmlDoc);
 				}
 			}
 		}
 	}
 
-	public static void exportPackage(Element pkg, Project project, Document xmlDoc, String metamodel) {
+	public static void exportPackage(Element pkg, Project project, Document xmlDoc) {
 		CameoUtils.logGUI("Exporting package " + pkg.getHumanName());
 		CommonElement commonElement = null;
 		CommonElementsFactory cef = new CommonElementsFactory();
@@ -424,7 +428,7 @@ public class ExportXmlSysml {
 		return isRelationship;
 	}
 
-	public static boolean exportElement(Element element, Project project, Document xmlDoc, String metamodel) {
+	public static boolean exportElement(Element element, Project project, Document xmlDoc) {
 		//if(element.getOwner()!= null) {
 		String elementType = null;
 		boolean isRelationship = isRelationship(element, project);
@@ -488,10 +492,10 @@ public class ExportXmlSysml {
 					//else {
 					// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
 					if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
-						isSupplierExported = exportElement(commonRelationship.getSupplier(), project, xmlDoc, metamodel);
+						isSupplierExported = exportElement(commonRelationship.getSupplier(), project, xmlDoc);
 					}
 					if(!exportedElements.containsKey(commonRelationship.getClient().getLocalID())) {
-						isClientExported = exportElement(commonRelationship.getClient(), project, xmlDoc, metamodel);
+						isClientExported = exportElement(commonRelationship.getClient(), project, xmlDoc);
 					}
 
 					if(isSupplierExported && isClientExported) {
