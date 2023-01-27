@@ -14,11 +14,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.aero.mtip.dodaf.DoDAFConstants;
+import org.aero.mtip.uaf.UAFConstants;
 import org.apache.commons.lang.StringUtils;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-
-import uaf.UAFConstants;
 
 public class XMLItem {
 	private String type = "";

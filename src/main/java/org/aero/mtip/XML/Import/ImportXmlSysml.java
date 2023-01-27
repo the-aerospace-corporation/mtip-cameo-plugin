@@ -28,6 +28,7 @@ import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.ModelElements.ModelDiagram;
 import org.aero.mtip.ModelElements.Profile.RelationshipConstraint;
 import org.aero.mtip.dodaf.DoDAFConstants;
+import org.aero.mtip.uaf.UAFConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -57,8 +58,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.impl.ElementsFactory;
-
-import uaf.UAFConstants;
 
 public class ImportXmlSysml {
 	static Map<String,Entry<Element, Element>> linktoPair = new HashMap<String,Entry<Element, Element>>();

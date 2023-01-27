@@ -122,11 +122,10 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Tran
 import com.nomagic.magicdraw.uml.BaseElement;
 import com.nomagic.magicdraw.uml.ClassTypes;
 
-
-import uaf.UAFConstants;
 import org.aero.mtip.dodaf.DoDAFConstants;
 
-import uaf.UAFProfile;
+import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.uaf.UAFProfile;
 
 public class ExportXmlSysml {
 	private static HashMap<String, String> exportedElements = new HashMap<String, String>();
@@ -444,10 +443,8 @@ public class ExportXmlSysml {
 			if(elementType != null) {
 				CameoUtils.logGUI("444 EXPORTXMLSYSML: "+element.getHumanName()+" "+isRelationship);
 				if(isRelationship) {
-
 					CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 					String name = "";
-
 					CommonRelationship commonRelationship = null;
 
 					if(element instanceof NamedElement) {

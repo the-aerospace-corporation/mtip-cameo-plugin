@@ -13,6 +13,9 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.uaf.UAFProfile;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -43,9 +46,6 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseu
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.impl.ElementsFactory;
-
-import uaf.UAFConstants;
-import uaf.UAFProfile;
 
 public class CameoUtils {
 	public static HashMap<String, String> primitiveValueTypes = new HashMap<String, String>() {{

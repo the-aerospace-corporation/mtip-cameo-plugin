@@ -8,7 +8,7 @@ package org.aero.mtip.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import uaf.UAFConstants;
+import org.aero.mtip.uaf.UAFConstants;
 
 public class SysmlConstants {
 	//Categorization constants

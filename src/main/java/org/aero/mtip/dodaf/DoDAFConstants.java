@@ -1,9 +1,9 @@
 package org.aero.mtip.dodaf;
 
+
 import org.aero.mtip.util.SysmlConstants;
 import org.apache.commons.lang.ArrayUtils;
-
-import uaf.UAFConstants;
+import org.aero.mtip.uaf.UAFConstants;
 
 public class DoDAFConstants {
 	// Capability Viewpoints
