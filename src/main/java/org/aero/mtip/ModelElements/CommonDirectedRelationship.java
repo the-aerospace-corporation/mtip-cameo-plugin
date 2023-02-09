@@ -26,5 +26,20 @@ public abstract class CommonDirectedRelationship extends CommonRelationship {
 		Collection<Element> targets = ((DirectedRelationship)element).getTarget();
 		this.client = targets.iterator().next();
 	}
-
+	
+	@Override
+	public void setSupplier(Element element) {
+		DirectedRelationship directedRelationship = (DirectedRelationship)element;
+		if (directedRelationship.getSource().iterator().hasNext()) {
+			this.supplier = directedRelationship.getSource().iterator().next();
+		}
+	}
+	
+	@Override
+	public void setClient(Element element) {
+		DirectedRelationship directedRelationship = (DirectedRelationship)element;
+		if (directedRelationship.getTarget().iterator().hasNext()) {
+			this.client = directedRelationship.getTarget().iterator().next();
+		}
+	}
 }

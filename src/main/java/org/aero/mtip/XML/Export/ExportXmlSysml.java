@@ -445,7 +445,6 @@ public class ExportXmlSysml {
 
 		if(!exportedElements.containsKey(element.getLocalID())) {
 			if(elementType != null) {
-				CameoUtils.logGUI("444 EXPORTXMLSYSML: "+element.getHumanName()+" "+isRelationship);
 				if(isRelationship) {
 					CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
 					String name = "";
@@ -468,28 +467,7 @@ public class ExportXmlSysml {
 					boolean isSupplierExported = false;
 					boolean isClientExported = false;
 
-					//1/10/2023 this doesnt work for OPERATIONAL PROCESS FLOWS!
-					if (commonRelationship.getSupplier() == null)
-					{
-						CameoUtils.logGUI("SUPPLIER IS NULL!!!!!!!!!!!!");
-					}
-					else {
-						CameoUtils.logGUI("SUPPLIER: "+commonRelationship.getSupplier().getHumanName());
-					}
-					if (commonRelationship.getClient()==null)
-					{
-						CameoUtils.logGUI("CLIENT IS NULL!!!!!!!!!!!!");
-					}
-					else {
-						CameoUtils.logGUI("CLIENT: "+commonRelationship.getClient().getHumanName());
-					}
-					/*if (commonRelationship.getSupplier() == null || commonRelationship.getClient() == null)
-						{
-							CameoUtils.logGUI("Supplier or Client is null. Skipping relationship");
-							ExportLog.log("Relationship find where the Client and or Supplier is null. This is usually due to an element not being supported/exported");
-						}*/
 
-					//else {
 					// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
 					if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
 						isSupplierExported = exportElement(commonRelationship.getSupplier(), project, xmlDoc);
