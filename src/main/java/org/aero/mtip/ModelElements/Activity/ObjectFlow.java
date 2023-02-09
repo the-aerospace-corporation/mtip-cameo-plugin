@@ -109,14 +109,14 @@ public class ObjectFlow extends CommonRelationship {
 	
 	//
 	@Override
-	public void getSupplier(Element element) {
+	public Element getSupplier(Element element) {
 		ActivityEdge activityEdge = (ActivityEdge)element;
-		this.supplier = activityEdge.getSource();
+		return activityEdge.getSource();
 	}
 	
 	@Override
-	public void getClient(Element element) {
+	public Element getClient(Element element) {
 		ActivityEdge activityEdge = (ActivityEdge)element;
-		this.client = activityEdge.getTarget();
+		return activityEdge.getTarget();
 	}
 }

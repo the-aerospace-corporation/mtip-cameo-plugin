@@ -124,15 +124,15 @@ public class Transition extends CommonRelationship {
 	}
 
 	@Override
-	public void getSupplier(Element element) {
+	public Element getSupplier(Element element) {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition cameoRelationship = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
-		this.supplier = cameoRelationship.getSource();
+		return cameoRelationship.getSource();
 	}
 
 	@Override
-	public void getClient(Element element) {
+	public Element getClient(Element element) {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition cameoRelationship = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
-		this.client = cameoRelationship.getTarget();
+		return cameoRelationship.getTarget();
 	}
 	
 	@Override

@@ -30,6 +30,7 @@ import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.DiagramLegendShape;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.ActionClass;
@@ -169,20 +170,24 @@ public class ExportXmlSysml {
 		exportElementRecursive(diagramElement.getOwner(), project, xmlDoc);
 
 		//Add hook to get nested presentation elements due to encapsulation of diagrams
-		List<PresentationElement> presentationElements = diagramPresentationElement.getPresentationElements();
+		exportDiagramElementRecursive(xmlDoc, file, diagramPresentationElement);
+		
+		
+		ExportLog.save();
+		ExportLog.reset();		
+	}
+	
+	public static void exportDiagramElementRecursive(Document xmlDoc, File file, PresentationElement presentationElement) {
+		List<PresentationElement> presentationElements = presentationElement.getPresentationElements();		
 		for(int i = 0; i < presentationElements.size(); i++) {
 			Element element = presentationElements.get(i).getElement();
 			if(element != null) {
 				exportElementRecursiveUp(element, xmlDoc);
-			} else {
-				String message = "presentationElement of class " + presentationElements.get(i).getClass().toString() + " has no element.";
-				CameoUtils.logGUI(message);
-				ExportLog.log(message);
-			}
-
+			} 
+			if(!(presentationElement instanceof DiagramLegendShape)) {
+				exportDiagramElementRecursive(xmlDoc, file, presentationElements.get(i));
+			}		
 		}
-		ExportLog.save();
-		ExportLog.reset();		
 	}
 	/**
 	 * 
@@ -200,6 +205,18 @@ public class ExportXmlSysml {
 			ExportLog.log("Parent element of element with id " + element.getID() + " is null.");
 			CameoUtils.logGUI("Parent element of element with id " + element.getID() + " is null.");
 		}
+		
+		if(ModelHelper.isRelationship(element)) {
+			Element client = ModelHelper.getClientElement(element);
+			if(client != null) {
+				exportElementRecursiveUp(client, xmlDoc);
+			}
+			Element supplier = ModelHelper.getSupplierElement(element);
+			if(client != null) {
+				exportElementRecursiveUp(supplier, xmlDoc);
+			}
+		}
+		
 		if(element instanceof TypedElement) {
 			TypedElement typedElement = (TypedElement)element;
 			Type type = typedElement.getType();
@@ -458,22 +475,23 @@ public class ExportXmlSysml {
 					} else {
 						name = element.getHumanName();
 						CameoUtils.logGUI("\tRelationship named 2: " +  name + " Type:"+elementType +" with id: " + element.getLocalID());
-						commonRelationship = crf.createElement(elementType, "", element.getLocalID());
+						commonRelationship = crf.createElement(elementType, name, element.getLocalID());
 					}
-
-					commonRelationship.setClient(element);
-					commonRelationship.setSupplier(element);
-
+					
 					boolean isSupplierExported = false;
 					boolean isClientExported = false;
 
 
 					// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
-					if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
-						isSupplierExported = exportElement(commonRelationship.getSupplier(), project, xmlDoc);
+					if(!exportedElements.containsKey(commonRelationship.getSupplier(element).getLocalID())) {
+						isSupplierExported = exportElement(commonRelationship.getSupplier(element), project, xmlDoc);
+					} else {
+						isSupplierExported = true;
 					}
-					if(!exportedElements.containsKey(commonRelationship.getClient().getLocalID())) {
-						isClientExported = exportElement(commonRelationship.getClient(), project, xmlDoc);
+					if(!exportedElements.containsKey(commonRelationship.getClient(element).getLocalID())) {
+						isClientExported = exportElement(commonRelationship.getClient(element), project, xmlDoc);
+					} else {
+						isClientExported = true;
 					}
 
 					if(isSupplierExported && isClientExported) {

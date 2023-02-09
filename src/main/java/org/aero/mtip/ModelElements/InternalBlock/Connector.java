@@ -151,22 +151,24 @@ public class Connector extends CommonRelationship {
 	}
 	
 	@Override
-	public void getSupplier(Element element) {
+	public Element getSupplier(Element element) {
 		if(element instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) {
 			List<ConnectorEnd> connectorEnds = ((com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector)element).getEnd();
 			if(connectorEnds.size() > 1) {
-				this.supplier = connectorEnds.get(0).getRole();					
+				return connectorEnds.get(0).getRole();					
 			}
 		}
+		return null;
 	}
 	@Override
-	public void getClient(Element element) {
+	public Element getClient(Element element) {
 		if(element instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) {
 			List<ConnectorEnd> connectorEnds = ((com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector)element).getEnd();
 			if(connectorEnds.size() > 1) {
-				this.client = connectorEnds.get(1).getRole();
+				return connectorEnds.get(1).getRole();
 			}
 		}
+		return null;
 	}
 	
 	@Override

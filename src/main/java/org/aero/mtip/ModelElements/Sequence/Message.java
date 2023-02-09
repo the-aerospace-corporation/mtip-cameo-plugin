@@ -116,28 +116,24 @@ public class Message extends CommonRelationship {
 	}
 	
 	@Override
-	public void getSupplier(Element element) {
+	public Element getSupplier(Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		if(message.getSendEvent() instanceof OccurrenceSpecification) {
 			OccurrenceSpecification sendEvent = (OccurrenceSpecification) message.getSendEvent();
 			Collection<com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline> covered = sendEvent.getCovered();
-			this.supplier = covered.iterator().next();
-		} else {
-			this.supplier = null;
-		}
-		
+			return covered.iterator().next();
+		} 
+		return null;
 	}
 	
 	@Override
-	public void getClient(Element element) {
+	public Element getClient(Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		if(message.getReceiveEvent() instanceof OccurrenceSpecification) {
 			OccurrenceSpecification sendEvent = (OccurrenceSpecification) message.getReceiveEvent();
 			Collection<com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline> covered = sendEvent.getCovered();
-			this.client = covered.iterator().next();
-		} else {
-			this.client = null;
-		}
-		
+			return covered.iterator().next();
+		} 
+		return null;
 	}
 }

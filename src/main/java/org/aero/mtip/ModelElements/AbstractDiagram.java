@@ -395,9 +395,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		List<String> diagramRelationships = modelElement.getChildRelationships(parsedXML);
 		for(String diagramRelationship : diagramRelationships) {
 			XMLItem diagramRelationshipXML = parsedXML.get(diagramRelationship);
-			if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(diagramRelationshipXML.getType())) {
-				ImportXmlSysml.buildRelationship(project, parsedXML, diagramRelationshipXML, diagramRelationship);
-			}
+			ImportXmlSysml.buildRelationship(project, parsedXML, diagramRelationshipXML, diagramRelationship);
 		}
 	}
 

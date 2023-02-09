@@ -115,8 +115,8 @@ public abstract class CommonRelationship extends CommonElement {
 			relationships = createRelationships(xmlDoc, element);
 		}
 		
-		getSupplier(element);
-		getClient(element);
+		setSupplier(element);
+		setClient(element);
 		
 		if(supplier != null) {
 			org.w3c.dom.Element supplierRel = createRel(xmlDoc, this.supplier, XmlTagConstants.SUPPLIER);
@@ -155,12 +155,12 @@ public abstract class CommonRelationship extends CommonElement {
 		return this.client;
 	}
 	
-	public void getSupplier(Element element) {
-		this.supplier = ModelHelper.getSupplierElement(element);
+	public Element getSupplier(Element element) {
+		return ModelHelper.getSupplierElement(element);
 		
 	}
-	public void getClient(Element element) {
-		this.client = ModelHelper.getClientElement(element);
+	public Element getClient(Element element) {
+		return ModelHelper.getClientElement(element);
 	}
 	
 	public String getSupplierMultiplicity(Element element) {
