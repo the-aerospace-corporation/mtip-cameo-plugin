@@ -129,7 +129,7 @@ public class State extends CommonElement {
 		
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
 		if(state.isSubmachineState()) {
-			org.w3c.dom.Element submachine = createStringAttribute(xmlDoc, XmlTagConstants.SUBMACHINE, state.getSubmachine().getLocalID());
+			org.w3c.dom.Element submachine = createStringAttribute(xmlDoc, XmlTagConstants.SUBMACHINE, state.getSubmachine().getID());
 			attributes.appendChild(submachine);
 		}
 		

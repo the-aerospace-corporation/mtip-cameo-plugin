@@ -25,8 +25,16 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
@@ -87,7 +95,7 @@ public class CameoUtils {
 	public static Element findNearestRegion(Project project, Element owner) {
 		Region region = null;
 		Collection<Region> regions = null;
-		CameoUtils.logGUI("Searching for state machine with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
+		CameoUtils.logGUI("Searching for state machine with current element " + owner.getHumanType() + " and id " + owner.getID());
 		if(owner instanceof StateMachine) {
 			StateMachine sm = (StateMachine)owner;
 			regions = sm.getRegion();
@@ -110,7 +118,7 @@ public class CameoUtils {
 	}
 	public static Element findNearestBlock(Project project, Element owner) {
 		if(owner != null) {
-			CameoUtils.logGUI("Searching for block for current element with id " + owner.getLocalID());
+			CameoUtils.logGUI("Searching for block for current element with id " + owner.getID());
 			if(SysMLProfile.isBlock(owner)) {
 				return owner;
 			} else {
@@ -126,7 +134,7 @@ public class CameoUtils {
 	
 	public static Element findNearestActivity(Project project, Element owner) {
 		if(owner != null) {
-			CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getLocalID());
+			CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getID());
 			if(owner instanceof Activity) {
 				return owner;
 			} else {
@@ -410,6 +418,20 @@ public class CameoUtils {
 	
 	public static boolean isCameoID(String id) {
 		if(id.startsWith("_")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isNotExplicitlySupported(Element element) {
+		if (element instanceof ElementValue ||
+			    element instanceof LiteralReal ||
+			    element instanceof LiteralBoolean ||
+			    element instanceof LiteralInteger ||
+			    element instanceof LiteralString ||
+			    element instanceof LiteralUnlimitedNatural ||
+			    element instanceof InstanceValue ||
+			    element instanceof ConnectorEnd) {
 			return true;
 		}
 		return false;

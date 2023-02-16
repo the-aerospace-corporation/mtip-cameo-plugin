@@ -162,7 +162,7 @@ public class RelationshipConstraint extends CommonElement {
 			if(customizationTargetID != null && !customizationTargetID.isEmpty()) {
 				if(parsedXML.containsKey(customizationTargetID)) {
 					Element stereotype = ImportXmlSysml.getOrBuildElement(project, parsedXML, customizationTargetID);
-					modelElement.addAttribute(CUSTOMIZATIONTARGET, stereotype.getLocalID());
+					modelElement.addAttribute(CUSTOMIZATIONTARGET, stereotype.getID());
 				}
 			}
 		}
@@ -195,7 +195,7 @@ public class RelationshipConstraint extends CommonElement {
 				customizationTargetTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_STEREOTYPE);
 				customizationTargetTag.appendChild(xmlDoc.createTextNode(((NamedElement)customizationTarget).getName()));
 				// Possible to replace with checks for Metaclasses and stereotypes - Metaclasses are in UML profile and stereotypes in user-defined profiles
-				if(customizationTarget.getLocalID().startsWith("_9")) {
+				if(customizationTarget.getID().startsWith("_9")) {
 					customizationTargetTag.setAttribute(XmlTagConstants.PROFILE_TAG, "UML");
 					stereotypeName = METARELATIONSHIP;
 				} else {
@@ -204,7 +204,7 @@ public class RelationshipConstraint extends CommonElement {
 					Profile targetProfile = targetStereotype.getProfile();
 					customizationTargetTag.setAttribute(XmlTagConstants.PROFILE_TAG, ((NamedElement)targetProfile).getName());
 				}
-				customizationTargetTag.setAttribute(XmlTagConstants.ID_TAG, customizationTarget.getLocalID());
+				customizationTargetTag.setAttribute(XmlTagConstants.ID_TAG, customizationTarget.getID());
 				attributes.appendChild(customizationTargetTag);
 			} else {
 				//Export Log
@@ -227,7 +227,7 @@ public class RelationshipConstraint extends CommonElement {
 		if(clients != null && !clients.isEmpty()) {
 			Element client = clients.get(0);
 			org.w3c.dom.Element clientTag = xmlDoc.createElement(XmlTagConstants.CLIENT_ID);
-			clientTag.appendChild(xmlDoc.createTextNode(client.getLocalID()));
+			clientTag.appendChild(xmlDoc.createTextNode(client.getID()));
 			relationships.appendChild(clientTag);
 		}
 		
@@ -236,7 +236,7 @@ public class RelationshipConstraint extends CommonElement {
 		if(suppliers != null && !suppliers.isEmpty()) {
 			Element supplier = suppliers.get(0);
 			org.w3c.dom.Element supplierTag = xmlDoc.createElement(XmlTagConstants.SUPPLIER);
-			supplierTag.appendChild(xmlDoc.createTextNode(supplier.getLocalID()));
+			supplierTag.appendChild(xmlDoc.createTextNode(supplier.getID()));
 			relationships.appendChild(supplierTag);
 		}
 		
@@ -276,7 +276,7 @@ public class RelationshipConstraint extends CommonElement {
 //		//Add ID
 //		org.w3c.dom.Element id = xmlDoc.createElement("id");
 //		org.w3c.dom.Element cameoID = xmlDoc.createElement("cameo");
-//		cameoID.appendChild(xmlDoc.createTextNode(element.getLocalID()));
+//		cameoID.appendChild(xmlDoc.createTextNode(element.getID()));
 //		id.appendChild(cameoID);
 //		data.appendChild(id);
 //		
@@ -287,7 +287,7 @@ public class RelationshipConstraint extends CommonElement {
 //			org.w3c.dom.Element hasParent = xmlDoc.createElement("hasParent");
 //			Element parent = null;
 //			parent = element.getOwner();
-//			hasParent.appendChild(xmlDoc.createTextNode(parent.getLocalID()));
+//			hasParent.appendChild(xmlDoc.createTextNode(parent.getID()));
 //			relationship.appendChild(hasParent);
 //		}
 //		data.appendChild(relationship);

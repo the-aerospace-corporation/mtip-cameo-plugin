@@ -29,7 +29,7 @@ public class InspectDiagramElementAction extends MDAction {
 	
 	public void actionPerformed(ActionEvent e) {
 		Element diagramElement = diagramPresentationElement.getElement();
-		CameoUtils.logGUI("Diagram element has id:" + diagramElement.getLocalID());
+		CameoUtils.logGUI("Diagram element has id:" + diagramElement.getID());
 		CameoUtils.logGUI(Integer.toString(selectedPresentationElements.length) + " elements selected on diagram.");
 		
 		int allElementCount = findNestedPresentationElements(diagramPresentationElement.getPresentationElements());
@@ -39,7 +39,7 @@ public class InspectDiagramElementAction extends MDAction {
 			PresentationElement displayedPresentationElement = selectedPresentationElements[i];
 			Element displayedElement = displayedPresentationElement.getElement();
 			if(displayedElement != null) {
-				CameoUtils.logGUI("Displayed Element has id " + displayedElement.getLocalID() + " and displays as an object of type " + displayedPresentationElement.getClass().toString());
+				CameoUtils.logGUI("Displayed Element has id " + displayedElement.getID() + " and displays as an object of type " + displayedPresentationElement.getClass().toString());
 				CameoUtils.logGUI("......with size: " + displayedPresentationElement.getBounds().toString());
 			} else {
 				CameoUtils.logGUI("Presentation Element with id " + displayedPresentationElement.getID() + " has no element and is an object of type " + displayedPresentationElement.getClass().toString());

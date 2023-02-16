@@ -48,10 +48,10 @@ public class StateInvariant extends CommonElement {
 						ExportLog.log("Invariant element value is null.");
 					}
 				} else {
-					ExportLog.log("Value specification of constraint with id " + constraint.getLocalID() + " of state invariant with id " + this.EAID + " is not instanceof ElementValue.");
+					ExportLog.log("Value specification of constraint with id " + constraint.getID() + " of state invariant with id " + this.EAID + " is not instanceof ElementValue.");
 				}
 			} else {
-				ExportLog.log("No specification for constraint with id " + constraint.getLocalID() + " of state invariant with id " + this.EAID);
+				ExportLog.log("No specification for constraint with id " + constraint.getID() + " of state invariant with id " + this.EAID);
 			}
 		} else {
 			ExportLog.log("No constraint for state invariant with id: " + this.EAID);

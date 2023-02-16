@@ -100,7 +100,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 			for(Object columnElementType : columnElementTypes) {
 				Element columnElement = (Element)columnElementType;
 				String elementName = ((NamedElement)columnElement).getName();
-//				ExportLog.log("elementTypeMap.put(\"" + ((NamedElement)columnElement).getName() + ", \"" + columnElement.getLocalID() + "\");");
+//				ExportLog.log("elementTypeMap.put(\"" + ((NamedElement)columnElement).getName() + ", \"" + columnElement.getID() + "\");");
 				org.w3c.dom.Element columnElementTypeTag = createColumnElementType(xmlDoc, Integer.toString(columnElementTypeCount), elementName);
 				columnElementTypeListTag.appendChild(columnElementTypeTag);
 				columnElementTypeCount++;
@@ -112,7 +112,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 			org.w3c.dom.Element rowElementTypeListTag = createListElement(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_ROW_ELEMENT_TYPE);
 			for(Object rowElementType : rowElementTypes) {
 				Element rowElement = (Element)rowElementType;
-				CameoUtils.logGUI("Column element type found to be " + rowElement.getHumanName() + " with id " + rowElement.getLocalID());
+				CameoUtils.logGUI("Column element type found to be " + rowElement.getHumanName() + " with id " + rowElement.getID());
 				String elementName = ((NamedElement)rowElement).getName();
 				org.w3c.dom.Element rowElementTypeTag = createRowElementType(xmlDoc, Integer.toString(rowElementTypeCount), elementName);
 				rowElementTypeListTag.appendChild(rowElementTypeTag);

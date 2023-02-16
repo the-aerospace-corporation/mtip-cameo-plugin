@@ -72,7 +72,7 @@ public class Trigger extends CommonElement {
 		CameoUtils.logGUI("Creating dependent elements for trigger...");
 		if(modelElement.hasAcceptEventAction()) {	
 			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
-			modelElement.setNewAcceptEventAction(acceptEventAction.getLocalID());
+			modelElement.setNewAcceptEventAction(acceptEventAction.getID());
 		}
 		if(modelElement.hasAttribute(XmlTagConstants.EVENT_TAG)) {
 			String signal = modelElement.getAttribute(XmlTagConstants.EVENT_TAG);
@@ -100,7 +100,7 @@ public class Trigger extends CommonElement {
 		AcceptEventAction aea = trigger.get_acceptEventActionOfTrigger();
 		if(aea != null) {
 			org.w3c.dom.Element aeaTag = xmlDoc.createElement("acceptEventAction");
-			aeaTag.appendChild(xmlDoc.createTextNode(aea.getLocalID()));
+			aeaTag.appendChild(xmlDoc.createTextNode(aea.getID()));
 			attributes.appendChild(aeaTag);
 		}
 		
@@ -108,7 +108,7 @@ public class Trigger extends CommonElement {
 //		if(se != null) {
 //			CameoUtils.logGUI("Trigger Event type is: " + se.getHumanType());
 //			org.w3c.dom.Element signalEventTag = xmlDoc.createElement(XmlTagConstants.SIGNAL_EVENT_TAG);
-//			signalEventTag.appendChild(xmlDoc.createTextNode(se.getLocalID()));
+//			signalEventTag.appendChild(xmlDoc.createTextNode(se.getID()));
 //			attributes.appendChild(signalEventTag);
 //		}
 		

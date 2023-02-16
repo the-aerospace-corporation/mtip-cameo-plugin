@@ -73,12 +73,12 @@ public class SequenceDiagram  extends AbstractDiagram{
 				if(relationship instanceof Message) {
 					Message message = (Message)relationship;
 					if(clientPE != null && supplierPE != null) {
-						ShapeElement clientSE = shapeElements.get(client.getLocalID());
-						ShapeElement supplierSE = shapeElements.get(supplier.getLocalID());
+						ShapeElement clientSE = shapeElements.get(client.getID());
+						ShapeElement supplierSE = shapeElements.get(supplier.getID());
 						PresentationElementsManager.getInstance().createSequenceMessage(message, ((Message)message).getMessageSort(), supplierSE, clientSE, false, 0, previousMessage, 25);
 						previousMessage = message;
 					} else {
-						ImportLog.log("Client or supplier presentation element for message " + relationship.getLocalID() + " was not creatd.");
+						ImportLog.log("Client or supplier presentation element for message " + relationship.getID() + " was not creatd.");
 					}
 					
 				} else {
@@ -111,7 +111,7 @@ public class SequenceDiagram  extends AbstractDiagram{
 		
 		if(presentationElement instanceof CombinedFragmentView) {
 			Element cfElement = presentationElement.getElement();
-			this.combinedFragmentBounds.put(cfElement.getLocalID(), presentationElement.getBounds());
+			this.combinedFragmentBounds.put(cfElement.getID(), presentationElement.getBounds());
 		}
 		return elementTag;
 	}
@@ -129,8 +129,8 @@ public class SequenceDiagram  extends AbstractDiagram{
 				if(relationship instanceof Message) {
 					// Convert to shape to find which cf if any its under
 					Rectangle messageBounds = presentationElement.getBounds();
-					this.messageTags.put(relationship.getLocalID(), relDataTag);
-					this.messageBounds.put(relationship.getLocalID(), messageBounds);
+					this.messageTags.put(relationship.getID(), relDataTag);
+					this.messageBounds.put(relationship.getID(), messageBounds);
 					
 					CameoUtils.logGUI("Relationship is message.");
 //					org.w3c.dom.Element metadata = CameoUtils.getDirectChild(relationshipTag, XmlTagConstants.RELATIONSHIP_METADATA);
@@ -148,7 +148,7 @@ public class SequenceDiagram  extends AbstractDiagram{
 					    	messageNumberTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
 					    	messageNumberTag.appendChild(xmlDoc.createTextNode(text));
 					    	relDataTag.appendChild(messageNumberTag);
-					    	CameoUtils.logGUI("Found message number " + text + " for message with id " + relationship.getLocalID());
+					    	CameoUtils.logGUI("Found message number " + text + " for message with id " + relationship.getID());
 					    }
 					}
 				}

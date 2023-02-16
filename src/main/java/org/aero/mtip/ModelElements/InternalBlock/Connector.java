@@ -72,7 +72,7 @@ public class Connector extends CommonRelationship {
 		
 		Element supplierPart = (Element) project.getElementByID(ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT)));
 		if(supplierPart != null) {
-			CameoUtils.logGUI("Supplier part found with id: " + supplierPart.getLocalID());
+			CameoUtils.logGUI("Supplier part found with id: " + supplierPart.getID());
 			firstMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)supplierPart);
 			firstMemberEnd.setRole((ConnectableElement) supplier);
 			StereotypesHelper.addStereotype(firstMemberEnd, nestedConnectorEndStereotype);
@@ -84,7 +84,7 @@ public class Connector extends CommonRelationship {
 		
 		Element clientPart = (Element) project.getElementByID(ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT)));
 		if(clientPart != null) {
-			CameoUtils.logGUI("Client part found with id: " + clientPart.getLocalID());
+			CameoUtils.logGUI("Client part found with id: " + clientPart.getID());
 			secondMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)clientPart);
 			secondMemberEnd.setRole(((List<ConnectorEnd>) ((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property) clientPart).get_connectorEndOfPartWithPort()).get(0).getRole());
 			StereotypesHelper.addStereotype(secondMemberEnd, nestedConnectorEndStereotype);
@@ -98,7 +98,7 @@ public class Connector extends CommonRelationship {
 		if(typeElement != null) {
 			try {
 				connector.setType((Association) typeElement);
-				CameoUtils.logGUI("Connector type set to element with id " + typeElement.getLocalID());
+				CameoUtils.logGUI("Connector type set to element with id " + typeElement.getID());
 			} catch(ClassCastException cce) {
 				CameoUtils.logGUI("Connector type is not an association. Type not set for connector with id " + this.EAID);
 			}

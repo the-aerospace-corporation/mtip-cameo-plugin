@@ -100,7 +100,7 @@ public class ActivityDiagram extends AbstractDiagram {
 			// Adding Pins to the diagram re-adds their parent element duplicating elements on the diagram on import. Filtering them out fixes this.
 			if(!(element instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.OutputPin) && !(element instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.InputPin)) {
 				if(element instanceof com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition) {
-					CameoUtils.logGUI("Creating swimlane view for ActivityPartition with id: " + element.getLocalID());
+					CameoUtils.logGUI("Creating swimlane view for ActivityPartition with id: " + element.getID());
 					shape = PresentationElementsManager.getInstance().createSwimlane(Collections.emptyList(), (List<? extends com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition>) Arrays.asList(element), (DiagramPresentationElement)presentationDiagram);
 					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 				} else if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999 && !CameoUtils.isAssociationBlock(element, project)) {
@@ -109,22 +109,22 @@ public class ActivityDiagram extends AbstractDiagram {
 				} else {
 					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 					if(shape != null) {
-						presentationElementById.put(element.getLocalID(), shape);
+						presentationElementById.put(element.getID(), shape);
 						PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 					} else {
-						CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
-						ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getLocalID() + " on diagram.");
+						CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
+						ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
 					}
 				}
 			}
 		} catch(ClassCastException cce) {
-			CameoUtils.logGUI("Caught Class cast exception adding " + element.getHumanName() + " " + "with id " + element.getLocalID() + " to diagram.");
-			ImportLog.log("Caught Class cast exception adding " + element.getLocalID() + " to diagram.");
+			CameoUtils.logGUI("Caught Class cast exception adding " + element.getHumanName() + " " + "with id " + element.getID() + " to diagram.");
+			ImportLog.log("Caught Class cast exception adding " + element.getID() + " to diagram.");
 		}
 		
 		if(shape != null) {
 			CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
-			this.shapeElements.put(element.getLocalID(), shape);
+			this.shapeElements.put(element.getID(), shape);
 		}
 		return noPosition;
 	}

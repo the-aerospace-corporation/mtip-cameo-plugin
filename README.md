@@ -56,6 +56,8 @@ oss@aero.org
 
 ## Version History
 
+* 1.0.6
+    * Added Cameo global id on export. Import defaults to using this id when available.
 * 1.0.5
     * Fixed support for views, viewpoints, and stakeholders when exchanging models with Sparx EA
     * Added support for PackageImport relationships while filtering out underlying libraries

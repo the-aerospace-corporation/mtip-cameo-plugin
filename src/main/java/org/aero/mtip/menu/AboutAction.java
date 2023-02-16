@@ -20,6 +20,7 @@ import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 @SuppressWarnings("serial")
 public class AboutAction extends MDAction
 {
+	public static String VERSION = "1.0.6";
 	public AboutAction(String id, String name)
 	{
 		super(id, name, null, null);
@@ -30,7 +31,7 @@ public class AboutAction extends MDAction
 		//Display information about the plugin.
 		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogParent(),
 				"Modeling Tool Integration Plugin for Cameo Systems Modeler (MTIP-CSM Plugin)\n\n"
-				+ "Version: 1.0.5\n\n",
+				+ "Version: " + VERSION + "\n\n",
 				"About", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

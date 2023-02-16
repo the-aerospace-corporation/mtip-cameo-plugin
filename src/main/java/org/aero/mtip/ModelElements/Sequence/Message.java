@@ -95,13 +95,13 @@ public class Message extends CommonRelationship {
 //		MessageEnd receiveEvent = message.getReceiveEvent();
 //		MessageEnd sendEvent = message.getSendEvent();
 //		if(receiveEvent != null) {
-//			org.w3c.dom.Element reTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT, receiveEvent.getLocalID());
+//			org.w3c.dom.Element reTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT, receiveEvent.getID());
 //			attributes.appendChild(reTag);
 //		}
 //		message.getReplyMessage();
 //
 //		if(sendEvent != null) {
-//			org.w3c.dom.Element seTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT, sendEvent.getLocalID());
+//			org.w3c.dom.Element seTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_SEND_EVENT, sendEvent.getID());
 //			attributes.appendChild(seTag);
 //		}
 		Element signature = message.getSignature();

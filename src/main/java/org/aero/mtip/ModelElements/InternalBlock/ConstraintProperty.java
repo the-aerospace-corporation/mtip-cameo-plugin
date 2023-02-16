@@ -56,7 +56,7 @@ public class ConstraintProperty extends CommonElement {
 			String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 			try {
 				Element type = ImportXmlSysml.getOrBuildElement(project, parsedXML, classifierID);
-				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getLocalID());
+				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getID());
 			} catch (NullPointerException npe) {
 				CameoUtils.logGUI("Failed to create/get typed by element for element with id" + this.EAID);
 				ImportLog.log("Failed to create/get typed by element for element with id" + this.EAID);

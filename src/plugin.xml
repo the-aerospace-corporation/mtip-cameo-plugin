@@ -1,7 +1,7 @@
 <plugin
         id="MTIPCSMPlugin"
         name="MTIP Plugin"
-        version="1.0.5"
+        version="1.0.6"
         provider-name="MTIP"
         class="org.aero.mtip.MTIPCSMPlugin">
 

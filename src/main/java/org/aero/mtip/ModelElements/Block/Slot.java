@@ -85,7 +85,7 @@ public class Slot extends CommonElement {
 					propertySlot.getValue().add(valueSpecification);
 					ModelHelper.setSlotValue(propertySlot, value);
 				} else {
-					ImportLog.log("Value specification was null for slot with id:" + propertySlot.getLocalID());
+					ImportLog.log("Value specification was null for slot with id:" + propertySlot.getID());
 				}
 				
 			}

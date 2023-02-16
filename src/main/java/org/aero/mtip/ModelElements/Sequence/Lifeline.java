@@ -57,7 +57,7 @@ public class Lifeline extends CommonElement {
 				newElement = ImportXmlSysml.buildElement(project, parsedXML, dependentElementXML, coveredByID);
 			}
 			if(newElement != null) {
-				modelElement.setCoveredByID(coveredByID, newElement.getLocalID());
+				modelElement.setCoveredByID(coveredByID, newElement.getID());
 			}
 		}
 	}

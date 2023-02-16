@@ -40,7 +40,7 @@ public class MetaClass extends CommonElement {
 		// StereotypesHelper.getMetaClassByName(project, "Class");
 		if (!(sysmlElement == null)) {
 			CameoUtils.logGUI("Creating metaclass with name: " + this.name);
-			CameoUtils.logGUI(sysmlElement.getLocalID());
+			CameoUtils.logGUI(sysmlElement.getID());
 			SessionManager.getInstance().closeSession(project);
 			
 		} else {

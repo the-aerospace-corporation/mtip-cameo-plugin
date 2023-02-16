@@ -55,11 +55,11 @@ public class ValidationRuleGenerator {
 	}
 	
 	private static String createCompositionBody(Element supplier, Element client) {
-		return ValidationRuleGenerator.compositionBody1 + supplier.getLocalID() + ValidationRuleGenerator.compositionBody2 + supplier.getLocalID() + ValidationRuleGenerator.compositionBody3 + client.getLocalID() + ValidationRuleGenerator.compositionBody4;
+		return ValidationRuleGenerator.compositionBody1 + supplier.getID() + ValidationRuleGenerator.compositionBody2 + supplier.getID() + ValidationRuleGenerator.compositionBody3 + client.getID() + ValidationRuleGenerator.compositionBody4;
 	}
 	
 	private static String createAggregationBody(Element supplier, Element client) {
-		return ValidationRuleGenerator.aggregationBody1 + supplier.getLocalID() + ValidationRuleGenerator.aggregationBody2 + supplier.getLocalID() + ValidationRuleGenerator.aggregationBody3 + client.getLocalID() + ValidationRuleGenerator.aggregationBody4;
+		return ValidationRuleGenerator.aggregationBody1 + supplier.getID() + ValidationRuleGenerator.aggregationBody2 + supplier.getID() + ValidationRuleGenerator.aggregationBody3 + client.getID() + ValidationRuleGenerator.aggregationBody4;
 	}
 	
 	private static String compositionBody1 = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n" + 

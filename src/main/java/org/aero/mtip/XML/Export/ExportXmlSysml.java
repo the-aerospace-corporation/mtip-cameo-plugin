@@ -182,8 +182,8 @@ public class ExportXmlSysml {
 			if(!parent.equals(project.getPrimaryModel())) {
 				exportElementRecursiveUp(parent, xmlDoc);
 			}
-			ExportLog.log("Parent element of element with id " + element.getLocalID() + " is null.");
-			CameoUtils.logGUI("Parent element of element with id " + element.getLocalID() + " is null.");
+			ExportLog.log("Parent element of element with id " + element.getID() + " is null.");
+			CameoUtils.logGUI("Parent element of element with id " + element.getID() + " is null.");
 		}
 		if(element instanceof TypedElement) {
 			TypedElement typedElement = (TypedElement)element;
@@ -248,15 +248,15 @@ public class ExportXmlSysml {
 			for(Element element : elementsInPackage) {
 				//export elements that are not packages
 				String elementName = element.getHumanName();
-				if(!(element instanceof Package) && !elementName.equals("Profile Application")) {
-					if(!elementName.equals("Package Import") || elementName.equals("Package Import") && !CameoUtils.isModel(element.getOwner(), project)) {
-						CameoUtils.logGUI("Exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getLocalID());
+				if(!(element instanceof Package) && 
+						!elementName.equals("Profile Application") &&
+						!(element instanceof PackageImport) &&
+						!(element instanceof Profile)) {
+						
+						CameoUtils.logGUI("Exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getID());
 						exportElementRecursive(element, project, xmlDoc);
-					} else {
-						CameoUtils.logGUI("Not exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getLocalID());
-					}
 				} else {
-					CameoUtils.logGUI("Not exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getLocalID());
+					CameoUtils.logGUI("Not exporting " + element.getHumanType() + " " + element.getHumanName() + " as element " + element.getID());
 				}
 			}
 		}
@@ -295,11 +295,11 @@ public class ExportXmlSysml {
 		
 		//Check if package is a model and export as model if it is
 		if(CameoUtils.isModel(pkg, project)) {
-			commonElement = cef.createElement(SysmlConstants.MODEL,  namedElement.getName(), pkg.getLocalID());
+			commonElement = cef.createElement(SysmlConstants.MODEL,  namedElement.getName(), pkg.getID());
 		} else if(CameoUtils.isProfile(pkg, project)) {
-			commonElement = cef.createElement(SysmlConstants.PROFILE, namedElement.getName(), pkg.getLocalID());
+			commonElement = cef.createElement(SysmlConstants.PROFILE, namedElement.getName(), pkg.getID());
 		} else{		
-			commonElement = cef.createElement(SysmlConstants.PACKAGE,  namedElement.getName(), pkg.getLocalID());
+			commonElement = cef.createElement(SysmlConstants.PACKAGE,  namedElement.getName(), pkg.getID());
 		}
 		commonElement.writeToXML(pkg, project, xmlDoc);
 	}
@@ -612,11 +612,10 @@ public class ExportXmlSysml {
 						hasStereotypeClassifier = true;
 					}
 				}
+				// Slots of stereotypes are captured as tagged values in the attributes block.
 				if(!hasStereotypeClassifier) {
 					commonElementType = SysmlConstants.SLOT;
 					CameoUtils.logGUI("Exporting Slot");
-				} else {
-					CameoUtils.logGUI("Slots of stereotypes are capture as Tagged Values.");
 				}
 			}
 		} else if(SysMLProfile.isStakeholder(element)) {
@@ -762,27 +761,28 @@ public class ExportXmlSysml {
 //				CameoUtils.logGUI("DiagramList type: " + str);
 //			}
 			
+		} else {
+			if(!CameoUtils.isNotExplicitlySupported(element)) {
+				String message = "Element with type: " + element.getHumanType() + " is not supported yet!!!";
+				ExportLog.log(message);
+				CameoUtils.logGUI(message);
+			}
 		}
-		else {
-			String message = "Element with type: " + element.getHumanType() + " is not supported yet!!!";
-			ExportLog.log(message);
-			CameoUtils.logGUI(message);
-		}
-		if(!exportedElements.containsKey(element.getLocalID())) {
+		if(!exportedElements.containsKey(element.getID())) {
 			if(commonElementType != null) {
 				CommonElementsFactory cef = new CommonElementsFactory();
 				CommonElement commonElement = null;
 				
 				if(element instanceof NamedElement) {
 					//Check if ID already exists from previous import
-					CameoUtils.logGUI("\tElement named: " +  ((NamedElement)element).getName() + " with id: " + element.getLocalID());
-					commonElement = cef.createElement(commonElementType,  ((NamedElement)element).getName(), element.getLocalID());
+					CameoUtils.logGUI("\tElement named: " +  ((NamedElement)element).getName() + " with id: " + element.getID());
+					commonElement = cef.createElement(commonElementType,  ((NamedElement)element).getName(), element.getID());
 				} else {
-					CameoUtils.logGUI("\tElement named: " +  element.getHumanName() + " with id: " + element.getLocalID());
-					commonElement = cef.createElement(commonElementType, "", element.getLocalID());
+					CameoUtils.logGUI("\tElement named: " +  element.getHumanName() + " with id: " + element.getID());
+					commonElement = cef.createElement(commonElementType, "", element.getID());
 				}
 				commonElement.writeToXML(element, project, xmlDoc);
-				exportedElements.put(element.getLocalID(), "");
+				exportedElements.put(element.getID(), "");
 			}
 			
 			if(commonRelationshipType != null) {
@@ -792,25 +792,25 @@ public class ExportXmlSysml {
 				CommonRelationship commonRelationship = null;
 				if(element instanceof NamedElement) {
 					name = ((NamedElement)element).getName();
-					CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getLocalID());
-					commonRelationship = crf.createElement(commonRelationshipType, name, element.getLocalID());
+					CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getID());
+					commonRelationship = crf.createElement(commonRelationshipType, name, element.getID());
 				} else {
 					name = element.getHumanName();
-					CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getLocalID());
-					commonRelationship = crf.createElement(commonRelationshipType, "", element.getLocalID());
+					CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getID());
+					commonRelationship = crf.createElement(commonRelationshipType, "", element.getID());
 				}
 				commonRelationship.writeToXML(element, project, xmlDoc);
-				exportedElements.put(element.getLocalID(), "");
+				exportedElements.put(element.getID(), "");
 				// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
-				if(!exportedElements.containsKey(commonRelationship.getSupplier().getLocalID())) {
+				if(!exportedElements.containsKey(commonRelationship.getSupplier().getID())) {
 					exportElement(commonRelationship.getSupplier(), project, xmlDoc);
 				}
-				if(!exportedElements.containsKey(commonRelationship.getClient().getLocalID())) {
+				if(!exportedElements.containsKey(commonRelationship.getClient().getID())) {
 					exportElement(commonRelationship.getClient(), project, xmlDoc);
 				}
 			}
 		} else {
-			CameoUtils.logGUI("Duplicate element with id " + element.getLocalID() + " not exported.");
+			CameoUtils.logGUI("Duplicate element with id " + element.getID() + " not exported.");
 		}
 		
 	}

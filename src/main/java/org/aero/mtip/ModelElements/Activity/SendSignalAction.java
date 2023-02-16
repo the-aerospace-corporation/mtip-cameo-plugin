@@ -56,7 +56,7 @@ public class SendSignalAction extends ActivityNode {
 		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction ssa = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction)element;
 		Signal signal = ssa.getSignal();
 		if(signal != null) {
-			CameoUtils.logGUI("Send signal action with id " + this.EAID + " has signal with id " + signal.getLocalID());
+			CameoUtils.logGUI("Send signal action with id " + this.EAID + " has signal with id " + signal.getID());
 			org.w3c.dom.Element signalTag = createRel(xmlDoc, signal, XmlTagConstants.SIGNAL_TAG);
 			relationships.appendChild(signalTag);
 		} else {

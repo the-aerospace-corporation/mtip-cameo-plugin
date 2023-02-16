@@ -74,7 +74,7 @@ public class AssociationBlock extends CommonElement {
 			if(parsedXML.containsKey(clientID)) {
 				Element client = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientID);
 				modelElement.setClientElement(client);
-				modelElement.addAttribute("client", client.getLocalID());
+				modelElement.addAttribute("client", client.getID());
 			} else {
 				CameoUtils.logGUI("No data tag found for client id: " + clientID);
 			}
@@ -86,7 +86,7 @@ public class AssociationBlock extends CommonElement {
 			if(parsedXML.containsKey(supplierID)) {
 				Element supplier = ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getSupplier());
 				modelElement.setSupplierElement(supplier);
-				modelElement.addAttribute("supplier",  supplier.getLocalID());
+				modelElement.addAttribute("supplier",  supplier.getID());
 			} else {
 				CameoUtils.logGUI("No data tag found for supplier id: " + supplierID);
 			}

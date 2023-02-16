@@ -100,7 +100,7 @@ public class ImportXmlSysml {
     public static void parseXML(Document doc, Element start) throws NullPointerException {
     	if(start == null) {
 			primaryLocation = project.getPrimaryModel();
-			CameoUtils.logGUI("\nMounting project on package," + primaryLocation.getHumanName() + " with id: " + primaryLocation.getLocalID());
+			CameoUtils.logGUI("\nMounting project on package," + primaryLocation.getHumanName() + " with id: " + primaryLocation.getID());
 		} else {
 			primaryLocation = start;
 		}
@@ -376,7 +376,7 @@ public class ImportXmlSysml {
 			
 			if(clientEAID.startsWith("_9_") && client == null) {
 				client = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
-				CameoUtils.logGUI(client.getLocalID());
+				CameoUtils.logGUI(client.getID());
 			}
 			if(client == null) {
 				XMLItem clientElement = parsedXML.get(clientEAID);
@@ -416,7 +416,7 @@ public class ImportXmlSysml {
 			if (!modelElement.isCreated()) {
 				CameoUtils.logGUI("Physically creating Relationship in Cameo. Supplier and client have been created.");
 				if(owner != null) {
-					CameoUtils.logGUI("Setting owner to element with id " + owner.getLocalID());
+					CameoUtils.logGUI("Setting owner to element with id " + owner.getID());
 				} else {
 					CameoUtils.logGUI("Owner is null. Relationship will be placed in the main model.");
 				}
@@ -493,7 +493,7 @@ public class ImportXmlSysml {
 				element.createDependentElements(project, parsedXML, modelElement);
 				Element newElement = element.createElement(project, owner, modelElement);
 				if(newElement != null) {
-					String GUID = newElement.getLocalID();
+					String GUID = newElement.getID();
 					modelElement.setCameoID(GUID);
 					pluginCreatedIDs.put(GUID, "");
 					parentMap.put(id, GUID);
@@ -501,7 +501,7 @@ public class ImportXmlSysml {
 					element.addStereotypeTaggedValues(modelElement);					
 					element.addDependentElements(parsedXML, modelElement);
 					if(ownerElement != null) {
-						CameoUtils.logGUI("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with original id: " + modelElement.getEAID() + " and new id: " + newElement.getLocalID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
+						CameoUtils.logGUI("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with original id: " + modelElement.getEAID() + " and new id: " + newElement.getID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 						ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + ownerElement.getAttribute("name") + " with id " + ownerElement.getParent() + "and cameo id " + ownerElement.getCameoID());
 					} else {
 						ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with no initial owner.");
@@ -528,7 +528,7 @@ public class ImportXmlSysml {
 		return owner;
 	}
 	
-	//Get stereotypes from paredXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
+	//Get stereotypes from parssedXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
 	public static void addStereotypes(Element newElement, XMLItem modelElement) {
 		HashMap<String, String> stereotypes = modelElement.getStereotypes();
 		if(!MapUtils.isEmpty(stereotypes)) {
@@ -1242,7 +1242,7 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element getParent(Element element) {
-		return (Element) ImportXmlSysml.project.getElementByID(ImportXmlSysml.parentMap.get(element.getLocalID()));
+		return (Element) ImportXmlSysml.project.getElementByID(ImportXmlSysml.parentMap.get(element.getID()));
 	}
 	
 	@CheckForNull

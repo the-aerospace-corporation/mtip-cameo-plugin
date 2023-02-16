@@ -66,7 +66,7 @@ public class CombinedFragment extends CommonElement {
 //			List<String> interactionOperands = modelElement.getInteractionOperands();
 //			for(String interactionOperand : interactionOperands) {
 //				Element newInteractionOperand = ImportXmlSysml.buildElement(project, parsedXML, modelElement, interactionOperand);
-//				modelElement.addAttribute(CombinedFragment.newInteractionOperand, newInteractionOperand.getLocalID());
+//				modelElement.addAttribute(CombinedFragment.newInteractionOperand, newInteractionOperand.getID());
 //			}
 //		}
 //	}

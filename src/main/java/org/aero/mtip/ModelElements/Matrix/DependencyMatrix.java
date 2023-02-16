@@ -102,7 +102,7 @@ public class DependencyMatrix extends AbstractMatrix {
 		try {
 			Slot rowElementTypeSlot = StereotypesHelper.getSlot(element, rowElementTypeProperty, false);
 		} catch (NullPointerException npe) {
-			CameoUtils.logGUI("No rowElementType has been selected for depedency matrix with id: " + element.getLocalID());
+			CameoUtils.logGUI("No rowElementType has been selected for depedency matrix with id: " + element.getID());
 		}
 		
 //		Element rowElementTypeElement = (Element) InstanceSpecificationHelper.getValueBySlot(rowElementTypeSlot);
