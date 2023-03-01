@@ -21,6 +21,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 public class XMLItem {
 	private String type = "";
 	private String category = "";
+	private List<String> ids = new ArrayList<String>( );
+	private HashMap<String, String> idsByName = new HashMap<String, String> ();
 	private String ea_id = "";
 	private String cameo_id = "";
 	private String parent = "";
@@ -79,6 +81,15 @@ public class XMLItem {
 	public void setType(String type) {
 		this.type = type;
 		setCategory();
+	}
+	public void addId(String id) {
+		this.ids.add(id);
+	}
+	public void addIdWithType(String idName, String id) {
+		this.idsByName.put(idName, id);
+	}
+	public List<String> getIds() {
+		return this.ids;
 	}
 	public void setEAID(String ea_id) {
 		this.ea_id = ea_id;

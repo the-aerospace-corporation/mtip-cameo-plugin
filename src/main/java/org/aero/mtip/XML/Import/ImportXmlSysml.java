@@ -7,6 +7,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.XML.Import;
 
 import java.awt.Rectangle;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +20,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.CheckForNull;
-import javax.swing.JOptionPane;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.ModelElements.CommonElement;
@@ -42,7 +43,6 @@ import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
-import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
@@ -439,7 +439,10 @@ public class ImportXmlSysml {
 				SessionManager.getInstance().closeSession(project);
 				if(newElement != null) {
 					String GUID = newElement.getID();
-					parentMap.put(id, GUID);
+					for (String curId : modelElement.getIds()) {
+						parentMap.put(curId, GUID);
+					}
+					
 					modelElement.setCameoID(GUID);
 					Map.Entry<Element, Element> entry = new AbstractMap.SimpleEntry<Element, Element>(supplier, client);
 					linktoPair.put(id, entry);
@@ -496,7 +499,9 @@ public class ImportXmlSysml {
 					String GUID = newElement.getID();
 					modelElement.setCameoID(GUID);
 					pluginCreatedIDs.put(GUID, "");
-					parentMap.put(id, GUID);
+					for (String curId : modelElement.getIds()) {
+						parentMap.put(curId, GUID);
+					}
 					addStereotypes(newElement, modelElement);
 					element.addStereotypeTaggedValues(modelElement);					
 					element.addDependentElements(parsedXML, modelElement);
@@ -579,9 +584,14 @@ public class ImportXmlSysml {
 						
 						//Add model element attributes to parsedXML hashmap passed back to main function
 						if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())) {
-							modelElements.put(modelElement.getEAID(),  modelElement);
+							for (String id : modelElement.getIds()) {
+								modelElements.put(id,  modelElement);
+							}
+							
 							if(modelElement.getType().contentEquals("Stereotype")) {
-								stereotypesXML.put(modelElement.getEAID(), modelElement);
+								for (String id : modelElement.getIds()) {
+									stereotypesXML.put(id,  modelElement);
+								}
 							}
 							if(modelElement.getType().contentEquals(SysmlConstants.PROPERTY)) {
 								if(modelElement.getParent() != null) {
@@ -1190,9 +1200,12 @@ public class ImportXmlSysml {
 		for(int k = 0; k < idNodes.getLength(); k++) {
 			Node idNode = idNodes.item(k);
 			if(idNode.getNodeType() == Node.ELEMENT_NODE) {
+				// Add all Ids to object
+				modelElement.addId(idNode.getTextContent());
+				modelElement.addIdWithType(idNode.getNodeName(), idNode.getTextContent());
+				
 				if(idNode.getNodeName().contentEquals(XmlTagConstants.HUDDLE_ID)) {
 					modelElement.setEAID(idNode.getTextContent());
-					return modelElement;
 				}
 				modelElement.setEAID(idNode.getTextContent());
 			}
