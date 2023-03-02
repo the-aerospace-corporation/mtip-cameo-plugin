@@ -22,6 +22,7 @@ import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
+import org.apache.commons.collections.KeyValue;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -210,15 +211,15 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		return sysmlElement;
 	}
 	
-	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> locations, XMLItem xmlElement) {
+	public boolean addElements(Project project, Diagram diagram, HashMap<Element, Rectangle> elements, XMLItem xmlElement) {
 		boolean noPosition = false;
 		try {
 			DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
 			exportingDiagram = (Element)diagram;
 			int counter = 0;
 			
-			for (Element element : elements) {
-				noPosition = createPresentationElement(project, element, locations, presentationDiagram, counter, noPosition);
+			for (Map.Entry<Element, Rectangle> entry : elements.entrySet()) {
+				noPosition = createPresentationElement(project, entry.getKey(), entry.getValue(), presentationDiagram, counter, noPosition);
 				counter++;
 			}
 		} catch (ReadOnlyElementException e) {
@@ -227,8 +228,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		return noPosition;
 	}
 	
-	public boolean createPresentationElement(Project project, Element element, List<Rectangle> locations, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {
-		Rectangle location = locations.get(counter);
+	public boolean createPresentationElement(Project project, Element element, Rectangle location, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {
 		Point point = new Point(location.x, location.y);
 		
 		ShapeElement shape = null;
@@ -301,7 +301,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		List<String> diagramElements = modelElement.getChildElements(parsedXML);
 		for(String diagramElement : diagramElements) {
 			XMLItem diagramElementXML = parsedXML.get(diagramElement);

@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.InternalBlock;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -167,7 +167,7 @@ public class Connector extends CommonRelationship {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		CameoUtils.logGUI("\t...Creating dependent elements for connector with id: " + modelElement.getEAID());
 		String supplierPartWithPortID = modelElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT);
 		String clientPartWithPortID = modelElement.getAttribute(XmlTagConstants.CLIENT_PART_WITH_PORT);

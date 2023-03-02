@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -68,7 +68,7 @@ public class AssociationBlock extends CommonElement {
 		return (Element)associationClass;
 	}
 	
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasClient()) {
 			String clientID = modelElement.getClient();
 			if(parsedXML.containsKey(clientID)) {

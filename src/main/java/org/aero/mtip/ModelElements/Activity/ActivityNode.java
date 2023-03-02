@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -41,7 +41,7 @@ public abstract class ActivityNode extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		super.createDependentElements(project, parsedXML, modelElement);
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY)) {
 			String activityId = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY);

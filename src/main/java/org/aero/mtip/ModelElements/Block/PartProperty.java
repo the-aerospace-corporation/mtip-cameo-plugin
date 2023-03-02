@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.CameoUtils;
@@ -46,7 +46,7 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		CameoUtils.logGUI("\t...Creating dependent elements for PartProperty with id: " + modelElement.getEAID());
 		
 		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {

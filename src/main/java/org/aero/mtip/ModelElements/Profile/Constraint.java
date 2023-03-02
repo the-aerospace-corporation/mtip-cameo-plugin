@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Profile;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -59,7 +59,7 @@ public class Constraint extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		for(String constrainedElement : modelElement.getConstrainedElements()) {
 			if(constrainedElement.contentEquals("_9_0_62a020a_1105704885343_144138_7929")) {
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");

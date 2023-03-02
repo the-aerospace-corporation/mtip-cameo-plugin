@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Sequence;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -46,7 +46,7 @@ public class Lifeline extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		List<String> coveredBy = modelElement.getCoveredBy();
 		for(String coveredByID : coveredBy) {
 			XMLItem dependentElementXML = parsedXML.get(coveredByID);

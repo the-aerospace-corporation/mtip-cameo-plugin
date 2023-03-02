@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.InternalBlock;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -49,7 +49,7 @@ public class ConstraintProperty extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		CameoUtils.logGUI("\t...Creating dependent elements for PartProperty with id: " + modelElement.getEAID());
 		
 		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {

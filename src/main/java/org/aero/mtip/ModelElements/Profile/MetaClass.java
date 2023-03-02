@@ -31,17 +31,12 @@ public class MetaClass extends CommonElement {
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Profile Element");
-		}
-		
 		sysmlElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::" + this.name);
 		// Add checks for other metaclass profiles (i.e. SysML)
 		// StereotypesHelper.getMetaClassByName(project, "Class");
 		if (!(sysmlElement == null)) {
 			CameoUtils.logGUI("Creating metaclass with name: " + this.name);
 			CameoUtils.logGUI(sysmlElement.getID());
-			SessionManager.getInstance().closeSession(project);
 			
 		} else {
 			sysmlElement = f.createClassInstance();

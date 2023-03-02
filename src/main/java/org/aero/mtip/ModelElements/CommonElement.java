@@ -11,7 +11,6 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
@@ -133,7 +132,7 @@ public abstract class CommonElement {
 		}
 	}
 	
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasTaggedValues()) {
 			for(TaggedValue tv : modelElement.getTaggedValues()) {
 				if(tv.getValueType().contentEquals(SysmlConstants.ELEMENT)) {
@@ -158,7 +157,7 @@ public abstract class CommonElement {
 		}
 	}
 	
-	public void addDependentElements(Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void addDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		
 	}
 	

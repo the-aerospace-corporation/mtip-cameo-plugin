@@ -8,8 +8,8 @@ package org.aero.mtip.ModelElements.Block;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -103,7 +103,7 @@ public class Slot extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)) {
 			ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY));
 		}

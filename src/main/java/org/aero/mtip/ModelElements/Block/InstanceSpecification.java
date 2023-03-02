@@ -7,8 +7,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -44,7 +44,7 @@ public class InstanceSpecification extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.CLASSIFIED_BY)) {
 			if(parsedXML.containsKey(modelElement.getAttribute(XmlTagConstants.CLASSIFIED_BY))) {
 				Classifier classifier = (Classifier)ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.CLASSIFIED_BY));

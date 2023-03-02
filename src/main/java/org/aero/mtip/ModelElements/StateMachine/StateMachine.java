@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.StateMachine;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -36,7 +36,7 @@ public class StateMachine extends CommonElement {
 		return sysmlElement;
 	}
 	
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
 			String submachineID = modelElement.getSubmachine();
 			XMLItem submachine = parsedXML.get(submachineID);

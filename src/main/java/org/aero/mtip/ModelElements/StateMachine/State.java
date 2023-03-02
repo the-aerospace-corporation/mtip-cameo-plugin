@@ -7,7 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -47,12 +47,12 @@ public class State extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		
 	}
 	
 	@Override
-	public void addDependentElements(Map<String, XMLItem> parsedXML, XMLItem xmlElement) {
+	public void addDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;
 
 		if(xmlElement.hasAttribute(XmlTagConstants.DO_ACTIVITY)) {

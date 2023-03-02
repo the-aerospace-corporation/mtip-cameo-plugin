@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.SysmlConstants;
@@ -16,7 +16,6 @@ import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.Behavior;
 
 public class DecisionNode extends ActivityNode {
@@ -30,7 +29,7 @@ public class DecisionNode extends ActivityNode {
 	}
 	
 	@Override
-	public void addDependentElements(Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void addDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		// Create decision input to be assigned to decision node, should it exist
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT)) {
 			Element decisionInput = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT)), modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT));

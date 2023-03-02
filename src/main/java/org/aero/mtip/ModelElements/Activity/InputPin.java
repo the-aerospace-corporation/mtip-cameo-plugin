@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.CameoUtils;
@@ -34,7 +34,6 @@ public class InputPin extends ActivityNode {
 		
 		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.InputPin inputPin = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.InputPin)element;
 		
-		
 		if(xmlElement.hasAttribute(XmlTagConstants.SYNC_ELEMENT)) {
 			element.setSyncElement((Element) project.getElementByID(xmlElement.getAttribute(ImportXmlSysml.idConversion(XmlTagConstants.SYNC_ELEMENT))));
 		}
@@ -42,13 +41,14 @@ public class InputPin extends ActivityNode {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		super.createDependentElements(project, parsedXML, modelElement);
 		if(modelElement.hasAttribute(XmlTagConstants.SYNC_ELEMENT)) {
 			String syncElementId = modelElement.getAttribute(XmlTagConstants.SYNC_ELEMENT);
 			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(syncElementId), syncElementId);
 		}
 	}
+	@Override
 	public void setOwner(Project project, Element owner) {
 		if(!(owner instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.Action)) {
 			owner = CameoUtils.findNearestActivity(project, owner);

@@ -7,6 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements;
 
 import java.awt.Rectangle;
+import java.util.HashMap;
 import java.util.List;
 
 import org.aero.mtip.util.XMLItem;
@@ -31,6 +32,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 
 public interface ModelDiagram  {
-	public boolean addElements(Project project, Diagram diagram, List<Element> elements, List<Rectangle> elementsLocations, XMLItem xmlElement);
+	public boolean addElements(Project project, Diagram diagram, HashMap<Element, Rectangle> elements, XMLItem xmlElement);
 	public void addRelationships(Project project, Diagram diagram, List<Element> relationships);
 }

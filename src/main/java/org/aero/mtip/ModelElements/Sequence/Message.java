@@ -7,7 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Sequence;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -61,7 +61,7 @@ public class Message extends CommonRelationship {
 		return sysmlElement;
 	}
 	
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT)) {
 			String receiveEvent = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_RECEIVE_EVENT);
 			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(receiveEvent), receiveEvent);

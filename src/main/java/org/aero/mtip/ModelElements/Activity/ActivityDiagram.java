@@ -91,8 +91,7 @@ public class ActivityDiagram extends AbstractDiagram {
 	}
 	
 	@Override
-	public boolean createPresentationElement(Project project, Element element, List<Rectangle> locations, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {
-		Rectangle location = locations.get(counter);
+	public boolean createPresentationElement(Project project, Element element, Rectangle location, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {
 		Point point = new Point(location.x, location.y);
 		
 		ShapeElement shape = null;

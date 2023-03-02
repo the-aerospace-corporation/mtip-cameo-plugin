@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.StateMachine;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import javax.annotation.CheckForNull;
 
@@ -68,7 +68,7 @@ public class Trigger extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		CameoUtils.logGUI("Creating dependent elements for trigger...");
 		if(modelElement.hasAcceptEventAction()) {	
 			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());

@@ -6,7 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.SysmlConstants;
@@ -40,7 +40,7 @@ public class CallOperationAction extends ActivityNode {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, Map<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		Element operation = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
 		modelElement.setNewOperation(operation.getID());
 	}
