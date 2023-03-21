@@ -24,7 +24,6 @@ import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
@@ -49,7 +48,8 @@ public class SequenceDiagram  extends AbstractDiagram {
 	
 	public SequenceDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
+		 //SysMLConstants.SYSML_SEQUENCE_DIAGRAM
+		 this.sysmlConstant = "SysML Sequence Diagram";
 		 this.xmlConstant = XmlTagConstants.SEQUENCEDIAGRAM;
 		 this.allowableElements = SysmlConstants.SEQ_TYPES;
 	}
@@ -195,7 +195,7 @@ public class SequenceDiagram  extends AbstractDiagram {
 	
 	@Override
 	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
+		return this.sysmlConstant;
 	}
 	
 	@Override

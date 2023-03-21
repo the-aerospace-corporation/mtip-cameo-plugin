@@ -17,14 +17,14 @@ public class ProfileDiagram extends AbstractDiagram {
 
 	public ProfileDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysmlConstants.PROFILEDIAGRAM;
+		 this.sysmlConstant = "Profile Diagram";
 		 this.xmlConstant = XmlTagConstants.PROFILEDIAGRAM;
 		 this.allowableElements = SysmlConstants.PROFILEDIAGRAM_TYPES;
 	}
 	
 	@Override
 	public String getSysmlConstant() {
-		return 	DiagramTypeConstants.UML_PROFILE_DIAGRAM;
+		return this.sysmlConstant;
 	}
 	
 	@Override

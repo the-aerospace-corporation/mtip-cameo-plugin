@@ -83,6 +83,7 @@ import org.aero.mtip.ModelElements.Profile.Class;
 import org.aero.mtip.ModelElements.Profile.ClassDiagram;
 import org.aero.mtip.ModelElements.Profile.Constraint;
 import org.aero.mtip.ModelElements.Profile.Customization;
+import org.aero.mtip.ModelElements.Profile.DataType;
 import org.aero.mtip.ModelElements.Profile.MetaClass;
 import org.aero.mtip.ModelElements.Profile.OpaqueExpression;
 import org.aero.mtip.ModelElements.Profile.PackageDiagram;
@@ -240,6 +241,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.DATA_STORE_NODE:
 				element = new DataStoreNode(name, EAID);
+				break;
+			case SysmlConstants.DATA_TYPE:
+				element = new DataType(name, EAID);
 				break;
 			case SysmlConstants.DECISION_NODE:
 				element = new DecisionNode(name, EAID);

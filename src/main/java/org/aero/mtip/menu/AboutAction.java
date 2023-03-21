@@ -18,16 +18,14 @@ import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
  * Action creates a dialog, displaying the plugin description.
  */
 @SuppressWarnings("serial")
-public class AboutAction extends MDAction
-{
-	public static String VERSION = "1.0.8";
-	public AboutAction(String id, String name)
-	{
+public class AboutAction extends MDAction {
+	public static String VERSION = "Development version MTIP 2021x.b009"
+			+ ".";
+	public AboutAction(String id, String name) {
 		super(id, name, null, null);
 	}
 	
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		//Display information about the plugin.
 		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogParent(),
 				"Modeling Tool Integration Plugin for Cameo Systems Modeler (MTIP-CSM Plugin)\n\n"

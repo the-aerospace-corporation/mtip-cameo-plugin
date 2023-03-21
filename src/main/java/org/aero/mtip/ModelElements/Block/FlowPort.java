@@ -43,7 +43,8 @@ public class FlowPort extends CommonElement {
 //		    System.out.println(c);
 //		SysMLUtilities.setDirectionForFlowPort(port,  SysMLProfile.FLOWDIRECTION_IN_LITERAL);
 		
-		SysMLHelper.setDirectionFlowPort(port, SysMLProfile.FLOWDIRECTION_IN_LITERAL);
+		// Removed as of 2021x
+		//SysMLHelper.setDirectionFlowPort(port, SysMLProfile.FLOWDIRECTION_IN_LITERAL);
 		return port;
 	}
 }

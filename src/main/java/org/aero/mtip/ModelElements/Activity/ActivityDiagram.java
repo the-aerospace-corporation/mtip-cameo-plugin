@@ -24,7 +24,6 @@ import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
@@ -40,7 +39,8 @@ public class ActivityDiagram extends AbstractDiagram {
 	protected Map<String, PresentationElement> presentationElementById = new HashMap<String, PresentationElement> ();
 	public ActivityDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
+		 //SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
+		 this.sysmlConstant = "SysML Activity Diagram";
 		 this.xmlConstant = XmlTagConstants.ACTIVITYDIAGRAM;
 		 this.allowableElements = SysmlConstants.ACT_TYPES;
 	}
@@ -116,7 +116,7 @@ public class ActivityDiagram extends AbstractDiagram {
 	
 	@Override
 	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
+		return this.sysmlConstant;
 	}
 	
 	@Override

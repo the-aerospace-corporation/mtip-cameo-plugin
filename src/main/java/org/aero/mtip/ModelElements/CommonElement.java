@@ -30,6 +30,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.jmi.helpers.TagsHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
@@ -43,7 +44,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
@@ -365,7 +365,136 @@ public abstract class CommonElement {
 			ExportLog.log(message);
 			CameoUtils.logGUI(message);
 		}
+	}
+	
+	public String getTaggedValueType(Object value) {
+		// Find Primitive Types
+		if (value instanceof Boolean) {
+			return SysmlConstants.BOOLEAN;
+		} else if (value instanceof String) {
+			return SysmlConstants.STRING;
+		} else if (value instanceof Double) {
+			return SysmlConstants.REAL;
+		} else if (value instanceof Integer) {
+			return SysmlConstants.INTEGER;
+		} else if (value instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral) {
+			return SysmlConstants.ENUMERATIONLITERAL;
+		} else if (value instanceof Element) {
+			return SysmlConstants.ELEMENT;
+		}
 		return null;
+	}
+	
+	@CheckForNull
+	public String getTaggedValueValueAsString(String valueType, Object value) {
+		// Find Primitive Types
+		if (valueType.contentEquals(SysmlConstants.BOOLEAN)) {
+			return SysmlConstants.BOOLEAN;
+		} else if (valueType.contentEquals(SysmlConstants.STRING)) {
+			return (String)value;
+		} else if (valueType.equals(SysmlConstants.REAL)) {
+			return Double.toString((Double)value);
+		} else if (valueType.contentEquals(SysmlConstants.INTEGER)) {
+			return Integer.toString((Integer)value);
+		} else if (valueType.contentEquals(SysmlConstants.ENUMERATIONLITERAL)) {
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral literal = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral)value;
+			return literal.getName();
+		} else if (valueType.equals(SysmlConstants.ELEMENT)) {
+			return ((Element)value).getLocalID();
+		}		
+		return value.toString();
+	}
+	
+//	@CheckForNull
+//	public String getTaggedValueValueAsString(Object value) {
+//		String strVal = null;
+//		if(value instanceof LiteralString) {
+//			LiteralString ls = (LiteralString)value;
+//			strVal = ls.getValue();
+//		} else if(value instanceof LiteralReal) {
+//			LiteralReal lr = (LiteralReal)value;
+//			double tempVal = lr.getValue();
+//			strVal = String.valueOf(tempVa;);
+//		} else if(value instanceof LiteralInteger) {
+//			LiteralInteger lr = (LiteralInteger)value;
+//			int tempVal = lr.getValue();
+//			strVal = String.valueOf(tempVal);
+//		} else if(vs instanceof LiteralBoolean) {
+//			LiteralBoolean lr = (LiteralBoolean)value;
+//			boolean tempVal = lr.isValue();
+//			strVal = String.valueOf(value);
+//		} else if(vs instanceof ElementValue) {
+//			ElementValue ev = (ElementValue)vs;
+//			strVal = ev.getElement().getLocalID();
+//		} else if(vs instanceof OpaqueExpression) {
+//			OpaqueExpression oe = (OpaqueExpression)vs;
+//			List<String> bodies = oe.getBody();
+//			Iterator<String> bodyIter = bodies.iterator();
+//			if(bodyIter.hasNext()) {
+//				strVal = bodyIter.next();
+//			}
+//		} else if(vs instanceof EnumerationLiteral) {
+//			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral literal = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral)vs;
+//			strVal = literal.getName();
+//		} else if(vs instanceof InstanceValue ) {
+//			strVal = ModelHelper.getValueString(vs);
+////			EnumerationLiteral  litVal = (EnumerationLiteral)ValueSpecificationHelper.getValueSpecficationValue(vs);
+////			InstanceValue iv = (InstanceValue)vs;
+////			InstanceSpecification is = iv.getInstance();
+////			ValueSpecification vs2 = is.getSpecification();
+////			strVal = getSlotValueAsString(vs2);
+//		}else {
+//			String message = "Value specification with id " + vs.getLocalID() + " was not string, real, int, bool, or opaque expression.";
+//			ExportLog.log(message);
+//			CameoUtils.logGUI(message);
+//		}
+//		return strVal;
+//	}
+	
+	public org.w3c.dom.Element createStereotypeAttributeTag(Document xmlDoc, String stereotypeName, String profileName, String propertyName, String valueType, Object value) {
+		org.w3c.dom.Element attribute = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		attribute.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		attribute.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.STEREOTYPE_TAGGED_VALUE);
+		
+		org.w3c.dom.Element stereotypeNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		stereotypeNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		stereotypeNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME);
+		stereotypeNameTag.appendChild(xmlDoc.createTextNode(stereotypeName));
+		attribute.appendChild(stereotypeNameTag);
+		
+		org.w3c.dom.Element profileNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		profileNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		profileNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME);
+		profileNameTag.appendChild(xmlDoc.createTextNode(profileName));		
+		
+		org.w3c.dom.Element taggedValueNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		taggedValueNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		taggedValueNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_NAME);
+		taggedValueNameTag.appendChild(xmlDoc.createTextNode(propertyName));
+		
+		org.w3c.dom.Element taggedValueTypeTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		taggedValueTypeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		taggedValueTypeTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_TYPE);
+		taggedValueTypeTag.appendChild(xmlDoc.createTextNode(valueType));
+		
+		String slotValue = getTaggedValueValueAsString(valueType, value);
+		
+		org.w3c.dom.Element taggedValueValueTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
+		taggedValueValueTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		taggedValueValueTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_VALUE);
+		taggedValueValueTag.appendChild(xmlDoc.createTextNode(slotValue));
+		
+		attribute.appendChild(taggedValueValueTag);
+		
+		//attribute.appendChild(listTag);
+		
+		attribute.appendChild(stereotypeNameTag);
+		attribute.appendChild(profileNameTag);
+		attribute.appendChild(taggedValueNameTag);
+		attribute.appendChild(taggedValueTypeTag);
+		
+		
+		return attribute;		
 	}
 	
 	public Element createClassWithStereotype(Project project, Stereotype stereotype, Element owner) {
@@ -376,6 +505,7 @@ public abstract class CommonElement {
 		
 		return element;
 	}
+	
 	public Element createClassWithStereotype(Project project, String name, Stereotype stereotype, Element owner) {
 		element = project.getElementsFactory().createClassInstance();
 	
@@ -613,30 +743,36 @@ public abstract class CommonElement {
 		
 		Classifier classifier = (Classifier) this.classifier;
 		ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) element, true);
-	}	
+	}
 	
 	public void addStereotypeTaggedValues(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
 			try {
+				// 2021x Update replaced with new tagged value methods	
 				CameoUtils.logGUI(tv.toString());
 				Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), tv.getProfileName());
 				Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), tv.getStereotypeName(), profile);
 				Property prop = StereotypesHelper.getPropertyByName(stereotype, tv.getValueName());
-				Slot slot = StereotypesHelper.getSlot(element, prop, true, false);
 				
-				if(tv.isMultiValue()) {
-					for(String value : tv.getValues()) {
-						ValueSpecification vs = createValueSpecification(tv.getValueType(), value);
-						if(value != null) {
-							slot.getValue().add(vs);
-						}
+				com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue taggedValue = TagsHelper.getTaggedValueOrCreate(element, stereotype, prop, false);
+				
+				if (tv.getValueType().contentEquals(SysmlConstants.ELEMENT)) {
+					Element valueElement = null;
+					if (CameoUtils.isAuxiliaryElement(tv.getValue())) {
+						valueElement = (Element) ImportXmlSysml.getProject().getElementByID(tv.getValue());
+					} else {
+						valueElement = (Element) ImportXmlSysml.getProject().getElementByID(ImportXmlSysml.idConversion(tv.getValue()));
+						taggedValue.addConvertedValue(valueElement);
+					}
+					if (valueElement != null) {
+						taggedValue.addConvertedValue(valueElement);
+					} else {
+						ImportLog.log("Could not find tagged value element with id" + tv.getValue());
 					}
 				} else {
-					ValueSpecification vs = createValueSpecification(tv.getValueType(), tv.getValue());
-					if(vs != null) {
-						slot.getValue().add(vs);
-					}
+					taggedValue.addConvertedValue(tv.getValue());
 				}
+				CameoUtils.logGUI("Set tagged value of " + tv.getValueName() + " to " + tv.getValue() + ".");
 			} catch (NullPointerException npe) {
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
@@ -646,8 +782,8 @@ public abstract class CommonElement {
 			}
 		}
 	}
-	
-	protected ValueSpecification createValueSpecification(String valueType, String value) {
+
+	protected ValueSpecification updateValue(String valueType, String value) {
 		if(valueType.contentEquals(SysmlConstants.STRING)) {
 			LiteralString ls = f.createLiteralStringInstance();
 			ls.setValue(value);

@@ -10,22 +10,19 @@ import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
-//import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.magicdraw.uml.DiagramTypeConstants;
-
 public class PackageDiagram  extends AbstractDiagram{
 
 	public PackageDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_PACKAGE_DIAGRAM;
+		 // SysMLConstants.SYSML_PACKAGE_DIAGRAM
+		 this.sysmlConstant = "SysML Package Diagram";
 		 this.xmlConstant = XmlTagConstants.PACKAGEDIAGRAM;
 		 this.allowableElements = SysmlConstants.PKG_TYPES;
 	}
 	
 	@Override
 	public String getSysmlConstant() {
-		return 	DiagramTypeConstants.UML_PACKAGE_DIAGRAM;
+		return this.sysmlConstant;
 	}
 	
 	@Override

@@ -286,6 +286,7 @@ public class CameoUtils {
 		return false;
 	}
 	
+
 	public static boolean isCameoID(String id) {
 		if(id.startsWith("_")) {
 			return true;
@@ -312,6 +313,13 @@ public class CameoUtils {
 		e.printStackTrace(pw);
 		
 		logGUI(sw.toString());
+	}
+	
+	public static boolean isAuxiliaryElement(String elementId) {
+		if (elementId.contains("beta") || elementId.startsWith("_11")) {
+			return true;
+		}
+		return false;
 	}
 	
 	@SuppressWarnings("deprecation")

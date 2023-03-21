@@ -20,8 +20,6 @@ import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.PartView;
@@ -35,14 +33,15 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 
 	public BlockDefinitionDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
+		 // SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM
+		 this.sysmlConstant = "SysML Block Definition Diagram";
 		 this.xmlConstant = XmlTagConstants.BLOCKDEFINITIONDIAGRAM;
 		 this.allowableElements = SysmlConstants.BDD_TYPES;
 	}
 	
 	@Override
 	public  String getSysmlConstant() {
-		return SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
+		return this.sysmlConstant;
 	}
 	
 	@Override
@@ -59,7 +58,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
 			this.shapeElements.put(element.getID(), shape);
 			noPosition = true;
-		} else if(MDCustomizationForSysMLProfile.isPartProperty(element) || MDCustomizationForSysMLProfile.isValueProperty(element)) {
+		} else if(CameoUtils.isPartProperty(element, project) || CameoUtils.isValueProperty(element, project)) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 			if(shape != null) {
 				PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);

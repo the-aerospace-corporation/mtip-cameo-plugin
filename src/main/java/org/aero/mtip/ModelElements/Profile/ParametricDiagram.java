@@ -10,20 +10,19 @@ import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-import com.nomagic.magicdraw.sysml.util.SysMLConstants;
-
 public class ParametricDiagram extends AbstractDiagram {
 
 	public ParametricDiagram(String name, String EAID) {
 		super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_PARAMETERIC_DIAGRAM;
+		// SysMLConstants.SYSML_PARAMETERIC_DIAGRAM
+		 this.sysmlConstant = "SysML Parametric Diagram";
 		 this.xmlConstant = XmlTagConstants.PARAMETRICDIAGRAM;
 		 this.allowableElements = SysmlConstants.PAR_TYPES;
 	}
 
 	@Override
 	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_PARAMETERIC_DIAGRAM;
+		return this.sysmlConstant;
 	}
 
 	@Override

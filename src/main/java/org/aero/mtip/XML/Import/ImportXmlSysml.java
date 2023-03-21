@@ -29,7 +29,6 @@ import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.apache.commons.collections.MapUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -175,8 +174,13 @@ public class ImportXmlSysml {
 		createSession(String.format("Create %s Element", modelElement.getType()));
 		
 		Diagram newDiagram = null;
+<<<<<<< HEAD
 	 
 //		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
+=======
+		
+		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
+>>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
 		project.getDiagram(newDiagram).open(); 
@@ -288,11 +292,10 @@ public class ImportXmlSysml {
 	//Get stereotypes from parssedXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
 	public static void addStereotypes(Element newElement, XMLItem modelElement) {
 		HashMap<String, String> stereotypes = modelElement.getStereotypes();
-		if(!MapUtils.isEmpty(stereotypes)) {
-			for(String stereotype : stereotypes.keySet()) {
-				addStereotype(newElement, stereotype, stereotypes.get(stereotype));
-				addStereotypeFields(newElement, modelElement);
-			}
+		
+		for(String stereotype : stereotypes.keySet()) {
+			addStereotype(newElement, stereotype, stereotypes.get(stereotype));
+			addStereotypeFields(newElement, modelElement);
 		}
 	}
 	

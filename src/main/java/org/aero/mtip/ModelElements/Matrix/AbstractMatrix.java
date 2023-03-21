@@ -65,7 +65,56 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 		writeRowElementTypes(attributes, element);
 		writeColumnScope(relationships, element);
 		writeRowScope(relationships, element);
-				
+		
+		
+		// 2021x Refactor to TaggedValues 
+//		Slot columnElementTypeSlot = StereotypesHelper.getSlot(element, columnElementTypeProperty, false);
+//		Slot rowElementTypeSlot = StereotypesHelper.getSlot(element, rowElementTypeProperty, false);
+//		Slot columnScopeSlot = StereotypesHelper.getSlot(element, columnScopeProperty, false);
+//		Slot rowScopeSlot = StereotypesHelper.getSlot(element, rowScopeProperty, false);
+		
+//		if(columnElementTypes != null) {
+//			org.w3c.dom.Element columnElementTypeListTag = createListElement(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_COLUMN_ELEMENT_TYPE);
+//			for(Object columnElementType : columnElementTypes) {
+//				Element columnElement = (Element)columnElementType;
+//				String elementName = ((NamedElement)columnElement).getName();
+////				ExportLog.log("elementTypeMap.put(\"" + ((NamedElement)columnElement).getName() + ", \"" + columnElement.getLocalID() + "\");");
+//				org.w3c.dom.Element columnElementTypeTag = createColumnElementType(xmlDoc, Integer.toString(columnElementTypeCount), elementName);
+//				columnElementTypeListTag.appendChild(columnElementTypeTag);
+//				columnElementTypeCount++;
+//			}
+//			attributes.appendChild(columnElementTypeListTag);
+//		}
+//		
+//		if(rowElementTypes != null) {
+//			org.w3c.dom.Element rowElementTypeListTag = createListElement(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_ROW_ELEMENT_TYPE);
+//			for(Object rowElementType : rowElementTypes) {
+//				Element rowElement = (Element)rowElementType;
+//				CameoUtils.logGUI("Column element type found to be " + rowElement.getHumanName() + " with id " + rowElement.getLocalID());
+//				String elementName = ((NamedElement)rowElement).getName();
+//				org.w3c.dom.Element rowElementTypeTag = createRowElementType(xmlDoc, Integer.toString(rowElementTypeCount), elementName);
+//				rowElementTypeListTag.appendChild(rowElementTypeTag);
+//				rowElementTypeCount++;
+//			}
+//			attributes.appendChild(rowElementTypeListTag);
+//		}
+//		
+//		if(columnScopes != null) {
+//			for(Object columnScope : columnScopes) {
+//				Element columnScopeElement = (Element)columnScope;
+//				org.w3c.dom.Element columnScopeTag = createRel(xmlDoc, columnScopeElement, XmlTagConstants.COLUMN_SCOPE);
+//				relationships.appendChild(columnScopeTag);
+//			}
+//		}
+//		
+//		if(rowScopes != null) {
+//			for(Object rowScope : rowScopes) {
+//				Element rowScopeElement = (Element)rowScope;
+//				org.w3c.dom.Element rowScopeTag = createRel(xmlDoc, rowScopeElement, XmlTagConstants.ROW_SCOPE);
+//				relationships.appendChild(rowScopeTag);
+//			}
+//		}
+//		
 		return data;
 	}
 	
