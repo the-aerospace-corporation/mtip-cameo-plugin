@@ -731,4 +731,11 @@ public class SysmlConstants {
 		    "_11_5EAPbeta_be00301_1147431819399_50461_1671",
 		    "_16_5_1_12c903cb_1245415335546_479030_4092"
 	};
+	
+	public static boolean isElementOrDiagram(String elementType) {
+		if(Arrays.asList(SYSMLELEMENTS).contains(elementType) || Arrays.asList(SYSMLDIAGRAMS).contains(elementType)) {
+			return true;
+		}
+		return false;
+	}
 }

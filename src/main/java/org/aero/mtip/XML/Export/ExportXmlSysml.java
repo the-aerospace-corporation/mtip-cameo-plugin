@@ -29,11 +29,7 @@ import org.aero.mtip.util.SysmlConstants;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-<<<<<<< HEAD
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
-=======
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
@@ -282,521 +278,11 @@ public class ExportXmlSysml {
 		exportedElements.add(pkg.getID());
 	}
 	
-<<<<<<< HEAD
+
 	public static void exportEntity(Element element) {
 		if(exportedElements.contains(element.getID())) {
 			ExportLog.log(String.format("Element already exported with name %s and id %s.", element.getHumanName(), element.getID()));
-=======
-	public static void exportElement(Element element, Project project, Document xmlDoc) {
-		String commonElementType = null;
-		String commonRelationshipType = null;		
-		
-		//Use SysMLProfile.is<SysmlElementName> to check types for sysml elements 
-		if(element instanceof AcceptEventAction) {
-			commonElementType = SysmlConstants.ACCEPTEVENTACTION;
-			CameoUtils.logGUI("Exporting Accept Event Action");
-		} else if(element instanceof Activity) {
-			commonElementType = SysmlConstants.ACTIVITY;
-			CameoUtils.logGUI("Exporting Activity");
-		} else if(element instanceof ActivityFinalNode) {
-			commonElementType = SysmlConstants.ACTIVITYFINALNODE;
-			CameoUtils.logGUI("Exporting Activity Final Node");
-		} else if(element instanceof ActivityParameterNode) {
-			commonElementType = SysmlConstants.ACTIVITYPARAMETERNODE;
-			CameoUtils.logGUI("Exporting Activity Parameter Node");
-		} else if(element instanceof ActivityPartition) {
-			commonElementType = SysmlConstants.ACTIVITYPARTITION;
-			CameoUtils.logGUI("Exporting Activity Partition");
-		} else if(element instanceof Actor) {
-			commonElementType = SysmlConstants.ACTOR;
-			CameoUtils.logGUI("Exporting Actor");
-//		} else if(element instanceof Aggregation) {
-//			commonRelationshipType = SysmlConstants.AGGREGATION;
-//			CameoUtils.logGUI("Exporting Aggregation");
-		} else if(CameoUtils.isAssociationBlock(element, project)) {
-			commonElementType = SysmlConstants.ASSOCIATIONBLOCK;
-			CameoUtils.logGUI("Exporting Association Block");
-		} else if (SysMLProfile.isBindingConnector(element)) {
-			commonRelationshipType = SysmlConstants.BINDINGCONNECTOR;
-			CameoUtils.logGUI("Exporting Binding Connector");
-		} else if (SysMLProfile.isBoundReference(element)) {
-			commonElementType = SysmlConstants.BOUNDREFERENCE;
-			CameoUtils.logGUI("Exporting Bound Reference");
-		} else if (SysMLProfile.isClassifierBehaviorProperty(element)) {
-			commonElementType = SysmlConstants.CLASSIFIERBEHAVIORPROPERTY;
-			CameoUtils.logGUI("Exporting Classifier Behavior Property");
-		} else if (element instanceof CallBehaviorAction) {
-			commonElementType = SysmlConstants.CALLBEHAVIORACTION;
-			CameoUtils.logGUI("Exporting Call Behavior Action");
-		} else if (element instanceof CallOperationAction) {
-			commonElementType = SysmlConstants.CALLOPERATIONACTION;
-			CameoUtils.logGUI("Exporting Call Operation Action");
-		} else if (element instanceof ChangeEvent) {
-			commonElementType = SysmlConstants.CHANGEEVENT;
-			CameoUtils.logGUI("Exporting Change Event");
-		} else if(CameoUtils.isCopy(element, project)) {
-			commonRelationshipType = SysmlConstants.COPY;
-			CameoUtils.logGUI("Exporting Copy Relation");
-		} else if(element instanceof Collaboration) {
-			commonElementType = SysmlConstants.COLLABORATION;
-			CameoUtils.logGUI("Exporting Collaboration");
-		} else if(element instanceof CombinedFragment) {
-			commonElementType = SysmlConstants.COMBINEDFRAGMENT;
-			CameoUtils.logGUI("Exporting Combined Fragment");
-//		} else if(element instanceof Comment) {
-//			commonElementType = SysmlConstants.COMMENT;
-//			CameoUtils.logGUI("Exporting Comment");
-		} else if(element instanceof ConditionalNode) { 
-			commonElementType = SysmlConstants.CONDITIONALNODE;
-			CameoUtils.logGUI("Exporting Conditional Node");
-		} else if (element instanceof ConnectionPointReference) {
-			commonElementType = SysmlConstants.CONNECTIONPOINTREFERENCE;
-			CameoUtils.logGUI("Exporting Connection Point Reference");
-		} else if (element instanceof Connector) {
-			commonRelationshipType = SysmlConstants.CONNECTOR;
-			CameoUtils.logGUI("Exporting Connector Relationship");
-		}  else if(SysMLProfile.isConstraintBlock(element)) {
-			commonElementType = SysmlConstants.CONSTRAINTBLOCK;
-			CameoUtils.logGUI("Exporting Constraint Block");
-		} else if(CameoUtils.isConstraintParameter(element, project)) {
-			commonElementType = SysmlConstants.CONSTRAINTPARAMETER;
-			CameoUtils.logGUI("Exporting Constraint Parameter");
-		} else if (CameoUtils.isConstraintProperty(element, project)) {
-			commonElementType = SysmlConstants.CONSTRAINTPROPERTY;
-			CameoUtils.logGUI("Exporting Constraint Property");
-		} else if(element instanceof ControlFlow) {
-			commonRelationshipType = SysmlConstants.CONTROLFLOW;
-			CameoUtils.logGUI("Exporting Control Flow");
-		} else if(element instanceof CreateObjectAction) {
-			commonElementType = SysmlConstants.CREATEOBJECTACTION;
-			CameoUtils.logGUI("Exporting Create Object Action");
-		} else if(CameoUtils.isCustomization(project, element)) {
-			commonElementType = SysmlConstants.CUSTOMIZATION;
-			CameoUtils.logGUI("Exporting Customization");
-		} else if(element instanceof DataStoreNode) {
-			commonElementType = SysmlConstants.DATASTORENODE;
-			CameoUtils.logGUI("Exporting Data Store Node");
-		} else if(element instanceof DataType) {
-			commonElementType = SysmlConstants.DATA_TYPE;
-			CameoUtils.logGUI("Exporting Data Type");
-		} else if(element instanceof DecisionNode) {
-			commonElementType = SysmlConstants.DECISIONNODE;
-			CameoUtils.logGUI("Exporting Decision Node");
-		} else if(CameoUtils.isDeriveRequirement(element, project)) {
-			commonRelationshipType = SysmlConstants.DERIVEREQUIREMENT;
-			CameoUtils.logGUI("Exporting Derive Requirement Relation");
-		} else if(CameoUtils.isDesignConstraint(element, project)) {
-			commonElementType = SysmlConstants.DESIGNCONSTRAINT;
-			CameoUtils.logGUI("Exporting Design Constraint");
-		} else if(element instanceof DestroyObjectAction) {
-			commonElementType = SysmlConstants.DESTROYOBJECTACTION;
-			CameoUtils.logGUI("Exporting Destroy Object Action");
-		} else if(element instanceof DestructionOccurrenceSpecification) {
-			commonElementType = SysmlConstants.DESTRUCTIONOCCURRENCESPECIFICATION;
-			CameoUtils.logGUI("Exporting Destruction Occurrence Specification");
-		} else if(SysMLProfile.isDomain(element)) {
-			commonElementType = SysmlConstants.DOMAIN;
-			CameoUtils.logGUI("Exporting Domain as block with domain stereotype");
-		} else if(element instanceof DurationConstraint) {
-			commonElementType = SysmlConstants.DURATIONCONSTRAINT;
-			CameoUtils.logGUI("Exporting Duration Constraint");
-		} else if(element instanceof DurationObservation) {
-			commonElementType = SysmlConstants.DURATIONOBSERVATION;
-			CameoUtils.logGUI("Exporting Duration Observation");
-		} else if(element instanceof Enumeration) {
-			commonElementType = SysmlConstants.ENUMERATION;
-			CameoUtils.logGUI("Exporting Enumeration");
-		} else if(element instanceof EnumerationLiteral) {
-			commonElementType = SysmlConstants.ENUMERATIONLITERAL;
-			CameoUtils.logGUI("Exporting Enumeration Literal");
-		} else if(element instanceof Extend) {
-			commonRelationshipType = SysmlConstants.EXTEND;
-			CameoUtils.logGUI("Exporting Extend");
-		} else if(CameoUtils.isExtendedRequirement(element, project)) {
-			commonElementType = SysmlConstants.EXTENDEDREQUIREMENT;
-			CameoUtils.logGUI("Exporting Extended Requirement");
-		} else if(element instanceof Extension) {
-			commonRelationshipType = SysmlConstants.EXTENSION;
-			CameoUtils.logGUI("Exporting Extension Relationship");
-		} else if(element instanceof ExtensionPoint) {
-			commonElementType = SysmlConstants.EXTENSIONPOINT;
-			CameoUtils.logGUI("Exporting Extension Point");
-		} else if (SysMLProfile.isExternal(element)) {
-			commonElementType = SysmlConstants.EXTERNAL;
-			CameoUtils.logGUI("Exporting External as block with external stereotype");
-		} else if(element instanceof FinalState) {
-			commonElementType = SysmlConstants.FINALSTATE;
-			CameoUtils.logGUI("Exporting Final State");
-		} else if(element instanceof FlowFinalNode) {
-			commonElementType = SysmlConstants.FLOWFINALNODE;
-			CameoUtils.logGUI("Exporting Flow Final Node");
-		} else if(SysMLProfile.isFlowPort(element)) {
-			commonElementType = SysmlConstants.FLOWPORT;
-			CameoUtils.logGUI("Exporting Flow Port");
-		} else if(SysMLProfile.isFlowProperty(element)) {
-			commonElementType = SysmlConstants.FLOWPROPERTY;
-			CameoUtils.logGUI("Exporting Flow Property");
-		} else if(SysMLProfile.isFlowSpecification(element)) {
-			commonElementType = SysmlConstants.FLOWSPECIFICATION;
-			CameoUtils.logGUI("Exporting Flow Specification");
-		} else if(element instanceof ForkNode) {
-			commonElementType = SysmlConstants.FORKNODE;
-			CameoUtils.logGUI("Exporting Fork Node");
-		} else if(SysMLProfile.isFullPort(element)) {
-			commonElementType = SysmlConstants.FULLPORT;
-			CameoUtils.logGUI("Exporting Full Port");
-		} else if(CameoUtils.isFunctionalRequirement(element, project)) {
-			commonElementType = SysmlConstants.FUNCTIONALREQUIREMENT;
-			CameoUtils.logGUI("Exporting Functional Requirement");
-		} else if(element instanceof FunctionBehavior) {
-			commonElementType = SysmlConstants.FUNCTIONBEHAVIOR;
-			CameoUtils.logGUI("Exporting Function Behavior");
-		} else if(element instanceof Generalization) {
-			commonRelationshipType = SysmlConstants.GENERALIZATION;
-			CameoUtils.logGUI("Exporting Generalization");
-		} else if(element instanceof InformationItem) {
-			commonElementType = SysmlConstants.INFORMATIONITEM;
-			CameoUtils.logGUI("Exporting Information Item");
-		} else if(element instanceof Include) {
-			commonRelationshipType = SysmlConstants.INCLUDE;
-			CameoUtils.logGUI("Exporting Include");
-		} else if(element instanceof Interaction) {
-			commonElementType = SysmlConstants.INTERACTION;
-			CameoUtils.logGUI("Exporting Interaction");
-		} else if(element instanceof InteractionOperand) {
-			commonElementType = SysmlConstants.INTERACTIONOPERAND;
-			CameoUtils.logGUI("Exporting Interaction Operand");
-		} else if(element instanceof InteractionUse) {
-			commonElementType = SysmlConstants.INTERACTIONUSE;
-			CameoUtils.logGUI("Exporting Interaction Use");
-		} else if(element instanceof InitialNode) {
-			commonElementType = SysmlConstants.INITIALNODE;
-			CameoUtils.logGUI("Exporting Initial Node");
-		} else if(element instanceof InterruptibleActivityRegion) {
-			commonElementType = SysmlConstants.INTERRUPTIBLEACTIVITYREGION;
-		} else if(element instanceof Pseudostate) {
-			commonElementType = CameoUtils.getPseudoState(element);
-			CameoUtils.logGUI("Exporting Pseudo State of type " + commonElementType);			
-		} else if(element instanceof InputPin) {
-			commonElementType = SysmlConstants.INPUTPIN;
-			CameoUtils.logGUI("Exporting Input Pin");
-		} else if(element instanceof Interface) {
-			commonElementType = SysmlConstants.INTERFACE;
-			CameoUtils.logGUI("Exporting Interface");
-		} else if(CameoUtils.isInterfaceBlock(element, project)) {
-			commonElementType = SysmlConstants.INTERFACEBLOCK;
-			CameoUtils.logGUI("Exporting Interface Block");
-		} else if(element instanceof InterfaceRealization) {
-			commonElementType = SysmlConstants.INTERFACEREALIZATION;
-			CameoUtils.logGUI("Exporting Interface Realization");
-		} else if(CameoUtils.isInterfaceRequirement(element, project)) {
-			commonElementType = SysmlConstants.INTERFACEREQUIREMENT;
-			CameoUtils.logGUI("Exporting Interface Requirement");
-		} else if (SysMLProfile.isItemFlow(element)) {
-			commonRelationshipType = SysmlConstants.ITEMFLOW;
-			CameoUtils.logGUI("Exporting Item Flow");
-		} else if(element instanceof JoinNode) {
-			commonElementType = SysmlConstants.JOINNODE;
-			CameoUtils.logGUI("Exporting Join Node");
-		} else if(element instanceof Lifeline) {
-			commonElementType = SysmlConstants.LIFELINE;
-			CameoUtils.logGUI("Exporting Lifeline");
-		} else if(element instanceof LoopNode) {
-			commonElementType = SysmlConstants.LOOPNODE;
-			CameoUtils.logGUI("Exporting Loop Node");
-		} else if(element instanceof MergeNode) {
-			commonElementType = SysmlConstants.MERGENODE;
-			CameoUtils.logGUI("Exporting Merge Node");
-		} else if(element instanceof Message) {
-			commonElementType = SysmlConstants.MESSAGE;
-			CameoUtils.logGUI("Exporting Message");
-		} else if(element instanceof MessageOccurrenceSpecification) {
-			commonElementType = SysmlConstants.MESSAGEOCCURRENCESPECIFICATION;
-			CameoUtils.logGUI("Exporint Message Occurrence Specification");
-		} else if(CameoUtils.isModel(element, project)) {
-			commonElementType = SysmlConstants.MODEL;
-			CameoUtils.logGUI("Exporting Model");
-		} else if(element instanceof ObjectFlow) {
-			commonRelationshipType = SysmlConstants.OBJECTFLOW;
-			CameoUtils.logGUI("Exporting Object Flow");
-		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
-			commonElementType = SysmlConstants.OPAQUEEXPRESSION;
-			CameoUtils.logGUI("Exporting Opaque Expression");
-		} else if(element instanceof OpaqueAction) {
-			commonElementType = SysmlConstants.OPAQUEACTION;
-			CameoUtils.logGUI("Exporting Opaque Action");
-		} else if(element instanceof OpaqueBehavior) {
-			commonElementType = SysmlConstants.OPAQUEBEHAVIOR;
-			CameoUtils.logGUI("Exporting Opaque Behavior");
-		} else if(element instanceof Operation) {
-			commonElementType = SysmlConstants.OPERATION;
-			CameoUtils.logGUI("Exporting Operation");
-		} else if(element instanceof PackageImport) {
-			commonRelationshipType = SysmlConstants.PACKAGEIMPORT;
-			CameoUtils.logGUI("Exporting Package Import");
-		} else if(SysMLProfile.isParticipantProperty(element)) {
-			commonElementType = SysmlConstants.PARTICIPANTPROPERTY;
-			CameoUtils.logGUI("Exporting Participant Property");
-		} else if(CameoUtils.isPartProperty(element, project)) {
-			commonElementType = SysmlConstants.PARTPROPERTY;
-			CameoUtils.logGUI("Exporting Part Property Requirement");
-		} else if(element instanceof Profile) {
-			commonElementType = SysmlConstants.PROFILE;
-			CameoUtils.logGUI("Exporting Profile");
-		} else if(element instanceof OutputPin) {
-			commonElementType = SysmlConstants.OUTPUTPIN;
-			CameoUtils.logGUI("Exporting Output Pin");
-		} else if(element instanceof Package) {
-			CameoUtils.logGUI("PACKAGE SHOULD NOT BE EXPORTING HERE");
-		} else if(element instanceof Parameter) {
-			commonElementType = SysmlConstants.PARAMETER;
-		} else if(CameoUtils.isPerformanceRequirement(element, project)) {
-			commonElementType = SysmlConstants.PERFORMANCEREQUIREMENT;
-			CameoUtils.logGUI("Exporting Performance Requirement");
-		} else if(CameoUtils.isPhysicalRequirement(element, project)) {
-			commonElementType = SysmlConstants.PHYSICALREQUIREMENT;
-			CameoUtils.logGUI("Exporting Physical Requirement");
-		//Proxy Port must come before Port as all specialized ports are instanceof Port
-		} else if(SysMLProfile.isProxyPort(element)) {
-			commonElementType = SysmlConstants.PROXYPORT;
-			CameoUtils.logGUI("Exporting Proxy Port");
-		} else if(element instanceof Port) {
-			commonElementType = SysmlConstants.PORT;
-			CameoUtils.logGUI("Exporting Port");
-		} else if(CameoUtils.isQuantityKind(element, project)) {
-			commonElementType = SysmlConstants.QUANTITYKIND;
-			CameoUtils.logGUI("Exporting Quantity Kind");
-		} else if(element instanceof Region) {
-			commonElementType = SysmlConstants.REGION;
-			CameoUtils.logGUI("Exporting Region");
-		} else if(CameoUtils.isRefine(element, project)) {
-			commonRelationshipType = SysmlConstants.REFINE;
-			CameoUtils.logGUI("Exporting Refine Relation");
-		} else if(CameoUtils.isRequirement(element, project)) {
-			commonElementType = SysmlConstants.REQUIREMENT;
-			CameoUtils.logGUI("Exporting Requirement");
-		} else if(CameoUtils.isSatisfy(element, project)) {
-			commonRelationshipType = SysmlConstants.SATISFY;
-			CameoUtils.logGUI("Exporting Satisfy Relation");
-		} else if(element instanceof SendSignalAction) {
-			commonElementType = SysmlConstants.SENDSIGNALACTION;
-			CameoUtils.logGUI("Exporting Send Signal Action");
-		} else if(element instanceof Signal) {
-			commonElementType = SysmlConstants.SIGNAL;
-			CameoUtils.logGUI("Exporting Signal");
-		} else if(element instanceof SignalEvent) {
-			commonElementType = SysmlConstants.SIGNALEVENT;
-		} else if(element instanceof Slot) {
-			Element parent = element.getOwner();
-			if(parent instanceof InstanceSpecification) {
-				InstanceSpecification is = (InstanceSpecification)parent;
-				List<Classifier> classifiers = is.getClassifier();
-				boolean hasStereotypeClassifier = false;
-				for(Classifier classifier : classifiers) {
-					if(classifier instanceof Stereotype) {
-						hasStereotypeClassifier = true;
-					}
-				}
-				// Slots of stereotypes are captured as tagged values in the attributes block.
-				if(!hasStereotypeClassifier) {
-					commonElementType = SysmlConstants.SLOT;
-					CameoUtils.logGUI("Exporting Slot");
-				}
-			}
-		} else if(SysMLProfile.isStakeholder(element)) {
-			commonElementType = SysmlConstants.STAKEHOLDER;
-			CameoUtils.logGUI("Exporting Stakeholder");
-		} else if(element instanceof State) {
-			commonElementType = SysmlConstants.STATE;
-			CameoUtils.logGUI("Exporting State");
-		} else if(element instanceof StateInvariant) {
-			commonElementType = SysmlConstants.STATEINVARIANT;
-			CameoUtils.logGUI("Exporting State Invariant");
-		} else if(element instanceof StateMachine) {
-			commonElementType = SysmlConstants.STATEMACHINE;
-			CameoUtils.logGUI("Exporting State Machine");
-		} else if(element instanceof Stereotype) {
-			commonElementType = SysmlConstants.STEREOTYPE;
-			CameoUtils.logGUI("Exporting Stereotype");
-		} else if(CameoUtils.isTrace(element, project)) {
-			commonRelationshipType = SysmlConstants.TRACE;
-			CameoUtils.logGUI("Exporting Trace Relation");
-		} else if(SysMLProfile.isSubsystem(element)) {
-			commonElementType = SysmlConstants.SUBSYSTEM;
-			CameoUtils.logGUI("Exporting Subystem as block with subsystem stereotype");
-		} else if(SysMLProfile.isSystemcontext(element)) {
-			commonElementType = SysmlConstants.SYSTEMCONTEXT;
-			CameoUtils.logGUI("Exporting system context as a block with system context stereotype");
-		} else if(SysMLProfile.isSystem(element)) {
-			commonElementType = SysmlConstants.SYSTEM;
-			CameoUtils.logGUI("Exporting system as a block with system stereotype");
-		} else if (element instanceof TimeEvent) {
-			commonElementType = SysmlConstants.TIMEEVENT;
-			CameoUtils.logGUI("Exporting Time Event");
-		} else if (element instanceof TimeObservation) {
-			commonElementType = SysmlConstants.TIMEOBSERVATION;
-		} else if (element instanceof Transition) {
-			commonRelationshipType = SysmlConstants.TRANSITION;
-			CameoUtils.logGUI("Exporting Transition");
-		} else if (element instanceof Trigger) {
-			commonElementType = SysmlConstants.TRIGGER;
-			CameoUtils.logGUI("Exporting Trigger");
-		} else if(CameoUtils.isUnit(element, project)) {
-			commonElementType = SysmlConstants.UNIT;
-			CameoUtils.logGUI("Exporting Unit");
-		} else if(element instanceof Usage) {
-			commonRelationshipType = SysmlConstants.USAGE;
-			CameoUtils.logGUI("Exporting Usage");
-		} else if(element instanceof UseCase) {
-			commonElementType = SysmlConstants.USECASE;
-			CameoUtils.logGUI("Exporting Use Case");
-		} else if(CameoUtils.isValueProperty(element, project)) {
-			commonElementType = SysmlConstants.VALUEPROPERTY;
-			CameoUtils.logGUI("Exporting Value Property");
-		} else if(CameoUtils.isValueType(element, project)) {
-			commonElementType = SysmlConstants.VALUETYPE;
-			CameoUtils.logGUI("Exporting Value Type");
-		} else if(CameoUtils.isVerify(element, project)) {
-			commonRelationshipType = SysmlConstants.VERIFY;
-			CameoUtils.logGUI("Exporting Verify");
-		} else if(SysMLProfile.isView(element)) {
-			commonElementType = SysmlConstants.VIEW;
-			CameoUtils.logGUI("Exporting View");
-		} else if(SysMLProfile.isViewpoint(element)) {
-			commonElementType = SysmlConstants.VIEWPOINT;
-			CameoUtils.logGUI("Exporitng Viewpoint");		
-			
-			
-		//Super classes listed below as to not to override their children
-		} else if(element instanceof Constraint) {
-			Constraint constraint = (Constraint)element;
-			ValueSpecification vs = constraint.getSpecification();
-			if(vs instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
-				OpaqueExpression oe = (OpaqueExpression)vs;
-				exportElement(oe, project, xmlDoc);
-			}
-			// Add support for other types of Value Specifications here
-			commonElementType = SysmlConstants.CONSTRAINT;
-			CameoUtils.logGUI("Exporting Constraint");
-		} else if(CameoUtils.isProperty(element, project)) {
-				commonElementType = SysmlConstants.PROPERTY;
-				CameoUtils.logGUI("Exporting Property");	
-		} else if (element instanceof InstanceSpecification) {
-			NamedElement namedElement = (NamedElement)element;
-			if (!namedElement.getName().equals("") && !namedElement.getName().equals(null) && !Arrays.asList(SysmlConstants.RESERVEINSTANCESPECIFICATION).contains(namedElement.getName())) {
-				commonElementType = SysmlConstants.INSTANCESPECIFICATION;
-				CameoUtils.logGUI("Exporting Instance Specification");
-			}
-		// Check ActionClass last as any child action class will be an instance of ActionClass
-		} else if(element instanceof ActionClass) {
-			commonElementType = SysmlConstants.ACTION;
-			CameoUtils.logGUI("Exporting Action");
-		} else if(element instanceof CentralBufferNode) {
-			commonElementType = SysmlConstants.CENTRALBUFFERNODE;
-			CameoUtils.logGUI("Exporting Central Buffer Node");
-			
-		//	Class is a super class of some elements (any requirement stereotype elements) - must come after
-		} else if(element instanceof Association) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd((Association)element);
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd((Association)element);
-			if(firstMemberEnd.getAggregation() == AggregationKindEnum.SHARED || secondMemberEnd.getAggregation() == AggregationKindEnum.SHARED) {
-				commonRelationshipType = SysmlConstants.AGGREGATION;
-				CameoUtils.logGUI("Exporting Aggregation");
-			} else if(firstMemberEnd.getAggregation() == AggregationKindEnum.COMPOSITE || secondMemberEnd.getAggregation() == AggregationKindEnum.COMPOSITE) {
-				commonRelationshipType = SysmlConstants.COMPOSITION;
-				CameoUtils.logGUI("Exporting Composition");
-			} else {
-				commonRelationshipType = SysmlConstants.ASSOCIATION;
-				CameoUtils.logGUI("Exporting Association");
-			}
-		// Block with overwrite Constraint Block since ConstraintBlock is a subclass of Block
-		} else if(SysMLProfile.isBlock(element)) {
-			commonElementType = SysmlConstants.BLOCK;
-			CameoUtils.logGUI("Exporting Block");	
-		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
-			// Check if Metaclass
-			if(CameoUtils.isMetaclass(element)) {
-				commonElementType = SysmlConstants.METACLASS;
-				CameoUtils.logGUI("Exporting Metaclass");
-			} else {
-				commonElementType = SysmlConstants.CLASS;
-				CameoUtils.logGUI("Exporting Class");
-			}
-		} else if(element instanceof Dependency) {
-			commonRelationshipType = SysmlConstants.DEPENDENCY;
-			CameoUtils.logGUI("Exporting Dependency");
-		} else if(element instanceof Diagram) {
-			Diagram diag = (Diagram) element;
-			DiagramPresentationElement presentationDiagram = project.getDiagram(diag);
-			DiagramType diagType = presentationDiagram.getDiagramType();
-			String diagTypeStr = presentationDiagram.getRealType();
-			
-			CameoUtils.logGUI("ACTUAL diagram type: " + diagType.getType());
-			CameoUtils.logGUI("MAPPED diagram type: " + AbstractDiagram.diagramToType.get( diagType.getType()));
-			String diagramType = AbstractDiagram.diagramToType.get(diagType.getType());
-			
-			if(diagramType == null) {
-				commonElementType = SysmlConstants.CUSTOM_DIAGRAM;
-			} else {
-				commonElementType = AbstractDiagram.diagramToType.get( diagType.getType());
-			}
-			
-//			List<String> it = DiagramType.getAllDiagramTypes();
-//			for (String str: it) {
-//				CameoUtils.logGUI("DiagramList type: " + str);
-//			}
-			
-		} else {
-			if(!CameoUtils.isNotExplicitlySupported(element)) {
-				String message = "Element with type: " + element.getHumanType() + " is not supported yet!!!";
-				ExportLog.log(message);
-				CameoUtils.logGUI(message);
-			}
-		}
-		if(!exportedElements.containsKey(element.getID())) {
-			if(commonElementType != null) {
-				CommonElementsFactory cef = new CommonElementsFactory();
-				CommonElement commonElement = null;
-				
-				if(element instanceof NamedElement) {
-					//Check if ID already exists from previous import
-					CameoUtils.logGUI("\tElement named: " +  ((NamedElement)element).getName() + " with id: " + element.getID());
-					commonElement = cef.createElement(commonElementType,  ((NamedElement)element).getName(), element.getID());
-				} else {
-					CameoUtils.logGUI("\tElement named: " +  element.getHumanName() + " with id: " + element.getID());
-					commonElement = cef.createElement(commonElementType, "", element.getID());
-				}
-				commonElement.writeToXML(element, project, xmlDoc);
-				exportedElements.put(element.getID(), "");
-			}
-			
-			if(commonRelationshipType != null) {
-				CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
-				String name = "";
-				
-				CommonRelationship commonRelationship = null;
-				if(element instanceof NamedElement) {
-					name = ((NamedElement)element).getName();
-					CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getID());
-					commonRelationship = crf.createElement(commonRelationshipType, name, element.getID());
-				} else {
-					name = element.getHumanName();
-					CameoUtils.logGUI("\tRelationship named: " +  name + " with id: " + element.getID());
-					commonRelationship = crf.createElement(commonRelationshipType, "", element.getID());
-				}
-				commonRelationship.writeToXML(element, project, xmlDoc);
-				exportedElements.put(element.getID(), "");
-				// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
-				if(!exportedElements.containsKey(commonRelationship.getSupplier().getID())) {
-					exportElement(commonRelationship.getSupplier(), project, xmlDoc);
-				}
-				if(!exportedElements.containsKey(commonRelationship.getClient().getID())) {
-					exportElement(commonRelationship.getClient(), project, xmlDoc);
-				}
-			}
-		} else {
-			CameoUtils.logGUI("Duplicate element with id " + element.getID() + " not exported.");
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
+			return;
 		}
 		
 		String commonElementType = getEntityType(element);
@@ -893,7 +379,6 @@ public class ExportXmlSysml {
 		} else if(element instanceof ConditionalNode) { 
 			return SysmlConstants.CONDITIONAL_NODE;
 		} else if (element instanceof ConnectionPointReference) {
-<<<<<<< HEAD
 			return SysmlConstants.CONNECTION_POINT_REFERENCE;
 		} else if(SysML.isConstraintBlock(element)) {
 			return SysmlConstants.CONSTRAINT_BLOCK;
@@ -901,34 +386,14 @@ public class ExportXmlSysml {
 			return SysmlConstants.CONSTRAINT_PARAMETER;
 		} else if (MDCustomizationForSysMLProfile.isConstraintProperty(element)) {
 			return SysmlConstants.CONSTRAINT_PROPERTY;
-=======
-			commonElementType = SysmlConstants.CONNECTIONPOINTREFERENCE;
-		} else if (element instanceof Connector) {
-			commonRelationshipType = SysmlConstants.CONNECTOR;
-		} else if(element instanceof Constraint) {
-			Constraint constraint = (Constraint)element;
-			commonElementType = SysmlConstants.CONSTRAINT;
-		} else if(SysMLProfile.isConstraintBlock(element)) {
-			commonElementType = SysmlConstants.CONSTRAINTBLOCK;
-		} else if(CameoUtils.isConstraintParameter(element, project)) {
-			commonElementType = SysmlConstants.CONSTRAINTPARAMETER;
-		} else if (CameoUtils.isConstraintProperty(element, project)) {
-			commonElementType = SysmlConstants.CONSTRAINTPROPERTY;
-		} else if(element instanceof ControlFlow) {
-			commonRelationshipType = SysmlConstants.CONTROLFLOW;
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
 		} else if(element instanceof CreateObjectAction) {
 			return SysmlConstants.CREATE_OBJECT_ACTION;
 		} else if(CameoUtils.isCustomization(project, element)) {
 			return SysmlConstants.CUSTOMIZATION;
 		} else if(element instanceof DataStoreNode) {
-<<<<<<< HEAD
 			return SysmlConstants.DATA_STORE_NODE;
-=======
-			commonElementType = SysmlConstants.DATASTORENODE;
 		} else if(element instanceof DataType) {
-			commonElementType = SysmlConstants.DATA_TYPE;
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
+			return SysmlConstants.DATA_TYPE;
 		} else if(element instanceof DecisionNode) {
 			return SysmlConstants.DECISION_NODE;
 		} else if(SysML.isDeriveRequirement(element)) {
@@ -1016,21 +481,11 @@ public class ExportXmlSysml {
 		} else if(element instanceof OpaqueBehavior) {
 			return SysmlConstants.OPAQUE_BEHAVIOR;
 		} else if(element instanceof Operation) {
-<<<<<<< HEAD
 			return SysmlConstants.OPERATION;
 		} else if(SysML.isParticipantProperty(element)) {
 			return SysmlConstants.PARTICIPANT_PROPERTY;
 		} else if(MDCustomizationForSysMLProfile.isPartProperty(element)) {
 			return SysmlConstants.PART_PROPERTY;
-=======
-			commonElementType = SysmlConstants.OPERATION;
-		} else if(element instanceof PackageImport) {
-			commonRelationshipType = SysmlConstants.PACKAGEIMPORT;
-		} else if(SysMLProfile.isParticipantProperty(element)) {
-			commonElementType = SysmlConstants.PARTICIPANTPROPERTY;
-		} else if(CameoUtils.isPartProperty(element, project)) {
-			commonElementType = SysmlConstants.PARTPROPERTY;
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
 		} else if(element instanceof Profile) {
 			return SysmlConstants.PROFILE;
 		} else if(element instanceof OutputPin) {
@@ -1045,15 +500,9 @@ public class ExportXmlSysml {
 		} else if(SysML.isProxyPort(element)) {
 			return SysmlConstants.PROXY_PORT;
 		} else if(element instanceof Port) {
-<<<<<<< HEAD
 			return SysmlConstants.PORT;
 		} else if(MDCustomizationForSysMLProfile.isQuantityKind(element)) {
 			return SysmlConstants.QUANTITY_KIND;
-=======
-			commonElementType = SysmlConstants.PORT;
-		} else if(CameoUtils.isQuantityKind(element, project)) {
-			commonElementType = SysmlConstants.QUANTITYKIND;
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
 		} else if(element instanceof Region) {
 			return SysmlConstants.REGION;
 		} else if(SysML.isRefine(element)) {
@@ -1089,31 +538,16 @@ public class ExportXmlSysml {
 		} else if (element instanceof TimeObservation) {
 			return SysmlConstants.TIME_OBSERVATION;
 		} else if (element instanceof Trigger) {
-<<<<<<< HEAD
 			return SysmlConstants.TRIGGER;
 		} else if(MDCustomizationForSysMLProfile.isUnit(element)) {
 			return SysmlConstants.UNIT;
+		} else if(element instanceof UseCase) {
+			return SysmlConstants.USE_CASE;
 		} else if(MDCustomizationForSysMLProfile.isValueProperty(element)) {
 			return SysmlConstants.VALUE_PROPERTY;
 		} else if(SysML.isValueType(element)) {
 			return SysmlConstants.VALUE_TYPE;
-		
-=======
-			commonElementType = SysmlConstants.TRIGGER;
-		} else if(CameoUtils.isUnit(element, project)) {
-			commonElementType = SysmlConstants.UNIT;
-		} else if(element instanceof Usage) {
-			commonRelationshipType = SysmlConstants.USAGE;
-		} else if(element instanceof UseCase) {
-			commonElementType = SysmlConstants.USECASE;
-		} else if(CameoUtils.isValueProperty(element, project)) {
-			commonElementType = SysmlConstants.VALUEPROPERTY;
-		} else if(CameoUtils.isValueType(element, project)) {
-			commonElementType = SysmlConstants.VALUETYPE;
-		} else if(CameoUtils.isVerify(element, project)) {
-			commonRelationshipType = SysmlConstants.VERIFY;		
 			
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
 		//Super classes listed below as to not to override their children	
 		} else if(element instanceof Constraint) {
 			return SysmlConstants.CONSTRAINT;
