@@ -213,6 +213,10 @@ import org.aero.mtip.uaf.Operational.OperationalSignalProperty;
 import org.aero.mtip.uaf.Operational.OperationalStateDescription;
 import org.aero.mtip.uaf.Operational.ProblemDomain;
 import org.aero.mtip.uaf.Operational.StandardOperationalActivity;
+import org.aero.mtip.uaf.Personnel.Organization;
+import org.aero.mtip.uaf.Personnel.Person;
+import org.aero.mtip.uaf.Personnel.Post;
+import org.aero.mtip.uaf.Personnel.Responsibility;
 import org.aero.mtip.uaf.Projects.ActualMilestoneKind;
 import org.aero.mtip.uaf.Projects.ActualProject;
 import org.aero.mtip.uaf.Projects.ActualProjectMilestone;
@@ -253,6 +257,10 @@ import org.aero.mtip.uaf.Resources.VersionOfConfiguration;
 import org.aero.mtip.uaf.Resources.WholeLifeConfiguration;
 import org.aero.mtip.uaf.Resources.WholeLifeConfigurationKind;
 import org.aero.mtip.uaf.Security.SecurityProcessAction;
+import org.aero.mtip.uaf.Standards.Protocol;
+import org.aero.mtip.uaf.Standards.ProtocolLayer;
+import org.aero.mtip.uaf.Standards.ProtocolStack;
+import org.aero.mtip.uaf.Standards.Standard;
 import org.aero.mtip.uaf.Strategic.Achiever;
 import org.aero.mtip.uaf.Strategic.ActualEnduringTask;
 import org.aero.mtip.uaf.Strategic.ActualEnterprisePhase;
@@ -1168,6 +1176,32 @@ public class CommonElementsFactory {
 			case UAFConstants.SECURITY_PROCESS_ACTION:
 				element = new SecurityProcessAction(name, EAID);
 				break;
+			//Standards
+			case UAFConstants.PROTOCOL:
+				element = new Protocol(name, EAID);
+				break;
+			case UAFConstants.PROTOCOL_STACK:
+				element = new ProtocolStack(name, EAID);
+				break;
+			case UAFConstants.STANDARD:
+				element = new Standard(name, EAID);
+				break;
+			case UAFConstants.PROTOCOL_LAYER:
+				element = new ProtocolLayer(name, EAID);
+				break;
+			case UAFConstants.ORGANIZATION:
+				element = new Organization(name, EAID);
+				break;
+			case UAFConstants.PERSON:
+				element = new Person(name, EAID);
+				break;
+			case UAFConstants.POST:
+				element = new Post(name, EAID);
+				break;
+			case UAFConstants.RESPONSIBILITY:
+				element = new Responsibility(name, EAID);
+				break;
+			//default
 			default:
 				break;
 				

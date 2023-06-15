@@ -109,7 +109,7 @@ public class UAFConstants {
 	public static final String PROJECT_ACTIVITY = "ProjectActivity";
 	public static final String PROJECT_ACTIVITY_ACTION = "ProjectActivityAction";
 	public static final String PROJECT_STATUS = "ProjectStatus";
-	public static final String ACTUAL_PROJECT_MILESTONE_ROLE = "ActualProjectMileStrone";
+	public static final String ACTUAL_PROJECT_MILESTONE_ROLE = "ActualProjectMileStone";
 	public static final String ACTUAL_PROJECT_ROLE = "ActualProjectRole";
 	public static final String MILESTONE_DEPENDENCY = "MilestoneDependency";
 	public static final String PROJECT_SEQUENCE = "ProjectSequence";
@@ -126,6 +126,12 @@ public class UAFConstants {
 	
 	//Security
 	public static final String SECURITY_PROCESS_ACTION = "SecurityProcessAction";
+
+	//Standards
+	public static final String PROTOCOL = "Protocol";
+	public static final String PROTOCOL_STACK = "ProtocolStack";
+	public static final String STANDARD = "Standard";
+	public static final String PROTOCOL_LAYER = "ProtocolLayer";
 	
 
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
@@ -280,6 +286,15 @@ public class UAFConstants {
 			FIELDED_CAPABILITY,
 			PROVIDED_SERVICE_LEVEL,
 			REQUIRED_SERVICE_LEVEL,
+
+			//Security
+			SECURITY_PROCESS_ACTION,
+			
+			//Standards
+			PROTOCOL,
+			PROTOCOL_STACK,
+			STANDARD,
+			PROTOCOL_LAYER,
 			
 			// Personnel
 			COMPETENCE,

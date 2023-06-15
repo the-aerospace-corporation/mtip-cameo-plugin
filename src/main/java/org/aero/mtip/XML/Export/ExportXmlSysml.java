@@ -821,11 +821,27 @@ public class ExportXmlSysml {
 		//Security
 		} else if (stereotypes.contains(UAFProfile.SECURITY_PROCESS_ACTION_STEREOTYPE)){
 			return UAFConstants.SECURITY_PROCESS_ACTION;
+		
+		//STANDARDS
+		} else if(stereotypes.contains(UAFProfile.PROTOCOL_STEREOTYPE)) {
+			return UAFConstants.PROTOCOL;
+		} else if(stereotypes.contains(UAFProfile.PROTOCOL_STACK_STEREOTYPE)) {
+			return UAFConstants.PROTOCOL_STACK;
+		} else if(stereotypes.contains(UAFProfile.STANDARD_STEREOTYPE)) {
+			return UAFConstants.STANDARD;
+		} else if(stereotypes.contains(UAFProfile.PROTOCOL_STEREOTYPE)) {
+			return UAFConstants.PROTOCOL_LAYER;
+		} else if(stereotypes.contains(UAFProfile.ORGANIZATION_STEREOTYPE)) {
+			return UAFConstants.ORGANIZATION;
+		} else if(stereotypes.contains(UAFProfile.PERSON_STEREOTYPE)) {
+			return UAFConstants.PERSON;
+		} else if(stereotypes.contains(UAFProfile.POST_STEREOTYPE)) {
+			return UAFConstants.POST;
+		} else if(stereotypes.contains(UAFProfile.RESPONSIBILITY_STEREOTYPE)) {
+			return UAFConstants.RESPONSIBILITY;
 		}
 
-
 		/*} else if (stereotypes.contains(UAFProfile.OPERATIONAL_CONTROL_FLOW_STEREOTYPE)) {
->>>>>>> 9d096e5 (Added uaf Resource Domain plugin capability)
 			return UAFConstants.OPERATIONAL_CONTROL_FLOW;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_OBJECT_FLOW_STEREOTYPE)) {
 			return UAFConstants.OPERATIONAL_OBJECT_FLOW;

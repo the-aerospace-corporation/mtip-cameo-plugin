@@ -421,6 +421,18 @@ public class XmlTagConstants
 	public static final String MILESTONE_DEPENDENCY = "uaf.MilestoneDependency";
 	public static final String PROJECT_SEQUENCE = "uaf.ProjectSequence";
 	
+	//Standards
+	public static final String PROTOCOL = "uaf.Protocol";
+	public static final String PROTOCOL_STACK = "uaf.ProtocolStack";
+	public static final String STANDARD = "uaf.Standard";
+	public static final String PROTOCOL_LAYER = "uaf.ProtocolLayer";
+	
+	//Personnel
+	public static final String ORGANIZATION = "uaf.Organization";
+	public static final String PERSON = "uaf.Person";
+	public static final String POST = "uaf.Post";
+	public static final String RESPONSIBILITY = "uaf.Responsibility";
+	
 	//Dictionary
 	public static final String SAME_AS = "uaf.SameAs";
 	

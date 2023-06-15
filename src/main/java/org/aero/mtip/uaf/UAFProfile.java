@@ -126,7 +126,7 @@ public class UAFProfile {
 	public static Stereotype ALIAS_STEREOTYPE = null;
 	public static Stereotype INFORMATION_STEREOTYPE = null;
 	public static Stereotype SAME_AS_STEREOTYPE = null;
-	
+
 	// Actual Resources
 	public static Stereotype ACTUAL_ORGANIZATION_STEREOTYPE = null;
 	public static Stereotype ACTUAL_PERSON_STEREOTYPE = null;
@@ -153,7 +153,14 @@ public class UAFProfile {
 	public static Stereotype REQUIRES_COMPETENCE_STEREOTYPE = null;
 	public static Stereotype RESPONSIBILITY_STEREOTYPE = null;
 	
+	//Security
 	public static Stereotype SECURITY_PROCESS_ACTION_STEREOTYPE = null;
+	
+	//Standards
+	public static Stereotype PROTOCOL_STEREOTYPE = null;
+	public static Stereotype PROTOCOL_STACK_STEREOTYPE = null;
+	public static Stereotype STANDARD_STEREOTYPE = null;
+	public static Stereotype PROTOCOL_LAYER_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
@@ -307,5 +314,12 @@ public class UAFProfile {
 	    
 	    //Security
 	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);
+	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);
+	    
+	    //Standards
+	    PROTOCOL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROTOCOL, UAF_PROFILE);
+	    PROTOCOL_STACK_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROTOCOL_STACK, UAF_PROFILE);
+	    STANDARD_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.STANDARD, UAF_PROFILE);
+	    PROTOCOL_LAYER_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROTOCOL_LAYER, UAF_PROFILE);
 	}
 }
