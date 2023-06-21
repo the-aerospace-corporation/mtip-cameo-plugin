@@ -11,13 +11,13 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
@@ -63,7 +63,7 @@ public class AssociationBlock extends CommonElement {
 			CameoUtils.logGUI("Supplier or client was not set. Association block " + xmlElement.getAttribute("name") + " not created.");
 		}
 		
-		StereotypesHelper.addStereotype(associationClass, SysMLProfile.getInstance(project).getBlock());
+		StereotypesHelper.addStereotype(associationClass, SysMLProfile.BLOCK_STEREOTYPE);
 		return (Element)associationClass;
 	}
 	

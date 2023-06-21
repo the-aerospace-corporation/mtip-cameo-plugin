@@ -6,16 +6,11 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
+import java.util.Arrays;
 
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import org.aero.mtip.profiles.SysML;
+import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.XmlTagConstants;
 
 public class ProxyPort extends Port {
 
@@ -25,15 +20,6 @@ public class ProxyPort extends Port {
 		this.sysmlConstant = SysmlConstants.PROXY_PORT;
 		this.xmlConstant = XmlTagConstants.PROXY_PORT;
 		this.element = f.createPortInstance();
-	}
-
-	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
-		
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype fullPortStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.PROXYPORT_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(element, fullPortStereotype);
-		return element;
+		this.initialStereotypes = Arrays.asList(SysML.getProxyPortStereotype());
 	}
 }

@@ -6,17 +6,18 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.InternalBlock;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.profiles.SysML;
+import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
@@ -25,16 +26,15 @@ public class FlowProperty extends CommonElement {
 
 	public FlowProperty(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.FLOW_PROPERTY;
-		this.xmlConstant = XmlTagConstants.FLOW_PROPERTY;
-		this.element = f.createPropertyInstance();
+		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		sysmlConstant = SysmlConstants.FLOW_PROPERTY;
+		xmlConstant = XmlTagConstants.FLOW_PROPERTY;
+		element = f.createPropertyInstance();
+		initialStereotypes = Arrays.asList(SysML.getFlowPropertyStereotype());
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		
-		StereotypesHelper.addStereotype(element, SysML.getFlowPropertyStereotype());
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
 			StereotypesHelper.setStereotypePropertyValue(

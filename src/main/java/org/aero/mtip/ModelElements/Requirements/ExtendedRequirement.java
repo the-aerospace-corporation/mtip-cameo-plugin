@@ -11,7 +11,6 @@ import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 
 public class ExtendedRequirement extends CommonElement {
@@ -22,6 +21,6 @@ public class ExtendedRequirement extends CommonElement {
 		this.sysmlConstant = SysmlConstants.EXTENDED_REQUIREMENT;
 		this.xmlConstant = XmlTagConstants.EXTENDED_REQUIREMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.EXTENDEDREQUIREMENT_STEREOTYPE, creationProfile);
+		this.creationStereotype = org.aero.mtip.profiles.SysMLProfile.EXTENDED_REQUIREMENT_STEREOTYPE;
 	}
 }

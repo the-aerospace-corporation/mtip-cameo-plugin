@@ -8,10 +8,10 @@ package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 
 public class InterfaceBlock extends CommonElement {
@@ -21,6 +21,6 @@ public class InterfaceBlock extends CommonElement {
 		this.sysmlConstant = SysmlConstants.INTERFACE_BLOCK;
 		this.xmlConstant = XmlTagConstants.INTERFACE_BLOCK;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), "SysML"); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.INTERFACEBLOCK_STEREOTYPE, creationProfile);
+		this.creationStereotype = SysMLProfile.INTERFACE_BLOCK_STEREOTYPE;
 	}
 }

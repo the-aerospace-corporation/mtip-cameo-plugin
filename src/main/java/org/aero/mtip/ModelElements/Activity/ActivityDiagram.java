@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
@@ -32,7 +31,6 @@ import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneHeaderView;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneView;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 
 
 public class ActivityDiagram extends AbstractDiagram {

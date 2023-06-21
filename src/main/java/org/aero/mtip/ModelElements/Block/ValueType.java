@@ -6,35 +6,20 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
+import java.util.Arrays;
 
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.profiles.SysML;
+import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.XmlTagConstants;
 
 public class ValueType extends CommonElement{
 	public ValueType(String name, String EAID)  {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.VALUE_TYPE;
-		this.xmlConstant = XmlTagConstants.VALUETYPE;
-		this.element = f.createDataTypeInstance();
-	}
-	
-	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
-		
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype valueTypeStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.VALUETYPE_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(element, valueTypeStereotype);
-		
-		return element;
+		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		sysmlConstant = SysmlConstants.VALUE_TYPE;
+		xmlConstant = XmlTagConstants.VALUETYPE;
+		element = f.createDataTypeInstance();
+		initialStereotypes = Arrays.asList(SysML.getValueTypeStereotype());
 	}
 }

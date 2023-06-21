@@ -9,6 +9,8 @@ package org.aero.mtip.ModelElements.Block;
 import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
+import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -16,11 +18,8 @@ import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property {
 	public PartProperty(String name, String EAID) {
@@ -34,9 +33,7 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {	
 		Element partProperty = super.createElement(project, owner, xmlElement);
 		
-		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "MD Customization for SysML"); 
-		Stereotype partPropertyStereotype = StereotypesHelper.getStereotype(project, "PartProperty", mdCustomizationProfile);
-		StereotypesHelper.addStereotype(partProperty, partPropertyStereotype);
+		StereotypesHelper.addStereotype(partProperty, MDCustomizationForSysMLProfile.PART_PROPERTY_STEREOTYPE);
 		
 //		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIER_TYPE)) {
 //			Type classifierType = (Type) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIER_TYPE));
@@ -58,7 +55,6 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 				CameoUtils.logGUI("Failed to create/get typed by element for element with id" + this.EAID);
 				ImportLog.log("Failed to create/get typed by element for element with id" + this.EAID);
 			}
-			
 		}		
 	}
 	

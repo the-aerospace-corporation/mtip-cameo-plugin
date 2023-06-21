@@ -22,7 +22,6 @@ import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
@@ -121,7 +120,7 @@ public class CameoUtils {
 	public static Element findNearestBlock(Project project, Element owner) {
 		if(owner != null) {
 			CameoUtils.logGUI("Searching for block for current element with id " + owner.getID());
-			if(SysMLProfile.isBlock(owner)) {
+			if(SysML.isBlock(owner)) {
 				return owner;
 			} else {
 				Element nextOwner = owner.getOwner();

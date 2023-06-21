@@ -6,17 +6,12 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
+import java.util.Arrays;
 
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.profiles.SysML;
+import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.XmlTagConstants;
 
 public class FlowSpecification extends CommonElement {
 	public FlowSpecification(String name, String EAID) {
@@ -25,16 +20,6 @@ public class FlowSpecification extends CommonElement {
 		this.sysmlConstant = SysmlConstants.FLOW_SPECFICATION;
 		this.xmlConstant = XmlTagConstants.FLOW_SPECIFICATION;
 		this.element = f.createInterfaceInstance();
-	}
-	
-	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
-		
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype flowSpecificationStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.FLOWSPECIFICATION_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(element, flowSpecificationStereotype);
-	
-		return element;
+		this.initialStereotypes = Arrays.asList(SysML.getFlowSpecificationStereotype());
 	}
 }

@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
+import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -55,7 +56,7 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
 			this.shapeElements.put(element.getID(), shape);
 			noPosition = true;
-		} else if(CameoUtils.isPartProperty(element, project) || CameoUtils.isValueProperty(element, project)) {
+		} else if(MDCustomizationForSysMLProfile.isPartProperty(element) || MDCustomizationForSysMLProfile.isValueProperty(element)) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 			if(shape != null) {
 				PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);

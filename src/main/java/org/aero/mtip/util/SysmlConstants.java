@@ -48,6 +48,7 @@ public class SysmlConstants {
 	public static final String CREATE_OBJECT_ACTION = "CreateObjectAction";
 	public static final String CUSTOMIZATION = "Customization";
 	public static final String DATA_STORE_NODE = "DataStoreNode";
+	public static final String DATA_TYPE = "DataType";
 	public static final String DECISION_NODE = "DecisionNode";
 	public static final String DEEP_HISTORY = "DeepHistory";
 	public static final String DESIGN_CONSTRAINT = "DesignConstraint";

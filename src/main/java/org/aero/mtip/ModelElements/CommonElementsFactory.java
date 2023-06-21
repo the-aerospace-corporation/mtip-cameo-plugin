@@ -102,7 +102,6 @@ import org.aero.mtip.ModelElements.Requirements.RequirementsDiagram;
 import org.aero.mtip.ModelElements.Sequence.Collaboration;
 import org.aero.mtip.ModelElements.Sequence.CombinedFragment;
 import org.aero.mtip.ModelElements.Sequence.DestructionOccurrenceSpecification;
-import org.aero.mtip.ModelElements.Sequence.Duration;
 import org.aero.mtip.ModelElements.Sequence.DurationConstraint;
 import org.aero.mtip.ModelElements.Sequence.DurationInterval;
 import org.aero.mtip.ModelElements.Sequence.DurationObservation;

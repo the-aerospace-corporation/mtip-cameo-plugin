@@ -85,6 +85,14 @@ public class SysML {
 		return StereotypesHelper.getStereotype(getInstance().project, BLOCK_NAME, getInstance().profile);
 	}
 	
+	public static Stereotype getConstraintBlockStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, CONSTRAINT_BLOCK_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getDeriveRequirementStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, DERIVE_REQUIREMENT_NAME, getInstance().profile);
+	}
+	
 	public static Stereotype getDirectedFeatureStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, DIRECTED_FEATURE_NAME, getInstance().profile);
 	}
@@ -93,12 +101,24 @@ public class SysML {
 		return StereotypesHelper.getStereotype(getInstance().project, DOMAIN_NAME, getInstance().profile);
 	}
 	
+	public static Stereotype getFlowPropertyStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, FLOW_PROPERTY_NAME, getInstance().profile);
+	}
+	
 	public static Stereotype getExternalStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, EXTERNAL_NAME, getInstance().profile);
 	}
 	
-	public static Stereotype getFlowPropertyStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, FLOW_PROPERTY_NAME, getInstance().profile);
+	public static Stereotype getFlowSpecificationStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, EXTERNAL_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getFunctionalRequirementStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, FUNCTIONAL_REQUIREMENT_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getProxyPortStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, PROXY_PORT_NAME, getInstance().profile);
 	}
 	
 	public static Stereotype getRequirementStereotype() {
@@ -115,6 +135,10 @@ public class SysML {
 	
 	public static Stereotype getSystemContextStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, SYSTEM_CONTEXT_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getValueTypeStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, VALUE_TYPE_NAME, getInstance().profile);
 	}
 	
 	public static boolean isAssociationBlock(Element element) {

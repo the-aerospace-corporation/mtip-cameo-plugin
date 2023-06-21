@@ -6,36 +6,21 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Requirements;
 
-import org.aero.mtip.ModelElements.CommonRelationship;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
+import java.util.Arrays;
 
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.profiles.SysML;
+import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.XmlTagConstants;
 
 public class DeriveRequirement extends CommonRelationship {
 
 	public DeriveRequirement(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DERIVE_REQUIREMENT;
-		this.xmlConstant = XmlTagConstants.DERIVEREQUIREMENT;
-		this.element = f.createAbstractionInstance();
-	}
-
-	@Override
-	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		super.createElement(project, owner, client, supplier, xmlElement);
-		
-		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
-		Stereotype deriveRequirementStereotype = StereotypesHelper.getStereotype(project,  SysMLProfile.DERIVEREQT_STEREOTYPE, sysml);
-		StereotypesHelper.addStereotype(element, deriveRequirementStereotype);
-
-		return element;
+		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		sysmlConstant = SysmlConstants.DERIVE_REQUIREMENT;
+		xmlConstant = XmlTagConstants.DERIVEREQUIREMENT;
+		element = f.createAbstractionInstance();
+		initialStereotypes = Arrays.asList(SysML.getDeriveRequirementStereotype());
 	}
 }

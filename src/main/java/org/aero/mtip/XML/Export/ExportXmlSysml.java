@@ -539,15 +539,14 @@ public class ExportXmlSysml {
 			return SysmlConstants.TIME_OBSERVATION;
 		} else if (element instanceof Trigger) {
 			return SysmlConstants.TRIGGER;
-		} else if(MDCustomizationForSysMLProfile.isUnit(element)) {
+		} else if (MDCustomizationForSysMLProfile.isUnit(element)) {
 			return SysmlConstants.UNIT;
-		} else if(element instanceof UseCase) {
+		} else if (element instanceof UseCase) {
 			return SysmlConstants.USE_CASE;
-		} else if(MDCustomizationForSysMLProfile.isValueProperty(element)) {
+		} else if (MDCustomizationForSysMLProfile.isValueProperty(element)) {
 			return SysmlConstants.VALUE_PROPERTY;
-		} else if(SysML.isValueType(element)) {
+		} else if (SysML.isValueType(element)) {
 			return SysmlConstants.VALUE_TYPE;
-			
 		//Super classes listed below as to not to override their children	
 		} else if(element instanceof Constraint) {
 			return SysmlConstants.CONSTRAINT;
