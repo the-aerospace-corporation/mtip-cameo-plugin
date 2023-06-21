@@ -44,6 +44,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
@@ -365,6 +366,7 @@ public abstract class CommonElement {
 			ExportLog.log(message);
 			CameoUtils.logGUI(message);
 		}
+		return null;
 	}
 	
 	public String getTaggedValueType(Object value) {
@@ -378,7 +380,7 @@ public abstract class CommonElement {
 		} else if (value instanceof Integer) {
 			return SysmlConstants.INTEGER;
 		} else if (value instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral) {
-			return SysmlConstants.ENUMERATIONLITERAL;
+			return SysmlConstants.ENUMERATION_LITERAL;
 		} else if (value instanceof Element) {
 			return SysmlConstants.ELEMENT;
 		}
@@ -396,7 +398,7 @@ public abstract class CommonElement {
 			return Double.toString((Double)value);
 		} else if (valueType.contentEquals(SysmlConstants.INTEGER)) {
 			return Integer.toString((Integer)value);
-		} else if (valueType.contentEquals(SysmlConstants.ENUMERATIONLITERAL)) {
+		} else if (valueType.contentEquals(SysmlConstants.ENUMERATION_LITERAL)) {
 			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral literal = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral)value;
 			return literal.getName();
 		} else if (valueType.equals(SysmlConstants.ELEMENT)) {
@@ -450,52 +452,6 @@ public abstract class CommonElement {
 //		}
 //		return strVal;
 //	}
-	
-	public org.w3c.dom.Element createStereotypeAttributeTag(Document xmlDoc, String stereotypeName, String profileName, String propertyName, String valueType, Object value) {
-		org.w3c.dom.Element attribute = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
-		attribute.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-		attribute.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.STEREOTYPE_TAGGED_VALUE);
-		
-		org.w3c.dom.Element stereotypeNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
-		stereotypeNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-		stereotypeNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME);
-		stereotypeNameTag.appendChild(xmlDoc.createTextNode(stereotypeName));
-		attribute.appendChild(stereotypeNameTag);
-		
-		org.w3c.dom.Element profileNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
-		profileNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-		profileNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME);
-		profileNameTag.appendChild(xmlDoc.createTextNode(profileName));		
-		
-		org.w3c.dom.Element taggedValueNameTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
-		taggedValueNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-		taggedValueNameTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_NAME);
-		taggedValueNameTag.appendChild(xmlDoc.createTextNode(propertyName));
-		
-		org.w3c.dom.Element taggedValueTypeTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
-		taggedValueTypeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-		taggedValueTypeTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_TYPE);
-		taggedValueTypeTag.appendChild(xmlDoc.createTextNode(valueType));
-		
-		String slotValue = getTaggedValueValueAsString(valueType, value);
-		
-		org.w3c.dom.Element taggedValueValueTag = xmlDoc.createElement(XmlTagConstants.ATTRIBUTE);
-		taggedValueValueTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-		taggedValueValueTag.setAttribute(XmlTagConstants.ATTRIBUTE_KEY, XmlTagConstants.TAGGED_VALUE_VALUE);
-		taggedValueValueTag.appendChild(xmlDoc.createTextNode(slotValue));
-		
-		attribute.appendChild(taggedValueValueTag);
-		
-		//attribute.appendChild(listTag);
-		
-		attribute.appendChild(stereotypeNameTag);
-		attribute.appendChild(profileNameTag);
-		attribute.appendChild(taggedValueNameTag);
-		attribute.appendChild(taggedValueTypeTag);
-		
-		
-		return attribute;		
-	}
 	
 	public Element createClassWithStereotype(Project project, Stereotype stereotype, Element owner) {
 		element = project.getElementsFactory().createClassInstance();

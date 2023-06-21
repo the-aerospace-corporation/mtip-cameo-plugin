@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.xml.transform.TransformerException;
 
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.profiles.MDForSysMLExtensions;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.FileSelect;
@@ -32,18 +31,17 @@ public class ExportXmlSysmlAction extends MDAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 6293853861208772420L;
-	public ExportXmlSysmlAction(String id, String name)
-	{
+	public ExportXmlSysmlAction(String id, String name) {
 		super(id, name, null, null);
 	}
-	public void actionPerformed(ActionEvent e)
-	{
+	
+	public void actionPerformed(ActionEvent e) {
 		Project project = Application.getInstance().getProject();
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
 		}
-		try
-		{
+		
+		try {
 //			int n = JOptionPane.showOptionDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Select XML import type", "Choose Export Format", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 //			
 			File file = FileSelect.chooseXMLFile();
@@ -57,8 +55,6 @@ public class ExportXmlSysmlAction extends MDAction {
 			
 			ExportXmlSysml.buildXML(file, null);
 			FileSelect.writeXMLToFile(file);
-			
-			
 			
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export complete.");
 			

@@ -23,7 +23,7 @@ import java.util.TreeMap;
 
 import javax.swing.JFileChooser;
 
-import org.apache.commons.io.FilenameUtils;
+import com.nomagic.magicdraw.core.Application;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -31,12 +31,10 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 public class ExportLog {
 	protected static List<String> logData = new ArrayList<String> ();
 	private static String documentsPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
-	//private final static String logName = "Import Log " + new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + ".txt";
 	private final static String logFolder = "Cameo Logs";
 	private final static String subFolder = "Export";
 	private static String logFileName;
-	private static Path filePath = null;	
-	private static ArrayList<String> xmlFileNames = new ArrayList<String> ();
+	private static Path filePath = null;
 	
 	public ExportLog() {
 		
@@ -46,7 +44,6 @@ public class ExportLog {
 		logData = new ArrayList<String> ();
 		filePath = null;
 		logFileName = "";
-		xmlFileNames = new ArrayList<String> ();
 	}
 	
 	public static void save() {
@@ -80,29 +77,14 @@ public class ExportLog {
 	}
 
 	private static void createFileName() {
-		String logName = "";
-		logName += "MTIP_Export_Log_";
-		logName += new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-		logName += "_";
-		for(String xmlFileName : xmlFileNames) {
-			if(xmlFileName != null) {
-				logName += FilenameUtils.removeExtension(xmlFileName) + "_";
-			}
-		}
-		
+		String logName = Application.getInstance().getProject().getName() + "_";
+		logName += new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 		logName += ".txt";
+		
 		if(logName.length() > 250) {
 			logName = logName.substring(0, 249);
 		}
 		logFileName = logName;
-	}
-	/**
-	 * Prepends file name of XML being imported to the file name which will be used for the text log file. Supports
-	 * multiple file names prepended when multiple XMLs are imported at once.
-	 * @param fileName String file name
-	 */
-	public static void addFilePrefix(File file) {
-		xmlFileNames.add(file.getName());
 	}
 	
 	public static void log(String message) {

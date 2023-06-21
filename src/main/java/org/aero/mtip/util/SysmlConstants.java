@@ -734,7 +734,7 @@ public class SysmlConstants {
 	};
 	
 	public static boolean isElementOrDiagram(String elementType) {
-		if(Arrays.asList(SYSMLELEMENTS).contains(elementType) || Arrays.asList(SYSMLDIAGRAMS).contains(elementType)) {
+		if(Arrays.asList(SYSML_ELEMENTS).contains(elementType) || Arrays.asList(SYSML_DIAGRAMS).contains(elementType)) {
 			return true;
 		}
 		return false;

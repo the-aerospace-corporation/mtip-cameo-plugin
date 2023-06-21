@@ -17,6 +17,8 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 
 import org.aero.mtip.ModelElements.EnumerationLiteral;
+import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
+import org.aero.mtip.profiles.SysML;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -25,17 +27,24 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.BooleanTaggedValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.IntegerTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.RealTaggedValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.StringTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
@@ -293,8 +302,29 @@ public class CameoUtils {
 		return false;
 	}
 	
-	public static boolean isSupportedInstanceSpecification(Element element) {
-		if (!(element instanceof InstanceSpecification)) {
+	/**
+	 * 
+	 * @param element Element to check if its a type that is implicitly supported. Most implicitly supported elements are stored
+	 * within the HUDS XML attributes
+	 * @return true if element type is not explicitly supported as a <type> field in the HUDS XML.
+	 */
+	public static boolean isNotExplicitlySupported(Element element) {
+		if (element instanceof ElementValue ||
+			    element instanceof LiteralReal ||
+			    element instanceof LiteralBoolean ||
+			    element instanceof LiteralInteger ||
+			    element instanceof LiteralString ||
+			    element instanceof LiteralUnlimitedNatural ||
+			    element instanceof InstanceValue ||
+			    element instanceof BooleanTaggedValue ||
+			    element instanceof ElementTaggedValue ||
+			    element instanceof IntegerTaggedValue ||
+			    element instanceof RealTaggedValue ||
+			    element instanceof StringTaggedValue ||
+			    element instanceof Comment ||			    
+			    element instanceof ConnectorEnd ||
+			    MDCustomizationForSysMLProfile.isReferenceProperty(element)) {	
+			
 			return true;
 		}
 		
