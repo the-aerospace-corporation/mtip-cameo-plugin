@@ -240,7 +240,12 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("OV-6b Operational State Transition Description", DoDAFConstants.OV6B);
         aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
 
-<<<<<<< HEAD
+        //UAF Standards
+        aMap.put("Standards Taxonomy", UAFConstants.STANDARDS_TAXONOMY);
+        aMap.put("Standards Structure", UAFConstants.STANDARDS_STRUCTURE);
+        //UAF Strategic
+        aMap.put("Strategic Taxonomy", UAFConstants.STRATEGIC_TAXONOMY);
+
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
         aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);

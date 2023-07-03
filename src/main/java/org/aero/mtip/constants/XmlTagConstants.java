@@ -482,6 +482,9 @@ public class XmlTagConstants
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY = "uaf.StrategicTaxonomy";
 	
+	public static final String STANDARDS_TAXONOMY = "uaf.StandardsTaxonomy";
+	public static final String STANDARDS_STRUCTURE = "uaf.StandardsStructure";
+	
 	// DoDAF Diagram Types
 	// Capability Views
 

@@ -261,6 +261,8 @@ import org.aero.mtip.uaf.Standards.Protocol;
 import org.aero.mtip.uaf.Standards.ProtocolLayer;
 import org.aero.mtip.uaf.Standards.ProtocolStack;
 import org.aero.mtip.uaf.Standards.Standard;
+import org.aero.mtip.uaf.Standards.StandardsStructure;
+import org.aero.mtip.uaf.Standards.StandardsTaxonomy;
 import org.aero.mtip.uaf.Strategic.Achiever;
 import org.aero.mtip.uaf.Strategic.ActualEnduringTask;
 import org.aero.mtip.uaf.Strategic.ActualEnterprisePhase;
@@ -1200,6 +1202,13 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.RESPONSIBILITY:
 				element = new Responsibility(name, EAID);
+				break;
+				
+			case UAFConstants.STANDARDS_TAXONOMY:
+				element = new StandardsTaxonomy(name, EAID);
+				break;
+			case UAFConstants.STANDARDS_STRUCTURE:
+				element = new StandardsStructure(name, EAID);
 				break;
 			//default
 			default:

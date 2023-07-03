@@ -59,7 +59,6 @@ public class UAFConstants {
 	public static final String OPERATIONAL_ACTION = "OperationalAction";
 	public static final String OPERATIONAL_ASSOCIATION = "OperationalAssociation";
 	
-	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcessFlow";
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -96,7 +95,6 @@ public class UAFConstants {
 	public static final String VERSION_OF_CONFIGURATION = "VersionOfConfiguration";
 	public static final String WHOLE_LIFE_CONFIGURATION_KIND = "WholeLifeConfigurationKind";
 	public static final String RESOURCE_ACTION = "ResourceAction";
-	public static final String RESOURCES_PROCESS_FLOW = "ResourcesProcessFlow";
 	
 	//Projects
 	public static final String ACTUAL_MILESTONE_KIND = "ActualMilestoneKind";
@@ -168,6 +166,9 @@ public class UAFConstants {
 	public static final String ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM = "ActualResourcesConnectivity";
 	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "ActualResourcesStructure";
 	
+	// Operational Diagrams
+	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcessFlow";
+	
 	// Personnel Diagrams
 	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "PersonnelConnectivity";
 	public static final String PERSONNEL_INTERACTION_SCENARIO_DIAGRAM = "PersonnelInteractionScenario";
@@ -177,9 +178,15 @@ public class UAFConstants {
 	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "PersonnelStructure";
 	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "PersonnelTaxonomy";
 	
+	// Resource Diagrams	
+	public static final String RESOURCES_PROCESS_FLOW = "ResourcesProcessFlow";
+	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
 	
+	//Standards Diagrams
+	public static final String STANDARDS_TAXONOMY = "StandardsTaxonomy";
+	public static final String STANDARDS_STRUCTURE = "StandardsStructure";
 	
 	// Diagram Stereotypes String in UAF/UPDM Profiles
 	public static final String STRATEGIC_TAXONOMY_STEREOTYPE = "St-Tx Strategic Taxonomy"; // Contained in "UPDM Customization" Profile
@@ -377,9 +384,11 @@ public class UAFConstants {
 			PERSONNEL_STRUCTURE_DIAGRAM,
 			PERSONNEL_TAXONOMY_DIAGRAM,
 			
-			STRATEGIC_TAXONOMY,
+			//STRATEGIC_TAXONOMY, commented out for now because it needs to be fixed (implementation is not correct)
 			OPERATIONAL_PROCESS_FLOW,
-			RESOURCES_PROCESS_FLOW
+			RESOURCES_PROCESS_FLOW,
+			STANDARDS_TAXONOMY,
+			STANDARDS_STRUCTURE
 	};
 	
 	public static final String [] RESOURCES_PROCESS_FLOW_TYPES = {
@@ -505,5 +514,130 @@ public class UAFConstants {
 			
 			UAFConstants.OPERATIONAL_MESSAGE
 
+	};
+
+	//commented out ones are because current domain is not suported yet
+	public static final String [] STANDARDS_TAXONOMY_TYPES = {
+		UAFConstants.INFORMATION,
+		UAFConstants.ALIAS,
+		UAFConstants.DEFINITION,
+		UAFConstants.SAME_AS,
+		
+		UAFConstants.STANDARD,
+		UAFConstants.PROTOCOL,
+		UAFConstants.PROTOCOL_STACK,
+		//UAFConstants.ACTUAL_ORGANIZATION,
+		SysmlConstants.GENERALIZATION,
+		//UAFConstants.DIRECTED_AGGREGATION,
+		
+		UAFConstants.CAPABILITY,
+		UAFConstants.OPERATIONAL_PERFORMER,
+		UAFConstants.OPERATIONAL_ACTIVITY,
+		
+		UAFConstants.CAPABILITY_CONFIGURATION,
+		UAFConstants.ORGANIZATION,
+		//UAFConstants.ACTUAL_CONDITION,
+		
+		//UAFConstants.SERVICE_SPECIFICATION,
+		//UAFConstants.SERVICE_FUNCTION,
+		
+		//UAFConstants.OPERATIONAL_MITIGATION,
+		//UAFConstants.RESOURCE_MITIGATION,
+		//UAFConstants.SECURITY_ENCLAVE,
+		//UAFConstants.SECURITY_CONTROL,
+		//UAFConstants.PROTECTS,
+		//UAFConstants.RISK,
+		//UAFConstants.OWNS_RISK,
+		//UAFConstants.AFFECTS,
+		//UAFConstants.SECURITY_PROCESS,
+		
+		//UAFConstants.MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_PROPERTY_SET,
+		
+		SysmlConstants.PACKAGE,
+		SysmlConstants.BLOCK,
+		SysmlConstants.INTERFACEBLOCK,
+		SysmlConstants.FLOWSPECIFICATION,
+		
+		SysmlConstants.REQUIREMENT,
+		SysmlConstants.EXTENDEDREQUIREMENT,
+		SysmlConstants.SATISFY,
+		//SysmlConstants.DERIVE,
+		SysmlConstants.COPY,
+		SysmlConstants.TRACE,
+		SysmlConstants.VERIFY,
+		//SysmlConstants.TESTCASEACTIVITY
+		
+	};
+	
+	public static final String [] STANDARDS_STRUCTURE_TYPES = {
+		UAFConstants.DEFINITION,
+		UAFConstants.ALIAS,
+		UAFConstants.INFORMATION,
+		UAFConstants.SAME_AS,
+		
+		UAFConstants.STANDARD,
+		UAFConstants.PROTOCOL,
+		UAFConstants.PROTOCOL_STACK,
+		SysmlConstants.GENERALIZATION,
+		SysmlConstants.ASSOCIATION,
+		
+		UAFConstants.PROTOCOL_LAYER,
+		UAFConstants.CAPABILITY,
+		UAFConstants.OPERATIONAL_PERFORMER,
+		UAFConstants.OPERATIONAL_ACTIVITY,
+		
+		UAFConstants.CAPABILITY_CONFIGURATION,
+		UAFConstants.ORGANIZATION,
+		//UAFConstants.ACTUAL_CONDITION, //instance specification
+		UAFConstants.FUNCTION,
+		
+		//UAFConstants.SERVICE_SPECIFICATION,
+		//UAFConstants.SERVICE_FUNCTION,
+		
+		//UAFConstants.OPERATIONAL_MITIGATION,
+		//UAFConstants.RESOURCE_MITIGATION,
+		//UAFConstants.SECURITY_ENCLAVE,
+		//UAFConstants.SECURITY_CONTROL,
+		
+		//UAFConstants.PROTECTS,
+		//UAFConstants.RISK,
+		//UAFConstants.OWNS_RISK,
+		//UAFConstants.AFFECTS,
+		//UAFConstants.SECURITY_PROCESS,
+		
+		//UAFConstants.MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_PROPERTY_SET,
+		
+		SysmlConstants.PACKAGE,
+		SysmlConstants.BLOCK,
+		SysmlConstants.INTERFACEBLOCK,
+		SysmlConstants.FLOWSPECIFICATION,
+		SysmlConstants.CONSTRAINTBLOCK,
+		SysmlConstants.DOMAIN,
+		SysmlConstants.VALUETYPE,
+		SysmlConstants.ENUMERATION,
+		SysmlConstants.SIGNAL,
+		//SysmlConstants.INSTANCE,
+		SysmlConstants.PORT,
+		SysmlConstants.PROXYPORT,
+		SysmlConstants.FULLPORT,
+		SysmlConstants.FLOWPORT,
+		SysmlConstants.INTERFACEREALIZATION,
+		SysmlConstants.LINK,
+		SysmlConstants.ASSOCIATIONBLOCK,
+		
+		SysmlConstants.REQUIREMENT,
+		SysmlConstants.EXTENDEDREQUIREMENT,
+		SysmlConstants.SATISFY,
+		//SysmlConstants.DERIVE,
+		SysmlConstants.COPY,
+		SysmlConstants.TRACE,
+		SysmlConstants.VERIFY,
+		SysmlConstants.REFINE,
+		//SysmlConstants.TESTCASEACTIVITY,
+		
 	};
 }
