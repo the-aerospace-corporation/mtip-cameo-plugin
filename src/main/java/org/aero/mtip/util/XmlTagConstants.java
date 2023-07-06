@@ -423,6 +423,13 @@ public class XmlTagConstants
 	//Dictionary
 	public static final String SAME_AS = "uaf.SameAs";
 	
+	// Actual Resources
+	public static final String ACTUAL_ORGANIZATION = "uaf.ActualOrganization";
+	public static final String ACTUAL_PERSON = "uaf.ActualPerson";
+	public static final String ACTUAL_POST = "uaf.ActualPost";
+	public static final String ACTUAL_RESOURCE = "uaf.ActualResource";
+	public static final String ACTUAL_RESPONSIBILITY = "uaf.ActualResponsibility";
+	public static final String FIELDED_CAPABILITY = "uaf.FieldedCapability";
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
 	

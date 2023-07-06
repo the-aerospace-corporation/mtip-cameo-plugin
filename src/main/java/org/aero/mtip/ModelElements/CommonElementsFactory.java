@@ -266,6 +266,12 @@ import org.aero.mtip.uaf.Strategic.StrategicTaxonomyPackage;
 import org.aero.mtip.uaf.Strategic.StructuralPart;
 import org.aero.mtip.uaf.Strategic.TemporalPart;
 import org.aero.mtip.uaf.Strategic.WholeLifeEnterprise;
+import org.aero.mtip.uaf.actualresources.ActualOrganization;
+import org.aero.mtip.uaf.actualresources.ActualPerson;
+import org.aero.mtip.uaf.actualresources.ActualPost;
+import org.aero.mtip.uaf.actualresources.ActualResource;
+import org.aero.mtip.uaf.actualresources.ActualResponsibility;
+import org.aero.mtip.uaf.actualresources.FieldedCapability;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 
@@ -826,6 +832,27 @@ public class CommonElementsFactory {
 				element = new OperationalPort(name, EAID);
 				break;				
 				
+			// UAF Actual Resources
+			case UAFConstants.ACTUAL_ORGANIZATION:
+				element = new ActualOrganization(name, EAID);
+				break;
+				
+			case UAFConstants.ACTUAL_PERSON:
+				element = new ActualPerson(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_POST:
+				element = new ActualPost(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_RESOURCE:
+				element = new ActualResource(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_RESPONSIBILITY:
+				element = new ActualResponsibility(name, EAID);
+				break;
+			case UAFConstants.FIELDED_CAPABILITY:
+				element = new FieldedCapability(name, EAID);
+				break;
+			
 			// DoDAF Diagram Constants
 			case DoDAFConstants.CV1:
 				element = new CV1(name, EAID);

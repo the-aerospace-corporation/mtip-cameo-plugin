@@ -126,8 +126,6 @@ public class UAFConstants {
 	public static final String INFORMATION = "Information";
 	public static final String SAME_AS = "SameAs";
 	
-<<<<<<< HEAD
-=======
 	//Security
 	public static final String SECURITY_PROCESS_ACTION = "SecurityProcessAction";
 	
@@ -135,8 +133,14 @@ public class UAFConstants {
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
+	// Actual Resources
+	public static final String ACTUAL_ORGANIZATION = "ActualOrganization";
+	public static final String ACTUAL_PERSON = "ActualPerson";
+	public static final String ACTUAL_POST = "ActualPost";
+	public static final String ACTUAL_RESOURCE = "ActualResource";
+	public static final String ACTUAL_RESPONSIBILITY = "ActualResponsibility";
+	public static final String FIELDED_CAPABILITY = "FieldedCapability";
 
->>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
 	// Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
 	
@@ -234,15 +238,18 @@ public class UAFConstants {
 			DEFINITION,
 			ALIAS,
 			INFORMATION,
-<<<<<<< HEAD
-=======
 			OPERATIONAL_PORT,
 			
-			//Security
-			SECURITY_PROCESS_ACTION
-
->>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
+			// Actual Resources
+			ACTUAL_ORGANIZATION,
+			ACTUAL_PERSON,
+			ACTUAL_POST,
+			ACTUAL_RESOURCE,
+			ACTUAL_RESPONSIBILITY,
+			FIELDED_CAPABILITY,
 			
+			//Security
+			SECURITY_PROCESS_ACTION,		
 			
 			OPERATIONAL_PORT
 	};
@@ -266,11 +273,8 @@ public class UAFConstants {
 			OPERATIONAL_OBJECT_FLOW,
 			ARBITRARY_CONNECTOR,
 			OPERATIONAL_EXCHANGE,
-<<<<<<< HEAD
-=======
 			OPERATIONAL_ASSOCIATION,
 
->>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
 			//OPERATIONAL_MESSAGE,
 			//RESOURCES
 			RESOURCE_CONNECTOR,

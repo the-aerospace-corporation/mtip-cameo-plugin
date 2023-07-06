@@ -18,6 +18,9 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
+import org.aero.mtip.dodaf.DoDAFConstants;
+import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -67,6 +70,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.InterfaceRealization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -122,11 +126,6 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Tran
 
 import com.nomagic.magicdraw.uml.BaseElement;
 import com.nomagic.magicdraw.uml.ClassTypes;
-
-import org.aero.mtip.dodaf.DoDAFConstants;
-
-import org.aero.mtip.uaf.UAFConstants;
-import org.aero.mtip.uaf.UAFProfile;
 
 public class ExportXmlSysml {
 	private static HashMap<String, String> exportedElements = new HashMap<String, String>();
@@ -770,9 +769,22 @@ public class ExportXmlSysml {
 			return UAFConstants.INFORMATION;
 		} else if(stereotypes.contains(UAFProfile.SAME_AS_STEREOTYPE)) {
 			return UAFConstants.SAME_AS;
-
-
-			//Seciruty
+		
+		// Actual Resources
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_ORGANIZATION_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_ORGANIZATION;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_PERSON_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_PERSON;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_POST_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_POST;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_RESOURCE_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_RESOURCE;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_RESPONSIBILITY_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_RESPONSIBILITY;
+		} else if(stereotypes.contains(UAFProfile.FIELDED_CAPABILITY_STEREOTYPE)) {
+			return UAFConstants.FIELDED_CAPABILITY;
+			
+			//Security
 		} else if (stereotypes.contains(UAFProfile.SECURITY_PROCESS_ACTION_STEREOTYPE)){
 			return UAFConstants.SECURITY_PROCESS_ACTION;
 		}
@@ -843,9 +855,8 @@ public class ExportXmlSysml {
 			commonElementType = SysmlConstants.COLLABORATION;
 		} else if(element instanceof CombinedFragment) {
 			commonElementType = SysmlConstants.COMBINEDFRAGMENT;
-			//	} else if(element instanceof Comment) {
-			//		commonElementType = SysmlConstants.COMMENT;
-			//		CameoUtils.logGUI("Exporting Comment");
+		} else if(element instanceof Comment) {
+			commonElementType = SysmlConstants.COMMENT;
 		} else if(element instanceof ConditionalNode) { 
 			commonElementType = SysmlConstants.CONDITIONALNODE;
 		} else if (element instanceof ConnectionPointReference) {
@@ -853,7 +864,6 @@ public class ExportXmlSysml {
 		} else if (element instanceof Connector) {
 			commonRelationshipType = SysmlConstants.CONNECTOR;
 		} else if(element instanceof Constraint) {
-			Constraint constraint = (Constraint)element;
 			commonElementType = SysmlConstants.CONSTRAINT;
 		} else if(SysMLProfile.isConstraintBlock(element)) {
 			commonElementType = SysmlConstants.CONSTRAINTBLOCK;
@@ -1088,7 +1098,6 @@ public class ExportXmlSysml {
 
 			presentationDiagram = project.getDiagram(diag);
 			DiagramType diagType = presentationDiagram.getDiagramType();
-			String diagTypeStr = presentationDiagram.getRealType();
 
 			CameoUtils.logGUI("ACTUAL diagram type: " + diagType.getType());
 			CameoUtils.logGUI("MAPPED diagram type: " + AbstractDiagram.diagramToType.get( diagType.getType()));

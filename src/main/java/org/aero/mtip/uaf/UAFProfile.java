@@ -126,6 +126,14 @@ public class UAFProfile {
 	public static Stereotype INFORMATION_STEREOTYPE = null;
 	public static Stereotype SAME_AS_STEREOTYPE = null;
 	
+	// Actual Resources
+	public static Stereotype ACTUAL_ORGANIZATION_STEREOTYPE = null;
+	public static Stereotype ACTUAL_PERSON_STEREOTYPE = null;
+	public static Stereotype ACTUAL_POST_STEREOTYPE = null;
+	public static Stereotype ACTUAL_RESOURCE_STEREOTYPE = null;
+	public static Stereotype ACTUAL_RESPONSIBILITY_STEREOTYPE = null;
+	public static Stereotype FIELDED_CAPABILITY_STEREOTYPE = null;
+	
 	public static Stereotype SECURITY_PROCESS_ACTION_STEREOTYPE = null;
 	
 	public UAFProfile(Project project) {
@@ -250,9 +258,17 @@ public class UAFProfile {
 	    DEFINITION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.DEFINITION, UAF_PROFILE);
 	    ALIAS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ALIAS, UAF_PROFILE);
 	    INFORMATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.INFORMATION, UAF_PROFILE);
-	    SAME_AS_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.SAME_AS, UAF_PROFILE);
+	    SAME_AS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SAME_AS, UAF_PROFILE);
+	    
+	    // Actual Resources
+	    ACTUAL_ORGANIZATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_ORGANIZATION, UAF_PROFILE);
+	    ACTUAL_PERSON_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PERSON, UAF_PROFILE);
+	    ACTUAL_POST_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PERSON, UAF_PROFILE);
+	    ACTUAL_RESOURCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_RESOURCE, UAF_PROFILE);
+	    ACTUAL_RESPONSIBILITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_RESPONSIBILITY, UAF_PROFILE);
+	    FIELDED_CAPABILITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FIELDED_CAPABILITY, UAF_PROFILE);
 	    
 	    //Security
-	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project,  UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);
+	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);
 	}
 }
