@@ -14,13 +14,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
@@ -42,6 +40,7 @@ public class ExportDiagramAction extends MDAction {
 
 	public void actionPerformed(ActionEvent e) {
 		Project project = Application.getInstance().getProject();
+		
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
 			return;

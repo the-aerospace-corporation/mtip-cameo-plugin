@@ -13,11 +13,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 
+import org.aero.mtip.XML.Import.ImportMetrics;
 import org.apache.commons.io.FilenameUtils;
 
 public class ImportLog {
@@ -29,6 +32,7 @@ public class ImportLog {
 	private static String logFileName;
 	private static Path filePath = null;	
 	private static ArrayList<String> xmlFileNames = new ArrayList<String> ();
+	private static final String horizontalLine = "--------------------------------------\n";
 	
 	public ImportLog() {
 		
@@ -100,5 +104,29 @@ public class ImportLog {
 	
 	public static void log(String message) {
 		logData.add(message + "\n");
+	}
+	
+	public static void logMetrics(ImportMetrics im) {
+		if (im.getElementCounts().isEmpty()) {
+			logData.add("No elements imported.");
+			return;
+		}
+		
+		logData.add(horizontalLine);
+		logData.add("Successfully imported element counts:\n\n");
+		
+		Object[] elementNames = im.getElementCounts().keySet().toArray();
+		Arrays.sort(elementNames);
+		
+		int total = 0;
+		for (Object elementName : elementNames) {
+			int count = im.getElementCounts().get(elementName);
+			total += count;
+			
+			logData.add((String)elementName + " " + Integer.toString(count) + "\n");
+		}
+		
+		logData.add("\nTotal " + Integer.toString(total) + "\n");
+		logData.add(horizontalLine);
 	}
 }

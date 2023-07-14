@@ -15,13 +15,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
+
+import org.aero.mtip.XML.Export.ExportMetrics;
 
 import com.nomagic.magicdraw.core.Application;
 
@@ -35,6 +39,7 @@ public class ExportLog {
 	private final static String subFolder = "Export";
 	private static String logFileName;
 	private static Path filePath = null;
+	private static final String horizontalLine = "--------------------------------------\n";
 	
 	public ExportLog() {
 		
@@ -118,5 +123,29 @@ public class ExportLog {
 		for (String elementType : typeCounts.descendingKeySet()) {
 			log(String.format("%s: %s", elementType, Integer.toString(typeCounts.get(elementType))));
 		}
+	}
+
+	public static void logMetrics(ExportMetrics em) {
+		if (em.getElementCounts().isEmpty()) {
+			logData.add("No elements imported.");
+			return;
+		}
+		
+		logData.add(horizontalLine);
+		logData.add("Successfully exported element counts:\n\n");
+		
+		Object[] elementNames = em.getElementCounts().keySet().toArray();
+		Arrays.sort(elementNames);
+		
+		int total = 0;
+		for (Object elementName : elementNames) {
+			int count = em.getElementCounts().get(elementName);
+			total += count;
+			
+			logData.add((String)elementName + " " + Integer.toString(count) + "\n");
+		}
+		
+		logData.add("\nTotal " + Integer.toString(total) + "\n");
+		logData.add(horizontalLine);
 	}
 }

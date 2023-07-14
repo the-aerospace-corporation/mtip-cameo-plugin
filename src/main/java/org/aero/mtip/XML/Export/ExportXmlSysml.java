@@ -137,14 +137,16 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public class ExportXmlSysml {
-	private static HashSet<String> exportedElements = new HashSet<String>();
-	private static HashSet<String> implicitElements = new HashSet<String>();
+	private static HashSet<String> exportedElements;
+	private static HashSet<String> implicitElements;
+	private static ExportMetrics exportMetrics;
 	public static Project project;
 	
 	public static void buildXML(File file, Package packageElement) {
 		project = Application.getInstance().getProject();
 		exportedElements = new HashSet<String>();
 		implicitElements = new HashSet<String>();
+		exportMetrics = new ExportMetrics();
 		
 		if (packageElement == null) {
 			packageElement = project.getPrimaryModel();
@@ -161,6 +163,7 @@ public class ExportXmlSysml {
 		project = Application.getInstance().getProject();
 		exportedElements = new HashSet<String>();
 		implicitElements = new HashSet<String>();
+		exportMetrics = new ExportMetrics();
 		
 		Element diagramElement = diagramPresentationElement.getElement();
 		exportElementRecursiveUp(diagramElement);
@@ -277,6 +280,9 @@ public class ExportXmlSysml {
 		commonElement.writeToXML(pkg);
 		
 		exportedElements.add(pkg.getID());
+		
+		commonElement.writeToXML(pkg);
+		exportMetrics.countElement(commonElement);
 	}
 	
 
@@ -292,7 +298,6 @@ public class ExportXmlSysml {
 			if (!isImplicitlySupported(element)) {
 				ExportLog.log(String.format("%s type could not be identified. Not currently supported.", element.getHumanType()));
 			}
-			
 			return;
 		}
 		
@@ -553,7 +558,7 @@ public class ExportXmlSysml {
 			return SysmlConstants.CONSTRAINT;
 		} else if(MDForSysMLExtensions.isProperty(element)) {
 			return SysmlConstants.PROPERTY;	
-		} else if (element instanceof InstanceSpecification && CameoUtils.isSupportedInstanceSpecification(element)) {
+		} else if (element instanceof InstanceSpecification) {
 			return SysmlConstants.INSTANCE_SPECIFICATION;
 		// Check ActionClass last as any child action class will be an instance of ActionClass
 		} else if(element instanceof ActionClass) {
@@ -693,7 +698,6 @@ public class ExportXmlSysml {
 			    || element instanceof ConnectorEnd
 			    || element instanceof Slot
 			    || element instanceof Comment
-			    || !CameoUtils.isSupportedInstanceSpecification(element)
 			    || MDCustomizationForSysMLProfile.isReferenceProperty(element)) {
 			
 			addImplicitElement(element);

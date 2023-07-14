@@ -56,6 +56,7 @@ public class ImportXmlSysml {
     private static Project project = Application.getInstance().getProject();
     private static HashMap<String, String> parentMap = new HashMap<String, String>();
     private static HashMap<String, String> pluginCreatedIDs = new HashMap<String, String>();
+    private static ImportMetrics importMetrics = new ImportMetrics();
     
     //Variables for Automatic Validation Creation
 	public static final boolean CREATE_VALIDATION_ON_IMPORT = false;
@@ -79,6 +80,7 @@ public class ImportXmlSysml {
 		project = Application.getInstance().getProject();
 		parentMap = new HashMap<String, String>();
 		pluginCreatedIDs = new HashMap<String, String>();
+		importMetrics = new ImportMetrics();
 		
 		MODEL_VALIDATION_PACKAGE = null;
 		CHECK_CLASSES = null;
@@ -114,7 +116,6 @@ public class ImportXmlSysml {
 
 		createSession("Refresh");
 		closeSession();
-		
 		project.getOptions().setAutoNumbering(true);
 	}
 
@@ -174,16 +175,11 @@ public class ImportXmlSysml {
 		createSession(String.format("Create %s Element", modelElement.getType()));
 		
 		Diagram newDiagram = null;
-<<<<<<< HEAD
-	 
-//		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
-=======
-		
-		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
->>>>>>> 9766897 (Rebase with latest updates from MTIP v1.0.7 working version.)
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
 		project.getDiagram(newDiagram).open(); 
+		
+		importMetrics.countElement(diagram);
 		TrackIds(newDiagram, modelElement);
 		
 		closeSession();
@@ -289,7 +285,7 @@ public class ImportXmlSysml {
 		return newElement;
 	}
 	
-	//Get stereotypes from parssedXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
+	//Get stereotypes from parsedXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
 	public static void addStereotypes(Element newElement, XMLItem modelElement) {
 		HashMap<String, String> stereotypes = modelElement.getStereotypes();
 		

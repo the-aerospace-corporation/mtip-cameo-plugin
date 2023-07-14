@@ -178,6 +178,8 @@ public class XmlTagConstants
 	public static final String INTERFACE_BLOCK = "sysml.InterfaceBlock";
 	public static final String INTERFACE_REQUIREMENT = "sysml.InterfaceRequirement";
 	public static final String INTERRUPTIBLE_ACTIVITY_REGION = "sysml.InterruptibleActivityRegion";
+	public static final String INTERFACE_REALIZATION = "sysml.InterfaceRealization";
+	public static final String INTERRUPTIBLEACTIVITYREGION = "sysml.InterruptibleActivityRegion";
 	public static final String JOIN = "sysml.Join";
 	public static final String JOIN_NODE = "sysml.JoinNode";
 	public static final String LIFELINE = "sysml.Lifeline";

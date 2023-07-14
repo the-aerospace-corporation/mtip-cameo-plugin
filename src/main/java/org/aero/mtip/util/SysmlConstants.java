@@ -435,6 +435,7 @@ public class SysmlConstants {
 			BLOCK,
 			CLASS,
 			CONSTRAINT_BLOCK,
+			DATA_TYPE,
 			DOMAIN,
 			ENUMERATION,
 			EXTERNAL,

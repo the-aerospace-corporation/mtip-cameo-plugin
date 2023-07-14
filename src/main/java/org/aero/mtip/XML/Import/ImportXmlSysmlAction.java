@@ -16,6 +16,8 @@ import java.io.StringWriter;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
+import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.ImportLog;
@@ -38,6 +40,10 @@ public class ImportXmlSysmlAction extends MDAction {
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
 		}
+		
+		SysMLProfile.initializeStereotypes();
+		MDCustomizationForSysMLProfile.initializeStereotypes();
+		
 		try
 		{
 			File[] files = FileSelect.chooseXMLFileOpen();

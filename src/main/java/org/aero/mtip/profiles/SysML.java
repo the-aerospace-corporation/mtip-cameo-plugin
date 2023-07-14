@@ -101,16 +101,20 @@ public class SysML {
 		return StereotypesHelper.getStereotype(getInstance().project, DOMAIN_NAME, getInstance().profile);
 	}
 	
-	public static Stereotype getFlowPropertyStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, FLOW_PROPERTY_NAME, getInstance().profile);
-	}
-	
 	public static Stereotype getExternalStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, EXTERNAL_NAME, getInstance().profile);
 	}
 	
+	public static Stereotype getFlowPropertyStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, FLOW_PROPERTY_NAME, getInstance().profile);
+	}
+	
 	public static Stereotype getFlowSpecificationStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, EXTERNAL_NAME, getInstance().profile);
+		return StereotypesHelper.getStereotype(getInstance().project, FLOW_SPECIFICATION_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getFullPortStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, FULL_PORT_NAME, getInstance().profile);
 	}
 	
 	public static Stereotype getFunctionalRequirementStereotype() {

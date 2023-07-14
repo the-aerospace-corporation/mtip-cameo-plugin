@@ -8,6 +8,7 @@ package org.aero.mtip.ModelElements;
 
 import org.aero.mtip.ModelElements.Activity.ControlFlow;
 import org.aero.mtip.ModelElements.Activity.ObjectFlow;
+import org.aero.mtip.ModelElements.Block.InterfaceRealization;
 import org.aero.mtip.ModelElements.Block.PackageImport;
 import org.aero.mtip.ModelElements.InternalBlock.BindingConnector;
 import org.aero.mtip.ModelElements.InternalBlock.Connector;
@@ -74,6 +75,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case SysmlConstants.INFORMATION_FLOW:
 				relationship = new InformationFlow(name, EAID);
+				break;
+			case SysmlConstants.INTERFACE_REALIZATION:
+				relationship = new InterfaceRealization(name, EAID);
 				break;
 			case SysmlConstants.ITEM_FLOW:
 				relationship = new ItemFlow(name, EAID);

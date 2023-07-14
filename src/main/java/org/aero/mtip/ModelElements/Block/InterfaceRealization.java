@@ -6,18 +6,17 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.ModelElements.CommonDirectedRelationship;
+import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.XmlTagConstants;
 
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-
-public class InterfaceRealization extends CommonRelationship {
+public class InterfaceRealization extends CommonDirectedRelationship {
 
 	public InterfaceRealization(String name, String EAID) {
 		super(name, EAID);
-	}
-	
-	@Override 
-	public org.w3c.dom.Element writeToXML(Element element) {
-		return null;
+		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		sysmlConstant = SysmlConstants.INTERFACE_REALIZATION;
+		xmlConstant = XmlTagConstants.INTERFACE_REALIZATION;
+		element = f.createInterfaceRealizationInstance();
 	}
 }
