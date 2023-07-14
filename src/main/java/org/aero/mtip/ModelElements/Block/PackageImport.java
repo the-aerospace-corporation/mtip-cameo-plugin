@@ -13,5 +13,4 @@ public class PackageImport extends CommonRelationship {
 		this.xmlConstant = XmlTagConstants.PACKAGEIMPORT;
 		this.element = f.createPackageImportInstance();
 	}
-
 }
