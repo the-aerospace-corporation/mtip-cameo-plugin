@@ -121,6 +121,7 @@ public class XmlTagConstants
 	public static final String ASSOCIATION_BLOCK = "sysml.AssociationBlock";
 	public static final String BLOCK = "sysml.Block";
 	public static final String BOUND_REFERENCE = "sysml.BoundReference";
+	public static final String BUSINESS_REQUIREMENT = "sysml.BusinessRequirement";
 	public static final String CALL_BEHAVIOR_ACTION = "sysml.CallBehaviorAction";
 	public static final String CALL_OPERATION_ACTION = "sysml.CallOperationAction";
 	public static final String CENTRAL_BUFFER_NODE = "sysml.CentralBufferNode";
@@ -227,6 +228,7 @@ public class XmlTagConstants
 	public static final String TIMEOBSERVATION = "sysml.TimeObservation";
 	public static final String TRIGGER = "sysml.Trigger";
 	public static final String UNIT = "sysml.Unit";
+	public static final String USABILITYREQUIREMENT = "sysml.UsabilityRequirement";
 	public static final String USECASE = "sysml.UseCase";
 	public static final String VALUEPROPERTY = "sysml.ValueProperty";
 	public static final String VALUETYPE = "sysml.ValueType";

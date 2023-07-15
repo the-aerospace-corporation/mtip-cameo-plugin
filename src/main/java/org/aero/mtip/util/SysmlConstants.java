@@ -29,6 +29,7 @@ public class SysmlConstants {
 	public static final String ASSOCIATION_BLOCK = "AssociationBlock";
 	public static final String BOUND_REFERENCE = "BoundReference";
 	public static final String BLOCK = "Block";
+	public static final String BUSINESS_REQUIREMENT = "BusinessRequirement";
 	public static final String CALL_BEHAVIOR_ACTION = "CallBehaviorAction";
 	public static final String CALL_OPERATION_ACTION = "CallOperationAction";
 	public static final String CENTRAL_BUFFER_NODE = "CentralBufferNode";
@@ -137,6 +138,7 @@ public class SysmlConstants {
 	public static final String TIME_OBSERVATION = "TimeObservation";
 	public static final String TRIGGER = "Trigger";
 	public static final String UNIT = "Unit";
+	public static final String USABILITY_REQUIREMENT = "UsabilityRequirement";
 	public static final String USE_CASE = "UseCase";
 	public static final String VALUE_PROPERTY = "ValueProperty";
 	public static final String VALUE_TYPE = "ValueType";
@@ -244,6 +246,7 @@ public class SysmlConstants {
 			ASSOCIATION_BLOCK,
 			BLOCK,
 			BOUND_REFERENCE,
+			BUSINESS_REQUIREMENT,
 			CALL_BEHAVIOR_ACTION,
 			CALL_OPERATION_ACTION,
 			CENTRAL_BUFFER_NODE,
@@ -502,11 +505,13 @@ public class SysmlConstants {
 	public static final String[] REQ_TYPES = {
 			ACTIVITY,
 			BLOCK,
+			BUSINESS_REQUIREMENT,
 			COPY,
 			DERIVE_REQUIREMENT,
 			DESIGN_CONSTRAINT,
 			EXTENDED_REQUIREMENT,
 			FUNCTIONAL_REQUIREMENT,
+			INTERACTION,
 			INTERFACE_REQUIREMENT,
 			PACKAGE,
 			PERFORMANCE_REQUIREMENT,
@@ -514,7 +519,9 @@ public class SysmlConstants {
 			REFINE,
 			REQUIREMENT,
 			SATISFY,
+			STATE_MACHINE,
 			TRACE,
+			USABILITY_REQUIREMENT,
 			VERIFY
 	};
 	

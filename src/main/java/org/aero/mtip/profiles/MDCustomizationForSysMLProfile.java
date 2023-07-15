@@ -25,11 +25,7 @@ public class MDCustomizationForSysMLProfile extends org.aero.mtip.profiles.Profi
 	public static Stereotype UNIT_STEREOTYPE;
 	public static Stereotype VALUE_PROPERTY_STEREOTYPE;
 	
-	public static void initializeStereotypes() {
-		if(isInitialized) {
-			return;
-		}
-		
+	public static void initializeStereotypes() {		
 		Project project = Application.getInstance().getProject();
 		MD_CUSTOMIZATION_FOR_SYSML_PROFILE = StereotypesHelper.getProfile(project, MD_CUSTOMIZATION_FOR_SYSML_PROFILE_NAME);
 		

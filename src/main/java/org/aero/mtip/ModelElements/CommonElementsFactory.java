@@ -91,6 +91,7 @@ import org.aero.mtip.ModelElements.Profile.ParametricDiagram;
 import org.aero.mtip.ModelElements.Profile.Profile;
 import org.aero.mtip.ModelElements.Profile.ProfileDiagram;
 import org.aero.mtip.ModelElements.Profile.Stereotype;
+import org.aero.mtip.ModelElements.Requirements.BusinessRequirement;
 import org.aero.mtip.ModelElements.Requirements.DesignConstraint;
 import org.aero.mtip.ModelElements.Requirements.ExtendedRequirement;
 import org.aero.mtip.ModelElements.Requirements.FunctionalRequirement;
@@ -99,6 +100,7 @@ import org.aero.mtip.ModelElements.Requirements.PerformanceRequirement;
 import org.aero.mtip.ModelElements.Requirements.PhysicalRequirement;
 import org.aero.mtip.ModelElements.Requirements.Requirement;
 import org.aero.mtip.ModelElements.Requirements.RequirementsDiagram;
+import org.aero.mtip.ModelElements.Requirements.UsabilityRequirement;
 import org.aero.mtip.ModelElements.Sequence.Collaboration;
 import org.aero.mtip.ModelElements.Sequence.CombinedFragment;
 import org.aero.mtip.ModelElements.Sequence.DestructionOccurrenceSpecification;
@@ -186,6 +188,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.CALL_BEHAVIOR_ACTION:
 				element = new CallBehaviorAction(name, EAID);
+				break;
+			case SysmlConstants.BUSINESS_REQUIREMENT:
+				element = new BusinessRequirement(name, EAID);
 				break;
 			case SysmlConstants.CALL_OPERATION_ACTION:
 				element = new CallOperationAction(name, EAID);
@@ -504,6 +509,9 @@ public class CommonElementsFactory {
 				break;
 			case SysmlConstants.UNIT:
 				element = new Unit(name, EAID);
+				break;
+			case SysmlConstants.USABILITY_REQUIREMENT:
+				element = new UsabilityRequirement(name, EAID);
 				break;
 			case SysmlConstants.USE_CASE:
 				element = new UseCase(name, EAID);

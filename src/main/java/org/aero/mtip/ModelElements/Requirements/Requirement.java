@@ -18,6 +18,8 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class Requirement extends CommonElement {
+	private static final String DERIVED = "Derived";
+	private static final String DERIVED_FROM = "DerivedFrom";
 
 	public Requirement(String name, String EAID) {
 		super(name, EAID);		
@@ -26,7 +28,7 @@ public class Requirement extends CommonElement {
 		this.xmlConstant = XmlTagConstants.REQUIREMENT;
 		this.creationStereotype = SysML.getRequirementStereotype();
 	}
-
+	
 	@Override
 	public org.w3c.dom.Element writeToXML(Element element) {
 		org.w3c.dom.Element data = super.writeToXML(element);		

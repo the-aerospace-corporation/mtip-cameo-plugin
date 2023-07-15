@@ -370,6 +370,9 @@ public class ExportXmlSysml {
 			return SysmlConstants.BOUND_REFERENCE;
 		} else if (SysML.isClassifierBehavior(element)) {
 			return SysmlConstants.CLASSIFIER_BEHAVIOR_PROPERTY;
+		} else if (SysML.isBusinessRequirement(element)) {
+			// Business Requirement not defined in SysML v1.5 or v1.6 spec. Treat as class with custom stereotype
+			return SysmlConstants.CLASS;
 		} else if (element instanceof CallBehaviorAction) {
 			return SysmlConstants.CALL_BEHAVIOR_ACTION;
 		} else if (element instanceof CallOperationAction) {
@@ -547,12 +550,23 @@ public class ExportXmlSysml {
 			return SysmlConstants.TRIGGER;
 		} else if (MDCustomizationForSysMLProfile.isUnit(element)) {
 			return SysmlConstants.UNIT;
+		} else if(element instanceof Usage) {
+			return SysmlConstants.USAGE;
+		} else if (SysML.isUsabilityRequirement(element)) {
+		// Usability requirement is not a specified element in SysML v1.5 or v1.6. Treat as class with custom stereotype
+			return SysmlConstants.CLASS;
 		} else if (element instanceof UseCase) {
 			return SysmlConstants.USE_CASE;
 		} else if (MDCustomizationForSysMLProfile.isValueProperty(element)) {
 			return SysmlConstants.VALUE_PROPERTY;
 		} else if (SysML.isValueType(element)) {
 			return SysmlConstants.VALUE_TYPE;
+		} else if(SysML.isVerify(element)) {
+			return SysmlConstants.VERIFY;		
+		} else if(SysML.isView(element)) {
+			return SysmlConstants.VIEW;
+		} else if(SysML.isViewpoint(element)) {
+			return SysmlConstants.VIEWPOINT;
 		//Super classes listed below as to not to override their children	
 		} else if(element instanceof Constraint) {
 			return SysmlConstants.CONSTRAINT;

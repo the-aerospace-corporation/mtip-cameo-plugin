@@ -8,16 +8,15 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class SysMLProfile extends org.aero.mtip.profiles.Profile {
-	private static boolean isInitialized = false;
-	
+public class SysMLProfile extends org.aero.mtip.profiles.Profile {	
 	public static Profile SYSML_PROFILE;
 	
-	private static final String SYSML_PROFILE_NAME = "Sysml";
+	private static final String SYSML_PROFILE_NAME = "SysML";
 //	private static final String ASSOCIATION_BLOCK_NAME = ""
 	private static final String BINDING_CONNECTOR_NAME = "BindingConnector";
 	private static final String BLOCK_NAME = "Block";
 	private static final String BOUND_REFERENCE_NAME = "BoundReference";
+	private static final String BUSINESS_REQUIREMENT_NAME = "businessRequirement";
 	private static final String CLASSIFIER_BEHAVIOR_NAME = "ClassifierBehavior";
 	private static final String CONSTRAINT_BLOCK_NAME = "ConstraintBlock";
 	private static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
@@ -48,6 +47,7 @@ public class SysMLProfile extends org.aero.mtip.profiles.Profile {
 	private static final String SYSTEM_NAME = "System";
 	private static final String SYSTEM_CONTEXT_NAME = "System context";
 	private static final String TRACE_NAME = "Trace";
+	private static final String USABILITY_REQUIREMENT_NAME = "usabilityRequirement";
 	private static final String VALUE_TYPE_NAME = "ValueType";
 	private static final String VERIFY_NAME = "Verify";
 	private static final String VIEW_NAME = "View";
@@ -56,6 +56,7 @@ public class SysMLProfile extends org.aero.mtip.profiles.Profile {
 	public static Stereotype BINDING_CONNECTOR_STEREOTYPE;
 	public static Stereotype BLOCK_STEREOTYPE;
 	public static Stereotype BOUND_REFERENCE_STEREOTYPE;
+	public static Stereotype BUSINESS_REQUIREMENT_STEREOTYPE;
 	public static Stereotype CLASSIFIER_BEHAVIOR_STEREOTYPE;
 	public static Stereotype CONSTRAINT_BLOCK_STEREOTYPE;
 	public static Stereotype CONSTRAINT_PARAMETER_STEREOTYPE;
@@ -86,6 +87,7 @@ public class SysMLProfile extends org.aero.mtip.profiles.Profile {
 	public static Stereotype SYSTEM_STEREOTYPE;
 	public static Stereotype SYSTEM_CONTEXT_STEREOTYPE;
 	public static Stereotype TRACE_STEREOTYPE;
+	public static Stereotype USABILITY_REQUIREMENT_STEREOTYPE;
 	public static Stereotype VALUE_TYPE_STEREOTYPE;
 	public static Stereotype VERIFY_STEREOTYPE;
 	public static Stereotype VIEW_STEREOTYPE;
@@ -97,17 +99,14 @@ public class SysMLProfile extends org.aero.mtip.profiles.Profile {
 	public static String FLOWPROPERTY_DIRECTION_PROPERTY = "direction";
 	public static String SYSML_REQUIREMENTS_DIAGRAM = "Requirement Diagram";
 	
-	public static void initializeStereotypes() {
-		if(isInitialized) {
-			return;
-		}
-		
+	public static void initializeStereotypes() {		
 		Project project = Application.getInstance().getProject();
 		SYSML_PROFILE = StereotypesHelper.getProfile(project, SYSML_PROFILE_NAME);
 		
 		BINDING_CONNECTOR_STEREOTYPE = StereotypesHelper.getStereotype(project, BINDING_CONNECTOR_NAME, SYSML_PROFILE);
 		BLOCK_STEREOTYPE = StereotypesHelper.getStereotype(project, BLOCK_NAME, SYSML_PROFILE);
 		BOUND_REFERENCE_STEREOTYPE = StereotypesHelper.getStereotype(project, BOUND_REFERENCE_NAME, SYSML_PROFILE);
+		BUSINESS_REQUIREMENT_STEREOTYPE = StereotypesHelper.getStereotype(project, BUSINESS_REQUIREMENT_NAME, SYSML_PROFILE);
 		CLASSIFIER_BEHAVIOR_STEREOTYPE = StereotypesHelper.getStereotype(project, CLASSIFIER_BEHAVIOR_NAME, SYSML_PROFILE);
 		CONSTRAINT_BLOCK_STEREOTYPE = StereotypesHelper.getStereotype(project, CONSTRAINT_BLOCK_NAME, SYSML_PROFILE);
 		CONSTRAINT_PARAMETER_STEREOTYPE = StereotypesHelper.getStereotype(project, CONSTRAINT_PARAMETER_NAME, SYSML_PROFILE);
@@ -138,12 +137,11 @@ public class SysMLProfile extends org.aero.mtip.profiles.Profile {
 		SYSTEM_STEREOTYPE = StereotypesHelper.getStereotype(project, SYSTEM_NAME, SYSML_PROFILE);
 		SYSTEM_CONTEXT_STEREOTYPE = StereotypesHelper.getStereotype(project, SYSTEM_CONTEXT_NAME, SYSML_PROFILE);
 		TRACE_STEREOTYPE = StereotypesHelper.getStereotype(project, TRACE_NAME, SYSML_PROFILE);
+		USABILITY_REQUIREMENT_STEREOTYPE = StereotypesHelper.getStereotype(project, USABILITY_REQUIREMENT_NAME, SYSML_PROFILE);
 		VALUE_TYPE_STEREOTYPE = StereotypesHelper.getStereotype(project, VALUE_TYPE_NAME, SYSML_PROFILE);
 		VERIFY_STEREOTYPE = StereotypesHelper.getStereotype(project, VERIFY_NAME, SYSML_PROFILE);
 		VIEW_STEREOTYPE = StereotypesHelper.getStereotype(project, VIEW_NAME, SYSML_PROFILE);
 		VIEWPOINT_STEREOTYPE = StereotypesHelper.getStereotype(project, VIEWPOINT_NAME, SYSML_PROFILE);
-		
-		isInitialized = true;
 	}
 	
 	public static boolean isAssociationBlock(Element element) {
@@ -165,6 +163,10 @@ public class SysMLProfile extends org.aero.mtip.profiles.Profile {
 	
 	public static boolean isBoundReference(Element element) {
 		return hasStereotype(element, BOUND_REFERENCE_STEREOTYPE);
+	}
+	
+	public static boolean isBusinessRequirement(Element element) {
+		return hasStereotype(element, BUSINESS_REQUIREMENT_STEREOTYPE);
 	}
 	
 	public static boolean isClassifierBehavior(Element element) {
@@ -285,6 +287,10 @@ public class SysMLProfile extends org.aero.mtip.profiles.Profile {
 	
 	public static boolean isTrace(Element element) {
 		return hasStereotype(element, TRACE_STEREOTYPE);
+	}
+	
+	public static boolean isUsabilityRequirement(Element element) {
+		return hasStereotype(element, USABILITY_REQUIREMENT_STEREOTYPE);
 	}
 	
 	public static boolean isValueType(Element element) {
