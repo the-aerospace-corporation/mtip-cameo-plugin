@@ -141,6 +141,7 @@ public class XmlTagConstants
 	public static final String CREATE_OBJECT_ACTION = "sysml.CreateObjectAction";
 	public static final String CUSTOMIZATION = "cameo.Customization";
 	public static final String DATA_STORE_NODE = "sysml.DataStoreNode";
+	public static final String DATA_TYPE = "sysml.DataType";
 	public static final String DECISION_NODE = "sysml.DecisionNode";
 	public static final String DEEP_HISTORY = "sysml.DeepHistory";
 	public static final String DESIGN_CONSTRAINT = "sysml.DesignConstraint";

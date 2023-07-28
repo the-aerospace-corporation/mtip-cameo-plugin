@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,6 +26,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.aero.mtip.XML.XmlWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 
 // Basic methods for selecting import/export files
 public class FileSelect
@@ -49,14 +52,20 @@ public class FileSelect
 	
 	public static File chooseXMLFile() throws FileNotFoundException	{
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents" + System.getProperty("file.separator") + "Demo");
-		if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+		int option = chooser.showSaveDialog(null);
+		
+		if(option == JFileChooser.CANCEL_OPTION) {
+			return null;
+		}
+		
+		if(option == JFileChooser.APPROVE_OPTION) {
 			String filename = chooser.getSelectedFile().toString();
 			if(!filename.endsWith(".xml")) {
 				filename += ".xml";
 			} 
 			chooser.setSelectedFile(new File(filename));
 		} else {
-			throw new FileNotFoundException("No File Selected.");
+			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No file selected. Model not exported.");
 		}
 		return chooser.getSelectedFile();
 	}

@@ -8,10 +8,10 @@ public class DataType extends CommonElement {
 
 	public DataType(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DATA_TYPE;
-		this.xmlConstant = XmlTagConstants.DATA_TYPE;
-		this.sysmlElement = f.createDataTypeInstance();
+		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		sysmlConstant = SysmlConstants.DATA_TYPE;
+		xmlConstant = XmlTagConstants.DATA_TYPE;
+		element = f.createDataTypeInstance();
 	}
 
 }
