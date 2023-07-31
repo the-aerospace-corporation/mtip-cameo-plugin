@@ -199,18 +199,29 @@ import org.aero.mtip.uaf.Operational.OperationalActivity;
 import org.aero.mtip.uaf.Operational.OperationalActivityAction;
 import org.aero.mtip.uaf.Operational.OperationalAgent;
 import org.aero.mtip.uaf.Operational.OperationalArchitecture;
+import org.aero.mtip.uaf.Operational.OperationalConnectivity;
 import org.aero.mtip.uaf.Operational.OperationalConstraint;
+import org.aero.mtip.uaf.Operational.OperationalConstraintsDefinition;
 import org.aero.mtip.uaf.Operational.OperationalExchangeKind;
+import org.aero.mtip.uaf.Operational.OperationalFreeFormTaxonomy;
+import org.aero.mtip.uaf.Operational.OperationalHighLevelTaxonomy;
+import org.aero.mtip.uaf.Operational.OperationalInteractionScenarios;
 import org.aero.mtip.uaf.Operational.OperationalInterface;
+import org.aero.mtip.uaf.Operational.OperationalInternalConnectivity;
 import org.aero.mtip.uaf.Operational.OperationalMethod;
 import org.aero.mtip.uaf.Operational.OperationalParameter;
+import org.aero.mtip.uaf.Operational.OperationalParametric;
 import org.aero.mtip.uaf.Operational.OperationalPerformer;
 import org.aero.mtip.uaf.Operational.OperationalPort;
 import org.aero.mtip.uaf.Operational.OperationalProcessFlow;
+import org.aero.mtip.uaf.Operational.OperationalProcesses;
 import org.aero.mtip.uaf.Operational.OperationalRole;
 import org.aero.mtip.uaf.Operational.OperationalSignal;
 import org.aero.mtip.uaf.Operational.OperationalSignalProperty;
 import org.aero.mtip.uaf.Operational.OperationalStateDescription;
+import org.aero.mtip.uaf.Operational.OperationalStates;
+import org.aero.mtip.uaf.Operational.OperationalStructure;
+import org.aero.mtip.uaf.Operational.OperationalTaxonomy;
 import org.aero.mtip.uaf.Operational.ProblemDomain;
 import org.aero.mtip.uaf.Operational.StandardOperationalActivity;
 import org.aero.mtip.uaf.Personnel.Organization;
@@ -1040,6 +1051,40 @@ public class CommonElementsFactory {
 			case UAFConstants.OPERATIONAL_PROCESS_FLOW:
 				element = new OperationalProcessFlow(name, EAID);
 				break;
+			case UAFConstants.OPERATIONAL_CONNECTIVITY:
+				element = new OperationalConnectivity(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION:
+				element = new OperationalConstraintsDefinition(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY:
+				element = new OperationalFreeFormTaxonomy(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_PROCESSES:
+				element = new OperationalProcesses(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_STRUCTURE:
+				element = new OperationalStructure(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_TAXONOMY:
+				element = new OperationalTaxonomy(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY:
+				element = new OperationalHighLevelTaxonomy(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS:
+				element = new OperationalInteractionScenarios(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY:
+				element = new OperationalInternalConnectivity(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_PARAMETRIC:
+				element = new OperationalParametric(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_STATES:
+				element = new OperationalStates(name, EAID);
+				break;
+				
 			//Resources
 			case UAFConstants.CAPABILITY_CONFIGURATION:
 				element = new CapabilityConfiguration(name, EAID);

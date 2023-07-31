@@ -192,6 +192,18 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         
         //UAF Diagram Mapping
         aMap.put("Operational Process Flow", UAFConstants.OPERATIONAL_PROCESS_FLOW);
+        aMap.put("Operational Connectivity", UAFConstants.OPERATIONAL_CONNECTIVITY);
+        aMap.put("Operational Constraints Definition", UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION);
+        aMap.put("Operational Free Form Taxonomy", UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY);
+        aMap.put("Operational Processes", UAFConstants.OPERATIONAL_PROCESSES);
+        aMap.put("Operational Structure", UAFConstants.OPERATIONAL_STRUCTURE);
+        aMap.put("Operational Taxonomy", UAFConstants.OPERATIONAL_TAXONOMY);
+        aMap.put("Operational High Level Taxonomy", UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY);
+        aMap.put("Operational Interaction Scenarios", UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS);
+        aMap.put("Operational Internal Connectivity", UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY);
+        aMap.put("Operational Parametric", UAFConstants.OPERATIONAL_PARAMETRIC);
+        aMap.put("Operational States", UAFConstants.OPERATIONAL_STATES);
+        
         aMap.put("Resources Process Flow", UAFConstants.RESOURCES_PROCESS_FLOW);
         
         // Actual Resources

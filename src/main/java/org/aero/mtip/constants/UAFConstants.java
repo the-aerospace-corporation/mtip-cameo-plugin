@@ -58,7 +58,19 @@ public class UAFConstants {
 	public static final String OPERATIONAL_EXCHANGE_KIND = "OperationalExchangeKind";
 	public static final String OPERATIONAL_ACTION = "OperationalAction";
 	public static final String OPERATIONAL_ASSOCIATION = "OperationalAssociation";
+	public static final String OPERATIONAL_CONNECTIVITY = "OperationalConnectivity";
+	public static final String OPERATIONAL_CONSTRAINTS_DEFINITION = "OperationalConstraintsDefinition";
+	public static final String OPERATIONAL_FREE_FORM_TAXONOMY = "OperationalFreeFormTaxonomy";
+	public static final String OPERATIONAL_PROCESSES = "OperationalProcesses";
+	public static final String OPERATIONAL_STRUCTURE = "OperationalStructure";
+	public static final String OPERATIONAL_TAXONOMY = "OperationalTaxonomy";
+	public static final String OPERATIONAL_HIGH_LEVEL_TAXONOMY = "OperationalHighLevelTaxonomy";
 	
+	public static final String OPERATIONAL_INTERACTION_SCENARIOS = "OperationalInteractionScenarios";
+	public static final String OPERATIONAL_INTERNAL_CONNECTIVITY = "OperationalInternalConnectivity";
+	public static final String OPERATIONAL_PARAMETRIC = "OperationalParametric";
+	public static final String OPERATIONAL_STATES = "OperationalStates";
+
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -386,9 +398,22 @@ public class UAFConstants {
 			
 			//STRATEGIC_TAXONOMY, commented out for now because it needs to be fixed (implementation is not correct)
 			OPERATIONAL_PROCESS_FLOW,
+			OPERATIONAL_CONNECTIVITY,
+			OPERATIONAL_CONSTRAINTS_DEFINITION,
+			OPERATIONAL_FREE_FORM_TAXONOMY,
+			OPERATIONAL_PROCESSES,
+			OPERATIONAL_STRUCTURE,
+			OPERATIONAL_TAXONOMY,
+			OPERATIONAL_HIGH_LEVEL_TAXONOMY,
+			OPERATIONAL_INTERACTION_SCENARIOS,
+			OPERATIONAL_INTERNAL_CONNECTIVITY,
+			OPERATIONAL_PARAMETRIC,
+			OPERATIONAL_STATES,
+			
+			
 			RESOURCES_PROCESS_FLOW,
 			STANDARDS_TAXONOMY,
-			STANDARDS_STRUCTURE
+			STANDARDS_STRUCTURE,
 	};
 	
 	public static final String [] RESOURCES_PROCESS_FLOW_TYPES = {
@@ -515,7 +540,319 @@ public class UAFConstants {
 			UAFConstants.OPERATIONAL_MESSAGE
 
 	};
+	
+	public static final String [] OPERATIONAL_CONNECTIVITY_TYPES = {
+		UAFConstants.DEFINITION,
+		UAFConstants.ALIAS,
+		UAFConstants.INFORMATION,
+		UAFConstants.SAME_AS,
+		
+		UAFConstants.OPERATIONAL_PERFORMER,
+		UAFConstants.OPERATIONAL_ARCHITECTURE,
+		UAFConstants.KNOWN_RESOURCE,
+		SysmlConstants.ASSOCIATION,
+		SysmlConstants.GENERALIZATION,
+		UAFConstants.OPERATIONAL_INTERFACE,
+		UAFConstants.OPERATIONAL_ACTIVITY,
+		//UAFConstants.IS_CAPABLE_TO_PERFORM, Abstraction Processes
+		UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT,
+		
+		UAFConstants.OPERATIONAL_ROLE,
+		UAFConstants.OPERATIONAL_PORT,
+		UAFConstants.OPERATIONAL_CONNECTOR,
+		UAFConstants.PROBLEM_DOMAIN,
+		//UAFConstants.MEASUREMENT, //property, taxonomy
+		
+		UAFConstants.OPERATIONAL_EXCHANGE,
+		UAFConstants.INFORMATION_ELEMENT,
+		UAFConstants.OPERATIONAL_SIGNAL,
+		//UAFConstants.GEO_POLITICAL_EXTENT_TYPE,
+		UAFConstants.CAPABILITY_CONFIGURATION,
+		
+		//UAFConstants.ACTUAL_CONDITION,
+		//UAFConstants.ACTUAL_ENVIRONMENT,
+		//UAFConstants.ACTUAL_LOCATION,
+		//UAFConstants.CONDITION,
+		//UAFConstants.ENVIRONMENT,
+		//UAFConstants.LOCATION,
+		
+		UAFConstants.CAPABILITY,
+		UAFConstants.EXHIBITS,
+		UAFConstants.MAPS_TO_CAPABILITY,
+		
+		UAFConstants.CAPABILITY_CONFIGURATION,
+		UAFConstants.ORGANIZATION,
+		//UAFConstants.IMPLEMENTS,
+		UAFConstants.RESOURCE_EXCHANGE,
+		//UAFConstants.RESOURCE_ASSOCIATION,
+		UAFConstants.FUNCTION,
+		
+		//UAFConstants.SERVICE_SPECIFICATION,
+		//UAFConstants.CONSUMES,
+		//UAFConstants.SERVICE_FUNCTION,
+		//UAFConstants.IMPLEMENTS,
+		
+		//UAFConstants.OPERATIONAL_MITIGATION,
+		//UAFConstants.SECURITY_ENCLAVE,
+		//UAFConstants.SECURITY_CONTROL,
+		//UAFConstants.PROTECTS,
+		//UAFConstants.RISK,
+		//UAFConstants.OWNS_RISK,
+		//UAFConstants.OWNS_RISK_IN_CONTEXT,
+		//UAFConstants.AFFECTS,
+		//UAFConstants.AFFECTS_IN_CONTEXT,
+		//UAFConstants.SECURITY_PROCESS,
+		
+		//UAFConstants.MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_PROPERTY_SET,
+		
+		SysmlConstants.PACKAGE,
+		SysmlConstants.BLOCK,
+		SysmlConstants.INTERFACEBLOCK,
+		SysmlConstants.FLOWSPECIFICATION,
+		SysmlConstants.CONSTRAINTBLOCK,
+		SysmlConstants.DOMAIN,
+		SysmlConstants.VALUETYPE,
+		SysmlConstants.ENUMERATION,
+		SysmlConstants.SIGNAL,
+		//SysmlConstants.INSTANCE,
+		SysmlConstants.INTERFACE,
+		SysmlConstants.PORT,
+		SysmlConstants.PROXYPORT,
+		SysmlConstants.FULLPORT,
+		SysmlConstants.FLOWPORT,
+		SysmlConstants.INTERFACEREALIZATION,
+		SysmlConstants.LINK,
+		SysmlConstants.ASSOCIATIONBLOCK,
+		//SysmlConstants.DIRECTEDASSOCIATION,
+		//SysmlConstants.DIRECTEDAGGREGATION,
+		//SysmlConstants.DIRECTEDCOMPOSITION,
+		SysmlConstants.GENERALIZATION,
+		SysmlConstants.USAGE,
+		
+		SysmlConstants.REQUIREMENT,
+		SysmlConstants.EXTENDEDREQUIREMENT,
+		SysmlConstants.SATISFY,
+		//SysmlConstants.DERIVE,
+		SysmlConstants.COPY,
+		SysmlConstants.TRACE,
+		SysmlConstants.VERIFY,
+		SysmlConstants.REFINE,
+		//SysmlConstants.TESTCASEACTIVITY
+		
+	};
+	
+	public static final String [] OPERATIONAL_CONSTRAINTS_DEFINITION_TYPES= {
+		UAFConstants.DEFINITION,
+		UAFConstants.ALIAS,
+		UAFConstants.INFORMATION,
+		UAFConstants.SAME_AS,
+		
+		UAFConstants.OPERATIONAL_PERFORMER,
+		UAFConstants.OPERATIONAL_ARCHITECTURE,
+		UAFConstants.KNOWN_RESOURCE,
+		SysmlConstants.ASSOCIATION,
+		SysmlConstants.GENERALIZATION,
+		UAFConstants.OPERATIONAL_INTERFACE,
+		UAFConstants.OPERATIONAL_ACTIVITY,
+		//UAFConstants.IS_CAPABLE_TO_PERFORM, //abstraction //processes
+		UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT,
+		
+		//UAFConstants.ACTUAL_CONDITION,
+		//UAFConstants.ACTUAL_ENVIRONMENT,
+		//UAFConstants.ACTUAL_LOCATION,
+		//UAFConstants.CONDITION,
+		//UAFConstants.ENVIRONMENT,
+		//UAFConstants.LOCATION,
+		
+		UAFConstants.CAPABILITY,
+		UAFConstants.EXHIBITS,
+		UAFConstants.MAPS_TO_CAPABILITY,
+		
+		UAFConstants.CAPABILITY_CONFIGURATION,
+		UAFConstants.ORGANIZATION,
+		//UAFConstants.IMPLEMENTS,
+		UAFConstants.RESOURCE_EXCHANGE,
+		//UAFConstants.RESOURCE_ASSOCIATION,
+		UAFConstants.FUNCTION,
+		
+		//UAFConstants.SERVICE_SPECIFICATION,
+		//UAFConstants.CONSUMES,
+		//UAFConstants.SERVICE_FUNCTION,
+		//UAFConstants.IMPLEMENTS,
+		
+		//UAFConstants.OPERATIONAL_MITIGATION,
+		//UAFConstants.SECURITY_ENCLAVE,
+		//UAFConstants.SECURITY_CONTROL,
+		//UAFConstants.PROTECTS,
+		//UAFConstants.RISK,
+		//UAFConstants.OWNS_RISK,
+		//UAFConstants.OWNS_RISK_IN_CONTEXT,
+		//UAFConstants.AFFECTS,
+		//UAFConstants.AFFECTS_IN_CONTEXT,
+		//UAFConstants.SECURITY_PROCESS,
+		
+		//UAFConstants.MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_MEASUREMENT_SET,
+		//UAFConstants.ACTUAL_PROPERTY_SET,
+		
+		SysmlConstants.PACKAGE,
+		SysmlConstants.BLOCK,
+		SysmlConstants.INTERFACEBLOCK,
+		SysmlConstants.FLOWSPECIFICATION,
+		SysmlConstants.CONSTRAINTBLOCK,
+		SysmlConstants.DOMAIN,
+		SysmlConstants.VALUETYPE,
+		SysmlConstants.ENUMERATION,
+		SysmlConstants.SIGNAL,
+		//SysmlConstants.INSTANCE,
+		SysmlConstants.INTERFACE,
+		SysmlConstants.PORT,
+		SysmlConstants.PROXYPORT,
+		SysmlConstants.FULLPORT,
+		SysmlConstants.FLOWPORT,
+		SysmlConstants.INTERFACEREALIZATION,
+		SysmlConstants.LINK,
+		SysmlConstants.BINDINGCONNECTOR,
+		SysmlConstants.ASSOCIATIONBLOCK,
+		//SysmlConstants.DIRECTEDASSOCIATION,
+		//SysmlConstants.DIRECTEDAGGREGATION,
+		//SysmlConstants.DIRECTEDCOMPOSITION,
+		SysmlConstants.GENERALIZATION,
+		SysmlConstants.USAGE,
+		
+		SysmlConstants.REQUIREMENT,
+		SysmlConstants.EXTENDEDREQUIREMENT,
+		SysmlConstants.SATISFY,
+		//SysmlConstants.DERIVE,
+		SysmlConstants.COPY,
+		SysmlConstants.TRACE,
+		SysmlConstants.VERIFY,
+		SysmlConstants.REFINE,
+		//SysmlConstants.TESTCASEACTIVITY
+		
+	};
 
+	public static final String [] OPERATIONAL_FREE_FORM_TAXONOMY_TYPES ={
+		UAFConstants.DEFINITION,
+		UAFConstants.ALIAS,
+		UAFConstants.INFORMATION,
+		UAFConstants.SAME_AS,
+		
+		UAFConstants.HIGH_LEVEL_OPERATIONAL_CONCEPT,
+		//UAFConstants.ARBITRARY_RELATIONSHIP,
+		//UAFConstants.DIRECTED_RELATIONSHIP,
+		//UAFConstants.DASHED_RELATIONSHIP,
+		
+		UAFConstants.OPERATIONAL_PERFORMER,
+		//UAFConstants.OPERATIONAL_PERFORMER_WITH_IMAGE,
+		/*UAFConstants.BUISNESS_BUILDING,
+		UAFConstants.CAR,
+		UAFConstants.Man,
+		UAFConstants.Server,
+		UAFConstants.ROBOT,
+		UAFConstants.AIR_DEFENSE_TOWER,
+		UAFConstants.EARTH,*/
+		
+		UAFConstants.CAPABILITY,
+		UAFConstants.EXHIBITS,
+		UAFConstants.ENTERPRISE_PHASE,
+		UAFConstants.ENTERPRISE_VISION,
+		
+		UAFConstants.CAPABILITY_CONFIGURATION,
+		UAFConstants.NATURAL_RESOURCE,
+		UAFConstants.ORGANIZATION,
+		UAFConstants.PERSON,
+		UAFConstants.POST,
+		UAFConstants.RESOURCE_ARCHITECTURE,
+		UAFConstants.RESOURCE_ARTIFACT,
+		UAFConstants.SOFTWARE,
+		UAFConstants.SYSTEM,
+		UAFConstants.TECHNOLOGY,
+		
+		SysmlConstants.PACKAGE,
+		SysmlConstants.BLOCK,
+		SysmlConstants.INTERFACEBLOCK,
+		SysmlConstants.FLOWSPECIFICATION,
+		SysmlConstants.CONSTRAINTBLOCK,
+		SysmlConstants.DOMAIN,
+		SysmlConstants.VALUETYPE,
+		SysmlConstants.ENUMERATION,
+		SysmlConstants.SIGNAL,
+		//SysmlConstants.INSTANCE,
+		SysmlConstants.PORT,
+		SysmlConstants.PROXYPORT,
+		SysmlConstants.FULLPORT,
+		SysmlConstants.FLOWPORT,
+		SysmlConstants.INTERFACEREALIZATION,
+		SysmlConstants.LINK,
+		SysmlConstants.ASSOCIATIONBLOCK,
+		//SysmlConstants.DIRECTEDASSOCIATION,
+		//SysmlConstants.DIRECTEDAGGREGATION,
+		//SysmlConstants.DIRECTEDCOMPOSITION,
+		
+		SysmlConstants.REQUIREMENT,
+		SysmlConstants.EXTENDEDREQUIREMENT,
+		SysmlConstants.SATISFY,
+		//SysmlConstants.DERIVE,
+		SysmlConstants.COPY,
+		SysmlConstants.TRACE,
+		SysmlConstants.VERIFY,
+		SysmlConstants.REFINE,
+		//SysmlConstants.TESTCASEACTIVITY
+		
+		
+		
+	};
+	
+	public static final String [] OPERATIONAL_PROCESSES_TYPES = {
+		UAFConstants.DEFINITION,
+		UAFConstants.ALIAS,
+		UAFConstants.INFORMATION,
+		UAFConstants.SAME_AS,
+		
+		UAFConstants.OPERATIONAL_ACTIVITY,
+		UAFConstants.STANDARD_OPERATIONAL_ACTIVITY,
+		//GENERALIZATION,
+		SysmlConstants.GENERALIZATION,
+		//SysmlConstants.DIRECTEDCOMPOSITION,
+		UAFConstants.OPERATIONAL_PERFORMER,
+		//UAFConstants.IS_CAPABLE_TO_PERFORM,
+		//UAFConstants.CONDITION,
+		
+		//UAFConstants.ACTUAL_ORGANIZATION,
+		//UAFConstants.ACTUAL_PERSON,
+		//UAFConstants.ACTUAL_POST,
+		//UAFConstants.OWNS_PROCESS,
+		
+		UAFConstants.CAPABILITY,
+		UAFConstants.MAPS_TO_CAPABILITY,
+		UAFConstants.ENDURING_TASK,
+		//UAFConstants.IMPLEMENTS, **
+		
+		UAFConstants.FUNCTION,
+		//traceability
+		//UAFConstants.IMPLEMENTS, **
+		//UAFConstants.SERVICE_SPECIFICATION,
+		//UAFConstants.CONSUMES,
+		
+		//UAFConstants.SECURITY_PROCESS,
+		//UAFConstants.IMPLEMENTS, **
+		
+		
+		
+	};
+	//TODO fill out the expected elements this is used when converting EA model to a Cameo Model
+	public static final String [] OPERATIONAL_STRUCTURE_TYPES = {};
+	public static final String [] OPERATIONAL_TAXONOMY_TYPES = {};
+	public static final String [] OPERATIONAL_HIGH_LEVEL_TAXONOMY_TYPES = {};
+	public static final String [] OPERATIONAL_INTERACTION_SCENARIOS_TYPES = {};
+	public static final String [] OPERATIONAL_INTERNAL_CONNECTIVITY_TYPES = {};
+	public static final String [] OPERATIONAL_PARAMETRIC_TYPES = {};
+	public static final String [] OPERATIONAL_STATES_TYPES = {};
+
+	
 	//commented out ones are because current domain is not suported yet
 	public static final String [] STANDARDS_TAXONOMY_TYPES = {
 		UAFConstants.INFORMATION,
@@ -621,6 +958,7 @@ public class UAFConstants {
 		SysmlConstants.ENUMERATION,
 		SysmlConstants.SIGNAL,
 		//SysmlConstants.INSTANCE,
+		SysmlConstants.INTERFACE,
 		SysmlConstants.PORT,
 		SysmlConstants.PROXYPORT,
 		SysmlConstants.FULLPORT,
@@ -628,6 +966,12 @@ public class UAFConstants {
 		SysmlConstants.INTERFACEREALIZATION,
 		SysmlConstants.LINK,
 		SysmlConstants.ASSOCIATIONBLOCK,
+		//SysmlConstants.DIRECTED_ASSOCIATION,
+		//SysmlConstants.DIRECTED_AGGREGATION,
+		//SysmlConstants.DIRECTEDCOMPOSITION,
+		SysmlConstants.GENERALIZATION,
+		SysmlConstants.USAGE,
+		
 		
 		SysmlConstants.REQUIREMENT,
 		SysmlConstants.EXTENDEDREQUIREMENT,

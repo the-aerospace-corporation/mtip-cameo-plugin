@@ -330,7 +330,18 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_ACTION = "uaf.OperationalAction";
 	public static final String OPERATIONAL_ASSOCIATION = "uaf.OperationalAssociation";
 	
-	public static final String OPERATIONAL_PROCESS_FLOW = "uaf.OperationalProcessFlow";
+	public static final String OPERATIONAL_PROCESS_FLOW = "uaf.OperationalProcesses";
+	public static final String OPERATIONAL_CONNECTIVITY = "uaf.OperationalConnectivity";
+	public static final String OPERATIONAL_CONSTRAINTS_DEFINITION ="uaf.OperationalConstraintsDefinition";
+	public static final String OPERATIONAL_FREE_FORM_TAXONOMY="uaf.OperationalFreeFormTaxonomy";
+	public static final String OPERATIONAL_PROCESSES="uaf.OperationalProcesses";
+	public static final String OPERATIONAL_STRUCTURE="uaf.OperationalStructure";
+	public static final String OPERATIONAL_TAXONOMY="uaf.OperationalTaxonomy";
+	public static final String OPERATIONAL_HIGH_LEVEL_TAXONOMY = "uaf.OperationalTaxonomy";
+	public static final String OPERATIONAL_INTERACTION_SCENARIOS = "uaf.OperationalInteractionScenarios";
+	public static final String OPERATIONAL_INTERNAL_CONNECTIVITY = "uaf.OperationalInternalConnectivity";
+	public static final String OPERATIONAL_PARAMETRIC = "uaf.OperationalParametric";
+	public static final String OPERATIONAL_STATES = "uaf.OperationalStates";
 	
 	//Resources
 	public static final String CAPABILITY_CONFIGURATION = "uaf.CapabilityConfiguration";
