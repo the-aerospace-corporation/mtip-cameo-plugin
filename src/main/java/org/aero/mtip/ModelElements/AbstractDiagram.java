@@ -192,6 +192,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         //UAF Diagram Mapping
         aMap.put("Operational Process Flow", UAFConstants.OPERATIONAL_PROCESS_FLOW);
         aMap.put("Resources Process Flow", UAFConstants.RESOURCES_PROCESS_FLOW);
+        
+        // Actual Resources
+        aMap.put("Actual Resources Connectivity", UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM);
+        aMap.put("Actual Resources Structure", UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM);
 
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);

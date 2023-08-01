@@ -270,8 +270,14 @@ import org.aero.mtip.uaf.actualresources.ActualOrganization;
 import org.aero.mtip.uaf.actualresources.ActualPerson;
 import org.aero.mtip.uaf.actualresources.ActualPost;
 import org.aero.mtip.uaf.actualresources.ActualResource;
+import org.aero.mtip.uaf.actualresources.ActualResourcesConnectivity;
+import org.aero.mtip.uaf.actualresources.ActualResourcesStructure;
 import org.aero.mtip.uaf.actualresources.ActualResponsibility;
+import org.aero.mtip.uaf.actualresources.ActualService;
 import org.aero.mtip.uaf.actualresources.FieldedCapability;
+import org.aero.mtip.uaf.actualresources.ProvidedServiceLevel;
+import org.aero.mtip.uaf.actualresources.RequiredServiceLevel;
+import org.aero.mtip.uaf.personnel.Competence;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 
@@ -836,7 +842,6 @@ public class CommonElementsFactory {
 			case UAFConstants.ACTUAL_ORGANIZATION:
 				element = new ActualOrganization(name, EAID);
 				break;
-				
 			case UAFConstants.ACTUAL_PERSON:
 				element = new ActualPerson(name, EAID);
 				break;
@@ -846,11 +851,31 @@ public class CommonElementsFactory {
 			case UAFConstants.ACTUAL_RESOURCE:
 				element = new ActualResource(name, EAID);
 				break;
+			case UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM:
+				element = new ActualResourcesConnectivity(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM:
+				element = new ActualResourcesStructure(name, EAID);
+				break;
 			case UAFConstants.ACTUAL_RESPONSIBILITY:
 				element = new ActualResponsibility(name, EAID);
 				break;
+			case UAFConstants.ACTUAL_SERVICE:
+				element = new ActualService(name, EAID);
+				break;
 			case UAFConstants.FIELDED_CAPABILITY:
 				element = new FieldedCapability(name, EAID);
+				break;
+			case UAFConstants.PROVIDED_SERVICE_LEVEL:
+				element = new ProvidedServiceLevel(name, EAID);
+				break;
+			case UAFConstants.REQUIRED_SERVICE_LEVEL:
+				element = new RequiredServiceLevel(name, EAID);
+				break;
+				
+			// Personnel
+			case UAFConstants.COMPETENCE:
+				element = new Competence(name, EAID);
 				break;
 			
 			// DoDAF Diagram Constants

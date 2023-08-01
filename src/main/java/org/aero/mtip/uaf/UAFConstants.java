@@ -138,10 +138,25 @@ public class UAFConstants {
 	public static final String ACTUAL_PERSON = "ActualPerson";
 	public static final String ACTUAL_POST = "ActualPost";
 	public static final String ACTUAL_RESOURCE = "ActualResource";
+	public static final String ACTUAL_RESOURCE_RELATIONSHIP = "ActualResourceRelationship";
 	public static final String ACTUAL_RESPONSIBILITY = "ActualResponsibility";
+	public static final String ACTUAL_SERVICE = "ActualService";
 	public static final String FIELDED_CAPABILITY = "FieldedCapability";
+	public static final String FILLS_POST = "FillsPost";
+	public static final String OWNS_PROCESS = "OwnsProcess";
+	public static final String PROVIDED_SERVICE_LEVEL = "ProvidedServiceLevel";
+	public static final String PROVIDES_COMPETENCE = "ProvidesCompetence";
+	public static final String REQUIRED_SERVICE_LEVEL = "RequiredServiceLevel";
+	
+	// Personnel
+	public static final String COMPETENCE = "Competence";
 
 	// Diagrams
+	// Actual Resources Diagrams
+	public static final String ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM = "ActualResourcesConnectivity";
+	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "ActualResourcesStructure";
+	
+	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
 	
 	
@@ -246,7 +261,13 @@ public class UAFConstants {
 			ACTUAL_POST,
 			ACTUAL_RESOURCE,
 			ACTUAL_RESPONSIBILITY,
+			ACTUAL_SERVICE,
 			FIELDED_CAPABILITY,
+			PROVIDED_SERVICE_LEVEL,
+			REQUIRED_SERVICE_LEVEL,
+			
+			// Personnel
+			COMPETENCE,
 			
 			//Security
 			SECURITY_PROCESS_ACTION,		
@@ -289,6 +310,12 @@ public class UAFConstants {
 			MILESTONE_DEPENDENCY,
 			PROJECT_SEQUENCE,
 			
+			// Actual Resources
+			ACTUAL_RESOURCE_RELATIONSHIP,
+			FILLS_POST,
+			OWNS_PROCESS,
+			PROVIDES_COMPETENCE,
+			
 			//Dictionary
 			SAME_AS
 			
@@ -297,6 +324,9 @@ public class UAFConstants {
 	};
 	
 	public static final String[] UAF_DIAGRAMS = {
+			// Actual Resources
+			ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM,
+			
 			STRATEGIC_TAXONOMY,
 			OPERATIONAL_PROCESS_FLOW,
 			RESOURCES_PROCESS_FLOW
@@ -345,6 +375,15 @@ public class UAFConstants {
 		
 		
 		
+	};
+	
+	// Actual Resources Diagrams
+	public static final String[] AR_CN_TYPES = {
+		//TODO:	
+	};
+	
+	public static final String[] AR_SR_TYPES = {
+		//TODO:	
 	};
 	
 	public static final String [] OPERATIONAL_PROCESS_FLOW_TYPES = {

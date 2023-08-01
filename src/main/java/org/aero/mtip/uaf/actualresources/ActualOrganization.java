@@ -1,7 +1,10 @@
 package org.aero.mtip.uaf.actualresources;
 
+import java.util.Arrays;
+
 import org.aero.mtip.ModelElements.Block.InstanceSpecification;
 import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.XmlTagConstants;
 
 public class ActualOrganization extends InstanceSpecification {
@@ -12,5 +15,6 @@ public class ActualOrganization extends InstanceSpecification {
 		this.sysmlConstant = UAFConstants.ACTUAL_ORGANIZATION;
 		this.xmlConstant = XmlTagConstants.ACTUAL_ORGANIZATION;
 		this.sysmlElement = f.createInstanceSpecificationInstance();
+		this.initialStereotypes = Arrays.asList(UAFProfile.ACTUAL_ORGANIZATION_STEREOTYPE);
 	}
 }

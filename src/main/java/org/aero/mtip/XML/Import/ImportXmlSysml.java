@@ -741,14 +741,16 @@ public class ImportXmlSysml {
 			Stereotype stereotypeObj = StereotypesHelper.getStereotype(project, "Metaclass", umlStandardProfile);
 			StereotypesHelper.addStereotype(newElement,  stereotypeObj);
 		} else {
-			CameoUtils.logGUI("Looking for profile name " + profileName);
 			Profile profile = StereotypesHelper.getProfile(project,  profileName);
 			if(profile != null) {
-				CameoUtils.logGUI("Looking for stereotype name " + stereotypeName);
 				Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 				if(stereotype != null) {
 					StereotypesHelper.addStereotype(newElement,  stereotype);
+				} else {
+					ImportLog.log(String.format("Stereotype %s not found in profile %s.", stereotypeName, profileName));
 				}
+			} else {
+				ImportLog.log(String.format("Profile %s not found.", profileName));
 			}
 		}
 	}

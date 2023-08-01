@@ -45,6 +45,10 @@ import org.aero.mtip.uaf.Strategic.DesiredEffect;
 import org.aero.mtip.uaf.Strategic.Exhibits;
 import org.aero.mtip.uaf.Strategic.MapsToCapability;
 import org.aero.mtip.uaf.Strategic.OrganizationInEnterprise;
+import org.aero.mtip.uaf.actualresources.ActualResourceRelationship;
+import org.aero.mtip.uaf.actualresources.FillsPost;
+import org.aero.mtip.uaf.actualresources.OwnsProcess;
+import org.aero.mtip.uaf.actualresources.ProvidesCompetence;
 import org.aero.mtip.util.SysmlConstants;
 
 public class CommonRelationshipsFactory {
@@ -206,6 +210,20 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.SAME_AS:
 				relationship = new SameAs(name, EAID);
+				break;
+				
+			// Actual Resources
+			case UAFConstants.ACTUAL_RESOURCE_RELATIONSHIP:
+				relationship = new ActualResourceRelationship(name, EAID);
+				break;
+			case UAFConstants.FILLS_POST:
+				relationship = new FillsPost(name, EAID);
+				break;
+			case UAFConstants.OWNS_PROCESS:
+				relationship = new OwnsProcess(name, EAID);
+				break;
+			case UAFConstants.PROVIDES_COMPETENCE:
+				relationship = new ProvidesCompetence(name, EAID);
 				break;
 				
 			default:

@@ -779,12 +779,30 @@ public class ExportXmlSysml {
 			return UAFConstants.ACTUAL_POST;
 		} else if(stereotypes.contains(UAFProfile.ACTUAL_RESOURCE_STEREOTYPE)) {
 			return UAFConstants.ACTUAL_RESOURCE;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_RESOURCE_RELATIONSHIP_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_RESOURCE_RELATIONSHIP;
 		} else if(stereotypes.contains(UAFProfile.ACTUAL_RESPONSIBILITY_STEREOTYPE)) {
 			return UAFConstants.ACTUAL_RESPONSIBILITY;
+		} else if(stereotypes.contains(UAFProfile.ACTUAL_SERVICE_STEREOTYPE)) {
+			return UAFConstants.ACTUAL_SERVICE;
 		} else if(stereotypes.contains(UAFProfile.FIELDED_CAPABILITY_STEREOTYPE)) {
 			return UAFConstants.FIELDED_CAPABILITY;
+		} else if(stereotypes.contains(UAFProfile.FILLS_POST_STEREOTYPE)) { 
+			return UAFConstants.FILLS_POST;
+		} else if(stereotypes.contains(UAFProfile.OWNS_PROCESS_STEREOTYPE)) {
+			return UAFConstants.OWNS_PROCESS;
+		} else if(stereotypes.contains(UAFProfile.PROVIDED_SERVICE_LEVEL_STEREOTYPE)) {
+			return UAFConstants.PROVIDED_SERVICE_LEVEL;
+		} else if(stereotypes.contains(UAFProfile.PROVIDES_COMPETENCE_STEREOTYPE)) {
+			return UAFConstants.PROVIDES_COMPETENCE;
+		} else if(stereotypes.contains(UAFProfile.REQUIRED_SERVICE_LEVEL_STEREOTYPE)) {
+			return UAFConstants.REQUIRED_SERVICE_LEVEL;
 			
-			//Security
+		// Personnel
+		} else if(stereotypes.contains(UAFProfile.COMPETENCE_STEREOTYPE)) {
+			return UAFConstants.COMPETENCE;
+			
+		//Security
 		} else if (stereotypes.contains(UAFProfile.SECURITY_PROCESS_ACTION_STEREOTYPE)){
 			return UAFConstants.SECURITY_PROCESS_ACTION;
 		}

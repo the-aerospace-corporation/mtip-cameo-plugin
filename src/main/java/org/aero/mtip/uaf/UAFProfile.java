@@ -11,7 +11,6 @@ public class UAFProfile {
 	public static Profile UAF_PROFILE = null;
 	public static Profile UPDM_CUSTOMIZATION_PROFILE = null;
 	
-	
 	// Strategic
 	public static Stereotype ACTUAL_ENTERPRISE_PHASE_STEREOTYPE = null;
 	public static Stereotype CAPABILITY_STEREOTYPE = null;
@@ -131,8 +130,18 @@ public class UAFProfile {
 	public static Stereotype ACTUAL_PERSON_STEREOTYPE = null;
 	public static Stereotype ACTUAL_POST_STEREOTYPE = null;
 	public static Stereotype ACTUAL_RESOURCE_STEREOTYPE = null;
+	public static Stereotype ACTUAL_RESOURCE_RELATIONSHIP_STEREOTYPE = null;
 	public static Stereotype ACTUAL_RESPONSIBILITY_STEREOTYPE = null;
+	public static Stereotype ACTUAL_SERVICE_STEREOTYPE = null;
 	public static Stereotype FIELDED_CAPABILITY_STEREOTYPE = null;
+	public static Stereotype FILLS_POST_STEREOTYPE = null;
+	public static Stereotype OWNS_PROCESS_STEREOTYPE = null;
+	public static Stereotype PROVIDED_SERVICE_LEVEL_STEREOTYPE = null;
+	public static Stereotype PROVIDES_COMPETENCE_STEREOTYPE = null;
+	public static Stereotype REQUIRED_SERVICE_LEVEL_STEREOTYPE = null;
+	
+	// Personnel
+	public static Stereotype COMPETENCE_STEREOTYPE = null;
 	
 	public static Stereotype SECURITY_PROCESS_ACTION_STEREOTYPE = null;
 	
@@ -265,8 +274,18 @@ public class UAFProfile {
 	    ACTUAL_PERSON_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PERSON, UAF_PROFILE);
 	    ACTUAL_POST_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PERSON, UAF_PROFILE);
 	    ACTUAL_RESOURCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_RESOURCE, UAF_PROFILE);
+	    ACTUAL_RESOURCE_RELATIONSHIP_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_RESOURCE_RELATIONSHIP, UAF_PROFILE);
 	    ACTUAL_RESPONSIBILITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_RESPONSIBILITY, UAF_PROFILE);
+	    ACTUAL_SERVICE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_SERVICE, UAF_PROFILE);
 	    FIELDED_CAPABILITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FIELDED_CAPABILITY, UAF_PROFILE);
+	    FILLS_POST_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.FILLS_POST, UAF_PROFILE);
+	    OWNS_PROCESS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OWNS_PROCESS, UAF_PROFILE);
+	    PROVIDED_SERVICE_LEVEL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROVIDED_SERVICE_LEVEL, UAF_PROFILE);
+	    PROVIDES_COMPETENCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROVIDES_COMPETENCE, UAF_PROFILE);
+	    REQUIRED_SERVICE_LEVEL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.REQUIRED_SERVICE_LEVEL, UAF_PROFILE);
+	    
+	    // Personnel
+	    COMPETENCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.COMPETENCE, UAF_PROFILE);
 	    
 	    //Security
 	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);

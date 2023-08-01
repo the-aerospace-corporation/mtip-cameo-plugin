@@ -428,8 +428,21 @@ public class XmlTagConstants
 	public static final String ACTUAL_PERSON = "uaf.ActualPerson";
 	public static final String ACTUAL_POST = "uaf.ActualPost";
 	public static final String ACTUAL_RESOURCE = "uaf.ActualResource";
+	public static final String ACTUAL_RESOURCE_RELATIONSHIP = "uaf.ActualResourceRelationship";
 	public static final String ACTUAL_RESPONSIBILITY = "uaf.ActualResponsibility";
+	public static final String ACTUAL_SERVICE = "uaf.ActualService";
 	public static final String FIELDED_CAPABILITY = "uaf.FieldedCapability";
+	public static final String FILLS_POST = "uaf.FillsPost";
+	public static final String OWNS_PROCESS = "uaf.OwnsProcess";
+	public static final String PROVIDED_SERVICE_LEVEL = "uaf.ProvidedServiceLevel";
+	public static final String PROVIDES_COMPETENCE = "uaf.ProvidesCompetence";
+	public static final String REQUIRED_SERVICE_LEVEL = "uaf.RequiredServiceLevel";
+	
+	public static final String ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM = "uaf.ActualResourcesConnectivity";
+	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "uaf.ActualResourcesStructure";
+	
+	// Personnel
+	public static final String COMPETENCE = "uaf.Competence";
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
 	
