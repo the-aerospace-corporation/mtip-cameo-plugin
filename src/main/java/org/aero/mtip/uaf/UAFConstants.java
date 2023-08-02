@@ -326,6 +326,7 @@ public class UAFConstants {
 	public static final String[] UAF_DIAGRAMS = {
 			// Actual Resources
 			ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM,
+			ACTUAL_RESOURCES_STRUCTURE_DIAGRAM,
 			
 			STRATEGIC_TAXONOMY,
 			OPERATIONAL_PROCESS_FLOW,

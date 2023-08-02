@@ -263,7 +263,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         // aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV6A); Table
         aMap.put("OV-6b Operational State Transition Description", DoDAFConstants.OV6B);
         aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
-=======
+
         aMap.put("AV-1 Overview and Summary Information", DoDAFConstants.AV1);
 //        aMap.put("AV-2?", DoDAFConstants.AV2);
         
@@ -274,7 +274,6 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("PV-1 Project Portfolio Relationships", DoDAFConstants.PV1);
 //        aMap.put("PV-2", DoDAFConstants.PV2);
 //        aMap.put("PV-3", DoDAFConstants.PV3);
->>>>>>> 9e12c13 (Added all DoDAF views with the exception of SvcV.)
         
         diagramToType = Collections.unmodifiableMap(aMap);
     }
@@ -475,7 +474,6 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		
 		// Presentation elements without an element attached will not be exported. This includes TextViews and other diagram info and styling not currently supportd.
 		if(curElement != null && !curElement.getHumanType().contentEquals("Diagram") && !(curElement instanceof ConnectorEnd)) {
-			// Remove the following check as you don't need to filter on export Arrays.asList(this.allowableElements).contains(ExportXmlSysml.getElementType(curElement)
 			Rectangle bounds = null;
 			try {
 				bounds = presentationElement.getBounds();
@@ -492,9 +490,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				
 					String curID = curElement.getID();
 					String metaModel = ExportXmlSysml.getMetaModel(curElement);
-					
-<<<<<<< HEAD
-=======
+
 					String elementType = ExportXmlSysml.getElementType(curElement);
 					String type;
 					if (elementType == null) {
@@ -506,7 +502,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					CameoUtils.logGUI("Adding element with id " + curID + " of type " + type + " to diagram " + this.name + 
 							" with x:" + String.valueOf(bounds.x) + " y:" + String.valueOf(bounds.y) + " height:" + 
 							String.valueOf(bounds.height) + " and width: " + String.valueOf(bounds.width));
->>>>>>> c685281 (Issue with Null Pointer Exception for any Control Flow Relationship)
+
 					org.w3c.dom.Element elementTag = createDictElement(xmlDoc, Integer.toString(elementCount));
 					
 					org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);

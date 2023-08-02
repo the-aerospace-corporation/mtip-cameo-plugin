@@ -243,6 +243,7 @@ public class ImportXmlSysml {
 		
 		// Opens and closes its own session while populating the diagram
 		populateDiagram(diagram, newDiagram, modelElement, parsedXML);
+
 		return newDiagram;
 	}
 	

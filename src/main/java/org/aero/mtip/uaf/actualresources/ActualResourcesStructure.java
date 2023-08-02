@@ -4,12 +4,25 @@ import org.aero.mtip.ModelElements.Block.BlockDefinitionDiagram;
 import org.aero.mtip.uaf.UAFConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
+
 public class ActualResourcesStructure extends BlockDefinitionDiagram {
 	
 	public ActualResourcesStructure(String name, String EAID) {
 		 super(name, EAID);
 		 this.sysmlConstant = UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM;
+		 this.cameoDiagramConstant = "Actual Resources Structure";
 		 this.allowableElements = UAFConstants.AR_SR_TYPES;
+	}
+	
+	@Override
+	public  String getSysmlConstant() {
+		return this.cameoDiagramConstant;
+	}
+	
+	@Override
+	public  String getDiagramType() {
+		return this.xmlConstant;
 	}
 }
