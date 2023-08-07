@@ -3,9 +3,9 @@ package org.aero.mtip.uaf.actualresources;
 import java.util.Arrays;
 
 import org.aero.mtip.ModelElements.InternalBlock.ItemFlow;
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.uaf.UAFProfile;
-import org.aero.mtip.util.XmlTagConstants;
 
 public class ActualResourceRelationship extends ItemFlow {
 

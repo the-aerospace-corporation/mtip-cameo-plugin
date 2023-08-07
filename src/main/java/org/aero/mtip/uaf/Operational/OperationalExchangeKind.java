@@ -2,8 +2,8 @@ package org.aero.mtip.uaf.Operational;
 
 import org.aero.mtip.ModelElements.Block.Enumeration;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.uaf.UAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 

@@ -1,8 +1,8 @@
 package org.aero.mtip.dodaf.cv;
 
 import org.aero.mtip.ModelElements.Matrix.DependencyMatrix;
-import org.aero.mtip.dodaf.DoDAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class CV7 extends DependencyMatrix {
 

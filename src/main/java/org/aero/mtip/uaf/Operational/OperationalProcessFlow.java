@@ -1,8 +1,8 @@
 package org.aero.mtip.uaf.Operational;
 
 import org.aero.mtip.ModelElements.Activity.ActivityDiagram;
-import org.aero.mtip.uaf.UAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class OperationalProcessFlow extends ActivityDiagram {
 	public OperationalProcessFlow(String name, String EAID)

@@ -23,7 +23,8 @@ import org.aero.mtip.ModelElements.Requirements.Verify;
 import org.aero.mtip.ModelElements.StateMachine.Transition;
 import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.uaf.Dictionary.SameAs;
 import org.aero.mtip.uaf.Operational.ArbitraryConnector;
 import org.aero.mtip.uaf.Operational.OperationalAssociation;
@@ -49,7 +50,10 @@ import org.aero.mtip.uaf.actualresources.ActualResourceRelationship;
 import org.aero.mtip.uaf.actualresources.FillsPost;
 import org.aero.mtip.uaf.actualresources.OwnsProcess;
 import org.aero.mtip.uaf.actualresources.ProvidesCompetence;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.uaf.personnel.Command;
+import org.aero.mtip.uaf.personnel.CompetenceToConduct;
+import org.aero.mtip.uaf.personnel.Control;
+import org.aero.mtip.uaf.personnel.RequiresCompetence;
 
 public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
@@ -224,6 +228,20 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.PROVIDES_COMPETENCE:
 				relationship = new ProvidesCompetence(name, EAID);
+				break;
+			
+			// Personnel
+			case UAFConstants.COMMAND:
+				relationship = new Command(name, EAID);
+				break;
+			case UAFConstants.COMPETENCE_TO_CONDUCT:
+				relationship = new CompetenceToConduct(name, EAID);
+				break;
+			case UAFConstants.CONTROL:
+				relationship = new Control(name, EAID);
+				break;
+			case UAFConstants.REQUIRES_COMPETENCE:
+				relationship = new RequiresCompetence(name, EAID);
 				break;
 				
 			default:

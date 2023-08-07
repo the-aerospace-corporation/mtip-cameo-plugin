@@ -154,7 +154,9 @@ import org.aero.mtip.ModelElements.UseCase.UseCaseDiagram;
 import org.aero.mtip.ModelElements.View.Stakeholder;
 import org.aero.mtip.ModelElements.View.View;
 import org.aero.mtip.ModelElements.View.Viewpoint;
-import org.aero.mtip.dodaf.DoDAFConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.dodaf.av.AV1;
 import org.aero.mtip.dodaf.av.AV2;
 import org.aero.mtip.dodaf.cv.CV1;
@@ -185,7 +187,6 @@ import org.aero.mtip.dodaf.sv.SV10b;
 import org.aero.mtip.dodaf.sv.SV10c;
 import org.aero.mtip.dodaf.sv.SV2;
 import org.aero.mtip.dodaf.sv.SV4;
-import org.aero.mtip.uaf.UAFConstants;
 import org.aero.mtip.uaf.Dictionary.Alias;
 import org.aero.mtip.uaf.Dictionary.Definition;
 import org.aero.mtip.uaf.Dictionary.Information;
@@ -278,8 +279,16 @@ import org.aero.mtip.uaf.actualresources.FieldedCapability;
 import org.aero.mtip.uaf.actualresources.ProvidedServiceLevel;
 import org.aero.mtip.uaf.actualresources.RequiredServiceLevel;
 import org.aero.mtip.uaf.personnel.Competence;
+import org.aero.mtip.uaf.personnel.Organization;
+import org.aero.mtip.uaf.personnel.Person;
+import org.aero.mtip.uaf.personnel.PersonnelConnectivity;
+import org.aero.mtip.uaf.personnel.PersonnelProcesses;
+import org.aero.mtip.uaf.personnel.PersonnelStates;
+import org.aero.mtip.uaf.personnel.PersonnelStructure;
+import org.aero.mtip.uaf.personnel.PersonnelTaxonomy;
+import org.aero.mtip.uaf.personnel.Post;
+import org.aero.mtip.uaf.personnel.Responsibility;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.SysmlConstants;
 
 public class CommonElementsFactory {
 	public CommonElement createElement(String type, String name, String EAID) {
@@ -851,12 +860,6 @@ public class CommonElementsFactory {
 			case UAFConstants.ACTUAL_RESOURCE:
 				element = new ActualResource(name, EAID);
 				break;
-			case UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM:
-				element = new ActualResourcesConnectivity(name, EAID);
-				break;
-			case UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM:
-				element = new ActualResourcesStructure(name, EAID);
-				break;
 			case UAFConstants.ACTUAL_RESPONSIBILITY:
 				element = new ActualResponsibility(name, EAID);
 				break;
@@ -877,8 +880,50 @@ public class CommonElementsFactory {
 			case UAFConstants.COMPETENCE:
 				element = new Competence(name, EAID);
 				break;
+			case UAFConstants.ORGANIZATION:
+				element = new Organization(name, EAID);
+				break;
+			case UAFConstants.PERSON:
+				element = new Person(name, EAID);
+				break;
+			case UAFConstants.POST:
+				element = new Post(name, EAID);
+				break;
+			case UAFConstants.RESPONSIBILITY:
+				element = new Responsibility(name, EAID);
+				break;
+			// UAF Diagrams
+			// Actual Resources
+			case UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM:
+				element = new ActualResourcesConnectivity(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM:
+				element = new ActualResourcesStructure(name, EAID);
+				break;
+			// Personnel
+			case UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM:
+				element = new PersonnelConnectivity(name, EAID);
+				break;
+			case UAFConstants.PERSONNEL_INTERACTION_SCENARIO_DIAGRAM:
+				element = new PersonnelConnectivity(name, EAID);
+				break;
+			case UAFConstants.PERSONNEL_PROCESSES_DIAGRAM:
+				element = new PersonnelProcesses(name, EAID);
+				break;
+			case UAFConstants.PERSONNEL_PROCESSES_FLOW_DIAGRAM:
+				element = new PersonnelProcesses(name, EAID);
+				break;
+			case UAFConstants.PERSONNEL_STATES_DIAGRAM:
+				element = new PersonnelStates(name, EAID);
+				break;
+			case UAFConstants.PERSONNEL_STRUCTURE_DIAGRAM:
+				element = new PersonnelStructure(name, EAID);
+				break;
+			case UAFConstants.PERSONNEL_TAXONOMY_DIAGRAM:
+				element = new PersonnelTaxonomy(name, EAID);
+				break;
 			
-			// DoDAF Diagram Constants
+			// DoDAF Diagram
 			case DoDAFConstants.CV1:
 				element = new CV1(name, EAID);
 				break;

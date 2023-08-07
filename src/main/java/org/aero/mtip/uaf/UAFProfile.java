@@ -1,5 +1,7 @@
 package org.aero.mtip.uaf;
 
+import org.aero.mtip.constants.UAFConstants;
+
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
@@ -141,7 +143,15 @@ public class UAFProfile {
 	public static Stereotype REQUIRED_SERVICE_LEVEL_STEREOTYPE = null;
 	
 	// Personnel
+	public static Stereotype COMMAND_STEREOTYPE = null;
 	public static Stereotype COMPETENCE_STEREOTYPE = null;
+	public static Stereotype COMPETENCE_TO_CONDUCT_STEREOTYPE = null;
+	public static Stereotype CONTROL_STEREOTYPE = null;
+	public static Stereotype ORGANIZATION_STEREOTYPE = null;
+	public static Stereotype PERSON_STEREOTYPE = null;
+	public static Stereotype POST_STEREOTYPE = null;
+	public static Stereotype REQUIRES_COMPETENCE_STEREOTYPE = null;
+	public static Stereotype RESPONSIBILITY_STEREOTYPE = null;
 	
 	public static Stereotype SECURITY_PROCESS_ACTION_STEREOTYPE = null;
 	
@@ -285,7 +295,15 @@ public class UAFProfile {
 	    REQUIRED_SERVICE_LEVEL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.REQUIRED_SERVICE_LEVEL, UAF_PROFILE);
 	    
 	    // Personnel
+	    COMMAND_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.COMMAND, UAF_PROFILE);
 	    COMPETENCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.COMPETENCE, UAF_PROFILE);
+	    COMPETENCE_TO_CONDUCT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.COMPETENCE_TO_CONDUCT, UAF_PROFILE);
+	    CONTROL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.CONTROL, UAF_PROFILE);
+	    ORGANIZATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ORGANIZATION, UAF_PROFILE);
+	    PERSON_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PERSON, UAF_PROFILE);
+	    POST_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.POST, UAF_PROFILE);
+	    REQUIRES_COMPETENCE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.REQUIRES_COMPETENCE, UAF_PROFILE);
+	    RESPONSIBILITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESPONSIBILITY, UAF_PROFILE);
 	    
 	    //Security
 	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);

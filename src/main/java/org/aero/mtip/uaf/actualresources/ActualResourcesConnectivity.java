@@ -1,8 +1,8 @@
 package org.aero.mtip.uaf.actualresources;
 
 import org.aero.mtip.ModelElements.Block.BlockDefinitionDiagram;
-import org.aero.mtip.uaf.UAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class ActualResourcesConnectivity extends BlockDefinitionDiagram {
 

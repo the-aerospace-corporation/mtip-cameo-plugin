@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.aero.mtip.dodaf.DoDAFConstants;
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.apache.commons.lang.StringUtils;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;

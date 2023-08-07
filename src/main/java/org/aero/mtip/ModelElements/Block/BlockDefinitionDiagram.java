@@ -10,10 +10,10 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
@@ -35,17 +35,8 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.BLOCKDEFINITIONDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
 		 this.allowableElements = SysmlConstants.BDD_TYPES;
-	}
-	
-	@Override
-	public  String getSysmlConstant() {
-		return SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
-	}
-	
-	@Override
-	public  String getDiagramType() {
-		return XmlTagConstants.BLOCKDEFINITIONDIAGRAM;
 	}
 	
 	public boolean createPresentationElement(Project project, Element element, List<Rectangle> locations, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {

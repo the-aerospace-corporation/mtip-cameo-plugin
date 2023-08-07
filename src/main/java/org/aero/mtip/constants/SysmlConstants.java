@@ -3,12 +3,11 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-package org.aero.mtip.util;
+
+package org.aero.mtip.constants;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.aero.mtip.uaf.UAFConstants;
 
 public class SysmlConstants {
 	//Categorization constants

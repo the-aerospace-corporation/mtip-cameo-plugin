@@ -13,7 +13,8 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.uaf.UAFProfile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

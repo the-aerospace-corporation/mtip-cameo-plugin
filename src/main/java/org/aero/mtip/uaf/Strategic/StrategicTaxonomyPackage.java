@@ -1,9 +1,9 @@
 package org.aero.mtip.uaf.Strategic;
 
 import org.aero.mtip.ModelElements.SysmlPackage;
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.uaf.UAFProfile;
-import org.aero.mtip.util.XmlTagConstants;
 
 public class StrategicTaxonomyPackage extends SysmlPackage{
 

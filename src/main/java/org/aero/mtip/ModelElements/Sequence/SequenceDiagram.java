@@ -6,19 +6,17 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Sequence;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -46,6 +44,7 @@ public class SequenceDiagram  extends AbstractDiagram{
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SEQUENCEDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
 		 this.allowableElements = SysmlConstants.SEQ_TYPES;
 	}
 	
@@ -92,16 +91,6 @@ public class SequenceDiagram  extends AbstractDiagram{
 			CameoUtils.logGUI("Diagram " + diagram.getHumanName() + " is ready only. No relationships will be added.");
 		}
 //		project.getDiagram(diagram).close();
-	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.SEQUENCEDIAGRAM;
 	}
 	
 	@Override

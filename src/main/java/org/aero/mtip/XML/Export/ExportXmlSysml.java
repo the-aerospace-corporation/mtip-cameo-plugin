@@ -18,12 +18,12 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
-import org.aero.mtip.dodaf.DoDAFConstants;
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.SysmlConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Application;
@@ -799,8 +799,24 @@ public class ExportXmlSysml {
 			return UAFConstants.REQUIRED_SERVICE_LEVEL;
 			
 		// Personnel
+		} else if(stereotypes.contains(UAFProfile.COMMAND_STEREOTYPE)) {
+			return UAFConstants.COMMAND;
 		} else if(stereotypes.contains(UAFProfile.COMPETENCE_STEREOTYPE)) {
 			return UAFConstants.COMPETENCE;
+		} else if(stereotypes.contains(UAFProfile.COMPETENCE_TO_CONDUCT_STEREOTYPE)) {
+			return UAFConstants.COMPETENCE_TO_CONDUCT;
+		} else if(stereotypes.contains(UAFProfile.CONTROL_STEREOTYPE)) { 
+			return UAFConstants.CONTROL;
+		} else if(stereotypes.contains(UAFProfile.ORGANIZATION_STEREOTYPE)) {
+			return UAFConstants.ORGANIZATION;
+		} else if(stereotypes.contains(UAFProfile.PERSON_STEREOTYPE)) {
+			return UAFConstants.PERSON;
+		} else if(stereotypes.contains(UAFProfile.POST_STEREOTYPE)) {
+			return UAFConstants.POST;
+		} else if(stereotypes.contains(UAFProfile.REQUIRES_COMPETENCE_STEREOTYPE)) {
+			return UAFConstants.REQUIRES_COMPETENCE;
+		} else if(stereotypes.contains(UAFProfile.RESPONSIBILITY_STEREOTYPE)) {
+			return UAFConstants.RESPONSIBILITY;
 			
 		//Security
 		} else if (stereotypes.contains(UAFProfile.SECURITY_PROCESS_ACTION_STEREOTYPE)){

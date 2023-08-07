@@ -5,7 +5,8 @@ Copyright 2022 The Aerospace Corporation
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
-package org.aero.mtip.util;
+package org.aero.mtip.constants;
+
 
 // Helper class with constants used in formatting the import/export XML.
 public class XmlTagConstants
@@ -438,15 +439,35 @@ public class XmlTagConstants
 	public static final String PROVIDES_COMPETENCE = "uaf.ProvidesCompetence";
 	public static final String REQUIRED_SERVICE_LEVEL = "uaf.RequiredServiceLevel";
 	
-	public static final String ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM = "uaf.ActualResourcesConnectivity";
-	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "uaf.ActualResourcesStructure";
-	
 	// Personnel
+	public static final String COMMAND = "uaf.Command";
 	public static final String COMPETENCE = "uaf.Competence";
+	public static final String COMPETENCE_TO_CONDUCT = "uaf.CompetenceToConduct";
+	public static final String CONTROL = "uaf.Control";
+	public static final String ORGANIZATION = "uaf.Organization";
+	public static final String PERSON = "uaf.Person";
+	public static final String POST = "uaf.Post";
+	public static final String REQUIRES_COMPETENCE = "uaf.RequiresCompetence";
+	public static final String RESPONSIBILITY = "uaf.Responsibility";
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
 	
-	// UAF Diagram text for XML type tag
+	// UAF Diagrams
+	
+	// Actual Resources Diagrams
+	public static final String ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM = "uaf.ActualResourcesConnectivity";
+	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "uaf.ActualResourcesStructure";
+	
+	// Personnel Diagrams
+	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "uaf.PersonnelConnectivity";
+	public static final String PERSONNEL_INTERACTION_SCENARIO_DIAGRAM = "uaf.PersonnelInteractionScenario";
+	public static final String PERSONNEL_PROCESSES_DIAGRAM = "uaf.PersonnelProcesses";
+	public static final String PERSONNEL_PROCESSES_FLOW_DIAGRAM = "uaf.PersonnelProcessesFlow";
+	public static final String PERSONNEL_STATES_DIAGRAM = "uaf.PersonnelStates";
+	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "uaf.PersonnelStructure";
+	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "uaf.PersonnelTaxonomy";
+	
+	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY = "uaf.StrategicTaxonomy";
 	
 	// DoDAF Diagram Types

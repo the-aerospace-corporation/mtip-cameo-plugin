@@ -1,14 +1,10 @@
 package org.aero.mtip.uaf.Strategic;
 
 import org.aero.mtip.ModelElements.Sequence.Property;
-import org.aero.mtip.uaf.UAFConstants;
-<<<<<<< HEAD:src/main/java/uaf/Strategic/CapabilityProperty.java
-=======
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.uaf.UAFProfile;
-import org.aero.mtip.util.SysmlConstants;
->>>>>>> 4562eba (Fixed errors in package naming conventions.):src/main/java/org/aero/mtip/uaf/Strategic/CapabilityProperty.java
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;

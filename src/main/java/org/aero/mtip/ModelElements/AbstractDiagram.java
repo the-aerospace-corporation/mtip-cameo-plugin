@@ -18,14 +18,15 @@ import java.util.Map;
 
 import org.aero.mtip.XML.Export.ExportXmlSysml;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.dodaf.DoDAFConstants;
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.CameoDiagramConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -196,7 +197,16 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         // Actual Resources
         aMap.put("Actual Resources Connectivity", UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM);
         aMap.put("Actual Resources Structure", UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM);
-
+        
+        // Personnel
+        aMap.put(CameoDiagramConstants.PERSONNEL_CONNECTIVITY, UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_INTERACTION_SCENARIO, UAFConstants.PERSONNEL_INTERACTION_SCENARIO_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_PROCESS_FLOW, UAFConstants.PERSONNEL_PROCESSES_FLOW_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_PROCESSES, UAFConstants.PERSONNEL_PROCESSES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_STATES, UAFConstants.PERSONNEL_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_STRUCTURE, UAFConstants.PERSONNEL_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_TAXONOMY, UAFConstants.PERSONNEL_TAXONOMY_DIAGRAM);
+        
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
         aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
@@ -283,8 +293,12 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	}
 	
 	//Abstract methods
-	public abstract String getSysmlConstant();
-	public abstract String getDiagramType();
+	public String getSysmlConstant() {
+		return this.cameoDiagramConstant;
+	}
+	public String getDiagramType() {
+		return this.xmlConstant;
+	}
 	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {

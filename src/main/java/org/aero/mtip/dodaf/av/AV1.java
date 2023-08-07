@@ -1,8 +1,8 @@
 package org.aero.mtip.dodaf.av;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.dodaf.DoDAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class AV1 extends AbstractDiagram {
 

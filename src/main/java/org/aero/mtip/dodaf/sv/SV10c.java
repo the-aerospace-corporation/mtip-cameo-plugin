@@ -1,8 +1,8 @@
 package org.aero.mtip.dodaf.sv;
 
 import org.aero.mtip.ModelElements.Block.BlockDefinitionDiagram;
-import org.aero.mtip.dodaf.DoDAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class SV10c extends BlockDefinitionDiagram {
 

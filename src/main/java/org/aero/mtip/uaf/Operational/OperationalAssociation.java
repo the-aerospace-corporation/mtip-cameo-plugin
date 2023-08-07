@@ -1,10 +1,10 @@
 package org.aero.mtip.uaf.Operational;
 
 import org.aero.mtip.ModelElements.Association;
-import org.aero.mtip.uaf.UAFConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;

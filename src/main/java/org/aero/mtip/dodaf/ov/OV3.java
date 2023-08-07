@@ -1,8 +1,8 @@
 package org.aero.mtip.dodaf.ov;
 
 import org.aero.mtip.ModelElements.Table.AbstractTable;
-import org.aero.mtip.dodaf.DoDAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class OV3 extends AbstractTable {
 

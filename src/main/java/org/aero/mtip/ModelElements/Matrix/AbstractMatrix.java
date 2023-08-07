@@ -9,11 +9,11 @@ import java.util.List;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.ModelElements.ModelDiagram;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;

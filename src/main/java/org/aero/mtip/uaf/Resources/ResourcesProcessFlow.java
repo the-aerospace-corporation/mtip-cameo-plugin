@@ -1,8 +1,8 @@
 package org.aero.mtip.uaf.Resources;
 
 import org.aero.mtip.ModelElements.Activity.ActivityDiagram;
-import org.aero.mtip.uaf.UAFConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class ResourcesProcessFlow extends ActivityDiagram{
 	public ResourcesProcessFlow(String name, String EAID)

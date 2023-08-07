@@ -8,8 +8,8 @@ package org.aero.mtip.ModelElements.Block;
 import java.util.ArrayList;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.uml.Finder;

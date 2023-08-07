@@ -1,6 +1,4 @@
-package org.aero.mtip.uaf;
-
-import org.aero.mtip.util.SysmlConstants;
+package org.aero.mtip.constants;
 
 public class UAFConstants {
 	public static final String UAF = "UAF";
@@ -149,12 +147,29 @@ public class UAFConstants {
 	public static final String REQUIRED_SERVICE_LEVEL = "RequiredServiceLevel";
 	
 	// Personnel
+	public static final String COMMAND = "Command";
 	public static final String COMPETENCE = "Competence";
+	public static final String COMPETENCE_TO_CONDUCT = "CompetenceToConduct";
+	public static final String CONTROL = "Control";
+	public static final String ORGANIZATION = "Organization";
+	public static final String PERSON = "Person";
+	public static final String POST = "Post";
+	public static final String REQUIRES_COMPETENCE = "RequiresCompetence";
+	public static final String RESPONSIBILITY = "Responsibility";
 
 	// Diagrams
 	// Actual Resources Diagrams
 	public static final String ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM = "ActualResourcesConnectivity";
 	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "ActualResourcesStructure";
+	
+	// Personnel Diagrams
+	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "PersonnelConnectivity";
+	public static final String PERSONNEL_INTERACTION_SCENARIO_DIAGRAM = "PersonnelInteractionScenario";
+	public static final String PERSONNEL_PROCESSES_DIAGRAM = "PersonnelProcesses";
+	public static final String PERSONNEL_PROCESSES_FLOW_DIAGRAM = "PersonnelProcessesFlow";
+	public static final String PERSONNEL_STATES_DIAGRAM = "PersonnelStates";
+	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "PersonnelStructure";
+	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "PersonnelTaxonomy";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
@@ -268,6 +283,10 @@ public class UAFConstants {
 			
 			// Personnel
 			COMPETENCE,
+			ORGANIZATION,
+			PERSON,
+			POST,
+			RESPONSIBILITY,
 			
 			//Security
 			SECURITY_PROCESS_ACTION,		
@@ -316,6 +335,12 @@ public class UAFConstants {
 			OWNS_PROCESS,
 			PROVIDES_COMPETENCE,
 			
+			// Personnel
+			COMMAND,
+			COMPETENCE_TO_CONDUCT,
+			CONTROL,
+			REQUIRES_COMPETENCE,
+			
 			//Dictionary
 			SAME_AS
 			
@@ -327,6 +352,15 @@ public class UAFConstants {
 			// Actual Resources
 			ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM,
 			ACTUAL_RESOURCES_STRUCTURE_DIAGRAM,
+			
+			// Personnel
+			PERSONNEL_CONNECTIVITY_DIAGRAM,
+			PERSONNEL_INTERACTION_SCENARIO_DIAGRAM,
+			PERSONNEL_PROCESSES_DIAGRAM,
+			PERSONNEL_PROCESSES_FLOW_DIAGRAM,
+			PERSONNEL_STATES_DIAGRAM,
+			PERSONNEL_STRUCTURE_DIAGRAM,
+			PERSONNEL_TAXONOMY_DIAGRAM,
 			
 			STRATEGIC_TAXONOMY,
 			OPERATIONAL_PROCESS_FLOW,
@@ -385,6 +419,35 @@ public class UAFConstants {
 	
 	public static final String[] AR_SR_TYPES = {
 		//TODO:	
+	};
+	
+	// Personnel Diagrams
+	public static final String[] PR_TX_TYPES = {
+		//TODO:	
+	};
+	
+	public static final String[] PR_SR_TYPES = {
+			//TODO:	
+	};
+	
+	public static final String[] PR_CN_TYPES = {
+			//TODO:	
+	};
+	
+	public static final String[] PR_PR_TYPES = {
+		//TODO:	
+	};
+	
+	public static final String[] PR_PR_FLOW_TYPES = {
+			//TODO:	
+	};
+	
+	public static final String[] PR_ST_TYPES = {
+			//TODO:	
+	};
+	
+	public static final String[] PR_IS_TYPES = {
+			//TODO:	
 	};
 	
 	public static final String [] OPERATIONAL_PROCESS_FLOW_TYPES = {
