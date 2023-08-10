@@ -269,7 +269,6 @@ import org.aero.mtip.uaf.Resources.Technology;
 import org.aero.mtip.uaf.Resources.VersionOfConfiguration;
 import org.aero.mtip.uaf.Resources.WholeLifeConfiguration;
 import org.aero.mtip.uaf.Resources.WholeLifeConfigurationKind;
-import org.aero.mtip.uaf.Security.SecurityProcessAction;
 import org.aero.mtip.uaf.Standards.Protocol;
 import org.aero.mtip.uaf.Standards.ProtocolLayer;
 import org.aero.mtip.uaf.Standards.ProtocolStack;
@@ -291,7 +290,6 @@ import org.aero.mtip.uaf.Strategic.StrategicConstraints;
 import org.aero.mtip.uaf.Strategic.StrategicStates;
 import org.aero.mtip.uaf.Strategic.StrategicStructure;
 import org.aero.mtip.uaf.Strategic.StrategicTaxonomy;
-import org.aero.mtip.uaf.Strategic.StrategicTaxonomyPackage;
 import org.aero.mtip.uaf.Strategic.StructuralPart;
 import org.aero.mtip.uaf.Strategic.TemporalPart;
 import org.aero.mtip.uaf.Strategic.VisionStatement;
@@ -317,6 +315,17 @@ import org.aero.mtip.uaf.personnel.PersonnelStructure;
 import org.aero.mtip.uaf.personnel.PersonnelTaxonomy;
 import org.aero.mtip.uaf.personnel.Post;
 import org.aero.mtip.uaf.personnel.Responsibility;
+import org.aero.mtip.uaf.security.ActualRisk;
+import org.aero.mtip.uaf.security.OperationalMitigation;
+import org.aero.mtip.uaf.security.ResourceMitigation;
+import org.aero.mtip.uaf.security.Risk;
+import org.aero.mtip.uaf.security.SecurityConstraint;
+import org.aero.mtip.uaf.security.SecurityControl;
+import org.aero.mtip.uaf.security.SecurityControlFamily;
+import org.aero.mtip.uaf.security.SecurityEnclave;
+import org.aero.mtip.uaf.security.SecurityProcess;
+import org.aero.mtip.uaf.security.SecurityProcessAction;
+import org.aero.mtip.uaf.security.SecurityTaxonomy;
 import org.aero.mtip.util.CameoUtils;
 
 public class CommonElementsFactory {
@@ -925,6 +934,38 @@ public class CommonElementsFactory {
 			case UAFConstants.RESPONSIBILITY:
 				element = new Responsibility(name, EAID);
 				break;
+				
+			//Security
+			case UAFConstants.ACTUAL_RISK:
+				element = new ActualRisk(name, EAID);
+				break;
+			case UAFConstants.OPERATIONAL_MITIGATION:
+				element = new OperationalMitigation(name, EAID);
+				break;
+			case UAFConstants.RESOURCE_MITIGATION:
+				element = new ResourceMitigation(name, EAID);
+				break;
+			case UAFConstants.RISK:
+				element = new Risk(name, EAID);
+				break;
+			case UAFConstants.SECURITY_CONSTRAINT:
+				element = new SecurityConstraint(name, EAID);
+				break;
+			case UAFConstants.SECURITY_CONTROL:
+				element = new SecurityControl(name, EAID);
+				break;
+			case UAFConstants.SECURITY_CONTROL_FAMILY:
+				element = new SecurityControlFamily(name, EAID);
+				break;
+			case UAFConstants.SECURITY_ENCLAVE:
+				element = new SecurityEnclave(name, EAID);
+				break;
+			case UAFConstants.SECURITY_PROCESS:
+				element = new SecurityProcess(name, EAID);
+				break;
+			case UAFConstants.SECURITY_PROCESS_ACTION:
+				element = new SecurityProcessAction(name, EAID);
+				break;
 			// UAF Diagrams
 			// Actual Resources
 			case UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM:
@@ -972,7 +1013,11 @@ public class CommonElementsFactory {
 			case UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM:
 				element = new StrategicConstraints(name, EAID);
 				break;
-			
+			// Security
+			case UAFConstants.SECURITY_TAXONOMY_DIAGRAM:
+				element = new SecurityTaxonomy(name, EAID);
+				break;
+				
 			// DoDAF Diagram
 			case DoDAFConstants.CV1:
 				element = new CV1(name, EAID);
@@ -1244,10 +1289,6 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.INFORMATION:
 				element = new Information(name, EAID);
-				break;
-			//Security
-			case UAFConstants.SECURITY_PROCESS_ACTION:
-				element = new SecurityProcessAction(name, EAID);
 				break;
 			//Standards
 			case UAFConstants.PROTOCOL:

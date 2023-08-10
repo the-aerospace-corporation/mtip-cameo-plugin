@@ -18,4 +18,7 @@ public class CameoDiagramConstants {
 	public static final String STRATEGIC_CONNECTIVITY = "Strategic Connectivity";
 	public static final String STRATEGIC_STATES = "Strategic States";
 	public static final String STRATEGIC_CONSTRAINTS = "Strategic Constraints";
+
+	// Security
+	public static final String SECURITY_TAXONOMY = "Security Taxonomy";
 }

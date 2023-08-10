@@ -1,4 +1,4 @@
-package org.aero.mtip.uaf.Security;
+package org.aero.mtip.uaf.security;
 
 import org.aero.mtip.ModelElements.Activity.CallBehaviorAction;
 import org.aero.mtip.constants.UAFConstants;

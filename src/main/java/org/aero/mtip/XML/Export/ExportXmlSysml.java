@@ -818,9 +818,26 @@ public class ExportXmlSysml {
 		} else if(stereotypes.contains(UAFProfile.REQUIRES_COMPETENCE_STEREOTYPE)) {
 			return UAFConstants.REQUIRES_COMPETENCE;
 		} else if(stereotypes.contains(UAFProfile.RESPONSIBILITY_STEREOTYPE)) {
-			return UAFConstants.RESPONSIBILITY;
-			
+			return UAFConstants.RESPONSIBILITY;			
 		//Security
+		} else if (stereotypes.contains(UAFProfile.ACTUAL_RISK_STEREOTYPE)){
+			return UAFConstants.ACTUAL_RISK;
+		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_MITIGATION_STEREOTYPE)){
+			return UAFConstants.OPERATIONAL_MITIGATION;
+		} else if (stereotypes.contains(UAFProfile.RESOURCE_MITIGATION_STEREOTYPE)){
+			return UAFConstants.RESOURCE_MITIGATION;
+		} else if (stereotypes.contains(UAFProfile.RISK_STEREOTYPE)){
+			return UAFConstants.RISK;
+		} else if (stereotypes.contains(UAFProfile.SECURITY_CONSTRAINT_STEREOTYPE)){
+			return UAFConstants.SECURITY_CONSTRAINT;
+		} else if (stereotypes.contains(UAFProfile.SECURITY_CONTROL_STEREOTYPE)){
+			return UAFConstants.SECURITY_CONTROL;
+		} else if (stereotypes.contains(UAFProfile.SECURITY_CONTROL_FAMILY_STEREOTYPE)){
+			return UAFConstants.SECURITY_CONTROL_FAMILY;
+		} else if (stereotypes.contains(UAFProfile.SECURITY_ENCLAVE_STEREOTYPE)){
+			return UAFConstants.SECURITY_ENCLAVE;
+		} else if (stereotypes.contains(UAFProfile.SECURITY_PROCESS_STEREOTYPE)){
+			return UAFConstants.SECURITY_PROCESS;
 		} else if (stereotypes.contains(UAFProfile.SECURITY_PROCESS_ACTION_STEREOTYPE)){
 			return UAFConstants.SECURITY_PROCESS_ACTION;
 		

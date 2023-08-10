@@ -394,6 +394,15 @@ public class XmlTagConstants
 	public static final String INFORMATION = "uaf.Information";
 	
 	//Security
+	public static final String ACTUAL_RISK = "uaf.ActualRisk";
+	public static final String OPERATIONAL_MITIGATION = "uaf.OperationalMitigation";
+	public static final String RESOURCE_MITIGATION = "uaf.ResourceMitigation";
+	public static final String RISK = "uaf.Risk";
+	public static final String SECURITY_CONSTRAINT = "uaf.SecurityConstraint";
+	public static final String SECURITY_CONTROL = "uaf.SecurityControl";
+	public static final String SECURITY_CONTROL_FAMILY = "uaf.SecurityControlFamily";
+	public static final String SECURITY_ENCLAVE = "uaf.SecurityEnclave";
+	public static final String SECURITY_PROCESS = "uaf.SecurityProcess";
 	public static final String SECURITY_PROCESS_ACTION = "uaf.SecurityProcessAction";
 	
 	//UAF Relationships
@@ -497,10 +506,13 @@ public class XmlTagConstants
 	public static final String PERSONNEL_STATES_DIAGRAM = "uaf.PersonnelStates";
 	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "uaf.PersonnelStructure";
 	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "uaf.PersonnelTaxonomy";
-	
+
 	// Standards Diagrams
 	public static final String STANDARDS_TAXONOMY_DIAGRAM = "uaf.StandardsTaxonomy";
 	public static final String STANDARDS_STRUCTURE_DIAGRAM = "uaf.StandardsStructure";
+
+	// Security Diagrams
+	public static final String SECURITY_TAXONOMY_DIAGRAM = "uaf.SecurityTaxonomy";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "uaf.StrategicTaxonomy";

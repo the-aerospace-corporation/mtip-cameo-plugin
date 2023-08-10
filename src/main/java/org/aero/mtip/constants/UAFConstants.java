@@ -136,6 +136,15 @@ public class UAFConstants {
 	public static final String SAME_AS = "SameAs";
 	
 	//Security
+	public static final String ACTUAL_RISK = "ActualRisk";
+	public static final String OPERATIONAL_MITIGATION = "OperationalMitigation";
+	public static final String RESOURCE_MITIGATION = "ResourceMitigation";
+	public static final String RISK = "Risk";
+	public static final String SECURITY_CONSTRAINT = "SecurityConstraint";
+	public static final String SECURITY_CONTROL = "SecurityControl";
+	public static final String SECURITY_CONTROL_FAMILY = "SecurityControlFamily";
+	public static final String SECURITY_ENCLAVE = "SecurityEnclave";
+	public static final String SECURITY_PROCESS = "SecurityProcess";
 	public static final String SECURITY_PROCESS_ACTION = "SecurityProcessAction";
 
 	//Standards
@@ -202,8 +211,12 @@ public class UAFConstants {
 	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "PersonnelStructure";
 	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "PersonnelTaxonomy";
 	
+
 	// Resource Diagrams	
 	public static final String RESOURCES_PROCESS_FLOW = "ResourcesProcessFlow";
+
+	// Security Diagrams
+	public static final String SECURITY_TAXONOMY_DIAGRAM = "SecurityTaxonomy";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "StrategicTaxonomy";
@@ -321,9 +334,13 @@ public class UAFConstants {
 			FIELDED_CAPABILITY,
 			PROVIDED_SERVICE_LEVEL,
 			REQUIRED_SERVICE_LEVEL,
-
-			//Security
-			SECURITY_PROCESS_ACTION,
+			
+			// Personnel
+			COMPETENCE,
+			ORGANIZATION,
+			PERSON,
+			POST,
+			RESPONSIBILITY,
 			
 			//Standards
 			PROTOCOL,
@@ -349,8 +366,17 @@ public class UAFConstants {
 			//Metadata
 			METADATA,
 			
-			//Security
-			SECURITY_PROCESS_ACTION,		
+			// Security
+			ACTUAL_RISK,
+			OPERATIONAL_MITIGATION,
+			RESOURCE_MITIGATION,
+			RISK,
+			SECURITY_CONSTRAINT,
+			SECURITY_CONTROL,
+			SECURITY_CONTROL_FAMILY,
+			SECURITY_ENCLAVE,
+			SECURITY_PROCESS,
+			SECURITY_PROCESS_ACTION,	
 			
 			OPERATIONAL_PORT
 	};
@@ -552,6 +578,11 @@ public class UAFConstants {
 	
 	public static final String[] ST_CT_TYPES = {
 			
+	};
+			
+	// Security
+	public static final String[] SC_TX_TYPES = {
+			//TODO:	
 	};
 	
 	public static final String [] OPERATIONAL_PROCESS_FLOW_TYPES = {
