@@ -438,11 +438,7 @@ public class XmlTagConstants
 	public static final String STANDARD = "uaf.Standard";
 	public static final String PROTOCOL_LAYER = "uaf.ProtocolLayer";
 	
-	//Personnel
-	public static final String ORGANIZATION = "uaf.Organization";
-	public static final String PERSON = "uaf.Person";
-	public static final String POST = "uaf.Post";
-	public static final String RESPONSIBILITY = "uaf.Responsibility";
+
 	
 	//Dictionary
 	public static final String SAME_AS = "uaf.SameAs";
@@ -462,7 +458,7 @@ public class XmlTagConstants
 	public static final String PROVIDES_COMPETENCE = "uaf.ProvidesCompetence";
 	public static final String REQUIRED_SERVICE_LEVEL = "uaf.RequiredServiceLevel";
 	
-	// Personnel
+	//Personnel
 	public static final String COMMAND = "uaf.Command";
 	public static final String COMPETENCE = "uaf.Competence";
 	public static final String COMPETENCE_TO_CONDUCT = "uaf.CompetenceToConduct";

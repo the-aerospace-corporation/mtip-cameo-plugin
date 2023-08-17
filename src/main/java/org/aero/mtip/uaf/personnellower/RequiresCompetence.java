@@ -1,4 +1,4 @@
-package org.aero.mtip.uaf.personnel;
+package org.aero.mtip.uaf.personnellower;
 
 import java.util.Arrays;
 

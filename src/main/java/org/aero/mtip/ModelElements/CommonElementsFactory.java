@@ -207,7 +207,6 @@ import org.aero.mtip.uaf.Operational.OperationalFreeFormTaxonomy;
 import org.aero.mtip.uaf.Operational.OperationalHighLevelTaxonomy;
 import org.aero.mtip.uaf.Operational.OperationalInteractionScenarios;
 import org.aero.mtip.uaf.Operational.OperationalInterface;
-import org.aero.mtip.uaf.Operational.OperationalInternalConnectivity;
 import org.aero.mtip.uaf.Operational.OperationalMethod;
 import org.aero.mtip.uaf.Operational.OperationalParameter;
 import org.aero.mtip.uaf.Operational.OperationalParametric;
@@ -224,10 +223,6 @@ import org.aero.mtip.uaf.Operational.OperationalStructure;
 import org.aero.mtip.uaf.Operational.OperationalTaxonomy;
 import org.aero.mtip.uaf.Operational.ProblemDomain;
 import org.aero.mtip.uaf.Operational.StandardOperationalActivity;
-import org.aero.mtip.uaf.Personnel.Organization;
-import org.aero.mtip.uaf.Personnel.Person;
-import org.aero.mtip.uaf.Personnel.Post;
-import org.aero.mtip.uaf.Personnel.Responsibility;
 import org.aero.mtip.uaf.Projects.ActualMilestoneKind;
 import org.aero.mtip.uaf.Projects.ActualProject;
 import org.aero.mtip.uaf.Projects.ActualProjectMilestone;
@@ -299,16 +294,22 @@ import org.aero.mtip.uaf.actualresources.ActualService;
 import org.aero.mtip.uaf.actualresources.FieldedCapability;
 import org.aero.mtip.uaf.actualresources.ProvidedServiceLevel;
 import org.aero.mtip.uaf.actualresources.RequiredServiceLevel;
-import org.aero.mtip.uaf.personnel.Competence;
-import org.aero.mtip.uaf.personnel.Organization;
-import org.aero.mtip.uaf.personnel.Person;
-import org.aero.mtip.uaf.personnel.PersonnelConnectivity;
-import org.aero.mtip.uaf.personnel.PersonnelProcesses;
-import org.aero.mtip.uaf.personnel.PersonnelStates;
-import org.aero.mtip.uaf.personnel.PersonnelStructure;
-import org.aero.mtip.uaf.personnel.PersonnelTaxonomy;
-import org.aero.mtip.uaf.personnel.Post;
-import org.aero.mtip.uaf.personnel.Responsibility;
+import org.aero.mtip.uaf.personnellower.Competence;
+import org.aero.mtip.uaf.personnellower.Organization;
+import org.aero.mtip.uaf.personnellower.Person;
+import org.aero.mtip.uaf.personnellower.PersonnelConnectivity;
+import org.aero.mtip.uaf.personnellower.PersonnelProcesses;
+import org.aero.mtip.uaf.personnellower.PersonnelStates;
+import org.aero.mtip.uaf.personnellower.PersonnelStructure;
+import org.aero.mtip.uaf.personnellower.PersonnelTaxonomy;
+import org.aero.mtip.uaf.personnellower.Post;
+import org.aero.mtip.uaf.personnellower.Responsibility;
+import org.aero.mtip.uaf.standards.Protocol;
+import org.aero.mtip.uaf.standards.ProtocolLayer;
+import org.aero.mtip.uaf.standards.ProtocolStack;
+import org.aero.mtip.uaf.standards.Standard;
+import org.aero.mtip.uaf.standards.StandardsStructure;
+import org.aero.mtip.uaf.standards.StandardsTaxonomy;
 import org.aero.mtip.util.CameoUtils;
 
 public class CommonElementsFactory {
@@ -1075,9 +1076,6 @@ public class CommonElementsFactory {
 			case UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS:
 				element = new OperationalInteractionScenarios(name, EAID);
 				break;
-			case UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY:
-				element = new OperationalInternalConnectivity(name, EAID);
-				break;
 			case UAFConstants.OPERATIONAL_PARAMETRIC:
 				element = new OperationalParametric(name, EAID);
 				break;
@@ -1235,30 +1233,15 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.PROTOCOL_LAYER:
 				element = new ProtocolLayer(name, EAID);
-				break;
-			case UAFConstants.ORGANIZATION:
-				element = new Organization(name, EAID);
-				break;
-			case UAFConstants.PERSON:
-				element = new Person(name, EAID);
-				break;
-			case UAFConstants.POST:
-				element = new Post(name, EAID);
-				break;
-			case UAFConstants.RESPONSIBILITY:
-				element = new Responsibility(name, EAID);
-				break;
-				
+				break;				
 			case UAFConstants.STANDARDS_TAXONOMY:
 				element = new StandardsTaxonomy(name, EAID);
 				break;
 			case UAFConstants.STANDARDS_STRUCTURE:
 				element = new StandardsStructure(name, EAID);
 				break;
-			//default
 			default:
 				break;
-				
 		}
 		if(element == null) {
 			CameoUtils.logGUI("Element of type " + type + " not supported by CommonElementsFactory.");

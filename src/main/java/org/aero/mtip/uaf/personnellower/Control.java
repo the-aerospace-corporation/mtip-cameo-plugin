@@ -1,4 +1,4 @@
-package org.aero.mtip.uaf.personnel;
+package org.aero.mtip.uaf.personnellower;
 
 import java.util.Arrays;
 
@@ -7,14 +7,14 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.uaf.UAFProfile;
 
-public class Command extends ItemFlow {
-
-	public Command(String name, String EAID) {
+public class Control extends ItemFlow {
+	
+	public Control(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = UAFConstants.COMMAND;
-		this.xmlConstant = XmlTagConstants.COMMAND;
+		this.sysmlConstant = UAFConstants.CONTROL;
+		this.xmlConstant = XmlTagConstants.CONTROL;
 		this.sysmlElement = f.createAbstractionInstance();
-		this.initialStereotypes = Arrays.asList(UAFProfile.COMMAND_STEREOTYPE);
+		this.initialStereotypes = Arrays.asList(UAFProfile.CONTROL_STEREOTYPE);
 	}
 }

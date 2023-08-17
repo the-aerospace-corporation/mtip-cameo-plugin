@@ -50,10 +50,10 @@ import org.aero.mtip.uaf.actualresources.ActualResourceRelationship;
 import org.aero.mtip.uaf.actualresources.FillsPost;
 import org.aero.mtip.uaf.actualresources.OwnsProcess;
 import org.aero.mtip.uaf.actualresources.ProvidesCompetence;
-import org.aero.mtip.uaf.personnel.Command;
-import org.aero.mtip.uaf.personnel.CompetenceToConduct;
-import org.aero.mtip.uaf.personnel.Control;
-import org.aero.mtip.uaf.personnel.RequiresCompetence;
+import org.aero.mtip.uaf.personnellower.Command;
+import org.aero.mtip.uaf.personnellower.CompetenceToConduct;
+import org.aero.mtip.uaf.personnellower.Control;
+import org.aero.mtip.uaf.personnellower.RequiresCompetence;
 
 public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
