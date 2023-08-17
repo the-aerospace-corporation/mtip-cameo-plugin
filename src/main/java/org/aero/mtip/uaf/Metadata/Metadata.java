@@ -1,26 +1,26 @@
-package org.aero.mtip.uaf.Dictionary;
+package org.aero.mtip.uaf.Metadata;
 
 import java.util.List;
 
 import org.aero.mtip.ModelElements.Comment;
-import org.aero.mtip.constants.UAFConstants;
-import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.uaf.UAFConstants;
 import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
+import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
-public class Information extends Comment {
+public class Metadata extends Comment {
 
-	public Information(String name, String EAID) {
+	public Metadata(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = UAFConstants.INFORMATION;
-		this.xmlConstant = XmlTagConstants.INFORMATION;
+		this.sysmlConstant = UAFConstants.METADATA;
+		this.xmlConstant = XmlTagConstants.METADATA;
 		this.sysmlElement = f.createCommentInstance();
 	}
 	
@@ -31,7 +31,7 @@ public class Information extends Comment {
 			comment.setBody(body);
 		}
 		
-		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.INFORMATION_STEREOTYPE);
+		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.METADATA_STEREOTYPE);
 		
 		return sysmlElement;
 	}

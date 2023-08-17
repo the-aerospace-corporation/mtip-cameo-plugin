@@ -131,6 +131,7 @@ public class UAFConstants {
 	//Dictionary
 	public static final String DEFINITION = "Definition";
 	public static final String ALIAS = "Alias";
+		//this is a meta data
 	public static final String INFORMATION = "Information";
 	public static final String SAME_AS = "SameAs";
 	
@@ -144,6 +145,17 @@ public class UAFConstants {
 	public static final String PROTOCOL_LAYER = "ProtocolLayer";
 	
 
+	//Parameters
+	public static final String ACTUAL_CONDITION = "ActualCondition";
+	public static final String ACTUAL_ENVIRONMENT = "ActualEnvironment";
+	public static final String ACTUAL_LOCATION = "ActualLocation";
+	public static final String ACTUAL_PROPERTY_SET = "ActualPropertySet";
+	public static final String ACTUAL_MEASUREMENT_SET = "ActualMeasurementSet";
+	public static final String ENVIRONMENT_PROPERTY = "EnvironmentProperty";
+	
+	//Metadata
+	public static final String METADATA="Metadata";
+	
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
 	
@@ -321,6 +333,17 @@ public class UAFConstants {
 			PERSON,
 			POST,
 			RESPONSIBILITY,
+			
+			//Parameters
+			ACTUAL_CONDITION,
+			ACTUAL_ENVIRONMENT,
+			ACTUAL_LOCATION,
+			ACTUAL_MEASUREMENT_SET,
+			ACTUAL_PROPERTY_SET,
+			ENVIRONMENT_PROPERTY,
+			
+			//Metadata
+			METADATA,
 			
 			//Security
 			SECURITY_PROCESS_ACTION,		

@@ -442,7 +442,7 @@ public class XmlTagConstants
 	
 	//Dictionary
 	public static final String SAME_AS = "uaf.SameAs";
-	
+
 	// Actual Resources
 	public static final String ACTUAL_ORGANIZATION = "uaf.ActualOrganization";
 	public static final String ACTUAL_PERSON = "uaf.ActualPerson";
@@ -468,6 +468,18 @@ public class XmlTagConstants
 	public static final String POST = "uaf.Post";
 	public static final String REQUIRES_COMPETENCE = "uaf.RequiresCompetence";
 	public static final String RESPONSIBILITY = "uaf.Responsibility";
+
+	//Parameters
+	public static final String ACTUAL_CONDITION = "uaf.ActualCondition"; 
+	public static final String ACTUAL_ENVIRONMENT = "uaf.ActualEnvironment";
+	public static final String ACTUAL_LOCATION = "uaf.ActualLocation";
+	public static final String ACTUAL_MEASUREMENT_SET = "uaf.ActualMeasurementSet";
+	public static final String ACTUAL_PROPERTY_SET = "uaf.ActualPropertySet";
+	public static final String ENVIRONMENT_PROPERTY = "uaf.EnvironmentProperty";
+	
+	//Metadata
+	public static final String METADATA = "uaf.Metadata";
+
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
 	

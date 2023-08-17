@@ -162,6 +162,17 @@ public class UAFProfile {
 	public static Stereotype STANDARD_STEREOTYPE = null;
 	public static Stereotype PROTOCOL_LAYER_STEREOTYPE = null;
 	
+	//Parameters
+	public static Stereotype ACTUAL_CONDITION_STEREOTYPE = null;
+	public static Stereotype ACTUAL_ENVIRONMENT_STEREOTYPE = null;
+	public static Stereotype ACTUAL_LOCATION_STEREOTYPE = null;
+	public static Stereotype ACTUAL_MEASUREMENT_SET_STEREOTYPE = null;
+	public static Stereotype ACTUAL_PROPERTY_SET_STEREOTYPE = null;
+	public static Stereotype ENVIRONMENT_PROPERTY_STEREOTYPE = null;
+	
+	//MetaData
+	public static Stereotype METADATA_STEREOTYPE = null;
+	
 	public UAFProfile(Project project) {
 		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
 		UPDM_CUSTOMIZATION_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UPDM_CUSTOMIZATION_PROFILE);
@@ -321,5 +332,23 @@ public class UAFProfile {
 	    PROTOCOL_STACK_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROTOCOL_STACK, UAF_PROFILE);
 	    STANDARD_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.STANDARD, UAF_PROFILE);
 	    PROTOCOL_LAYER_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROTOCOL_LAYER, UAF_PROFILE);
+	    
+	    //Personnel
+	    ORGANIZATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ORGANIZATION, UAF_PROFILE);
+	    PERSON_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PERSON, UAF_PROFILE);
+	    POST_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.POST, UAF_PROFILE);
+	    RESPONSIBILITY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESPONSIBILITY, UAF_PROFILE);
+	
+	    //Parameters
+	    ACTUAL_CONDITION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_CONDITION, UAF_PROFILE);
+	    ACTUAL_ENVIRONMENT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_ENVIRONMENT, UAF_PROFILE);
+	    ACTUAL_LOCATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_LOCATION, UAF_PROFILE);
+	    ACTUAL_MEASUREMENT_SET_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_MEASUREMENT_SET, UAF_PROFILE);
+	    ACTUAL_PROPERTY_SET_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_PROPERTY_SET, UAF_PROFILE); 
+	    ENVIRONMENT_PROPERTY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ENVIRONMENT_PROPERTY, UAF_PROFILE);
+	    
+	    
+	    //MetaData
+	    METADATA_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.METADATA, UAF_PROFILE);
 	}
 }

@@ -189,7 +189,8 @@ import org.aero.mtip.dodaf.sv.SV2;
 import org.aero.mtip.dodaf.sv.SV4;
 import org.aero.mtip.uaf.Dictionary.Alias;
 import org.aero.mtip.uaf.Dictionary.Definition;
-import org.aero.mtip.uaf.Dictionary.Information;
+import org.aero.mtip.uaf.Metadata.Information;
+import org.aero.mtip.uaf.Metadata.Metadata;
 import org.aero.mtip.uaf.Operational.ConceptRole;
 import org.aero.mtip.uaf.Operational.HighLevelOperationalConcept;
 import org.aero.mtip.uaf.Operational.InformationElement;
@@ -223,6 +224,18 @@ import org.aero.mtip.uaf.Operational.OperationalStructure;
 import org.aero.mtip.uaf.Operational.OperationalTaxonomy;
 import org.aero.mtip.uaf.Operational.ProblemDomain;
 import org.aero.mtip.uaf.Operational.StandardOperationalActivity;
+
+import org.aero.mtip.uaf.Parameters.ActualCondition;
+import org.aero.mtip.uaf.Parameters.ActualEnvironment;
+import org.aero.mtip.uaf.Parameters.ActualLocation;
+import org.aero.mtip.uaf.Parameters.ActualMeasurementSet;
+import org.aero.mtip.uaf.Parameters.ActualPropertySet;
+import org.aero.mtip.uaf.Parameters.EnvironmentProperty;
+import org.aero.mtip.uaf.Personnel.Organization;
+import org.aero.mtip.uaf.Personnel.Person;
+import org.aero.mtip.uaf.Personnel.Post;
+import org.aero.mtip.uaf.Personnel.Responsibility;
+
 import org.aero.mtip.uaf.Projects.ActualMilestoneKind;
 import org.aero.mtip.uaf.Projects.ActualProject;
 import org.aero.mtip.uaf.Projects.ActualProjectMilestone;
@@ -1216,7 +1229,7 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.INFORMATION:
 				element = new Information(name, EAID);
-
+				break;
 			//Security
 			case UAFConstants.SECURITY_PROCESS_ACTION:
 				element = new SecurityProcessAction(name, EAID);
@@ -1239,6 +1252,30 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.STANDARDS_STRUCTURE:
 				element = new StandardsStructure(name, EAID);
+				break;
+
+			//Parameters
+			case UAFConstants.ACTUAL_CONDITION:
+				element= new ActualCondition(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_ENVIRONMENT:
+				element = new ActualEnvironment(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_LOCATION:
+				element  = new ActualLocation(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_MEASUREMENT_SET:
+				element = new ActualMeasurementSet(name, EAID);
+				break;
+			case UAFConstants.ACTUAL_PROPERTY_SET:
+				element = new ActualPropertySet(name, EAID);
+				break;
+			case UAFConstants.ENVIRONMENT_PROPERTY:
+				element = new EnvironmentProperty(name, EAID);
+				break;
+			//Metadata
+			case UAFConstants.METADATA:
+				element = new Metadata(name,EAID);
 				break;
 			default:
 				break;
