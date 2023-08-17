@@ -1,4 +1,4 @@
-package org.aero.mtip.uaf.personnellower;
+package org.aero.mtip.uaf.personnel;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -8,14 +8,14 @@ import org.aero.mtip.uaf.UAFElement;
 
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 
-public class Person extends CommonElement implements UAFElement{
-	public Person(String name, String EAID) {
+public class Responsibility extends CommonElement implements UAFElement{
+	public Responsibility(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = UAFConstants.PERSON;
-		this.xmlConstant = XmlTagConstants.PERSON;
+		this.sysmlConstant = UAFConstants.RESPONSIBILITY;
+		this.xmlConstant = XmlTagConstants.RESPONSIBILITY;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), UAFConstants.UAF_PROFILE_NAME);
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), UAFConstants.PERSON, creationProfile);
+		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), UAFConstants.RESPONSIBILITY, creationProfile);
 	}
 
 }

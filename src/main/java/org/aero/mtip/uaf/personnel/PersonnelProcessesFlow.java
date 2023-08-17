@@ -1,4 +1,4 @@
-package org.aero.mtip.uaf.personnellower;
+package org.aero.mtip.uaf.personnel;
 
 import org.aero.mtip.ModelElements.Activity.ActivityDiagram;
 import org.aero.mtip.constants.CameoDiagramConstants;
