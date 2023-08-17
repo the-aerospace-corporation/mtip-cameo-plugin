@@ -6,6 +6,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 
 public class SecurityTaxonomy extends BlockDefinitionDiagram {
+	
 	public SecurityTaxonomy(String name, String EAID) {
 		super(name, EAID);
 		 this.sysmlConstant = UAFConstants.SECURITY_TAXONOMY_DIAGRAM;
