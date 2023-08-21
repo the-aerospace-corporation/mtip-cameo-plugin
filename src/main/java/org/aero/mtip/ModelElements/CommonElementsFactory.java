@@ -224,18 +224,12 @@ import org.aero.mtip.uaf.Operational.OperationalStructure;
 import org.aero.mtip.uaf.Operational.OperationalTaxonomy;
 import org.aero.mtip.uaf.Operational.ProblemDomain;
 import org.aero.mtip.uaf.Operational.StandardOperationalActivity;
-
 import org.aero.mtip.uaf.Parameters.ActualCondition;
 import org.aero.mtip.uaf.Parameters.ActualEnvironment;
 import org.aero.mtip.uaf.Parameters.ActualLocation;
 import org.aero.mtip.uaf.Parameters.ActualMeasurementSet;
 import org.aero.mtip.uaf.Parameters.ActualPropertySet;
 import org.aero.mtip.uaf.Parameters.EnvironmentProperty;
-import org.aero.mtip.uaf.Personnel.Organization;
-import org.aero.mtip.uaf.Personnel.Person;
-import org.aero.mtip.uaf.Personnel.Post;
-import org.aero.mtip.uaf.Personnel.Responsibility;
-
 import org.aero.mtip.uaf.Projects.ActualMilestoneKind;
 import org.aero.mtip.uaf.Projects.ActualProject;
 import org.aero.mtip.uaf.Projects.ActualProjectMilestone;
@@ -317,12 +311,6 @@ import org.aero.mtip.uaf.personnel.PersonnelStructure;
 import org.aero.mtip.uaf.personnel.PersonnelTaxonomy;
 import org.aero.mtip.uaf.personnel.Post;
 import org.aero.mtip.uaf.personnel.Responsibility;
-import org.aero.mtip.uaf.standards.Protocol;
-import org.aero.mtip.uaf.standards.ProtocolLayer;
-import org.aero.mtip.uaf.standards.ProtocolStack;
-import org.aero.mtip.uaf.standards.Standard;
-import org.aero.mtip.uaf.standards.StandardsStructure;
-import org.aero.mtip.uaf.standards.StandardsTaxonomy;
 import org.aero.mtip.util.CameoUtils;
 
 public class CommonElementsFactory {
