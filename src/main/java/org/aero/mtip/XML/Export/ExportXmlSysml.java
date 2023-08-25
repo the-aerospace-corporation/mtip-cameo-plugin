@@ -548,7 +548,7 @@ public class ExportXmlSysml {
 			CameoUtils.logGUI(element.getHumanName()+" ExportXmlSysml.getElementType metamodel is null");
 			return "null";
 		}
-		if(ExportXmlSysml.metamodel.contentEquals(UAFConstants.UAF))  {
+		if (ExportXmlSysml.metamodel.contentEquals(UAFConstants.UAF))  {
 			ExportLog.log("Getting UAF Element Type");
 			String elementType = getUAFElementType(element);
 			if(elementType == null) {
@@ -598,6 +598,8 @@ public class ExportXmlSysml {
 			return UAFConstants.STRUCTURAL_PART;
 		} else if(stereotypes.contains(UAFProfile.TEMPORAL_PART_STEREOTYPE)) {
 			return UAFConstants.TEMPORAL_PART;
+		} else if(stereotypes.contains(UAFProfile.VISION_STATEMENT_STEREOTYPE)) {
+			return UAFConstants.VISION_STATEMENT;
 		} else if(stereotypes.contains(UAFProfile.WHOLE_LIFE_ENTERPRISE_STEREOTYPE)) {
 			return UAFConstants.WHOLE_LIFE_ENTERPRISE;
 		}
@@ -858,14 +860,15 @@ public class ExportXmlSysml {
 	}
 
 	public static String getUAFPackageType(Element element) {
+		// UAF Package types not in the UAFP v1.1 specification. May need to reconsider logic here for import
+		// to apply appropriate package stereotypes for enforced Cameo Parent-child valdiation rules.
 		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
 
-		if(stereotypes.contains(UAFProfile.STRATEGIC_TAXONOMY_PACKAGE_STEREOTYPE)) {
-			return UAFConstants.STRATEGIC_TAXONOMY_PACKAGE;
-
-		} else {
-			return SysmlConstants.PACKAGE;
-		}
+//		if(stereotypes.contains(UAFProfile.STRATEGIC_TAXONOMY_PACKAGE_STEREOTYPE)) {
+//			return UAFConstants.STRATEGIC_TAXONOMY_PACKAGE;
+//		}
+		
+		return SysmlConstants.PACKAGE;
 	}
 
 	public static String getSysMLElementType(Element element) {

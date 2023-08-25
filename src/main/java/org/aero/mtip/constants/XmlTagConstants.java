@@ -498,11 +498,16 @@ public class XmlTagConstants
 	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "uaf.PersonnelStructure";
 	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "uaf.PersonnelTaxonomy";
 	
-	// Strategic Diagrams
-	public static final String STRATEGIC_TAXONOMY = "uaf.StrategicTaxonomy";
+	// Standards Diagrams
+	public static final String STANDARDS_TAXONOMY_DIAGRAM = "uaf.StandardsTaxonomy";
+	public static final String STANDARDS_STRUCTURE_DIAGRAM = "uaf.StandardsStructure";
 	
-	public static final String STANDARDS_TAXONOMY = "uaf.StandardsTaxonomy";
-	public static final String STANDARDS_STRUCTURE = "uaf.StandardsStructure";
+	// Strategic Diagrams
+	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "uaf.StrategicTaxonomy";
+	public static final String STRATEGIC_STRUCTURE_DIAGRAM = "uaf.StrategicStructure";
+	public static final String STRATEGIC_CONNECTIVITY_DIAGRAM = "uaf.StrategicConnectivity";
+	public static final String STRATEGIC_STATES_DIAGRAM = "uaf.StrategicStates";
+	public static final String STRATEGIC_CONSTRAINTS_DIAGRAM = "uaf.StrategicConstraints";
 	
 	// DoDAF Diagram Types
 	// Capability Views

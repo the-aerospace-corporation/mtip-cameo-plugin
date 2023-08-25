@@ -206,11 +206,15 @@ public class UAFConstants {
 	public static final String RESOURCES_PROCESS_FLOW = "ResourcesProcessFlow";
 	
 	// Strategic Diagrams
-	public static final String STRATEGIC_TAXONOMY = "StrategicTaxonomy";
+	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "StrategicTaxonomy";
+	public static final String STRATEGIC_STRUCTURE_DIAGRAM = "StrategicStructure";
+	public static final String STRATEGIC_CONNECTIVITY_DIAGRAM = "StrategicConnectivity";
+	public static final String STRATEGIC_STATES_DIAGRAM = "StrategicStates";
+	public static final String STRATEGIC_CONSTRAINTS_DIAGRAM = "StrategicConstraints";
 	
 	//Standards Diagrams
-	public static final String STANDARDS_TAXONOMY = "StandardsTaxonomy";
-	public static final String STANDARDS_STRUCTURE = "StandardsStructure";
+	public static final String STANDARDS_TAXONOMY_DIAGRAM = "StandardsTaxonomy";
+	public static final String STANDARDS_STRUCTURE_DIAGRAM = "StandardsStructure";
 	
 	// Diagram Stereotypes String in UAF/UPDM Profiles
 	public static final String STRATEGIC_TAXONOMY_STEREOTYPE = "St-Tx Strategic Taxonomy"; // Contained in "UPDM Customization" Profile
@@ -419,7 +423,14 @@ public class UAFConstants {
 			PERSONNEL_STRUCTURE_DIAGRAM,
 			PERSONNEL_TAXONOMY_DIAGRAM,
 			
-			//STRATEGIC_TAXONOMY, commented out for now because it needs to be fixed (implementation is not correct)
+			// Strategic
+			STRATEGIC_TAXONOMY_DIAGRAM,
+			STRATEGIC_STRUCTURE_DIAGRAM,
+			STRATEGIC_CONNECTIVITY_DIAGRAM,
+			STRATEGIC_STATES_DIAGRAM,
+			STRATEGIC_CONSTRAINTS_DIAGRAM,
+			
+			// Operational
 			OPERATIONAL_PROCESS_FLOW,
 			OPERATIONAL_CONNECTIVITY,
 			OPERATIONAL_CONSTRAINTS_DEFINITION,
@@ -435,8 +446,8 @@ public class UAFConstants {
 			
 			
 			RESOURCES_PROCESS_FLOW,
-			STANDARDS_TAXONOMY,
-			STANDARDS_STRUCTURE,
+			STANDARDS_TAXONOMY_DIAGRAM,
+			STANDARDS_STRUCTURE_DIAGRAM,
 	};
 	
 	public static final String [] RESOURCES_PROCESS_FLOW_TYPES = {
@@ -520,6 +531,27 @@ public class UAFConstants {
 	
 	public static final String[] PR_IS_TYPES = {
 			//TODO:	
+	};
+	
+	// Strategic
+	public static final String[] ST_TX_TYPES = {
+			
+	};
+	
+	public static final String[] ST_SR_TYPES = {
+			
+	};
+	
+	public static final String[] ST_CN_TYPES = {
+			
+	};
+	
+	public static final String[] ST_ST_TYPES = {
+			
+	};
+	
+	public static final String[] ST_CT_TYPES = {
+			
 	};
 	
 	public static final String [] OPERATIONAL_PROCESS_FLOW_TYPES = {

@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
+import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;

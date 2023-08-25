@@ -8,8 +8,8 @@ public class StandardsStructure extends AbstractDiagram{
 	
 	public StandardsStructure(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = UAFConstants.STANDARDS_STRUCTURE;
-		this.xmlConstant = XmlTagConstants.STANDARDS_STRUCTURE;
+		this.sysmlConstant = UAFConstants.STANDARDS_STRUCTURE_DIAGRAM;
+		this.xmlConstant = XmlTagConstants.STANDARDS_STRUCTURE_DIAGRAM;
 		this.cameoDiagramConstant = "Standards Structure";
 		this.allowableElements = UAFConstants.STANDARDS_STRUCTURE_TYPES;
 	}

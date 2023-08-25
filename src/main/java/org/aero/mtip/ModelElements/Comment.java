@@ -23,9 +23,11 @@ public class Comment extends CommonElement {
 		this.xmlConstant = XmlTagConstants.COMMENT;
 		this.sysmlElement = f.createCommentInstance();
 	}
+	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
+		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_BODY)) {
 			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)sysmlElement;
 			comment.setBody(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_BODY));

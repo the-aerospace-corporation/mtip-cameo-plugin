@@ -12,4 +12,10 @@ public class CameoDiagramConstants {
 	public static final String PERSONNEL_STRUCTURE = "Personnel Structure";
 	public static final String PERSONNEL_TAXONOMY = "Personnel Taxonomy";
 	
+	// Strategic
+	public static final String STRATEGIC_TAXONOMY = "Strategic Taxonomy";
+	public static final String STRATEGIC_STRUCTURE = "Strategic Structure";
+	public static final String STRATEGIC_CONNECTIVITY = "Strategic Connectivity";
+	public static final String STRATEGIC_STATES = "Strategic States";
+	public static final String STRATEGIC_CONSTRAINTS = "Strategic Constraints";
 }

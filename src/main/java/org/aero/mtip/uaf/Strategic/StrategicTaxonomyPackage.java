@@ -12,6 +12,7 @@ public class StrategicTaxonomyPackage extends SysmlPackage{
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = UAFConstants.STRATEGIC_TAXONOMY_PACKAGE;
 		this.xmlConstant = XmlTagConstants.STRATEGIC_TAXONOMY_PACKAGE;
+		this.sysmlElement = f.createPackageInstance();
 		this.creationProfile = UAFProfile.UAF_PROFILE;
 		this.creationStereotype = UAFProfile.STRATEGIC_TAXONOMY_PACKAGE_STEREOTYPE;
 	}

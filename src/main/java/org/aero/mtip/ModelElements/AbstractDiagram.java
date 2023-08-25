@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -38,15 +39,19 @@ import com.nomagic.magicdraw.uml.symbols.NoRectangleDefinedException;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.LinkView;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.CommentView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.CallBehaviorActionView;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public abstract class  AbstractDiagram  extends CommonElement implements ModelDiagram {
 	public static Map<String,String> diagramToType;
@@ -253,11 +258,16 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
 
         //UAF Standards
-        aMap.put("Standards Taxonomy", UAFConstants.STANDARDS_TAXONOMY);
-        aMap.put("Standards Structure", UAFConstants.STANDARDS_STRUCTURE);
+        aMap.put("Standards Taxonomy", UAFConstants.STANDARDS_TAXONOMY_DIAGRAM);
+        aMap.put("Standards Structure", UAFConstants.STANDARDS_STRUCTURE_DIAGRAM);
+        
         //UAF Strategic
-        aMap.put("Strategic Taxonomy", UAFConstants.STRATEGIC_TAXONOMY);
-
+        aMap.put(CameoDiagramConstants.STRATEGIC_TAXONOMY, UAFConstants.STRATEGIC_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_STRUCTURE, UAFConstants.STRATEGIC_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_CONNECTIVITY, UAFConstants.STRATEGIC_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_STATES, UAFConstants.STRATEGIC_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_CONSTRAINTS, UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM);
+        
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
         aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
@@ -463,6 +473,12 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
 		presentationDiagram.open();
 		for(PresentationElement presentationElement : presentationDiagram.getPresentationElements()) {
+			if (presentationElement instanceof CommentView) {
+				ExportLog.log(String.format("Element %s on diagram not added to element list. Comments not currently supported.", presentationElement.getElement().getHumanName()));
+				continue;
+			}
+//			CommentView cv = new CommentView();
+//			cv.setElement(arg0);
 			
 			writeElement(xmlDoc, elementListTag, relationshipListTag, presentationElement, null);
 		}
@@ -530,6 +546,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					{
 						type = metaModel+"."+curElement.getHumanType().replace(" ", "");
 					}
+
 					CameoUtils.logGUI("Adding element with id " + curID + " of type " + type + " to diagram " + this.name + 
 							" with x:" + String.valueOf(bounds.x) + " y:" + String.valueOf(bounds.y) + " height:" + 
 							String.valueOf(bounds.height) + " and width: " + String.valueOf(bounds.width));

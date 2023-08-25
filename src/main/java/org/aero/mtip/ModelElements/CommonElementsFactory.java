@@ -286,9 +286,15 @@ import org.aero.mtip.uaf.Strategic.EnduringTask;
 import org.aero.mtip.uaf.Strategic.EnterpriseGoal;
 import org.aero.mtip.uaf.Strategic.EnterprisePhase;
 import org.aero.mtip.uaf.Strategic.EnterpriseVision;
+import org.aero.mtip.uaf.Strategic.StrategicConnectivity;
+import org.aero.mtip.uaf.Strategic.StrategicConstraints;
+import org.aero.mtip.uaf.Strategic.StrategicStates;
+import org.aero.mtip.uaf.Strategic.StrategicStructure;
+import org.aero.mtip.uaf.Strategic.StrategicTaxonomy;
 import org.aero.mtip.uaf.Strategic.StrategicTaxonomyPackage;
 import org.aero.mtip.uaf.Strategic.StructuralPart;
 import org.aero.mtip.uaf.Strategic.TemporalPart;
+import org.aero.mtip.uaf.Strategic.VisionStatement;
 import org.aero.mtip.uaf.Strategic.WholeLifeEnterprise;
 import org.aero.mtip.uaf.actualresources.ActualOrganization;
 import org.aero.mtip.uaf.actualresources.ActualPerson;
@@ -802,14 +808,18 @@ public class CommonElementsFactory {
 			case UAFConstants.ENTERPRISE_VISION:
 				element = new EnterpriseVision(name, EAID);
 				break;
-			case UAFConstants.STRATEGIC_TAXONOMY_PACKAGE:
-				element = new StrategicTaxonomyPackage(name, EAID);
-				break;
+			// Not a part of the UAFP v1.1 Specification
+//			case UAFConstants.STRATEGIC_TAXONOMY_PACKAGE:
+//				element = new StrategicTaxonomyPackage(name, EAID);
+//				break;
 			case UAFConstants.STRUCTURAL_PART:
 				element = new StructuralPart(name, EAID);
 				break;
 			case UAFConstants.TEMPORAL_PART:
 				element = new TemporalPart(name, EAID);
+				break;
+			case UAFConstants.VISION_STATEMENT:
+				element = new VisionStatement(name, EAID);
 				break;
 			case UAFConstants.WHOLE_LIFE_ENTERPRISE:
 				element = new WholeLifeEnterprise(name, EAID);
@@ -944,6 +954,23 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.PERSONNEL_TAXONOMY_DIAGRAM:
 				element = new PersonnelTaxonomy(name, EAID);
+				break;
+				
+			// Strategic Diagrams
+			case UAFConstants.STRATEGIC_STRUCTURE_DIAGRAM:
+				element = new StrategicStructure(name, EAID);
+				break;
+			case UAFConstants.STRATEGIC_TAXONOMY_DIAGRAM:
+				element = new StrategicTaxonomy(name, EAID);
+				break;
+			case UAFConstants.STRATEGIC_CONNECTIVITY_DIAGRAM:
+				element = new StrategicConnectivity(name, EAID);
+				break;
+			case UAFConstants.STRATEGIC_STATES_DIAGRAM:
+				element = new StrategicStates(name, EAID);
+				break;
+			case UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM:
+				element = new StrategicConstraints(name, EAID);
 				break;
 			
 			// DoDAF Diagram
@@ -1235,10 +1262,10 @@ public class CommonElementsFactory {
 			case UAFConstants.PROTOCOL_LAYER:
 				element = new ProtocolLayer(name, EAID);
 				break;				
-			case UAFConstants.STANDARDS_TAXONOMY:
+			case UAFConstants.STANDARDS_TAXONOMY_DIAGRAM:
 				element = new StandardsTaxonomy(name, EAID);
 				break;
-			case UAFConstants.STANDARDS_STRUCTURE:
+			case UAFConstants.STANDARDS_STRUCTURE_DIAGRAM:
 				element = new StandardsStructure(name, EAID);
 				break;
 
