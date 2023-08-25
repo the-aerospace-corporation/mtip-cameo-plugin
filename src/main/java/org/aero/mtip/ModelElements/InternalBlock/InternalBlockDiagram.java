@@ -33,17 +33,8 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.INTERNALBLOCKDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
 		 this.allowableElements = SysmlConstants.IBD_TYPES;
-	}
-
-	@Override
-	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.INTERNALBLOCKDIAGRAM;
 	}
 	
 	public boolean createPresentationElement(Project project, Element element, List<Rectangle> locations, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {

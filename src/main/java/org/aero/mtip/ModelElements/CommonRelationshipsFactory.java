@@ -54,6 +54,14 @@ import org.aero.mtip.uaf.personnel.Command;
 import org.aero.mtip.uaf.personnel.CompetenceToConduct;
 import org.aero.mtip.uaf.personnel.Control;
 import org.aero.mtip.uaf.personnel.RequiresCompetence;
+import org.aero.mtip.uaf.security.Affects;
+import org.aero.mtip.uaf.security.AffectsInContext;
+import org.aero.mtip.uaf.security.Enhances;
+import org.aero.mtip.uaf.security.Mitigates;
+import org.aero.mtip.uaf.security.OwnsRisk;
+import org.aero.mtip.uaf.security.OwnsRiskInContext;
+import org.aero.mtip.uaf.security.Protects;
+import org.aero.mtip.uaf.security.ProtectsInContext;
 
 public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
@@ -242,6 +250,32 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.REQUIRES_COMPETENCE:
 				relationship = new RequiresCompetence(name, EAID);
+				break;
+				
+			// Security
+			case UAFConstants.AFFECTS:
+				relationship = new Affects(name, EAID);
+				break;
+			case UAFConstants.AFFECTS_IN_CONTEXT:
+				relationship = new AffectsInContext(name, EAID);
+				break;
+			case UAFConstants.ENHANCES:
+				relationship = new Enhances(name, EAID);
+				break;
+			case UAFConstants.MITIGATES:
+				relationship = new Mitigates(name, EAID);
+				break;
+			case UAFConstants.OWNS_RISK:
+				relationship = new OwnsRisk(name, EAID);
+				break;
+			case UAFConstants.OWNS_RISK_IN_CONTEXT:
+				relationship = new OwnsRiskInContext(name, EAID);
+				break;
+			case UAFConstants.PROTECTS:
+				relationship = new Protects(name, EAID);
+				break;
+			case UAFConstants.PROTECTS_IN_CONTEXT:
+				relationship = new ProtectsInContext(name, EAID);
 				break;
 				
 			default:

@@ -137,7 +137,16 @@ public class UAFConstants {
 	
 	//Security
 	public static final String ACTUAL_RISK = "ActualRisk";
+	public static final String AFFECTS = "Affects";
+	public static final String AFFECTS_IN_CONTEXT = "AffectsInContext";
+	public static final String ENHANCES = "Enhances";
+	public static final String ENHANCED_SECURITY_CONTROL = "EnhancedSecurityControl";
+	public static final String MITIGATES = "Mitigates";
 	public static final String OPERATIONAL_MITIGATION = "OperationalMitigation";
+	public static final String OWNS_RISK = "OwnsRisk";
+	public static final String OWNS_RISK_IN_CONTEXT = "OwnsRiskInContext";
+	public static final String PROTECTS = "Protects";
+	public static final String PROTECTS_IN_CONTEXT = "ProtectsInContext";
 	public static final String RESOURCE_MITIGATION = "ResourceMitigation";
 	public static final String RISK = "Risk";
 	public static final String SECURITY_CONSTRAINT = "SecurityConstraint";
@@ -217,6 +226,10 @@ public class UAFConstants {
 
 	// Security Diagrams
 	public static final String SECURITY_TAXONOMY_DIAGRAM = "SecurityTaxonomy";
+	public static final String SECURITY_STRUCTURE_DIAGRAM = "SecurityStructure";
+	public static final String SECURITY_CONNECTIVITY_DIAGRAM = "SecurityConnectivity";
+	public static final String SECURITY_PROCESSES_FLOW_DIAGRAM = "SecurityProcessesFlow";
+	public static final String SECURITY_CONSTRAINTS_DIAGRAM = "SecurityConstraints";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "StrategicTaxonomy";
@@ -368,6 +381,7 @@ public class UAFConstants {
 			
 			// Security
 			ACTUAL_RISK,
+			ENHANCED_SECURITY_CONTROL,
 			OPERATIONAL_MITIGATION,
 			RESOURCE_MITIGATION,
 			RISK,
@@ -379,6 +393,7 @@ public class UAFConstants {
 			SECURITY_PROCESS_ACTION,	
 			
 			OPERATIONAL_PORT
+
 	};
 	
 	public static final String[] UAF_RELATIONSHIPS = {
@@ -429,7 +444,18 @@ public class UAFConstants {
 			REQUIRES_COMPETENCE,
 			
 			//Dictionary
-			SAME_AS
+			SAME_AS,
+			
+			// Security
+			AFFECTS,
+			AFFECTS_IN_CONTEXT,
+			ENHANCES,
+			MITIGATES,
+			OWNS_RISK,
+			OWNS_RISK_IN_CONTEXT,
+			PROTECTS,
+			PROTECTS_IN_CONTEXT
+			
 			
 			
 			
@@ -448,6 +474,13 @@ public class UAFConstants {
 			PERSONNEL_STATES_DIAGRAM,
 			PERSONNEL_STRUCTURE_DIAGRAM,
 			PERSONNEL_TAXONOMY_DIAGRAM,
+			
+			// Security
+			SECURITY_TAXONOMY_DIAGRAM,
+			SECURITY_STRUCTURE_DIAGRAM,
+			SECURITY_CONNECTIVITY_DIAGRAM,
+			SECURITY_PROCESSES_FLOW_DIAGRAM,
+			SECURITY_CONSTRAINTS_DIAGRAM,
 			
 			// Strategic
 			STRATEGIC_TAXONOMY_DIAGRAM,
@@ -582,7 +615,23 @@ public class UAFConstants {
 			
 	// Security
 	public static final String[] SC_TX_TYPES = {
-			//TODO:	
+
+	};
+	
+	public static final String[] SC_SR_TYPES = {
+
+	};
+	
+	public static final String[] SC_CN_TYPES = {
+			
+	};
+	
+	public static final String[] SC_PR_FLOW_TYPES = {
+			
+	};
+	
+	public static final String[] SC_CT_TYPES = {
+			
 	};
 	
 	public static final String [] OPERATIONAL_PROCESS_FLOW_TYPES = {

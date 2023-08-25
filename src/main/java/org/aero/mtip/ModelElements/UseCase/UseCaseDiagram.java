@@ -18,17 +18,7 @@ public class UseCaseDiagram  extends AbstractDiagram{
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.USECASEDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
 		 this.allowableElements = SysmlConstants.UC_TYPES;
 	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_USE_CASE_DIAGRAM;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.USECASEDIAGRAM;
-	}
-	
 }

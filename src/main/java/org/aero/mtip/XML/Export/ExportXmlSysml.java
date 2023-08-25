@@ -818,12 +818,28 @@ public class ExportXmlSysml {
 		} else if(stereotypes.contains(UAFProfile.REQUIRES_COMPETENCE_STEREOTYPE)) {
 			return UAFConstants.REQUIRES_COMPETENCE;
 		} else if(stereotypes.contains(UAFProfile.RESPONSIBILITY_STEREOTYPE)) {
-			return UAFConstants.RESPONSIBILITY;			
+			return UAFConstants.RESPONSIBILITY;
 		//Security
 		} else if (stereotypes.contains(UAFProfile.ACTUAL_RISK_STEREOTYPE)){
 			return UAFConstants.ACTUAL_RISK;
+		} else if (stereotypes.contains(UAFProfile.AFFECTS_STEREOTYPE)) {
+			return UAFConstants.AFFECTS;
+		} else if (stereotypes.contains(UAFProfile.AFFECTS_IN_CONTEXT_STEREOTYPE)) {
+			return UAFConstants.AFFECTS_IN_CONTEXT;
+		} else if (stereotypes.contains(UAFProfile.ENHANCED_SECURITY_CONTROL_STEREOTYPE)) {
+			return UAFConstants.ENHANCED_SECURITY_CONTROL;
+		} else if (stereotypes.contains(UAFProfile.ENHANCES_STEREOTYPE)) {
+			return UAFConstants.ENHANCES;
+		} else if (stereotypes.contains(UAFProfile.MITIGATES_STEREOTYPE)) {
+			return UAFConstants.MITIGATES;
 		} else if (stereotypes.contains(UAFProfile.OPERATIONAL_MITIGATION_STEREOTYPE)){
 			return UAFConstants.OPERATIONAL_MITIGATION;
+		} else if (stereotypes.contains(UAFProfile.OWNS_RISK_STEREOTYPE)) {
+			return UAFConstants.OWNS_RISK;
+		} else if (stereotypes.contains(UAFProfile.PROTECTS_STEREOTYPE)) {
+			return UAFConstants.PROTECTS;
+		} else if (stereotypes.contains(UAFProfile.PROTECTS_IN_CONTEXT_STEREOTYPE)) {
+			return UAFConstants.PROTECTS_IN_CONTEXT;
 		} else if (stereotypes.contains(UAFProfile.RESOURCE_MITIGATION_STEREOTYPE)){
 			return UAFConstants.RESOURCE_MITIGATION;
 		} else if (stereotypes.contains(UAFProfile.RISK_STEREOTYPE)){

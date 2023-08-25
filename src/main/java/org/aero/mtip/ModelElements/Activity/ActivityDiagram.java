@@ -42,6 +42,7 @@ public class ActivityDiagram extends AbstractDiagram {
 		 super(name, EAID);
 		 this.sysmlConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.ACTIVITYDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
 		 this.allowableElements = SysmlConstants.ACT_TYPES;
 	}
 	@Override
@@ -123,15 +124,4 @@ public class ActivityDiagram extends AbstractDiagram {
 		}
 		return noPosition;
 	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.ACTIVITYDIAGRAM;
-	}
-
 }

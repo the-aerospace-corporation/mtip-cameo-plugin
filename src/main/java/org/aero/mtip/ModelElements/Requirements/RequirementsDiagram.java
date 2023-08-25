@@ -18,16 +18,7 @@ public class RequirementsDiagram  extends AbstractDiagram{
 		 super(name, EAID);
 		 this.sysmlConstant = RequirementsConstants.SYSML_REQUIREMENTS_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.REQUIREMENTSDIAGRAM;
+		 this.cameoDiagramConstant = RequirementsConstants.SYSML_REQUIREMENTS_DIAGRAM;
 		 this.allowableElements = SysmlConstants.REQ_TYPES;
-	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return RequirementsConstants.SYSML_REQUIREMENTS_DIAGRAM;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.REQUIREMENTSDIAGRAM;
 	}
 }

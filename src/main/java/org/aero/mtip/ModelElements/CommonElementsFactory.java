@@ -316,15 +316,20 @@ import org.aero.mtip.uaf.personnel.PersonnelTaxonomy;
 import org.aero.mtip.uaf.personnel.Post;
 import org.aero.mtip.uaf.personnel.Responsibility;
 import org.aero.mtip.uaf.security.ActualRisk;
+import org.aero.mtip.uaf.security.EnhancedSecurityControl;
 import org.aero.mtip.uaf.security.OperationalMitigation;
 import org.aero.mtip.uaf.security.ResourceMitigation;
 import org.aero.mtip.uaf.security.Risk;
+import org.aero.mtip.uaf.security.SecurityConnectivity;
 import org.aero.mtip.uaf.security.SecurityConstraint;
+import org.aero.mtip.uaf.security.SecurityConstraints;
 import org.aero.mtip.uaf.security.SecurityControl;
 import org.aero.mtip.uaf.security.SecurityControlFamily;
 import org.aero.mtip.uaf.security.SecurityEnclave;
 import org.aero.mtip.uaf.security.SecurityProcess;
 import org.aero.mtip.uaf.security.SecurityProcessAction;
+import org.aero.mtip.uaf.security.SecurityProcessesFlow;
+import org.aero.mtip.uaf.security.SecurityStructure;
 import org.aero.mtip.uaf.security.SecurityTaxonomy;
 import org.aero.mtip.util.CameoUtils;
 
@@ -939,6 +944,9 @@ public class CommonElementsFactory {
 			case UAFConstants.ACTUAL_RISK:
 				element = new ActualRisk(name, EAID);
 				break;
+			case UAFConstants.ENHANCED_SECURITY_CONTROL:
+				element = new EnhancedSecurityControl(name, EAID);
+				break;
 			case UAFConstants.OPERATIONAL_MITIGATION:
 				element = new OperationalMitigation(name, EAID);
 				break;
@@ -1016,6 +1024,18 @@ public class CommonElementsFactory {
 			// Security
 			case UAFConstants.SECURITY_TAXONOMY_DIAGRAM:
 				element = new SecurityTaxonomy(name, EAID);
+				break;
+			case UAFConstants.SECURITY_STRUCTURE_DIAGRAM:
+				element = new SecurityStructure(name, EAID);
+				break;
+			case UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM:
+				element = new SecurityConnectivity(name, EAID);
+				break;
+			case UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM:
+				element = new SecurityProcessesFlow(name, EAID);
+				break;
+			case UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM:
+				element = new SecurityConstraints(name, EAID);
 				break;
 				
 			// DoDAF Diagram

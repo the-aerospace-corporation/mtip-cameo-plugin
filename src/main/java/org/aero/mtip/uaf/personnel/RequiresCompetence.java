@@ -14,7 +14,6 @@ public class RequiresCompetence extends Abstraction {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = UAFConstants.REQUIRES_COMPETENCE;
 		this.xmlConstant = XmlTagConstants.REQUIRES_COMPETENCE;
-		this.sysmlElement = f.createAbstractionInstance();
 		this.initialStereotypes = Arrays.asList(UAFProfile.REQUIRES_COMPETENCE_STEREOTYPE);
 	}
 }

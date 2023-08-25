@@ -21,4 +21,8 @@ public class CameoDiagramConstants {
 
 	// Security
 	public static final String SECURITY_TAXONOMY = "Security Taxonomy";
+	public static final String SECURITY_STRUCTURE = "Security Structure";
+	public static final String SECURITY_CONNECTIVITY = "Security Connectivity";
+	public static final String SECURITY_PROCESSES_FLOW = "Security Process Flow";
+	public static final String SECURITY_CONSTRAINTS = "Security Constraints";
 }

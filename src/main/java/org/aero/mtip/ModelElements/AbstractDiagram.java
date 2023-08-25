@@ -34,6 +34,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.NoRectangleDefinedException;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
@@ -160,14 +161,14 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("Requirement Diagram",SysmlConstants.REQ );
 //        aMap.put("Simulation Configuration Diagram", );
         
-        aMap.put("SysML Activity Diagram", SysmlConstants.ACT );
-        aMap.put("SysML Block Definition Diagram", SysmlConstants.BDD );
-        aMap.put("SysML Internal Block Diagram", SysmlConstants.IBD );
-        aMap.put("SysML Package Diagram", SysmlConstants.PKG );
-        aMap.put("SysML Parametric Diagram", SysmlConstants.PAR);
-        aMap.put("SysML Sequence Diagram", SysmlConstants.SEQ);
-        aMap.put("SysML State Machine Diagram", SysmlConstants.STM);
-        aMap.put("SysML Use Case Diagram", SysmlConstants.UC);
+        aMap.put(SysMLConstants.SYSML_ACTIVITY_DIAGRAM, SysmlConstants.ACT );
+        aMap.put(SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM, SysmlConstants.BDD );
+        aMap.put(SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM, SysmlConstants.IBD );
+        aMap.put(SysMLConstants.SYSML_PACKAGE_DIAGRAM, SysmlConstants.PKG );
+        aMap.put(SysMLConstants.SYSML_PARAMETERIC_DIAGRAM, SysmlConstants.PAR);
+        aMap.put(SysMLConstants.SYSML_SEQUENCE_DIAGRAM, SysmlConstants.SEQ);
+        aMap.put(SysMLConstants.SYSML_STATE_MACHINE_DIAGRAM, SysmlConstants.STM);
+        aMap.put(SysMLConstants.SYSML_USE_CASE_DIAGRAM, SysmlConstants.UC);
         
 //        aMap.put("Time Diagram", );
 //        aMap.put("User Interface Modeling Diagram", );
@@ -270,6 +271,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         
         // Security
         aMap.put(CameoDiagramConstants.SECURITY_TAXONOMY, UAFConstants.SECURITY_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_STRUCTURE, UAFConstants.SECURITY_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_CONNECTIVITY, UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_PROCESSES_FLOW, UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_CONSTRAINTS, UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM);
 
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);

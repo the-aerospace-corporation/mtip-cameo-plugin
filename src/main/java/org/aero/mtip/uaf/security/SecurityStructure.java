@@ -1,11 +1,11 @@
 package org.aero.mtip.uaf.security;
 
-import org.aero.mtip.ModelElements.InternalBlock.InternalBlockDiagram;
+import org.aero.mtip.ModelElements.Block.BlockDefinitionDiagram;
 import org.aero.mtip.constants.CameoDiagramConstants;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 
-public class SecurityStructure extends InternalBlockDiagram {
+public class SecurityStructure extends BlockDefinitionDiagram {
 
 	public SecurityStructure(String name, String EAID) {
 		super(name, EAID);

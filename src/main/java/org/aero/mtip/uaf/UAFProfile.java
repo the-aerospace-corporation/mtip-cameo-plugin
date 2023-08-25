@@ -152,11 +152,19 @@ public class UAFProfile {
 	public static Stereotype POST_STEREOTYPE = null;
 	public static Stereotype REQUIRES_COMPETENCE_STEREOTYPE = null;
 	public static Stereotype RESPONSIBILITY_STEREOTYPE = null;
-	
 
 	//Security
 	public static Stereotype ACTUAL_RISK_STEREOTYPE = null;
+	public static Stereotype AFFECTS_STEREOTYPE = null;
+	public static Stereotype AFFECTS_IN_CONTEXT_STEREOTYPE = null;
+	public static Stereotype ENHANCES_STEREOTYPE = null;
+	public static Stereotype ENHANCED_SECURITY_CONTROL_STEREOTYPE = null;
+	public static Stereotype MITIGATES_STEREOTYPE = null;
 	public static Stereotype OPERATIONAL_MITIGATION_STEREOTYPE = null;
+	public static Stereotype OWNS_RISK_STEREOTYPE = null;
+	public static Stereotype OWNS_RISK_IN_CONTEXT_STEREOTYPE = null;
+	public static Stereotype PROTECTS_STEREOTYPE = null;
+	public static Stereotype PROTECTS_IN_CONTEXT_STEREOTYPE = null;
 	public static Stereotype RESOURCE_MITIGATION_STEREOTYPE = null;
 	public static Stereotype RISK_STEREOTYPE = null;
 	public static Stereotype SECURITY_CONSTRAINT_STEREOTYPE = null;
@@ -368,7 +376,25 @@ public class UAFProfile {
 	    
 	    //MetaData
 	    METADATA_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.METADATA, UAF_PROFILE);
-
-
+	    
+	    //Security
+		ACTUAL_RISK_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ACTUAL_RISK, UAF_PROFILE);
+		AFFECTS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.AFFECTS, UAF_PROFILE);
+		AFFECTS_IN_CONTEXT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.AFFECTS_IN_CONTEXT, UAF_PROFILE);
+		ENHANCES_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ENHANCES, UAF_PROFILE);
+		ENHANCED_SECURITY_CONTROL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.ENHANCED_SECURITY_CONTROL, UAF_PROFILE);
+		MITIGATES_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.MITIGATES, UAF_PROFILE);
+		OPERATIONAL_MITIGATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OPERATIONAL_MITIGATION, UAF_PROFILE);
+		OWNS_RISK_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OWNS_RISK, UAF_PROFILE);
+		OWNS_RISK_IN_CONTEXT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.OWNS_RISK_IN_CONTEXT, UAF_PROFILE);
+		PROTECTS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.PROTECTS, UAF_PROFILE);
+		RESOURCE_MITIGATION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RESOURCE_MITIGATION, UAF_PROFILE);
+		RISK_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.RISK, UAF_PROFILE);
+		SECURITY_CONSTRAINT_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_CONSTRAINT, UAF_PROFILE);
+		SECURITY_CONTROL_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_CONTROL, UAF_PROFILE);
+		SECURITY_CONTROL_FAMILY_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_CONTROL_FAMILY, UAF_PROFILE);
+		SECURITY_ENCLAVE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_ENCLAVE, UAF_PROFILE);
+		SECURITY_PROCESS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS, UAF_PROFILE);
+	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);
 	}
 }
