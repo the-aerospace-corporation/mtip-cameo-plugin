@@ -50,6 +50,7 @@ public class SysmlConstants {
 	public static final String DESIGNCONSTRAINT = "DesignConstraint";
 	public static final String DESTROYOBJECTACTION = "DestroyObjectAction";
 	public static final String DESTRUCTIONOCCURRENCESPECIFICATION = "DestructionOccurrenceSpecification";
+	public static final String DIRECTED_FEATURE = "DirectedFeature";
 	public static final String DURATIONCONSTRAINT = "DurationConstraint";
 	public static final String DURATIONOBSERVATION = "DurationObservation";
 	public static final String ENTRYPOINT = "EntryPoint";

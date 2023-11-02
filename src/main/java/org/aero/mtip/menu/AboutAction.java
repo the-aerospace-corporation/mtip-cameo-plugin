@@ -20,7 +20,7 @@ import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 @SuppressWarnings("serial")
 public class AboutAction extends MDAction
 {
-	public static String VERSION = "1.0.7";
+	public static String VERSION = "1.0.8";
 	public AboutAction(String id, String name)
 	{
 		super(id, name, null, null);

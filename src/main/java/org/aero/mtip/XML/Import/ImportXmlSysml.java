@@ -996,8 +996,9 @@ public class ImportXmlSysml {
 				}
 			}
 		}
+		
 		if (modelElement.getEAID().trim().isEmpty() && !modelElement.getIds().isEmpty()) {
-			modelElement.getIds().get(0);
+			modelElement.setEAID(modelElement.getIds().get(0));
 		}
 		return modelElement;
 	}

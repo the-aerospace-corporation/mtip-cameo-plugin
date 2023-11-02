@@ -8,6 +8,8 @@ package org.aero.mtip.ModelElements;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -956,21 +958,22 @@ public abstract class CommonElement {
 				Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), tv.getStereotypeName(), profile);
 				Property prop = StereotypesHelper.getPropertyByName(stereotype, tv.getValueName());
 				Slot slot = StereotypesHelper.getSlot(sysmlElement, prop, true, false);
+				
 				if(tv.isMultiValue()) {
 					for(String value : tv.getValues()) {
-						ValueSpecification vs = updateValue(tv.getValueType(), value);
+						ValueSpecification vs = updateValue(tv.getValueType(), value, prop);
 						if(value != null) {
+							CameoUtils.logGUI("Set slot value of " + tv.getValueName() + " to " + tv.getValue() + ".");
 							slot.getValue().add(vs);
 						}
 					}
 				} else {
-					ValueSpecification vs = updateValue(tv.getValueType(), tv.getValue());
+					ValueSpecification vs = updateValue(tv.getValueType(), tv.getValue(), prop);
 					if(vs != null) {
+						CameoUtils.logGUI("Set slot value of " + tv.getValueName() + " to " + tv.getValue() + ".");
 						slot.getValue().add(vs);
 					}
 				}
-				
-				CameoUtils.logGUI("Set slot value of " + tv.getValueName() + " to " + tv.getValue() + ".");
 			} catch (NullPointerException npe) {
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
@@ -981,7 +984,7 @@ public abstract class CommonElement {
 		}
 	}
 	
-	protected ValueSpecification updateValue(String valueType, String value) {
+	protected ValueSpecification updateValue(String valueType, String value, Property prop) {
 		if(valueType.contentEquals(SysmlConstants.STRING)) {
 			LiteralString ls = f.createLiteralStringInstance();
 			ls.setValue(value);
@@ -1008,7 +1011,10 @@ public abstract class CommonElement {
 			List<String> bodies= oe.getBody();
 			bodies.add(value);
 			return oe;
+		} else if(valueType.contentEquals(SysmlConstants.INSTANCEVALUE)) {
+			return null;
 		}
+		
 		return null;
 	}
 	
