@@ -10,11 +10,6 @@ import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
-<<<<<<< HEAD
-import org.aero.mtip.util.SysmlConstants;
-=======
-import org.aero.mtip.util.ImportLog;
->>>>>>> d02d7da (6 diagrams, 5 elements, and 4 relationships from personnel implemented.)
 import org.aero.mtip.util.XMLItem;
 import org.w3c.dom.Document;
 

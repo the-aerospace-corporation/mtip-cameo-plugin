@@ -9,16 +9,11 @@ package org.aero.mtip.ModelElements.InternalBlock;
 import java.util.Collections;
 
 import org.aero.mtip.ModelElements.CommonElement;
-<<<<<<< HEAD
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.TaggedValue;
-
-=======
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
->>>>>>> d02d7da (6 diagrams, 5 elements, and 4 relationships from personnel implemented.)
+import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;

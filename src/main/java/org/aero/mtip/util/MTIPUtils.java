@@ -8,6 +8,7 @@ package org.aero.mtip.util;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
+import org.aero.mtip.constants.SysmlConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;

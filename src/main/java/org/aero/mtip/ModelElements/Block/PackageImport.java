@@ -1,8 +1,8 @@
 package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class PackageImport extends CommonRelationship {
 
