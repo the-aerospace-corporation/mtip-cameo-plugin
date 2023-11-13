@@ -337,6 +337,11 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+		if (getSysmlConstant() == null) {
+			ImportLog.log(String.format("Internal error. No diagram constant defined for %s", xmlElement.getType()));
+			return null;
+		}
+		
 		try {
 			CameoUtils.logGUI("Creating element from abstract diagram class");
 			sysmlElement = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
