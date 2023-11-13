@@ -1481,7 +1481,7 @@ public class ImportXmlSysml {
 	}
 	
 	public static HashMap<Element, Rectangle> GetImportedElementsOnDiagram(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
-		List<String> diagramAllowedTypes = 	Arrays.asList(SysmlConstants.diagramTypeMap.get(modelElement.getType()));
+//		List<String> diagramAllowedTypes = 	Arrays.asList(SysmlConstants.diagramTypeMap.get(modelElement.getType()));
 		List<String> importElementIDs = modelElement.getChildElements(parsedXML);
 		HashMap<Element, Rectangle> elementsOnDiagram = new HashMap<Element, Rectangle> ();
 		
@@ -1490,19 +1490,15 @@ public class ImportXmlSysml {
 			modelElement.addImportID(cameoID, importID);
 			String elementType = parsedXML.get(importID).getType();
 			if(cameoID != null) {
-				if(diagramAllowedTypes.contains(elementType)) {
-					Element elementOnDiagram = (Element)project.getElementByID(cameoID);
-					if(elementOnDiagram != null) {
-						elementsOnDiagram.put(elementOnDiagram, modelElement.getLocation(importID));
-						String message = "Adding element with id " + importID + " of type " + elementType + " to diagram.";
-					} else {
-						String message = "Could not add element with id " + importID + " of type " + elementType + " to diagram. Element was not created during import";
-						ImportLog.log(message);
-					}
-				} else {
-					String message = "Element with id " + importID + " of type " + elementType + " not allowed on diagrams of type " + modelElement.getType();
+				
+				Element elementOnDiagram = (Element)project.getElementByID(cameoID);
+				if(elementOnDiagram == null) {
+					String message = "Could not add element with id " + importID + " of type " + elementType + " to diagram. Element was not created during import";
 					ImportLog.log(message);
-				}				
+					continue;
+				} 
+				
+				elementsOnDiagram.put(elementOnDiagram, modelElement.getLocation(importID));		
 			}
 		}
 		return elementsOnDiagram;
