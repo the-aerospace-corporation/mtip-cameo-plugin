@@ -25,4 +25,7 @@ public class CameoDiagramConstants {
 	public static final String SECURITY_CONNECTIVITY = "Security Connectivity";
 	public static final String SECURITY_PROCESSES_FLOW = "Security Process Flow";
 	public static final String SECURITY_CONSTRAINTS = "Security Constraints";
+	
+	// Services
+	public static final String SERVICES_STATES = "Services States";
 }

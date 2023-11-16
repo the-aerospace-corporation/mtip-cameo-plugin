@@ -174,6 +174,9 @@ public class UAFProfile {
 	public static Stereotype SECURITY_PROCESS_STEREOTYPE = null;
 	public static Stereotype SECURITY_PROCESS_ACTION_STEREOTYPE = null;
 	
+	//Services
+	public static Stereotype SERVICE_STATE_DESCRIPTION_STEREOTYPE = null;
+	
 	//Standards
 	public static Stereotype PROTOCOL_STEREOTYPE = null;
 	public static Stereotype PROTOCOL_STACK_STEREOTYPE = null;
@@ -396,5 +399,8 @@ public class UAFProfile {
 		SECURITY_ENCLAVE_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_ENCLAVE, UAF_PROFILE);
 		SECURITY_PROCESS_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS, UAF_PROFILE);
 	    SECURITY_PROCESS_ACTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SECURITY_PROCESS_ACTION, UAF_PROFILE);
+	    
+	    //Services
+	    SERVICE_STATE_DESCRIPTION_STEREOTYPE = StereotypesHelper.getStereotype(project, UAFConstants.SERVICE_STATE_DESCRIPTION, UAF_PROFILE);
 	}
 }

@@ -450,6 +450,9 @@ public class XmlTagConstants
 	public static final String MILESTONE_DEPENDENCY = "uaf.MilestoneDependency";
 	public static final String PROJECT_SEQUENCE = "uaf.ProjectSequence";
 	
+	//Services
+	public static final String SERVICE_STATE_DESCRIPTION = "uaf.ServiceStateDescription";
+	
 	//Standards
 	public static final String PROTOCOL = "uaf.Protocol";
 	public static final String PROTOCOL_STACK = "uaf.ProtocolStack";
@@ -526,6 +529,9 @@ public class XmlTagConstants
 	public static final String SECURITY_CONNECTIVITY_DIAGRAM = "uaf.SecurityConnectivity";
 	public static final String SECURITY_PROCESSES_FLOW_DIAGRAM = "uaf.SecurityProcesses";
 	public static final String SECURITY_CONSTRAINTS_DIAGRAM = "uaf.SecurityConstraints";
+	
+	// Services
+	public static final String SERVICES_STATES_DIAGRAM = "uaf.ServicesStates";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "uaf.StrategicTaxonomy";

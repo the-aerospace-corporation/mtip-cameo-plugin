@@ -6,13 +6,6 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
-import org.aero.mtip.ModelElements.Comment;
-import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.ModelElements.CustomDiagram;
-import org.aero.mtip.ModelElements.EnumerationLiteral;
-import org.aero.mtip.ModelElements.Link;
-import org.aero.mtip.ModelElements.Model;
-import org.aero.mtip.ModelElements.SysmlPackage;
 import org.aero.mtip.ModelElements.Activity.AcceptEventAction;
 import org.aero.mtip.ModelElements.Activity.Action;
 import org.aero.mtip.ModelElements.Activity.Activity;
@@ -331,6 +324,8 @@ import org.aero.mtip.uaf.security.SecurityProcessAction;
 import org.aero.mtip.uaf.security.SecurityProcessesFlow;
 import org.aero.mtip.uaf.security.SecurityStructure;
 import org.aero.mtip.uaf.security.SecurityTaxonomy;
+import org.aero.mtip.uaf.services.ServiceStateDescription;
+import org.aero.mtip.uaf.services.ServicesStates;
 import org.aero.mtip.util.CameoUtils;
 
 public class CommonElementsFactory {
@@ -974,6 +969,11 @@ public class CommonElementsFactory {
 			case UAFConstants.SECURITY_PROCESS_ACTION:
 				element = new SecurityProcessAction(name, EAID);
 				break;
+				
+			// Services
+			case UAFConstants.SERVICE_STATE_DESCRIPTION:
+				element = new ServiceStateDescription(name, EAID);
+				break;
 			// UAF Diagrams
 			// Actual Resources
 			case UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM:
@@ -1036,6 +1036,12 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM:
 				element = new SecurityConstraints(name, EAID);
+				break;
+				
+			// Services Diagrams
+				
+			case UAFConstants.SERVICES_STATES_DIAGRAM:
+				element = new ServicesStates(name, EAID);
 				break;
 				
 			// DoDAF Diagram

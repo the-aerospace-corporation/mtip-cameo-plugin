@@ -320,18 +320,16 @@ public class ExportXmlSysml {
 		//Check if ID already exists from previous import
 
 		//Check if package is a model and export as model if it is
-		if(metamodel.contentEquals(SysmlConstants.SYSML)) {
-			if(CameoUtils.isModel(pkg, project)) {
-				commonElement = cef.createElement(SysmlConstants.MODEL,  namedElement.getName(), pkg.getLocalID());
-			} else if(CameoUtils.isProfile(pkg, project)) {
-				commonElement = cef.createElement(SysmlConstants.PROFILE, namedElement.getName(), pkg.getLocalID());
-			} else{		
-				commonElement = cef.createElement(SysmlConstants.PACKAGE,  namedElement.getName(), pkg.getLocalID());
-			}
-		} else if(metamodel.contentEquals(UAFConstants.UAF)) {
-			ExportLog.log("Checking Package for UAF Type.");
-			commonElement = cef.createElement(getUAFPackageType(pkg),  namedElement.getName(), pkg.getLocalID());
+		
+		if(CameoUtils.isModel(pkg, project)) {
+			commonElement = cef.createElement(SysmlConstants.MODEL,  namedElement.getName(), pkg.getLocalID());
+		} else if(CameoUtils.isProfile(pkg, project)) {
+			commonElement = cef.createElement(SysmlConstants.PROFILE, namedElement.getName(), pkg.getLocalID());
+		} else{		
+			commonElement = cef.createElement(SysmlConstants.PACKAGE,  namedElement.getName(), pkg.getLocalID());
 		}
+		
+		// Add check here if adding explicit support for UAF/DoDAF.UPDM package types
 
 		commonElement.writeToXML(pkg, project, xmlDoc);
 
@@ -857,6 +855,10 @@ public class ExportXmlSysml {
 		} else if (stereotypes.contains(UAFProfile.SECURITY_PROCESS_ACTION_STEREOTYPE)){
 			return UAFConstants.SECURITY_PROCESS_ACTION;
 		
+		//Services
+		} else if (stereotypes.contains(UAFProfile.SERVICE_STATE_DESCRIPTION_STEREOTYPE)) {
+			return UAFConstants.SERVICE_STATE_DESCRIPTION;
+			
 		//STANDARDS
 		} else if(stereotypes.contains(UAFProfile.PROTOCOL_STEREOTYPE)) {
 			return UAFConstants.PROTOCOL;

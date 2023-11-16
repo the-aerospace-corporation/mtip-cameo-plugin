@@ -156,6 +156,9 @@ public class UAFConstants {
 	public static final String SECURITY_PROCESS = "SecurityProcess";
 	public static final String SECURITY_PROCESS_ACTION = "SecurityProcessAction";
 
+	//Services
+	public static final String SERVICE_STATE_DESCRIPTION = "ServiceStateDescription";
+	
 	//Standards
 	public static final String PROTOCOL = "Protocol";
 	public static final String PROTOCOL_STACK = "ProtocolStack";
@@ -230,6 +233,9 @@ public class UAFConstants {
 	public static final String SECURITY_CONNECTIVITY_DIAGRAM = "SecurityConnectivity";
 	public static final String SECURITY_PROCESSES_FLOW_DIAGRAM = "SecurityProcessesFlow";
 	public static final String SECURITY_CONSTRAINTS_DIAGRAM = "SecurityConstraints";
+	
+	// Services Diagrams
+	public static final String SERVICES_STATES_DIAGRAM = "ServicesStates";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "StrategicTaxonomy";
@@ -392,6 +398,9 @@ public class UAFConstants {
 			SECURITY_PROCESS,
 			SECURITY_PROCESS_ACTION,	
 			
+			// Services
+			SERVICE_STATE_DESCRIPTION,
+			
 			OPERATIONAL_PORT
 
 	};
@@ -481,6 +490,9 @@ public class UAFConstants {
 			SECURITY_CONNECTIVITY_DIAGRAM,
 			SECURITY_PROCESSES_FLOW_DIAGRAM,
 			SECURITY_CONSTRAINTS_DIAGRAM,
+			
+			// Services
+			SERVICES_STATES_DIAGRAM,
 			
 			// Strategic
 			STRATEGIC_TAXONOMY_DIAGRAM,

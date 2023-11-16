@@ -276,6 +276,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put(CameoDiagramConstants.SECURITY_PROCESSES_FLOW, UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_CONSTRAINTS, UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM);
 
+        
+        // Services
+        aMap.put(CameoDiagramConstants.SERVICES_STATES, UAFConstants.SERVICES_STATES_DIAGRAM);
+        
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
         aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
@@ -351,8 +355,8 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			ImportLog.log(String.format("Failed to create diagram based on cameoDiagram Contant %s for id %s", getSysmlConstant(), xmlElement.getEAID()));
 			return null;
 		}
+		
 		((NamedElement) sysmlElement).setName(name);
-
 		return sysmlElement;
 	}
 	

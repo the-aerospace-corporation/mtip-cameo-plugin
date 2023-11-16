@@ -96,7 +96,12 @@ public class CameoUtils {
 		}
 	}
 	
+	@CheckForNull
 	public static Element findNearestRegion(Project project, Element owner) {
+		if (owner == null) {
+			return null;
+		}
+		
 		Region region = null;
 		Collection<Region> regions = null;
 		CameoUtils.logGUI("Searching for state machine with current element " + owner.getHumanType() + " and id " + owner.getID());

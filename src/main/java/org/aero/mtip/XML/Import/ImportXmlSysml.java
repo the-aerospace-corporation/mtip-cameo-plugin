@@ -146,17 +146,17 @@ public class ImportXmlSysml {
 			else {
 				String category = modelElement.getCategory();
 				if(!category.isEmpty()) {
-					if (category.equals(SysmlConstants.ELEMENT)) {
+					if (isElement(category)) {
 						if (parentMap.get(id) == null) {
 							buildElement(project, parsedXML, modelElement, id);
 						}
 					}
-					if (category.equals(SysmlConstants.RELATIONSHIP)) {
+					if (isRelationship(category)) {
 						if (parentMap.get(id) == null) {
 							buildRelationship(project, parsedXML, modelElement, id);
 						}
 					}
-					if (modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
+					if (isDiagram(category)) {
 						if (parentMap.get(id) == null) {
 							buildDiagram(project, parsedXML, modelElement, id);
 						}
@@ -236,6 +236,12 @@ public class ImportXmlSysml {
 		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
+		
+		if (newDiagram == null) {
+			ImportLog.log(String.format("Failed to create diagram %s with id %s.", modelElement.getType(), modelElement.getEAID()));
+			return null;
+		}
+		
 		project.getDiagram(newDiagram).open(); 
 		TrackIds(newDiagram, modelElement);
 		
@@ -259,9 +265,11 @@ public class ImportXmlSysml {
 		
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		Element client = GetImportedClient(modelElement, parsedXML);
+		
 		if(client == null) {
 			ImportLog.log(String.format("Client null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
+		
 		Element supplier = GetImportedSupplier(modelElement, parsedXML);
 		if(supplier == null) {
 			ImportLog.log(String.format("Supplier null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
@@ -402,7 +410,6 @@ public class ImportXmlSysml {
 						}
 
 						//Add model element attributes to parsedXML hashmap passed back to main function
-
 						if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())) {
 							for (String id : modelElement.getIds()) {
 								completeXML.put(id,  modelElement);
@@ -426,10 +433,9 @@ public class ImportXmlSysml {
 								stereotypesXML.put(modelElement.getEAID(), modelElement);
 							}
 
-						}
-						else {
+						} else {
 							ImportLog.log("modelElement Parent key does not exist. ModelElementEAID: " + modelElement.getParent());
-							}
+						}
 					}
 					else {
 						String message = "No ID. Element will not be parsed correctly.";
@@ -1065,293 +1071,6 @@ public class ImportXmlSysml {
 		}
 	}
 
-	public static void outputAll(Map<String, XMLItem> parsedXML) {
-		for(Entry<String, XMLItem> entry : parsedXML.entrySet()) {
-			try {
-				CameoUtils.logGUI("Item with Key: " + entry.getKey());
-				XMLItem modelElement = entry.getValue();
-				CameoUtils.logGUI("\t and of type: " + modelElement.getType());
-				CameoUtils.logGUI("\t and with id: " + modelElement.getEAID());
-				CameoUtils.logGUI("\t and with parent: " + modelElement.getParent());
-				CameoUtils.logGUI("\t and with name: " + modelElement.getAttribute("name"));
-			} catch(NullPointerException npe) {
-				CameoUtils.logGUI("Null value found for item with key: " + entry.getKey());
-			}
-		}
-	}
-
-	@SuppressWarnings("unused")
-	public static void testAllCommonElements() {
-		Project project = Application.getInstance().getProject();
-		Element owner = project.getPrimaryModel();
-		CommonElementsFactory cef = new CommonElementsFactory();
-		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
-
-		CameoUtils.logGUI("Creating Block");
-		CommonElement block = cef.createElement("Block", "TestBlock", "EA_123");
-		Element cameoBlock = block.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Package");
-		CommonElement sysmlPackage = cef.createElement("Package", "testPackage", "EA_123");
-		sysmlPackage.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Operation");
-		CommonElement operation = cef.createElement("Operation", "TestOperation", "EA_123");
-		operation.createElement(project, cameoBlock, null);
-
-		CameoUtils.logGUI("Creating State Machine");
-		CommonElement statemachine =cef.createElement("StateMachine", "TestStateMachine", "EA_123");
-		Element cameoStateMachine = statemachine.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Activity");
-		CommonElement activity = cef.createElement("Activity",  "TestActivity",  "EA_123");
-		Element cameoActivity = activity.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Property");
-		CommonElement property = cef.createElement("Property", "TestProeprty", "EA_123");
-		property.createElement(project,  cameoBlock, null);
-
-		CameoUtils.logGUI("Creating Interface Block");
-		CommonElement interfaceBlock = cef.createElement("InterfaceBlock",  "TestInterfaceBlock",  "EA_123");
-		interfaceBlock.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Value Type");
-		CommonElement valueType = cef.createElement("ValueType", "TestValueType", "EA_123");
-		valueType.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Stereotype");
-		CommonElement stereotype = cef.createElement("Stereotype",  "TestStereotype",  "EA_123");
-		Element testStereotype = stereotype.createElement(project,  owner, null);
-
-		CameoUtils.logGUI("Creating Class");
-		CommonElement sysmlClass = cef.createElement("Class",  "TestClass",  "EA_123");
-		Element cameoClass = sysmlClass.createElement(project,  owner, null);
-
-		CameoUtils.logGUI("Creating InitialPseudoState");
-		CommonElement isState = cef.createElement("InitialPseudoState", "TestInitialPseudoState", "EA_123");
-		isState.createElement(project,  cameoStateMachine, null);
-
-		CameoUtils.logGUI("CreatingFinalState");
-		CommonElement finalState = cef.createElement("FinalState", "TestFinalState", "EA_123");
-		finalState.createElement(project,  cameoStateMachine, null);
-
-		CameoUtils.logGUI("Creating State");
-		CommonElement state = cef.createElement("State", "TestState", "EA_123");
-		state.createElement(project,  cameoStateMachine, null);
-
-		CameoUtils.logGUI("Creating Value Property");
-		CommonElement valProp = cef.createElement("ValueProperty", "TestValueProperty", "EA_123");
-		valProp.createElement(project,  cameoBlock, null);
-
-		CameoUtils.logGUI("Creating Block 1");
-		CommonElement block1 = cef.createElement("Block", "Block 1", "EA_123");
-		Element cameoBlock1 = block1.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Block 2");
-		CommonElement block2 = cef.createElement("Block", "Block 2", "EA_123");
-		Element cameoBlock2 = block2.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Block 3");
-		CommonElement block3 = cef.createElement("Block", "Block 3", "EA_123");
-		Element cameoBlock3 = block3.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Block 4");
-		CommonElement block4 = cef.createElement("Block", "Block 4", "EA_123");
-		Element cameoBlock4 = block4.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Association");
-		CommonRelationship association = crf.createElement("Association", "TestAssociation", "EA_123");
-		association.createElement(project, owner, cameoBlock1, cameoBlock2, null);
-
-		CameoUtils.logGUI("Creating Aggregation");
-		CommonRelationship aggregation = crf.createElement("Aggregation", "TestAggregation", "EA_123");
-		aggregation.createElement(project, owner, cameoBlock2, cameoBlock3, null);
-
-		//		CameoUtils.logGUI("Creating Allocate");
-		//		CommonRelationship allocate = crf.createElement("Allocate", "TestAllocate", "EA_123");
-		//		allocate.createElement(project, owner, cameoBlock3, cameoBlock4);
-
-		CameoUtils.logGUI("Creating Composition");
-		CommonRelationship composition = crf.createElement("Composition", "TestComposition", "EA_123");
-		composition.createElement(project, owner, cameoBlock4, cameoBlock1, null);
-
-		CameoUtils.logGUI("Creating Generalization");
-		CommonRelationship generalization = crf.createElement("Generalization", "TestGeneralization", "EA_123");
-		generalization.createElement(project, owner, cameoBlock, cameoBlock1, null);
-
-		CameoUtils.logGUI("Creating Requirement");
-		CommonElement requirement = cef.createElement("Requirement", "TestRequirement", "EA_123");
-		requirement.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Extended Requirement");
-		CommonElement extendedRequirement = cef.createElement("ExtendedRequirement", "TestExtendedRequirement", "EA_123");
-		extendedRequirement.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Functional Requirement");
-		CommonElement functionalRequirement = cef.createElement("FunctionalRequirement", "TestFunctionalRequirement", "EA_123");
-		functionalRequirement.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Interface Requirement");
-		CommonElement interfaceRequirement = cef.createElement("InterfaceRequirement", "TestInterfaceRequirement", "EA_123");
-		interfaceRequirement.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Performance Requirement");
-		CommonElement performanceRequirement = cef.createElement("PerformanceRequirement", "TestPerformanceRequirement", "EA_123");
-		performanceRequirement.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Physical Requirement");
-		CommonElement physicalRequirement = cef.createElement("PhysicalRequirement", "TestPhysicalRequirement", "EA_123");
-		physicalRequirement.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Design Constraint");
-		CommonElement designConstraint = cef.createElement("DesignConstraint", "TestDesignConstraint", "EA_123");
-		designConstraint.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Collaboration");
-		CommonElement collaboration = cef.createElement("Collaboration", "TestCollaboration", "EA_123");
-		collaboration.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Interaction");
-		CommonElement interaction = cef.createElement("Interaction", "TestInteraction", "EA_123");
-		Element cameoInteraction = interaction.createElement(project, owner, null);
-
-
-		//Lifeline and Combined fragment created as Interactions - Why?
-		CameoUtils.logGUI("Creating Lifeline");
-		CommonElement lifeline = cef.createElement("Lifeline", "TestLifeline", "EA_123");
-		Element cameoLifeline = lifeline.createElement(project, cameoInteraction, null);
-
-		CameoUtils.logGUI("Creating Combined Fragment");
-		CommonElement combinedFragment = cef.createElement("CombinedFragment", "TestCombinedFragment", "EA_123");
-		Element cameoCF = combinedFragment.createElement(project, cameoInteraction, null);
-
-		CameoUtils.logGUI("Creating Interaction Use");
-		CommonElement interactionUse = cef.createElement("InteractionUse", "TestInteractionUse", "EA_123");
-		Element cameoIU = interactionUse.createElement(project, cameoInteraction, null);
-
-		CameoUtils.logGUI("Creating Use Case");
-		CommonElement useCase = cef.createElement("UseCase", "TestUseCase", "EA_123");
-		Element cameoUC = useCase.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Actor");
-		CommonElement actor = cef.createElement("Actor", "TestActor", "EA_123");
-		Element cameoActor = actor.createElement(project, owner, null);
-
-		CameoUtils.logGUI("Creating Action");
-		CommonElement action = cef.createElement("Action",  "TestAction",  "EA_123");
-		Element cameoAction = action.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Accept Event Action");
-		CommonElement acceptEvent = cef.createElement("AcceptEventAction",  "TestAcceptEventAction", "EA_123");
-		acceptEvent.createElement(project,  cameoActivity,  null);
-
-		CameoUtils.logGUI("Creating Activity Parameter Node");
-		CommonElement parameterNode = cef.createElement(SysmlConstants.ACTIVITYPARAMETERNODE, "TestParamterNode", "EA_123");
-		parameterNode.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Activity Partition");
-		CommonElement partition = cef.createElement(SysmlConstants.ACTIVITYPARTITION, "TestActivityPartition", "EA_123");
-		partition.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Call Behavior Action");
-		CommonElement callBehavior = cef.createElement(SysmlConstants.CALLBEHAVIORACTION, "TestCallBehaviorAction", "EA_123");
-		callBehavior.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Call Operation Action");
-		CommonElement callOperation = cef.createElement(SysmlConstants.CALLOPERATIONACTION, "TestCallOperationAction", "EA_123");
-		callOperation.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Central Buffer Node");
-		CommonElement centralBuffer = cef.createElement(SysmlConstants.CENTRALBUFFERNODE, "TestCentralBufferNode", "EA_123");
-		centralBuffer.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Conditional Node");
-		CommonElement conditionalNode = cef.createElement(SysmlConstants.CONDITIONALNODE, "TestConditionalNode", "EA_123");
-		conditionalNode.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Create Object Action");
-		CommonElement createObject = cef.createElement(SysmlConstants.CREATEOBJECTACTION, "TestCreateObjectAction", "EA_123");
-		createObject.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Data Store Node");
-		CommonElement dataStore = cef.createElement(SysmlConstants.DATASTORENODE, "TestDataStoreNode", "EA_123");
-		dataStore.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Decision Node");
-		CommonElement decisionNode = cef.createElement(SysmlConstants.DECISIONNODE, "TestDecisionNode", "EA_123");
-		decisionNode.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Destroy Object Action");
-		CommonElement destroyObject = cef.createElement(SysmlConstants.DESTROYOBJECTACTION, "TestDestroyObjectAction", "EA_123");
-		destroyObject.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Activity Final Node");
-		CommonElement activityFinal = cef.createElement(SysmlConstants.ACTIVITYFINALNODE, "TestActivityFinalNode", "EA_123");
-		activityFinal.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Flow Final Node");
-		CommonElement flowFinal = cef.createElement(SysmlConstants.FLOWFINALNODE, "TestFlowFinalNode", "EA_123");
-		flowFinal.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Fork Node");
-		CommonElement forkNode = cef.createElement(SysmlConstants.FORKNODE, "TestForkNode", "EA_123");
-		forkNode.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Initial Node");
-		CommonElement initialNode = cef.createElement(SysmlConstants.INITIALNODE, "TestInitialNode", "EA_123");
-		initialNode.createElement(project, cameoActivity, null);
-
-
-		CameoUtils.logGUI("Creating Input Pin");
-		CommonElement inputPin = cef.createElement(SysmlConstants.INPUTPIN, "TestInputPin", "EA_123");
-		inputPin.createElement(project, cameoAction, null);
-
-		CameoUtils.logGUI("Creating Join Node");
-		CommonElement joinNode = cef.createElement(SysmlConstants.JOINNODE, "TestJoinNode", "EA_123");
-		joinNode.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Loop Node");
-		CommonElement loopNode = cef.createElement(SysmlConstants.LOOPNODE, "TestLoopNode", "EA_123");
-		loopNode.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Merge Node");
-		CommonElement mergeNode = cef.createElement(SysmlConstants.MERGENODE, "TestMergeNode", "EA_123");
-		mergeNode.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Output Pin");
-		CommonElement outputPin = cef.createElement(SysmlConstants.OUTPUTPIN, "TestOutputPin", "EA_123");
-		outputPin.createElement(project, cameoAction, null);
-
-		CameoUtils.logGUI("Creating Send Signal Action Pin");
-		CommonElement sendSignal = cef.createElement(SysmlConstants.SENDSIGNALACTION, "TestSendSignalAction", "EA_123");
-		sendSignal.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Action");
-		Element cameoAction2 = action.createElement(project, cameoActivity, null);
-
-		CameoUtils.logGUI("Creating Control Flow");
-		CommonRelationship controlFlow = crf.createElement(SysmlConstants.CONTROLFLOW, "TestControlFlow", "EA_123");
-		controlFlow.createElement(project, cameoActivity, cameoAction, cameoAction2, null);
-
-		CameoUtils.logGUI("Creating Object Flow");
-		CommonRelationship objectFlow = crf.createElement(SysmlConstants.OBJECTFLOW, "TestObjectFlow", "EA_123");
-		objectFlow.createElement(project, cameoActivity, cameoAction, cameoAction2, null);
-
-		CameoUtils.logGUI("Creating Opaque Action");
-		CommonElement opaqueAction = cef.createElement(SysmlConstants.OPAQUEACTION, "TestOpaqueAction", "EA_123");
-		opaqueAction.createElement(project, cameoActivity, null);
-
-		XMLItem customizationXML = new XMLItem();
-		customizationXML.addAttribute("applyToSource",  testStereotype.getLocalID());
-		customizationXML.addAttribute("applyToTarget", "");
-		customizationXML.addAttribute("allowedRelationships", "");
-		customizationXML.addAttribute("disallowedRelationships", "");
-		CameoUtils.logGUI("Creating Customization");
-		CommonElement customization = cef.createElement(SysmlConstants.CUSTOMIZATION,  "TestCustomization",  "12345");
-		customization.createElement(project, owner,  customizationXML);
-		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Elements created successfully!");
-	}
-
 	public static void setProject() {
 		Application.getInstance().getProject();
 	}
@@ -1382,14 +1101,16 @@ public class ImportXmlSysml {
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
 		
-		if(modelElement.getParent().trim().isEmpty() || ownerElement == null) {
+		if(ownerID.trim().isEmpty() || ownerElement == null) {
 			return primaryLocation; // Set owned equal to Primary model if no hasParent attribute in XML -> parent field in XMLItem == ""
 		} 
+		
 		if(!ownerElement.getCameoID().trim().isEmpty()){
 			return (Element) project.getElementByID(ownerElement.getCameoID());
 		} 
 
 		String category = ownerElement.getCategory();
+		
 		if(category.equals(SysmlConstants.ELEMENT)) {
 			return buildElement(project, parsedXML, ownerElement, ownerElement.getEAID());
 		} else if (category.equals(SysmlConstants.RELATIONSHIP)) {
@@ -1450,15 +1171,36 @@ public class ImportXmlSysml {
 	}
 	
 	public static boolean IsElementSupported(XMLItem modelElement) {
-		return Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType());
+		if (Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType())
+				|| Arrays.asList(UAFConstants.UAF_ELEMENTS).contains(modelElement.getType())
+				|| Arrays.asList(DoDAFConstants.DODAF_ELEMENTS).contains(modelElement.getType())) {
+			
+			return true;
+		}		
+		
+		return false;
 	}
 	
 	public static boolean IsRelationshipSupported(XMLItem modelElement) {
-		return Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(modelElement.getType());
+		if (Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(modelElement.getType())
+				|| Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(modelElement.getType())
+				|| Arrays.asList(DoDAFConstants.DODAF_RELATIONSHIPS).contains(modelElement.getType())) {
+			
+			return true;
+		}		
+		
+		return false;
 	}
 	
 	public static boolean IsDiagramSupported(XMLItem modelElement) {
-		return Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType());
+		if (Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType())
+				|| Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(modelElement.getType())
+				|| Arrays.asList(DoDAFConstants.DODAF_DIAGRAMS).contains(modelElement.getType())) {
+			
+			return true;
+		}		
+		
+		return false;
 	}
 	
 	public static void TrackIds(Element newElement, XMLItem modelElement) {
@@ -1541,5 +1283,29 @@ public class ImportXmlSysml {
 		SessionManager.getInstance().closeSession(project);
 		
 	    diagramMap.put((ModelDiagram) diagram, newDiagram);
+	}
+	
+	public static boolean isElement(String category) {
+		if (!category.contentEquals(SysmlConstants.ELEMENT)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static boolean isRelationship(String category) {
+		if (!category.contentEquals(SysmlConstants.RELATIONSHIP)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static boolean isDiagram(String category) {
+		if (!category.contentEquals(SysmlConstants.DIAGRAM)) {
+			return false;
+		}
+		
+		return true;
 	}
 }
