@@ -52,4 +52,5 @@ public class CameoDiagramConstants {
 	// Standards
 	public static final String STANDARDS_STRUCTURE = "Standards Structure";
 	public static final String STANDARDS_TAXONOMY = "Standards Taxonomy";
+
 }

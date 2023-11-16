@@ -251,6 +251,7 @@ public class ImportXmlSysml {
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		
 		Element client = GetImportedClient(modelElement, parsedXML);
+		
 		if(client == null) {
 			ImportLog.log(String.format("Client null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
@@ -912,6 +913,7 @@ public class ImportXmlSysml {
 		return false;
 	}
 	
+
 	public static boolean isRelationshipSupported(XMLItem modelElement) {
 		if (Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(modelElement.getType())
 				|| Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(modelElement.getType())
