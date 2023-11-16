@@ -347,6 +347,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			sysmlElement = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
 			CameoUtils.logGUI("Caught read only exception");
+		} catch (NullPointerException npe) {
+			ImportLog.log(String.format("Failed to create diagram based on cameoDiagram Contant %s for id %s", getSysmlConstant(), xmlElement.getEAID()));
+			return null;
 		}
 		((NamedElement) sysmlElement).setName(name);
 
