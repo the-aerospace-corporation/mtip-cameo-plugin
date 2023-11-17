@@ -171,7 +171,6 @@ public class ExportXmlSysml {
 		//Add hook to get nested presentation elements due to encapsulation of diagrams
 		exportDiagramElementRecursive(xmlDoc, file, diagramPresentationElement);
 		
-		
 		ExportLog.save();
 		ExportLog.reset();		
 	}

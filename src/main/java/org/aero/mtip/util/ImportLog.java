@@ -100,4 +100,14 @@ public class ImportLog {
 	public static void log(String message) {
 		logData.add(message + "\n");
 	}
+	
+	/**
+	 * Adds message to log that "`type` type is not supported. `id`".
+	 * @param modelElement XMLItem representing a model element being imported.
+	 */
+	public static void logNotSupported(XMLItem modelElement) {
+		log(String.format("%s type is not supported. %s", 
+				modelElement.getType(), 
+				modelElement.getEAID()));
+	}
 }
