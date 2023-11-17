@@ -240,7 +240,6 @@ public class ImportXmlSysml {
 	public static Element buildRelationship(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		if(!isRelationshipSupported(modelElement)) { 
 			ImportLog.logNotSupported(modelElement);
-
 			return null;
 		}
 		
@@ -251,7 +250,6 @@ public class ImportXmlSysml {
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		
 		Element client = GetImportedClient(modelElement, parsedXML);
-		
 		if(client == null) {
 			ImportLog.log(String.format("Client null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
