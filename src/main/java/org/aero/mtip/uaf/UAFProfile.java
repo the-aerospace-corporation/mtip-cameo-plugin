@@ -29,7 +29,7 @@ public class UAFProfile {
 		initializeStereotypes();
 	}
 	
-	public static void Initialize(Project project) {
+	public static void initialize(Project project) {
 		instance = new UAFProfile(project);
 	}
 	

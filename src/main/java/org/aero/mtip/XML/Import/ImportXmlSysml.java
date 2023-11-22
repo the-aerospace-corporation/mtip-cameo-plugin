@@ -238,7 +238,7 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element buildRelationship(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
-		if(!IsRelationshipSupported(modelElement)) {
+		if(!isRelationshipSupported(modelElement)) { 
 			ImportLog.logNotSupported(modelElement);
 
 			return null;
@@ -295,7 +295,12 @@ public class ImportXmlSysml {
 	}
 	
 	public static Element buildElement(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
-		if(!IsElementSupported(modelElement)) { 
+		if (modelElement == null) {
+			ImportLog.log(String.format("Null model element when looking for element with id %s", id));
+			return null;
+		}
+		
+		if(!isElementSupported(modelElement)) { 
 			ImportLog.logNotSupported(modelElement);
 
 			return null;
@@ -896,7 +901,7 @@ public class ImportXmlSysml {
 		return null;
 	}
 	
-	public static boolean IsElementSupported(XMLItem modelElement) {
+	public static boolean isElementSupported(XMLItem modelElement) {
 		if (Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType())
 				|| Arrays.asList(UAFConstants.UAF_ELEMENTS).contains(modelElement.getType())
 				|| Arrays.asList(DoDAFConstants.DODAF_ELEMENTS).contains(modelElement.getType())) {
@@ -907,7 +912,7 @@ public class ImportXmlSysml {
 		return false;
 	}
 	
-	public static boolean IsRelationshipSupported(XMLItem modelElement) {
+	public static boolean isRelationshipSupported(XMLItem modelElement) {
 		if (Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(modelElement.getType())
 				|| Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(modelElement.getType())
 				|| Arrays.asList(DoDAFConstants.DODAF_RELATIONSHIPS).contains(modelElement.getType())) {

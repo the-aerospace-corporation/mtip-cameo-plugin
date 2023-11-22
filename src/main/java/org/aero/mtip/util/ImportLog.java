@@ -106,6 +106,11 @@ public class ImportLog {
 	 * @param modelElement XMLItem representing a model element being imported.
 	 */
 	public static void logNotSupported(XMLItem modelElement) {
+		if (modelElement == null) {
+			log(String.format("Null model element unable to be imported."));
+			return;
+		}
+		
 		log(String.format("%s type is not supported. %s", 
 				modelElement.getType(), 
 				modelElement.getEAID()));

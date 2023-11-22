@@ -34,23 +34,25 @@ public class ObjectFlow extends CommonRelationship {
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		super.createElement(project,owner, client, supplier, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)element;
 		
-		//if(xmlElement.hasGuard()) {
 		if (xmlElement.hasAttribute(XmlTagConstants.GUARD)) {
-			ValueSpecification guard = of.getGuard();
-			if(guard != null) {
-				guard.dispose();
-			}
-			LiteralString specification = f.createLiteralStringInstance();
-			//specification.setValue(xmlElement.getGuard());			
-			specification.setValue(xmlElement.getAttribute(XmlTagConstants.GUARD));
-			of.setGuard(specification);
-		} else {
-			CameoUtils.logGUI("Object flow "+ xmlElement.getEAID() + "has no guard.");
+			setGuard(xmlElement);
 		}
 		
-		return of;
+		return element;
+	}
+	
+	private void setGuard(XMLItem xmlElement) {
+		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)element;
+		ValueSpecification guard = of.getGuard();
+		
+		if(guard != null) {
+			guard.dispose();
+		}
+		
+		LiteralString specification = f.createLiteralStringInstance();		
+		specification.setValue(xmlElement.getAttribute(XmlTagConstants.GUARD));
+		of.setGuard(specification);
 	}
 	
 	@Override

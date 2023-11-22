@@ -114,14 +114,15 @@ public class ActivityDiagram extends AbstractDiagram {
 				}
 			}
 		} catch(ClassCastException cce) {
-			CameoUtils.logGUI("Caught Class cast exception adding " + element.getHumanName() + " " + "with id " + element.getID() + " to diagram.");
 			ImportLog.log("Caught Class cast exception adding " + element.getID() + " to diagram.");
 		}
 		
-		if(shape != null) {
-			CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
-			this.shapeElements.put(element.getID(), shape);
+		if(shape == null) {
+			ImportLog.log(String.format("Placing element %s at (x,y)=(%i,%i)", ((NamedElement)element).getName(), location.x, location.y));
+			return noPosition;
 		}
+		
+		this.shapeElements.put(element.getID(), shape);
 		return noPosition;
 	}
 }

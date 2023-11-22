@@ -980,7 +980,7 @@ public abstract class CommonElement {
 	}
 	
 	public void addStereotypeTaggedValues(XMLItem xmlElement) {
-		CameoUtils.logGUI("Adding " + xmlElement.getTaggedValues().size() + " tagged values to element with id " + xmlElement.getEAID());
+		ImportLog.log(String.format("...adding %s tagged values to %s." + xmlElement.getTaggedValues().size(), xmlElement.getEAID()));
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
 			try {
 				CameoUtils.logGUI(tv.toString());
@@ -992,17 +992,21 @@ public abstract class CommonElement {
 				if(tv.isMultiValue()) {
 					for(String value : tv.getValues()) {
 						ValueSpecification vs = updateValue(tv.getValueType(), value, prop);
-						if(value != null) {
-							CameoUtils.logGUI("Set slot value of " + tv.getValueName() + " to " + tv.getValue() + ".");
-							slot.getValue().add(vs);
+						
+						if(value == null || vs == null) {
+							ImportLog.log(String.format("Error creating multivalue tagged value for %s", xmlElement.getEAID()));
 						}
+						
+						slot.getValue().add(vs);
 					}
 				} else {
 					ValueSpecification vs = updateValue(tv.getValueType(), tv.getValue(), prop);
-					if(vs != null) {
-						CameoUtils.logGUI("Set slot value of " + tv.getValueName() + " to " + tv.getValue() + ".");
-						slot.getValue().add(vs);
+					
+					if(vs == null) {
+						ImportLog.log(String.format("Error creating single tagged value for %s", xmlElement.getEAID()));
 					}
+					
+					slot.getValue().add(vs);
 				}
 			} catch (NullPointerException npe) {
 				StringWriter sw = new StringWriter();
