@@ -911,7 +911,6 @@ public class ImportXmlSysml {
 		return false;
 	}
 	
-
 	public static boolean isRelationshipSupported(XMLItem modelElement) {
 		if (Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(modelElement.getType())
 				|| Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(modelElement.getType())
