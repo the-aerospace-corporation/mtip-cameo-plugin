@@ -18,7 +18,7 @@ public class PackageDiagram  extends AbstractDiagram{
 
 	public PackageDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_PACKAGE_DIAGRAM;
+		 this.metamodelConstant = SysMLConstants.SYSML_PACKAGE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PACKAGEDIAGRAM;
 		 this.allowableElements = SysmlConstants.PKG_TYPES;
 	}

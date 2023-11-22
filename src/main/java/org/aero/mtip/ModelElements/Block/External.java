@@ -22,7 +22,7 @@ public class External extends CommonElement {
 
 	public External(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.EXTERNAL;
+		this.metamodelConstant = SysmlConstants.EXTERNAL;
 		this.xmlConstant = XmlTagConstants.BLOCK;
 	}
 

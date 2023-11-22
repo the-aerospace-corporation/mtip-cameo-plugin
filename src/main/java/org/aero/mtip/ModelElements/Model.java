@@ -14,8 +14,8 @@ public class Model extends CommonElement {
 	public Model(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.MODEL;
+		this.metamodelConstant = SysmlConstants.MODEL;
 		this.xmlConstant = XmlTagConstants.MODEL;
-		this.sysmlElement = f.createModelInstance();
+		this.element = f.createModelInstance();
 	}
 }

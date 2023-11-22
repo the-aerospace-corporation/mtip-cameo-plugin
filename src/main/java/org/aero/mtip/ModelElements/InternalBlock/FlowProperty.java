@@ -27,9 +27,9 @@ public class FlowProperty extends CommonElement {
 	public FlowProperty(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.FLOWPROPERTY;
+		this.metamodelConstant = SysmlConstants.FLOWPROPERTY;
 		this.xmlConstant = XmlTagConstants.FLOWPROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.element = f.createPropertyInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
@@ -37,13 +37,13 @@ public class FlowProperty extends CommonElement {
 		
 		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "SysML Profile"); 
 		Stereotype flowPropertyStereotype = StereotypesHelper.getStereotype(project, "FlowProperty", mdCustomizationProfile);
-		StereotypesHelper.addStereotype(sysmlElement, flowPropertyStereotype);
+		StereotypesHelper.addStereotype(element, flowPropertyStereotype);
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
-			StereotypesHelper.setStereotypePropertyValue(sysmlElement, flowPropertyStereotype, SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION));
+			StereotypesHelper.setStereotypePropertyValue(element, flowPropertyStereotype, SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION));
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {

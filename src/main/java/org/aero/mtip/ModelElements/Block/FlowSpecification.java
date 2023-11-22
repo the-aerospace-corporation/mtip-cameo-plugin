@@ -22,9 +22,9 @@ public class FlowSpecification extends CommonElement {
 	public FlowSpecification(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.FLOWSPECIFICATION;
+		this.metamodelConstant = SysmlConstants.FLOWSPECIFICATION;
 		this.xmlConstant = XmlTagConstants.FLOWSPECIFICATION;
-		this.sysmlElement = f.createInterfaceInstance();
+		this.element = f.createInterfaceInstance();
 	}
 	
 	@Override
@@ -33,8 +33,8 @@ public class FlowSpecification extends CommonElement {
 		
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype flowSpecificationStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.FLOWSPECIFICATION_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, flowSpecificationStereotype);
+		StereotypesHelper.addStereotype(element, flowSpecificationStereotype);
 	
-		return sysmlElement;
+		return element;
 	}
 }

@@ -28,14 +28,14 @@ public class Transition extends CommonRelationship {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.TRANSITION;
-		this.sysmlConstant = SysmlConstants.TRANSITION;
-		this.sysmlElement = f.createTransitionInstance();
+		this.metamodelConstant = SysmlConstants.TRANSITION;
+		this.element = f.createTransitionInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		super.createElement(project, owner, client, supplier, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		
 		try {
 			if(xmlElement.hasGuard()) {
@@ -109,17 +109,17 @@ public class Transition extends CommonRelationship {
 	@Override
 	public void setOwner(Project project, Element owner) {
 		owner = CameoUtils.findNearestRegion(project, supplier);
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 	@Override
 	public void setSupplier() {
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		transition.setSource((Vertex) supplier);
 	}
 	
 	@Override
 	public void setClient() {
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		transition.setTarget((Vertex) client);
 	}
 

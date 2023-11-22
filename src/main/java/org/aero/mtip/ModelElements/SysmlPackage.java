@@ -14,7 +14,7 @@ public class SysmlPackage extends CommonElement{
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.PACKAGE;
-		this.sysmlConstant = SysmlConstants.PACKAGE;
-		this.sysmlElement = f.createPackageInstance();
+		this.metamodelConstant = SysmlConstants.PACKAGE;
+		this.element = f.createPackageInstance();
 	}
 }

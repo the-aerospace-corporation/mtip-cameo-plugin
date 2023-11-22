@@ -23,9 +23,9 @@ public class CallOperationAction extends ActivityNode {
 	public CallOperationAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CALLOPERATIONACTION;
+		this.metamodelConstant = SysmlConstants.CALLOPERATIONACTION;
 		this.xmlConstant = XmlTagConstants.CALLOPERATIONACTION;
-		this.sysmlElement = f.createCallOperationActionInstance();
+		this.element = f.createCallOperationActionInstance();
 	}
 
 	@Override
@@ -34,9 +34,9 @@ public class CallOperationAction extends ActivityNode {
 		
 		if(xmlElement != null) {
 			Operation operation = (Operation) project.getElementByID(xmlElement.getNewOperation());
-			((com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction)sysmlElement).setOperation(operation);
+			((com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction)element).setOperation(operation);
 		}
-		return sysmlElement;
+		return element;
 	}
 	
 	@Override

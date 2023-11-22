@@ -22,7 +22,7 @@ public class Subsystem extends CommonElement {
 
 	public Subsystem(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.SUBSYSTEM;
+		this.metamodelConstant = SysmlConstants.SUBSYSTEM;
 		this.xmlConstant = XmlTagConstants.BLOCK;
 	}
 

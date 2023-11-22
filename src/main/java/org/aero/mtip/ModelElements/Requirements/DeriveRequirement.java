@@ -23,9 +23,9 @@ public class DeriveRequirement extends CommonRelationship {
 	public DeriveRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DERIVEREQUIREMENT;
+		this.metamodelConstant = SysmlConstants.DERIVEREQUIREMENT;
 		this.xmlConstant = XmlTagConstants.DERIVEREQUIREMENT;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class DeriveRequirement extends CommonRelationship {
 		
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype deriveRequirementStereotype = StereotypesHelper.getStereotype(project,  SysMLProfile.DERIVEREQT_STEREOTYPE, sysml);
-		StereotypesHelper.addStereotype(sysmlElement, deriveRequirementStereotype);
+		StereotypesHelper.addStereotype(element, deriveRequirementStereotype);
 
-		return sysmlElement;
+		return element;
 	}
 }

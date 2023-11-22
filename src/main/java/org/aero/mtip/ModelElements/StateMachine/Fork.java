@@ -16,7 +16,7 @@ public class Fork extends PseudoState {
 	public Fork(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.FORK;
-		this.sysmlConstant = SysmlConstants.FORK;
+		this.metamodelConstant = SysmlConstants.FORK;
 		this.xmlConstant = XmlTagConstants.FORK;
 	}
 }

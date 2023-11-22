@@ -8,7 +8,7 @@ public class PV3 extends AbstractMatrix {
 
 	public PV3(String name, String EAID) {
 		super(name, EAID);		
-		this.sysmlConstant = DoDAFConstants.PV3;
+		this.metamodelConstant = DoDAFConstants.PV3;
 		this.xmlConstant = XmlTagConstants.PV3;
 		this.cameoDiagramConstant = "";
 		this.allowableElements = DoDAFConstants.PV3_TYPES;

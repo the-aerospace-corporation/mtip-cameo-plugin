@@ -13,8 +13,8 @@ public class Class extends CommonElement {
 	public Class(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CLASS;
+		this.metamodelConstant = SysmlConstants.CLASS;
 		this.xmlConstant = XmlTagConstants.CLASS;
-		this.sysmlElement = f.createClassInstance();
+		this.element = f.createClassInstance();
 	}
 }

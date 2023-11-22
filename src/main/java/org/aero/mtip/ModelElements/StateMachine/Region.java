@@ -14,9 +14,9 @@ public class Region extends CommonElement {
 	public Region(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.REGION;
+		this.metamodelConstant = SysmlConstants.REGION;
 		this.xmlConstant = XmlTagConstants.REGION;
-		this.sysmlElement = f.createRegionInstance();
+		this.element = f.createRegionInstance();
 	}
 
 }

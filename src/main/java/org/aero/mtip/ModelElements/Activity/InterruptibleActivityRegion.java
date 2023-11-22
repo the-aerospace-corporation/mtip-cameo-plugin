@@ -16,8 +16,8 @@ public class InterruptibleActivityRegion extends CommonElement {
 	public InterruptibleActivityRegion(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INTERRUPTIBLEACTIVITYREGION;
+		this.metamodelConstant = SysmlConstants.INTERRUPTIBLEACTIVITYREGION;
 		this.xmlConstant = XmlTagConstants.INTERRUPTIBLEACTIVITYREGION;
-		this.sysmlElement = f.createInterruptibleActivityRegionInstance();
+		this.element = f.createInterruptibleActivityRegionInstance();
 	}
 }

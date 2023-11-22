@@ -21,9 +21,9 @@ public class Unit extends InstanceSpecification {
 	public Unit(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.UNIT;
+		this.metamodelConstant = SysmlConstants.UNIT;
 		this.xmlConstant = XmlTagConstants.UNIT;
-		this.sysmlElement = f.createInstanceSpecificationInstance();
+		this.element = f.createInstanceSpecificationInstance();
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.MD_CUSTOMIZATION_PROFILE_NAME);
 		this.initialStereotypes = new ArrayList<Stereotype> ();
 		this.initialStereotypes.add(StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.VALUETYPE_UNIT_PROPERTY, this.creationProfile));

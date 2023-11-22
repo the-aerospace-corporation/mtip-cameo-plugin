@@ -24,14 +24,14 @@ public class SendSignalAction extends ActivityNode {
 	public SendSignalAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.SENDSIGNALACTION;
+		this.metamodelConstant = SysmlConstants.SENDSIGNALACTION;
 		this.xmlConstant = XmlTagConstants.SENDSIGNALACTION;
-		this.sysmlElement = f.createSendSignalActionInstance();
+		this.element = f.createSendSignalActionInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction ssa = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction ssa = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {
 			String signalCameoId = ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.SIGNAL_TAG));
@@ -39,7 +39,7 @@ public class SendSignalAction extends ActivityNode {
 			ssa.setSignal(signal);
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {

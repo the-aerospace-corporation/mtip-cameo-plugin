@@ -19,9 +19,9 @@ public class Association extends CommonRelationship{
 	public Association(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ASSOCIATION;
+		this.metamodelConstant = SysmlConstants.ASSOCIATION;
 		this.xmlConstant = XmlTagConstants.ASSOCIATION;
-		this.sysmlElement = f.createAssociationInstance();
+		this.element = f.createAssociationInstance();
 	}
 
 	@Override

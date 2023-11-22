@@ -13,8 +13,8 @@ public class Operation extends CommonElement {
 	public Operation(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.OPERATION;
+		this.metamodelConstant = SysmlConstants.OPERATION;
 		this.xmlConstant = XmlTagConstants.OPERATION;
-		this.sysmlElement = f.createOperationInstance();
+		this.element = f.createOperationInstance();
 	}
 }

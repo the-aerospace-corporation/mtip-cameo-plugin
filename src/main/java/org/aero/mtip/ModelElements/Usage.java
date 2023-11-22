@@ -14,8 +14,8 @@ public class Usage extends CommonDirectedRelationship {
 	public Usage(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.USAGE;
+		this.metamodelConstant = SysmlConstants.USAGE;
 		this.xmlConstant = XmlTagConstants.USAGE;
-		this.sysmlElement = f.createUsageInstance();
+		this.element = f.createUsageInstance();
 	}
 }

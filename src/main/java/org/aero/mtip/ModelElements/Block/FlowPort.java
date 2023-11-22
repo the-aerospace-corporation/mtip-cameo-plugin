@@ -25,9 +25,9 @@ public class FlowPort extends CommonElement {
 	public FlowPort(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.FLOWPORT;
+		this.metamodelConstant = SysmlConstants.FLOWPORT;
 		this.xmlConstant = XmlTagConstants.FLOWPORT;
-		this.sysmlElement = f.createPortInstance();
+		this.element = f.createPortInstance();
 	}
 
 	@Override

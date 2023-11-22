@@ -31,16 +31,16 @@ public class OpaqueExpression extends CommonElement {
 	public OpaqueExpression(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.OPAQUEEXPRESSION;
+		this.metamodelConstant = SysmlConstants.OPAQUEEXPRESSION;
 		this.xmlConstant = XmlTagConstants.OPAQUEEXPRESSION;
-		this.sysmlElement = f.createOpaqueExpressionInstance();
+		this.element = f.createOpaqueExpressionInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)element;
 		String body = xmlElement.getAttribute(BODY);
 		String language = xmlElement.getAttribute(LANGUAGE);
 		

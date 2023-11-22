@@ -24,9 +24,9 @@ public class DecisionNode extends ActivityNode {
 	public DecisionNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DECISIONNODE;
+		this.metamodelConstant = SysmlConstants.DECISIONNODE;
 		this.xmlConstant = XmlTagConstants.DECISIONNODE;
-		this.sysmlElement = f.createDecisionNodeInstance();
+		this.element = f.createDecisionNodeInstance();
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class DecisionNode extends ActivityNode {
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT)) {
 			Element decisionInput = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT)), modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT));
 			if(decisionInput instanceof Behavior) {
-				com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.DecisionNode decisionNode = (com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.DecisionNode)sysmlElement;
+				com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.DecisionNode decisionNode = (com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.DecisionNode)element;
 				decisionNode.setDecisionInput((Behavior)decisionInput);
 			}
 		}

@@ -34,22 +34,22 @@ public class Connector extends CommonRelationship {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.CONNECTOR;
-		this.sysmlConstant = SysmlConstants.CONNECTOR;
-		this.sysmlElement = f.createConnectorInstance();
+		this.metamodelConstant = SysmlConstants.CONNECTOR;
+		this.element = f.createConnectorInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
-		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = (com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = (com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) element;
 		
 		// Cameo considers client as the second connector end [ends.get(1)] and supplier as first. Must reverse to fit supplier/client defined in Huddle.
 		try {
-			ModelHelper.setClientElement(sysmlElement, supplier);
-			ModelHelper.setSupplierElement(sysmlElement, client);
+			ModelHelper.setClientElement(element, supplier);
+			ModelHelper.setSupplierElement(element, client);
 			
 		}catch(ClassCastException cce) {
 			ImportLog.log("Invalid supplier/client for connector with id: " + this.EAID + ". Supplier/client must be ConnectableElements.");
-			sysmlElement.dispose();
+			element.dispose();
 			return null;
 		}
 		
@@ -109,7 +109,7 @@ public class Connector extends CommonRelationship {
 		try {
 			setOwner(project, owner);
 		} catch(IllegalArgumentException iae) {
-			sysmlElement.dispose();
+			element.dispose();
 			connector.dispose();
 		}
 		return connector;
@@ -139,9 +139,9 @@ public class Connector extends CommonRelationship {
 					ImportLog.log(logMessage);
 
 				}
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			} else {
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			}
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";

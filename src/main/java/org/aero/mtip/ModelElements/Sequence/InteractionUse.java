@@ -14,8 +14,8 @@ public class InteractionUse extends CommonElement {
 	public InteractionUse(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INTERACTIONUSE;
+		this.metamodelConstant = SysmlConstants.INTERACTIONUSE;
 		this.xmlConstant = XmlTagConstants.INTERACTIONUSE;
-		this.sysmlElement = f.createInteractionUseInstance();
+		this.element = f.createInteractionUseInstance();
 	}
 }

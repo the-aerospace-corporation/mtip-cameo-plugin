@@ -27,15 +27,15 @@ public class CombinedFragment extends CommonElement {
 	public CombinedFragment(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.COMBINEDFRAGMENT;
+		this.metamodelConstant = SysmlConstants.COMBINEDFRAGMENT;
 		this.xmlConstant = XmlTagConstants.COMBINEDFRAGMENT;
-		this.sysmlElement = f.createCombinedFragmentInstance();
+		this.element = f.createCombinedFragmentInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment combinedFragment = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment combinedFragment = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment)element;
 		
 		// Add ioKind
 		String ioKind = xmlElement.getInteractionOperatorKind();

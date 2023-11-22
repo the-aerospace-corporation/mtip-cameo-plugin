@@ -22,7 +22,7 @@ public class Domain extends CommonElement {
 
 	public Domain(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.DOMAIN;
+		this.metamodelConstant = SysmlConstants.DOMAIN;
 		this.xmlConstant = XmlTagConstants.BLOCK;
 	}
 

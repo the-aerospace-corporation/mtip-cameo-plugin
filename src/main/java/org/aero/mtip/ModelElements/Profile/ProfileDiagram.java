@@ -17,7 +17,7 @@ public class ProfileDiagram extends AbstractDiagram {
 
 	public ProfileDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysmlConstants.PROFILEDIAGRAM;
+		 this.metamodelConstant = SysmlConstants.PROFILEDIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PROFILEDIAGRAM;
 		 this.allowableElements = SysmlConstants.PROFILEDIAGRAM_TYPES;
 	}

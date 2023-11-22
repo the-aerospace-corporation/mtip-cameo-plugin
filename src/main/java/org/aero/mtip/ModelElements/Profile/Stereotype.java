@@ -23,9 +23,9 @@ public class Stereotype extends CommonElement {
 	public Stereotype(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.STEREOTYPE;
+		this.metamodelConstant = SysmlConstants.STEREOTYPE;
 		this.xmlConstant = XmlTagConstants.STEREOTYPE;
-		this.sysmlElement = f.createStereotypeInstance();
+		this.element = f.createStereotypeInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
@@ -35,7 +35,7 @@ public class Stereotype extends CommonElement {
 			return stereotype;
 		}
 		super.createElement(project, owner, xmlElement);
-		return sysmlElement;
+		return element;
 	}
 	
 	

@@ -9,7 +9,7 @@ public class StrategicConstraints extends BlockDefinitionDiagram {
 
 	public StrategicConstraints(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM;
+		 this.metamodelConstant = UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.STRATEGIC_CONSTRAINTS_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.STRATEGIC_CONSTRAINTS;
 		 this.allowableElements = UAFConstants.ST_CT_TYPES;

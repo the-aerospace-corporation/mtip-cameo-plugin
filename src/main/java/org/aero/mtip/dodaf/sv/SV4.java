@@ -8,7 +8,7 @@ public class SV4 extends ClassDiagram {
 
 	public SV4(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.SV4;
+		this.metamodelConstant = DoDAFConstants.SV4;
 		this.xmlConstant = XmlTagConstants.SV4;
 		this.cameoDiagramConstant = "SV-4 Systems Functionality Description";
 		this.allowableElements = DoDAFConstants.SV4_TYPES;

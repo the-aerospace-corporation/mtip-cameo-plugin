@@ -14,8 +14,8 @@ public class JoinNode extends ActivityNode {
 	public JoinNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.JOINNODE;
+		this.metamodelConstant = SysmlConstants.JOINNODE;
 		this.xmlConstant = XmlTagConstants.JOINNODE;
-		this.sysmlElement = f.createJoinNodeInstance();
+		this.element = f.createJoinNodeInstance();
 	}
 }

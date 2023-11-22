@@ -21,9 +21,9 @@ public class ValueProperty extends Property {
 	public ValueProperty(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.VALUEPROPERTY;
+		this.metamodelConstant = SysmlConstants.VALUEPROPERTY;
 		this.xmlConstant = XmlTagConstants.VALUEPROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.element = f.createPropertyInstance();
 	}
 	
 	@Override
@@ -32,8 +32,8 @@ public class ValueProperty extends Property {
 		
 		Profile mdCustomSysml = StereotypesHelper.getProfile(project, "MD Customization for SysML");
 		Stereotype valPropStereotype = StereotypesHelper.getStereotype(project,  "ValueProperty", mdCustomSysml);
-		StereotypesHelper.addStereotype(sysmlElement, valPropStereotype);
+		StereotypesHelper.addStereotype(element, valPropStereotype);
 		
-		return sysmlElement;
+		return element;
 	}
 }

@@ -21,9 +21,9 @@ public class Link extends CommonElement {
 	public Link(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.LINK;
+		this.metamodelConstant = SysmlConstants.LINK;
 		this.xmlConstant = XmlTagConstants.LINK;
-		this.sysmlElement = f.createInstanceSpecificationInstance();
+		this.element = f.createInstanceSpecificationInstance();
 	}
 
 	@Override

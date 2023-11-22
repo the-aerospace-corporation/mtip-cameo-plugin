@@ -8,7 +8,7 @@ public class CV6 extends DependencyMatrix {
 
 	public CV6(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.CV6;
+		this.metamodelConstant = DoDAFConstants.CV6;
 		this.xmlConstant = XmlTagConstants.CV6;
 		this.cameoDiagramConstant = "CV-6 Capability to Operational Activities Mapping";
 		this.allowableElements = DoDAFConstants.CV6_TYPES;

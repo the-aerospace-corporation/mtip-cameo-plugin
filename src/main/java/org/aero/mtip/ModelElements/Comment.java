@@ -19,9 +19,9 @@ public class Comment extends CommonElement {
 	public Comment(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.COMMENT;
+		this.metamodelConstant = SysmlConstants.COMMENT;
 		this.xmlConstant = XmlTagConstants.COMMENT;
-		this.sysmlElement = f.createCommentInstance();
+		this.element = f.createCommentInstance();
 	}
 	
 	@Override
@@ -29,11 +29,11 @@ public class Comment extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_BODY)) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)sysmlElement;
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)element;
 			comment.setBody(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_BODY));
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class Comment extends CommonElement {
 		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)element;
 		String body = comment.getBody();
 		if(!body.isEmpty()) {
 			org.w3c.dom.Element bodyTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_BODY, body);
@@ -53,7 +53,7 @@ public class Comment extends CommonElement {
 	
 	@Override
 	public void setOwner(Project project, Element owner) {
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)element;
 		comment.setOwningElement(owner);
 	}
 }

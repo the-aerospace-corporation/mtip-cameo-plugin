@@ -16,7 +16,7 @@ public class ChoicePseudoState extends PseudoState {
 	public ChoicePseudoState(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.CHOICE;		
-		this.sysmlConstant = SysmlConstants.CHOICEPSEUDOSTATE;
+		this.metamodelConstant = SysmlConstants.CHOICEPSEUDOSTATE;
 		this.xmlConstant = XmlTagConstants.CHOICEPSEUDOSTATE;
 	}
 }

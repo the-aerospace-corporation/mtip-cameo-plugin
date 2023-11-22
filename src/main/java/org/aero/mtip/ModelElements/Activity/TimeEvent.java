@@ -15,8 +15,8 @@ public class TimeEvent extends CommonElement {
 	public TimeEvent(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.TIMEEVENT;
+		this.metamodelConstant = SysmlConstants.TIMEEVENT;
 		this.xmlConstant = XmlTagConstants.TIMEEVENT;
-		this.sysmlElement = f.createTimeEventInstance();
+		this.element = f.createTimeEventInstance();
 	}
 }

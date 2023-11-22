@@ -22,7 +22,7 @@ public class System extends CommonElement {
 
 	public System(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.SYSTEM;
+		this.metamodelConstant = SysmlConstants.SYSTEM;
 		this.xmlConstant = XmlTagConstants.BLOCK;
 	}
 

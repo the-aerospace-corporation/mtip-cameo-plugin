@@ -8,7 +8,7 @@ public class CV7 extends DependencyMatrix {
 
 	public CV7(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.CV7;
+		this.metamodelConstant = DoDAFConstants.CV7;
 		this.xmlConstant = XmlTagConstants.CV7;
 		this.cameoDiagramConstant = "CV-7 Capability to Services Mapping";
 		this.allowableElements = DoDAFConstants.CV7_TYPES;

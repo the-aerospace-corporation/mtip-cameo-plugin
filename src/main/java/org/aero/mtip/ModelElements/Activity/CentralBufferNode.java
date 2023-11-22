@@ -14,8 +14,8 @@ public class CentralBufferNode extends ActivityNode {
 	public CentralBufferNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CENTRALBUFFERNODE;
+		this.metamodelConstant = SysmlConstants.CENTRALBUFFERNODE;
 		this.xmlConstant = XmlTagConstants.CENTRALBUFFERNODE;
-		this.sysmlElement = f.createCentralBufferNodeInstance();
+		this.element = f.createCentralBufferNodeInstance();
 	}
 }

@@ -19,16 +19,16 @@ public class DestructionOccurrenceSpecification extends CommonElement {
 	public DestructionOccurrenceSpecification(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DESTRUCTIONOCCURRENCESPECIFICATION;
+		this.metamodelConstant = SysmlConstants.DESTRUCTIONOCCURRENCESPECIFICATION;
 		this.xmlConstant = XmlTagConstants.DESTRUCTIONOCCURRENCESPECIFICATION;
-		this.sysmlElement = f.createDestructionOccurrenceSpecificationInstance();
+		this.element = f.createDestructionOccurrenceSpecificationInstance();
 		
 	}
 	
 	@Override
 	public void setOwner(Project project, Element owner) {
 		super.setOwner(project, owner);
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd me = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd me = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd)element;
 		if(owner instanceof Message) {
 			me.set_messageOfReceiveEvent((Message) owner);
 		}

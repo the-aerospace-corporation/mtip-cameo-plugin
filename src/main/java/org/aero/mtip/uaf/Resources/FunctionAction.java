@@ -3,26 +3,12 @@ package org.aero.mtip.uaf.Resources;
 import org.aero.mtip.ModelElements.Activity.CallBehaviorAction;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.uaf.UAFProfile;
-import org.aero.mtip.util.XMLItem;
 
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-
-public class FunctionAction extends CallBehaviorAction{
+public class FunctionAction extends CallBehaviorAction {
+	
 	public FunctionAction(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = UAFConstants.FUNCTION_ACTION;
+		this.metamodelConstant = UAFConstants.FUNCTION_ACTION;
 		this.xmlConstant = XmlTagConstants.FUNCTION_ACTION;
-		this.sysmlElement = f.createCallBehaviorActionInstance();
-	}
-	
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
-		StereotypesHelper.addStereotype(sysmlElement, UAFProfile.FUNCTION_ACTION_STEREOTYPE);
-		
-		return sysmlElement;
 	}
 }

@@ -16,7 +16,7 @@ public class Terminate extends PseudoState {
 	public Terminate(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.TERMINATE;		 
-		this.sysmlConstant = SysmlConstants.TERMINATE;
+		this.metamodelConstant = SysmlConstants.TERMINATE;
 		this.xmlConstant = XmlTagConstants.TERMINATE;
 	}
 

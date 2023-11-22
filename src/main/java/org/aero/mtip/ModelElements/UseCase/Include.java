@@ -14,8 +14,8 @@ public class Include extends CommonDirectedRelationship {
 	public Include(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INCLUDE;
+		this.metamodelConstant = SysmlConstants.INCLUDE;
 		this.xmlConstant = XmlTagConstants.INCLUDE;
-		this.sysmlElement = f.createIncludeInstance();
+		this.element = f.createIncludeInstance();
 	}
 }

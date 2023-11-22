@@ -22,9 +22,9 @@ public class OpaqueBehavior extends CommonElement {
 	public OpaqueBehavior(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.OPAQUEBEHAVIOR;
+		this.metamodelConstant = SysmlConstants.OPAQUEBEHAVIOR;
 		this.xmlConstant = XmlTagConstants.OPAQUEBEHAVIOR;
-		this.sysmlElement = f.createOpaqueBehaviorInstance();
+		this.element = f.createOpaqueBehaviorInstance();
 	}
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {

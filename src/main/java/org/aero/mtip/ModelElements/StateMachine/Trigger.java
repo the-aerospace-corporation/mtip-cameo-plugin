@@ -27,14 +27,14 @@ public class Trigger extends CommonElement {
 	public Trigger(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.TRIGGER;
+		this.metamodelConstant = SysmlConstants.TRIGGER;
 		this.xmlConstant = XmlTagConstants.TRIGGER;
-		this.sysmlElement = f.createTriggerInstance();
+		this.element = f.createTriggerInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, @CheckForNull XMLItem xmlElement) {
-		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) element;
 		if(xmlElement != null) {
 			if(xmlElement.hasAcceptEventAction()) {
 				CameoUtils.logGUI("Setting accept event action of Trigger to AcceptEventAction with id: " + xmlElement.getNewAcceptEventAction());
@@ -51,12 +51,12 @@ public class Trigger extends CommonElement {
 			//Set transition of trigger if it has a transition
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	@Override
 	public void setOwner(Project project, Element owner) {
-		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) element;
 		if(owner != null) {
 			if(owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) {
 				trigger.set_transitionOfTrigger((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)owner);

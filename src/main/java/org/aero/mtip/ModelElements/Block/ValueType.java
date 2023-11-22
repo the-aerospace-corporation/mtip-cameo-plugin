@@ -22,9 +22,9 @@ public class ValueType extends CommonElement{
 	public ValueType(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.VALUETYPE;
+		this.metamodelConstant = SysmlConstants.VALUETYPE;
 		this.xmlConstant = XmlTagConstants.VALUETYPE;
-		this.sysmlElement = f.createDataTypeInstance();
+		this.element = f.createDataTypeInstance();
 	}
 	
 	@Override
@@ -33,8 +33,8 @@ public class ValueType extends CommonElement{
 		
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype valueTypeStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.VALUETYPE_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, valueTypeStereotype);
+		StereotypesHelper.addStereotype(element, valueTypeStereotype);
 		
-		return sysmlElement;
+		return element;
 	}
 }

@@ -25,16 +25,16 @@ public class DurationConstraint extends CommonElement {
 	public DurationConstraint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DURATIONCONSTRAINT;
+		this.metamodelConstant = SysmlConstants.DURATIONCONSTRAINT;
 		this.xmlConstant = XmlTagConstants.DURATIONCONSTRAINT;
-		this.sysmlElement = f.createDurationConstraintInstance();
+		this.element = f.createDurationConstraintInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		
 
-		return sysmlElement;
+		return element;
 	}
 	
 	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {

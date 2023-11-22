@@ -22,9 +22,9 @@ public class Copy extends CommonDirectedRelationship {
 	public Copy(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.COPY;
+		this.metamodelConstant = SysmlConstants.COPY;
 		this.xmlConstant = XmlTagConstants.COPY;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class Copy extends CommonDirectedRelationship {
 		
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype copyStereotype = StereotypesHelper.getStereotype(project,  "Copy", sysml);
-		StereotypesHelper.addStereotype(sysmlElement, copyStereotype);
+		StereotypesHelper.addStereotype(element, copyStereotype);
 
-		return sysmlElement;
+		return element;
 	}
 }

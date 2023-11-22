@@ -16,7 +16,7 @@ public class UseCaseDiagram  extends AbstractDiagram{
 
 	public UseCaseDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
+		 this.metamodelConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.USECASEDIAGRAM;
 		 this.cameoDiagramConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
 		 this.allowableElements = SysmlConstants.UC_TYPES;

@@ -26,9 +26,9 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 	public PartProperty(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.PARTPROPERTY;
+		this.metamodelConstant = SysmlConstants.PARTPROPERTY;
 		this.xmlConstant = XmlTagConstants.PARTPROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.element = f.createPropertyInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {	
@@ -76,9 +76,9 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 					ImportLog.log(logMessage);
 
 				}
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			} else {
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			}
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";

@@ -11,10 +11,8 @@ public class RequiredServiceLevel extends InstanceSpecification {
 
 	public RequiredServiceLevel(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = UAFConstants.REQUIRED_SERVICE_LEVEL;
+		this.metamodelConstant = UAFConstants.REQUIRED_SERVICE_LEVEL;
 		this.xmlConstant = XmlTagConstants.REQUIRED_SERVICE_LEVEL;
-		this.sysmlElement = f.createInstanceSpecificationInstance();
-		this.initialStereotypes = Arrays.asList(UAFProfile.REQUIRED_SERVICE_LEVEL_STEREOTYPE);
+		this.initialStereotypes = Arrays.asList(UAFProfile.getStereotype(metamodelConstant));
 	}
 }

@@ -13,7 +13,7 @@ public class Viewpoint extends CommonElement {
 	public Viewpoint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.VIEWPOINT;
+		this.metamodelConstant = SysmlConstants.VIEWPOINT;
 		this.xmlConstant = XmlTagConstants.VIEWPOINT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.VIEWPOINT_STEREOTYPE, creationProfile);

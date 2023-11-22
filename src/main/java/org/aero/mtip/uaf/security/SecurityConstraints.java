@@ -9,7 +9,7 @@ public class SecurityConstraints extends ParametricDiagram {
 
 	public SecurityConstraints(String name, String EAID) {
 		super(name, EAID);
-		 this.sysmlConstant = UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM;
+		 this.metamodelConstant = UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SECURITY_CONSTRAINTS_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.SECURITY_CONSTRAINTS;
 		 this.allowableElements = UAFConstants.SC_CT_TYPES;

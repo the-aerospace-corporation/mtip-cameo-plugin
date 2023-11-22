@@ -22,9 +22,9 @@ public class ProxyPort extends Port {
 	public ProxyPort(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.PROXYPORT;
+		this.metamodelConstant = SysmlConstants.PROXYPORT;
 		this.xmlConstant = XmlTagConstants.PROXYPORT;
-		this.sysmlElement = f.createPortInstance();
+		this.element = f.createPortInstance();
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class ProxyPort extends Port {
 		
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype fullPortStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.PROXYPORT_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, fullPortStereotype);
-		return sysmlElement;
+		StereotypesHelper.addStereotype(element, fullPortStereotype);
+		return element;
 	}
 }

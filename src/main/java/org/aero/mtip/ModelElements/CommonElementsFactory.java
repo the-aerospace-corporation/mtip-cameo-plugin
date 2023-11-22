@@ -262,12 +262,6 @@ import org.aero.mtip.uaf.Resources.Technology;
 import org.aero.mtip.uaf.Resources.VersionOfConfiguration;
 import org.aero.mtip.uaf.Resources.WholeLifeConfiguration;
 import org.aero.mtip.uaf.Resources.WholeLifeConfigurationKind;
-import org.aero.mtip.uaf.Standards.Protocol;
-import org.aero.mtip.uaf.Standards.ProtocolLayer;
-import org.aero.mtip.uaf.Standards.ProtocolStack;
-import org.aero.mtip.uaf.Standards.Standard;
-import org.aero.mtip.uaf.Standards.StandardsStructure;
-import org.aero.mtip.uaf.Standards.StandardsTaxonomy;
 import org.aero.mtip.uaf.Strategic.Achiever;
 import org.aero.mtip.uaf.Strategic.ActualEnduringTask;
 import org.aero.mtip.uaf.Strategic.ActualEnterprisePhase;
@@ -326,6 +320,12 @@ import org.aero.mtip.uaf.security.SecurityStructure;
 import org.aero.mtip.uaf.security.SecurityTaxonomy;
 import org.aero.mtip.uaf.services.ServiceStateDescription;
 import org.aero.mtip.uaf.services.ServicesStates;
+import org.aero.mtip.uaf.standards.Protocol;
+import org.aero.mtip.uaf.standards.ProtocolLayer;
+import org.aero.mtip.uaf.standards.ProtocolStack;
+import org.aero.mtip.uaf.standards.Standard;
+import org.aero.mtip.uaf.standards.StandardsStructure;
+import org.aero.mtip.uaf.standards.StandardsTaxonomy;
 import org.aero.mtip.util.CameoUtils;
 
 public class CommonElementsFactory {

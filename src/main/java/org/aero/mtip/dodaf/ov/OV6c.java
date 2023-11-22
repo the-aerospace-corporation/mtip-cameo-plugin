@@ -8,7 +8,7 @@ public class OV6c extends SequenceDiagram {
 
 	public OV6c(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.OV6C;
+		this.metamodelConstant = DoDAFConstants.OV6C;
 		this.xmlConstant = XmlTagConstants.OV6C;
 		this.cameoDiagramConstant = "OV-6c Operational Event-Trace Description";
 		this.allowableElements = DoDAFConstants.OV6C_TYPES;

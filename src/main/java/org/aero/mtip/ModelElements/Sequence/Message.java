@@ -27,16 +27,16 @@ public class Message extends CommonRelationship {
 	public Message(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.MESSAGE;
+		this.metamodelConstant = SysmlConstants.MESSAGE;
 		this.xmlConstant = XmlTagConstants.MESSAGE;
-		this.sysmlElement = f.createMessageInstance();
+		this.element = f.createMessageInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		String messageSort = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_SORT);
 		MessageSort messageSortEnum = MessageSortEnum.getByName(messageSort);
 		message.setMessageSort(messageSortEnum);
@@ -57,7 +57,7 @@ public class Message extends CommonRelationship {
 			message.setSignature(signature);
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {

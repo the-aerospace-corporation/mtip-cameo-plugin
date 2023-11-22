@@ -8,7 +8,7 @@ public class AV2 extends AbstractTable {
 
 	public AV2(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.AV2;
+		this.metamodelConstant = DoDAFConstants.AV2;
 		this.xmlConstant = XmlTagConstants.AV2;
 //		this.cameoDiagramConstant = "AV-1 Overview and Summary Information";
 //		this.allowableElements = DoDAFConstants.AV2_TYPES;

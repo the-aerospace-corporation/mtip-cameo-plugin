@@ -22,7 +22,7 @@ public class SystemContext extends CommonElement {
 
 	public SystemContext(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.SYSTEMCONTEXT;
+		this.metamodelConstant = SysmlConstants.SYSTEMCONTEXT;
 		this.xmlConstant = XmlTagConstants.BLOCK;
 	}
 

@@ -31,14 +31,14 @@ public class Parameter extends CommonElement {
 	public Parameter(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.PARAMETER;
+		this.metamodelConstant = SysmlConstants.PARAMETER;
 		this.xmlConstant = XmlTagConstants.SYSML_PARAMETER;
-		this.sysmlElement = f.createParameterInstance();
+		this.element = f.createParameterInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
 			if(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION).contentEquals(IN)) {
@@ -92,7 +92,7 @@ public class Parameter extends CommonElement {
 				ImportLog.log(stackTrace);
 			}
 		}
-		return sysmlElement;
+		return element;
 	}
 	
 	

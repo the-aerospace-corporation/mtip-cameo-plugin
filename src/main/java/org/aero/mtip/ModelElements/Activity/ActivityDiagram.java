@@ -40,7 +40,7 @@ public class ActivityDiagram extends AbstractDiagram {
 	protected Map<String, PresentationElement> presentationElementById = new HashMap<String, PresentationElement> ();
 	public ActivityDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
+		 this.metamodelConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.ACTIVITYDIAGRAM;
 		 this.cameoDiagramConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
 		 this.allowableElements = SysmlConstants.ACT_TYPES;

@@ -14,8 +14,8 @@ public class Enumeration extends CommonElement {
 	public Enumeration(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ENUMERATION;
+		this.metamodelConstant = SysmlConstants.ENUMERATION;
 		this.xmlConstant = XmlTagConstants.ENUMERATION;
-		this.sysmlElement = f.createEnumerationInstance();
+		this.element = f.createEnumerationInstance();
 	}
 }

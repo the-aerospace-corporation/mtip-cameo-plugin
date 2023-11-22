@@ -16,7 +16,7 @@ public class ClassDiagram extends AbstractDiagram {
 
 	public ClassDiagram(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.CLASSDIAGRAM;
+		this.metamodelConstant = SysmlConstants.CLASSDIAGRAM;
 		this.xmlConstant = XmlTagConstants.CLASSDIAGRAM;
 		this.allowableElements = SysmlConstants.CLASSDIAGRAM_TYPES;
 	}

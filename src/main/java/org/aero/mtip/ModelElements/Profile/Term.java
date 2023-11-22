@@ -18,7 +18,7 @@ public class Term extends CommonElement {
 	public Term(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.TERM;
+		this.metamodelConstant = SysmlConstants.TERM;
 		this.xmlConstant = XmlTagConstants.TERM;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.MAGICDRAW_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysmlConstants.TERM, creationProfile);

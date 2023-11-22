@@ -24,7 +24,7 @@ public class FunctionalRequirement extends CommonElement {
 	public FunctionalRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.FUNCTIONALREQUIREMENT;
+		this.metamodelConstant = SysmlConstants.FUNCTIONALREQUIREMENT;
 		this.xmlConstant = XmlTagConstants.FUNCTIONALREQUIREMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.FUNCTIONALREQUIREMENT_STEREOTYPE, creationProfile);
@@ -34,8 +34,8 @@ public class FunctionalRequirement extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype requirementStereotype = StereotypesHelper.getStereotype(project,  "functionalRequirement", sysmlProfile);
-		sysmlElement = createClassWithStereotype(project, name, requirementStereotype, owner);
+		element = createClassWithStereotype(project, name, requirementStereotype, owner);
 		
-		return sysmlElement;
+		return element;
 	}
 }

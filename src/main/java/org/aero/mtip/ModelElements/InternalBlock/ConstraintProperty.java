@@ -28,8 +28,8 @@ public class ConstraintProperty extends CommonElement {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.CONSTRAINTPROPERTY;
-		this.sysmlConstant = SysmlConstants.CONSTRAINTPROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.metamodelConstant = SysmlConstants.CONSTRAINTPROPERTY;
+		this.element = f.createPropertyInstance();
 	}
 
 	@Override
@@ -38,14 +38,14 @@ public class ConstraintProperty extends CommonElement {
 		
 		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "MD Customization for SysML"); 
 		Stereotype partPropertyStereotype = StereotypesHelper.getStereotype(project, "ConstraintProperty", mdCustomizationProfile);
-		StereotypesHelper.addStereotype(sysmlElement, partPropertyStereotype);
+		StereotypesHelper.addStereotype(element, partPropertyStereotype);
 		
 //		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIER_TYPE)) {
 //			Type classifierType = (Type) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIER_TYPE));
 //			((TypedElement)sysmlElement).setType(classifierType);
 //		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	@Override

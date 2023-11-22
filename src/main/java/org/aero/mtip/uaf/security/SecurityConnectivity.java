@@ -9,7 +9,7 @@ public class SecurityConnectivity extends InternalBlockDiagram {
 
 	public SecurityConnectivity(String name, String EAID) {
 		super(name, EAID);
-		 this.sysmlConstant = UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM;
+		 this.metamodelConstant = UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SECURITY_CONNECTIVITY_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.SECURITY_CONNECTIVITY;
 		 this.allowableElements = UAFConstants.SC_CN_TYPES;

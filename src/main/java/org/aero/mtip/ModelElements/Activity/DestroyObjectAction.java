@@ -14,8 +14,8 @@ public class DestroyObjectAction extends ActivityNode {
 	public DestroyObjectAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DESTROYOBJECTACTION;
+		this.metamodelConstant = SysmlConstants.DESTROYOBJECTACTION;
 		this.xmlConstant = XmlTagConstants.DESTROYOBJECTACTION;
-		this.sysmlElement = f.createDestroyObjectActionInstance();
+		this.element = f.createDestroyObjectActionInstance();
 	}
 }

@@ -8,7 +8,7 @@ public class DIV2 extends AbstractDiagram {
 
 	public DIV2(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.DIV2;
+		this.metamodelConstant = DoDAFConstants.DIV2;
 		this.xmlConstant = XmlTagConstants.DIV2;
 		this.cameoDiagramConstant = "DIV-2 Logical Data Model";
 		this.allowableElements = DoDAFConstants.DIV2_TYPES;

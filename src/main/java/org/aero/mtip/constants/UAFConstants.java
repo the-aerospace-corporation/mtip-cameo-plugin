@@ -1,5 +1,7 @@
 package org.aero.mtip.constants;
 
+import java.util.Arrays;
+
 public class UAFConstants {
 	public static final String UAF = "UAF";
 	public static final String XML_METAMODEL_UAF = "uaf";
@@ -1131,4 +1133,15 @@ public class UAFConstants {
 		//SysmlConstants.TESTCASEACTIVITY,
 		
 	};
+	
+	public static boolean isUafElement(String metamodelConstant) {
+		if (Arrays.asList(UAF_ELEMENTS).contains(metamodelConstant)
+				|| Arrays.asList(UAF_RELATIONSHIPS).contains(metamodelConstant)
+				|| Arrays.asList(UAF_DIAGRAMS).contains(metamodelConstant)) {
+			
+			return true;
+		}
+		
+		return false;
+	}
 }

@@ -42,7 +42,7 @@ public class SequenceDiagram  extends AbstractDiagram{
 	
 	public SequenceDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
+		 this.metamodelConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SEQUENCEDIAGRAM;
 		 this.cameoDiagramConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
 		 this.allowableElements = SysmlConstants.SEQ_TYPES;

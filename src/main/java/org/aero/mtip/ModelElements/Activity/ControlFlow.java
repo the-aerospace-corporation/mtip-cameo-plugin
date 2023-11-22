@@ -26,15 +26,15 @@ public class ControlFlow extends CommonRelationship {
 	public ControlFlow(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CONTROLFLOW;
+		this.metamodelConstant = SysmlConstants.CONTROLFLOW;
 		this.xmlConstant = XmlTagConstants.CONTROLFLOW;
-		this.sysmlElement = f.createControlFlowInstance();
+		this.element = f.createControlFlowInstance();
 	}
 	
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		super.createElement(project,owner, client, supplier, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow cf = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow cf = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.GUARD)) {
 			CameoUtils.logGUI("Creating guard for control flow with id " + xmlElement.getEAID() + " and guard value " + xmlElement.getAttribute(XmlTagConstants.GUARD));
@@ -75,12 +75,12 @@ public class ControlFlow extends CommonRelationship {
 		if(!(owner instanceof Activity)) {
 			owner = CameoUtils.findNearestActivity(project, supplier);
 		}
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 	
 	@Override
 	public void setSupplier() {
-		ActivityEdge activityEdge = (ActivityEdge)sysmlElement;
+		ActivityEdge activityEdge = (ActivityEdge)element;
 		activityEdge.setSource((ActivityNode) supplier);
 	}
 	
@@ -98,7 +98,7 @@ public class ControlFlow extends CommonRelationship {
 	
 	@Override
 	public void setClient() {
-		ActivityEdge activityEdge = (ActivityEdge)sysmlElement;
+		ActivityEdge activityEdge = (ActivityEdge)element;
 		activityEdge.setTarget((ActivityNode) client);
 	}
 	

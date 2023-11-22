@@ -16,7 +16,7 @@ public class ParametricDiagram extends AbstractDiagram {
 
 	public ParametricDiagram(String name, String EAID) {
 		super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_PARAMETERIC_DIAGRAM;
+		 this.metamodelConstant = SysMLConstants.SYSML_PARAMETERIC_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PARAMETRICDIAGRAM;
 		 this.allowableElements = SysmlConstants.PAR_TYPES;
 	}

@@ -34,7 +34,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 
 	public BlockDefinitionDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
+		 this.metamodelConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.BLOCKDEFINITIONDIAGRAM;
 		 this.cameoDiagramConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
 		 this.allowableElements = SysmlConstants.BDD_TYPES;

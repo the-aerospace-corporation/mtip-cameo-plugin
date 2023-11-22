@@ -20,9 +20,9 @@ public class Aggregation extends org.aero.mtip.ModelElements.Association {
 	public Aggregation(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.AGGREGATION;
+		this.metamodelConstant = SysmlConstants.AGGREGATION;
 		this.xmlConstant = XmlTagConstants.AGGREGATION;
-		this.sysmlElement = f.createAssociationInstance();
+		this.element = f.createAssociationInstance();
 	}
 
 	@Override

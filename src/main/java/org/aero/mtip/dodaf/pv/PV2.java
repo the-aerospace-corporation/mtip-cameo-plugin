@@ -8,7 +8,7 @@ public class PV2 extends AbstractDiagram {
 
 	public PV2(String name, String EAID) {
 		super(name, EAID);		
-		this.sysmlConstant = DoDAFConstants.PV2;
+		this.metamodelConstant = DoDAFConstants.PV2;
 		this.xmlConstant = XmlTagConstants.PV2;
 		this.cameoDiagramConstant = "";
 		this.allowableElements = DoDAFConstants.PV2_TYPES;

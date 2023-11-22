@@ -27,14 +27,14 @@ public class State extends CommonElement {
 	public State(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.STATE;
+		this.metamodelConstant = SysmlConstants.STATE;
 		this.xmlConstant = XmlTagConstants.STATE;
-		this.sysmlElement = f.createStateInstance();
+		this.element = f.createStateInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
 		
 		if(xmlElement != null) {
 			if(xmlElement.isSubmachine()) {
@@ -42,7 +42,7 @@ public class State extends CommonElement {
 			}
 		}		
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class State extends CommonElement {
 	
 	@Override
 	public void addDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
 
 		if(xmlElement.hasAttribute(XmlTagConstants.DO_ACTIVITY)) {
 			CameoUtils.logGUI("Creating do activity for State.");
@@ -82,12 +82,12 @@ public class State extends CommonElement {
 		if(owner != null) {
 			//if owner is not a region, create a region and set that region as owned by state machine
 			if(owner instanceof Region) {
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			} else if(owner instanceof StateMachine) {
 				regions = ((StateMachine) owner).getRegion();
 				if(regions != null) {
 					region = regions.iterator().next();
-					sysmlElement.setOwner(region);
+					element.setOwner(region);
 				} else {
 					CameoUtils.logGUI("Error in Cameo processes in auto-region creation.");
 				}
@@ -95,12 +95,12 @@ public class State extends CommonElement {
 				Region existingRegion = PseudoState.findExistingRegion(owner);
 				if(existingRegion != null) {
 					CameoUtils.logGUI("Setting owner of " + name + " as existing Region.");
-					sysmlElement.setOwner(existingRegion);
+					element.setOwner(existingRegion);
 				} else {
 					CameoUtils.logGUI("Creating new region for " + name + " as child of " + owner.getHumanName());
 					Region newRegion = f.createRegionInstance();
 					newRegion.setOwner(owner);
-					sysmlElement.setOwner(newRegion);
+					element.setOwner(newRegion);
 				}
 			} else {
 				owner = CameoUtils.findNearestRegion(project, owner);
@@ -108,15 +108,15 @@ public class State extends CommonElement {
 					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
 					CameoUtils.logGUI(logMessage);
 					ImportLog.log(logMessage);
-					sysmlElement.dispose();
+					element.dispose();
 				}
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			}
 		} else {
 			String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
 			CameoUtils.logGUI(logMessage);
 			ImportLog.log(logMessage);
-			sysmlElement.dispose();
+			element.dispose();
 		}
 	}
 

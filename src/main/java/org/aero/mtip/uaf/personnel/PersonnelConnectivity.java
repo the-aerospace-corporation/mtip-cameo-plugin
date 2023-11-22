@@ -9,7 +9,7 @@ public class PersonnelConnectivity extends BlockDefinitionDiagram {
 
 	public PersonnelConnectivity(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM;
+		 this.metamodelConstant = UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PERSONNEL_CONNECTIVITY_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.PERSONNEL_CONNECTIVITY;
 		 this.allowableElements = UAFConstants.PR_CN_TYPES;

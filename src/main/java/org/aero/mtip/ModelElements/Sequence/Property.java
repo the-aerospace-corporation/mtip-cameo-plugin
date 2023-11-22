@@ -34,15 +34,15 @@ public class Property extends CommonElement {
 	public Property(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.PROPERTY;
+		this.metamodelConstant = SysmlConstants.PROPERTY;
 		this.xmlConstant = XmlTagConstants.PROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.element = f.createPropertyInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE)) {
 			String defaultValue = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE);
@@ -88,11 +88,11 @@ public class Property extends CommonElement {
 		}
 		
 		if(owner instanceof Interface) {
-			((NamedElement)sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
+			((NamedElement)element).setVisibility(VisibilityKindEnum.PUBLIC);
 		}
-		((NamedElement) sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
+		((NamedElement) element).setVisibility(VisibilityKindEnum.PUBLIC);
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	// Create Dependent Element default value if isElement()

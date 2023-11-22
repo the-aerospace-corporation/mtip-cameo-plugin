@@ -26,15 +26,15 @@ public class ObjectFlow extends CommonRelationship {
 	public ObjectFlow(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.OBJECTFLOW;
+		this.metamodelConstant = SysmlConstants.OBJECTFLOW;
 		this.xmlConstant = XmlTagConstants.OBJECTFLOW;
-		this.sysmlElement = f.createObjectFlowInstance();
+		this.element = f.createObjectFlowInstance();
 	}
 	
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		super.createElement(project,owner, client, supplier, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)element;
 		
 		//if(xmlElement.hasGuard()) {
 		if (xmlElement.hasAttribute(XmlTagConstants.GUARD)) {
@@ -75,18 +75,18 @@ public class ObjectFlow extends CommonRelationship {
 		if(!(owner instanceof Activity)) {
 			owner = CameoUtils.findNearestActivity(project, supplier);
 		}
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 	
 	@Override
 	public void setSupplier() {
-		ActivityEdge activityEdge = (ActivityEdge)sysmlElement;
+		ActivityEdge activityEdge = (ActivityEdge)element;
 		activityEdge.setSource((ActivityNode) supplier);
 	}
 	
 	@Override
 	public void setClient() {
-		ActivityEdge activityEdge = (ActivityEdge)sysmlElement;
+		ActivityEdge activityEdge = (ActivityEdge)element;
 		activityEdge.setTarget((ActivityNode) client);
 	}
 	

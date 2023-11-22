@@ -14,9 +14,9 @@ public class EnumerationLiteral extends CommonElement {
 	public EnumerationLiteral(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ENUMERATIONLITERAL;
+		this.metamodelConstant = SysmlConstants.ENUMERATIONLITERAL;
 		this.xmlConstant = XmlTagConstants.ENUMERATIONLITERAL;
-		this.sysmlElement = f.createEnumerationLiteralInstance();
+		this.element = f.createEnumerationLiteralInstance();
 	}
 
 }

@@ -27,19 +27,19 @@ public class InstanceSpecification extends CommonElement {
 	public InstanceSpecification(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INSTANCESPECIFICATION;
+		this.metamodelConstant = SysmlConstants.INSTANCESPECIFICATION;
 		this.xmlConstant = XmlTagConstants.INSTANCESPECIFICATION;
-		this.sysmlElement = f.createInstanceSpecificationInstance();
+		this.element = f.createInstanceSpecificationInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		for(Classifier classifier : this.classifiers) { 
-			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) sysmlElement, true);
+			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) element, true);
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	@Override

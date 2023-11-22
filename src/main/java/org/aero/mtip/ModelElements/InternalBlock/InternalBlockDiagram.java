@@ -31,7 +31,7 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 
 	public InternalBlockDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
+		 this.metamodelConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.INTERNALBLOCKDIAGRAM;
 		 this.cameoDiagramConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
 		 this.allowableElements = SysmlConstants.IBD_TYPES;

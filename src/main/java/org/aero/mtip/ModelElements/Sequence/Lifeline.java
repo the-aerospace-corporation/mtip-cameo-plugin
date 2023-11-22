@@ -29,9 +29,9 @@ public class Lifeline extends CommonElement {
 	public Lifeline(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.LIFELINE;
+		this.metamodelConstant = SysmlConstants.LIFELINE;
 		this.xmlConstant = XmlTagConstants.LIFELINE;
-		this.sysmlElement = f.createLifelineInstance();
+		this.element = f.createLifelineInstance();
 	}
 	
 	@Override
@@ -39,10 +39,10 @@ public class Lifeline extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 //		List<String> oldCoveredByIDs = xmlElement.getCoveredBy();
 //		for(String oldID : oldCoveredByIDs) {
-			com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)sysmlElement;
+			com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)element;
 //			lifeline.
 ////		}
-		return sysmlElement;
+		return element;
 	}
 	
 	@Override

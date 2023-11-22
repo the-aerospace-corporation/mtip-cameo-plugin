@@ -20,9 +20,9 @@ public class Allocate extends CommonRelationship{
 	public Allocate(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ALLOCATE;
+		this.metamodelConstant = SysmlConstants.ALLOCATE;
 		this.xmlConstant = XmlTagConstants.ALLOCATE;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override

@@ -8,7 +8,7 @@ public class CV2 extends ClassDiagram {
 
 	public CV2(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.CV2;
+		this.metamodelConstant = DoDAFConstants.CV2;
 		this.xmlConstant = XmlTagConstants.CV2;
 		this.cameoDiagramConstant = "CV-2 Capability Taxonomy";
 		this.allowableElements = DoDAFConstants.CV2_TYPES;

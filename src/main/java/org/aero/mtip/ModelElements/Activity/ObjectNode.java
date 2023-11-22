@@ -14,8 +14,8 @@ public class ObjectNode extends ActivityNode {
 	public ObjectNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CENTRALBUFFERNODE;
+		this.metamodelConstant = SysmlConstants.CENTRALBUFFERNODE;
 		this.xmlConstant = XmlTagConstants.CENTRALBUFFERNODE;
-		this.sysmlElement = f.createCallBehaviorActionInstance();
+		this.element = f.createCallBehaviorActionInstance();
 	}
 }

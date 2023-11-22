@@ -14,8 +14,8 @@ public class Actor extends CommonElement {
 	public Actor(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ACTOR;
+		this.metamodelConstant = SysmlConstants.ACTOR;
 		this.xmlConstant = XmlTagConstants.ACTOR;
-		this.sysmlElement = f.createActorInstance();
+		this.element = f.createActorInstance();
 	}
 }

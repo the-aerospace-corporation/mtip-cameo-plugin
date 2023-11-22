@@ -18,7 +18,7 @@ public class InterfaceBlock extends CommonElement {
 	public InterfaceBlock(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.INTERFACEBLOCK;
+		this.metamodelConstant = SysmlConstants.INTERFACEBLOCK;
 		this.xmlConstant = XmlTagConstants.INTERFACEBLOCK;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), "SysML"); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.INTERFACEBLOCK_STEREOTYPE, creationProfile);

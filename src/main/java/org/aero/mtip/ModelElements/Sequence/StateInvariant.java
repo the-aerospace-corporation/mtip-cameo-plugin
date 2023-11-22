@@ -23,9 +23,9 @@ public class StateInvariant extends CommonElement {
 	public StateInvariant(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.STATEINVARIANT;
+		this.metamodelConstant = SysmlConstants.STATEINVARIANT;
 		this.xmlConstant = XmlTagConstants.STATEINVARIANT;
-		this.sysmlElement = f.createStateInvariantInstance();
+		this.element = f.createStateInvariantInstance();
 	}
 	
 	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {

@@ -13,8 +13,8 @@ public class Activity extends CommonElement{
 	public Activity(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ACTIVITY;
+		this.metamodelConstant = SysmlConstants.ACTIVITY;
 		this.xmlConstant = XmlTagConstants.ACTIVITY;
-		this.sysmlElement = f.createActivityInstance();
+		this.element = f.createActivityInstance();
 	}
 }

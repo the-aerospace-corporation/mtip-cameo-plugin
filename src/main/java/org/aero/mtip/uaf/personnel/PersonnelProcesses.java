@@ -9,7 +9,7 @@ public class PersonnelProcesses extends BlockDefinitionDiagram {
 
 	public PersonnelProcesses(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = UAFConstants.PERSONNEL_PROCESSES_DIAGRAM;
+		 this.metamodelConstant = UAFConstants.PERSONNEL_PROCESSES_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PERSONNEL_PROCESSES_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.PERSONNEL_PROCESSES;
 		 this.allowableElements = UAFConstants.PR_PR_TYPES;

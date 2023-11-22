@@ -8,7 +8,7 @@ public class CV1 extends AbstractDiagram {
 
 	public CV1(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.CV1;
+		this.metamodelConstant = DoDAFConstants.CV1;
 		this.xmlConstant = XmlTagConstants.CV1;
 		this.cameoDiagramConstant = "CV-1 Vision";
 		this.allowableElements = DoDAFConstants.CV1_TYPES;

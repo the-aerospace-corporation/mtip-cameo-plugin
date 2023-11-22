@@ -13,7 +13,7 @@ public class View extends CommonElement {
 	public View(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.VIEW;
+		this.metamodelConstant = SysmlConstants.VIEW;
 		this.xmlConstant = XmlTagConstants.VIEW;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.VIEW_STEREOTYPE, creationProfile);

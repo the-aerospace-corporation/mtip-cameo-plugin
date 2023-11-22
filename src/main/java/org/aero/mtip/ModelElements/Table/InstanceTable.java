@@ -11,7 +11,7 @@ import org.aero.mtip.constants.XmlTagConstants;
 public class InstanceTable extends AbstractTable {
 	public InstanceTable(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.INSTANCE_TABLE;
+		this.metamodelConstant = SysmlConstants.INSTANCE_TABLE;
 		this.xmlConstant = XmlTagConstants.INSTANCE_TABLE;
 		this.cameoConstant = SysmlConstants.CAMEO_INSTANCE_TABLE;
 	}

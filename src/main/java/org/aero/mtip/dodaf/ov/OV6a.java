@@ -8,7 +8,7 @@ public class OV6a extends AbstractTable {
 
 	public OV6a(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.OV6A;
+		this.metamodelConstant = DoDAFConstants.OV6A;
 		this.xmlConstant = XmlTagConstants.OV6A;
 //		this.cameoDiagramConstant = "OV-1 High-Level Operational Concept Graphic";
 //		this.allowableElements = DoDAFConstants.OV6A_TYPES;

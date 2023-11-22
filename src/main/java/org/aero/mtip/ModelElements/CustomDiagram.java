@@ -14,7 +14,7 @@ public class CustomDiagram extends AbstractDiagram {
 
 	public CustomDiagram(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.CUSTOM_DIAGRAM;
+		this.metamodelConstant = SysmlConstants.CUSTOM_DIAGRAM;
 		this.allowableElements = new String[0];
 	}
 	

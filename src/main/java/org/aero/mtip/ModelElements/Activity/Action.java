@@ -22,9 +22,9 @@ public class Action extends ActivityNode {
 	public Action(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ACTION;
+		this.metamodelConstant = SysmlConstants.ACTION;
 		this.xmlConstant = XmlTagConstants.ACTION;
-		this.sysmlElement = f.createCallBehaviorActionInstance();
+		this.element = f.createCallBehaviorActionInstance();
 	}
 	
 	@Override

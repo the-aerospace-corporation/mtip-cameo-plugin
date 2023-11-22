@@ -9,7 +9,7 @@ public class ServicesStates extends StateMachineDiagram {
 
 	public ServicesStates(String name, String EAID) {
 		super(name, EAID);
-		 this.sysmlConstant = UAFConstants.SERVICES_STATES_DIAGRAM;
+		 this.metamodelConstant = UAFConstants.SERVICES_STATES_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SERVICES_STATES_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.SERVICES_STATES;
 	}

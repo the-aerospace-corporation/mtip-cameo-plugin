@@ -23,9 +23,9 @@ public class FinalState extends CommonElement {
 	public FinalState(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.FINALSTATE;
+		this.metamodelConstant = SysmlConstants.FINALSTATE;
 		this.xmlConstant = XmlTagConstants.FINALSTATE;
-		this.sysmlElement = f.createFinalStateInstance();
+		this.element = f.createFinalStateInstance();
 	}
 	
 	//NOTE: Must be added to Region under state Machine
@@ -34,12 +34,12 @@ public class FinalState extends CommonElement {
 		if(owner != null) {
 			//if owner is not a region, create a region and set that region as owned by state machine
 			if(owner instanceof Region) {
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			} else if(owner instanceof StateMachine) {
 				Collection<Region> regions = ((StateMachine) owner).getRegion();
 				if(regions != null) {
 					Region region = regions.iterator().next();
-					sysmlElement.setOwner(region);
+					element.setOwner(region);
 				} else {
 					CameoUtils.logGUI("CREATE REGION HERE!!!!!!!!!!!!!");
 					//create region
@@ -50,15 +50,15 @@ public class FinalState extends CommonElement {
 					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
 					CameoUtils.logGUI(logMessage);
 					ImportLog.log(logMessage);
-					sysmlElement.dispose();
+					element.dispose();
 				}
-				sysmlElement.setOwner(owner);
+				element.setOwner(owner);
 			}
 		} else {
 			String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
 			CameoUtils.logGUI(logMessage);
 			ImportLog.log(logMessage);
-			sysmlElement.dispose();
+			element.dispose();
 		}
 	}
 	

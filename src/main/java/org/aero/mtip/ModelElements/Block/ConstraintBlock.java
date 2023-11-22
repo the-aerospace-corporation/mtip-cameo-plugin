@@ -23,9 +23,9 @@ public class ConstraintBlock extends CommonElement {
 	public ConstraintBlock(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CONSTRAINTBLOCK;
+		this.metamodelConstant = SysmlConstants.CONSTRAINTBLOCK;
 		this.xmlConstant = XmlTagConstants.CONSTRAINTBLOCK;
-		this.sysmlElement = f.createClassInstance();
+		this.element = f.createClassInstance();
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class ConstraintBlock extends CommonElement {
 		
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype constraintBlockStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.CONSTRAINTBLOCK_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, constraintBlockStereotype);		
+		StereotypesHelper.addStereotype(element, constraintBlockStereotype);		
 		
-		return sysmlElement;
+		return element;
 	}
 }

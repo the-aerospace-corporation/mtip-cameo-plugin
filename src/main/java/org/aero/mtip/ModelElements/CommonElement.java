@@ -17,7 +17,9 @@ import javax.annotation.CheckForNull;
 import org.aero.mtip.XML.Export.ExportXmlSysml;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
@@ -57,11 +59,11 @@ public abstract class CommonElement {
 	public static final String invalidParentRoot = "Invalid parent - not SysML compliant."; 
 	protected String name;
 	protected String EAID;
-	protected String sysmlConstant;
+	protected String metamodelConstant;
 	protected String xmlConstant;
 	protected String creationType;
 	protected ElementsFactory f;
-	protected Element sysmlElement;
+	protected Element element;
 	protected Profile creationProfile;
 	protected Stereotype creationStereotype;
 	protected List<Stereotype> initialStereotypes;
@@ -78,12 +80,24 @@ public abstract class CommonElement {
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+		if (this.creationType == null) {
+			ImportLog.log(String.format("No creation type specified for %s. Element with id %s not imported.", metamodelConstant, xmlElement.getEAID()));
+			return null;
+		}
+		
 		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTSFACTORY)) {
 			createElementByElementFactory(project, owner, xmlElement);
 		}
+		
 		if(this.creationType.contentEquals(XmlTagConstants.CLASS_WITH_STEREOTYPE)) {
-			createClassWithStereotype(project, this.creationStereotype, owner);
+			if (UAFConstants.isUafElement(metamodelConstant)) {
+				createClassWithStereotype(project, UAFProfile.getStereotype(metamodelConstant), owner);
+			} else {
+				createClassWithStereotype(project, this.creationStereotype, owner);
+			}
+			
 		}
+		
 		setName();
 		setOwner(project, owner);
 		addInitialStereotype();
@@ -93,38 +107,38 @@ public abstract class CommonElement {
 		addMultiplicity(xmlElement);
 		addType(xmlElement);
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	protected String setName() {
-		if(sysmlElement instanceof NamedElement) {
-			((NamedElement)sysmlElement).setName(name);
+		if(element instanceof NamedElement) {
+			((NamedElement)element).setName(name);
 		}
 		return name;
 	}
 		
 	protected Element createElementByElementFactory(Project project, Element owner, XMLItem xmlElement) {
 		this.project = project;		
-		return sysmlElement;
+		return element;
 	}
 	
 	public void setOwner(Project project, Element owner) {
-		if(sysmlElement != null) {
+		if(element != null) {
 			if(owner != null) {
 				try {
-					sysmlElement.setOwner(owner);
+					element.setOwner(owner);
 				} catch(IllegalArgumentException iae){
 					setInvalidParentMessage(owner);
 					ImportLog.log(invalidParentMessage);
-					sysmlElement.dispose();
+					element.dispose();
 				}	
 			} else {
 				try {
-					sysmlElement.setOwner(project.getPrimaryModel());
+					element.setOwner(project.getPrimaryModel());
 				} catch(IllegalArgumentException iae){
 					CameoUtils.logGUI(invalidParentMessage);
 					ImportLog.log(invalidParentMessage);
-					sysmlElement.dispose();
+					element.dispose();
 				}
 			}
 		} else {
@@ -380,25 +394,26 @@ public abstract class CommonElement {
 	}
 	
 	public Element createClassWithStereotype(Project project, Stereotype stereotype, Element owner) {
-		sysmlElement = project.getElementsFactory().createClassInstance();
+		element = project.getElementsFactory().createClassInstance();
+		
 		if (stereotype != null) {
-			StereotypesHelper.addStereotype(sysmlElement, stereotype);
+			StereotypesHelper.addStereotype(element, stereotype);
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	public Element createClassWithStereotype(Project project, String name, Stereotype stereotype, Element owner) {
-		sysmlElement = project.getElementsFactory().createClassInstance();
+		element = project.getElementsFactory().createClassInstance();
 	
-		if(sysmlElement instanceof NamedElement) {
-			((NamedElement)sysmlElement).setName(name.replaceAll("[^a-zA-Z0-9]+",""));
+		if(element instanceof NamedElement) {
+			((NamedElement)element).setName(name.replaceAll("[^a-zA-Z0-9]+",""));
 		}
 		
 		if (stereotype != null) {
-			StereotypesHelper.addStereotype(sysmlElement, stereotype);
+			StereotypesHelper.addStereotype(element, stereotype);
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	public Element createElementFromElementsFactory(Project project, Element owner) {
@@ -444,7 +459,7 @@ public abstract class CommonElement {
 		String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
 		CameoUtils.logGUI(logMessage);
 		ImportLog.log(logMessage);
-		sysmlElement.dispose();
+		element.dispose();
 	}
 	
 	public Element createNestedPorts(Project project, Element owner) {
@@ -529,23 +544,23 @@ public abstract class CommonElement {
 	
 	protected String setInvalidParentMessage(Element owner) {
 		try {
-			invalidParentMessage = CommonElement.invalidParentRoot + sysmlConstant + " must be a child of " + requiredParentType + ".\n\tName = " + name + "; ID = " + EAID + "; Invalid Parent Type = " + owner.getHumanType();
+			invalidParentMessage = CommonElement.invalidParentRoot + metamodelConstant + " must be a child of " + requiredParentType + ".\n\tName = " + name + "; ID = " + EAID + "; Invalid Parent Type = " + owner.getHumanType();
 		} catch(NullPointerException npe) {
-			invalidParentMessage = CommonElement.invalidParentRoot + sysmlConstant + " must be a child of " + requiredParentType + ".\n\tName = " + name + "; ID = " + EAID + "; Invalid Parent Type = null";
+			invalidParentMessage = CommonElement.invalidParentRoot + metamodelConstant + " must be a child of " + requiredParentType + ".\n\tName = " + name + "; ID = " + EAID + "; Invalid Parent Type = null";
 		}
 		return invalidParentMessage;
 	}
 	
 	protected void addDocumentation(XMLItem xmlElement) {
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DOCUMENTATION)) {
-			ModelHelper.setComment(sysmlElement, xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DOCUMENTATION));
+			ModelHelper.setComment(element, xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DOCUMENTATION));
 		}
 	}
 	
 	protected void addMultiplicity(XMLItem xmlElement) {
-		if(sysmlElement instanceof MultiplicityElement) {
+		if(element instanceof MultiplicityElement) {
 			if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_MULTIPLICITY)) {
-				ModelHelper.setMultiplicity(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_MULTIPLICITY), (MultiplicityElement) sysmlElement);
+				ModelHelper.setMultiplicity(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_MULTIPLICITY), (MultiplicityElement) element);
 			}
 		}
 	}
@@ -558,7 +573,7 @@ public abstract class CommonElement {
 	@SuppressWarnings("deprecation")
 	protected void addType(XMLItem xmlElement) {
 		try {
-			if(sysmlElement instanceof TypedElement) {
+			if(element instanceof TypedElement) {
 				Element typeElement = null;
 				if(xmlElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
 					String typeImportID = xmlElement.getAttribute(XmlTagConstants.TYPED_BY);
@@ -588,7 +603,7 @@ public abstract class CommonElement {
 						typeElement = (Element) project.getElementByID(cameoID);
 					}
 					if(typeElement instanceof Type) {
-						((TypedElement)sysmlElement).setType((Type) typeElement);
+						((TypedElement)element).setType((Type) typeElement);
 					} else {
 						CameoUtils.logGUI("typedBy element not a Type. Type field cannot be set.");
 						ImportLog.log("typedBy element not a Type. Type field cannot be set for element with id: " + this.EAID);
@@ -840,17 +855,34 @@ public abstract class CommonElement {
 		return hasRel;
 	}
 	
-	protected void addInitialStereotype() {
-		if(initialStereotypes != null) {
-			for(Stereotype stereotype : initialStereotypes) {
-				if(stereotype != null) {
-					StereotypesHelper.addStereotype(sysmlElement, stereotype);
-				} else {
-					ImportLog.log("Unable to add stereotype to " + this.name + " with id "  + this.EAID);
-					CameoUtils.logGUI("Unable to add stereotype to " + this.name + " with id "  + this.EAID);
-				}
-			}
+	protected void addInitialStereotype() {	
+		if (UAFConstants.isUafElement(metamodelConstant)) {
+			addMetamodelConstantStereotype();
 		}
+		
+		if (initialStereotypes == null) {
+			return;
+		}
+		
+		for(Stereotype stereotype : initialStereotypes) {
+			if(stereotype == null) {
+				ImportLog.log("Unable to add stereotype to " + this.name + " with id "  + this.EAID);
+				continue;
+			}
+			
+			StereotypesHelper.addStereotype(element, stereotype);
+		}
+	}
+	
+	protected void addMetamodelConstantStereotype() {
+		Stereotype metamodelConstantStereotype = UAFProfile.getStereotype(metamodelConstant);
+		
+		if (metamodelConstantStereotype == null) {
+			ImportLog.log(String.format("Unable to get %s stereotype from UAF Profile adding initial stereotypes.", metamodelConstant));
+			return;
+		}
+		
+		StereotypesHelper.addStereotype(element, metamodelConstantStereotype);
 	}
 	
 	protected void setClassifier() {
@@ -860,7 +892,7 @@ public abstract class CommonElement {
 	protected void applyClassifier() {
 		Classifier classifier = (Classifier) this.classifier;
 		if(classifier != null) {
-			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) sysmlElement, true);
+			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) element, true);
 		}
 //			} else {
 //			ImportLog.log("Unable to add classifier to " + this.name + " with id "  + this.EAID);
@@ -955,7 +987,7 @@ public abstract class CommonElement {
 				Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), tv.getProfileName());
 				Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), tv.getStereotypeName(), profile);
 				Property prop = StereotypesHelper.getPropertyByName(stereotype, tv.getValueName());
-				Slot slot = StereotypesHelper.getSlot(sysmlElement, prop, true, false);
+				Slot slot = StereotypesHelper.getSlot(element, prop, true, false);
 				
 				if(tv.isMultiValue()) {
 					for(String value : tv.getValues()) {
@@ -1061,8 +1093,8 @@ public abstract class CommonElement {
 	}
 	
 	public String getElementID() {
-		if(sysmlElement != null) {
-			return sysmlElement.getID();
+		if(element != null) {
+			return element.getID();
 		}
 		return "";
 	}

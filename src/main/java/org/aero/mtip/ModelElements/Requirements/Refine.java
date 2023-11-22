@@ -22,9 +22,9 @@ public class Refine extends CommonDirectedRelationship {
 	public Refine(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.REFINE;
+		this.metamodelConstant = SysmlConstants.REFINE;
 		this.xmlConstant = XmlTagConstants.REFINE;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class Refine extends CommonDirectedRelationship {
 		
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype refineStereotype = StereotypesHelper.getStereotype(project,  "Refine", sysml);
-		StereotypesHelper.addStereotype(sysmlElement, refineStereotype);
+		StereotypesHelper.addStereotype(element, refineStereotype);
 
-		return sysmlElement;
+		return element;
 	}
 }

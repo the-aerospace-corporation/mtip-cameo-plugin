@@ -14,9 +14,9 @@ public class TimeExpression extends ActivityNode {
 	public TimeExpression(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.TIMEEXPRESSION;
+		this.metamodelConstant = SysmlConstants.TIMEEXPRESSION;
 		this.xmlConstant = XmlTagConstants.TIMEEXPRESSION;
-		this.sysmlElement = f.createTimeExpressionInstance();
+		this.element = f.createTimeExpressionInstance();
 	}
 
 }

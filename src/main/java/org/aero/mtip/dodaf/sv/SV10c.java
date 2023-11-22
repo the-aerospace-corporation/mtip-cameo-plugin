@@ -8,7 +8,7 @@ public class SV10c extends BlockDefinitionDiagram {
 
 	public SV10c(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.SV10C;
+		this.metamodelConstant = DoDAFConstants.SV10C;
 		this.xmlConstant = XmlTagConstants.SV10C;
 		this.cameoDiagramConstant = "SV-10c Systems Event-Trace Description";
 		this.allowableElements = DoDAFConstants.SV10C_TYPES;

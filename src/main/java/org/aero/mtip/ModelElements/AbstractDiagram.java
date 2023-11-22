@@ -331,10 +331,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		 super(name, EAID);
 	}
 	
-	//Abstract methods
 	public String getSysmlConstant() {
 		return this.cameoDiagramConstant;
 	}
+	
 	public String getDiagramType() {
 		return this.xmlConstant;
 	}
@@ -348,7 +348,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		
 		try {
 			CameoUtils.logGUI("Creating element from abstract diagram class");
-			sysmlElement = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
+			element = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
 			CameoUtils.logGUI("Caught read only exception");
 		} catch (NullPointerException npe) {
@@ -356,8 +356,8 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			return null;
 		}
 		
-		((NamedElement) sysmlElement).setName(name);
-		return sysmlElement;
+		((NamedElement) element).setName(name);
+		return element;
 	}
 	
 	public boolean addElements(Project project, Diagram diagram, HashMap<Element, Rectangle> elements, XMLItem xmlElement) {

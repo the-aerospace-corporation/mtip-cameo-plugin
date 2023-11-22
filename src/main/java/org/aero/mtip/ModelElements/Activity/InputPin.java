@@ -24,9 +24,9 @@ public class InputPin extends ActivityNode {
 	public InputPin(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INPUTPIN;
+		this.metamodelConstant = SysmlConstants.INPUTPIN;
 		this.xmlConstant = XmlTagConstants.INPUTPIN;
-		this.sysmlElement = f.createInputPinInstance();
+		this.element = f.createInputPinInstance();
 	}
 	
 	@Override
@@ -54,6 +54,6 @@ public class InputPin extends ActivityNode {
 		if(!(owner instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.Action)) {
 			owner = CameoUtils.findNearestActivity(project, owner);
 		}
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 }

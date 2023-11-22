@@ -8,7 +8,7 @@ public class CV4 extends ClassDiagram {
 
 	public CV4(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.CV4;
+		this.metamodelConstant = DoDAFConstants.CV4;
 		this.xmlConstant = XmlTagConstants.CV4;
 		this.cameoDiagramConstant = "CV-4 Capability Dependencies";
 		this.allowableElements = DoDAFConstants.CV4_TYPES;

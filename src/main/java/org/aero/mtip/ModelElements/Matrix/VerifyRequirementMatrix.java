@@ -16,7 +16,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 public class VerifyRequirementMatrix extends AbstractMatrix {
 	public VerifyRequirementMatrix(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.VERIFY_REQUIREMENT_MATRIX;
+		this.metamodelConstant = SysmlConstants.VERIFY_REQUIREMENT_MATRIX;
 		this.xmlConstant = XmlTagConstants.VERIFY_REQUIREMENT_MATRIX;
 		this.cameoConstant = SysmlConstants.CAMEO_VERIFY_REQUIREMENT_MATRIX;
 	}

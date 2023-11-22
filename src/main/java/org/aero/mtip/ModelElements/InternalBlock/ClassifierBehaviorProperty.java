@@ -23,8 +23,8 @@ public class ClassifierBehaviorProperty extends CommonElement {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.CLASSIFIERBEHAVIORPROPERTY;
-		this.sysmlConstant = SysmlConstants.CLASSIFIERBEHAVIORPROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.metamodelConstant = SysmlConstants.CLASSIFIERBEHAVIORPROPERTY;
+		this.element = f.createPropertyInstance();
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class ClassifierBehaviorProperty extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype classifierBehaviorPropertyStereotype = StereotypesHelper.getStereotype(project, "ClassifierBehaviorProperty", sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, classifierBehaviorPropertyStereotype);
+		StereotypesHelper.addStereotype(element, classifierBehaviorPropertyStereotype);
 
-		return sysmlElement;
+		return element;
 	}
 }

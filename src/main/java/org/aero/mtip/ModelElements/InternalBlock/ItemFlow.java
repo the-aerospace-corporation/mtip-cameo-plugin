@@ -22,9 +22,9 @@ public class ItemFlow extends CommonDirectedRelationship {
 	public ItemFlow(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ITEMFLOW;
+		this.metamodelConstant = SysmlConstants.ITEMFLOW;
 		this.xmlConstant = XmlTagConstants.ITEMFLOW;
-		this.sysmlElement = f.createInformationFlowInstance();
+		this.element = f.createInformationFlowInstance();
 	}
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
@@ -32,8 +32,8 @@ public class ItemFlow extends CommonDirectedRelationship {
 		
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype itemFlowStereotype = StereotypesHelper.getStereotype(project, "ItemFlow", sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, itemFlowStereotype);
+		StereotypesHelper.addStereotype(element, itemFlowStereotype);
 		
-		return sysmlElement;
+		return element;
 	}
 }

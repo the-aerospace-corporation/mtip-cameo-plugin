@@ -8,7 +8,7 @@ public class OV5b extends ActivityDiagram {
 
 	public OV5b(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = DoDAFConstants.OV5B;
+		this.metamodelConstant = DoDAFConstants.OV5B;
 		this.xmlConstant = XmlTagConstants.OV5B;
 		this.cameoDiagramConstant = "OV-5b Operational Activity Model";
 		this.allowableElements = DoDAFConstants.OV5B_TYPES;

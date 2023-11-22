@@ -13,8 +13,8 @@ public class Signal extends CommonElement{
 	public Signal(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.SIGNAL;
+		this.metamodelConstant = SysmlConstants.SIGNAL;
 		this.xmlConstant = XmlTagConstants.SIGNAL;
-		this.sysmlElement = f.createSignalInstance();
+		this.element = f.createSignalInstance();
 	}
 }

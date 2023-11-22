@@ -42,18 +42,18 @@ public abstract class CommonRelationship extends CommonElement {
 			super.createElement(project, owner, xmlElement);
 			setSupplier();
 			setClient();
-			return sysmlElement;
+			return element;
 		}  catch(ClassCastException cce) {
 			String logMessage = "Invalid client/supplier for relationship " + name + " with id " + EAID + ".";
 			CameoUtils.logGUI(logMessage);
 			ImportLog.log(logMessage);
-			sysmlElement.dispose();
+			element.dispose();
 			return null;
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent invalid for element " + name + " with id " + EAID + ". Supplier and client are also invalid parents. Element could not be placed in model.";
 			CameoUtils.logGUI(logMessage);
 			ImportLog.log(logMessage);
-			sysmlElement.dispose();
+			element.dispose();
 			return null;
 		}
 	}
@@ -63,17 +63,17 @@ public abstract class CommonRelationship extends CommonElement {
 		if(this.supplier != null && this.client != null) {
 			if(owner != null) {
 				try {
-					sysmlElement.setOwner(owner);
+					element.setOwner(owner);
 				} catch(IllegalArgumentException iaeOwner) {
 					CameoUtils.logGUI("No owner found for " + name + " with id " + EAID + ". Attempting to set supplier or client as parent.");
 				}
 			}
 			else {
 				try {
-					sysmlElement.setOwner(supplier);
+					element.setOwner(supplier);
 				} catch(IllegalArgumentException iae) {
 					try {
-						sysmlElement.setOwner(client);
+						element.setOwner(client);
 					} catch(IllegalArgumentException iae2) {
 						String logMessage = "Invalid parent. No parent provided and supplier and client invalid parent for " + name + " with id " + EAID + ". Relationship could not be placed in model.";
 						CameoUtils.logGUI(logMessage);
@@ -174,20 +174,20 @@ public abstract class CommonRelationship extends CommonElement {
 
 	
 	public void setSupplier() {
-		if(sysmlElement instanceof DirectedRelationship) {
-			DirectedRelationship directedRelationship = (DirectedRelationship)sysmlElement;
+		if(element instanceof DirectedRelationship) {
+			DirectedRelationship directedRelationship = (DirectedRelationship)element;
 			directedRelationship.getSource().add(supplier);
 		} else {
-			ModelHelper.setSupplierElement(sysmlElement, supplier);
+			ModelHelper.setSupplierElement(element, supplier);
 		}
 	}
 	
 	public void setClient() {
-		if(sysmlElement instanceof DirectedRelationship) {
-			DirectedRelationship directedRelationship = (DirectedRelationship)sysmlElement;
+		if(element instanceof DirectedRelationship) {
+			DirectedRelationship directedRelationship = (DirectedRelationship)element;
 			directedRelationship.getTarget().add(client);
 		}  else {
-			ModelHelper.setClientElement(sysmlElement, client);
+			ModelHelper.setClientElement(element, client);
 		}
 	}
 	

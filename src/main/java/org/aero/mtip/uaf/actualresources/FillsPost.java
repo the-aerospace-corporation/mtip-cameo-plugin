@@ -1,20 +1,14 @@
 package org.aero.mtip.uaf.actualresources;
 
-import java.util.Arrays;
-
-import org.aero.mtip.ModelElements.CommonDirectedRelationship;
+import org.aero.mtip.ModelElements.Abstraction;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.uaf.UAFProfile;
 
-public class FillsPost extends CommonDirectedRelationship {
+public class FillsPost extends Abstraction {
 
 	public FillsPost(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.FILLS_POST;
-		this.sysmlConstant = UAFConstants.FILLS_POST;
-		this.sysmlElement = f.createAbstractionInstance();
-		this.initialStereotypes = Arrays.asList(UAFProfile.FILLS_POST_STEREOTYPE);
+		this.metamodelConstant = UAFConstants.FILLS_POST;
 	}
 }

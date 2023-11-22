@@ -14,8 +14,8 @@ public class Dependency extends CommonDirectedRelationship {
 	public Dependency(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DEPENDENCY;
+		this.metamodelConstant = SysmlConstants.DEPENDENCY;
 		this.xmlConstant = XmlTagConstants.DEPENDENCY;
-		this.sysmlElement = f.createDependencyInstance();
+		this.element = f.createDependencyInstance();
 	}
 }

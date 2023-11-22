@@ -16,7 +16,7 @@ public class EntryPoint extends PseudoState {
 	public EntryPoint(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.ENTRYPOINT;		
-		this.sysmlConstant = SysmlConstants.ENTRYPOINT;
+		this.metamodelConstant = SysmlConstants.ENTRYPOINT;
 		this.xmlConstant = XmlTagConstants.ENTRYPOINT;
 	}
 }

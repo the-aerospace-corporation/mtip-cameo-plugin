@@ -23,9 +23,9 @@ public class OutputPin extends CommonElement {
 	public OutputPin(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.OUTPUTPIN;
+		this.metamodelConstant = SysmlConstants.OUTPUTPIN;
 		this.xmlConstant = XmlTagConstants.OUTPUTPIN;
-		this.sysmlElement = f.createOutputPinInstance();
+		this.element = f.createOutputPinInstance();
 	}
 	
 	@Override
@@ -54,6 +54,6 @@ public class OutputPin extends CommonElement {
 		if(!(owner instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.Action)) {
 			owner = CameoUtils.findNearestActivity(project, owner);
 		}
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 }

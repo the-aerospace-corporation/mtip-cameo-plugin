@@ -21,9 +21,9 @@ public class AcceptEventAction extends ActivityNode {
 	public AcceptEventAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ACCEPTEVENTACTION;
+		this.metamodelConstant = SysmlConstants.ACCEPTEVENTACTION;
 		this.xmlConstant = XmlTagConstants.ACCEPTEVENTACTION;
-		this.sysmlElement = f.createAcceptEventActionInstance();
+		this.element = f.createAcceptEventActionInstance();
 	}
 
 	@Override

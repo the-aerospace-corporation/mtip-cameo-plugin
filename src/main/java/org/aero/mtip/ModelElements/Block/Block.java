@@ -18,7 +18,7 @@ public class Block extends CommonElement {
 	public Block(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.BLOCK;
+		this.metamodelConstant = SysmlConstants.BLOCK;
 		this.xmlConstant = XmlTagConstants.BLOCK;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.BLOCK_STEREOTYPE, creationProfile);

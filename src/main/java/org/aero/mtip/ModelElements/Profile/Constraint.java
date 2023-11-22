@@ -30,15 +30,15 @@ public class Constraint extends CommonElement {
 	public Constraint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CONSTRAINT;
+		this.metamodelConstant = SysmlConstants.CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.CONSTRAINT;
-		this.sysmlElement = f.createConstraintInstance();
+		this.element = f.createConstraintInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)element;
 		
 		ValueSpecification oe = (ValueSpecification) project.getElementByID(xmlElement.getNewValueSpecification());
 		constraint.setSpecification(oe);
@@ -53,7 +53,7 @@ public class Constraint extends CommonElement {
 	
 	public Element createElement(Project project, Element owner) {
 		super.createElement(project, owner, null);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)element;
 				
 		return constraint;
 	}

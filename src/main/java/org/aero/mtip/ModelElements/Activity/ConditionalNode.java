@@ -14,8 +14,8 @@ public class ConditionalNode extends ActivityNode {
 	public ConditionalNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CONDITIONALNODE;
+		this.metamodelConstant = SysmlConstants.CONDITIONALNODE;
 		this.xmlConstant = XmlTagConstants.CONDITIONALNODE;
-		this.sysmlElement = f.createConditionalNodeInstance();
+		this.element = f.createConditionalNodeInstance();
 	}
 }

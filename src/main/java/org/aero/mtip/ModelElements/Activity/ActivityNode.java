@@ -42,6 +42,6 @@ public abstract class ActivityNode extends CommonElement {
 		if(!(owner instanceof Activity)) {
 			owner = CameoUtils.findNearestActivity(project, owner);
 		}
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 }
