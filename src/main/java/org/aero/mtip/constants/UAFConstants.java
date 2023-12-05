@@ -159,6 +159,18 @@ public class UAFConstants {
 	public static final String SECURITY_PROCESS_ACTION = "SecurityProcessAction";
 
 	//Services
+	public static final String CONSUMES = "Consumes";
+	public static final String SERVICE_CONNECTOR = "ServiceConnector";
+	public static final String SERVICE_FUNCTION = "ServiceFunction";
+	public static final String SERVICE_FUNCTION_ACTION = "ServiceFunctionAction";
+	public static final String SERVICE_INTERFACE = "ServiceInterface";
+	public static final String SERVICE_MESSAGE = "ServiceMessage";
+	public static final String SERVICE_METHOD = "ServiceMethod";
+	public static final String SERVICE_PARAMETER = "ServiceParameter";
+	public static final String SERVICE_POLICY = "ServicePolicy";
+	public static final String SERVICE_PORT = "ServicePort";
+	public static final String SERVICE_SPECIFICATION = "ServiceSpecification";
+	public static final String SERVICE_SPECIFICATION_ROLE = "ServiceSpecificationRole";
 	public static final String SERVICE_STATE_DESCRIPTION = "ServiceStateDescription";
 	
 	//Standards
@@ -237,7 +249,12 @@ public class UAFConstants {
 	public static final String SECURITY_CONSTRAINTS_DIAGRAM = "SecurityConstraints";
 	
 	// Services Diagrams
+	public static final String SERVICES_CONNECTIVITY_DIAGRAM = "ServicesConnectivity";
+	public static final String SERVICES_INTERACTION_SCENARIOS_DIAGRAM = "ServicesInteractionScenarios";
+	public static final String SERVICES_PROCESSES_DIAGRAM = "ServicesProcesses";
 	public static final String SERVICES_STATES_DIAGRAM = "ServicesStates";
+	public static final String SERVICES_STRUCTURE_DIAGRAM = "ServicesStructure";
+	public static final String SERVICES_TAXONOMY_DIAGRAM = "ServicesTaxonomy";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "StrategicTaxonomy";
@@ -402,6 +419,14 @@ public class UAFConstants {
 			
 			// Services
 			SERVICE_STATE_DESCRIPTION,
+			SERVICE_FUNCTION,
+			SERVICE_INTERFACE,
+			SERVICE_METHOD,
+			SERVICE_PARAMETER,
+			SERVICE_POLICY,
+			SERVICE_PORT,
+			SERVICE_SPECIFICATION,
+			
 			
 			OPERATIONAL_PORT
 
@@ -465,10 +490,12 @@ public class UAFConstants {
 			OWNS_RISK,
 			OWNS_RISK_IN_CONTEXT,
 			PROTECTS,
-			PROTECTS_IN_CONTEXT
+			PROTECTS_IN_CONTEXT,
 			
-			
-			
+			//Services
+			CONSUMES,
+			SERVICE_CONNECTOR,
+			SERVICE_MESSAGE
 			
 	};
 	
@@ -494,7 +521,12 @@ public class UAFConstants {
 			SECURITY_CONSTRAINTS_DIAGRAM,
 			
 			// Services
+			SERVICES_CONNECTIVITY_DIAGRAM,
+			SERVICES_INTERACTION_SCENARIOS_DIAGRAM,
+			SERVICES_PROCESSES_DIAGRAM,
 			SERVICES_STATES_DIAGRAM,
+			SERVICES_STRUCTURE_DIAGRAM,
+			SERVICES_TAXONOMY_DIAGRAM,
 			
 			// Strategic
 			STRATEGIC_TAXONOMY_DIAGRAM,

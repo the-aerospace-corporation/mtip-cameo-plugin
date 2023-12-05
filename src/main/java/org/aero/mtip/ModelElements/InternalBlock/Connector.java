@@ -49,8 +49,9 @@ public class Connector extends CommonRelationship {
 			
 		}catch(ClassCastException cce) {
 			ImportLog.log("Invalid supplier/client for connector with id: " + this.EAID + ". Supplier/client must be ConnectableElements.");
+			connector = null;
 			element.dispose();
-			return null;
+			return connector;
 		}
 		
 
@@ -109,8 +110,8 @@ public class Connector extends CommonRelationship {
 		try {
 			setOwner(project, owner);
 		} catch(IllegalArgumentException iae) {
+			connector = null;
 			element.dispose();
-			connector.dispose();
 		}
 		return connector;
 	}

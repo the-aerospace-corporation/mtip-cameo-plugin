@@ -451,6 +451,18 @@ public class XmlTagConstants
 	public static final String PROJECT_SEQUENCE = "uaf.ProjectSequence";
 	
 	//Services
+	public static final String CONSUMES = "uaf.Consumes";
+	public static final String SERVICE_CONNECTOR = "uaf.ServiceConnector";
+	public static final String SERVICE_FUNCTION = "uaf.ServiceFunction";
+	public static final String SERVICE_FUNCTION_ACTION = "uaf.ServiceFunctionAction";
+	public static final String SERVICE_INTERFACE = "uaf.ServiceInterface";
+	public static final String SERVICE_MESSAGE = "uaf.ServiceMessage";
+	public static final String SERVICE_METHOD = "uaf.ServiceMethod";
+	public static final String SERVICE_PARAMETER = "uaf.ServiceParamter";
+	public static final String SERVICE_POLICY = "uaf.ServicePolicy";
+	public static final String SERVICE_PORT = "uaf.ServicePort";
+	public static final String SERVICE_SPECIFICATION = "uaf.ServiceSpecification";
+	public static final String SERVICE_SPECIFICATION_ROLE = "uaf.ServiceSpecificationRole";
 	public static final String SERVICE_STATE_DESCRIPTION = "uaf.ServiceStateDescription";
 	
 	//Standards
@@ -531,7 +543,12 @@ public class XmlTagConstants
 	public static final String SECURITY_CONSTRAINTS_DIAGRAM = "uaf.SecurityConstraints";
 	
 	// Services
+	public static final String SERVICES_CONNECTIVITY_DIAGRAM = "uaf.ServicesConnectivity";
+	public static final String SERVICES_INTERACTION_SCENARIOS_DIAGRAM = "uaf.ServicesInteractionScenarios";
+	public static final String SERVICES_PROCESSES_DIAGRAM = "uaf.ServicesProcesses";
 	public static final String SERVICES_STATES_DIAGRAM = "uaf.ServicesStates";
+	public static final String SERVICES_STRUCTURE_DIAGRAM = "uaf.ServicesStructure";
+	public static final String SERVICES_TAXONOMY_DIAGRAM = "uaf.ServicesTaxonomy";
 	
 	// Strategic Diagrams
 	public static final String STRATEGIC_TAXONOMY_DIAGRAM = "uaf.StrategicTaxonomy";

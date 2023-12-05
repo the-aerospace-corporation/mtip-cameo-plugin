@@ -318,6 +318,13 @@ import org.aero.mtip.uaf.security.SecurityProcessAction;
 import org.aero.mtip.uaf.security.SecurityProcessesFlow;
 import org.aero.mtip.uaf.security.SecurityStructure;
 import org.aero.mtip.uaf.security.SecurityTaxonomy;
+import org.aero.mtip.uaf.services.ServiceFunction;
+import org.aero.mtip.uaf.services.ServiceFunctionAction;
+import org.aero.mtip.uaf.services.ServiceInterface;
+import org.aero.mtip.uaf.services.ServiceMethod;
+import org.aero.mtip.uaf.services.ServiceParameter;
+import org.aero.mtip.uaf.services.ServicePolicy;
+import org.aero.mtip.uaf.services.ServicePort;
 import org.aero.mtip.uaf.services.ServiceStateDescription;
 import org.aero.mtip.uaf.services.ServicesStates;
 import org.aero.mtip.uaf.standards.Protocol;
@@ -972,6 +979,27 @@ public class CommonElementsFactory {
 				break;
 				
 			// Services
+			case UAFConstants.SERVICE_FUNCTION:
+				element = new ServiceFunction(name, EAID);
+				break;
+			case UAFConstants.SERVICE_FUNCTION_ACTION:
+				element = new ServiceFunctionAction(name, EAID);
+				break;
+			case UAFConstants.SERVICE_INTERFACE:
+				element = new ServiceInterface(name, EAID);
+				break;
+			case UAFConstants.SERVICE_METHOD:
+				element = new ServiceMethod(name, EAID);
+				break;
+			case UAFConstants.SERVICE_PARAMETER:
+				element = new ServiceParameter(name, EAID);
+				break;
+			case UAFConstants.SERVICE_POLICY:
+				element = new ServicePolicy(name, EAID);
+				break;
+			case UAFConstants.SERVICE_PORT:
+				element = new ServicePort(name, EAID);
+				break;
 			case UAFConstants.SERVICE_STATE_DESCRIPTION:
 				element = new ServiceStateDescription(name, EAID);
 				break;
