@@ -229,7 +229,7 @@ public class ImportXmlSysml {
 	
 	public static Element buildRelationship(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		if(!IsRelationshipSupported(modelElement)) { 
-			ImportLog.log(modelElement.getType() + " type not supported. "+ modelElement.getEAID());
+			ImportLog.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
 		
@@ -240,44 +240,50 @@ public class ImportXmlSysml {
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		Element client = GetImportedClient(modelElement, parsedXML);
 		if(client == null) {
-			ImportLog.log("Client null for relationship " + modelElement.getName() + " " + modelElement.getEAID());
+			ImportLog.log(String.format("Client null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
 		Element supplier = GetImportedSupplier(modelElement, parsedXML);
 		if(supplier == null) {
-			ImportLog.log("Supplier null for relationship " + modelElement.getName() + " " + modelElement.getEAID());
+			ImportLog.log(String.format("Supplier null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
 		
 		//Create relationship in Cameo 
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Creating Relationship of type " +  modelElement.getType() + ".");
+			SessionManager.getInstance().createSession(project, String.format("Creating CommonRelationship of type %s.",modelElement.getType()));
 		}
 		CommonRelationship relationship = crf.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		
+		SessionManager.getInstance().closeSession(project);
+
 		relationship.createDependentElements(project, parsedXML, modelElement);
+		
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			SessionManager.getInstance().createSession(project, String.format("Creating Relationship of type %s.", modelElement.getType()));
+		}
+		
 		Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
 		
-		if(newElement != null) {
-			if(newElement.getOwner() == null) {
-				newElement.dispose();
-				ImportLog.log("Owner failed to be set including any default owners. Relationship not created.");
-				return null;
-			}
-		}
-				
-		if(newElement != null) {
-			TrackRelationshipIds(modelElement, newElement, supplier, client);
-			ImportLog.log("Created relationship of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
-			SessionManager.getInstance().closeSession(project);
-			return newElement;
-		}
-		ImportLog.log("Relationship not created. Type: " + modelElement.getType() + " ID: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
 		SessionManager.getInstance().closeSession(project);
-		return null;
+				
+		if (newElement == null) {
+			ImportLog.log(String.format("Relationship not created. Type: %s ID: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
+			return null;
+		}
+		
+		if(newElement.getOwner() == null) {
+			newElement.dispose();
+			ImportLog.log("Owner failed to be set including any default owners. Relationship not created.");
+			return null;
+		}
+			
+		TrackRelationshipIds(modelElement, newElement, supplier, client);
+		ImportLog.log(String.format("Created relationship of type: %s and id: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
+		return newElement;
 	}
 	
 	public static Element buildElement(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement, String id) {
 		if(!IsElementSupported(modelElement)) { 
-			ImportLog.log(modelElement.getType() + " type not supported. "+ modelElement.getEAID());
+			ImportLog.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
 		
@@ -297,6 +303,7 @@ public class ImportXmlSysml {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			SessionManager.getInstance().createSession(project, "Create " +  modelElement.getType() + " with dependent Elements");
 		}
+		
 		Element newElement = element.createElement(project, owner, modelElement);
 		// addStereotypeTaggedValues and addDependentElements will call and end their own sessions. End session here.
 		SessionManager.getInstance().closeSession(project);
@@ -306,6 +313,7 @@ public class ImportXmlSysml {
 			addStereotypes(newElement, modelElement);
 			element.addStereotypeTaggedValues(modelElement);					
 			element.addDependentElements(parsedXML, modelElement);
+			
 			if(newElement.getOwner() == null) {
 				newElement.dispose();
 				ImportLog.log("Owner failed to be set including any default owners. Element with id " + modelElement.getEAID() + " not created.");
@@ -313,7 +321,6 @@ public class ImportXmlSysml {
 			}
 			
 			ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with no initial owner.");
-			
 			return newElement;
 		}
 		

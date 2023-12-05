@@ -61,9 +61,6 @@ public class OpaqueExpression extends CommonElement {
 	 */
 	public Element createElement(Project project, Element owner, String body, String language) {
 		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Opaque Expression Element");
-		}
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
 		((NamedElement)oe).setName(name);
 		
@@ -73,7 +70,6 @@ public class OpaqueExpression extends CommonElement {
 		oe.getLanguage().clear();
 		oe.getLanguage().add(language);
 		
-		SessionManager.getInstance().closeSession(project);
 		return oe;
 	}
 	
