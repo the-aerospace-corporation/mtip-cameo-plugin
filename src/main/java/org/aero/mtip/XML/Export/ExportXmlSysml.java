@@ -419,144 +419,78 @@ public class ExportXmlSysml {
 		return "null";
 	}
 
-	public static boolean isRelationship(Element element, Project project)
-	{
-		boolean isRelationship = false;
-		//commented out code for now but this should handle resource messages to be relationships not elements
-
-		/*Class elementClassType = element.getClassType();
-		Class messageClass = ClassTypes.getClassType("Message");
-
-		//message class to return true when it is a relationship
-		if (elementClassType == messageClass)
-		{
-			isRelationship = true;
-		}
-		else
-		{
-			isRelationship = ModelHelper.isRelationship(element);
-		}
-
-		return isRelationship;*/
-		isRelationship = ModelHelper.isRelationship(element);
-		return isRelationship;
+	public static boolean isRelationship(Element element, Project project) {
+		return ModelHelper.isRelationship(element) || element instanceof Message;
 	}
 
 	public static boolean exportElement(Element element, Project project, Document xmlDoc) {
-		//if(element.getOwner()!= null) {
-		String elementType = null;
-		boolean isRelationship = isRelationship(element, project);
-		CameoUtils.logGUI(element.toString());
+		if(exportedElements.containsKey(element.getLocalID())) {
+			return true;
+		}
 
-		elementType = getElementType(element);
+		String elementType = getElementType(element);
+		if (elementType == null) {
+			ExportLog.log(String.format("Element not supported %s", element.getHumanName()));
+			return false;
+		}
+		
+		if(isRelationship(element, project)) {
+			return exportRelationship(element, project, xmlDoc, elementType);
+		}			
+		
+		CommonElementsFactory cef = new CommonElementsFactory();
+		CommonElement commonElement = cef.createElement(elementType, CameoUtils.getElementName(element), element.getLocalID());
 
+		if (commonElement == null) {
+			ExportLog.log(String.format("Common Elements Factory return null for element of type %s", element.getHumanType()));
+			return false;
+		}
+		
+		commonElement.writeToXML(element, project, xmlDoc);
+		exportedElements.put(element.getLocalID(), "");
+		return true;
+	}
+	
+	public static boolean exportRelationship(Element element, Project project, Document xmlDoc, String elementType) {
+		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
+		CommonRelationship commonRelationship = crf.createElement(elementType, CameoUtils.getElementName(element), element.getLocalID());
+		
+		if (commonRelationship == null) {
+			ExportLog.log(String.format("Common Relationships Factory returned null for element of type %s", element.getHumanType()));
+			return false;
+		}
+		
+		boolean isSupplierExported = exportElement(commonRelationship.getSupplier(element), project, xmlDoc);;
+		boolean isClientExported = exportElement(commonRelationship.getClient(element), project, xmlDoc);
+
+		if(!isSupplierExported || !isClientExported) {
+			ExportLog.log(String.format("Unable to determine and export client or supplier for %s." 
+					+ " Relationship will not be exported", CameoUtils.getElementName(element)));
+			return false;
+		}
+		
+		commonRelationship.writeToXML(element, project, xmlDoc);
+		exportedElements.put(element.getLocalID(), "");
+		return true;
+	}
+
+	public static String getElementType(Element element) {
 		if(element instanceof Diagram) {
 			Diagram diag = (Diagram) element;
 			DiagramPresentationElement presentationDiagram = project.getDiagram(diag);
 			DiagramType diagType = presentationDiagram.getDiagramType();
-			elementType = AbstractDiagram.diagramToType.get(diagType.getType());
+			return AbstractDiagram.diagramToType.get(diagType.getType());
 		}
-
-		if(!exportedElements.containsKey(element.getLocalID())) {
-			if(elementType != null) {
-				if(isRelationship) {
-					CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
-					String name = "";
-					CommonRelationship commonRelationship = null;
-
-					if(element instanceof NamedElement) {
-						name = ((NamedElement)element).getName();
-						CameoUtils.logGUI("\tRelationship named 1: " +  name +" Type:"+elementType +" with id: " + element.getLocalID());
-
-						commonRelationship = crf.createElement(elementType, name, element.getLocalID());
-					} else {
-						name = element.getHumanName();
-						CameoUtils.logGUI("\tRelationship named 2: " +  name + " Type:"+elementType +" with id: " + element.getLocalID());
-						commonRelationship = crf.createElement(elementType, name, element.getLocalID());
-					}
-					
-					boolean isSupplierExported = false;
-					boolean isClientExported = false;
-
-
-					// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
-					if(!exportedElements.containsKey(commonRelationship.getSupplier(element).getLocalID())) {
-						isSupplierExported = exportElement(commonRelationship.getSupplier(element), project, xmlDoc);
-					} else {
-						isSupplierExported = true;
-					}
-					if(!exportedElements.containsKey(commonRelationship.getClient(element).getLocalID())) {
-						isClientExported = exportElement(commonRelationship.getClient(element), project, xmlDoc);
-					} else {
-						isClientExported = true;
-					}
-
-					if(isSupplierExported && isClientExported) {
-						commonRelationship.writeToXML(element, project, xmlDoc);
-						exportedElements.put(element.getLocalID(), "");
-						return true;
-					}
-					else {
-						String logMsg = "Relationship with: "+element.getHumanName()+"not exported for the following reason(s): ";
-						if(!isSupplierExported) {
-							logMsg+="Supplier failed to export. SupplierId:"+commonRelationship.getSupplier().getLocalID()+" ";
-						}
-						if(!isClientExported) {
-							logMsg+="Client failed to export. Clientd: "+commonRelationship.getSupplier().getLocalID()+" ";
-						}
-						ExportLog.log(logMsg);
-					}
-					return false;
-				} else {				
-					CommonElementsFactory cef = new CommonElementsFactory();
-					CommonElement commonElement = null;
-
-					if(element instanceof NamedElement) {
-						//Check if ID already exists from previous import
-						CameoUtils.logGUI("\tElement named 1: " +  ((NamedElement)element).getName() + " with id: " + element.getLocalID());
-						commonElement = cef.createElement(elementType,  ((NamedElement)element).getName(), element.getLocalID());
-					} else {
-						CameoUtils.logGUI("\tElement named 2: " +  element.getHumanName() + " with id: " + element.getLocalID());
-						commonElement = cef.createElement(elementType, "", element.getLocalID());
-					}
-					if(commonElement != null) {
-						commonElement.writeToXML(element, project, xmlDoc);
-						exportedElements.put(element.getLocalID(), "");
-						return true;
-					} else {
-						ExportLog.log("Common Elements Factory return null for element of type " + element.getHumanType() );
-						return false;
-					}
-
-				}
-			} else {
-				CameoUtils.logGUI("Element type " + element.getHumanType() + " not supported!!!");
-				ExportLog.log("Element type " + element.getHumanType() + " not supported!!!");
-				return false;
-			}
-		} else {
-			CameoUtils.logGUI("Duplicate element with id " + element.getLocalID() + " not exported.");
-			return true;
-		}
-	}
-
-	public static String getElementType(Element element) {
-		if (ExportXmlSysml.metamodel == null)
-		{
-			CameoUtils.logGUI(element.getHumanName()+" ExportXmlSysml.getElementType metamodel is null");
-			return "null";
-		}
+		
 		if (ExportXmlSysml.metamodel.contentEquals(UAFConstants.UAF))  {
-			ExportLog.log("Getting UAF Element Type");
 			String elementType = getUAFElementType(element);
-			if(elementType == null) {
-				return getSysMLElementType(element);
-			} else {
+			
+			if(elementType != null) {
 				return elementType;
 			}
-		} else {
-			return getSysMLElementType(element);
 		}
+		
+		return getSysMLElementType(element);
 	}
 
 	public static String getUAFElementType(Element element) {

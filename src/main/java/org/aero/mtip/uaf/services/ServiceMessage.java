@@ -8,7 +8,6 @@ public class ServiceMessage extends Message {
 
 	public ServiceMessage(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.metamodelConstant = UAFConstants.SERVICE_MESSAGE;
 		this.xmlConstant = XmlTagConstants.SERVICE_MESSAGE;
 	}

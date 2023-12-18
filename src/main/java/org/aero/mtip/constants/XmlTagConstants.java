@@ -544,6 +544,7 @@ public class XmlTagConstants
 	
 	// Services
 	public static final String SERVICES_CONNECTIVITY_DIAGRAM = "uaf.ServicesConnectivity";
+	public static final String SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM = "uaf.ServicesConstraintsDefinition";
 	public static final String SERVICES_INTERACTION_SCENARIOS_DIAGRAM = "uaf.ServicesInteractionScenarios";
 	public static final String SERVICES_PROCESSES_DIAGRAM = "uaf.ServicesProcesses";
 	public static final String SERVICES_STATES_DIAGRAM = "uaf.ServicesStates";

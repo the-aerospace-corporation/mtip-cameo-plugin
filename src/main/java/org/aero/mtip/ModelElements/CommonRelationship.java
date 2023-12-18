@@ -171,8 +171,6 @@ public abstract class CommonRelationship extends CommonElement {
 		return null;
 	}
 	
-
-	
 	public void setSupplier() {
 		if(element instanceof DirectedRelationship) {
 			DirectedRelationship directedRelationship = (DirectedRelationship)element;

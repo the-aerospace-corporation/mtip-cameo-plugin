@@ -250,6 +250,7 @@ public class UAFConstants {
 	
 	// Services Diagrams
 	public static final String SERVICES_CONNECTIVITY_DIAGRAM = "ServicesConnectivity";
+	public static final String SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM = "ServicesConstraintsDefinition";
 	public static final String SERVICES_INTERACTION_SCENARIOS_DIAGRAM = "ServicesInteractionScenarios";
 	public static final String SERVICES_PROCESSES_DIAGRAM = "ServicesProcesses";
 	public static final String SERVICES_STATES_DIAGRAM = "ServicesStates";
@@ -426,6 +427,7 @@ public class UAFConstants {
 			SERVICE_POLICY,
 			SERVICE_PORT,
 			SERVICE_SPECIFICATION,
+			SERVICE_SPECIFICATION_ROLE,
 			
 			
 			OPERATIONAL_PORT
@@ -522,6 +524,7 @@ public class UAFConstants {
 			
 			// Services
 			SERVICES_CONNECTIVITY_DIAGRAM,
+			SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM,
 			SERVICES_INTERACTION_SCENARIOS_DIAGRAM,
 			SERVICES_PROCESSES_DIAGRAM,
 			SERVICES_STATES_DIAGRAM,

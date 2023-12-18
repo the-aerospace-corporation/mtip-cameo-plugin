@@ -276,9 +276,14 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put(CameoDiagramConstants.SECURITY_PROCESSES_FLOW, UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_CONSTRAINTS, UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM);
 
-        
         // Services
+        aMap.put(CameoDiagramConstants.SERVICES_CONNECTIVITY, UAFConstants.SERVICES_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_CONSTRAINTS_DEFINITION, UAFConstants.SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_INTERACTION_SCENARIOS, UAFConstants.SERVICES_INTERACTION_SCENARIOS_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_PROCESSES, UAFConstants.SERVICES_PROCESSES_DIAGRAM);
         aMap.put(CameoDiagramConstants.SERVICES_STATES, UAFConstants.SERVICES_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_STRUCTURE, UAFConstants.SERVICES_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_TAXONOMY, UAFConstants.SERVICES_TAXONOMY_DIAGRAM);
         
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);

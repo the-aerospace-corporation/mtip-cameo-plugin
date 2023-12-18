@@ -116,6 +116,18 @@ public class Message extends CommonRelationship {
 	}
 	
 	@Override
+	public void setSupplier() {
+		// Supplier set at runtime from xmlElement in Message.createElement()
+		// Refactor as member to be used here.
+	}
+	
+	@Override
+	public void setClient() {
+		// Client set at runtime from xmlElement in Message.createElement()
+		// Refactor as member to be used here.
+	}
+	
+	@Override
 	public Element getSupplier(Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		if(message.getSendEvent() instanceof OccurrenceSpecification) {

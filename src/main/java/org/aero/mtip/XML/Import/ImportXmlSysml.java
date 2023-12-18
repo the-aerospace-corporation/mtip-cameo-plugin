@@ -423,12 +423,7 @@ public class ImportXmlSysml {
 								stereotypesXML.put(modelElement.getEAID(), modelElement);
 							}
 
-						} else {
-							ImportLog.log("modelElement Parent key does not exist. ModelElementEAID: " + modelElement.getParent());
 						}
-					}
-					else {
-						String message = "No ID. Element will not be parsed correctly.";
 					}
 				} if ((modelElement.getEAID() != null)  && !(modelElement.getEAID().isEmpty())) {
 					successParsedCount++;
@@ -492,6 +487,7 @@ public class ImportXmlSysml {
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 		if(stereotype == null) {
 			ImportLog.log(String.format("Stereotype %s not found in profile %s.", stereotypeName, profileName));
+			return;
 		}
 			
 		StereotypesHelper.addStereotype(newElement,  stereotype);

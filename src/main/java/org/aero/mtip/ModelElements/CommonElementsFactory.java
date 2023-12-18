@@ -325,15 +325,22 @@ import org.aero.mtip.uaf.services.ServiceMethod;
 import org.aero.mtip.uaf.services.ServiceParameter;
 import org.aero.mtip.uaf.services.ServicePolicy;
 import org.aero.mtip.uaf.services.ServicePort;
+import org.aero.mtip.uaf.services.ServiceSpecification;
+import org.aero.mtip.uaf.services.ServiceSpecificationRole;
 import org.aero.mtip.uaf.services.ServiceStateDescription;
+import org.aero.mtip.uaf.services.ServicesConnectivity;
+import org.aero.mtip.uaf.services.ServicesConstraintsDefinition;
+import org.aero.mtip.uaf.services.ServicesInteractionScenarios;
+import org.aero.mtip.uaf.services.ServicesProcesses;
 import org.aero.mtip.uaf.services.ServicesStates;
+import org.aero.mtip.uaf.services.ServicesStructure;
+import org.aero.mtip.uaf.services.ServicesTaxonomy;
 import org.aero.mtip.uaf.standards.Protocol;
 import org.aero.mtip.uaf.standards.ProtocolLayer;
 import org.aero.mtip.uaf.standards.ProtocolStack;
 import org.aero.mtip.uaf.standards.Standard;
 import org.aero.mtip.uaf.standards.StandardsStructure;
 import org.aero.mtip.uaf.standards.StandardsTaxonomy;
-
 import org.aero.mtip.util.CameoUtils;
 
 public class CommonElementsFactory {
@@ -1000,6 +1007,12 @@ public class CommonElementsFactory {
 			case UAFConstants.SERVICE_PORT:
 				element = new ServicePort(name, EAID);
 				break;
+			case UAFConstants.SERVICE_SPECIFICATION:
+				element = new ServiceSpecification(name, EAID);
+				break;
+			case UAFConstants.SERVICE_SPECIFICATION_ROLE:
+				element = new ServiceSpecificationRole(name, EAID);
+				break;
 			case UAFConstants.SERVICE_STATE_DESCRIPTION:
 				element = new ServiceStateDescription(name, EAID);
 				break;
@@ -1068,9 +1081,26 @@ public class CommonElementsFactory {
 				break;
 				
 			// Services Diagrams
-				
+			case UAFConstants.SERVICES_CONNECTIVITY_DIAGRAM:
+				element = new ServicesConnectivity(name, EAID);
+				break;
+			case UAFConstants.SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM:
+				element = new ServicesConstraintsDefinition(name, EAID);
+				break;
+			case UAFConstants.SERVICES_INTERACTION_SCENARIOS_DIAGRAM:
+				element = new ServicesInteractionScenarios(name, EAID);
+				break;
+			case UAFConstants.SERVICES_PROCESSES_DIAGRAM:
+				element = new ServicesProcesses(name, EAID);
+				break;
 			case UAFConstants.SERVICES_STATES_DIAGRAM:
 				element = new ServicesStates(name, EAID);
+				break;
+			case UAFConstants.SERVICES_STRUCTURE_DIAGRAM:
+				element = new ServicesStructure(name, EAID);
+				break;
+			case UAFConstants.SERVICES_TAXONOMY_DIAGRAM:
+				element = new ServicesTaxonomy(name, EAID);
 				break;
 				
 			// DoDAF Diagram

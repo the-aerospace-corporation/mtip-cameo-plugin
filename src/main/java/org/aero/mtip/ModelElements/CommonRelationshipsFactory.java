@@ -62,6 +62,9 @@ import org.aero.mtip.uaf.security.OwnsRisk;
 import org.aero.mtip.uaf.security.OwnsRiskInContext;
 import org.aero.mtip.uaf.security.Protects;
 import org.aero.mtip.uaf.security.ProtectsInContext;
+import org.aero.mtip.uaf.services.Consumes;
+import org.aero.mtip.uaf.services.ServiceConnector;
+import org.aero.mtip.uaf.services.ServiceMessage;
 
 public class CommonRelationshipsFactory {
 	public CommonRelationship createElement(String type, String name, String EAID) {
@@ -276,6 +279,17 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.PROTECTS_IN_CONTEXT:
 				relationship = new ProtectsInContext(name, EAID);
+				break;
+				
+			// Services
+			case UAFConstants.CONSUMES:
+				relationship = new Consumes(name, EAID);
+				break;
+			case UAFConstants.SERVICE_CONNECTOR:
+				relationship = new ServiceConnector(name, EAID);
+				break;
+			case UAFConstants.SERVICE_MESSAGE:
+				relationship = new ServiceMessage(name, EAID);
 				break;
 				
 			default:

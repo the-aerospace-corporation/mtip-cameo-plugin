@@ -8,7 +8,7 @@ package org.aero.mtip.ModelElements.StateMachine;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.ModelElements.CommonDirectedRelationship;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
@@ -23,7 +23,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Vertex;
 
-public class Transition extends CommonRelationship {
+public class Transition extends CommonDirectedRelationship {
 	public Transition(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
@@ -111,6 +111,7 @@ public class Transition extends CommonRelationship {
 		owner = CameoUtils.findNearestRegion(project, supplier);
 		element.setOwner(owner);
 	}
+	
 	@Override
 	public void setSupplier() {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
@@ -121,6 +122,18 @@ public class Transition extends CommonRelationship {
 	public void setClient() {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		transition.setTarget((Vertex) client);
+	}
+	
+	@Override
+	public void setSupplier(Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
+		this.supplier = transition.getSource();
+	}
+	
+	@Override
+	public void setClient(Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
+		this.client = transition.getTarget();
 	}
 
 	@Override

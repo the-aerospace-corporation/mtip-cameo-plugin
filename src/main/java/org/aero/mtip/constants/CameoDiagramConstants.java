@@ -48,6 +48,7 @@ public class CameoDiagramConstants {
 	
 	// Services
 	public static final String SERVICES_CONNECTIVITY = "Services Connectivity";
+	public static final String SERVICES_CONSTRAINTS_DEFINITION = "Services Constraints Definition";
 	public static final String SERVICES_INTERACTION_SCENARIOS = "Services Interaction Scenarios";
 	public static final String SERVICES_PROCESSES = "Services Processes";
 	public static final String SERVICES_STATES = "Services States";

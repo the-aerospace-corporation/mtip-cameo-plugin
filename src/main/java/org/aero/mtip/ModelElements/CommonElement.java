@@ -980,7 +980,6 @@ public abstract class CommonElement {
 	}
 	
 	public void addStereotypeTaggedValues(XMLItem xmlElement) {
-		ImportLog.log(String.format("...adding %s tagged values to %s." + xmlElement.getTaggedValues().size(), xmlElement.getEAID()));
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
 			try {
 				CameoUtils.logGUI(tv.toString());

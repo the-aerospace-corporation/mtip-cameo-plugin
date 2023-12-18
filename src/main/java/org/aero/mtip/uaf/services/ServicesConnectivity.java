@@ -9,9 +9,8 @@ public class ServicesConnectivity extends BlockDefinitionDiagram {
 
 	public ServicesConnectivity(String name, String EAID) {
 		super(name, EAID);
-
-		 this.metamodelConstant = UAFConstants.SERVICES_CONNECTIVITY_DIAGRAM;
-		 this.xmlConstant = XmlTagConstants.SERVICES_CONNECTIVITY_DIAGRAM;
-		 this.cameoDiagramConstant = CameoDiagramConstants.SERVICES_CONNECTIVITY;
+		this.metamodelConstant = UAFConstants.SERVICES_CONNECTIVITY_DIAGRAM;
+		this.xmlConstant = XmlTagConstants.SERVICES_CONNECTIVITY_DIAGRAM;
+		this.cameoDiagramConstant = CameoDiagramConstants.SERVICES_CONNECTIVITY;
 	}
 }

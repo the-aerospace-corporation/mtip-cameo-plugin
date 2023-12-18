@@ -446,6 +446,14 @@ public class CameoUtils {
 		return false;
 	}
 	
+	public static String getElementName(Element element) {
+		if(element instanceof NamedElement) {
+			return ((NamedElement)element).getName();
+		}
+		
+		return element.getHumanName();
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static Element getPrimitiveValueType(String valueTypeEnum) {
 		String primitiveValuePath = "SysML::Libraries::PrimitiveValueTypes::" + valueTypeEnum;

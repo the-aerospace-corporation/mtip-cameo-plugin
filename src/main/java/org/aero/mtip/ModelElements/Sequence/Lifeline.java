@@ -48,6 +48,7 @@ public class Lifeline extends CommonElement {
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		List<String> coveredBy = modelElement.getCoveredBy();
+		
 		for(String coveredByID : coveredBy) {
 			XMLItem dependentElementXML = parsedXML.get(coveredByID);
 			Element newElement = null;
