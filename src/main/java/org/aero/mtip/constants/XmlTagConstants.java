@@ -494,6 +494,7 @@ public class XmlTagConstants
 	//Personnel
 	public static final String COMMAND = "uaf.Command";
 	public static final String COMPETENCE = "uaf.Competence";
+	public static final String COMPETENCE_FOR_ROLE = "uaf.CompetenceForRole";
 	public static final String COMPETENCE_TO_CONDUCT = "uaf.CompetenceToConduct";
 	public static final String CONTROL = "uaf.Control";
 	public static final String ORGANIZATION = "uaf.Organization";

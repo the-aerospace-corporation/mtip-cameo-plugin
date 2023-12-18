@@ -212,6 +212,7 @@ public class UAFConstants {
 	// Personnel
 	public static final String COMMAND = "Command";
 	public static final String COMPETENCE = "Competence";
+	public static final String COMPETENCE_FOR_ROLE = "CompetenceForRole";
 	public static final String COMPETENCE_TO_CONDUCT = "CompetenceToConduct";
 	public static final String CONTROL = "Control";
 	public static final String ORGANIZATION = "Organization";
@@ -477,6 +478,7 @@ public class UAFConstants {
 			
 			// Personnel
 			COMMAND,
+			COMPETENCE_FOR_ROLE,
 			COMPETENCE_TO_CONDUCT,
 			CONTROL,
 			REQUIRES_COMPETENCE,

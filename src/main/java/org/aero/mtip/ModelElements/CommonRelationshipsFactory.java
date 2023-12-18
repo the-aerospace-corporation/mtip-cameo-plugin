@@ -51,6 +51,7 @@ import org.aero.mtip.uaf.actualresources.FillsPost;
 import org.aero.mtip.uaf.actualresources.OwnsProcess;
 import org.aero.mtip.uaf.actualresources.ProvidesCompetence;
 import org.aero.mtip.uaf.personnel.Command;
+import org.aero.mtip.uaf.personnel.CompetenceForRole;
 import org.aero.mtip.uaf.personnel.CompetenceToConduct;
 import org.aero.mtip.uaf.personnel.Control;
 import org.aero.mtip.uaf.personnel.RequiresCompetence;
@@ -244,6 +245,9 @@ public class CommonRelationshipsFactory {
 			// Personnel
 			case UAFConstants.COMMAND:
 				relationship = new Command(name, EAID);
+				break;
+			case UAFConstants.COMPETENCE_FOR_ROLE:
+				relationship = new CompetenceForRole(name, EAID);
 				break;
 			case UAFConstants.COMPETENCE_TO_CONDUCT:
 				relationship = new CompetenceToConduct(name, EAID);
