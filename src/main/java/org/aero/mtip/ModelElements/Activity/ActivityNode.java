@@ -45,20 +45,21 @@ public abstract class ActivityNode extends CommonElement {
 		super.createDependentElements(project, parsedXML, modelElement);
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY)) {
 			String activityId = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(activityId), activityId);
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(activityId));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_INTERRUPTIBLE_ACTIVITY_REGION)) {
 			String iarID = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_INTERRUPTIBLE_ACTIVITY_REGION);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(iarID), iarID);
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(iarID));
 		}
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
 			owner = CameoUtils.findNearestActivity(project, owner);
 		}
+		
 		sysmlElement.setOwner(owner);
 	}
 	

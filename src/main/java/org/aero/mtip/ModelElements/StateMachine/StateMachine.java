@@ -40,7 +40,7 @@ public class StateMachine extends CommonElement {
 		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
 			String submachineID = modelElement.getSubmachine();
 			XMLItem submachine = parsedXML.get(submachineID);
-			Element submachineElement = ImportXmlSysml.buildElement(project, parsedXML, submachine, submachineID);
+			Element submachineElement = ImportXmlSysml.buildElement(project, parsedXML, submachine);
 			modelElement.setNewSubmachineID(submachineElement.getID());
 		}
 	}

@@ -41,7 +41,7 @@ public class CallOperationAction extends ActivityNode {
 	
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		Element operation = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
+		Element operation = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()));
 		modelElement.setNewOperation(operation.getID());
 	}
 	

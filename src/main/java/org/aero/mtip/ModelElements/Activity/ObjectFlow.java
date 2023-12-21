@@ -67,10 +67,11 @@ public class ObjectFlow extends CommonRelationship {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
 			owner = CameoUtils.findNearestActivity(project, supplier);
 		}
+		
 		sysmlElement.setOwner(owner);
 	}
 	

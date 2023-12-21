@@ -8,8 +8,6 @@ package org.aero.mtip.ModelElements;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -80,14 +78,11 @@ public abstract class CommonElement {
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTSFACTORY)) {
-			createElementByElementFactory(project, owner, xmlElement);
-		}
-		if(this.creationType.contentEquals(XmlTagConstants.CLASS_WITH_STEREOTYPE)) {
-			createClassWithStereotype(project, this.creationStereotype, owner);
-		}
+		this.project = project;
+		
+		setBaseElement();
 		setName();
-		setOwner(project, owner);
+		setOwner(owner);
 		addInitialStereotype();
 		setClassifier();
 		applyClassifier();
@@ -104,34 +99,45 @@ public abstract class CommonElement {
 		}
 		return name;
 	}
+	
+	protected Element setBaseElement() {
+		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTSFACTORY)) {
+			return sysmlElement;
+		}
 		
-	protected Element createElementByElementFactory(Project project, Element owner, XMLItem xmlElement) {
-		this.project = project;		
+		sysmlElement = project.getElementsFactory().createClassInstance();
+		
+		if (creationStereotype == null) {
+			return sysmlElement;	
+		}
+		
+		StereotypesHelper.addStereotype(sysmlElement, creationStereotype);
 		return sysmlElement;
 	}
 	
-	public void setOwner(Project project, Element owner) {
-		if(sysmlElement != null) {
-			if(owner != null) {
-				try {
-					sysmlElement.setOwner(owner);
-				} catch(IllegalArgumentException iae){
-					setInvalidParentMessage(owner);
-					ImportLog.log(invalidParentMessage);
-					sysmlElement.dispose();
-				}	
-			} else {
-				try {
-					sysmlElement.setOwner(project.getPrimaryModel());
-				} catch(IllegalArgumentException iae){
-					CameoUtils.logGUI(invalidParentMessage);
-					ImportLog.log(invalidParentMessage);
-					sysmlElement.dispose();
-				}
-			}
-		} else {
+	public void setOwner(Element owner) {
+		if(sysmlElement == null) {
 			ImportLog.log("Sysml Element was not created. Cannot set owner");
+			return;
 		}
+		
+		if(owner == null) {
+			try {
+				sysmlElement.setOwner(project.getPrimaryModel());
+			} catch(IllegalArgumentException iae){
+				ImportLog.log(String.format("Primary model is invalid parent for %s.", sysmlElement.getHumanName()));
+				sysmlElement.dispose();
+			}
+			
+			return;
+		}
+		
+		try {
+			sysmlElement.setOwner(owner);
+		} catch(IllegalArgumentException iae){
+			ImportLog.log(String.format("%s is invalid parent for %s.", owner.getHumanType(), sysmlElement.getHumanName()));
+			sysmlElement.dispose();
+		}		
 	}
 	
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
@@ -142,19 +148,19 @@ public abstract class CommonElement {
 						List<String> values = tv.getValues();
 						for(String value : values) {
 							ImportLog.log("Creating tagged value element with id " + value);
-							ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(value), value);
+							ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(value));
 						}
 					} else {
 						String value = tv.getValue();
 						ImportLog.log("Creating tagged value element with id " + value);
-						ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(value), value);
+						ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(value));
 					}
 				}
 			}
 		}
 		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
 			if(parsedXML.containsKey(modelElement.getAttribute(XmlTagConstants.TYPED_BY))) {
-				ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.TYPED_BY)), modelElement.getAttribute(XmlTagConstants.TYPED_BY));
+				ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.TYPED_BY)));
 			}
 		}
 	}

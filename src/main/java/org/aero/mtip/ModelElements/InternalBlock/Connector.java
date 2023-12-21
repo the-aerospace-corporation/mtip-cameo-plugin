@@ -103,12 +103,7 @@ public class Connector extends CommonRelationship {
 				CameoUtils.logGUI("Connector type is not an association. Type not set for connector with id " + this.EAID);
 			}
 		}
-		try {
-			setOwner(project, owner);
-		} catch(IllegalArgumentException iae) {
-			sysmlElement.dispose();
-			connector.dispose();
-		}
+		
 		return connector;
 	}
 	@Override
@@ -122,7 +117,7 @@ public class Connector extends CommonRelationship {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		if(owner == null) {
 			String logMessage = "Owner is null. Could not add connector with id: " + this.EAID + " to the model.";
 			ImportLog.log(logMessage);
@@ -174,15 +169,15 @@ public class Connector extends CommonRelationship {
 		String typedByID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 		
 		if(supplierPartWithPortID != null) {
-			Element supplierPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, supplierPartWithPortID);
+			Element supplierPartWithPort = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(supplierPartWithPortID));
 		}
 		
 		if(clientPartWithPortID != null) {
-			Element clientPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientPartWithPortID);
+			Element clientPartWithPort = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(clientPartWithPortID));
 		}
 		
 		if(typedByID != null) {
-			Element typedBy = ImportXmlSysml.getOrBuildElement(project, parsedXML, typedByID);
+			Element typedBy = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(typedByID));
 		}
 	}
 	@Override

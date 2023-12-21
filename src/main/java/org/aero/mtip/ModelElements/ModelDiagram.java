@@ -13,6 +13,7 @@ import java.util.List;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -33,5 +34,5 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public interface ModelDiagram  {
 	public boolean addElements(Project project, Diagram diagram, HashMap<Element, Rectangle> elements, XMLItem xmlElement);
-	public void addRelationships(Project project, Diagram diagram, List<Element> relationships);
+	public void addRelationships(Project project, Diagram diagram, List<Element> relationships) throws ReadOnlyElementException;
 }

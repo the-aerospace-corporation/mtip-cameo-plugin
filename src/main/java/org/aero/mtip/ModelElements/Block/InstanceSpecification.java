@@ -47,7 +47,7 @@ public class InstanceSpecification extends CommonElement {
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.CLASSIFIED_BY)) {
 			if(parsedXML.containsKey(modelElement.getAttribute(XmlTagConstants.CLASSIFIED_BY))) {
-				Classifier classifier = (Classifier)ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.CLASSIFIED_BY));
+				Classifier classifier = (Classifier)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.CLASSIFIED_BY)));
 				if(classifier != null) {
 					classifiers.add(classifier);
 				}

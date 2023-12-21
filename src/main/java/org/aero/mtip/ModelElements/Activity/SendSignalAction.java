@@ -45,7 +45,7 @@ public class SendSignalAction extends ActivityNode {
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {
 			String signalID = modelElement.getAttribute(XmlTagConstants.SIGNAL_TAG);
-			ImportXmlSysml.getOrBuildElement(project, parsedXML, signalID);
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signalID));
 		}
 	}
 	

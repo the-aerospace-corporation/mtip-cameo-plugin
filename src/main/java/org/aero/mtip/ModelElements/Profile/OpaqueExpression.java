@@ -64,7 +64,7 @@ public class OpaqueExpression extends CommonElement {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
 		((NamedElement)oe).setName(name);
 		
-		setOwner(project, owner);
+		setOwner(owner);
 		
 		oe.getBody().add(body);
 		oe.getLanguage().clear();

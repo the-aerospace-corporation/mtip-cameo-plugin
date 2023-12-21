@@ -26,7 +26,7 @@ public class Port extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		try {
 			if (owner != null) {
 				Element newOwner = null;

@@ -46,7 +46,7 @@ public class SignalEvent extends CommonElement {
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
 		if(xmlElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {
 			String signal = xmlElement.getAttribute(XmlTagConstants.SIGNAL_TAG);
-			signalElement = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal)ImportXmlSysml.getOrBuildElement(project, parsedXML, signal);
+			signalElement = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signal));
 			xmlElement.addElement(signalElementTag, signalElement);
 		}
 	}

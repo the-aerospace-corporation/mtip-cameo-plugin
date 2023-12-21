@@ -55,7 +55,7 @@ public class Trigger extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) sysmlElement;
 		if(owner != null) {
 			if(owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) {
@@ -69,18 +69,15 @@ public class Trigger extends CommonElement {
 	
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		CameoUtils.logGUI("Creating dependent elements for trigger...");
-		if(modelElement.hasAcceptEventAction()) {	
-			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
+		if(modelElement.hasAttribute(XmlTagConstants.ACCEPTEVENTACTION)) {	
+			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()));
 			modelElement.setNewAcceptEventAction(acceptEventAction.getID());
 		}
+		
 		if(modelElement.hasAttribute(XmlTagConstants.EVENT_TAG)) {
 			String signal = modelElement.getAttribute(XmlTagConstants.EVENT_TAG);
-			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)ImportXmlSysml.getOrBuildElement(project, parsedXML, signal);
+			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signal));
 			modelElement.addElement(XmlTagConstants.EVENT_TAG, event);
-			CameoUtils.logGUI("Event found and added to trigger XML.");
-		} else {
-			CameoUtils.logGUI("No event found in XML for trigger with id: " + EAID);
 		}
 	}
 

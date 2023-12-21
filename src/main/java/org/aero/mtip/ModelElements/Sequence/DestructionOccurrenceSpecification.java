@@ -26,8 +26,9 @@ public class DestructionOccurrenceSpecification extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
-		super.setOwner(project, owner);
+	public void setOwner(Element owner) {
+		super.setOwner(owner);
+		
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd me = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageEnd)sysmlElement;
 		if(owner instanceof Message) {
 			me.set_messageOfReceiveEvent((Message) owner);

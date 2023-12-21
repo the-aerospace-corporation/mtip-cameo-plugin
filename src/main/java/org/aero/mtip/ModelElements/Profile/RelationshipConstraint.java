@@ -135,7 +135,7 @@ public class RelationshipConstraint extends CommonElement {
 			String clientID = modelElement.getClient();
 			if(parsedXML.containsKey(clientID)) {
 				CameoUtils.logGUI("\t...Finding or creating client for customization with client id: " + clientID);
-				Element client = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientID);
+				Element client = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(clientID));
 				modelElement.setClientElement(client);
 			} else {
 				CameoUtils.logGUI("\t...Client element not in XML. Missing element with id: " + clientID);
@@ -147,7 +147,7 @@ public class RelationshipConstraint extends CommonElement {
 			String supplierID = modelElement.getSupplier();
 			if(parsedXML.containsKey(supplierID)) {
 				CameoUtils.logGUI("\t...Finding or creating supplier for customization with supplier id: " + supplierID);
-				Element supplier = ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getSupplier());
+				Element supplier = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getSupplier()));
 				modelElement.setSupplierElement(supplier);
 			} else {
 				CameoUtils.logGUI("\t...Supplier element not in XML. Missing element with id: " + supplierID);
@@ -161,7 +161,7 @@ public class RelationshipConstraint extends CommonElement {
 			String customizationTargetID = modelElement.getAttribute(CUSTOMIZATION_TARGET_XML_ID);
 			if(customizationTargetID != null && !customizationTargetID.isEmpty()) {
 				if(parsedXML.containsKey(customizationTargetID)) {
-					Element stereotype = ImportXmlSysml.getOrBuildElement(project, parsedXML, customizationTargetID);
+					Element stereotype = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(customizationTargetID));
 					modelElement.addAttribute(CUSTOMIZATIONTARGET, stereotype.getID());
 				}
 			}

@@ -46,7 +46,7 @@ public class Action extends ActivityNode {
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		super.createDependentElements(project, parsedXML, modelElement);
 		if(modelElement.hasAttribute(XmlTagConstants.BEHAVIOR)) {
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.BEHAVIOR)), modelElement.getAttribute(XmlTagConstants.BEHAVIOR));
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.BEHAVIOR)));
 		}
 	}
 	

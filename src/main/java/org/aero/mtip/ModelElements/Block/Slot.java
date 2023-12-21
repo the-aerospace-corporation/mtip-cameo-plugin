@@ -105,16 +105,16 @@ public class Slot extends CommonElement {
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)) {
-			ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY));
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)) {
-			ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE));
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)) {
 			if(CameoUtils.isCameoID(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE))) {
-				ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE));
+				ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)));
 			}
 		}
 	}

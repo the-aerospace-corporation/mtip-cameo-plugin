@@ -378,6 +378,7 @@ public class SysmlConstants {
 			INCLUDE,
 			INFORMATIONFLOW,
 			ITEMFLOW,
+			MESSAGE,
 			OBJECTFLOW,
 			PACKAGEIMPORT,
 			REFINE,

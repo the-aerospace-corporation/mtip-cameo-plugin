@@ -255,8 +255,6 @@ public class ExportXmlSysml {
 						
 						CameoUtils.logGUI("Exporting " + element.getHumanType() + " " + element.getHumanName() + " " + element.getID());
 						exportElementRecursive(element, project, xmlDoc);
-				} else {
-					CameoUtils.logGUI("Not exporting " + element.getHumanType() + " " + element.getHumanName() + " as element " + element.getID());
 				}
 			}
 		}

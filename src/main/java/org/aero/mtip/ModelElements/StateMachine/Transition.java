@@ -108,7 +108,7 @@ public class Transition extends CommonRelationship {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		owner = CameoUtils.findNearestRegion(project, supplier);
 		sysmlElement.setOwner(owner);
 	}

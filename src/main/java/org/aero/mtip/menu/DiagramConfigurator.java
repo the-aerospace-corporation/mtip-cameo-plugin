@@ -7,7 +7,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.menu;
 
 import org.aero.mtip.XML.Export.ExportDiagramAction;
+import org.aero.mtip.util.GetMessageViewInfoAction;
 import org.aero.mtip.util.InspectDiagramElementAction;
+import org.aero.mtip.util.InspectDiagramElementNestedAction;
 
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
@@ -31,8 +33,16 @@ public class DiagramConfigurator implements DiagramContextAMConfigurator
 		
 		//Add actions to MTIP category here
 		ActionsCategory category = new ActionsCategory("","");
-		category.addAction(new InspectDiagramElementAction(null, "Inspect Diagram Element", diagramPresentationElement, selectedElements, requestor));
+		category.addAction(new InspectDiagramElementAction(null, "Inspect Diagram Elements", diagramPresentationElement, selectedElements, requestor));
+		category.addAction(new InspectDiagramElementNestedAction(null, "Inspect Nested Diagram Elements", diagramPresentationElement, selectedElements, requestor));
 		category.addAction(new ExportDiagramAction(null, "Export Diagram", diagramPresentationElement));
+		
+		if (diagramPresentationElement.getDiagramType().getType().contentEquals("Sequence Diagram")
+				|| diagramPresentationElement.getDiagramType().getType().contentEquals("SysML Sequence Diagram")) {
+		
+				category.addAction(new GetMessageViewInfoAction(null, "Get Message View Info", diagramPresentationElement, selectedElements, requestor));
+		}
+		
 		huddleCategory.addAction(category);
 	}
 }

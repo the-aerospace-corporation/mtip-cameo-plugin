@@ -10,7 +10,6 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class InteractionOperand extends CommonElement {
@@ -24,8 +23,9 @@ public class InteractionOperand extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
-		super.setOwner(project, owner);
+	public void setOwner(Element owner) {
+		super.setOwner(owner);
+		
 		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand io = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand)sysmlElement;
 		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment cf = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment)owner;
 		io.set_combinedFragmentOfOperand(cf);

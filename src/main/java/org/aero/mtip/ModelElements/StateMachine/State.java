@@ -58,21 +58,21 @@ public class State extends CommonElement {
 		if(xmlElement.hasAttribute(XmlTagConstants.DO_ACTIVITY)) {
 			CameoUtils.logGUI("Creating do activity for State.");
 			String doActivityId = xmlElement.getAttribute(XmlTagConstants.DO_ACTIVITY);
-			Behavior doActivity = (Behavior) ImportXmlSysml.getOrBuildElement(project, parsedXML, doActivityId);
+			Behavior doActivity = (Behavior) ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(doActivityId));
 			state.setDoActivity(doActivity);
 		}
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ENTRY)) {
 			CameoUtils.logGUI("Creating entry for State.");
 			String entryId = xmlElement.getAttribute(XmlTagConstants.ENTRY);
-			Behavior entry = (Behavior)ImportXmlSysml.getOrBuildElement(project, parsedXML, entryId);
+			Behavior entry = (Behavior)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(entryId));
 			state.setEntry(entry);
 		}
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.EXIT)) {
 			CameoUtils.logGUI("Creating exit for State.");
 			String exitId = xmlElement.getAttribute(XmlTagConstants.EXIT);
-			Behavior exit = (Behavior)ImportXmlSysml.getOrBuildElement(project, parsedXML, exitId);
+			Behavior exit = (Behavior)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(exitId));
 			state.setExit(exit);
 		}
 	}

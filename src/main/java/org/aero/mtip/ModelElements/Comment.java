@@ -50,7 +50,7 @@ public class Comment extends CommonElement {
 	
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)sysmlElement;
 		comment.setOwningElement(owner);
 	}

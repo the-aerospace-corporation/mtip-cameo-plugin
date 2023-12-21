@@ -41,7 +41,7 @@ public abstract class PseudoState extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		if(owner != null) {
 			//if owner is not a region, create a region and set that region as owned by state machine
 			if(owner instanceof Region) {

@@ -15,12 +15,12 @@ import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 @SuppressWarnings("serial")
-public class InspectDiagramElementAction extends MDAction {
+public class InspectDiagramElementNestedAction extends MDAction {
 	DiagramPresentationElement diagramPresentationElement;
 	PresentationElement[] selectedPresentationElements;
 	PresentationElement requestorPresentationElement;
 	
-	public InspectDiagramElementAction(String id, String name, DiagramPresentationElement diagramPresentationElement, PresentationElement[] selectedPresentationElements, PresentationElement requestorPresentationElement)	{
+	public InspectDiagramElementNestedAction(String id, String name, DiagramPresentationElement diagramPresentationElement, PresentationElement[] selectedPresentationElements, PresentationElement requestorPresentationElement)	{
 		super(id, name, null, null);
 		this.diagramPresentationElement = diagramPresentationElement;
 		this.selectedPresentationElements = selectedPresentationElements;
@@ -32,7 +32,7 @@ public class InspectDiagramElementAction extends MDAction {
 		CameoUtils.logGUI("Diagram element has id:" + diagramElement.getID());
 		CameoUtils.logGUI(Integer.toString(selectedPresentationElements.length) + " elements selected on diagram.");
 		
-		int allElementCount = findPresentationElements(diagramPresentationElement.getPresentationElements());
+		int allElementCount = findNestedPresentationElements(diagramPresentationElement.getPresentationElements());
 		CameoUtils.logGUI(Integer.toString(allElementCount) + " total elements on diagram found via api.");
 		
 		for (int i = 0; i < selectedPresentationElements.length; i++) {
@@ -49,15 +49,18 @@ public class InspectDiagramElementAction extends MDAction {
 		}
 	}
 	
-	public int findPresentationElements(List<PresentationElement> presentationElements) {
+	public int findNestedPresentationElements(List<PresentationElement> presentationElements) {
 		int count = 0;
 		for(int i = 0; i < presentationElements.size(); i++) {
 			PresentationElement presentationElement = presentationElements.get(i);
-			CameoUtils.logGUI(String.format("Presentation Element child of main diagram is of type %s with size %s",
-						presentationElement.getClass().toString(), presentationElement.getBounds().toString()));
-			count += 1;
+			CameoUtils.logGUI("Presentation Element from api is an object of type " + presentationElement.getClass().toString() + " with size" + presentationElement.getBounds().toString());
+			List<PresentationElement> nestedPresentationElements = presentationElement.getPresentationElements();
+			if(!nestedPresentationElements.isEmpty()) {
+				count += findNestedPresentationElements(nestedPresentationElements);
+			} else {
+				count += 1;
+			}
 		}
-		
 		return count;
 	}
 }

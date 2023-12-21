@@ -32,7 +32,7 @@ public class DecisionNode extends ActivityNode {
 	public void addDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		// Create decision input to be assigned to decision node, should it exist
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT)) {
-			Element decisionInput = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT)), modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT));
+			Element decisionInput = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT)));
 			if(decisionInput instanceof Behavior) {
 				com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.DecisionNode decisionNode = (com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.DecisionNode)sysmlElement;
 				decisionNode.setDecisionInput((Behavior)decisionInput);

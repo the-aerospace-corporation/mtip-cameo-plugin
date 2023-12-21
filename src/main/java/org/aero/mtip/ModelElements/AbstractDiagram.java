@@ -22,7 +22,6 @@ import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.apache.commons.collections.KeyValue;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -35,7 +34,6 @@ import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.LinkView;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
-import com.nomagic.magicdraw.uml.symbols.shapes.CallBehaviorActionView;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -260,59 +258,52 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		return noPosition;
 	}
 	
-	@Override
-	public void addRelationships(Project project, Diagram diagram, List<Element> relationships) {
-		try {
-			DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
-//			Application.getInstance().getProject().getDiagram(diagram).layout(true, new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
-//			project.getDiagram(diagram).open();
-			List<PresentationElement> presentationElements = presentationDiagram.getPresentationElements();
-			for(PresentationElement presentationElement : presentationElements) {
-				if(presentationElement instanceof PathElement) {
-					PresentationElementsManager.getInstance().deletePresentationElement(presentationElement);
-				}
+	
+	public void addRelationships(Project project, Diagram diagram, List<Element> relationships) throws ReadOnlyElementException {
+		DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
+		
+		for(PresentationElement presentationElement : presentationDiagram.getPresentationElements()) {
+			if(presentationElement instanceof PathElement) {
+				PresentationElementsManager.getInstance().deletePresentationElement(presentationElement);
 			}
-			for (Element relationship : relationships) {
-				Element client = ModelHelper.getClientElement(relationship);
-				Element supplier = ModelHelper.getSupplierElement(relationship);
-				PresentationElement clientPE = presentationDiagram.findPresentationElementForPathConnecting(client, null);
-				PresentationElement supplierPE = presentationDiagram.findPresentationElementForPathConnecting(supplier, null);
-				
-				try {
-					if(clientPE != null && supplierPE != null) {
-						PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
-						CameoUtils.logGUI("Placing relationship " + relationship.getHumanName() + " on to diagram.");
-					} else {
-						ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
-						CameoUtils.logGUI("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
-					}
-				} catch(ClassCastException cce) {
-					ImportLog.log("Class cast exception creating path element.");
-				} catch(NullPointerException npe) {
-					ImportLog.log("Null pointer exception creating path element.");
-				}
-				
-								
-			}
-		} catch (ReadOnlyElementException e) {
-			CameoUtils.logGUI("Diagram " + diagram.getHumanName() + " is ready only. No relationships will be added.");
 		}
-//		project.getDiagram(diagram).close();
+		
+		for (Element relationship : relationships) {
+			Element client = ModelHelper.getClientElement(relationship);
+			Element supplier = ModelHelper.getSupplierElement(relationship);
+			PresentationElement clientPE = presentationDiagram.findPresentationElementForPathConnecting(client, null);
+			PresentationElement supplierPE = presentationDiagram.findPresentationElementForPathConnecting(supplier, null);
+			
+			try {
+				if(clientPE != null && supplierPE != null) {
+					PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
+					CameoUtils.logGUI("Placing relationship " + relationship.getHumanName() + " on to diagram.");
+				} else {
+					ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+					CameoUtils.logGUI("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+				}
+			} catch(ClassCastException cce) {
+				ImportLog.log("Class cast exception creating path element.");
+			} catch(NullPointerException npe) {
+				ImportLog.log("Null pointer exception creating path element.");
+			}		
+		}
 	}
 	
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		List<String> diagramElements = modelElement.getChildElements(parsedXML);
+		
 		for(String diagramElement : diagramElements) {
 			XMLItem diagramElementXML = parsedXML.get(diagramElement);
-			ImportXmlSysml.buildElement(project, parsedXML, diagramElementXML, diagramElement);
+			ImportXmlSysml.buildElement(project, parsedXML, diagramElementXML);
 		}
+		
 		List<String> diagramRelationships = modelElement.getChildRelationships(parsedXML);
+		
 		for(String diagramRelationship : diagramRelationships) {
 			XMLItem diagramRelationshipXML = parsedXML.get(diagramRelationship);
-			if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(diagramRelationshipXML.getType())) {
-				ImportXmlSysml.buildRelationship(project, parsedXML, diagramRelationshipXML, diagramRelationship);
-			}
+			ImportXmlSysml.buildRelationship(project, parsedXML, diagramRelationshipXML);
 		}
 	}
 

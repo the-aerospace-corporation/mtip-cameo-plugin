@@ -72,7 +72,7 @@ public class AssociationBlock extends CommonElement {
 		if(modelElement.hasClient()) {
 			String clientID = modelElement.getClient();
 			if(parsedXML.containsKey(clientID)) {
-				Element client = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientID);
+				Element client = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(clientID));
 				modelElement.setClientElement(client);
 				modelElement.addAttribute("client", client.getID());
 			} else {
@@ -84,7 +84,7 @@ public class AssociationBlock extends CommonElement {
 		if(modelElement.hasSupplier()) {
 			String supplierID = modelElement.getSupplier();
 			if(parsedXML.containsKey(supplierID)) {
-				Element supplier = ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getSupplier());
+				Element supplier = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getSupplier()));
 				modelElement.setSupplierElement(supplier);
 				modelElement.addAttribute("supplier",  supplier.getID());
 			} else {

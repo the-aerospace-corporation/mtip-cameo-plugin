@@ -20,6 +20,7 @@ import org.aero.mtip.ModelElements.Requirements.Refine;
 import org.aero.mtip.ModelElements.Requirements.Satisfy;
 import org.aero.mtip.ModelElements.Requirements.Trace;
 import org.aero.mtip.ModelElements.Requirements.Verify;
+import org.aero.mtip.ModelElements.Sequence.Message;
 import org.aero.mtip.ModelElements.StateMachine.Transition;
 import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
@@ -76,6 +77,9 @@ public class CommonRelationshipsFactory {
 				break;
 			case SysmlConstants.ITEMFLOW:
 				relationship = new ItemFlow(name, EAID);
+				break;
+			case SysmlConstants.MESSAGE:
+				relationship = new Message(name, EAID);
 				break;
 			case SysmlConstants.OBJECTFLOW:
 				relationship = new ObjectFlow(name, EAID);

@@ -52,7 +52,7 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
 			String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 			try {
-				Element type = ImportXmlSysml.getOrBuildElement(project, parsedXML, classifierID);
+				Element type = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(classifierID));
 				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getID());
 			} catch (NullPointerException npe) {
 				CameoUtils.logGUI("Failed to create/get typed by element for element with id" + this.EAID);
@@ -63,7 +63,7 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner( Element owner) {
 		if(owner == null) {
 			String logMessage = "Owner is null. Could not add connector with id: " + this.EAID + " to the model.";
 			ImportLog.log(logMessage);

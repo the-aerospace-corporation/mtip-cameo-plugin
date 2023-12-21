@@ -68,13 +68,13 @@ public class Constraint extends CommonElement {
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Association");
 				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
 			} else {
-				Element constrainedCameoElement = ImportXmlSysml.getOrBuildElement(project, parsedXML, constrainedElement);
+				Element constrainedCameoElement = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(constrainedElement));
 				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
 			}
 			
 		}
 		if(modelElement.hasValueSpecification()) {
-			Element valueSpecification = ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getValueSpecification());
+			Element valueSpecification = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getValueSpecification()));
 			modelElement.setNewValueSpecification(valueSpecification.getID());
 		}
 	}

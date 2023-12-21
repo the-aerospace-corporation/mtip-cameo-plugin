@@ -566,14 +566,6 @@ public class XMLItem {
 		return diagramParents.get(id);
 	}
 	
-	public void addImportID(String cameoID, String importID) {
-		importIdMap.put(cameoID, importID);
-	}
-	
-	public String getImportID(String cameoID) {
-		return importIdMap.get(cameoID);
-	}
-	
 	public void addStereotypeTaggedValue(TaggedValue tv) {
 		taggedValues.add(tv);
 	}

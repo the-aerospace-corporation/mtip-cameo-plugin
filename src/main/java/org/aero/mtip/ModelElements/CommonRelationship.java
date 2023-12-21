@@ -18,11 +18,9 @@ import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.uml2.ext.jmi.helpers.CoreHelper;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 
 public abstract class CommonRelationship extends CommonElement {
 	protected Element supplier = null;
@@ -61,28 +59,33 @@ public abstract class CommonRelationship extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
-		if(this.supplier != null && this.client != null) {
-			if(owner != null) {
-				try {
-					sysmlElement.setOwner(owner);
-				} catch(IllegalArgumentException iaeOwner) {
-					CameoUtils.logGUI("No owner found for " + name + " with id " + EAID + ". Attempting to set supplier or client as parent.");
-				}
+	public void setOwner(Element owner) {
+		if (owner != null) {
+			try {
+				sysmlElement.setOwner(owner);
+				return;
+			} catch(IllegalArgumentException iaeOwner) {
+				ImportLog.log(String.format("Owner of type %s invalid for %s.", owner.getHumanType(), sysmlElement.getHumanType()));
 			}
-			else {
-				try {
-					sysmlElement.setOwner(supplier);
-				} catch(IllegalArgumentException iae) {
-					try {
-						sysmlElement.setOwner(client);
-					} catch(IllegalArgumentException iae2) {
-						String logMessage = "Invalid parent. No parent provided and supplier and client invalid parent for " + name + " with id " + EAID + ". Relationship could not be placed in model.";
-						CameoUtils.logGUI(logMessage);
-						ImportLog.log(logMessage);
-						throw new IllegalArgumentException("Invalid Parent");
-					}
-				}
+		}
+		
+		ImportLog.log(String.format("...Attempting to set supplier or client as owner for %s.", sysmlElement.getHumanType()));
+			
+		if(supplier != null) {
+			try {
+				sysmlElement.setOwner(supplier);
+				return;
+			} catch(IllegalArgumentException iaeOwner) {
+				ImportLog.log(String.format("...Supplier of type %s invalid for %s.", owner.getHumanType(), sysmlElement.getHumanType()));
+			}
+		}
+		
+		if(client != null) {
+			try {
+				sysmlElement.setOwner(supplier);
+				return;
+			} catch(IllegalArgumentException iaeOwner) {
+				ImportLog.log(String.format("...Client of type %s invalid for %s.", owner.getHumanType(), sysmlElement.getHumanType()));
 			}
 		}
 	}
