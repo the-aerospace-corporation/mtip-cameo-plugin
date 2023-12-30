@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.aero.mtip.XML.XmlWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -83,14 +84,13 @@ public class FileSelect
 		return doc;
 	}
 	
-	public static void writeXMLToFile(Document doc, File file) throws TransformerException, IOException
-	{
+	public static void writeXMLToFile(File file) throws TransformerException, IOException	{
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-		DOMSource source = new DOMSource(doc);
+		DOMSource source = new DOMSource(XmlWriter.getDocument());
 		StreamResult result = new StreamResult(new FileOutputStream(file));
 		transformer.transform(source, result);
 		result.getOutputStream().close();

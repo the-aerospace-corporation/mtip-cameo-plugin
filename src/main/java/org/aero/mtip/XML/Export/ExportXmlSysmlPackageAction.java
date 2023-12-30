@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.w3c.dom.Document;
@@ -47,12 +48,15 @@ public class ExportXmlSysmlPackageAction extends MDAction {
 		}
 		try {
 			File file = FileSelect.chooseXMLFile();
-			if(file != null) {
-				Document doc = ExportXmlSysmlAction.createDocument();
-				
-				ExportXmlSysml.buildXML(doc, file, packageElement);
-				FileSelect.writeXMLToFile(doc, file);
+			if(file == null) {
+				return;
 			}
+			
+			XmlWriter.initialize();
+			
+			ExportXmlSysml.buildXML(file, packageElement);
+			FileSelect.writeXMLToFile(file);
+			
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export complete.");
 			
 		} catch (NullPointerException npe) {
@@ -60,9 +64,6 @@ public class ExportXmlSysmlPackageAction extends MDAction {
 			StringWriter sw = new StringWriter();
 			npe.printStackTrace(new PrintWriter(sw));
 			CameoUtils.logGUI(sw.toString());
-		} catch (ParserConfigurationException e1) {
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export aborted - ParserConfigurationException");
 		} catch (FileNotFoundException fnf) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export aborted - FileNotFoundException");
 			StringWriter sw = new StringWriter();

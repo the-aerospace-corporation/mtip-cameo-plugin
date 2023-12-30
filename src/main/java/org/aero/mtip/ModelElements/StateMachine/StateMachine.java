@@ -21,9 +21,9 @@ public class StateMachine extends CommonElement {
 	public StateMachine(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.STATEMACHINE;
+		this.sysmlConstant = SysmlConstants.STATE_MACHINE;
 		this.xmlConstant = XmlTagConstants.STATEMACHINE;
-		this.sysmlElement = f.createStateMachineInstance();
+		this.element = f.createStateMachineInstance();
 		
 	}
 	
@@ -33,7 +33,7 @@ public class StateMachine extends CommonElement {
 //		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine stateMachine = ((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine) sysmlElement);
 //		stateMachine.getRegion().clear();
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {

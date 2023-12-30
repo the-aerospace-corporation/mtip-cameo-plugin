@@ -15,8 +15,8 @@ public class ExtensionPoint extends CommonElement {
 	public ExtensionPoint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.EXTENSIONPOINT;
-		this.xmlConstant = XmlTagConstants.EXTENSIONPOINT;
-		this.sysmlElement = f.createExtensionPointInstance();
+		this.sysmlConstant = SysmlConstants.EXTENSION_POINT;
+		this.xmlConstant = XmlTagConstants.EXTENSION_POINT;
+		this.element = f.createExtensionPointInstance();
 	}
 }

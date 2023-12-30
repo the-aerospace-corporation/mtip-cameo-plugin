@@ -17,6 +17,6 @@ public class Profile extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.PROFILE;
 		this.xmlConstant = XmlTagConstants.PROFILE;
-		this.sysmlElement = f.createProfileInstance();
+		this.element = f.createProfileInstance();
 	}
 }

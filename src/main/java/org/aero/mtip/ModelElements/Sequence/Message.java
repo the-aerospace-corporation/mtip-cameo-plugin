@@ -10,12 +10,12 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -32,14 +32,14 @@ public class Message extends CommonRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.MESSAGE;
 		this.xmlConstant = XmlTagConstants.MESSAGE;
-		this.sysmlElement = f.createMessageInstance();
+		this.element = f.createMessageInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		
 		String messageSort = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_SORT);
 		MessageSort messageSortEnum = MessageSortEnum.getByName(messageSort);
@@ -51,7 +51,7 @@ public class Message extends CommonRelationship {
 			message.setSignature(signature);
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
@@ -62,47 +62,67 @@ public class Message extends CommonRelationship {
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
-		message.getArgument();
-		message.getConnector();
-		message.getGuard();
-		message.getInteraction();
+		writeMessageKind(attributes, element);
+		writeMessageSort(attributes, element);
+		writeSignature(relationships, element);
 		
-		MessageKind mk = message.getMessageKind();
-		org.w3c.dom.Element mkTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_KIND, mk.toString());
-		
-		MessageSort ms = message.getMessageSort();
-		org.w3c.dom.Element msTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_SORT, ms.toString());
+//		message.getArgument();
+//		message.getConnector();
+//		message.getGuard();
+//		message.getInteraction();
+//		message.getTarget();
 
+		return data;
+	}
+	
+	protected void writeMessageKind(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
+		MessageKind mk = message.getMessageKind();
+		
+		org.w3c.dom.Element mkTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_KIND, mk.toString());
+		XmlWriter.add(attributes, mkTag);
+	}
+	
+	protected void writeMessageSort(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
+		MessageSort ms = message.getMessageSort();
+		
+		org.w3c.dom.Element msTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_SORT, ms.toString());
+		XmlWriter.add(attributes, msTag);
+	}
+	
+	protected void writeSignature(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		Element signature = message.getSignature();
-		if(signature != null && signature instanceof com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal) {
-			org.w3c.dom.Element signalTag = createRel(xmlDoc, signature, XmlTagConstants.SIGNATURE_TAG);
-			relationships.appendChild(signalTag);
+		
+		if(signature == null || !(signature instanceof com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal)) {
+			return;
 		}
 		
-		message.getTarget();
-		
-		attributes.appendChild(mkTag);
-		attributes.appendChild(msTag);
-		return data;
+		org.w3c.dom.Element signalTag = XmlWriter.createMtipRelationship(signature, XmlTagConstants.SIGNATURE_TAG);
+		XmlWriter.add(relationships, signalTag);
 	}
 	
 	@Override
 	public void setSupplier() {
-		if (!(supplier instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)
-				|| !(client instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)) {
-			ImportLog.log("Unable to set supplier for message as it is not a lifeline.");
+		if (supplier == null) {
+			ImportLog.log(String.format("Supplier null for message with import id %s", EAID));
+			return;
+		}
+		
+		if (!(supplier instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)) {
+			ImportLog.log(String.format("Unable to set supplier for message as it is not a lifeline but %s.", supplier.getHumanType()));
 			return;
 		}
 		
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)supplier;
 		
-		Element interaction = sysmlElement.getOwner();
+		Element interaction = element.getOwner();
 		
 		if (interaction == null) {
 			ImportLog.log("Interaction owner could not be found to create client for message.");
@@ -114,22 +134,26 @@ public class Message extends CommonRelationship {
 		
 		lifeline.getCoveredBy().add(os);
 		
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		os.setMessage(message);
 		message.setSendEvent(os);
 	}
 	
 	@Override
 	public void setClient() {
-		if (!(client instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)
-				|| !(supplier instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)) {
+		if (client == null) {
+			ImportLog.log(String.format("Client null for message with import id %s", EAID));
+			return;
+		}
+		
+		if (!(client instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)) {
 			ImportLog.log("Unable to set client for message as it is not a lifeline.");
 			return;
 		}
 		
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)client;
 		
-		Element interaction = sysmlElement.getOwner();
+		Element interaction = element.getOwner();
 		
 		if (interaction == null) {
 			ImportLog.log("Interaction owner could not be found to create client for message.");
@@ -141,7 +165,7 @@ public class Message extends CommonRelationship {
 		
 		lifeline.getCoveredBy().add(os);
 		
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		
 		os.setMessage(message);
 		message.setReceiveEvent(os);

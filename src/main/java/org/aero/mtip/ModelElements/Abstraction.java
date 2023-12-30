@@ -16,6 +16,6 @@ public class Abstraction extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.ABSTRACTION;
 		this.sysmlConstant = SysmlConstants.ABSTRACTION;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 }

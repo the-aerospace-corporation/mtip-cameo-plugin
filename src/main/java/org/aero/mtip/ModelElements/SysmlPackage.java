@@ -15,6 +15,6 @@ public class SysmlPackage extends CommonElement{
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.PACKAGE;
 		this.sysmlConstant = SysmlConstants.PACKAGE;
-		this.sysmlElement = f.createPackageInstance();
+		this.element = f.createPackageInstance();
 	}
 }

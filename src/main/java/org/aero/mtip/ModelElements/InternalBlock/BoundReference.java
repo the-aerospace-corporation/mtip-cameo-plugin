@@ -22,9 +22,9 @@ public class BoundReference extends CommonElement {
 	public BoundReference(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.BOUNDREFERENCE;
-		this.sysmlConstant = SysmlConstants.BOUNDREFERENCE;
-		this.sysmlElement = f.createPropertyInstance();
+		this.xmlConstant = XmlTagConstants.BOUND_REFERENCE;
+		this.sysmlConstant = SysmlConstants.BOUND_REFERENCE;
+		this.element = f.createPropertyInstance();
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class BoundReference extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype boundReferenceStereotype = StereotypesHelper.getStereotype(project, "BoundReference", sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, boundReferenceStereotype);
+		StereotypesHelper.addStereotype(element, boundReferenceStereotype);
 
-		return sysmlElement;
+		return element;
 	}
 }

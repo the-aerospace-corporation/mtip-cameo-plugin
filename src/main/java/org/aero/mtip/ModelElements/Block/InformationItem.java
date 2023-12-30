@@ -15,9 +15,9 @@ public class InformationItem extends CommonElement {
 	public InformationItem(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INFORMATIONITEM;
-		this.xmlConstant = XmlTagConstants.INFORMATIONITEM;
-		this.sysmlElement = f.createInformationItemInstance();
+		this.sysmlConstant = SysmlConstants.INFORMATION_ITEM;
+		this.xmlConstant = XmlTagConstants.INFORMATION_ITEM;
+		this.element = f.createInformationItemInstance();
 	}
 	
 }

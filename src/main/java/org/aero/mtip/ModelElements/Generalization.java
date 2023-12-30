@@ -15,6 +15,6 @@ public class Generalization extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.GENERALIZATION;
 		this.xmlConstant = XmlTagConstants.GENERALIZATION;
-		this.sysmlElement = f.createGeneralizationInstance();
+		this.element = f.createGeneralizationInstance();
 	}
 }

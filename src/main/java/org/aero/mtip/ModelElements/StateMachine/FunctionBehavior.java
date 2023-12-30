@@ -15,8 +15,8 @@ public class FunctionBehavior extends CommonElement {
 	public FunctionBehavior(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.FUNCTIONBEHAVIOR;
-		this.xmlConstant = XmlTagConstants.FUNCTIONBEHAVIOR;
-		this.sysmlElement = f.createFunctionBehaviorInstance();
+		this.sysmlConstant = SysmlConstants.FUNCTION_BEHAVIOR;
+		this.xmlConstant = XmlTagConstants.FUNCTION_BEHAVIOR;
+		this.element = f.createFunctionBehaviorInstance();
 	}
 }

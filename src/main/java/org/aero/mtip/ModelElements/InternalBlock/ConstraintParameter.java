@@ -35,9 +35,9 @@ public class ConstraintParameter extends CommonElement {
 	public ConstraintParameter(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.CONSTRAINTPARAMETER;
-		this.sysmlConstant = SysmlConstants.CONSTRAINTPARAMETER;
-		this.sysmlElement = f.createPortInstance();
+		this.xmlConstant = XmlTagConstants.CONSTRAINT_PARAMETER;
+		this.sysmlConstant = SysmlConstants.CONSTRAINT_PARAMETER;
+		this.element = f.createPortInstance();
 	}
 
 	@Override
@@ -45,16 +45,16 @@ public class ConstraintParameter extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 		
 		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, SysmlConstants.MD_CUSTOMIZATION_PROFILE_NAME); 
-		Stereotype constraintParameterStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.CONSTRAINTPARAMETER, mdCustomizationProfile);
-		StereotypesHelper.addStereotype(sysmlElement, constraintParameterStereotype);
+		Stereotype constraintParameterStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.CONSTRAINT_PARAMETER, mdCustomizationProfile);
+		StereotypesHelper.addStereotype(element, constraintParameterStereotype);
 		
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, SysmlConstants.SYSML_PROFILE_NAME);
 		Stereotype directedFeatureStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.DIRECTED_FEATURE, sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, directedFeatureStereotype);
+		StereotypesHelper.addStereotype(element, directedFeatureStereotype);
 		
 		setDirectedFeatureValue(xmlElement);
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	private void setDirectedFeatureValue(XMLItem xmlElement) {
@@ -67,7 +67,7 @@ public class ConstraintParameter extends CommonElement {
 		Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), directedFeatureTaggedValue.getProfileName());
 		Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), directedFeatureTaggedValue.getStereotypeName(), profile);
 		Property prop = StereotypesHelper.getPropertyByName(stereotype, directedFeatureTaggedValue.getValueName());
-		Slot slot = StereotypesHelper.getSlot(sysmlElement, prop, true, false);
+		Slot slot = StereotypesHelper.getSlot(element, prop, true, false);
 		
 		EnumerationLiteral directedFeatureValue = getDirectionFeatureValue(prop, directedFeatureTaggedValue);
 		

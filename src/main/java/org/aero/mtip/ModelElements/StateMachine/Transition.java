@@ -10,12 +10,13 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
@@ -30,13 +31,13 @@ public class Transition extends CommonRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.TRANSITION;
 		this.sysmlConstant = SysmlConstants.TRANSITION;
-		this.sysmlElement = f.createTransitionInstance();
+		this.element = f.createTransitionInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		super.createElement(project, owner, client, supplier, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		
 		try {
 			if(xmlElement.hasGuard()) {
@@ -92,35 +93,42 @@ public class Transition extends CommonRelationship {
 	}
 
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition tr = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
-		Collection<com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger> triggers = tr.getTrigger();
-		if(!triggers.isEmpty()) {
-			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = triggers.iterator().next();
-			org.w3c.dom.Element triggerTag = createRel(xmlDoc, trigger, XmlTagConstants.TRIGGER_TAG);
-			attributes.appendChild(triggerTag);
-		}
+		writeTrigger(relationships, element);
 
 		return data;
+	}
+	
+	protected void writeTrigger(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition tr = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
+		Collection<com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger> triggers = tr.getTrigger();
+		
+		if(triggers.isEmpty()) {
+			return;
+		}
+			
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = triggers.iterator().next();
+		org.w3c.dom.Element triggerTag = XmlWriter.createMtipRelationship(trigger, XmlTagConstants.TRIGGER_TAG);
+		XmlWriter.add(relationships, triggerTag);
 	}
 	
 	@Override
 	public void setOwner(Element owner) {
 		owner = CameoUtils.findNearestRegion(project, supplier);
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 	@Override
 	public void setSupplier() {
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		transition.setSource((Vertex) supplier);
 	}
 	
 	@Override
 	public void setClient() {
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
 		transition.setTarget((Vertex) client);
 	}
 
@@ -137,15 +145,15 @@ public class Transition extends CommonRelationship {
 	}
 	
 	@Override
-	protected org.w3c.dom.Element createRelationships(Document xmlDoc, Element element) {
-		org.w3c.dom.Element relationships = xmlDoc.createElement(XmlTagConstants.RELATIONSHIPS);
-		relationships.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-		if(element.getOwner().getOwner() != null) {
-			org.w3c.dom.Element hasParent = createRel(xmlDoc, element.getOwner().getOwner(), XmlTagConstants.HAS_PARENT);
-			relationships.appendChild(hasParent);
+	protected void writeParent(org.w3c.dom.Element relationships) {
+		Element owner = element.getOwner().getOwner();
+		
+		if(owner == null) {
+			ExportLog.log(String.format("No parent found for transition %s with id %s", element.getHumanName(), element.getID()));
+			return;
 		}
 		
-		
-		return relationships;
+		org.w3c.dom.Element hasParentTag = XmlWriter.createMtipRelationship(owner, XmlTagConstants.HAS_PARENT);
+		XmlWriter.add(relationships, hasParentTag);
 	}
 }

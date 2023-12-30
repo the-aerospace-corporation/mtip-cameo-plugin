@@ -17,6 +17,6 @@ public class Include extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.INCLUDE;
 		this.xmlConstant = XmlTagConstants.INCLUDE;
-		this.sysmlElement = f.createIncludeInstance();
+		this.element = f.createIncludeInstance();
 	}
 }

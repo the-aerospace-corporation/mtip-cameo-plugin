@@ -16,6 +16,6 @@ public class Signal extends CommonElement{
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.SIGNAL;
 		this.xmlConstant = XmlTagConstants.SIGNAL;
-		this.sysmlElement = f.createSignalInstance();
+		this.element = f.createSignalInstance();
 	}
 }

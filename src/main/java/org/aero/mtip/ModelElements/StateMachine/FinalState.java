@@ -9,13 +9,13 @@ package org.aero.mtip.ModelElements.StateMachine;
 import java.util.Collection;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
-import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
@@ -24,54 +24,55 @@ public class FinalState extends CommonElement {
 	public FinalState(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.FINALSTATE;
-		this.xmlConstant = XmlTagConstants.FINALSTATE;
-		this.sysmlElement = f.createFinalStateInstance();
+		this.sysmlConstant = SysmlConstants.FINAL_STATE;
+		this.xmlConstant = XmlTagConstants.FINAL_STATE;
+		this.element = f.createFinalStateInstance();
 	}
 	
 	//NOTE: Must be added to Region under state Machine
 	@Override
 	public void setOwner(Element owner) {
-		if(owner != null) {
-			//if owner is not a region, create a region and set that region as owned by state machine
-			if(owner instanceof Region) {
-				sysmlElement.setOwner(owner);
-			} else if(owner instanceof StateMachine) {
-				Collection<Region> regions = ((StateMachine) owner).getRegion();
-				if(regions != null) {
-					Region region = regions.iterator().next();
-					sysmlElement.setOwner(region);
-				} else {
-					CameoUtils.logGUI("CREATE REGION HERE!!!!!!!!!!!!!");
-					//create region
-				}
-			} else {
-				owner = CameoUtils.findNearestRegion(project, owner);
-				if(owner == null) {
-					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
-					CameoUtils.logGUI(logMessage);
-					ImportLog.log(logMessage);
-					sysmlElement.dispose();
-				}
-				sysmlElement.setOwner(owner);
-			}
-		} else {
-			String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
-			CameoUtils.logGUI(logMessage);
-			ImportLog.log(logMessage);
-			sysmlElement.dispose();
+		if (owner == null) {
+			return;
 		}
+		
+		if (owner instanceof Region) {
+			element.setOwner(owner);
+			return;
+		}
+		
+		if (owner instanceof StateMachine) {
+			Collection<Region> regions = ((StateMachine) owner).getRegion();
+			if(regions != null) {
+				Region region = regions.iterator().next();
+				
+				if (region != null) {
+					element.setOwner(region);
+					return;
+				}
+			}
+		}
+		
+		owner = CameoUtils.findNearestRegion(project, owner);
+		
+		if (owner == null) {
+			ImportLog.log(String.format("Invalid parent. Parent must be region for %s of type %s with id %s.", name, element.getHumanType(), element.getID()));
+			return;
+		}
+		
+		element.setOwner(owner);
 	}
 	
 	@Override
-	protected org.w3c.dom.Element createRelationships(Document xmlDoc, Element element) {
-		org.w3c.dom.Element relationships = xmlDoc.createElement(XmlTagConstants.RELATIONSHIPS);
-		relationships.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-		if(element.getOwner().getOwner() != null) {
-			org.w3c.dom.Element hasParent = createRel(xmlDoc, element.getOwner().getOwner(), XmlTagConstants.HAS_PARENT);
-			relationships.appendChild(hasParent);
+	protected void writeParent(org.w3c.dom.Element relationships) {
+		Element owner = element.getOwner().getOwner();
+		
+		if(owner == null) {
+			ExportLog.log(String.format("No parent found for final state %s with id %s", element.getHumanName(), element.getID()));
+			return;
 		}
 		
-		return relationships;
+		org.w3c.dom.Element hasParentTag = XmlWriter.createMtipRelationship(owner, XmlTagConstants.HAS_PARENT);
+		XmlWriter.add(relationships, hasParentTag);
 	}
 }

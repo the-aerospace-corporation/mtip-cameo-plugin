@@ -22,7 +22,7 @@ public class Composition extends org.aero.mtip.ModelElements.Association {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.COMPOSITION;
 		this.xmlConstant = XmlTagConstants.COMPOSITION;
-		this.sysmlElement = f.createAssociationInstance();
+		this.element = f.createAssociationInstance();
 	}
 
 	@Override

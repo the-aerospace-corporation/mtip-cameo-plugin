@@ -16,6 +16,6 @@ public class Operation extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.OPERATION;
 		this.xmlConstant = XmlTagConstants.OPERATION;
-		this.sysmlElement = f.createOperationInstance();
+		this.element = f.createOperationInstance();
 	}
 }

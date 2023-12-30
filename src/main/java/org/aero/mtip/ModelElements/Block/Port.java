@@ -22,7 +22,7 @@ public class Port extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.PORT;
 		this.xmlConstant = XmlTagConstants.PORT;
-		this.sysmlElement = f.createPortInstance();
+		this.element = f.createPortInstance();
 	}
 	
 	@Override
@@ -37,23 +37,23 @@ public class Port extends CommonElement {
 						TypedElement ownerTyped = (TypedElement)owner;
 						Type type = ownerTyped.getType();
 						newOwner = (Element)type;
-						sysmlElement.setOwner(newOwner);
+						element.setOwner(newOwner);
 					} else {
 						newOwner = createNestedPorts(project, owner);
 						TypedElement ownerTyped = (TypedElement)owner;
 						ownerTyped.setType((Type)newOwner);
-						sysmlElement.setOwner(newOwner);
+						element.setOwner(newOwner);
 					}
 				} else {
-					sysmlElement.setOwner(owner);
+					element.setOwner(owner);
 				}
 			} else {
-				sysmlElement.setOwner(project.getPrimaryModel());
+				element.setOwner(project.getPrimaryModel());
 			}
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";
 			ImportLog.log(logMessage);
-			sysmlElement.dispose();
+			element.dispose();
 		}
 	}
 }

@@ -16,6 +16,6 @@ public class Activity extends CommonElement{
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.ACTIVITY;
 		this.xmlConstant = XmlTagConstants.ACTIVITY;
-		this.sysmlElement = f.createActivityInstance();
+		this.element = f.createActivityInstance();
 	}
 }

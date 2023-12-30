@@ -17,6 +17,6 @@ public class Extend extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.EXTEND;
 		this.xmlConstant = XmlTagConstants.EXTEND;
-		this.sysmlElement = f.createExtendInstance();
+		this.element = f.createExtendInstance();
 	}
 }

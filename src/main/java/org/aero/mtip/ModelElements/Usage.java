@@ -16,6 +16,6 @@ public class Usage extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.USAGE;
 		this.xmlConstant = XmlTagConstants.USAGE;
-		this.sysmlElement = f.createUsageInstance();
+		this.element = f.createUsageInstance();
 	}
 }

@@ -10,19 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Constraint extends CommonElement {
 	public static final String VALUE_SPECIFICATION = "valueSpecification";
@@ -32,13 +29,13 @@ public class Constraint extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.CONSTRAINT;
-		this.sysmlElement = f.createConstraintInstance();
+		this.element = f.createConstraintInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)element;
 		
 		ValueSpecification oe = (ValueSpecification) project.getElementByID(xmlElement.getNewValueSpecification());
 		constraint.setSpecification(oe);
@@ -53,7 +50,7 @@ public class Constraint extends CommonElement {
 	
 	public Element createElement(Project project, Element owner) {
 		super.createElement(project, owner, null);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)element;
 				
 		return constraint;
 	}
@@ -80,58 +77,36 @@ public class Constraint extends CommonElement {
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
+		writeSpecification(attributes, element);
+		writeConstrainedElements(relationships, element);
+		
+		return data;
+	}
+	
+	private void writeSpecification(org.w3c.dom.Element attributes, Element element) {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)element;
 		ValueSpecification vs = constraint.getSpecification();
 		
-		if(vs instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
-			org.w3c.dom.Element valueSpecTag = createRel(xmlDoc, vs, Constraint.VALUE_SPECIFICATION);
-			relationships.appendChild(valueSpecTag);
+		if (vs == null) {
+			return;
 		}
-		// Check here for other value specification types to handle differently if needed
 		
-		//Export constrained Element
+		org.w3c.dom.Element valueSpecTag = XmlWriter.createAttributeFromValueSpecification(vs, Constraint.VALUE_SPECIFICATION);
+		XmlWriter.add(attributes, valueSpecTag);
+	}
+	
+	protected void writeConstrainedElements(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)element;
 		List<Element> constrainedElements = constraint.getConstrainedElement();
+		
 		for(Element constrainedElement : constrainedElements) {
-			org.w3c.dom.Element constrainedElementTag = createRel(xmlDoc, constrainedElement, Constraint.CONSTRAINED_ELEMENT);
-			relationships.appendChild(constrainedElementTag);
+			org.w3c.dom.Element constrainedElementTag = XmlWriter.createMtipRelationship(constrainedElement, Constraint.CONSTRAINED_ELEMENT);
+			XmlWriter.add(relationships, constrainedElementTag);
 		}
-		
-		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-		com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile validationProfile = StereotypesHelper.getProfile(project,  "Validation Profile");
-		Stereotype validationRule = StereotypesHelper.getStereotype(project, "validationRule", validationProfile);
-		
-		//Must check if constraint has validation rule stereotype that holds these attributes
-		if(stereotypes.contains(validationRule)) {
-			//Export Error Message
-			
-			List<String> errorMessages = StereotypesHelper.getStereotypePropertyValueAsString(element, validationRule, "errorMessage");
-			if(!errorMessages.isEmpty()) {
-				String errorMessage = errorMessages.get(0);
-				org.w3c.dom.Element errorMsgTag = xmlDoc.createElement("errorMessage");
-				errorMsgTag.appendChild(xmlDoc.createTextNode(errorMessage));
-				attributes.appendChild(errorMsgTag);
-			}
-			
-			//Export severity
-			String severity = "";
-			Object severityObj = StereotypesHelper.getStereotypePropertyFirst(element, validationRule, "severity");
-			if(severityObj instanceof EnumerationLiteral) {
-				EnumerationLiteral el = (EnumerationLiteral)severityObj;
-				severity = el.getName();
-			}
-
-			// Check for other severities here
-			if(!severity.isEmpty()) {
-				org.w3c.dom.Element severityTag = xmlDoc.createElement("severity");
-				severityTag.appendChild(xmlDoc.createTextNode(severity));
-				attributes.appendChild(severityTag);
-			}
-		}		
-		return data;
 	}
 }

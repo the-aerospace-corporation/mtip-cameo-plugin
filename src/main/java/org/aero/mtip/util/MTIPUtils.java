@@ -15,6 +15,30 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 
 public class MTIPUtils {
+	public static boolean isSupportedElement(String commonElementType) {
+		if (!SysmlConstants.SYSML_ELEMENTS.contains(commonElementType)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static boolean isSupportedRelationship(String commonRelationshipType) {
+		if (!SysmlConstants.SYSML_RELATIONSHIPS.contains(commonRelationshipType)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static boolean isSupportedDiagram(String commonElementType) {
+		if (!SysmlConstants.SYSML_DIAGRAMS.contains(commonElementType)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public static Package createMTIPProfile(Project project) {
 		CommonElementsFactory cef = new CommonElementsFactory();
 		CommonElement profileClass = cef.createElement(SysmlConstants.PROFILE, "MTIP Stereotypes",  "");

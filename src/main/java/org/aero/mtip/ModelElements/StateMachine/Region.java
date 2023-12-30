@@ -17,7 +17,7 @@ public class Region extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.REGION;
 		this.xmlConstant = XmlTagConstants.REGION;
-		this.sysmlElement = f.createRegionInstance();
+		this.element = f.createRegionInstance();
 	}
 
 }

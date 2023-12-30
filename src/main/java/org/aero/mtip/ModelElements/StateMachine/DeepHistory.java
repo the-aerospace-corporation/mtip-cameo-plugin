@@ -16,8 +16,8 @@ public class DeepHistory extends PseudoState {
 	public DeepHistory(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.DEEPHISTORY;		
-		this.sysmlConstant = SysmlConstants.DEEPHISTORY;
-		this.xmlConstant = XmlTagConstants.DEEPHISTORY;
+		this.sysmlConstant = SysmlConstants.DEEP_HISTORY;
+		this.xmlConstant = XmlTagConstants.DEEP_HISTORY;
 	}
 
 }

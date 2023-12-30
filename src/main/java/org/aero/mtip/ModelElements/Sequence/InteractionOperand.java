@@ -17,16 +17,16 @@ public class InteractionOperand extends CommonElement {
 	public InteractionOperand(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INTERACTIONOPERAND;
-		this.xmlConstant = XmlTagConstants.INTERACTIONOPERAND;
-		this.sysmlElement = f.createInteractionOperandInstance();
+		this.sysmlConstant = SysmlConstants.INTERACTION_OPERAND;
+		this.xmlConstant = XmlTagConstants.INTERACTION_OPERAND;
+		this.element = f.createInteractionOperandInstance();
 	}
 	
 	@Override
 	public void setOwner(Element owner) {
 		super.setOwner(owner);
 		
-		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand io = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand io = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand)element;
 		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment cf = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment)owner;
 		io.set_combinedFragmentOfOperand(cf);
 	}

@@ -24,7 +24,7 @@ public class Trace extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.TRACE;
 		this.xmlConstant = XmlTagConstants.TRACE;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class Trace extends CommonDirectedRelationship {
 		
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype traceStereotype = StereotypesHelper.getStereotype(project,  "Trace", sysml);
-		StereotypesHelper.addStereotype(sysmlElement, traceStereotype);
+		StereotypesHelper.addStereotype(element, traceStereotype);
 		
-		return sysmlElement;
+		return element;
 	}
 }

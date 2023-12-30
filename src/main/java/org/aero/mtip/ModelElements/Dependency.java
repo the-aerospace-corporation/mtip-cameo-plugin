@@ -16,6 +16,6 @@ public class Dependency extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.DEPENDENCY;
 		this.xmlConstant = XmlTagConstants.DEPENDENCY;
-		this.sysmlElement = f.createDependencyInstance();
+		this.element = f.createDependencyInstance();
 	}
 }

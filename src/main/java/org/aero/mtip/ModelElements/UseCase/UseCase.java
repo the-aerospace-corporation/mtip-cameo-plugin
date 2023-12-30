@@ -15,8 +15,8 @@ public class UseCase extends CommonElement {
 	public UseCase(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.USECASE;
+		this.sysmlConstant = SysmlConstants.USE_CASE;
 		this.xmlConstant = XmlTagConstants.USECASE;
-		this.sysmlElement = f.createUseCaseInstance();
+		this.element = f.createUseCaseInstance();
 	}
 }

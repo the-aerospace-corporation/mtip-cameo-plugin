@@ -10,9 +10,7 @@ import java.awt.Rectangle;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -47,13 +45,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.nomagic.uml2.impl.ElementsFactory;
 
 public class ImportXmlSysml {
     static Map<String,Entry<Element, Element>> linktoPair = new HashMap<String,Entry<Element, Element>>();
@@ -117,11 +110,12 @@ public class ImportXmlSysml {
 		
 		buildModel(profileXML);
 		buildModel(completeXML);
+		
 		ImportLog.save();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Refresh");
-		}
-		SessionManager.getInstance().closeSession(project);
+
+		createSession("Refresh");
+		closeSession();
+		
 		project.getOptions().setAutoNumbering(true);
 	}
 
@@ -142,7 +136,13 @@ public class ImportXmlSysml {
 		}	
 	}
 	
+	@CheckForNull
 	public static Element buildEntity(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		if (modelElement == null) {
+			ImportLog.log(String.format("XML data not found attempting to build entity."));
+			return null;
+		}
+		
 		String category = modelElement.getCategory();
 		
 		if(category.isEmpty()) {
@@ -164,49 +164,35 @@ public class ImportXmlSysml {
 		
 		return null;
 	}
-
-	public static Element tryToGetElement(Project project, Map<String, XMLItem> parsedXML, String eaID) {
-		String cameoUnique = parentMap.get(eaID);
-
-		if (cameoUnique == null) {
-			ImportLog.log("tryToGetElement: Cannot get Element of ID: " + eaID);
-			return null;
-
-		} else {
-			Element element = (Element) project.getElementByID(cameoUnique);
-			return element;
-		}
-	}
 	
 	public static Element buildDiagram(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(!Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType())) {
+		if(!isDiagramSupported(modelElement)) {
 			ImportLog.log(String.format("%s with id %s type is not supported. ", modelElement.getType(), modelElement.getEAID()));
 		}
+		
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create " +  modelElement.getType() + " Element");
-		}
+		createSession(String.format("Create %s Element", modelElement.getType()));
 		
 		Diagram newDiagram = null;
 	 
-		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
+//		CameoUtils.logGUI("Creating diagram of type: " + modelElement.getType() + " and id: " + modelElement.getEAID() + " with parent " + modelElement.getParent() + ".");
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
 		project.getDiagram(newDiagram).open(); 
 		TrackIds(newDiagram, modelElement);
 		
-		SessionManager.getInstance().closeSession(project);
+		closeSession();
 		
 		// Opens and closes its own session while populating the diagram
 		populateDiagram(diagram, newDiagram, modelElement, parsedXML);
 		
-		ImportLog.log(String.format("Created diagram %s of type %s and id %s", modelElement.getName(), modelElement.getType(), modelElement.getEAID()));
+//		ImportLog.log(String.format("Created diagram %s of type %s and id %s", modelElement.getName(), modelElement.getType(), modelElement.getEAID()));
 		return newDiagram;
 	}
 	
 	public static Element buildRelationship(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(!IsRelationshipSupported(modelElement)) { 
+		if(!isRelationshipSupported(modelElement)) { 
 			ImportLog.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
@@ -225,14 +211,9 @@ public class ImportXmlSysml {
 			ImportLog.log(String.format("Supplier null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
 		
-		//Create relationship in Cameo 
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, String.format("Creating CommonRelationship of type %s.",modelElement.getType()));
-		}
-		
+		createSession(String.format("Creating CommonRelationship of type %s.",modelElement.getType()));
 		CommonRelationship relationship = crf.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
-		
-		SessionManager.getInstance().closeSession(project);
+		closeSession();
 		
 		if (relationship == null) {
 			ImportLog.log("Error. Element missing in common elements factory.");
@@ -241,13 +222,9 @@ public class ImportXmlSysml {
 
 		relationship.createDependentElements(project, parsedXML, modelElement);
 		
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, String.format("Creating Relationship of type %s.", modelElement.getType()));
-		}
-		
+		createSession(String.format("Creating Relationship of type %s.", modelElement.getType()));
 		Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
-		
-		SessionManager.getInstance().closeSession(project);
+		closeSession();
 				
 		if (newElement == null) {
 			ImportLog.log(String.format("Relationship not created. Type: %s ID: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
@@ -261,12 +238,12 @@ public class ImportXmlSysml {
 		}
 			
 		TrackRelationshipIds(modelElement, newElement, supplier, client);
-		ImportLog.log(String.format("Created relationship of type: %s and id: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
+//		ImportLog.log(String.format("Created relationship of type: %s and id: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
 		return newElement;
 	}
 	
 	public static Element buildElement(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(!IsElementSupported(modelElement)) { 
+		if(!isElementSupported(modelElement)) { 
 			ImportLog.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
@@ -277,40 +254,35 @@ public class ImportXmlSysml {
 		
 		Element owner = GetImportedOwner(modelElement, parsedXML);
 		
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Initialize element " +  modelElement.getType() + " Element");
-		}
-	
+		createSession(String.format("Initialize element %s Element", modelElement.getType()));
 		CommonElement element = cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
+		closeSession();
+		
 		element.createDependentElements(project, parsedXML, modelElement);
 		
 		// Create new session if tagged values or other dependent elements are found, built, and session is closed.
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create " +  modelElement.getType() + " with dependent Elements");
-		}
-		
+		createSession(String.format("Create %s with dependent Elements", modelElement.getType()));
 		Element newElement = element.createElement(project, owner, modelElement);
-		// addStereotypeTaggedValues and addDependentElements will call and end their own sessions. End session here.
-		SessionManager.getInstance().closeSession(project);
+		closeSession();
 		
-		if(newElement != null) {
-			TrackIds(newElement, modelElement);
-			addStereotypes(newElement, modelElement);
-			element.addStereotypeTaggedValues(modelElement);					
-			element.addDependentElements(parsedXML, modelElement);
-			
-			if(newElement.getOwner() == null) {
-				newElement.dispose();
-				ImportLog.log("Owner failed to be set including any default owners. Element with id " + modelElement.getEAID() + " not created.");
-				return null;
-			}
-			
-			ImportLog.log("Created element " + modelElement.getAttribute("name") + " of type: " + modelElement.getType() + " with no initial owner.");
-			return newElement;
+		if(newElement == null) {
+			ImportLog.log(String.format("Element not created. Name: %s Id: %s",  modelElement.getName(), modelElement.getEAID()));
+			return owner;
 		}
 		
-		ImportLog.log("Element not created. Name: " + modelElement.getAttribute("name") + ". ID: " + modelElement.getEAID());
-		return owner;
+		TrackIds(newElement, modelElement);
+		addStereotypes(newElement, modelElement);
+		element.addStereotypeTaggedValues(modelElement);					
+		element.createReferencedElements(parsedXML, modelElement);
+		
+		if(newElement.getOwner() == null) {
+			newElement.dispose();
+			ImportLog.log("Owner failed to be set including any default owners. Element with id " + modelElement.getEAID() + " not created.");
+			return null;
+		}
+		
+//		ImportLog.log(String.format("Created element %s of type: %s.", modelElement.getName(), modelElement.getType()));
+		return newElement;
 	}
 	
 	//Get stereotypes from parssedXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
@@ -425,263 +397,6 @@ public class ImportXmlSysml {
 				addParentToProfileXML(nextParentID);
 			}
 		}
-	}
-	public static void buildValidationSuite() {
-		createModelValidationPackage();
-		findStereotypes(project.getPrimaryModel());
-		
-	}
-	
-	/**
-	 * Creates a package under the primary model of the project with the validationSuite stereotype
-	 * to hold constraints for the model validations automatically created on profile/metamodel import.
-	 * @param project Current project the metamodel/profile is being imported into.
-	 * @param element
-	 */
-	public static void createModelValidationPackage() {
-		ElementsFactory f = project.getElementsFactory();
-		Profile umlProfile = StereotypesHelper.getProfile(project, "Validation Profile");
-		Stereotype validationSuite = StereotypesHelper.getStereotype(project, "validationSuite", umlProfile);
-		MODEL_VALIDATION_PACKAGE = f.createPackageInstance();
-		((NamedElement)MODEL_VALIDATION_PACKAGE).setName("Model Validation");
-		MODEL_VALIDATION_PACKAGE.setOwner(project.getPrimaryModel());
-		StereotypesHelper.addStereotype(MODEL_VALIDATION_PACKAGE, validationSuite);
-	}
-	
-	private static void findStereotypes(Package pack) {
-		//Write Package to xml here so parent is written before child
-		
-		//Look for child packages and child elements to recursively export
-		Collection<Element> elementsInPackage = new ArrayList<Element> ();
-		Collection<Package> packagesInPackage = new ArrayList<Package> ();
-		
-		boolean noPackages = false;
-		boolean noElements = false;
-		
-		try {
-			elementsInPackage = pack.getOwnedElement();
-		} catch(NullPointerException e) {
-			noElements = true;
-		}
-		
-		try {
-			packagesInPackage = pack.getNestedPackage();
-		} catch(NullPointerException e) {
-			noPackages = true;
-		}
-		
-		if(!noElements) {
-			for(Element element : elementsInPackage) {
-				if(element instanceof Stereotype) {
-					boolean isRelationship = isMetaclassRelationship(element);
-					if(!isRelationship) {
-						if(CHECK_CLASSES == null) {
-							createCheckClasses(element);
-						} else {
-							updateCheckClasses(element);
-						}
-					} else {
-						if(CHECK_RELATIONSHIPS == null) {
-							createCheckRelationships(element);
-						} else {
-							updateCheckRelationships(element);
-						}
-					}
-				}
-			}
-		}
-						
-		if(!noPackages) {
-			for(Package nextPackage : packagesInPackage) {
-				//Description: Get stereotypes of package. Packages with stereotypes (Ex. auxiliaryResource, modellibrary) should not be exported
-				Profile magicdrawProfile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
-				Stereotype auxiliaryStereotype = StereotypesHelper.getStereotype(project,  "auxiliaryResource", magicdrawProfile);
-				List<Stereotype> packageStereotypes = StereotypesHelper.getStereotypes(nextPackage);
-				
-				// Check if package is editable -- external dependencies and imported projects will be read-only (not editable) 
-				if(!packageStereotypes.contains(auxiliaryStereotype) && !nextPackage.getHumanName().equals("Package Unit Imports")) {
-//					CameoUtils.logGUI("Package with name " + nextPackage.getHumanName() + "\twith type: " + nextPackage.getHumanType());
-//					JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Exporting Package " + nextPackage.getHumanName());
-					findStereotypes(nextPackage);					
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Checks the stereotype's metaclass to determine if it is a relationship.
-	 * @return True if the
-	 */
-	public static boolean isMetaclassRelationship(Element element) {
-		Stereotype stereotype = (Stereotype)element;
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class relationshipMetaclass = StereotypesHelper.getMetaClassByName(project, "Relationship");
-		if(StereotypesHelper.hasSuperMetaClass(stereotype, relationshipMetaclass)) {
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Creates a constraint in the model validation folder that validates whether element classes used in the 
-	 * model are of this type. Constraint uses OCL 2.0.
-	 * @param project Project that is being imported to (i.e. current project).
-	 * @param element Stereotype being imported into the model.
-	 */
-	public static void createCheckClasses(Element element) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Constraint Element");
-		}
-		String elementName = ((NamedElement)element).getName();
-		if(!elementName.contains(" ") && !elementName.contains("&")) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = f.createConstraintInstance();
-			((NamedElement)constraint).setName("checkClasses");
-			constraint.setOwner(MODEL_VALIDATION_PACKAGE);
-			
-			//Get UML Class element from metamodel and set as constrained element
-			Element umlClass = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
-			constraint.getConstrainedElement().add(umlClass);
-			
-			// Create Opaque Expression which holds the OCL expression for model validation
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
-			ValueSpecification vs = (ValueSpecification) oe;
-			constraint.setSpecification(vs);
-			
-			//Set value specification text here
-			String body = "";
-			oe.getLanguage().add("OCL2.0");
-			
-			NamedElement profile = (NamedElement) CameoUtils.findNearestProfile(project, element);
-			String profileName = profile.getName();
-			body = org.aero.mtip.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
-			oe.getBody().add(body);
-					
-			//Set stereotype of constraint to validationRule
-			com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile validationProfile = StereotypesHelper.getProfile(project,  "Validation Profile");
-			Stereotype validationRule = StereotypesHelper.getStereotype(project, "validationRule", validationProfile);
-			StereotypesHelper.addStereotype(constraint, validationRule);
-			
-			//Set Severity
-			StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "severity", "error");
-			
-			//Set error message
-			StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "errorMessage", "Class is not supported by profile.");
-			
-			CHECK_CLASSES = constraint;		
-		}
-		SessionManager.getInstance().closeSession(project);
-	}
-	
-	/**
-	 * Updates existing check classes constraint as a part of the automatic model validation set-up on import. Adds
-	 * an oclIsKindOf expression to the existing check classes constraint using an 'or' expression in OCL 2.0.
-	 * @param project
-	 * @param element
-	 */
-	public static void updateCheckClasses(Element element) {
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Constraint Element");
-		}
-		String elementName = ((NamedElement)element).getName();
-		if(!elementName.contains(" ") && !elementName.contains("&")) {
-			OpaqueExpression oe = (OpaqueExpression) ((Constraint)CHECK_CLASSES).getSpecification();
-			List<String> bodies = oe.getBody();
-			String currentBody = null;
-			Iterator<String> bodyIter = bodies.iterator();
-			
-			if(bodyIter.hasNext()) {
-				currentBody = bodyIter.next();
-			}
-			String profileName = ((NamedElement)CameoUtils.findNearestProfile(project, element)).getName();
-			currentBody = currentBody + " or " + org.aero.mtip.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
-			oe.getBody().clear();
-			oe.getBody().add(currentBody);
-			
-			oe.getLanguage().clear();
-			oe.getLanguage().add("OCL2.0");
-		} else {
-			// Log stereotype name prevents it from being included in the validation results
-			// Elements with this stereotype will be in violation of the validation rules as a result.
-		}
-		
-		SessionManager.getInstance().closeSession(project);
-	}
-	
-	/**
-	 * Creates a constraint in the model validation folder that validates whether relationship classes used in the 
-	 * model are of this type. Constraint uses OCL 2.0.
-	 * @param project Project that is being imported to (i.e. current project).
-	 * @param element Stereotype being imported into the model.
-	 */
-	public static void createCheckRelationships(Element element) {
-		ElementsFactory f = project.getElementsFactory();
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Create Constraint Element");
-		}
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint constraint = f.createConstraintInstance();
-		((NamedElement)constraint).setName("checkRelationships");
-		constraint.setOwner(MODEL_VALIDATION_PACKAGE);
-		
-		//Get UML Class element from metamodel and set as constrained element
-		Element umlClass = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
-		constraint.getConstrainedElement().add(umlClass);
-		
-		// Create Opaque Expression which holds the OCL expression for model validation
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
-		ValueSpecification vs = (ValueSpecification) oe;
-		constraint.setSpecification(vs);
-		
-		//Set value specification text here
-		String language = "OCL 2.0";
-		String body = "";
-		oe.getLanguage().add(language);
-		
-		NamedElement profile = (NamedElement) CameoUtils.findNearestProfile(project, element);
-		String profileName = profile.getName();
-		String elementName = ((NamedElement)element).getName();
-		body = org.aero.mtip.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
-		oe.getBody().add(body);
-				
-		//Set stereotype of constraint to validationRule
-		com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile validationProfile = StereotypesHelper.getProfile(project,  "Validation Profile");
-		Stereotype validationRule = StereotypesHelper.getStereotype(project, "validationRule", validationProfile);
-		StereotypesHelper.addStereotype(constraint, validationRule);
-		
-		//Set Severity
-		StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "severity", "error");
-		
-		//Set error message
-		StereotypesHelper.setStereotypePropertyValue(constraint, validationRule, "errorMessage", "Class is not supported by profile.");
-		
-		CHECK_RELATIONSHIPS = constraint;		
-		SessionManager.getInstance().closeSession(project);
-	}
-	
-	/**
-	 * Updates existing check relationships constraint as a part of the automatic model validation set-up on import. 
-	 * Adds an oclIsKindOf expression to the existing check relationships constraint using an 'or' expression in OCL 2.0.
-	 * @param project
-	 * @param element
-	 */
-	public static void updateCheckRelationships(Element element) {
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Update Check Relationships Validation");
-		}
-		OpaqueExpression oe = (OpaqueExpression) ((Constraint)CHECK_RELATIONSHIPS).getSpecification();
-		List<String> bodies = oe.getBody();
-		String currentBody = null;
-		Iterator<String> bodyIter = bodies.iterator();
-		
-		if(bodyIter.hasNext()) {
-			currentBody = bodyIter.next();
-		}
-		String profileName = ((NamedElement)CameoUtils.findNearestProfile(project, element)).getName();
-		String elementName = ((NamedElement)element).getName();
-		currentBody = currentBody + " or " + org.aero.mtip.ModelElements.Profile.OpaqueExpression.CHECK_CLASSES_START + profileName + "::" + elementName + ")";
-		oe.getBody().clear();
-		oe.getBody().add(currentBody);
-		
-		SessionManager.getInstance().closeSession(project);
 	}
 	
 	public static void addStereotype(Element newElement, String stereotypeName, String profileName) {
@@ -941,7 +656,7 @@ public class ImportXmlSysml {
 					} catch (NullPointerException npe) {
 						ImportLog.log("Error parsing stereotype name or profile name from HUDS XML for element: " + modelElement.getEAID());
 					}
-				} else if(attributeKey.contentEquals(XmlTagConstants.STEREOTYPE_TAGGED_VALUE)) {
+				} else if (attributeKey.contentEquals(XmlTagConstants.STEREOTYPE_TAGGED_VALUE)) {
 					try {
 						TaggedValue tv = new TaggedValue(attribute);
 						modelElement.addStereotypeTaggedValue(tv);
@@ -949,8 +664,7 @@ public class ImportXmlSysml {
 						ImportLog.log("Error parsing stereotype tagged value from HUDS XML for element: " + modelElement.getEAID());
 					}
 					
-				} else if(attributeType.contentEquals(XmlTagConstants.ATTRIBUTE_TYPE_LIST)) {
-					// Add logic to parse list attributes into a dict of lists in XMLItem
+				} else if (attributeType.contentEquals(XmlTagConstants.ATTRIBUTE_TYPE_LIST)) {
 					try {
 						List<Node> listAttributes = getListSubAttributes(attribute);
 						for(Node listAttribute : listAttributes) {
@@ -958,7 +672,13 @@ public class ImportXmlSysml {
 						}
 						
 					} catch (NullPointerException npe) {
-						ImportLog.log("Error parsing attribute for element with id: " + modelElement.getEAID());
+						ImportLog.log(String.format("Error parsing attribute for element with id: %s", modelElement.getEAID()));
+					}
+				} else if (Arrays.asList(XMLItem.LIST_ATTRIBUTES).contains(attributeKey)) {
+					try {
+						modelElement.addListAttribute(attributeKey, getSubAttribute(attribute).getTextContent());
+					} catch (NullPointerException npe) {
+						ImportLog.log(String.format("Error parsing attribute for element with id: %s", modelElement.getEAID()));
 					}
 				} else {
 					try {
@@ -1049,11 +769,22 @@ public class ImportXmlSysml {
 		return null;
 	}
 	
+	public static Element getImportedElement(String importId) {
+		String createdId = idConversion(importId);
+		
+		if (createdId == null) {
+			return null;
+		}
+		
+		return (Element) project.getElementByID(createdId);
+	}
+	
 	public static Element GetImportedOwner(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
 		
 		if(modelElement.getParent().trim().isEmpty() || ownerElement == null) {
+			ImportLog.log(String.format("Xml object not found for owner of %s with id %s.", modelElement.getName(), modelElement.getEAID()));
 			return primaryLocation; // Set owned equal to Primary model if no hasParent attribute in XML -> parent field in XMLItem == ""
 		} 
 		
@@ -1062,71 +793,90 @@ public class ImportXmlSysml {
 		if (ownerCreatedID == null || ownerCreatedID.trim().isEmpty()) {
 			return buildEntity(parsedXML, ownerElement);
 		}
-
+		
 		return (Element) project.getElementByID(ownerCreatedID);
+		
 	}
 	
+	@CheckForNull
 	public static Element GetImportedClient(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
-		String clientCameoImportedId = parentMap.get(modelElement.getClient());
+		if (modelElement.getClient() == null || modelElement.getClient().trim().isEmpty()) {
+			ImportLog.log(String.format("No client id in xml for %s with id %s.", modelElement.getName(), modelElement.getEAID()));
+			return null;
+		}
 		
-		if(clientCameoImportedId != null && !clientCameoImportedId.trim().isEmpty()) {
-			return  (Element) project.getElementByID(clientCameoImportedId);
+		if (parentMap.containsKey(modelElement.getClient())) {
+			return  (Element) project.getElementByID(parentMap.get(modelElement.getClient()));
+		}
+		
+		String clientImportId = modelElement.getClient();
+		XMLItem clientElement = parsedXML.get(clientImportId);
+		
+		if(clientElement != null) {
+			return buildElement(project, parsedXML, clientElement);
 		} 
 		
-		String clientXmlId = modelElement.getClient();
-		if(clientXmlId.startsWith("_")) {
-			return (Element)project.getElementByID(clientXmlId);
-		}
-			
-		if(clientXmlId.startsWith("_9_")) {
+		ImportLog.log(String.format("Client Element with id : %s not exported with XML. "
+				+ "Checking for elements from cameo profiles and model libraries", clientImportId));
+		
+		if(clientImportId.startsWith("_9_")) {
 			Element client = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
 			if(client != null) {
 				return client;
 			}
 		}
-		XMLItem clientElement = parsedXML.get(clientXmlId);
-		if(clientElement != null) {
-			return buildElement(project, parsedXML, clientElement);
-		} 
-			
-		ImportLog.log("Client Element with id : " + clientXmlId + " not exported with XML.");
+		
+		if(clientImportId.startsWith("_")) {
+			return (Element)project.getElementByID(clientImportId);
+		}		
+		
 		return null;
 	}
 	
 	public static Element GetImportedSupplier(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
-		String supplierImportedId = parentMap.get(modelElement.getSupplier());
+		if (modelElement.getSupplier() == null || modelElement.getSupplier().trim().isEmpty()) {
+			ImportLog.log(String.format("No supplier id in xml for %s with id %s.", modelElement.getName(), modelElement.getEAID()));
+			return null;
+		}
 		
-		if(supplierImportedId != null && !supplierImportedId.trim().isEmpty()) {
-			return (Element)project.getElementByID(supplierImportedId);
+		if (parentMap.containsKey(modelElement.getSupplier())) {
+			return  (Element) project.getElementByID(parentMap.get(modelElement.getSupplier()));
 		}
-			//if supplier not an element of model, check if it exists in an external/auxiliary library.
-		String supplierEAID = modelElement.getSupplier();
-		if(supplierEAID.startsWith("_")) {
-			Element supplier = (Element) project.getElementByID(supplierEAID);
-			if(supplier != null) {
-				return supplier;
-			}
-		}
-
-		XMLItem supplierElement = parsedXML.get(supplierEAID);
+		
+		String supplierImportId = modelElement.getSupplier();
+		XMLItem supplierElement = parsedXML.get(supplierImportId);
+		
 		if(supplierElement != null) {
 			return buildElement(project, parsedXML, supplierElement);
 		}
 		
-		ImportLog.log("Supplier Element with id : " + supplierEAID + " not exported with XML.");
+		ImportLog.log(String.format("Supplier element with id : %s not exported with XML. "
+				+ "Checking for elements from cameo profiles and model libraries", supplierImportId));
+		
+		if(supplierImportId.startsWith("_9_")) {
+			Element supplier = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
+			if(supplier != null) {
+				return supplier;
+			}
+		}
+		
+		if(supplierImportId.startsWith("_")) {
+			return (Element) project.getElementByID(supplierImportId);
+		}
+		
 		return null;
 	}
 	
-	public static boolean IsElementSupported(XMLItem modelElement) {
-		return Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(modelElement.getType());
+	public static boolean isElementSupported(XMLItem modelElement) {
+		return SysmlConstants.SYSML_ELEMENTS.contains(modelElement.getType());
 	}
 	
-	public static boolean IsRelationshipSupported(XMLItem modelElement) {
-		return Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(modelElement.getType());
+	public static boolean isRelationshipSupported(XMLItem modelElement) {
+		return SysmlConstants.SYSML_RELATIONSHIPS.contains(modelElement.getType());
 	}
 	
-	public static boolean IsDiagramSupported(XMLItem modelElement) {
-		return Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(modelElement.getType());
+	public static boolean isDiagramSupported(XMLItem modelElement) {
+		return SysmlConstants.SYSML_DIAGRAMS.contains(modelElement.getType());
 	}
 	
 	public static void TrackIds(Element newElement, XMLItem modelElement) {
@@ -1200,9 +950,7 @@ public class ImportXmlSysml {
 		HashMap<Element, Rectangle> elementsOnDiagram = GetImportedElementsOnDiagram(modelElement, parsedXML);
 		List<Element> relationshipsOnDiagram = GetImportedRelationshipsOnDiagram(modelElement, parsedXML);
 			
-		if (!SessionManager.getInstance().isSessionCreated(project)) {
-			SessionManager.getInstance().createSession(project, "Adding elements to diagram with type " +  modelElement.getType() + ".");
-		}
+		createSession(String.format("Adding elements to diagram with type %s.", modelElement.getType()));
 				
 		boolean noPosition = diagram.addElements(project, newDiagram, elementsOnDiagram, modelElement);
 		if(noPosition) {
@@ -1216,8 +964,24 @@ public class ImportXmlSysml {
 		}
 		
 		project.getDiagram(newDiagram).close(); 
-		SessionManager.getInstance().closeSession(project);
+		closeSession();
 		
 	    diagramMap.put((ModelDiagram) diagram, newDiagram);
+	}
+	
+	public static void createSession(String sessionName) {
+		if (SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().createSession(project, sessionName);
+	}
+	
+	public static void closeSession() {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().closeSession(project);
 	}
 }

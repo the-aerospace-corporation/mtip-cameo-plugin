@@ -19,8 +19,8 @@ public class PhysicalRequirement extends CommonElement {
 	public PhysicalRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.PHYSICALREQUIREMENT;
-		this.xmlConstant = XmlTagConstants.PHYSICALREQUIREMENT;
+		this.sysmlConstant = SysmlConstants.PHYSICAL_REQUIREMENT;
+		this.xmlConstant = XmlTagConstants.PHYSICAL_REQUIREMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.PHYSICALREQUIREMENT_STEREOTYPE, creationProfile);
 	}

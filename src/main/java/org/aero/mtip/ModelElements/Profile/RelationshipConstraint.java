@@ -6,9 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Profile;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
@@ -17,7 +15,6 @@ import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.ValidationRuleGenerator;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
@@ -173,87 +170,87 @@ public class RelationshipConstraint extends CommonElement {
 		}
 	}
 	
-	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-		
-		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
-		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
-		
-		// Find the elements from the following customization property fields and store their Cameo ID in the xml under the appropriate attribute field
-		List<String> fields = Arrays.asList(TYPESFORTARGET, TYPESFORSOURCE, ALLOWEDRELATIONSHIPS, DISALLOWEDRELATIONSHIPS, CUSTOMIZATIONTARGET);
-		
-		String stereotypeName = "";
-		
-		org.w3c.dom.Element customizationTargetTag = null;
-		List<Element> customizationTargets = StereotypesHelper.getStereotypePropertyValue(element, customizationStereotype, CUSTOMIZATIONTARGET);
-		if(customizationTargets != null && !customizationTargets.isEmpty()) {
-			Element customizationTarget = customizationTargets.get(0);
-			if(customizationTarget != null) {
-				customizationTargetTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_STEREOTYPE);
-				customizationTargetTag.appendChild(xmlDoc.createTextNode(((NamedElement)customizationTarget).getName()));
-				// Possible to replace with checks for Metaclasses and stereotypes - Metaclasses are in UML profile and stereotypes in user-defined profiles
-				if(customizationTarget.getID().startsWith("_9")) {
-					customizationTargetTag.setAttribute(XmlTagConstants.PROFILE_TAG, "UML");
-					stereotypeName = METARELATIONSHIP;
-				} else {
-					stereotypeName = STEREOTYPEDRELATIONSHIP;
-					Stereotype targetStereotype = (Stereotype)customizationTarget;
-					Profile targetProfile = targetStereotype.getProfile();
-					customizationTargetTag.setAttribute(XmlTagConstants.PROFILE_TAG, ((NamedElement)targetProfile).getName());
-				}
-				customizationTargetTag.setAttribute(XmlTagConstants.ID_TAG, customizationTarget.getID());
-				attributes.appendChild(customizationTargetTag);
-			} else {
-				//Export Log
-				return null;
-			}
-		}
-		
-		//Set stereotype field this stereotype corresponds to the metarelationship/stereotyped relationship in EA
-		org.w3c.dom.Element xmlStereotype = xmlDoc.createElement("stereotype");
-		xmlStereotype.appendChild(xmlDoc.createTextNode(stereotypeName));
-		attributes.appendChild(xmlStereotype);
-		
-		//Set customizationType for Cameo import purposes
-		org.w3c.dom.Element xmlCustomization = xmlDoc.createElement("customizationType");
-		xmlCustomization.appendChild(xmlDoc.createTextNode(stereotypeName));
-		attributes.appendChild(xmlCustomization);
-		
-		//Set client
-		List<Element> clients = StereotypesHelper.getStereotypePropertyValue(element, customizationStereotype, TYPESFORTARGET);
-		if(clients != null && !clients.isEmpty()) {
-			Element client = clients.get(0);
-			org.w3c.dom.Element clientTag = xmlDoc.createElement(XmlTagConstants.CLIENT_ID);
-			clientTag.appendChild(xmlDoc.createTextNode(client.getID()));
-			relationships.appendChild(clientTag);
-		}
-		
-		//Set supplier
-		List<Element> suppliers = StereotypesHelper.getStereotypePropertyValue(element, customizationStereotype, TYPESFORSOURCE);
-		if(suppliers != null && !suppliers.isEmpty()) {
-			Element supplier = suppliers.get(0);
-			org.w3c.dom.Element supplierTag = xmlDoc.createElement(XmlTagConstants.SUPPLIER);
-			supplierTag.appendChild(xmlDoc.createTextNode(supplier.getID()));
-			relationships.appendChild(supplierTag);
-		}
-		
-		//Add is inclusive attribute.
-		org.w3c.dom.Element inclusiveTag = xmlDoc.createElement(IS_INCLUSIVE);
-		inclusiveTag.appendChild(xmlDoc.createTextNode("false"));
-		attributes.appendChild(inclusiveTag);
-		
-		// Create type field for Sysml model element types
-		org.w3c.dom.Element type = xmlDoc.createElement("type");
-		type.appendChild(xmlDoc.createTextNode(this.xmlConstant));
-		data.appendChild(type);
-		
-		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
-		root.appendChild(data);
-		return data;
-	}
+//	@Override
+//	public org.w3c.dom.Element writeToXML(Element element) {
+//		org.w3c.dom.Element data = super.writeToXML(element);
+//		
+//		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+//		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+//		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
+//		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
+//		
+//		// Find the elements from the following customization property fields and store their Cameo ID in the xml under the appropriate attribute field
+//		List<String> fields = Arrays.asList(TYPESFORTARGET, TYPESFORSOURCE, ALLOWEDRELATIONSHIPS, DISALLOWEDRELATIONSHIPS, CUSTOMIZATIONTARGET);
+//		
+//		String stereotypeName = "";
+//		
+//		org.w3c.dom.Element customizationTargetTag = null;
+//		List<Element> customizationTargets = StereotypesHelper.getStereotypePropertyValue(element, customizationStereotype, CUSTOMIZATIONTARGET);
+//		if(customizationTargets != null && !customizationTargets.isEmpty()) {
+//			Element customizationTarget = customizationTargets.get(0);
+//			if(customizationTarget != null) {
+//				customizationTargetTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_STEREOTYPE);
+//				customizationTargetTag.appendChild(xmlDoc.createTextNode(((NamedElement)customizationTarget).getName()));
+//				// Possible to replace with checks for Metaclasses and stereotypes - Metaclasses are in UML profile and stereotypes in user-defined profiles
+//				if(customizationTarget.getID().startsWith("_9")) {
+//					customizationTargetTag.setAttribute(XmlTagConstants.PROFILE_TAG, "UML");
+//					stereotypeName = METARELATIONSHIP;
+//				} else {
+//					stereotypeName = STEREOTYPEDRELATIONSHIP;
+//					Stereotype targetStereotype = (Stereotype)customizationTarget;
+//					Profile targetProfile = targetStereotype.getProfile();
+//					customizationTargetTag.setAttribute(XmlTagConstants.PROFILE_TAG, ((NamedElement)targetProfile).getName());
+//				}
+//				customizationTargetTag.setAttribute(XmlTagConstants.ID_TAG, customizationTarget.getID());
+//				attributes.appendChild(customizationTargetTag);
+//			} else {
+//				//Export Log
+//				return null;
+//			}
+//		}
+//		
+//		//Set stereotype field this stereotype corresponds to the metarelationship/stereotyped relationship in EA
+//		org.w3c.dom.Element xmlStereotype = xmlDoc.createElement("stereotype");
+//		xmlStereotype.appendChild(xmlDoc.createTextNode(stereotypeName));
+//		attributes.appendChild(xmlStereotype);
+//		
+//		//Set customizationType for Cameo import purposes
+//		org.w3c.dom.Element xmlCustomization = xmlDoc.createElement("customizationType");
+//		xmlCustomization.appendChild(xmlDoc.createTextNode(stereotypeName));
+//		attributes.appendChild(xmlCustomization);
+//		
+//		//Set client
+//		List<Element> clients = StereotypesHelper.getStereotypePropertyValue(element, customizationStereotype, TYPESFORTARGET);
+//		if(clients != null && !clients.isEmpty()) {
+//			Element client = clients.get(0);
+//			org.w3c.dom.Element clientTag = xmlDoc.createElement(XmlTagConstants.CLIENT_ID);
+//			clientTag.appendChild(xmlDoc.createTextNode(client.getID()));
+//			relationships.appendChild(clientTag);
+//		}
+//		
+//		//Set supplier
+//		List<Element> suppliers = StereotypesHelper.getStereotypePropertyValue(element, customizationStereotype, TYPESFORSOURCE);
+//		if(suppliers != null && !suppliers.isEmpty()) {
+//			Element supplier = suppliers.get(0);
+//			org.w3c.dom.Element supplierTag = xmlDoc.createElement(XmlTagConstants.SUPPLIER);
+//			supplierTag.appendChild(xmlDoc.createTextNode(supplier.getID()));
+//			relationships.appendChild(supplierTag);
+//		}
+//		
+//		//Add is inclusive attribute.
+//		org.w3c.dom.Element inclusiveTag = xmlDoc.createElement(IS_INCLUSIVE);
+//		inclusiveTag.appendChild(xmlDoc.createTextNode("false"));
+//		attributes.appendChild(inclusiveTag);
+//		
+//		// Create type field for Sysml model element types
+//		org.w3c.dom.Element type = xmlDoc.createElement("type");
+//		type.appendChild(xmlDoc.createTextNode(this.xmlConstant));
+//		data.appendChild(type);
+//		
+//		org.w3c.dom.Element root = (org.w3c.dom.Element) xmlDoc.getFirstChild();
+//		root.appendChild(data);
+//		return data;
+//	}
 	
 //	@Override
 //	public org.w3c.dom.Element createBaseXML(Element element, Document xmlDoc) {

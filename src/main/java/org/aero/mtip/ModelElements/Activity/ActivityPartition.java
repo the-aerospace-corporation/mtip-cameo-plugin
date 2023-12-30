@@ -19,19 +19,19 @@ public class ActivityPartition extends CommonElement {
 	public ActivityPartition(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ACTIVITYPARTITION;
-		this.xmlConstant = XmlTagConstants.ACTIVITYPARTITION;
-		this.sysmlElement = f.createActivityPartitionInstance();
+		this.sysmlConstant = SysmlConstants.ACTIVITY_PARTITION;
+		this.xmlConstant = XmlTagConstants.ACTIVITY_PARTITION;
+		this.element = f.createActivityPartitionInstance();
 	}
 	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition ap = (com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition ap = (com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition)element;
 		if(owner instanceof Activity) {
 			ap.setInActivity((com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity)owner);
 		}
 		
-		return sysmlElement;
+		return element;
 	}
 }

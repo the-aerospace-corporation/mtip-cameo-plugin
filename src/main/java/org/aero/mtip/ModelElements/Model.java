@@ -16,6 +16,6 @@ public class Model extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.MODEL;
 		this.xmlConstant = XmlTagConstants.MODEL;
-		this.sysmlElement = f.createModelInstance();
+		this.element = f.createModelInstance();
 	}
 }

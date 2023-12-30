@@ -14,8 +14,8 @@ public class LoopNode extends ActivityNode {
 	public LoopNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.LOOPNODE;
-		this.xmlConstant = XmlTagConstants.LOOPNODE;
-		this.sysmlElement = f.createLoopNodeInstance();
+		this.sysmlConstant = SysmlConstants.LOOP_NODE;
+		this.xmlConstant = XmlTagConstants.LOOP_NODE;
+		this.element = f.createLoopNodeInstance();
 	}
 }

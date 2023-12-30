@@ -22,9 +22,9 @@ public class ParticipantProperty extends CommonElement {
 	public ParticipantProperty(String name, String EAID) {
 		super(name, EAID);	
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.PARTICIPANTPROPERTY;
-		this.sysmlConstant = SysmlConstants.PARTICIPANTPROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.xmlConstant = XmlTagConstants.PARTICIPANT_PROPERTY;
+		this.sysmlConstant = SysmlConstants.PARTICIPANT_PROPERTY;
+		this.element = f.createPropertyInstance();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class ParticipantProperty extends CommonElement {
 		
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype participantPropertyStereotype = StereotypesHelper.getStereotype(project, "ParticipantProperty", sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, participantPropertyStereotype);
+		StereotypesHelper.addStereotype(element, participantPropertyStereotype);
 		
-		return sysmlElement;
+		return element;
 	}
 }

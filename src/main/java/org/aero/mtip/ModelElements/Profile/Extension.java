@@ -24,14 +24,14 @@ public class Extension extends CommonRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.EXTENSION;
 		this.xmlConstant = XmlTagConstants.EXTENSION;
-		this.sysmlElement = f.createExtensionInstance();
+		this.element = f.createExtensionInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, Element client, Element supplier, XMLItem xmlElement) {
 		super.createElement(project, owner, client, supplier, xmlElement);
 		
-		com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension extension = (com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension extension = (com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension)element;
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd(extension);
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd(extension);
 

@@ -17,6 +17,6 @@ public class Collaboration extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.COLLABORATION;
 		this.xmlConstant = XmlTagConstants.COLLABORATION;
-		this.sysmlElement = f.createCollaborationInstance();
+		this.element = f.createCollaborationInstance();
 	}
 }

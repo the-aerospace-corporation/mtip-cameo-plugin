@@ -22,7 +22,7 @@ public class Allocate extends CommonRelationship{
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.ALLOCATE;
 		this.xmlConstant = XmlTagConstants.ALLOCATE;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override

@@ -4,12 +4,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -33,12 +33,12 @@ public class Parameter extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.PARAMETER;
 		this.xmlConstant = XmlTagConstants.SYSML_PARAMETER;
-		this.sysmlElement = f.createParameterInstance();
+		this.element = f.createParameterInstance();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
 			if(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION).contentEquals(IN)) {
@@ -92,24 +92,42 @@ public class Parameter extends CommonElement {
 				ImportLog.log(stackTrace);
 			}
 		}
-		return sysmlElement;
+		return element;
 	}
 	
-	
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
+		writeDirection(attributes, element);
+		writeDefaultValue(relationships, element);
+
+		return data;
+	}
+	
+	public void writeDirection(org.w3c.dom.Element attributes, Element element) {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)element;
 		ParameterDirectionKind dk = parameter.getDirection();
 		
-		org.w3c.dom.Element textTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_DIRECTION, dk.toString());
-		attributes.appendChild(textTag);	
-		
+		org.w3c.dom.Element directionTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION, dk.toString());
+		XmlWriter.add(attributes, directionTag);
+	}
+	
+	public void writeDefaultValue(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter parameter = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter)element;
 		ValueSpecification vs = parameter.getDefaultValue();
-		createDefaultValueTag(xmlDoc, vs, attributes, relationships);
-
-		return data;
+		
+		if (vs == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element defaultValueTag = XmlWriter.createDefaultValueTag(vs);
+		
+		if (defaultValueTag == null) {
+			return;
+		}
+		
+		XmlWriter.add(relationships, defaultValueTag);
 	}
 }

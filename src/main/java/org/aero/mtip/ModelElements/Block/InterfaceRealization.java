@@ -7,9 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
-import org.w3c.dom.Document;
 
-import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class InterfaceRealization extends CommonRelationship {
@@ -19,7 +17,7 @@ public class InterfaceRealization extends CommonRelationship {
 	}
 	
 	@Override 
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+	public org.w3c.dom.Element writeToXML(Element element) {
 		return null;
 	}
 }

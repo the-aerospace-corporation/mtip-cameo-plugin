@@ -39,7 +39,7 @@ public class ValidationRuleGenerator {
 		CommonElement constraint = cef.createElement(SysmlConstants.CONSTRAINT, "CompositionConstraint" + Integer.toString(compositionRuleCount + 1), Integer.toString(compositionRuleCount + 1));
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint cameoConstraint = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint)constraint.createElement(project, ImportXmlSysml.MODEL_VALIDATION_PACKAGE, null);
 		
-		CommonElement opaqueExpression = cef.createElement(SysmlConstants.OPAQUEEXPRESSION, "CompositionConstraint" + Integer.toString(compositionRuleCount + 1), Integer.toString(compositionRuleCount + 1));
+		CommonElement opaqueExpression = cef.createElement(SysmlConstants.OPAQUE_EXPRESSION, "CompositionConstraint" + Integer.toString(compositionRuleCount + 1), Integer.toString(compositionRuleCount + 1));
 		ValueSpecification cameoOpaqueExpression = (ValueSpecification) ((org.aero.mtip.ModelElements.Profile.OpaqueExpression)opaqueExpression).createElement(project, cameoConstraint, body, ValidationRuleGenerator.STRUCTURED_EXPRESSION);
 		
 		cameoConstraint.setSpecification(cameoOpaqueExpression);

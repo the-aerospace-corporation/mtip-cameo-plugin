@@ -10,20 +10,18 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -37,13 +35,13 @@ public class Property extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.PROPERTY;
 		this.xmlConstant = XmlTagConstants.PROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.element = f.createPropertyInstance();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE)) {
 			String defaultValue = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DEFAULT_VALUE);
@@ -89,25 +87,34 @@ public class Property extends CommonElement {
 		}
 		
 		if(owner instanceof Interface) {
-			((NamedElement)sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
+			((NamedElement)element).setVisibility(VisibilityKindEnum.PUBLIC);
 		}
-		((NamedElement) sysmlElement).setVisibility(VisibilityKindEnum.PUBLIC);
+		((NamedElement) element).setVisibility(VisibilityKindEnum.PUBLIC);
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	// Create Dependent Element default value if isElement()
 	
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		// Get default Value and write to attributes
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)element;
-		ValueSpecification vs = property.getDefaultValue();
-		createDefaultValueTag(xmlDoc, vs, attributes, relationships);
+		writeDefaultValue(attributes, element);
 		
 		return data;
+	}
+	
+	protected void writeDefaultValue(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)element;
+		ValueSpecification vs = property.getDefaultValue();
+		
+		if (vs == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element defaultValueTag = XmlWriter.createDefaultValueTag(vs);
+		XmlWriter.add(attributes, defaultValueTag);
+		
 	}
 }

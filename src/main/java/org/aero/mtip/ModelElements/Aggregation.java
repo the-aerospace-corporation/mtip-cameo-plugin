@@ -22,7 +22,7 @@ public class Aggregation extends org.aero.mtip.ModelElements.Association {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.AGGREGATION;
 		this.xmlConstant = XmlTagConstants.AGGREGATION;
-		this.sysmlElement = f.createAssociationInstance();
+		this.element = f.createAssociationInstance();
 	}
 
 	@Override

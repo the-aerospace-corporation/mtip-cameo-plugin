@@ -19,8 +19,8 @@ public class DesignConstraint extends CommonElement {
 	public DesignConstraint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.DESIGNCONSTRAINT;
-		this.xmlConstant = XmlTagConstants.DESIGNCONSTRAINT;
+		this.sysmlConstant = SysmlConstants.DESIGN_CONSTRAINT;
+		this.xmlConstant = XmlTagConstants.DESIGN_CONSTRAINT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.DESIGNCONSTRAINT_STEREOTYPE, creationProfile);
 	}

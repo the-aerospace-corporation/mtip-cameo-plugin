@@ -22,9 +22,9 @@ public class OutputPin extends ActivityNode {
 	public OutputPin(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.OUTPUTPIN;
-		this.xmlConstant = XmlTagConstants.OUTPUTPIN;
-		this.sysmlElement = f.createOutputPinInstance();
+		this.sysmlConstant = SysmlConstants.OUTPUT_PIN;
+		this.xmlConstant = XmlTagConstants.OUTPUT_PIN;
+		this.element = f.createOutputPinInstance();
 	}
 	
 	@Override
@@ -54,6 +54,6 @@ public class OutputPin extends ActivityNode {
 			owner = CameoUtils.findNearestActivity(project, owner);
 		}
 		
-		sysmlElement.setOwner(owner);
+		element.setOwner(owner);
 	}
 }

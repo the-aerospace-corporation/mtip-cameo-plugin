@@ -19,6 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class XMLItem {
+	public static String[] LIST_ATTRIBUTES = new String[] {
+		XmlTagConstants.ATTRIBUTE_CONSTRAINED_ELEMENT	
+	};
+	
 	private String type = "";
 	private String category = "";
 	private List<String> ids = new ArrayList<String>( );
@@ -140,11 +144,16 @@ public class XMLItem {
 		if(!this.listAttributes.containsKey(key)) {
 			this.listAttributes.put(key, new ArrayList<String> ());
 		} 
+		
 		this.listAttributes.get(key).add(value);
 	}
 	
 	public List<String> getListAttributes(String key) {
-		return this.listAttributes.get(key);
+		if (hasListAttributes(key)) {
+			return this.listAttributes.get(key);
+		}
+		
+		return null;		
 	}
 	
 	public boolean hasListAttributes(String key) {
@@ -455,13 +464,13 @@ public class XMLItem {
 		this.effect = effect;
 	}
 	private void setCategory() {
-		if(Arrays.asList(SysmlConstants.SYSMLELEMENTS).contains(type)) {
+		if(SysmlConstants.SYSML_ELEMENTS.contains(type)) {
 			category = SysmlConstants.ELEMENT;
 		}
-		if(Arrays.asList(SysmlConstants.SYSMLRELATIONSHIPS).contains(type)) {
+		if(SysmlConstants.SYSML_RELATIONSHIPS.contains(type)) {
 			category = SysmlConstants.RELATIONSHIP;
 		}
-		if(Arrays.asList(SysmlConstants.SYSMLDIAGRAMS).contains(type)) {
+		if(SysmlConstants.SYSML_DIAGRAMS.contains(type)) {
 			category = SysmlConstants.DIAGRAM;
 		}
 	}

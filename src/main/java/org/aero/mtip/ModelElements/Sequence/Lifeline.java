@@ -11,13 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -32,7 +31,7 @@ public class Lifeline extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.LIFELINE;
 		this.xmlConstant = XmlTagConstants.LIFELINE;
-		this.sysmlElement = f.createLifelineInstance();
+		this.element = f.createLifelineInstance();
 	}
 	
 	@Override
@@ -42,11 +41,11 @@ public class Lifeline extends CommonElement {
 		setRepresents(xmlElement);
 		setCoveredBy(xmlElement);
 		
-		return sysmlElement;
+		return element;
 	}
 	
 	private void setRepresents(XMLItem xmlElement) {
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)element;
 		String importedRepresentsID = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);
 		
 		String createdRepresentsID = ImportXmlSysml.idConversion(importedRepresentsID);
@@ -64,7 +63,7 @@ public class Lifeline extends CommonElement {
 	}
 	
 	private void setCoveredBy(XMLItem xmlElement) {
-		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)sysmlElement;
+		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)element;
 		Collection<InteractionFragment> coveredByElements = lifeline.getCoveredBy();
 		
 		List<String> importedCoveredByIDs = xmlElement.getCoveredBy();
@@ -117,22 +116,17 @@ public class Lifeline extends CommonElement {
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		if (!(element instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)) {
-			ExportLog.log(String.format("Error writing %s with id %s to XML. Exported as lifeline but not instance of lifeline.", element.getHumanName(), element.getID()));
-			return null;
-		}
-		
-		writeRepresents(element, xmlDoc, relationships);
-		writeCoveredBy(element, xmlDoc, relationships);		
+		writeRepresents(relationships, element);
+		writeCoveredBy(relationships, element);		
 		
 		return data;
 	}
 	
-	private void writeRepresents(Element element, Document xmlDoc, org.w3c.dom.Element relationships) {
+	private void writeRepresents(org.w3c.dom.Element relationships, Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline) element;
 		ConnectableElement represents = lifeline.getRepresents();
 		
@@ -140,8 +134,8 @@ public class Lifeline extends CommonElement {
 			return;
 		}
 		
-		org.w3c.dom.Element representsTag = createRel(xmlDoc, represents, XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);
-		relationships.appendChild(representsTag);
+		org.w3c.dom.Element representsTag = XmlWriter.createMtipRelationship(represents, XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);
+		XmlWriter.add(relationships, representsTag);
 		
 		Type typedBy = represents.getType();
 		
@@ -149,17 +143,17 @@ public class Lifeline extends CommonElement {
 			return;
 		}
 		
-		org.w3c.dom.Element typedByTag = createRel(xmlDoc, typedBy, XmlTagConstants.ATTRIBUTE_NAME_TYPED_BY);
-		relationships.appendChild(typedByTag);
+		org.w3c.dom.Element typedByTag = XmlWriter.createMtipRelationship(typedBy, XmlTagConstants.ATTRIBUTE_NAME_TYPED_BY);
+		XmlWriter.add(relationships, typedByTag);
 	}
 	
-	private void writeCoveredBy(Element element, Document xmlDoc, org.w3c.dom.Element relationships) {
+	private void writeCoveredBy(org.w3c.dom.Element relationships, Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline) element;
 		java.util.Collection<InteractionFragment> interactionFragments = lifeline.getCoveredBy();
 		
 		for(InteractionFragment interactionFragment : interactionFragments) {
-			org.w3c.dom.Element interactionFragmentTag = createRel(xmlDoc, interactionFragment, XmlTagConstants.ATTRIBUTE_NAME_COVERED_BY);
-			relationships.appendChild(interactionFragmentTag);
+			org.w3c.dom.Element interactionFragmentTag = XmlWriter.createMtipRelationship(interactionFragment, XmlTagConstants.ATTRIBUTE_NAME_COVERED_BY);
+			XmlWriter.add(relationships, interactionFragmentTag);
 		}
 	}
 }

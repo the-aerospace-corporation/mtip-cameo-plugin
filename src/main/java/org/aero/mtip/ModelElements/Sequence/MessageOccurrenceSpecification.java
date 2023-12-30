@@ -15,9 +15,9 @@ public class MessageOccurrenceSpecification extends CommonElement {
 	public MessageOccurrenceSpecification(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.MESSAGEOCCURRENCESPECIFICATION;
-		this.xmlConstant = XmlTagConstants.MESSAGEOCCURRENCESPECIFICATION;
-		this.sysmlElement = f.createMessageOccurrenceSpecificationInstance();
+		this.sysmlConstant = SysmlConstants.MESSAGE_OCCURRENCE_SPECIFICATION;
+		this.xmlConstant = XmlTagConstants.MESSAGE_OCCURRENCE_SPECIFICATION;
+		this.element = f.createMessageOccurrenceSpecificationInstance();
 	}
 	
 //	@Override

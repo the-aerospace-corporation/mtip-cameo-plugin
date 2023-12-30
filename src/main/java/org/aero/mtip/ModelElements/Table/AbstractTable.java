@@ -36,15 +36,15 @@ public class AbstractTable extends CommonElement {
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		try {
-			sysmlElement = GenericTableManager.createGenericTable(project, this.name);
-			table = (Diagram)sysmlElement;
+			element = GenericTableManager.createGenericTable(project, this.name);
+			table = (Diagram)element;
 			table.setOwnerOfDiagram((Namespace)owner);
 		} catch (ReadOnlyElementException e) {
 			CameoUtils.logGUI("Read only Exception caught.");
 			e.printStackTrace();
 		}
 		addInitialStereotype();
-		return sysmlElement;
+		return element;
 	}
 	
 	protected void addColumns() {

@@ -9,15 +9,15 @@ package org.aero.mtip.ModelElements;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
@@ -199,14 +199,14 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		try {
 			CameoUtils.logGUI("Creating element from abstract diagram class");
-			sysmlElement = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
+			element = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
 			CameoUtils.logGUI("Caught read only exception");
 		}
 //		setOwner(project, sysmlElement);
-		((NamedElement) sysmlElement).setName(name);
+		((NamedElement) element).setName(name);
 
-		return sysmlElement;
+		return element;
 	}
 	
 	public boolean addElements(Project project, Diagram diagram, HashMap<Element, Rectangle> elements, XMLItem xmlElement) {
@@ -231,7 +231,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		
 		ShapeElement shape = null;
 		try {
-			if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999 && !CameoUtils.isAssociationBlock(element, project)) {
+			if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999 && !SysML.isAssociationBlock(element)) {
 				shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
 				noPosition = true;
 			} else {
@@ -249,6 +249,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		} catch(ClassCastException cce) {
 			CameoUtils.logGUI("Caught Class cast exception adding " + element.getHumanName() + " " + "with id " + element.getID() + " to diagram.");
 			ImportLog.log("Caught Class cast exception adding " + element.getID() + " to diagram.");
+			CameoUtils.logExceptionToGui(cce);
 		}
 		
 		if(shape != null) {
@@ -308,23 +309,18 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	}
 
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-
-		// get attributes part
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
-		org.w3c.dom.Element displayTag = createStringAttribute(xmlDoc, XmlTagConstants.DISPLAY_AS, XmlTagConstants.DISPLAY_AS_DIAGRAM);
-		attributes.appendChild(displayTag);
-		
 		org.w3c.dom.Element relationships = getType(data.getChildNodes(), XmlTagConstants.RELATIONSHIPS);
-		org.w3c.dom.Element elementListTag = xmlDoc.createElement(XmlTagConstants.ELEMENT);
-		elementListTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_LIST);
 		
+		org.w3c.dom.Element displayTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.DISPLAY_AS, XmlTagConstants.DISPLAY_AS_DIAGRAM);
+		XmlWriter.add(attributes, displayTag);
 		
-		org.w3c.dom.Element relationshipListTag = xmlDoc.createElement(XmlTagConstants.DIAGRAM_CONNECTOR);
-		relationshipListTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_LIST);
+		org.w3c.dom.Element elementListTag = XmlWriter.createTag(XmlTagConstants.ELEMENT, XmlTagConstants.ATTRIBUTE_TYPE_LIST);		
+		org.w3c.dom.Element relationshipListTag = XmlWriter.createTag(XmlTagConstants.DIAGRAM_CONNECTOR, XmlTagConstants.ATTRIBUTE_TYPE_LIST);
 		
-		writeElements(xmlDoc, project, elementListTag, relationshipListTag, element);
+		writeDiagramEntities(elementListTag, relationshipListTag, element);
 		
 		relationships.appendChild(elementListTag);
 		relationships.appendChild(relationshipListTag);
@@ -332,38 +328,37 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		return data;
 	}
 	
-	protected void writeElements(Document xmlDoc, Project project, org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, Element element) {
+	protected void writeDiagramEntities(org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, Element element) {
 		Diagram diagram = (Diagram) element;
 		DiagramPresentationElement presentationDiagram = project.getDiagram(diagram);
 		presentationDiagram.open();
 		
 		for(PresentationElement presentationElement : presentationDiagram.getPresentationElements()) {
-			writeElement(xmlDoc, elementListTag, relationshipListTag, presentationElement, null);
+			writeDiagramElementRecursively(elementListTag, relationshipListTag, presentationElement, null);
 		}
 		
 		presentationDiagram.close();
 	}
 	
-	public void writeElement(Document xmlDoc, org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
+	public void writeDiagramElementRecursively(org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
 		if(presentationElement instanceof PathElement) {
-			org.w3c.dom.Element relationshipTag = createDiagramRelationshipTag(xmlDoc, presentationElement);
-			if(relationshipTag != null) {
-				relationshipListTag.appendChild(relationshipTag);
-			}
 			if(presentationElement instanceof LinkView) {
-				exportLink(xmlDoc, presentationElement);
+//				exportLink(presentationElement);
+				return;
 			}
-		} else {
-			org.w3c.dom.Element elementTag = createDiagramElementTag(xmlDoc, presentationElement, parentPresentationElement);
-			if(elementTag != null) {
-				elementListTag.appendChild(elementTag);
-			}
+			
+			writeDiagramRelationship(relationshipListTag, presentationElement);
+			return;
 		}
 		
+		writeDiagramElement(elementListTag, presentationElement, parentPresentationElement);
+		
 		for(PresentationElement subPresentationElement : presentationElement.getPresentationElements()) {
-			if(!(subPresentationElement instanceof com.nomagic.magicdraw.uml.symbols.shapes.RoleView)) {
-				writeElement(xmlDoc, elementListTag, relationshipListTag, subPresentationElement, presentationElement);
+			if(!isValidPresentationElement(presentationElement)) {
+				continue;
 			}
+			
+			writeDiagramElementRecursively(elementListTag, relationshipListTag, subPresentationElement, presentationElement);
 		}
 	}
 	
@@ -375,177 +370,126 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		return data;
 	}
 	
-	protected org.w3c.dom.Element createDiagramElementTag(Document xmlDoc, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
-		Element curElement = presentationElement.getElement();
+	protected void writeDiagramElement(org.w3c.dom.Element elementListTag, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
+		Element element = presentationElement.getElement();
 		
-		// Presentation elements without an element attached will not be exported. This includes TextViews and other diagram info and styling not currently supportd.
-		if(curElement != null && !curElement.getHumanType().contentEquals("Diagram") && !(curElement instanceof ConnectorEnd)) {
-			// Remove the following check as you don't need to filter on export Arrays.asList(this.allowableElements).contains(ExportXmlSysml.getElementType(curElement)
-			Rectangle bounds = null;
-			try {
-				bounds = presentationElement.getBounds();
-			} catch(NoRectangleDefinedException nrde) {
-				CameoUtils.logGUI("Presentation element with id " + curElement.getID() + " has no bounds. Cannot write position");
-			}
-			 
-			if(curElement != null && bounds != null) {
-				// Check whether the actual element is relationship (could be hybrid type), and filter it out from the diagram explicit list
-//				if (!(curElement instanceof Relationship) && !(curElement instanceof Connector) && !(curElement instanceof ActivityEdge) && !(curElement instanceof Transition)) {
-				if(!this.diagramElementIDs.contains(curElement.getID())) {
-					ExportLog.log("Adding presentation element of type " + presentationElement.getClass().toString() + " to diagram.");
-					diagramElementIDs.add(curElement.getID());
-				
-					String curID = curElement.getID();
-					String type = "sysml." + curElement.getHumanType().replace(" ", "");
-					
-					org.w3c.dom.Element elementTag = createDictElement(xmlDoc, Integer.toString(elementCount));
-					
-					org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);
-					idTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-					idTag.appendChild(xmlDoc.createTextNode(curID));
-					
-					org.w3c.dom.Element typeTag = xmlDoc.createElement(XmlTagConstants.TYPE);
-					typeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-					typeTag.appendChild(xmlDoc.createTextNode(type));
-									
-					org.w3c.dom.Element relationshipMetadataTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_METADATA);
-					relationshipMetadataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-					
-					org.w3c.dom.Element topTag = xmlDoc.createElement(XmlTagConstants.TOP);
-					topTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-					topTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y)));
-					
-					org.w3c.dom.Element bottomTag = xmlDoc.createElement(XmlTagConstants.BOTTOM);
-					bottomTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-					bottomTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y - bounds.height)));
-					
-					org.w3c.dom.Element leftTag = xmlDoc.createElement(XmlTagConstants.LEFT);
-					leftTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-					leftTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x)));
-					
-					org.w3c.dom.Element rightTag = xmlDoc.createElement(XmlTagConstants.RIGHT);
-					rightTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-					rightTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x + bounds.width)));
-			
-					elementTag.appendChild(idTag);
-					elementTag.appendChild(typeTag);
-					elementTag.appendChild(relationshipMetadataTag);
-					relationshipMetadataTag.appendChild(topTag);
-					relationshipMetadataTag.appendChild(bottomTag);
-					relationshipMetadataTag.appendChild(leftTag);
-					relationshipMetadataTag.appendChild(rightTag);
-
-					this.diagramElementIDs.add(curElement.getID());
-					elementCount++;
-					return elementTag;
-				}
-			}
+		// Presentation elements without an element attached will not be exported. This includes TextViews and other diagram info and styling not currently supported.
+		if (element == null || !isValidDiagramElement(element)) {
+			return;
 		}
-		return null;
+		
+		Rectangle bounds = getBounds(presentationElement);
+
+		if(bounds == null) {
+			return; 
+		}
+			
+		if(diagramElementIDs.contains(element.getID())) {
+			return;
+		}
+		
+		diagramElementIDs.add(element.getID());
+		
+		org.w3c.dom.Element elementTag = XmlWriter.createMtipDiagramElement(elementCount);
+		org.w3c.dom.Element idTag = XmlWriter.createSimpleIdTag(element);
+		org.w3c.dom.Element typeTag = XmlWriter.createSimpleTypeTag(element);
+		
+		writeRelationshipMetadata(elementTag, presentationElement);
+		
+		XmlWriter.add(elementTag, idTag);
+		XmlWriter.add(elementTag, typeTag);				
+		XmlWriter.add(elementListTag, elementTag);
+		
+		elementCount++;
 	}	
 	
-	protected org.w3c.dom.Element createDiagramElementTagNoElement(Document xmlDoc, PresentationElement presentationElement, PresentationElement parentPresentationElement, String type) {
-		Rectangle bounds = null;
-		try {
-			bounds = presentationElement.getBounds();
-		} catch(NoRectangleDefinedException nrde) {
-			CameoUtils.logGUI("Presentation element with id " + presentationElement.getID() + " has no bounds. Cannot write position");
+	protected void writeDiagramElementNoElement(org.w3c.dom.Element elementListTag, PresentationElement presentationElement, PresentationElement parentPresentationElement, String type) {
+		Rectangle bounds = getBounds(presentationElement);
+		
+		if(bounds == null) {
+			return;
 		}
-		 
-		if(bounds != null) {
-			org.w3c.dom.Element elementTag = createDictElement(xmlDoc, Integer.toString(elementCount));
-			
-			org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);
-			idTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-			idTag.appendChild(xmlDoc.createTextNode(presentationElement.getID()));
-			
-			org.w3c.dom.Element typeTag = xmlDoc.createElement(XmlTagConstants.TYPE);
-			typeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-			typeTag.appendChild(xmlDoc.createTextNode(type));
-							
-			org.w3c.dom.Element relationshipMetadataTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_METADATA);
-			relationshipMetadataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-			
-			org.w3c.dom.Element topTag = xmlDoc.createElement(XmlTagConstants.TOP);
-			topTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-			topTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y)));
-			
-			org.w3c.dom.Element bottomTag = xmlDoc.createElement(XmlTagConstants.BOTTOM);
-			bottomTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-			bottomTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y - bounds.height)));
-			
-			org.w3c.dom.Element leftTag = xmlDoc.createElement(XmlTagConstants.LEFT);
-			leftTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-			leftTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x)));
-			
-			org.w3c.dom.Element rightTag = xmlDoc.createElement(XmlTagConstants.RIGHT);
-			rightTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-			rightTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x + bounds.width)));
-	
-			elementTag.appendChild(idTag);
-			elementTag.appendChild(typeTag);
-			elementTag.appendChild(relationshipMetadataTag);
-			relationshipMetadataTag.appendChild(topTag);
-			relationshipMetadataTag.appendChild(bottomTag);
-			relationshipMetadataTag.appendChild(leftTag);
-			relationshipMetadataTag.appendChild(rightTag);
+		
+		org.w3c.dom.Element elementTag = XmlWriter.createMtipDiagramElement(elementCount);
+		@SuppressWarnings("deprecation")
+		org.w3c.dom.Element idTag = XmlWriter.createSimpleIdTag(presentationElement.getID());
+		org.w3c.dom.Element typeTag = XmlWriter.createSimpleTypeTag(type);
+						
+		writeRelationshipMetadata(elementTag, presentationElement);
 
-			elementCount++;
-			return elementTag;
-		}
-		return null;
+		XmlWriter.add(elementTag, idTag);
+		XmlWriter.add(elementTag, typeTag);
+		XmlWriter.add(elementListTag, elementTag);
+		
+		elementCount++;
 	}	
 	
-	protected org.w3c.dom.Element createDiagramRelationshipTag(Document xmlDoc, PresentationElement presentationElement) {
+	protected void writeDiagramRelationship(org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement) {
 		Element relationship = presentationElement.getElement();
-		if(relationship != null) {
-			if(!this.diagramElementIDs.contains(relationship.getID())) {
-				diagramElementIDs.add(relationship.getID());
-				org.w3c.dom.Element relationshipTag = createDictRelationship(xmlDoc, Integer.toString(relationshipCount));
-				org.w3c.dom.Element idTag = xmlDoc.createElement(XmlTagConstants.ID);
-				idTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-				idTag.appendChild(xmlDoc.createTextNode(relationship.getID()));
-				
-				org.w3c.dom.Element typeTag = xmlDoc.createElement(XmlTagConstants.TYPE);
-				typeTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
-				typeTag.appendChild(xmlDoc.createTextNode(relationship.getHumanType()));
-				
-				org.w3c.dom.Element relDataTag = xmlDoc.createElement(XmlTagConstants.RELATIONSHIP_METADATA);
-				relDataTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-				relationshipTag.appendChild(relDataTag);
-				
-				// Get Position
-				Rectangle bounds = presentationElement.getBounds();
-				
-				org.w3c.dom.Element topTag = xmlDoc.createElement(XmlTagConstants.TOP);
-				topTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-				topTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y)));
-				
-				org.w3c.dom.Element bottomTag = xmlDoc.createElement(XmlTagConstants.BOTTOM);
-				bottomTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-				bottomTag.appendChild(xmlDoc.createTextNode(String.valueOf(-bounds.y - bounds.height)));
-				
-				org.w3c.dom.Element leftTag = xmlDoc.createElement(XmlTagConstants.LEFT);
-				leftTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-				leftTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x)));
-				
-				org.w3c.dom.Element rightTag = xmlDoc.createElement(XmlTagConstants.RIGHT);
-				rightTag.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_INT);
-				rightTag.appendChild(xmlDoc.createTextNode(String.valueOf(bounds.x + bounds.width)));
-				
-				relDataTag.appendChild(topTag);
-				relDataTag.appendChild(bottomTag);
-				relDataTag.appendChild(leftTag);
-				relDataTag.appendChild(rightTag);
-				
-				relationshipTag.appendChild(idTag);
-				relationshipTag.appendChild(typeTag);
-
-				
-				relationshipCount++;
-				return relationshipTag;
-			}
+		
+		if(relationship == null) {
+			return;
 		}
-		return null;		
+		if(diagramElementIDs.contains(relationship.getID())) {
+			return;
+		}
+		
+		diagramElementIDs.add(relationship.getID());
+		
+		org.w3c.dom.Element relationshipTag = XmlWriter.createMtipDiagramConnector(relationshipCount);
+		org.w3c.dom.Element idTag = XmlWriter.createSimpleIdTag(relationship);
+		org.w3c.dom.Element typeTag = XmlWriter.createSimpleTypeTag(relationship);
+		
+		writeRelationshipMetadata(relationshipTag, presentationElement);
+	
+		XmlWriter.add(relationshipTag, idTag);
+		XmlWriter.add(relationshipTag, typeTag);
+		XmlWriter.add(relationshipListTag, relationshipTag);
+
+		relationshipCount++;
+	}
+	
+	protected void writeRelationshipMetadata(org.w3c.dom.Element diagramElementTag, PresentationElement presentationElement) {
+		org.w3c.dom.Element relDataTag = XmlWriter.createTag(XmlTagConstants.RELATIONSHIP_METADATA, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		
+		Rectangle bounds = presentationElement.getBounds();
+		
+		org.w3c.dom.Element topTag = XmlWriter.createTag(XmlTagConstants.TOP, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(-bounds.y));
+		org.w3c.dom.Element bottomTag = XmlWriter.createTag(XmlTagConstants.BOTTOM, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(-bounds.y - bounds.height));
+		org.w3c.dom.Element leftTag = XmlWriter.createTag(XmlTagConstants.LEFT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x));
+		org.w3c.dom.Element rightTag = XmlWriter.createTag(XmlTagConstants.RIGHT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x + bounds.width));
+	
+		XmlWriter.add(relDataTag, topTag);
+		XmlWriter.add(relDataTag, bottomTag);
+		XmlWriter.add(relDataTag, leftTag);
+		XmlWriter.add(relDataTag, rightTag);
+		
+		XmlWriter.add(diagramElementTag, relDataTag);
+	}
+	
+	protected boolean isValidDiagramElement(Element element) {
+		if (element.getHumanType().contentEquals("Diagram") || element instanceof ConnectorEnd) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	@SuppressWarnings("deprecation")
+	protected boolean isValidPresentationElement(PresentationElement presentationElement) {
+		if (presentationElement instanceof com.nomagic.magicdraw.uml.symbols.shapes.RoleView) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	protected Rectangle getBounds(PresentationElement presentationElement) {
+		try {
+			Rectangle bounds = presentationElement.getBounds();
+			return bounds;
+		} catch(NoRectangleDefinedException nrde) {
+			return null;
+		}
 	}
 }

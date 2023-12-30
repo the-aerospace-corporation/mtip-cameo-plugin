@@ -22,9 +22,9 @@ public class ReferenceProperty extends CommonElement {
 	public ReferenceProperty(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.REFERENCEPROPERTY;
-		this.sysmlConstant = SysmlConstants.REFERENCEPROPERTY;
-		this.sysmlElement = f.createPropertyInstance();
+		this.xmlConstant = XmlTagConstants.REFERENCE_PROPERTY;
+		this.sysmlConstant = SysmlConstants.REFERENCE_POINT;
+		this.element = f.createPropertyInstance();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class ReferenceProperty extends CommonElement {
 		
 		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "MD Customization for SysML"); 
 		Stereotype referencePropertyStereotype = StereotypesHelper.getStereotype(project, "ReferenceProperty", mdCustomizationProfile);
-		StereotypesHelper.addStereotype(sysmlElement, referencePropertyStereotype);
+		StereotypesHelper.addStereotype(element, referencePropertyStereotype);
 
-		return sysmlElement;
+		return element;
 	}
 }

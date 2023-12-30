@@ -16,7 +16,7 @@ public class ExitPoint extends PseudoState {
 	public ExitPoint(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.EXITPOINT;		
-		this.sysmlConstant = SysmlConstants.EXITPOINT;
-		this.xmlConstant = XmlTagConstants.EXITPOINT;
+		this.sysmlConstant = SysmlConstants.EXIT_POINT;
+		this.xmlConstant = XmlTagConstants.EXIT_POINT;
 	}
 }

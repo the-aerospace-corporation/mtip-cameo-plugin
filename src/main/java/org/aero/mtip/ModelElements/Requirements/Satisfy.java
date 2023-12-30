@@ -24,7 +24,7 @@ public class Satisfy extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.SATISFY;
 		this.xmlConstant = XmlTagConstants.SATISFY;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class Satisfy extends CommonDirectedRelationship {
 		
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype satisfyStereotype = StereotypesHelper.getStereotype(project,  "Satisfy", sysml);
-		StereotypesHelper.addStereotype(sysmlElement, satisfyStereotype);
+		StereotypesHelper.addStereotype(element, satisfyStereotype);
 
-		return sysmlElement;
+		return element;
 	}
 }

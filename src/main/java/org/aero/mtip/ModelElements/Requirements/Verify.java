@@ -24,7 +24,7 @@ public class Verify extends CommonDirectedRelationship {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.VERIFY;
 		this.xmlConstant = XmlTagConstants.VERIFY;
-		this.sysmlElement = f.createAbstractionInstance();
+		this.element = f.createAbstractionInstance();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class Verify extends CommonDirectedRelationship {
 		
 		Profile sysml = StereotypesHelper.getProfile(project, "SysML");
 		Stereotype verifyStereotype = StereotypesHelper.getStereotype(project,  "Verify", sysml);
-		StereotypesHelper.addStereotype(sysmlElement, verifyStereotype);
+		StereotypesHelper.addStereotype(element, verifyStereotype);
 		
-		return sysmlElement;
+		return element;
 	}
 }

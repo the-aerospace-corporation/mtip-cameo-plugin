@@ -15,8 +15,8 @@ public class ChangeEvent extends CommonElement {
 	public ChangeEvent(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CHANGEEVENT;
-		this.xmlConstant = XmlTagConstants.CHANGEEVENT;
-		this.sysmlElement = f.createChangeEventInstance();
+		this.sysmlConstant = SysmlConstants.CHANGE_EVENT;
+		this.xmlConstant = XmlTagConstants.CHANGE_EVENT;
+		this.element = f.createChangeEventInstance();
 	}
 }

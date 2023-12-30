@@ -9,12 +9,11 @@ package org.aero.mtip.ModelElements.StateMachine;
 import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -27,19 +26,19 @@ public class SignalEvent extends CommonElement {
 	public SignalEvent(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.SIGNALEVENT;
-		this.xmlConstant = XmlTagConstants.SIGNALEVENT;
-		this.sysmlElement = f.createSignalEventInstance();
+		this.sysmlConstant = SysmlConstants.SIGNAL_EVENT;
+		this.xmlConstant = XmlTagConstants.SIGNAL_EVENT;
+		this.element = f.createSignalEventInstance();
 	}
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent se = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)super.createElement(project, owner, xmlElement);
+		
 		if(xmlElement.hasElement(signalElementTag)) {
 			Signal signal = (Signal) xmlElement.getElement(signalElementTag);
 			se.setSignal(signal);
-		} else {
-			CameoUtils.logGUI("Signal event with id: " + EAID + " has no signal element.");
 		}
+		
 		return se;
 	}
 	@Override
@@ -52,18 +51,24 @@ public class SignalEvent extends CommonElement {
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 
-		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent se= (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)element;
-		Signal signal = se.getSignal();
-		if(signal != null) {
-			org.w3c.dom.Element signalTag = createRel(xmlDoc, signal, XmlTagConstants.SIGNAL_TAG);
-			relationships.appendChild(signalTag);
-		}
+		writeSignal(relationships, element);
 		
 		return data;
 	}
-
+	
+	protected void writeSignal(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent signalEvent = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)element;
+		Signal signal = signalEvent.getSignal();
+		
+		if(signal == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element signalTag = XmlWriter.createMtipRelationship(signal, XmlTagConstants.SIGNAL_TAG);
+		XmlWriter.add(relationships, signalTag);
+	}
 }

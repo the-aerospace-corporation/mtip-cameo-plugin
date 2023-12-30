@@ -19,7 +19,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.FileSelect;
 import org.w3c.dom.Document;
 
@@ -48,12 +52,19 @@ public class ExportXmlSysmlAction extends MDAction {
 //			int n = JOptionPane.showOptionDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Select XML import type", "Choose Export Format", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 //			
 			File file = FileSelect.chooseXMLFile();
-			if(file != null) {
-				Document doc = createDocument();
-				
-				ExportXmlSysml.buildXML(doc, file, null);
-				FileSelect.writeXMLToFile(doc, file);
+			
+			if(file == null) {
+				ExportLog.log("Failed to select file. Export aborted.");
+				return;
 			}
+			
+			SysML.initialize(project);
+			MDCustomizationForSysML.initialize(project);
+			XmlWriter.initialize();
+			
+			ExportXmlSysml.buildXML(file, null);
+			FileSelect.writeXMLToFile(file);
+			
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export complete.");
 			
 		} catch (NullPointerException npe) {
@@ -61,9 +72,6 @@ public class ExportXmlSysmlAction extends MDAction {
 			StringWriter sw = new StringWriter();
 			npe.printStackTrace(new PrintWriter(sw));
 			CameoUtils.logGUI(sw.toString());
-		} catch (ParserConfigurationException e1) {
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export aborted - ParserConfigurationException");
 		} catch (FileNotFoundException fnf) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export aborted - FileNotFoundException");
 			StringWriter sw = new StringWriter();
@@ -76,14 +84,5 @@ public class ExportXmlSysmlAction extends MDAction {
 			e1.printStackTrace();
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export aborted - TransformerException");
 		}
-	}
-	
-	//Creates a Document object to be used in creating the XML output
-	public static Document createDocument() throws ParserConfigurationException	{
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		dbFactory.setNamespaceAware(true);
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.newDocument();
-		return doc;
 	}
 }

@@ -6,24 +6,26 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.aero.mtip.ModelElements.EnumerationLiteral;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
-import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
@@ -33,7 +35,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -147,16 +150,6 @@ public class CameoUtils {
 		}
 		return null;
 	}
-	public static Stereotype getStereotype(String stereotypeName) {
-		Project project = Application.getInstance().getProject();
-		switch(stereotypeName) {
-		case "auxiliary":
-			Profile umlProfile = StereotypesHelper.getProfile(project, "UML Standard Profile"); 
-			Stereotype auxiliaryStereotype = StereotypesHelper.getStereotype(project, "auxiliaryResource", umlProfile);
-			return auxiliaryStereotype;
-		}
-		return null;
-	}
 	
 	public static boolean isCustomization(Project project, Element element) {
 		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
@@ -182,10 +175,6 @@ public class CameoUtils {
 		Stereotype validationSuite = StereotypesHelper.getStereotype(project, "validationSuite", profile);
 		return validationSuite;
 	}
-	public static Stereotype getModelLibraryStereotype() {
-		
-		return null;
-	}
 	
 	public static boolean isModel(Element element, Project project) {
 		if(element.equals(project.getPrimaryModel())) {
@@ -201,36 +190,26 @@ public class CameoUtils {
 		return false;
 	}
 	
-	public static boolean isProperty(Element element, Project project) {
-		if(element instanceof Property) {
-			if(MDCustomizationForSysMLProfile.isPartProperty(element) || MDCustomizationForSysMLProfile.isReferenceProperty(element) ||MDCustomizationForSysMLProfile.isValueProperty(element)) {
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
-	
 	public static String getPseudoState(Element element) {
 		try {
 			Pseudostate pseudoState = (Pseudostate)element;
 			PseudostateKind psKind = pseudoState.getKind();
 			if(psKind.equals(PseudostateKindEnum.CHOICE)) {
-				return SysmlConstants.CHOICEPSEUDOSTATE;
+				return SysmlConstants.CHOICE_PSEUDO_STATE;
 			} else if(psKind.equals(PseudostateKindEnum.DEEPHISTORY)) {
-				return SysmlConstants.DEEPHISTORY;
+				return SysmlConstants.DEEP_HISTORY;
 			} else if(psKind.equals(PseudostateKindEnum.ENTRYPOINT)) {
-				return SysmlConstants.ENTRYPOINT;
+				return SysmlConstants.ENTRY_POINT;
 			} else if(psKind.equals(PseudostateKindEnum.EXITPOINT)) {
-				return SysmlConstants.EXITPOINT;
+				return SysmlConstants.EXIT_POINT;
 			} else if(psKind.equals(PseudostateKindEnum.FORK)) {
 				return SysmlConstants.FORK;
 			} else if(psKind.equals(PseudostateKindEnum.INITIAL)) {
-				return SysmlConstants.INITIALPSEUDOSTATE;
+				return SysmlConstants.INITIAL_PSEUDO_STATE;
 			} else if(psKind.equals(PseudostateKindEnum.JOIN)) {
 				return SysmlConstants.JOIN;
 			} else if(psKind.equals(PseudostateKindEnum.SHALLOWHISTORY)) {
-				return SysmlConstants.SHALLOWHISTORY;
+				return SysmlConstants.SHALLOW_HISTORY;
 			} else if(psKind.equals(PseudostateKindEnum.TERMINATE)) {
 				return SysmlConstants.TERMINATE;
 			} else {
@@ -276,24 +255,6 @@ public class CameoUtils {
 		}
 		return null;
 	}
-		
-	public static boolean isAssociationBlock(Element element, Project project) {
-		//Add additional check for block stereotype
-		if(element instanceof AssociationClass && isBlock(element, project)) {
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean isSysmlStereotypedElement(Element element, Project project, String stereotype) {
-		Profile sysml = StereotypesHelper.getProfile(project,  "SysML");
-		Collection<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-		Stereotype blockStereotype = StereotypesHelper.getStereotype(project, stereotype, sysml);
-		if(stereotypes.contains(blockStereotype)) { 
-			return true;
-		}
-		return false;
-	}
 	
 	public static boolean isMetaclass(Element element) {
 		NamedElement owner = (NamedElement)element.getOwner();
@@ -301,96 +262,6 @@ public class CameoUtils {
 			return true;
 		}
 		return false;
-	}
-	
-	public static boolean isCopy(Element element, Project project) {
-		String stereotype = SysMLProfile.COPY_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isDeriveRequirement(Element element, Project project) {
-		String stereotype = SysMLProfile.DERIVEREQT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isRefine(Element element, Project project) {
-		String stereotype = SysMLProfile.REFINE_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isSatisfy(Element element, Project project) {
-		String stereotype = SysMLProfile.SATISFY_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isTrace(Element element, Project project) {
-		String stereotype = SysMLProfile.TRACE_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isVerify(Element element, Project project) {
-		String stereotype = SysMLProfile.VERIFY_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isBlock(Element element, Project project) {
-		String stereotype = SysMLProfile.BLOCK_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isDesignConstraint(Element element, Project project) {
-		String stereotype = SysMLProfile.DESIGNCONSTRAINT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isExtendedRequirement(Element element, Project project) {
-		String stereotype = SysMLProfile.EXTENDEDREQUIREMENT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isFunctionalRequirement(Element element, Project project) {
-		String stereotype = SysMLProfile.FUNCTIONALREQUIREMENT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isInterfaceBlock(Element element, Project project) {
-		String stereotype = SysMLProfile.INTERFACEBLOCK_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isInterfaceRequirement(Element element, Project project) {
-		String stereotype = SysMLProfile.INTERFACEREQUIREMENT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isPerformanceRequirement(Element element, Project project) {
-		String stereotype = SysMLProfile.PERFORMANCEREQUIREMENT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isPhysicalRequirement(Element element, Project project) {
-		String stereotype = SysMLProfile.PHYSICALREQUIREMENT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isRequirement(Element element, Project project) {
-		String stereotype = SysMLProfile.REQUIREMENT_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isPartProperty(Element element, Project project) {
-		String stereotype = MDCustomizationForSysMLProfile.PARTPROPERTY_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isValueProperty(Element element, Project project) {
-		String stereotype = MDCustomizationForSysMLProfile.VALUEPROPERTY_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
-	}
-	
-	public static boolean isValueType(Element element, Project project) {
-		String stereotype = SysMLProfile.VALUETYPE_STEREOTYPE;
-		return isSysmlStereotypedElement(element, project, stereotype);
 	}
 	
 	public static boolean containsIgnoreCase(List<String> list, String soughtFor) {
@@ -437,9 +308,64 @@ public class CameoUtils {
 		return false;
 	}
 	
+	public static void logExceptionToGui(Exception e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		
+		logGUI(sw.toString());
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static Element getPrimitiveValueType(String valueTypeEnum) {
 		String primitiveValuePath = "SysML::Libraries::PrimitiveValueTypes::" + valueTypeEnum;
 		return ModelHelper.findElementWithPath(primitiveValuePath);
+	}
+	
+	@CheckForNull
+	public static String getValueSpecificationValueAsString(ValueSpecification vs) {
+		String strVal = null;
+		
+		if(vs instanceof LiteralString) {
+			LiteralString ls = (LiteralString)vs;
+			strVal = ls.getValue();
+		} else if(vs instanceof LiteralReal) {
+			LiteralReal lr = (LiteralReal)vs;
+			double value = lr.getValue();
+			strVal = String.valueOf(value);
+		} else if(vs instanceof LiteralInteger) {
+			LiteralInteger lr = (LiteralInteger)vs;
+			int value = lr.getValue();
+			strVal = String.valueOf(value);
+		} else if(vs instanceof LiteralBoolean) {
+			LiteralBoolean lr = (LiteralBoolean)vs;
+			boolean value = lr.isValue();
+			strVal = String.valueOf(value);
+		} else if(vs instanceof ElementValue) {
+			ElementValue ev = (ElementValue)vs;
+			strVal = ev.getElement().getID();
+		} else if(vs instanceof OpaqueExpression) {
+			OpaqueExpression oe = (OpaqueExpression)vs;
+			List<String> bodies = oe.getBody();
+			Iterator<String> bodyIter = bodies.iterator();
+			if(bodyIter.hasNext()) {
+				strVal = bodyIter.next();
+			}
+		} else if(vs instanceof EnumerationLiteral) {
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral literal = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral)vs;
+			strVal = literal.getName();
+		} else if(vs instanceof InstanceValue ) {
+			strVal = ModelHelper.getValueString(vs);
+//			EnumerationLiteral  litVal = (EnumerationLiteral)ValueSpecificationHelper.getValueSpecficationValue(vs);
+//			InstanceValue iv = (InstanceValue)vs;
+//			InstanceSpecification is = iv.getInstance();
+//			ValueSpecification vs2 = is.getSpecification();
+//			strVal = getSlotValueAsString(vs2);
+		}else {
+			String message = "Value specification with id " + vs.getID() + " was not string, real, int, bool, or opaque expression.";
+			ExportLog.log(message);
+			CameoUtils.logGUI(message);
+		}
+		return strVal;
 	}
 }

@@ -17,6 +17,6 @@ public class Interaction extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.INTERACTION;
 		this.xmlConstant = XmlTagConstants.INTERACTION;
-		this.sysmlElement = f.createInteractionInstance();
+		this.element = f.createInteractionInstance();
 	}
 }

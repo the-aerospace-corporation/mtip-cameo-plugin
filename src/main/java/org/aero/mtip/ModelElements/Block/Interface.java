@@ -17,6 +17,6 @@ public class Interface extends CommonElement {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.INTERFACE;
 		this.xmlConstant = XmlTagConstants.INTERFACE;
-		this.sysmlElement = f.createInterfaceInstance();
+		this.element = f.createInterfaceInstance();
 	}
 }

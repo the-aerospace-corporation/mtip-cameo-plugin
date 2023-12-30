@@ -22,8 +22,8 @@ public class BindingConnector extends Connector {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.BINDINGCONNECTOR;
-		this.sysmlConstant = SysmlConstants.BINDINGCONNECTOR;
-		this.sysmlElement= f.createConnectorInstance();
+		this.sysmlConstant = SysmlConstants.BINDING_CONNECTOR;
+		this.element= f.createConnectorInstance();
 	}
 
 	@Override
@@ -31,8 +31,8 @@ public class BindingConnector extends Connector {
 		super.createElement(project, owner, client, supplier, xmlElement);
 		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
 		Stereotype bindingConnectorStereotype = StereotypesHelper.getStereotype(project, "BindingConnector", sysmlProfile);
-		StereotypesHelper.addStereotype(sysmlElement, bindingConnectorStereotype);
+		StereotypesHelper.addStereotype(element, bindingConnectorStereotype);
 		
-		return sysmlElement;
+		return element;
 	}
 }
