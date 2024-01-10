@@ -15,12 +15,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.swing.JFileChooser;
 
 import org.apache.commons.io.FilenameUtils;
+
+import com.nomagic.magicdraw.core.Application;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class ExportLog {
 	protected static List<String> logData = new ArrayList<String> ();
@@ -109,5 +115,26 @@ public class ExportLog {
 		e.printStackTrace(pw);
 		
 		log(sw.toString());
+	}
+	
+	public static void logSummary(HashSet<String> exportedElementIds) {
+		log(String.format("\n------------ Exported %s Elements -----------\n", exportedElementIds.size()));
+		
+		TreeMap<String, Integer> typeCounts = new TreeMap<String, Integer>(Collections.reverseOrder());
+		
+		for (String elementId : exportedElementIds) {
+			Element element = (Element) Application.getInstance().getProject().getElementByID(elementId);
+			
+			if (!typeCounts.containsKey(element.getHumanType())) {
+				typeCounts.put(element.getHumanType(), 1);
+				continue;
+			}
+			
+			typeCounts.put(element.getHumanType(), typeCounts.get(element.getHumanType()) + 1);			
+		}
+		
+		for (String elementType : typeCounts.descendingKeySet()) {
+			log(String.format("%s: %s", elementType, Integer.toString(typeCounts.get(elementType))));
+		}
 	}
 }

@@ -97,6 +97,11 @@ public class Constraint extends CommonElement {
 		}
 		
 		org.w3c.dom.Element valueSpecTag = XmlWriter.createAttributeFromValueSpecification(vs, Constraint.VALUE_SPECIFICATION);
+		
+		if (valueSpecTag == null) {
+			return;
+		}
+		
 		XmlWriter.add(attributes, valueSpecTag);
 	}
 	

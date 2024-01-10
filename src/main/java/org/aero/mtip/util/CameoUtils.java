@@ -28,16 +28,15 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
-import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
@@ -294,18 +293,17 @@ public class CameoUtils {
 		return false;
 	}
 	
-	public static boolean isNotExplicitlySupported(Element element) {
-		if (element instanceof ElementValue ||
-			    element instanceof LiteralReal ||
-			    element instanceof LiteralBoolean ||
-			    element instanceof LiteralInteger ||
-			    element instanceof LiteralString ||
-			    element instanceof LiteralUnlimitedNatural ||
-			    element instanceof InstanceValue ||
-			    element instanceof ConnectorEnd) {
+	public static boolean isSupportedInstanceSpecification(Element element) {
+		if (!(element instanceof InstanceSpecification)) {
 			return true;
 		}
-		return false;
+		
+		if(element.getHumanName().contentEquals(element.getHumanType())
+				|| Arrays.asList(SysmlConstants.RESERVE_INSTANCE_SPECIFICATION).contains(element.getHumanName())) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public static void logExceptionToGui(Exception e) {

@@ -10,6 +10,7 @@ import java.util.Collections;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.TaggedValue;
@@ -17,6 +18,7 @@ import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -44,13 +46,8 @@ public class ConstraintParameter extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		
-		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, SysmlConstants.MD_CUSTOMIZATION_PROFILE_NAME); 
-		Stereotype constraintParameterStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.CONSTRAINT_PARAMETER, mdCustomizationProfile);
-		StereotypesHelper.addStereotype(element, constraintParameterStereotype);
-		
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, SysmlConstants.SYSML_PROFILE_NAME);
-		Stereotype directedFeatureStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.DIRECTED_FEATURE, sysmlProfile);
-		StereotypesHelper.addStereotype(element, directedFeatureStereotype);
+		StereotypesHelper.addStereotype(element, MDCustomizationForSysMLProfile.getInstance(project).getConstraintParameter());
+		StereotypesHelper.addStereotype(element, SysML.getDirectedFeatureStereotype());
 		
 		setDirectedFeatureValue(xmlElement);
 		

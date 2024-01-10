@@ -33,6 +33,7 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
@@ -179,7 +180,8 @@ public abstract class CommonElement {
 	@CheckForNull
 	public org.w3c.dom.Element writeToXML(Element element) {
 		this.element = element;
-		if (xmlConstant == null || (element.getOwner() == null && !(element instanceof Model))) {
+		
+		if (xmlConstant == null || (element.getOwner() == null && !(element instanceof com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model))) {
 			ExportLog.log(String.format("Internal Error: element of type %s has no XML constant set or has no owner. Id: ", element.getHumanType(), element.getID()));
 			return null;
 		}
@@ -219,6 +221,10 @@ public abstract class CommonElement {
 		Element owner = element.getOwner();
 		
 		if (owner == null) {
+			if (element == project.getPrimaryModel()) {
+				return;
+			}
+			
 			ExportLog.log(String.format(
 					"No parent element found for %s of type %s with id %s.", 
 					element.getHumanName(), 
@@ -573,15 +579,17 @@ public abstract class CommonElement {
 	}
 	
 	protected void addInitialStereotype() {
-		if(initialStereotypes != null) {
-			for(Stereotype stereotype : initialStereotypes) {
-				if(stereotype != null) {
-					StereotypesHelper.addStereotype(element, stereotype);
-				} else {
-					ImportLog.log("Unable to add stereotype to " + this.name + " with id "  + this.EAID);
-					CameoUtils.logGUI("Unable to add stereotype to " + this.name + " with id "  + this.EAID);
-				}
+		if(initialStereotypes == null) {
+			return;
+		}
+		
+		for(Stereotype stereotype : initialStereotypes) {
+			if(stereotype == null) {
+				ImportLog.log(String.format("Error adding initial stereotype to %s with id %s", name, EAID));
+				continue;
 			}
+			
+			StereotypesHelper.addStereotype(element, stereotype);
 		}
 	}
 	
@@ -590,24 +598,22 @@ public abstract class CommonElement {
 	}
 	
 	protected void applyClassifier() {
+		if (classifier == null) {
+			return;
+		}
+		
+		if (!(classifier instanceof Classifier)) {
+			ImportLog.log(String.format("Classifier %s cannot be cast to classifier class for element %s with id %s.", classifier.getHumanName(), name, EAID));
+			return;
+		}
+		
+		if (!(element instanceof InstanceSpecification)) {
+			ImportLog.log(String.format("Cannot apply classifier to non-InstanceSpecification subclass. Use setClassifier for element %s with id %s.", element.getHumanName(), EAID));
+		}
+		
 		Classifier classifier = (Classifier) this.classifier;
-		if(classifier != null) {
-			ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) element, true);
-		}
-//			} else {
-//			ImportLog.log("Unable to add classifier to " + this.name + " with id "  + this.EAID);
-//			CameoUtils.logGUI("Unable to add classifier to " + this.name + " with id "  + this.EAID);
-//		}
-	}
-	
-	protected boolean isElement(String strValue) {
-		if(strValue.matches("_\\d{1,2}_(0)")) {
-			return true;
-		}
-		return false;
-	}
-	
-	
+		ModelHelper.setClassifierForInstanceSpecification(classifier, (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification) element, true);
+	}	
 	
 	public void addStereotypeTaggedValues(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {

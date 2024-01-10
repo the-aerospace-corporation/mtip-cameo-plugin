@@ -175,7 +175,7 @@ public class SysmlConstants {
 	public static final String EXTERNAL = "External";
 	public static final String SUBSYSTEM = "Subsystem";
 	public static final String SYSTEM = "System";
-	public static final String SYSTEMCONTEXT = "SystemContext";
+	public static final String SYSTEM_CONTEXT = "SystemContext";
 
 //	public static final String TRIGGER = "Trigger";
 //	public static final String NOTE = "Note";
@@ -267,6 +267,7 @@ public class SysmlConstants {
 			DESIGN_CONSTRAINT,
 			DESTROY_OBJECT_ACTION,
 			DESTRUCTION_OCCURRENCE_SPECIFICATION,
+			DOMAIN,
 			DURATION,
 			DURATION_INTERVAL,
 			DURATION_CONSTRAINT,
@@ -277,6 +278,7 @@ public class SysmlConstants {
 			EXIT_POINT,
 			EXTENDED_REQUIREMENT,
 			EXTENSION_POINT,
+			EXTERNAL,
 			FINAL_STATE,
 			FLOW_FINAL_NODE,
 			FLOW_PORT,
@@ -337,6 +339,9 @@ public class SysmlConstants {
 			STATE_INVARIANT,
 			STATE_MACHINE,
 			STEREOTYPE,
+			SUBSYSTEM,
+			SYSTEM,
+			SYSTEM_CONTEXT,
 			TERMINATE,
 			TERM,
 			TIME_CONSTRAINT,
@@ -454,7 +459,7 @@ public class SysmlConstants {
 			STAKEHOLDER,
 			SUBSYSTEM,
 			SYSTEM,
-			SYSTEMCONTEXT,
+			SYSTEM_CONTEXT,
 			UNIT,
 			USE_CASE,
 			VALUE_PROPERTY,
@@ -486,7 +491,7 @@ public class SysmlConstants {
 			SIGNAL,
 			SUBSYSTEM,
 			SYSTEM,
-			SYSTEMCONTEXT,
+			SYSTEM_CONTEXT,
 			UNIT,
 			VALUE_PROPERTY,
 			VALUE_TYPE
@@ -622,7 +627,7 @@ public class SysmlConstants {
 			STAKEHOLDER,
 			SUBSYSTEM,
 			SYSTEM,
-			SYSTEMCONTEXT,
+			SYSTEM_CONTEXT,
 			UNIT,
 			VALUE_PROPERTY,
 			VALUE_TYPE,

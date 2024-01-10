@@ -13,10 +13,8 @@ import org.aero.mtip.ModelElements.ModelDiagram;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.profiles.DependencyMatrixProfile;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.dependencymatrix.MatrixManager;
@@ -27,10 +25,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public abstract class AbstractMatrix extends AbstractDiagram implements ModelDiagram {
 	protected final String MATRIX_FILTER = "MatrixFilter";
@@ -75,7 +70,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 	}
 	
 	protected void writeColumnElementTypes(org.w3c.dom.Element attributes, Element element) {
-		Slot columnElementTypeSlot = DependencyMatrixProfile.getColumnElementTypeSlot(element);
+		Slot columnElementTypeSlot = DependencyMatrixProfile.getInstance().getColumnElementTypeSlot(element);
 		
 		if (columnElementTypeSlot == null) {
 			return;
@@ -116,7 +111,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 	}
 	
 	protected void writeRowElementTypes(org.w3c.dom.Element attributes, Element element) {
-		Slot rowElementTypeSlot = DependencyMatrixProfile.getRowElementTypeSlot(element);
+		Slot rowElementTypeSlot = DependencyMatrixProfile.getInstance().getRowElementTypeSlot(element);
 		
 		if (rowElementTypeSlot == null) {
 			return;
@@ -150,7 +145,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 	}
 	
 	protected void writeColumnScope(org.w3c.dom.Element relationships, Element element) {
-		Slot columnScopeSlot = DependencyMatrixProfile.getColumnScopeSlot(element);
+		Slot columnScopeSlot = DependencyMatrixProfile.getInstance().getColumnScopeSlot(element);
 		
 		if (columnScopeSlot == null) {
 			return;
@@ -169,7 +164,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 	}
 	
 	protected void writeRowScope(org.w3c.dom.Element relationships, Element element) {
-		Slot rowScopeSlot = DependencyMatrixProfile.getRowScopeSlot(element);
+		Slot rowScopeSlot = DependencyMatrixProfile.getInstance().getRowScopeSlot(element);
 		
 		if (rowScopeSlot == null) {
 			return;

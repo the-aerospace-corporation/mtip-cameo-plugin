@@ -1,26 +1,36 @@
 package org.aero.mtip.profiles;
 
+import org.aero.mtip.util.ExportLog;
+
+import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class SysML extends Profile {
-	private static final String SYSML_PROFILE_NAME = "SysML";
+public class SysML {
+	private static SysML instance;
+	
+	private Project project;
+	private Profile profile;
+	
+	public static final String NAME = "SysML";
 	
 //	private static final String ASSOCIATION_BLOCK_NAME = ""
 	private static final String BINDING_CONNECTOR_NAME = "BindingConnector";
 	private static final String BLOCK_NAME = "Block";
 	private static final String BOUND_REFERENCE_NAME = "BoundReference";
 	private static final String BUSINESS_REQUIREMENT_NAME = "businessRequirement";
-	private static final String CLASSIFIER_BEHAVIOR_NAME = "ClassifierBehavior";
+	private static final String CLASSIFIER_BEHAVIOR_NAME = "ClassifierBehaviorProperty";
 	private static final String CONSTRAINT_BLOCK_NAME = "ConstraintBlock";
 	private static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
 	private static final String CONSTRAINT_PROPERTY_NAME = "ConstraintProperty";
 	private static final String COPY_NAME = "Copy";
 	private static final String DERIVE_REQUIREMENT_NAME = "DeriveReqt";
 	private static final String DESIGN_CONSTRAINT_NAME = "designConstraint";
+	private static final String DIRECTED_FEATURE_NAME = "directedFeature";
 	private static final String DOMAIN_NAME = "Domain";
 	private static final String EXTENDED_REQUIREMENT_NAME = "extendedRequirement";
 	private static final String EXTERNAL_NAME = "External";
@@ -36,7 +46,7 @@ public class SysML extends Profile {
 	private static final String PERFORMANCE_REQUIREMENT_NAME = "performanceRequirement";
 	private static final String PHYSICAL_REQUIREMENT_NAME = "physicalRequirement";
 	private static final String PROXY_PORT_NAME = "ProxyPort";
-	private static final String REFINE_NAME = "RefineName";
+	private static final String REFINE_NAME = "Refine";
 	private static final String REQUIREMENT_NAME = "Requirement";
 	private static final String SATISFY_NAME = "Satisfy";
 	private static final String STAKEHOLDER_NAME = "Stakeholder";
@@ -58,25 +68,53 @@ public class SysML extends Profile {
 	public static String FLOWPROPERTY_DIRECTION_PROPERTY = "direction";
 	public static String SYSML_REQUIREMENTS_DIAGRAM = "Requirement Diagram";
 	
-	public SysML(Project project) {
-		this.project = project;
-		this.PROFILE = StereotypesHelper.getProfile(project, SYSML_PROFILE_NAME);
+	private SysML() {
+		project = Application.getInstance().getProject();
+		profile = StereotypesHelper.getProfile(project, NAME);
 	}
 	
-	public static void initialize(Project project) {
-		if (instance != null && instance.project == project) {
-			return;
+	public static SysML getInstance() {
+		if (instance == null || instance.project.getPrimaryModel().getID() != Application.getInstance().getProject().getPrimaryModel().getID()) {
+			instance = new SysML();
 		}
 		
-		instance = new SysML(project);
+		return instance;
+	}
+	
+	public static Stereotype getBlockStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, BLOCK_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getDirectedFeatureStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, DIRECTED_FEATURE_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getDomainStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, DOMAIN_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getExternalStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, EXTERNAL_NAME, getInstance().profile);
 	}
 	
 	public static Stereotype getFlowPropertyStereotype() {
-		return StereotypesHelper.getStereotype(instance.project, FLOW_PROPERTY_NAME, instance.PROFILE);
+		return StereotypesHelper.getStereotype(getInstance().project, FLOW_PROPERTY_NAME, getInstance().profile);
 	}
 	
 	public static Stereotype getRequirementStereotype() {
-		return StereotypesHelper.getStereotype(instance.project, REQUIREMENT_NAME, instance.PROFILE);
+		return StereotypesHelper.getStereotype(getInstance().project, REQUIREMENT_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getSubsystemStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, SUBSYSTEM_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getSystemStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, SYSTEM_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getSystemContextStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, SYSTEM_CONTEXT_NAME, getInstance().profile);
 	}
 	
 	public static boolean isAssociationBlock(Element element) {
@@ -87,160 +125,180 @@ public class SysML extends Profile {
 		return false;
 	}
 	
+	protected boolean hasStereotype(Element element, String stereotypeName) {
+		if (profile == null) {
+			ExportLog.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
+			return false;
+		}
+		
+		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
+		
+		if (stereotype == null) {
+			ExportLog.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
+			return false;
+		}
+		
+		if (!StereotypesHelper.hasStereotype(element, stereotype)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public static boolean isBindingConnector(Element element) {
-		return hasStereotype(element, BINDING_CONNECTOR_NAME);
+		return getInstance().hasStereotype(element, BINDING_CONNECTOR_NAME);
 	}
 	
 	public static boolean isBlock(Element element) {
 		// Add additional checks for association block and other elements with block stereotype
-		return hasStereotype(element, BLOCK_NAME);
+		return getInstance().hasStereotype(element, BLOCK_NAME);
 	}
 	
 	public static boolean isBoundReference(Element element) {
-		return hasStereotype(element, BOUND_REFERENCE_NAME);
+		return getInstance().hasStereotype(element, BOUND_REFERENCE_NAME);
 	}
 	
 	public static boolean isBusinessRequirement(Element element) {
-		return hasStereotype(element, BUSINESS_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, BUSINESS_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isClassifierBehavior(Element element) {
-		return hasStereotype(element, CLASSIFIER_BEHAVIOR_NAME);
+		return getInstance().hasStereotype(element, CLASSIFIER_BEHAVIOR_NAME);
 	}
 	
 	public static boolean isConstraintBlock(Element element) {
-		return hasStereotype(element, CONSTRAINT_BLOCK_NAME);
+		return getInstance().hasStereotype(element, CONSTRAINT_BLOCK_NAME);
 	}
 	
 	public static boolean isConstraintParameter(Element element) {
-		return hasStereotype(element, CONSTRAINT_PARAMETER_NAME);
+		return getInstance().hasStereotype(element, CONSTRAINT_PARAMETER_NAME);
 	}
 	
 	public static boolean isConstraintProperty(Element element) {
-		return hasStereotype(element, CONSTRAINT_PROPERTY_NAME);
+		return getInstance().hasStereotype(element, CONSTRAINT_PROPERTY_NAME);
 	}
 	
 	public static boolean isCopy(Element element) {
-		return hasStereotype(element, COPY_NAME);
+		return getInstance().hasStereotype(element, COPY_NAME);
 	}
 	
 	public static boolean isDeriveRequirement(Element element) {
-		return hasStereotype(element, DERIVE_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, DERIVE_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isDesignConstraint(Element element) {
-		return hasStereotype(element, DESIGN_CONSTRAINT_NAME);
+		return getInstance().hasStereotype(element, DESIGN_CONSTRAINT_NAME);
 	}
 	
 	public static boolean isDomain(Element element) {
-		return hasStereotype(element, DOMAIN_NAME);
+		return getInstance().hasStereotype(element, DOMAIN_NAME);
 	}
 	
 	public static boolean isExtendedRequirement(Element element) {
-		return hasStereotype(element, EXTENDED_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, EXTENDED_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isExternal(Element element) {
-		return hasStereotype(element, EXTERNAL_NAME);
+		return getInstance().hasStereotype(element, EXTERNAL_NAME);
 	}
 	
 	public static boolean isFlowPort(Element element) {
-		return hasStereotype(element, FLOW_PORT_NAME);
+		return getInstance().hasStereotype(element, FLOW_PORT_NAME);
 	}
 	
 	public static boolean isFlowProperty(Element element) {
-		return hasStereotype(element, FLOW_PROPERTY_NAME);
+		return getInstance().hasStereotype(element, FLOW_PROPERTY_NAME);
 	}
 	
 	public static boolean isFlowSpecification(Element element) {
-		return hasStereotype(element, FLOW_SPECIFICATION_NAME);
+		return getInstance().hasStereotype(element, FLOW_SPECIFICATION_NAME);
 	}
 	
 	public static boolean isFullPort(Element element) {
-		return hasStereotype(element, FULL_PORT_NAME);
+		return getInstance().hasStereotype(element, FULL_PORT_NAME);
 	}
 	
 	public static boolean isFunctionalRequirement(Element element) {
-		return hasStereotype(element, FUNCTIONAL_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, FUNCTIONAL_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isInterfaceBlock(Element element) {
-		return hasStereotype(element, INTERFACE_BLOCK_NAME);
+		return getInstance().hasStereotype(element, INTERFACE_BLOCK_NAME);
 	}
 	
 	public static boolean isInterfaceRequirement(Element element) {
-		return hasStereotype(element, INTERFACE_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, INTERFACE_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isItemFlow(Element element) {
-		return hasStereotype(element, ITEM_FLOW_NAME);
+		return getInstance().hasStereotype(element, ITEM_FLOW_NAME);
 	}
 	
 	public static boolean isParticipantProperty(Element element) {
-		return hasStereotype(element, PARTICIPANT_PROPERTY_NAME);
+		return getInstance().hasStereotype(element, PARTICIPANT_PROPERTY_NAME);
 	}
 	
 	public static boolean isPerformanceRequirement(Element element) {
-		return hasStereotype(element, PERFORMANCE_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, PERFORMANCE_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isPhysicalRequirement(Element element) {
-		return hasStereotype(element, PHYSICAL_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, PHYSICAL_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isProxyPort(Element element) {
-		return hasStereotype(element, PROXY_PORT_NAME);
+		return getInstance().hasStereotype(element, PROXY_PORT_NAME);
 	}
 	
 	public static boolean isRefine(Element element) {
-		return hasStereotype(element, REFINE_NAME);
+		return getInstance().hasStereotype(element, REFINE_NAME);
 	}
 	
 	public static boolean isRequirement(Element element) {
-		return hasStereotype(element, REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, REQUIREMENT_NAME);
 	}
 	
 	public static boolean isSatisfy(Element element) {
-		return hasStereotype(element, SATISFY_NAME);
+		return getInstance().hasStereotype(element, SATISFY_NAME);
 	}
 	
 	public static boolean isStakeholder(Element element) {
-		return hasStereotype(element, STAKEHOLDER_NAME);
+		return getInstance().hasStereotype(element, STAKEHOLDER_NAME);
 	}
 	
 	public static boolean isSubsystem(Element element) {
-		return hasStereotype(element, SUBSYSTEM_NAME);
+		return getInstance().hasStereotype(element, SUBSYSTEM_NAME);
 	}
 	
 	public static boolean isSystem(Element element) {
-		return hasStereotype(element, SYSTEM_NAME);
+		return getInstance().hasStereotype(element, SYSTEM_NAME);
 	}
 	
 	public static boolean isSystemContext(Element element) {
-		return hasStereotype(element, SYSTEM_CONTEXT_NAME);
+		return getInstance().hasStereotype(element, SYSTEM_CONTEXT_NAME);
 	}
 	
 	public static boolean isTrace(Element element) {
-		return hasStereotype(element, TRACE_NAME);
+		return getInstance().hasStereotype(element, TRACE_NAME);
 	}
 	
 	public static boolean isUsabilityRequirement(Element element) {
-		return hasStereotype(element, USABILITY_REQUIREMENT_NAME);
+		return getInstance().hasStereotype(element, USABILITY_REQUIREMENT_NAME);
 	}
 	
 	public static boolean isValueType(Element element) {
-		return hasStereotype(element, VALUE_TYPE_NAME);
+		return getInstance().hasStereotype(element, VALUE_TYPE_NAME);
 	}
 	
 	public static boolean isVerify(Element element) {
-		return hasStereotype(element, VERIFY_NAME);
+		return getInstance().hasStereotype(element, VERIFY_NAME);
 	}
 	
 	public static boolean isView(Element element) {
-		return hasStereotype(element, VIEW_NAME);
+		return getInstance().hasStereotype(element, VIEW_NAME);
 	}
 	
 	public static boolean isViewpoint(Element element) {
-		return hasStereotype(element, VIEWPOINT_NAME);
+		return getInstance().hasStereotype(element, VIEWPOINT_NAME);
 	}
 }

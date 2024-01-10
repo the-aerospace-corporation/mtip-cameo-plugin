@@ -531,7 +531,7 @@ public class CommonElementsFactory {
 			case SysmlConstants.SYSTEM:
 				element = new System(name, EAID);
 				break;
-			case SysmlConstants.SYSTEMCONTEXT:
+			case SysmlConstants.SYSTEM_CONTEXT:
 				element = new SystemContext(name, EAID);
 				break;
 				

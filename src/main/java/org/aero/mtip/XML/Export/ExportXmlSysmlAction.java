@@ -14,18 +14,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javax.swing.JOptionPane;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.profiles.MDCustomizationForSysML;
-import org.aero.mtip.profiles.SysML;
+import org.aero.mtip.profiles.MDForSysMLExtensions;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.FileSelect;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
@@ -58,12 +53,12 @@ public class ExportXmlSysmlAction extends MDAction {
 				return;
 			}
 			
-			SysML.initialize(project);
-			MDCustomizationForSysML.initialize(project);
 			XmlWriter.initialize();
 			
 			ExportXmlSysml.buildXML(file, null);
 			FileSelect.writeXMLToFile(file);
+			
+			
 			
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Export complete.");
 			
