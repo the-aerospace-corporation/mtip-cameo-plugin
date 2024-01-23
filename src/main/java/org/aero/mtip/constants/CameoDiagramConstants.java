@@ -14,6 +14,7 @@ public class CameoDiagramConstants {
 	public static final String OPERATIONAL_INTERACTION_SCENARIOS = "Operational Interaction Scenarios";
 	public static final String OPERATIONAL_INTERNAL_CONNECTIVITY = "Operational Internal Connectivity";
 	public static final String OPERATIONAL_PARAMETRIC = "Operational Parametric";
+	
 	public static final String OPERATIONAL_PROCESSES = "Operational Processes";
 	public static final String OPERATIONAL_PROCESS_FLOW = "Operational Process Flow";
 	public static final String OPERATIONAL_STATES = "Operational States";

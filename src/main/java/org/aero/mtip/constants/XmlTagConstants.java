@@ -331,10 +331,12 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_ASSOCIATION = "uaf.OperationalAssociation";
 	
 	public static final String OPERATIONAL_PROCESS_FLOW = "uaf.OperationalProcesses";
+	public static final String OPERATIONAL_PROCESSES="uaf.CameoOperationalProcesses";
+	
 	public static final String OPERATIONAL_CONNECTIVITY = "uaf.OperationalConnectivity";
 	public static final String OPERATIONAL_CONSTRAINTS_DEFINITION ="uaf.OperationalConstraintsDefinition";
 	public static final String OPERATIONAL_FREE_FORM_TAXONOMY="uaf.OperationalFreeFormTaxonomy";
-	public static final String OPERATIONAL_PROCESSES="uaf.OperationalProcesses";
+	
 	public static final String OPERATIONAL_STRUCTURE="uaf.OperationalStructure";
 	public static final String OPERATIONAL_TAXONOMY="uaf.OperationalTaxonomy";
 	public static final String OPERATIONAL_HIGH_LEVEL_TAXONOMY = "uaf.OperationalTaxonomy";

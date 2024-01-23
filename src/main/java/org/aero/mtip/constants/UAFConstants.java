@@ -63,7 +63,7 @@ public class UAFConstants {
 	public static final String OPERATIONAL_CONNECTIVITY = "OperationalConnectivity";
 	public static final String OPERATIONAL_CONSTRAINTS_DEFINITION = "OperationalConstraintsDefinition";
 	public static final String OPERATIONAL_FREE_FORM_TAXONOMY = "OperationalFreeFormTaxonomy";
-	public static final String OPERATIONAL_PROCESSES = "OperationalProcesses";
+	
 	public static final String OPERATIONAL_STRUCTURE = "OperationalStructure";
 	public static final String OPERATIONAL_TAXONOMY = "OperationalTaxonomy";
 	public static final String OPERATIONAL_HIGH_LEVEL_TAXONOMY = "OperationalHighLevelTaxonomy";
@@ -227,7 +227,8 @@ public class UAFConstants {
 	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "ActualResourcesStructure";
 	
 	// Operational Diagrams
-	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcessFlow";
+	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcesses";
+	public static final String OPERATIONAL_PROCESSES = "CameoOperationalProcesses";
 	
 	// Personnel Diagrams
 	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "PersonnelConnectivity";
