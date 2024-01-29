@@ -26,6 +26,8 @@ import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.uaf.Dictionary.SameAs;
+import org.aero.mtip.uaf.Metadata.Implements;
+import org.aero.mtip.uaf.Metadata.PerformsInContext;
 import org.aero.mtip.uaf.Operational.ArbitraryConnector;
 import org.aero.mtip.uaf.Operational.OperationalAssociation;
 import org.aero.mtip.uaf.Operational.OperationalConnector;
@@ -294,6 +296,13 @@ public class CommonRelationshipsFactory {
 				break;
 			case UAFConstants.SERVICE_MESSAGE:
 				relationship = new ServiceMessage(name, EAID);
+				break;
+			//MetaData
+			case UAFConstants.IMPLEMENTS:
+				relationship = new Implements(name, EAID);
+				break;
+			case UAFConstants.PERFORMS_IN_CONTEXT:
+				relationship = new PerformsInContext(name, EAID);
 				break;
 				
 			default:

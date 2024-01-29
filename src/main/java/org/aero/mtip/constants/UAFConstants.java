@@ -190,6 +190,9 @@ public class UAFConstants {
 	
 	//Metadata
 	public static final String METADATA="Metadata";
+	public static final String IMPLEMENTS = "Implements";
+	public static final String PERFORMS_IN_CONTEXT = "PerformsInContext";
+	public static final String DATA_MODEL_KIND = "DataModelKind";
 	
 	/*public static final String INFORMATION_FLOW = "InformationFlow";
 	public static final String OBJECT_FLOW = "ObjectFlow";*/
@@ -406,6 +409,7 @@ public class UAFConstants {
 			
 			//Metadata
 			METADATA,
+			DATA_MODEL_KIND,
 			
 			// Security
 			ACTUAL_RISK,
@@ -500,7 +504,14 @@ public class UAFConstants {
 			//Services
 			CONSUMES,
 			SERVICE_CONNECTOR,
-			SERVICE_MESSAGE
+			SERVICE_MESSAGE, 
+			
+			
+			//MetaData
+			PERFORMS_IN_CONTEXT,
+			
+			
+			IMPLEMENTS
 			
 	};
 	

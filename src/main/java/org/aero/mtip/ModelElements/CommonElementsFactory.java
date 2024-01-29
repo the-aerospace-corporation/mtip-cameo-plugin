@@ -182,6 +182,7 @@ import org.aero.mtip.dodaf.sv.SV2;
 import org.aero.mtip.dodaf.sv.SV4;
 import org.aero.mtip.uaf.Dictionary.Alias;
 import org.aero.mtip.uaf.Dictionary.Definition;
+import org.aero.mtip.uaf.Metadata.DataModelKind;
 import org.aero.mtip.uaf.Metadata.Information;
 import org.aero.mtip.uaf.Metadata.Metadata;
 import org.aero.mtip.uaf.Operational.ConceptRole;
@@ -1418,6 +1419,10 @@ public class CommonElementsFactory {
 			case UAFConstants.METADATA:
 				element = new Metadata(name,EAID);
 				break;
+			case UAFConstants.DATA_MODEL_KIND:
+				element = new DataModelKind(name, EAID);
+				break;
+				
 			default:
 				break;
 		}

@@ -515,6 +515,9 @@ public class XmlTagConstants
 	
 	//Metadata
 	public static final String METADATA = "uaf.Metadata";
+	public static final String IMPLEMENTS = "uaf.Implements";
+	public static final String PERFORMS_IN_CONTEXT ="uaf.PerformsInContext";
+	public static final String DATA_MODEL_KIND = "uaf.DataModelKind";
 
 	
 	public static final String STRATEGIC_TAXONOMY_PACKAGE = "uaf.StrategicTaxonomyPackage";
