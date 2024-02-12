@@ -180,13 +180,21 @@ public class UAFConstants {
 	public static final String PROTOCOL_LAYER = "ProtocolLayer";
 	
 
-	//Parameters
+	//Parameters //TODO
 	public static final String ACTUAL_CONDITION = "ActualCondition";
 	public static final String ACTUAL_ENVIRONMENT = "ActualEnvironment";
 	public static final String ACTUAL_LOCATION = "ActualLocation";
 	public static final String ACTUAL_PROPERTY_SET = "ActualPropertySet";
 	public static final String ACTUAL_MEASUREMENT_SET = "ActualMeasurementSet";
 	public static final String ENVIRONMENT_PROPERTY = "EnvironmentProperty";
+	public static final String ACTUAL_MEASUREMENT = "ActualMeasurement";
+	public static final String ENVIRONMENT = "Environment";
+	public static final String ENVIRONMENT_KIND = "EnvironmentKind";
+	public static final String CONDITION = "Condition";
+	public static final String GEO_POLITICAL_EXTENT_TYPE = "GeoPoliticalExtentType";
+	public static final String LOCATION = "Location";
+	public static final String MEASUREMENT_SET = "MeasurementSet";
+	public static final String MEASUREMENT = "Measurement";
 	
 	//Metadata
 	public static final String METADATA="Metadata";
@@ -399,13 +407,15 @@ public class UAFConstants {
 			POST,
 			RESPONSIBILITY,
 			
-			//Parameters
+			//Parameters //TODO
 			ACTUAL_CONDITION,
 			ACTUAL_ENVIRONMENT,
 			ACTUAL_LOCATION,
 			ACTUAL_MEASUREMENT_SET,
 			ACTUAL_PROPERTY_SET,
 			ENVIRONMENT_PROPERTY,
+			ACTUAL_MEASUREMENT,
+			ENVIRONMENT,
 			
 			//Metadata
 			METADATA,

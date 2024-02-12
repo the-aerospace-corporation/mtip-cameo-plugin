@@ -221,9 +221,17 @@ import org.aero.mtip.uaf.Operational.StandardOperationalActivity;
 import org.aero.mtip.uaf.Parameters.ActualCondition;
 import org.aero.mtip.uaf.Parameters.ActualEnvironment;
 import org.aero.mtip.uaf.Parameters.ActualLocation;
+import org.aero.mtip.uaf.Parameters.ActualMeasurement;
 import org.aero.mtip.uaf.Parameters.ActualMeasurementSet;
 import org.aero.mtip.uaf.Parameters.ActualPropertySet;
+import org.aero.mtip.uaf.Parameters.Condition;
+import org.aero.mtip.uaf.Parameters.Environment;
+import org.aero.mtip.uaf.Parameters.EnvironmentKind;
 import org.aero.mtip.uaf.Parameters.EnvironmentProperty;
+import org.aero.mtip.uaf.Parameters.GeoPoliticalExtentType;
+import org.aero.mtip.uaf.Parameters.Location;
+import org.aero.mtip.uaf.Parameters.Measurement;
+import org.aero.mtip.uaf.Parameters.MeasurementSet;
 import org.aero.mtip.uaf.Projects.ActualMilestoneKind;
 import org.aero.mtip.uaf.Projects.ActualProject;
 import org.aero.mtip.uaf.Projects.ActualProjectMilestone;
@@ -1396,7 +1404,7 @@ public class CommonElementsFactory {
 				element = new StandardsStructure(name, EAID);
 				break;
 
-			//Parameters
+			//Parameters //TODO
 			case UAFConstants.ACTUAL_CONDITION:
 				element= new ActualCondition(name, EAID);
 				break;
@@ -1415,6 +1423,32 @@ public class CommonElementsFactory {
 			case UAFConstants.ENVIRONMENT_PROPERTY:
 				element = new EnvironmentProperty(name, EAID);
 				break;
+			case UAFConstants.ACTUAL_MEASUREMENT:
+				element = new ActualMeasurement(name, EAID);
+				break;
+			case UAFConstants.ENVIRONMENT:
+				element = new Environment(name, EAID);
+				break;
+			case UAFConstants.ENVIRONMENT_KIND:
+				element = new EnvironmentKind(name, EAID);
+				break;
+			case UAFConstants.CONDITION:
+				element = new Condition(name,EAID);
+				break;
+			case UAFConstants.GEO_POLITICAL_EXTENT_TYPE:
+				element = new GeoPoliticalExtentType(name,EAID);
+				break;
+			case UAFConstants.LOCATION:
+				element = new Location(name, EAID);
+				break;
+			case UAFConstants.MEASUREMENT_SET:
+				element = new MeasurementSet(name, EAID);
+				break;
+			case UAFConstants.MEASUREMENT:
+				element = new Measurement(name, EAID);
+				break;
+				
+				
 			//Metadata
 			case UAFConstants.METADATA:
 				element = new Metadata(name,EAID);

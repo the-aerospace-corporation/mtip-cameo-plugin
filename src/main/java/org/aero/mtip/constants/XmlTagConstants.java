@@ -505,13 +505,21 @@ public class XmlTagConstants
 	public static final String REQUIRES_COMPETENCE = "uaf.RequiresCompetence";
 	public static final String RESPONSIBILITY = "uaf.Responsibility";
 
-	//Parameters
+	//Parameters //TODO
 	public static final String ACTUAL_CONDITION = "uaf.ActualCondition"; 
 	public static final String ACTUAL_ENVIRONMENT = "uaf.ActualEnvironment";
 	public static final String ACTUAL_LOCATION = "uaf.ActualLocation";
 	public static final String ACTUAL_MEASUREMENT_SET = "uaf.ActualMeasurementSet";
 	public static final String ACTUAL_PROPERTY_SET = "uaf.ActualPropertySet";
 	public static final String ENVIRONMENT_PROPERTY = "uaf.EnvironmentProperty";
+	public static final String ACTUAL_MEASUREMENT = "uaf.ActualMeasurement";
+	public static final String ENVIRONMENT = "uaf.Environment";
+	public static final String ENVIRONMENT_KIND = "uaf.EnvironmentKind";
+	public static final String CONDITION = "uaf.Condition";
+	public static final String GEO_POLITICAL_EXTENT_TYPE = "uaf.GeoPoliticalExtentType";
+	public static final String LOCATION = "uaf.Location";
+	public static final String MEASUREMENT_SET = "uaf.MeasurementSet";
+	public static final String MEASUREMENT = "uaf.Measurement";
 	
 	//Metadata
 	public static final String METADATA = "uaf.Metadata";

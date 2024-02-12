@@ -1004,7 +1004,12 @@ public abstract class CommonElement {
 					if(vs == null) {
 						ImportLog.log(String.format("Error creating single tagged value for %s", xmlElement.getEAID()));
 					}
+					/////////////////////////
+					// create the instance value
 					
+					//tagged value name --> value
+					CameoUtils.logGUI("VALUE SPECIFICATION " +tv.getValue() +" $$$$ "+ stereotype.getHumanName());
+					//////////////////////////////
 					slot.getValue().add(vs);
 				}
 			} catch (NullPointerException npe) {
@@ -1013,6 +1018,12 @@ public abstract class CommonElement {
 				npe.printStackTrace(pw);
 				String sStackTrace = sw.toString();
 				ImportLog.log("Unable to add stereotype tagged value to element." + sStackTrace);
+			} catch (IllegalArgumentException iae) {
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				iae.printStackTrace(pw);
+				String sStackTrace = sw.toString();
+				ImportLog.log("Illegal Argument for element. "+ sStackTrace);
 			}
 		}
 	}
