@@ -211,7 +211,7 @@ public class ExportXmlSysml {
 				exportElementRecursiveUp(client, xmlDoc);
 			}
 			Element supplier = ModelHelper.getSupplierElement(element);
-			if(client != null) {
+			if(supplier != null) {
 				exportElementRecursiveUp(supplier, xmlDoc);
 			}
 		}
