@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.CheckForNull;
+
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
@@ -334,85 +336,53 @@ public class ExportXmlSysml {
 		commonElement.writeToXML(pkg, project, xmlDoc);
 
 	}
-
-	public static String getMetaModel(Element element)
-	{
+	
+	@CheckForNull
+	public static String getMetaModel(Element element) {
 		String elementType = ExportXmlSysml.getElementType(element);
-
-		String [] dodafElements = DoDAFConstants.DODAF_ELEMENTS;
-		for (String type : dodafElements)
-		{
-			if(elementType.equals(type))
-			{
+		
+		if (elementType == null) {
+			return "null";
+		}
+		
+		for (String type : DoDAFConstants.DODAF_DIAGRAMS) {
+			if (elementType.equals(type)) {
 				return "dodaf";
 			}
 		}
-		String [] dodafRelationships = DoDAFConstants.DODAF_RELATIONSHIPS;
-		for (String type : dodafRelationships)
-		{
-			if (elementType.equals(type))
-			{
-				return "dodaf";
-			}
-		}
-
-		String [] dodafDiagrams = DoDAFConstants.DODAF_DIAGRAMS;
-		for (String type : dodafDiagrams)
-		{
-			if (elementType.equals(type))
-			{
-				return "dodaf";
-			}
-		}
-
-		String [] uafElements = UAFConstants.UAF_ELEMENTS;
-		for (String type : uafElements)
-		{
-			if (elementType.equals(type))
-			{
+		
+		for (String type : UAFConstants.UAF_ELEMENTS) {
+			if (elementType.equals(type)) {
 				return "uaf";
 			}
 		}
-		String [] uafRelationships = UAFConstants.UAF_RELATIONSHIPS;
-		for (String type: uafRelationships)
-		{
-			if (elementType.equals(type))
-			{
+		
+		for (String type: UAFConstants.UAF_RELATIONSHIPS) {
+			if (elementType.equals(type)) {
 				return "uaf";
 			}
 		}
-
-		String [] uafDiagrams = UAFConstants.UAF_DIAGRAMS;
-		for(String type : uafDiagrams)
-		{
-			if(elementType.equals(type))
-			{
+		
+		for(String type : UAFConstants.UAF_DIAGRAMS) {
+			if(elementType.equals(type)) {
 				return "uaf";
 			}
 		}
-
-		String [] sysmlElements = SysmlConstants.SYSMLELEMENTS;
-		for (String type: sysmlElements)
-		{
-			if(elementType.equals(type))
-			{
+		
+		for (String type: SysmlConstants.SYSMLELEMENTS) {
+			if(elementType.equals(type)) {
 				return "sysml";
 			}
 		}
-
-		String [] sysmlRelationships = SysmlConstants.SYSMLRELATIONSHIPS;
-		for (String type: sysmlRelationships)
-		{
-			if(elementType.equals(type))
-			{
+		
+		for (String type: SysmlConstants.SYSMLRELATIONSHIPS) {
+			if(elementType.equals(type)) {
 				return "sysml";
 			}
 		}
-		String [] sysmlDiagrams = SysmlConstants.SYSMLDIAGRAMS;
-		for (String type: sysmlDiagrams)
-		{
-			if(elementType.equals(type))
-			{
+		
+		for (String type: SysmlConstants.SYSMLDIAGRAMS) {
+			if(elementType.equals(type)) {
 				return "sysml";
 			}
 		}
@@ -523,6 +493,7 @@ public class ExportXmlSysml {
 		return SysmlConstants.PACKAGE;
 	}
 
+	@CheckForNull
 	public static String getSysMLElementType(Element element) {
 		String commonElementType = null;
 		String commonRelationshipType = null;		
