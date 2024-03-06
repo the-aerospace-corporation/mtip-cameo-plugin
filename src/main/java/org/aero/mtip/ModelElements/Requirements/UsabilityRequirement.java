@@ -13,8 +13,8 @@ public class UsabilityRequirement extends Requirement {
 	public UsabilityRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.USABILITYREQUIREMENT;
-		this.xmlConstant = XmlTagConstants.USABILITYREQUIREMENT;
+		this.sysmlConstant = SysmlConstants.USABILITY_REQUIREMENT;
+		this.xmlConstant = XmlTagConstants.USABILITY_REQUIREMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = SysMLProfile.USABILITY_REQUIREMENT_STEREOTYPE;
 	}

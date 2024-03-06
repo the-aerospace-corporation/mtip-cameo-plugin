@@ -266,6 +266,7 @@ public class SysmlConstants {
 			CREATE_OBJECT_ACTION,
 			CUSTOMIZATION,
 			DATA_STORE_NODE,
+			DATA_TYPE,
 			DECISION_NODE,
 			DEEP_HISTORY,
 			DESIGN_CONSTRAINT,
@@ -722,24 +723,30 @@ public class SysmlConstants {
 	
 	// Primitive Value Types
 	public static final String BOOLEAN = "Boolean";
+	public static final String COMPLEX = "Complex";
 	public static final String INTEGER = "Integer";
+	public static final String NUMBER = "Number";
 	public static final String REAL = "Real";
 	public static final String STRING = "String";
 	public static final String ELEMENT_VALUE = "ElementValue";
 	
-	public static final String[] primitiveValueTypes = {
+	public static final Set<String> primitiveValueTypeNames = new HashSet<String> (Arrays.asList(
 			BOOLEAN,
+			COMPLEX,
 			INTEGER,
 			REAL,
+			NUMBER,
 			STRING
-	};
+	));
 	
-	public static final String[] primitiveValueTypeIDs = {
-			"16_5_1_12c903cb_1245415335546_39033_4086",
-		    "_16_5_1_12c903cb_1245415335546_8641_4088",
-		    "_11_5EAPbeta_be00301_1147431819399_50461_1671",
-		    "_16_5_1_12c903cb_1245415335546_479030_4092"
-	};
+	public static final Set<String> primitiveValueTypeIDs = new HashSet<String> (Arrays.asList(
+			"_16_5_1_12c903cb_1245415335546_39033_4086",		// Boolean
+			"_11_5EAPbeta_be00301_1147431846238_895928_1691",	// Complex
+		    "_16_5_1_12c903cb_1245415335546_8641_4088",			// Integer
+			"_16_5_1_12c903cb_1245415335546_535327_4089",		// Number
+		    "_11_5EAPbeta_be00301_1147431819399_50461_1671",	// Real
+		    "_16_5_1_12c903cb_1245415335546_479030_4092"		// String
+	));
 	
 	public static boolean isElementOrDiagram(String elementType) {
 		if(Arrays.asList(SYSML_ELEMENTS).contains(elementType) || Arrays.asList(SYSML_DIAGRAMS).contains(elementType)) {

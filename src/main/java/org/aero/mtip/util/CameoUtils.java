@@ -40,9 +40,11 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.RealTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.StringTaggedValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
@@ -105,7 +107,6 @@ public class CameoUtils {
 	public static Element findNearestRegion(Project project, Element owner) {
 		Region region = null;
 		Collection<Region> regions = null;
-		CameoUtils.logGUI("Searching for state machine with current element " + owner.getHumanType() + " and id " + owner.getID());
 		if(owner instanceof StateMachine) {
 			StateMachine sm = (StateMachine)owner;
 			regions = sm.getRegion();
@@ -128,7 +129,6 @@ public class CameoUtils {
 	}
 	public static Element findNearestBlock(Project project, Element owner) {
 		if(owner != null) {
-			CameoUtils.logGUI("Searching for block for current element with id " + owner.getID());
 			if(SysML.isBlock(owner)) {
 				return owner;
 			} else {
@@ -144,7 +144,6 @@ public class CameoUtils {
 	
 	public static Element findNearestActivity(Project project, Element owner) {
 		if(owner != null) {
-			CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getID());
 			if(owner instanceof Activity) {
 				return owner;
 			} else {
@@ -280,15 +279,17 @@ public class CameoUtils {
 		return false;
 	}
 	
-	public static boolean isPrimitiveValueType(String valueTypeString) {
-		if(Arrays.asList(SysmlConstants.primitiveValueTypes).contains(valueTypeString)) {
+	public static boolean isPrimitiveValueType(String valueTypeIdentifier) {
+		if (SysmlConstants.primitiveValueTypeNames.contains(valueTypeIdentifier)
+				|| SysmlConstants.primitiveValueTypeIDs.contains(valueTypeIdentifier)) {
 			return true;
 		}
+		
 		return false;
 	}
 	
 	public static boolean isPrimitiveValueType(Element element) {
-		if(Arrays.asList(SysmlConstants.primitiveValueTypeIDs).contains(element.getLocalID())) {
+		if(SysmlConstants.primitiveValueTypeIDs.contains(element.getLocalID())) {
 			return true;
 		}
 		return false;
@@ -348,7 +349,18 @@ public class CameoUtils {
 		if (elementId.contains("beta") || elementId.startsWith("_11")) {
 			return true;
 		}
+		
 		return false;
+	}
+	
+	public static boolean isPredefinedElement(Type type) {
+		Namespace namespace = type.getNamespace();
+		
+		if (namespace.isEditable()) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	@SuppressWarnings("deprecation")

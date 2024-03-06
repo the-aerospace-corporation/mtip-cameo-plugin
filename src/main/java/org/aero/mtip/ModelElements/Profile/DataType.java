@@ -13,5 +13,4 @@ public class DataType extends CommonElement {
 		xmlConstant = XmlTagConstants.DATA_TYPE;
 		element = f.createDataTypeInstance();
 	}
-
 }

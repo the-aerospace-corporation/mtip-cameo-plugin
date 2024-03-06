@@ -43,6 +43,7 @@ public class XmlTagConstants
 	public static final String TAGGED_VALUE_NAME = "taggedValueName";
 	public static final String TAGGED_VALUE_TYPE = "taggedValueType";
 	public static final String TAGGED_VALUE_VALUE = "value";
+	public static final String TAGGED_VALUE_VALUES = "values";
 	public static final String CLIENT_MULTIPLICITY = "clientMultiplicity";
 	public static final String SUPPLIER_MULTIPLICITY = "supplierMultiplicity";
 	
@@ -96,6 +97,13 @@ public class XmlTagConstants
 	public static final String ATTRIBUTE_NAME_SPECIFICATION = "specification";
 	public static final String ATTRIBUTE_CONSTRAINED_ELEMENT = "constrainedElement";
 	
+	// Tagged Value types
+	public static final String TV_TYPE_BOOLEAN = "boolean";
+	public static final String TV_TYPE_INTEGER = "int";
+	public static final String TV_TYPE_REAL = "float";
+	public static final String TV_TYPE_STRING = "string";
+	public static final String TV_TYPE_ELEMENT = "element";
+	public static final String TV_TYPE_ENUMERATION_LITERAL = "enumerationLiteral";
 	
 	public static final String COVERED_BY = "coveredBy";
 	
@@ -229,7 +237,7 @@ public class XmlTagConstants
 	public static final String TIMEOBSERVATION = "sysml.TimeObservation";
 	public static final String TRIGGER = "sysml.Trigger";
 	public static final String UNIT = "sysml.Unit";
-	public static final String USABILITYREQUIREMENT = "sysml.UsabilityRequirement";
+	public static final String USABILITY_REQUIREMENT = "sysml.UsabilityRequirement";
 	public static final String USECASE = "sysml.UseCase";
 	public static final String VALUEPROPERTY = "sysml.ValueProperty";
 	public static final String VALUETYPE = "sysml.ValueType";

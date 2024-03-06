@@ -23,6 +23,7 @@ import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.ModelElements.ModelDiagram;
+import org.aero.mtip.XML.Export.ExportXmlSysml;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -175,7 +176,7 @@ public class ImportXmlSysml {
 		createSession(String.format("Create %s Element", modelElement.getType()));
 		
 		Diagram newDiagram = null;
-		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
+		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getName(), modelElement.getEAID());
 		newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
 		project.getDiagram(newDiagram).open(); 
 		
@@ -399,22 +400,28 @@ public class ImportXmlSysml {
 	}
 	
 	public static void addStereotype(Element newElement, String stereotypeName, String profileName) {
-		//Need to implement mapping of all SysML base stereotypes and which internal library they come from (SysML, MD Customization for SysML, UML Standard Profile, etc.)
+		// TODO: Implement UML Standard Profile Class, getInstance(), getMetaclass
 		Profile umlStandardProfile = StereotypesHelper.getProfile(project,  "UML Standard Profile");
+		
 		if(stereotypeName.contentEquals("metaclass")) {
 			Stereotype stereotypeObj = StereotypesHelper.getStereotype(project, "Metaclass", umlStandardProfile);
 			StereotypesHelper.addStereotype(newElement,  stereotypeObj);
-		} else {
-			CameoUtils.logGUI("Looking for profile name " + profileName);
-			Profile profile = StereotypesHelper.getProfile(project,  profileName);
-			if(profile != null) {
-				CameoUtils.logGUI("Looking for stereotype name " + stereotypeName);
-				Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
-				if(stereotype != null) {
-					StereotypesHelper.addStereotype(newElement,  stereotype);
-				}
-			}
+			return;
+		} 
+			
+		Profile profile = StereotypesHelper.getProfile(project,  profileName);
+		
+		if (profile == null) {
+			return; 
 		}
+		
+		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
+		
+		if(stereotype == null) {
+			return;
+		}
+		
+		StereotypesHelper.addStereotype(newElement,  stereotype);
 	}
 	
 	public static void addStereotypeFields(Element newElement, XMLItem xmlElement) {
@@ -909,10 +916,16 @@ public class ImportXmlSysml {
 			}
 			
 			Element elementOnDiagram = (Element)project.getElementByID(cameoID);
+			
 			if(elementOnDiagram == null) {
 				ImportLog.log(String.format("Failed to find created element with import id %s", importID));
 				continue;
 			}
+			
+			// Move to Abstract Diagram Function
+//			if (disallowedElements.contains(ExportXmlSysml.getElementType(elementOnDiagram))) {
+//				continue;
+//			}
 			
 			elementsOnDiagram.put(elementOnDiagram, modelElement.getLocation(importID));
 		}

@@ -39,6 +39,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 		 this.sysmlConstant = "SysML Block Definition Diagram";
 		 this.xmlConstant = XmlTagConstants.BLOCKDEFINITIONDIAGRAM;
 		 this.allowableElements = SysmlConstants.BDD_TYPES;
+		 
 	}
 	
 	@Override

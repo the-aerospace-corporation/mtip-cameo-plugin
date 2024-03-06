@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
-import com.nomagic.magicdraw.uml.symbols.shapes.TextView;
 
 public class DiagramUtils {
 	public static List<String> filterViews = Arrays.asList(

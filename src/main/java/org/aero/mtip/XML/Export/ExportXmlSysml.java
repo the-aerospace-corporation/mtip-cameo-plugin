@@ -92,6 +92,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
@@ -188,24 +189,14 @@ public class ExportXmlSysml {
 	/**
 	 * 
 	 * @param element Element to be exported. This begins at an arbitrary level of nested within the model.
-	 * @param project Current project being exported
-	 * @param xmlDoc XML Document representing the model being exported
 	 */
 	public static void exportElementRecursiveUp(Element element) {
+		if (element == null) {
+			return;
+		}
+		
 		Element parent = element.getOwner();
-		
-		if(parent != null) {
-			exportElementRecursiveUp(parent);
-		}
-		
-		if(element instanceof TypedElement) {
-			TypedElement typedElement = (TypedElement)element;
-			Type type = typedElement.getType();
-			
-			if(type != null) {
-				exportElementRecursiveUp(type);
-			}
-		}
+		exportElementRecursiveUp(parent);
 		
 		if(element instanceof Package) {
 			exportPackage(element);
@@ -214,7 +205,6 @@ public class ExportXmlSysml {
 			
 		exportEntity(element);
 	}
-	
 	
 	public static void exportPackageRecursive(Package pkg) {
 		if (pkg == null) {
@@ -243,8 +233,7 @@ public class ExportXmlSysml {
 		}
 	}
 	
-	public static void exportElementRecursive(Element element) {
-		//Find any child elements and recursively export		
+	public static void exportElementRecursive(Element element) {	
 		boolean noElements = false;
 		Collection<Element> ownedElements = new ArrayList<Element> ();
 		try {
@@ -259,7 +248,6 @@ public class ExportXmlSysml {
 		// Let owned elements that are relationships call exportElementRecursive but children of relationships cannot be exported
 		if(!noElements ) {
 			for(Element ownedElement : ownedElements) {
-				// Check that ownedElement is not a package, otherwise will cause repeats -- element also must be a NamedElement to ignore unecessary instance specifications, opaque expressions, etc.
 				if (!(ownedElement instanceof Package) && !(element instanceof Relationship)) {
 					exportElementRecursive(ownedElement);
 				}
@@ -280,14 +268,12 @@ public class ExportXmlSysml {
 		commonElement.writeToXML(pkg);
 		
 		exportedElements.add(pkg.getID());
-		
-		commonElement.writeToXML(pkg);
 		exportMetrics.countElement(commonElement);
 	}
 	
 
 	public static void exportEntity(Element element) {
-		if(exportedElements.contains(element.getID())) {
+		if (exportedElements.contains(element.getID())) {
 			ExportLog.log(String.format("Element already exported with name %s and id %s.", element.getHumanName(), element.getID()));
 			return;
 		}
@@ -334,6 +320,8 @@ public class ExportXmlSysml {
 //		ExportLog.log(String.format("Exporting element %s of type %s with id %s.", element.getHumanName(), element.getHumanType(), element.getID()));
 		commonElement.writeToXML(element);
 		exportedElements.add(element.getID());
+		
+		exportReferencedElements(element);
 	}
 	
 	public static void exportRelationship(Element element, String relationshipType) {
@@ -351,6 +339,18 @@ public class ExportXmlSysml {
 		if(commonRelationship.getClient() != null && !exportedElements.contains(commonRelationship.getClient().getID())) {
 			exportEntity(commonRelationship.getClient());
 		}		
+	}
+	
+	public static void exportReferencedElements(Element element) {
+		if (element instanceof TypedElement) {
+			Type type = ((TypedElement)element).getType();
+			
+			if (CameoUtils.isPredefinedElement(type)) {
+				return;
+			}
+			
+			exportElementRecursiveUp(type);
+		}
 	}
 	
 	public static String getElementType(Element element) {
@@ -401,8 +401,6 @@ public class ExportXmlSysml {
 			return SysmlConstants.CUSTOMIZATION;
 		} else if(element instanceof DataStoreNode) {
 			return SysmlConstants.DATA_STORE_NODE;
-		} else if(element instanceof DataType) {
-			return SysmlConstants.DATA_TYPE;
 		} else if(element instanceof DecisionNode) {
 			return SysmlConstants.DECISION_NODE;
 		} else if(SysML.isDeriveRequirement(element)) {
@@ -574,6 +572,8 @@ public class ExportXmlSysml {
 			return SysmlConstants.PROPERTY;	
 		} else if (element instanceof InstanceSpecification) {
 			return SysmlConstants.INSTANCE_SPECIFICATION;
+		} else if(element instanceof DataType) {
+			return SysmlConstants.DATA_TYPE;
 		// Check ActionClass last as any child action class will be an instance of ActionClass
 		} else if(element instanceof ActionClass) {
 			return SysmlConstants.ACTION;
@@ -712,6 +712,7 @@ public class ExportXmlSysml {
 			    || element instanceof ConnectorEnd
 			    || element instanceof Slot
 			    || element instanceof Comment
+			    || element instanceof TaggedValue
 			    || MDCustomizationForSysMLProfile.isReferenceProperty(element)) {
 			
 			addImplicitElement(element);

@@ -49,6 +49,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected HashMap<String, ShapeElement> shapeElements = new HashMap<String, ShapeElement>();
 	protected List<String> diagramElementIDs = new ArrayList<String> ();
 	protected String[] allowableElements = null;
+	protected List<String> disallowedElements = new ArrayList<String>();
 	protected List<Element> subElements = null;
 	
 	
@@ -242,6 +243,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					CameoUtils.logGUI("Null Pointer Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
 					ImportLog.log("Null Pointer Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
 				} catch(IllegalArgumentException iae) {
+					if (shape != null) {
+						PresentationElementsManager.getInstance().deletePresentationElement(shape);
+					}
+					
 					CameoUtils.logGUI("Illegal Argument Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
 					ImportLog.log("Illegal Argument Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
 				}

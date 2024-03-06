@@ -264,9 +264,9 @@ public class CommonElementsFactory {
 			case SysmlConstants.DESTRUCTION_OCCURRENCE_SPECIFICATION:
 				element = new DestructionOccurrenceSpecification(name, EAID);
 				break;
-			case SysmlConstants.DURATION:
-				element = new Duration(name, EAID);
-				break;
+//			case SysmlConstants.DURATION:
+//				element = new Duration(name, EAID);
+//				break;
 			case SysmlConstants.DURATION_CONSTRAINT:
 				element = new DurationConstraint(name, EAID);
 				break;

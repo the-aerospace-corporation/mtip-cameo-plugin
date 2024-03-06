@@ -22,6 +22,7 @@ import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.jmi.helpers.TagsHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
@@ -64,23 +65,15 @@ public class ConstraintParameter extends CommonElement {
 		Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), directedFeatureTaggedValue.getProfileName());
 		Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), directedFeatureTaggedValue.getStereotypeName(), profile);
 		Property prop = StereotypesHelper.getPropertyByName(stereotype, directedFeatureTaggedValue.getValueName());
-		Slot slot = StereotypesHelper.getSlot(element, prop, true, false);
 		
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue tv = TagsHelper.getTaggedValueOrCreate(profile, stereotype, prop, true);
 		EnumerationLiteral directedFeatureValue = getDirectionFeatureValue(prop, directedFeatureTaggedValue);
 		
 		if (directedFeatureValue == null) {
 			return;
 		}
-		
-		ValueSpecification instanceValue 
-			= ModelHelper.createValueSpecification(
-				InstanceValue.class, 
-				prop.getType(), 
-				directedFeatureValue, 
-				f, 
-				Collections.<ValueSpecification>emptySet());
-		
-		slot.getValue().add(instanceValue);
+
+		tv.addConvertedValue(directedFeatureValue);
 	}
 	
 	private EnumerationLiteral getDirectionFeatureValue(Property prop, TaggedValue tv) {

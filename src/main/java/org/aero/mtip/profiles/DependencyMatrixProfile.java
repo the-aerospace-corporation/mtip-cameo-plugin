@@ -84,19 +84,20 @@ public class DependencyMatrixProfile {
 		return StereotypesHelper.getPropertyByName(getMatrixFilterStereotype(), ROW_SCOPE_NAME);
 	}
 	
-	public Slot getColumnElementTypeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getColumnElementTypeProperty(), false);
-	}
-	
-	public Slot getRowElementTypeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getRowElementTypeProperty(), false);
-	}
-	
-	public Slot getColumnScopeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getColumnScopeProperty(), false);
-	}
-	
-	public Slot getRowScopeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getRowScopeProperty(), false);
-	}
+	// Update for 2021x
+//	public Slot getColumnElementTypeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getColumnElementTypeProperty(), false);
+//	}
+//	
+//	public Slot getRowElementTypeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getRowElementTypeProperty(), false);
+//	}
+//	
+//	public Slot getColumnScopeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getColumnScopeProperty(), false);
+//	}
+//	
+//	public Slot getRowScopeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getRowScopeProperty(), false);
+//	}
 }

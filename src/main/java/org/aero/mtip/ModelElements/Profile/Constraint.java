@@ -66,16 +66,12 @@ public class Constraint extends CommonElement {
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Association");
 				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
 			} else {
-<<<<<<< HEAD
 				Element constrainedCameoElement = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(constrainedElement));
-=======
-				Element constrainedCameoElement = ImportXmlSysml.getOrBuildElement(project, parsedXML, constrainedElement);
 				if(constrainedCameoElement == null) {
 					ImportLog.log(String.format("Constrained Element failed to import, not setting constrained element for Constraint %s", modelElement.getEAID()));
 					return;
 				}
-				
->>>>>>> ee4d5fe (Fixed error on cancelling file select.)
+
 				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
 			}
 			
