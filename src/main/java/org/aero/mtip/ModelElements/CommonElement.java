@@ -681,6 +681,10 @@ public abstract class CommonElement {
 		return null;
 	}
 	
+	public String getElementType() {
+		return this.sysmlConstant;
+	}
+	
 	public String getElementID() {
 		if(element != null) {
 			return element.getID();
