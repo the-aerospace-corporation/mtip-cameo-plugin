@@ -6,19 +6,18 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.InternalBlock;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 
@@ -36,13 +35,14 @@ public class FlowProperty extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		
-		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
-			StereotypesHelper.setStereotypePropertyValue(
-					element, 
-					SysML.getFlowPropertyStereotype(), 
-					SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, 
-					xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION));
-		}
+//		TODO Find if flowproperty direction property exists in 2022x
+//		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
+//			StereotypesHelper.setStereotypePropertyValue(
+//					element, 
+//					SysML.getFlowPropertyStereotype(), 
+//					SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, 
+//					xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION));
+//		}
 		
 		return element;
 	}
@@ -57,8 +57,10 @@ public class FlowProperty extends CommonElement {
 	}
 	
 	private void writeDirection(org.w3c.dom.Element attributes, Element element) {
+		// TODO: Find if flowproperty direction exists in 2022x
 		Property property = (Property)element;
-	    List<String> directionList = StereotypesHelper.getStereotypePropertyValueAsString((Element) property, SysML.getFlowPropertyStereotype(), SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, false);
+	    List<String> directionList = new ArrayList<String>();
+	    		//StereotypesHelper.getStereotypePropertyValueAsString((Element) property, SysML.getFlowPropertyStereotype(), SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, false);
 		
 	    if(directionList.isEmpty()) {
 	    	return;

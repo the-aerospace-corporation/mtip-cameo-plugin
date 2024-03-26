@@ -6,10 +6,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.InternalBlock;
 
-import java.util.Collections;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
@@ -18,23 +17,18 @@ import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.jmi.helpers.TagsHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class ConstraintParameter extends CommonElement {
-
+	static final String DIRECTED_FEATURE = "DirectedFeature";
+	
 	public ConstraintParameter(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
@@ -47,7 +41,7 @@ public class ConstraintParameter extends CommonElement {
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		
-		StereotypesHelper.addStereotype(element, MDCustomizationForSysMLProfile.getInstance(project).getConstraintParameter());
+		StereotypesHelper.addStereotype(element, MDCustomizationForSysMLProfile.getConstraintParameterStereotype());
 		StereotypesHelper.addStereotype(element, SysML.getDirectedFeatureStereotype());
 		
 		setDirectedFeatureValue(xmlElement);
@@ -92,8 +86,7 @@ public class ConstraintParameter extends CommonElement {
 	
 	private TaggedValue getDirectedFeatureTaggedValue(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
-			CameoUtils.logGUI(String.format("Checking %s for comparison to %s", tv.getStereotypeName(), SysMLProfile.DIRECTEDFEATURE_STEREOTYPE));
-			if (tv.getStereotypeName().contentEquals(SysMLProfile.DIRECTEDFEATURE_STEREOTYPE)) {
+			if (tv.getStereotypeName().contentEquals(DIRECTED_FEATURE)) {
 				return tv;
 			}
 		}

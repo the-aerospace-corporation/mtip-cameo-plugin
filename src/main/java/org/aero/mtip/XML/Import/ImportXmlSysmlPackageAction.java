@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
@@ -53,8 +55,11 @@ public class ImportXmlSysmlPackageAction extends MDAction {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Import complete.");
 			
 		} catch (NullPointerException npe) {
+			StringWriter sw = new StringWriter();
+			npe.printStackTrace(new PrintWriter(sw));
+			String exceptionAsString = sw.toString();
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Import aborted - NullPointerException");
-			CameoUtils.logGUI(org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(npe));
+			CameoUtils.logGUI(exceptionAsString);
 		} catch (ParserConfigurationException e1) {
 			e1.printStackTrace();
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Import aborted - ParserConfigurationException");

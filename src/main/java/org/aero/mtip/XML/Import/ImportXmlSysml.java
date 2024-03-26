@@ -23,7 +23,6 @@ import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.ModelElements.ModelDiagram;
-import org.aero.mtip.XML.Export.ExportXmlSysml;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;

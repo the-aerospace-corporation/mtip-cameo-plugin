@@ -713,46 +713,27 @@ public abstract class CommonElement {
 	 * element with ImportXmlSysml.idConversion().
 	 * @param xmlElement XMLItem containing attributes in memory from XML file such as typed by.
 	 */
-	@SuppressWarnings("deprecation")
 	protected void addType(XMLItem xmlElement) {
 		try {
-			if(element instanceof TypedElement) {
-				Element typeElement = null;
-				if(xmlElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
-					String typeImportID = xmlElement.getAttribute(XmlTagConstants.TYPED_BY);
-					CameoUtils.logGUI("Looking for type with id " + typeImportID);
-					
-					if(CameoUtils.isPrimitiveValueType(typeImportID)) {
-						typeElement = CameoUtils.getPrimitiveValueType(typeImportID);
-					} else if(typeImportID.startsWith("_9_")) {
-						if(typeImportID.contentEquals("_9_0_2_91a0295_1110274713995_297054_0")) {
-							CameoUtils.logGUI("Getting reference to UML primitive String ValueType.");
-							typeElement = ModelHelper.findElementWithPath("UML Standard Profile::UML2 Metamodel::PrimitiveTypes::String");
-							CameoUtils.logGUI(typeElement.getHumanName());
-						}
-					} else {
-						try {
-							typeElement = (Element) project.getElementByID(typeImportID);
-						} catch (NullPointerException npe) {
-							ImportLog.log("Type not found with id. Please check that element is created");
-						}
-					}
-					
-					if(typeElement == null) {
-						CameoUtils.logGUI("Getting cameo id for type with import id: " + typeImportID);
-						
-						String cameoID = ImportXmlSysml.idConversion(typeImportID);
-						CameoUtils.logGUI("Cameo id of type is: " + cameoID);
-						typeElement = (Element) project.getElementByID(cameoID);
-					}
-					if(typeElement instanceof Type) {
-						((TypedElement)element).setType((Type) typeElement);
-					} else {
-						CameoUtils.logGUI("typedBy element not a Type. Type field cannot be set.");
-						ImportLog.log("typedBy element not a Type. Type field cannot be set for element with id: " + this.EAID);
-					}
-				}
+			if(!(element instanceof TypedElement)) {
+				return;
 			}
+			if(!xmlElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
+				return;
+			}
+			
+			Element typeElement = getTypeElement(xmlElement.getAttribute(XmlTagConstants.TYPED_BY));
+			
+			if(typeElement == null) {
+				return;
+			}
+			
+			if(!(typeElement instanceof Type)) {
+				ImportLog.log(String.format("typedBy element not a Type. Type field cannot be set for element with id: %s", this.EAID));
+				return;
+			}
+			
+			((TypedElement)element).setType((Type) typeElement);			
 		} catch(NullPointerException npe) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -761,6 +742,25 @@ public abstract class CommonElement {
 			ImportLog.log("Null pointer exception setting type for element with id " + this.EAID);
 			ImportLog.log(sStackTrace);
 		}
+	}
+	
+	protected Element getTypeElement(String importID) {
+		if(CameoUtils.isPrimitiveValueType(importID)) {
+			return CameoUtils.getPrimitiveValueType(importID);
+		} 
+		
+		if(importID.startsWith("_9_")) {
+			// TODO return CameoUtils.getUmlPrimitiveValueType(importID);
+		} 
+		
+		Element importElement = (Element) project.getElementByID(importID);
+		
+		if (importElement != null) {
+			return importElement;
+		}
+		
+		return (Element) project.getElementByID(ImportXmlSysml.idConversion(importID));
+		
 	}
 	
 	protected void addInitialStereotype() {

@@ -28,6 +28,11 @@ You may also need to manually add references to the following JAR files:
 * <cameo install path>\plugins\com.nomagic.magicdraw.dependencymatrix\dependencymatrix_api.jar
 * <cameo install path>\plugins\com.nomagic.magicdraw.dependencymatrix\dependencymatrix.jar
 
+* <cameo install path>\plugins\com.nomagic.magicdraw.relationshipmap\relationshipmap.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.relationshipmap\relationshipmap_api.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.migration\migration.jar
+* <cameo install path>\plugins\com.nomagic.magicdraw.migration\migration_api.jar
+
 ### Installing
 
 * It is recommended to follow MagicDraw's guide for setting up integration with IDEs located here: https://docs.nomagic.com/display/MD190/Developing+plugins+using+IDE 

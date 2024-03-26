@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
-import org.aero.mtip.profiles.SysMLProfile;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -18,28 +18,14 @@ import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property {
 	public PartProperty(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.PART_PROPERTY;
 		this.xmlConstant = XmlTagConstants.PART_PROPERTY;
-		this.element = f.createPropertyInstance();
-	}
-	
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {	
-		Element partProperty = super.createElement(project, owner, xmlElement);
-		
-		StereotypesHelper.addStereotype(partProperty, MDCustomizationForSysMLProfile.PART_PROPERTY_STEREOTYPE);
-		
-//		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIER_TYPE)) {
-//			Type classifierType = (Type) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIER_TYPE));
-//			((TypedElement)partProperty).setType(classifierType);
-//		}
-		return partProperty;
+		this.creationStereotype = MDCustomizationForSysMLProfile.getPartPropertyStereotype();
 	}
 	
 	@Override
@@ -65,7 +51,7 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 			ImportLog.log(logMessage);
 		}
 		try {
-			if(!(SysMLProfile.isBlock(owner))) {
+			if(!(SysML.isBlock(owner))) {
 				owner = CameoUtils.findNearestBlock(project, owner);
 				if(owner == null) {
 					String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". No parents found in ancestors. Element could not be placed in model.";

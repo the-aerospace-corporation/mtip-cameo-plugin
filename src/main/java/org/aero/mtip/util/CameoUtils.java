@@ -363,10 +363,11 @@ public class CameoUtils {
 		return true;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static Element getPrimitiveValueType(String valueTypeEnum) {
-		String primitiveValuePath = "SysML::Libraries::PrimitiveValueTypes::" + valueTypeEnum;
-		return ModelHelper.findElementWithPath(primitiveValuePath);
+		return (Element) Application
+					.getInstance()
+					.getProject()
+					.getElementByID(SysmlConstants.primitiveValueTypeIdsByName.get(valueTypeEnum));
 	}
 	
 	@CheckForNull

@@ -16,8 +16,6 @@ import java.io.StringWriter;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
-import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.ImportLog;
@@ -37,12 +35,10 @@ public class ImportXmlSysmlAction extends MDAction {
 	public void actionPerformed(ActionEvent e) {
 		ImportXmlSysml.resetImportParameters();
 		Project project = Application.getInstance().getProject();
+		
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
 		}
-		
-		SysMLProfile.initializeStereotypes();
-		MDCustomizationForSysMLProfile.initializeStereotypes();
 		
 		try
 		{
@@ -63,7 +59,7 @@ public class ImportXmlSysmlAction extends MDAction {
 			npe.printStackTrace(new PrintWriter(sw));
 			String exceptionAsString = sw.toString();
 			ImportLog.save();
-			CameoUtils.logGUI(org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(npe));
+			CameoUtils.logGUI(exceptionAsString);
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Import aborted - NullPointerException" + exceptionAsString);
 		} catch (ParserConfigurationException e1) {
 			StringWriter sw = new StringWriter();

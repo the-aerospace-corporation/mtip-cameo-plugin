@@ -730,6 +730,15 @@ public class SysmlConstants {
 	public static final String STRING = "String";
 	public static final String ELEMENT_VALUE = "ElementValue";
 	
+	public static final Map<String, String> primitiveValueTypeIdsByName = new HashMap<String, String>(Map.of(
+			BOOLEAN, "_16_5_1_12c903cb_1245415335546_39033_4086",
+			COMPLEX, "_11_5EAPbeta_be00301_1147431846238_895928_1691",
+			INTEGER, "_16_5_1_12c903cb_1245415335546_8641_4088",
+			REAL, "_16_5_1_12c903cb_1245415335546_535327_4089",
+			NUMBER, "_11_5EAPbeta_be00301_1147431819399_50461_1671",
+			STRING, "_16_5_1_12c903cb_1245415335546_479030_4092"
+		));
+	
 	public static final Set<String> primitiveValueTypeNames = new HashSet<String> (Arrays.asList(
 			BOOLEAN,
 			COMPLEX,
@@ -749,7 +758,7 @@ public class SysmlConstants {
 	));
 	
 	public static boolean isElementOrDiagram(String elementType) {
-		if(Arrays.asList(SYSML_ELEMENTS).contains(elementType) || Arrays.asList(SYSML_DIAGRAMS).contains(elementType)) {
+		if(SYSML_ELEMENTS.contains(elementType) || SYSML_DIAGRAMS.contains(elementType)) {
 			return true;
 		}
 		return false;

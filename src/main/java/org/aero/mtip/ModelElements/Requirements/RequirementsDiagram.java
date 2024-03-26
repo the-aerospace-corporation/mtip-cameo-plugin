@@ -7,7 +7,6 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Requirements;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -15,7 +14,7 @@ public class RequirementsDiagram  extends AbstractDiagram{
 
 	public RequirementsDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.sysmlConstant = SysMLProfile.SYSML_REQUIREMENTS_DIAGRAM;
+		 this.sysmlConstant = "SysML Requirement Diagram";
 		 this.xmlConstant = XmlTagConstants.REQUIREMENTSDIAGRAM;
 		 this.allowableElements = SysmlConstants.REQ_TYPES;
 	}

@@ -12,7 +12,7 @@ import java.util.List;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.profiles.SysMLProfile;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -118,7 +118,7 @@ public class Connector extends CommonRelationship {
 	
 	@Override
 	public void setOwner(Element owner) {
-		if(owner == null || !(SysMLProfile.isBlock(owner))) {
+		if(owner == null || !(SysML.isBlock(owner))) {
 			owner = CameoUtils.findNearestBlock(project, owner);
 		}
 		

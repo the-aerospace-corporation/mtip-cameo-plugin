@@ -1,5 +1,7 @@
 package org.aero.mtip.profiles;
 
+import org.aero.mtip.util.ExportLog;
+
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -9,38 +11,59 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class MDCustomizationForSysMLProfile extends org.aero.mtip.profiles.Profile {
-	private static boolean isInitialized = false;
+	static MDCustomizationForSysMLProfile instance;
 	
-	private static final String MD_CUSTOMIZATION_FOR_SYSML_PROFILE_NAME = "MD Customization for SysML";
-	private static final String PART_PROPERTY_NAME = "PartProperty";
-	private static final String QUANTITY_KIND_NAME = "QuantityKind";
-	private static final String REFERENCE_PROPERTY_NAME = "ReferenceProperty";
-	private static final String UNIT_NAME = "Unit";
-	private static final String VALUE_PROPERTY_NAME = "ValueProperty";
-
-	public static Profile MD_CUSTOMIZATION_FOR_SYSML_PROFILE;
-	public static Stereotype PART_PROPERTY_STEREOTYPE;
-	public static Stereotype QUANTITY_KIND_STEREOTYPE;
-	public static Stereotype REFERENCE_PROPERTY_STEREOTYPE;
-	public static Stereotype UNIT_STEREOTYPE;
-	public static Stereotype VALUE_PROPERTY_STEREOTYPE;
+	Project project;
+	Profile profile;
 	
-	public static void initializeStereotypes() {		
-		Project project = Application.getInstance().getProject();
-		MD_CUSTOMIZATION_FOR_SYSML_PROFILE = StereotypesHelper.getProfile(project, MD_CUSTOMIZATION_FOR_SYSML_PROFILE_NAME);
+	static final String NAME = "additional_stereotypes";
+	static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
+	static final String CONSTRAINT_PROPERTY_NAME = "ConstraintProperty";
+	static final String PART_PROPERTY_NAME = "PartProperty";
+	static final String QUANTITY_KIND_NAME = "QuantityKind";
+	static final String REFERENCE_PROPERTY_NAME = "ReferenceProperty";
+	static final String UNIT_NAME = "Unit";
+	static final String VALUE_PROPERTY_NAME = "ValueProperty";
+	
+	private MDCustomizationForSysMLProfile() {
+		project = Application.getInstance().getProject();
+		profile = StereotypesHelper.getProfile(project, NAME);
 		
-		PART_PROPERTY_STEREOTYPE = StereotypesHelper.getStereotype(project, PART_PROPERTY_NAME, MD_CUSTOMIZATION_FOR_SYSML_PROFILE);
-		QUANTITY_KIND_STEREOTYPE = StereotypesHelper.getStereotype(project, QUANTITY_KIND_NAME, MD_CUSTOMIZATION_FOR_SYSML_PROFILE);
-		REFERENCE_PROPERTY_STEREOTYPE = StereotypesHelper.getStereotype(project, REFERENCE_PROPERTY_NAME, MD_CUSTOMIZATION_FOR_SYSML_PROFILE);
-		UNIT_STEREOTYPE = StereotypesHelper.getStereotype(project, UNIT_NAME, MD_CUSTOMIZATION_FOR_SYSML_PROFILE);
-		VALUE_PROPERTY_STEREOTYPE = StereotypesHelper.getStereotype(project, VALUE_PROPERTY_NAME, MD_CUSTOMIZATION_FOR_SYSML_PROFILE);
-		
+		if (profile == null) {
+			ExportLog.log("Failed to find MD Customization for SysML Profile.");
+		}
+	}
 	
-		isInitialized = true;
+	public static MDCustomizationForSysMLProfile getInstance() {
+		if (instance == null || instance.project != Application.getInstance().getProject()) {
+			instance = new MDCustomizationForSysMLProfile();
+		}
+		
+		return instance;
 	}
 	
 	public static boolean isPartProperty(Element element) {
-		return hasStereotype(element, PART_PROPERTY_STEREOTYPE);
+		return getInstance().hasStereotype(element, PART_PROPERTY_NAME);
+	}
+	
+	protected boolean hasStereotype(Element element, String stereotypeName) {
+		if (profile == null) {
+			ExportLog.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
+			return false;
+		}
+		
+		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
+		
+		if (stereotype == null) {
+			ExportLog.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
+			return false;
+		}
+		
+		if (!StereotypesHelper.hasStereotype(element, stereotype)) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public static boolean isProperty(Element element) {
@@ -53,19 +76,51 @@ public class MDCustomizationForSysMLProfile extends org.aero.mtip.profiles.Profi
 		return false;
 	}
 	
+	Stereotype getStereotype(String stereotypeName) {
+		return StereotypesHelper.getStereotype(project, stereotypeName, profile);
+	}
+	
+	public static Stereotype getConstraintParameterStereotype() {
+		return getInstance().getStereotype(CONSTRAINT_PARAMETER_NAME);
+	}
+	
+	public static Stereotype getConstraintPropertyStereotype() {
+		return getInstance().getStereotype(CONSTRAINT_PROPERTY_NAME);
+	}
+	
+	public static Stereotype getPartPropertyStereotype() {
+		return getInstance().getStereotype(PART_PROPERTY_NAME);
+	}
+	
+	public static Stereotype getQuantityKindStereotype() {
+		return getInstance().getStereotype(QUANTITY_KIND_NAME);
+	}
+	
+	public static Stereotype getUnitStereotype() {
+		return getInstance().getStereotype(UNIT_NAME);
+	}
+	
+	public static boolean isConstraintParameter(Element element) {
+		return getInstance().hasStereotype(element, CONSTRAINT_PARAMETER_NAME);
+	}
+	
+	public static boolean isConstraintProperty(Element element) {
+		return getInstance().hasStereotype(element, CONSTRAINT_PROPERTY_NAME);
+	}
+	
 	public static boolean isQuantityKind(Element element) {
-		return hasStereotype(element, QUANTITY_KIND_STEREOTYPE);
+		return getInstance().hasStereotype(element, QUANTITY_KIND_NAME);
 	}
 	
 	public static boolean isReferenceProperty(Element element) {
-		return hasStereotype(element, REFERENCE_PROPERTY_STEREOTYPE);
+		return getInstance().hasStereotype(element, REFERENCE_PROPERTY_NAME);
 	}
 	
 	public static boolean isUnit(Element element) {
-		return hasStereotype(element, UNIT_STEREOTYPE);
+		return getInstance().hasStereotype(element, UNIT_NAME);
 	}
 	
 	public static boolean isValueProperty(Element element) {
-		return hasStereotype(element, VALUE_PROPERTY_STEREOTYPE);
+		return getInstance().hasStereotype(element, VALUE_PROPERTY_NAME);
 	}
 }

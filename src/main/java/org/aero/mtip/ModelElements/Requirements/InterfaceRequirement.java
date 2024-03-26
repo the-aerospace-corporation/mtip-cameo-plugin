@@ -7,7 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Requirements;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.profiles.SysMLProfile;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -20,7 +20,6 @@ public class InterfaceRequirement extends Requirement {
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.sysmlConstant = SysmlConstants.INTERFACE_REQUIREMENT;
 		this.xmlConstant = XmlTagConstants.INTERFACE_REQUIREMENT;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
-		this.creationStereotype = SysMLProfile.INTERFACE_REQUIREMENT_STEREOTYPE;
+		this.creationStereotype = SysML.getInterfaceRequirementStereotype();
 	}
 }

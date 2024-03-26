@@ -11,7 +11,7 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.profiles.SysMLProfile;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
@@ -63,7 +63,7 @@ public class AssociationBlock extends CommonElement {
 			CameoUtils.logGUI("Supplier or client was not set. Association block " + xmlElement.getAttribute("name") + " not created.");
 		}
 		
-		StereotypesHelper.addStereotype(associationClass, SysMLProfile.BLOCK_STEREOTYPE);
+		StereotypesHelper.addStereotype(associationClass, SysML.getBlockStereotype());
 		return (Element)associationClass;
 	}
 	

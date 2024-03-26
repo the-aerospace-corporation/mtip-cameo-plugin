@@ -19,6 +19,7 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
+import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
 import org.aero.mtip.profiles.MDForSysMLExtensions;
 import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.profiles.SysML;
@@ -29,7 +30,6 @@ import org.aero.mtip.util.SysmlConstants;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
@@ -62,7 +62,6 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.JoinNo
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.MergeNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.ConditionalNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.LoopNode;
-import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationItem;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Usage;
@@ -344,6 +343,10 @@ public class ExportXmlSysml {
 	public static void exportReferencedElements(Element element) {
 		if (element instanceof TypedElement) {
 			Type type = ((TypedElement)element).getType();
+			
+			if (type == null) {
+				return;
+			}
 			
 			if (CameoUtils.isPredefinedElement(type)) {
 				return;
