@@ -7,12 +7,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Requirements;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import org.aero.mtip.profiles.SysML;
 
 public class PhysicalRequirement extends CommonElement {
 
@@ -21,7 +18,6 @@ public class PhysicalRequirement extends CommonElement {
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.metamodelConstant = SysmlConstants.PHYSICAL_REQUIREMENT;
 		this.xmlConstant = XmlTagConstants.PHYSICAL_REQUIREMENT;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.PHYSICALREQUIREMENT_STEREOTYPE, creationProfile);
+		this.creationStereotype = SysML.getPhysicalRequirementStereotype();
 	}
 }

@@ -9,12 +9,10 @@ import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
 
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -24,9 +22,8 @@ public class Requirement extends CommonElement {
 		super(name, EAID);		
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.metamodelConstant = SysmlConstants.REQUIREMENT;
-		this.xmlConstant = XmlTagConstants.REQUIREMENT;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.REQUIREMENT_STEREOTYPE, creationProfile);
+		this.xmlConstant = XmlTagConstants.REQUIREMENT; 
+		this.creationStereotype = SysML.getRequirementStereotype();
 	}
 
 	@Override

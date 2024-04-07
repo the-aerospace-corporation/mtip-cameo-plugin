@@ -7,11 +7,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import org.aero.mtip.profiles.MagicDraw;
 
 public class Term extends CommonElement {
 
@@ -20,7 +18,6 @@ public class Term extends CommonElement {
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.metamodelConstant = SysmlConstants.TERM;
 		this.xmlConstant = XmlTagConstants.TERM;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.MAGICDRAW_PROFILE_NAME); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysmlConstants.TERM, creationProfile);
+		this.creationStereotype = MagicDraw.getTermStereotype();
 	}
 }

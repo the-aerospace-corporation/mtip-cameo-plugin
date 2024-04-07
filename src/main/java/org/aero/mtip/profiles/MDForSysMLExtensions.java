@@ -20,6 +20,8 @@ public class MDForSysMLExtensions {
 	private Profile profile;
 	
 	public static final String NAME = "additional_stereotypes";
+	public static final String QUANTITY_KIND_NAME = "QuantityKind";
+	public static final String UNIT_NAME = "Unit";
 	
 	public MDForSysMLExtensions() {
 		project = Application.getInstance().getProject();
@@ -30,12 +32,24 @@ public class MDForSysMLExtensions {
 		}
 	}
 	
+	Stereotype getStereotype(String stereotypeName) {
+		return StereotypesHelper.getStereotype(project, stereotypeName, profile);
+	}
+	
 	public static MDForSysMLExtensions getInstance() {
 		if (instance == null || instance.project.getPrimaryModel().getID() != Application.getInstance().getProject().getPrimaryModel().getID()) {
 			instance = new MDForSysMLExtensions();
 		}
 		
 		return instance;
+	}
+	
+	public static Stereotype getQuantityKindStereotype() {
+		return getInstance().getStereotype(QUANTITY_KIND_NAME);
+	}
+	
+	public static Stereotype getUnitStereotype() {
+		return getInstance().getStereotype(UNIT_NAME);
 	}
 	
 	public static boolean isProperty(Element element) {
