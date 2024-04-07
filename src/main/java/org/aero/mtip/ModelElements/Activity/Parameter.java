@@ -1,8 +1,5 @@
 package org.aero.mtip.ModelElements.Activity;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
@@ -80,16 +77,8 @@ public class Parameter extends CommonElement {
 					CameoUtils.logGUI("Property type is null. Cannot set default value.");
 				}
 			} catch(Exception exception) {
-				StringWriter writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter( writer );
-				exception.printStackTrace(printWriter);
-				printWriter.flush();
-
-				String stackTrace = writer.toString();
-				String message = "Error assigning default value to property with id: " + this.EAID + " see stack trace:";
-				CameoUtils.logGUI(message);
-				ImportLog.log(message);
-				ImportLog.log(stackTrace);
+				ImportLog.log(String.format("Error assigning default value to property with id: %s see stack trace: ", EAID));
+				ImportLog.logException(exception);
 			}
 		}
 		return element;

@@ -360,9 +360,7 @@ public abstract class CommonElement {
 //		} else if(vs instanceof OpaqueExpression) {
 //			return SysmlConstants.OPAQUEEXPRESSION;
 		} else {
-			String message = "Value specification with id " + vs.getID() + " was not string, real, int, or bool.";
-			ExportLog.log(message);
-			CameoUtils.logGUI(message);
+			ExportLog.log(String.format("Value specification with id %s was not string, real, int, or bool.", vs.getID()));
 		}
 		return null;
 	}
@@ -534,15 +532,12 @@ public abstract class CommonElement {
 				Element typeElement = null;
 				if(xmlElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
 					String typeImportID = xmlElement.getAttribute(XmlTagConstants.TYPED_BY);
-					CameoUtils.logGUI("Looking for type with id " + typeImportID);
 					
 					if(CameoUtils.isPrimitiveValueType(typeImportID)) {
 						typeElement = CameoUtils.getPrimitiveValueType(typeImportID);
 					} else if(typeImportID.startsWith("_9_")) {
 						if(typeImportID.contentEquals("_9_0_2_91a0295_1110274713995_297054_0")) {
-							CameoUtils.logGUI("Getting reference to UML primitive String ValueType.");
 							typeElement = ModelHelper.findElementWithPath("UML Standard Profile::UML2 Metamodel::PrimitiveTypes::String");
-							CameoUtils.logGUI(typeElement.getHumanName());
 						}
 					} else {
 						try {
@@ -553,17 +548,13 @@ public abstract class CommonElement {
 					}
 					
 					if(typeElement == null) {
-						CameoUtils.logGUI("Getting cameo id for type with import id: " + typeImportID);
-						
 						String cameoID = ImportXmlSysml.idConversion(typeImportID);
-						CameoUtils.logGUI("Cameo id of type is: " + cameoID);
 						typeElement = (Element) project.getElementByID(cameoID);
 					}
 					if(typeElement instanceof Type) {
 						((TypedElement)element).setType((Type) typeElement);
 					} else {
-						CameoUtils.logGUI("typedBy element not a Type. Type field cannot be set.");
-						ImportLog.log("typedBy element not a Type. Type field cannot be set for element with id: " + this.EAID);
+						ImportLog.log(String.format("typedBy element not a Type. Type field cannot be set for element with id: %s", EAID));
 					}
 				}
 			}
@@ -617,7 +608,6 @@ public abstract class CommonElement {
 	public void addStereotypeTaggedValues(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
 			try {
-				CameoUtils.logGUI(tv.toString());
 				Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), tv.getProfileName());
 				Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), tv.getStereotypeName(), profile);
 				Property prop = StereotypesHelper.getPropertyByName(stereotype, tv.getValueName());

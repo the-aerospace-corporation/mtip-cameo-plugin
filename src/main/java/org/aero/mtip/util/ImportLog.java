@@ -9,6 +9,8 @@ package org.aero.mtip.util;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -100,5 +102,13 @@ public class ImportLog {
 	
 	public static void log(String message) {
 		logData.add(message + "\n");
+	}
+	
+	public static void logException(Exception e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		
+		log(sw.toString());
 	}
 }
