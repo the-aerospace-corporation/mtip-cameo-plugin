@@ -12,7 +12,6 @@ public class OperationalInteractionScenarios extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_INTERACTION_SCENARIOS;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_INTERACTION_SCENARIOS;
-		this.allowableElements = UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS_TYPES;
 	}
 }
 

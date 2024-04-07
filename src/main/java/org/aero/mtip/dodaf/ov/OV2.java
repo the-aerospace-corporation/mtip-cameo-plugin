@@ -11,7 +11,6 @@ public class OV2 extends ActivityDiagram {
 		this.metamodelConstant = DoDAFConstants.OV2;
 		this.xmlConstant = XmlTagConstants.OV2;
 		this.cameoDiagramConstant = "OV-2 Operational Resource Flow Description";
-		this.allowableElements = DoDAFConstants.OV2_TYPES;
 	}
 	
 	@Override

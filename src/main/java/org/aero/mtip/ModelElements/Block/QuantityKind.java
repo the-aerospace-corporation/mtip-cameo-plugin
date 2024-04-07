@@ -21,8 +21,8 @@ public class QuantityKind extends InstanceSpecification {
 	public QuantityKind(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.QUANTITYKIND;
-		this.xmlConstant = XmlTagConstants.QUANTITYKIND;
+		this.metamodelConstant = SysmlConstants.QUANTITY_KIND;
+		this.xmlConstant = XmlTagConstants.QUANTITY_KIND;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.MD_CUSTOMIZATION_PROFILE_NAME);
 		this.initialStereotypes = new ArrayList<Stereotype> ();
 		this.initialStereotypes.add(StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.VALUETYPE_QUANTITYKIND_PROPERTY, this.creationProfile));

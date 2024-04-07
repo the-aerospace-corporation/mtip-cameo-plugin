@@ -23,7 +23,7 @@ public class DeriveRequirement extends CommonRelationship {
 	public DeriveRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.DERIVEREQUIREMENT;
+		this.metamodelConstant = SysmlConstants.DERIVE_REQUIREMENT;
 		this.xmlConstant = XmlTagConstants.DERIVEREQUIREMENT;
 		this.element = f.createAbstractionInstance();
 	}

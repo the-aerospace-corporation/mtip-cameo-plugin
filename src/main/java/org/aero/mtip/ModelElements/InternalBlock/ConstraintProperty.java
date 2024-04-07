@@ -27,8 +27,8 @@ public class ConstraintProperty extends CommonElement {
 	public ConstraintProperty(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.CONSTRAINTPROPERTY;
-		this.metamodelConstant = SysmlConstants.CONSTRAINTPROPERTY;
+		this.xmlConstant = XmlTagConstants.CONSTRAINT_PROPERTY;
+		this.metamodelConstant = SysmlConstants.CONSTRAINT_PROPERTY;
 		this.element = f.createPropertyInstance();
 	}
 
@@ -55,7 +55,7 @@ public class ConstraintProperty extends CommonElement {
 		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
 			String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 			try {
-				Element type = ImportXmlSysml.getOrBuildElement(project, parsedXML, classifierID);
+				Element type = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(classifierID));
 				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getID());
 			} catch (NullPointerException npe) {
 				CameoUtils.logGUI("Failed to create/get typed by element for element with id" + this.EAID);

@@ -12,6 +12,5 @@ public class OperationalProcessFlow extends ActivityDiagram {
 		this.metamodelConstant = UAFConstants.OPERATIONAL_PROCESS_FLOW;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_PROCESS_FLOW;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_PROCESS_FLOW;
-		this.allowableElements = UAFConstants.OPERATIONAL_PROCESS_FLOW_TYPES;
 	}
 }

@@ -9,13 +9,14 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -51,27 +52,27 @@ public class State extends CommonElement {
 	}
 	
 	@Override
-	public void addDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
+	public void createReferencedElements(HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
 
 		if(xmlElement.hasAttribute(XmlTagConstants.DO_ACTIVITY)) {
 			CameoUtils.logGUI("Creating do activity for State.");
 			String doActivityId = xmlElement.getAttribute(XmlTagConstants.DO_ACTIVITY);
-			Behavior doActivity = (Behavior) ImportXmlSysml.getOrBuildElement(project, parsedXML, doActivityId);
+			Behavior doActivity = (Behavior) ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(doActivityId));
 			state.setDoActivity(doActivity);
 		}
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ENTRY)) {
 			CameoUtils.logGUI("Creating entry for State.");
 			String entryId = xmlElement.getAttribute(XmlTagConstants.ENTRY);
-			Behavior entry = (Behavior)ImportXmlSysml.getOrBuildElement(project, parsedXML, entryId);
+			Behavior entry = (Behavior)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(entryId));
 			state.setEntry(entry);
 		}
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.EXIT)) {
 			CameoUtils.logGUI("Creating exit for State.");
 			String exitId = xmlElement.getAttribute(XmlTagConstants.EXIT);
-			Behavior exit = (Behavior)ImportXmlSysml.getOrBuildElement(project, parsedXML, exitId);
+			Behavior exit = (Behavior)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(exitId));
 			state.setExit(exit);
 		}
 	}
@@ -121,48 +122,81 @@ public class State extends CommonElement {
 	}
 
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
-		if(state.isSubmachineState()) {
-			org.w3c.dom.Element submachine = createStringAttribute(xmlDoc, XmlTagConstants.SUBMACHINE, state.getSubmachine().getID());
-			attributes.appendChild(submachine);
-		}
-		
-		Behavior doActivity = state.getDoActivity();
-		Behavior entry = state.getEntry();
-		Behavior exit = state.getExit();
-		
-		if(doActivity != null) {
-			org.w3c.dom.Element doActivityTag = createRel(xmlDoc, doActivity, XmlTagConstants.DO_ACTIVITY);
-			relationships.appendChild(doActivityTag);
-		}
-		
-		if(entry != null) {
-			org.w3c.dom.Element entryTag = createRel(xmlDoc, entry, XmlTagConstants.ENTRY);
-			relationships.appendChild(entryTag);
-		}
-		
-		if(exit != null) {
-			org.w3c.dom.Element exitTag = createRel(xmlDoc, exit, XmlTagConstants.EXIT);
-			relationships.appendChild(exitTag);
-		}
+		writeSubmachine(relationships, element);
+		writeDoActivity(relationships, element);
+		writeEntry(relationships, element);
+		writeExit(relationships, element);
 		
 		return data;
 	}
 	
 	@Override
-	protected org.w3c.dom.Element createRelationships(Document xmlDoc, Element element) {
-		org.w3c.dom.Element relationships = xmlDoc.createElement(XmlTagConstants.RELATIONSHIPS);
-		relationships.setAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
-		if(element.getOwner().getOwner() != null) {
-			org.w3c.dom.Element hasParent = createRel(xmlDoc, element.getOwner().getOwner(), XmlTagConstants.HAS_PARENT);
-			relationships.appendChild(hasParent);
+	protected void writeParent(org.w3c.dom.Element relationships) {
+		Element owner = element.getOwner().getOwner();
+		
+		if(owner == null) {
+			ExportLog.log(String.format("No parent found for state %s with id %s", element.getHumanName(), element.getID()));
+			return;
 		}
 		
-		return relationships;
+		org.w3c.dom.Element hasParentTag = XmlWriter.createMtipRelationship(owner, XmlTagConstants.HAS_PARENT);
+		XmlWriter.add(relationships, hasParentTag);
+	}
+	
+	protected void writeSubmachine(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
+		
+		if(!state.isSubmachineState()) {
+			return;
+		}
+		
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine submachine = state.getSubmachine();
+		
+		if (submachine == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element submachineTag = XmlWriter.createMtipRelationship(submachine, XmlTagConstants.SUBMACHINE);
+		XmlWriter.add(relationships, submachineTag);
+	}
+	
+	protected void writeDoActivity(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
+		Behavior doActivity = state.getDoActivity();
+		
+		if (doActivity == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element doActivityTag = XmlWriter.createMtipRelationship(doActivity, XmlTagConstants.DO_ACTIVITY);
+		XmlWriter.add(relationships, doActivityTag);
+	}
+	
+	protected void writeEntry(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
+		Behavior entry = state.getEntry();
+		
+		if (entry == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element entryTag = XmlWriter.createMtipRelationship(entry, XmlTagConstants.ENTRY);
+		XmlWriter.add(relationships, entryTag);
+	}
+	
+	protected void writeExit(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
+		Behavior exit = state.getExit();
+		
+		if (exit == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element exitTag = XmlWriter.createMtipRelationship(exit, XmlTagConstants.EXIT);
+		XmlWriter.add(relationships, exitTag);
 	}
 }

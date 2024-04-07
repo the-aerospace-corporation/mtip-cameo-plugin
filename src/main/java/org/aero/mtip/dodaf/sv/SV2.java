@@ -11,7 +11,6 @@ public class SV2 extends ClassDiagram {
 		this.metamodelConstant = DoDAFConstants.SV2;
 		this.xmlConstant = XmlTagConstants.SV2;
 		this.cameoDiagramConstant = "SV-2 Systems Communications Description";
-		this.allowableElements = DoDAFConstants.SV2_TYPES;
 	}
 	
 	@Override

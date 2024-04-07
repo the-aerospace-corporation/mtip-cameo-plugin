@@ -11,7 +11,6 @@ public class CV6 extends DependencyMatrix {
 		this.metamodelConstant = DoDAFConstants.CV6;
 		this.xmlConstant = XmlTagConstants.CV6;
 		this.cameoDiagramConstant = "CV-6 Capability to Operational Activities Mapping";
-		this.allowableElements = DoDAFConstants.CV6_TYPES;
 	}
 	
 	@Override

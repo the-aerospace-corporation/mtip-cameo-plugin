@@ -12,6 +12,5 @@ public class PersonnelInteractionScenario extends SequenceDiagram {
 		 this.metamodelConstant = UAFConstants.PERSONNEL_INTERACTION_SCENARIO_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PERSONNEL_INTERACTION_SCENARIO_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.PERSONNEL_INTERACTION_SCENARIO;
-		 this.allowableElements = UAFConstants.PR_IS_TYPES;
 	}
 }

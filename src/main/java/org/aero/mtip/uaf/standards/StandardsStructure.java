@@ -12,6 +12,5 @@ public class StandardsStructure extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.STANDARDS_STRUCTURE_DIAGRAM;
 		this.xmlConstant = XmlTagConstants.STANDARDS_STRUCTURE_DIAGRAM;
 		this.cameoDiagramConstant = CameoDiagramConstants.STANDARDS_STRUCTURE;
-		this.allowableElements = UAFConstants.STANDARDS_STRUCTURE_TYPES;
 	}
 }

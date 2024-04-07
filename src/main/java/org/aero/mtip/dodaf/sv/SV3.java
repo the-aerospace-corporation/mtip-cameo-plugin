@@ -11,7 +11,6 @@ public class SV3 extends AbstractMatrix {
 		this.metamodelConstant = DoDAFConstants.SV3;
 		this.xmlConstant = XmlTagConstants.SV3;
 		this.cameoDiagramConstant = "SV-3 Systems-Systems Matrix";
-		this.allowableElements = DoDAFConstants.SV3_TYPES;
 	}
 	
 	@Override

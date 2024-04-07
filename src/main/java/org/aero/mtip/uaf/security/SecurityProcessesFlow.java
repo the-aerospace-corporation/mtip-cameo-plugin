@@ -13,6 +13,5 @@ public class SecurityProcessesFlow extends ActivityDiagram {
 		 this.metamodelConstant = UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SECURITY_PROCESSES_FLOW_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.SECURITY_PROCESSES_FLOW;
-		 this.allowableElements = UAFConstants.SC_PR_FLOW_TYPES;
 	}
 }

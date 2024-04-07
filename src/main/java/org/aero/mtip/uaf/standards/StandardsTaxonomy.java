@@ -12,6 +12,5 @@ public class StandardsTaxonomy extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.STANDARDS_TAXONOMY_DIAGRAM;
 		this.xmlConstant = XmlTagConstants.STANDARDS_TAXONOMY_DIAGRAM;
 		this.cameoDiagramConstant = CameoDiagramConstants.STANDARDS_TAXONOMY;
-		this.allowableElements = UAFConstants.STANDARDS_TAXONOMY_TYPES;
 	}
 }

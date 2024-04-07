@@ -22,8 +22,8 @@ public class BoundReference extends CommonElement {
 	public BoundReference(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.BOUNDREFERENCE;
-		this.metamodelConstant = SysmlConstants.BOUNDREFERENCE;
+		this.xmlConstant = XmlTagConstants.BOUND_REFERENCE;
+		this.metamodelConstant = SysmlConstants.BOUND_REFERENCE;
 		this.element = f.createPropertyInstance();
 	}
 

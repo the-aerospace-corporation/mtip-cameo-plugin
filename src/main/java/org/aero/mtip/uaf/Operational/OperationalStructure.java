@@ -12,6 +12,5 @@ public class OperationalStructure extends ActivityDiagram {
 		this.metamodelConstant = UAFConstants.OPERATIONAL_STRUCTURE;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_STRUCTURE;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_STRUCTURE;
-		this.allowableElements = UAFConstants.OPERATIONAL_STRUCTURE_TYPES;
 	}
 }

@@ -14,8 +14,8 @@ public class ActivityFinalNode extends ActivityNode {
 	public ActivityFinalNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.ACTIVITYFINALNODE;
-		this.xmlConstant = XmlTagConstants.ACTIVITYFINALNODE;
+		this.metamodelConstant = SysmlConstants.ACTIVITY_FINAL_NODE;
+		this.xmlConstant = XmlTagConstants.ACTIVITY_FINAL_NODE;
 		this.element = f.createActivityFinalNodeInstance();
 	}
 }

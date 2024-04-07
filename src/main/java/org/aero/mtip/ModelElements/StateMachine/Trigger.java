@@ -11,12 +11,12 @@ import java.util.HashMap;
 import javax.annotation.CheckForNull;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.actions.mdcompleteactions.AcceptEventAction;
@@ -55,7 +55,7 @@ public class Trigger extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) element;
 		if(owner != null) {
 			if(owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) {
@@ -69,40 +69,27 @@ public class Trigger extends CommonElement {
 	
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		CameoUtils.logGUI("Creating dependent elements for trigger...");
-		if(modelElement.hasAcceptEventAction()) {	
-			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()), modelElement.getAcceptEventAction());
+		if(modelElement.hasAttribute(XmlTagConstants.ACCEPT_EVENT_ACTION)) {	
+			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()));
 			modelElement.setNewAcceptEventAction(acceptEventAction.getID());
 		}
+		
 		if(modelElement.hasAttribute(XmlTagConstants.EVENT_TAG)) {
 			String signal = modelElement.getAttribute(XmlTagConstants.EVENT_TAG);
-			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)ImportXmlSysml.getOrBuildElement(project, parsedXML, signal);
+			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signal));
 			modelElement.addElement(XmlTagConstants.EVENT_TAG, event);
-			CameoUtils.logGUI("Event found and added to trigger XML.");
-		} else {
-			CameoUtils.logGUI("No event found in XML for trigger with id: " + EAID);
 		}
 	}
 
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
 		//Add reference to Event type of the trigger - since element is child of Trigger's parent's Activity, this must be explicitly written here
-		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)element;
-		Event event = trigger.getEvent();
-		if(event != null) {
-			org.w3c.dom.Element eventTag = createRel(xmlDoc, event, XmlTagConstants.EVENT_TAG);
-			attributes.appendChild(eventTag);
-		}
+		writeEvent(relationships, element);
 		
-		AcceptEventAction aea = trigger.get_acceptEventActionOfTrigger();
-		if(aea != null) {
-			org.w3c.dom.Element aeaTag = xmlDoc.createElement("acceptEventAction");
-			aeaTag.appendChild(xmlDoc.createTextNode(aea.getID()));
-			attributes.appendChild(aeaTag);
-		}
+
 		
 //		Event se = trigger.getEvent();
 //		if(se != null) {
@@ -113,5 +100,29 @@ public class Trigger extends CommonElement {
 //		}
 		
 		return data;
+	}
+	
+	protected void writeEvent(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)element;
+		Event event = trigger.getEvent();
+		
+		if(event == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element eventTag = XmlWriter.createMtipRelationship(event, XmlTagConstants.EVENT_TAG);
+		XmlWriter.add(relationships, eventTag);
+	}
+	
+	protected void writeAcceptEventAction(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)element;
+		AcceptEventAction aea = trigger.get_acceptEventActionOfTrigger();
+		
+		if(aea == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element aeaTag = XmlWriter.createMtipRelationship(aea, XmlTagConstants.ACCEPT_EVENT_ACTION_TAG);
+		XmlWriter.add(relationships, aeaTag);
 	}
 }

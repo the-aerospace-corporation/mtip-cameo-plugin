@@ -8,16 +8,14 @@ package org.aero.mtip.ModelElements.Sequence;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.BaseElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperatorKind;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperatorKindEnum;
@@ -27,8 +25,8 @@ public class CombinedFragment extends CommonElement {
 	public CombinedFragment(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.COMBINEDFRAGMENT;
-		this.xmlConstant = XmlTagConstants.COMBINEDFRAGMENT;
+		this.metamodelConstant = SysmlConstants.COMBINED_FRAGMENT;
+		this.xmlConstant = XmlTagConstants.COMBINED_FRAGMENT;
 		this.element = f.createCombinedFragmentInstance();
 	}
 
@@ -72,25 +70,36 @@ public class CombinedFragment extends CommonElement {
 	
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
+		writeOperatorKind(attributes, element);
+		writeInteractionOperand(relationships, element);
+		
+		return data;
+	}
+	
+	private void writeOperatorKind(org.w3c.dom.Element attributes, Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment combinedFragment = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment)element;
 		InteractionOperatorKind ioKind = combinedFragment.getInteractionOperator();
 		
-		org.w3c.dom.Element ioKindTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERATOR_KIND, ioKind.toString());
-		attributes.appendChild(ioKindTag);
-		CameoUtils.logGUI("Interaction Operator Kind:" + ioKind.toString());
-		
-		List<InteractionOperand> interactionOperands = combinedFragment.getOperand();
-		for(InteractionOperand interactionOperand : interactionOperands) {
-			org.w3c.dom.Element interactionOperandTag = createRel(xmlDoc, interactionOperand, XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERAND);
-			relationships.appendChild(interactionOperandTag);
-			CameoUtils.logGUI("Interaction operands: " + ((NamedElement)interactionOperand).getName());
+		if (ioKind == null) {
+			return;
 		}
 		
-		return data;
+		org.w3c.dom.Element ioKindTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERATOR_KIND, ioKind.toString());
+		XmlWriter.add(attributes, ioKindTag);
+	}
+	
+	private void writeInteractionOperand(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment combinedFragment = (com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment)element;
+		List<InteractionOperand> interactionOperands = combinedFragment.getOperand();
+		
+		for(InteractionOperand interactionOperand : interactionOperands) {
+			org.w3c.dom.Element interactionOperandTag = XmlWriter.createMtipRelationship(interactionOperand, XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERAND);
+			XmlWriter.add(relationships, interactionOperandTag);
+		}
 	}
 }

@@ -11,7 +11,6 @@ public class SV4 extends ClassDiagram {
 		this.metamodelConstant = DoDAFConstants.SV4;
 		this.xmlConstant = XmlTagConstants.SV4;
 		this.cameoDiagramConstant = "SV-4 Systems Functionality Description";
-		this.allowableElements = DoDAFConstants.SV4_TYPES;
 	}
 	
 	@Override

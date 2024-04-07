@@ -22,8 +22,8 @@ public class FullPort extends Port {
 	public FullPort(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.FULLPORT;
-		this.xmlConstant = XmlTagConstants.FULLPORT;
+		this.metamodelConstant = SysmlConstants.FULL_PORT;
+		this.xmlConstant = XmlTagConstants.FULL_PORT;
 		this.element = f.createPortInstance();
 	}
 

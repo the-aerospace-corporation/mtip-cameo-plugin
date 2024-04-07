@@ -7,11 +7,11 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Activity;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
@@ -26,7 +26,7 @@ public class ObjectFlow extends CommonRelationship {
 	public ObjectFlow(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.OBJECTFLOW;
+		this.metamodelConstant = SysmlConstants.OBJECT_FLOW;
 		this.xmlConstant = XmlTagConstants.OBJECTFLOW;
 		this.element = f.createObjectFlowInstance();
 	}
@@ -56,27 +56,39 @@ public class ObjectFlow extends CommonRelationship {
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)element;
-		ValueSpecification vs = of.getGuard();
-		if(vs != null) {
-			org.w3c.dom.Element attribute = createAttributefromValueSpecification(vs, XmlTagConstants.GUARD, xmlDoc);
-			if(attribute != null) {
-				attributes.appendChild(attribute);
-			}
-		}
+		writeGuard(attributes, element);
 		
 		return data;
 	}
 	
+	private void writeGuard(org.w3c.dom.Element attributes, Element elemet) {
+		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow of = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow)element;
+		
+		ValueSpecification vs = of.getGuard();
+		
+		if(vs == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element guardTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.GUARD);
+		
+		if(guardTag == null) {
+			return;
+		}
+		
+		XmlWriter.add(attributes, guardTag);
+	}
+	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
 			owner = CameoUtils.findNearestActivity(project, supplier);
 		}
+
 		element.setOwner(owner);
 	}
 	
@@ -90,26 +102,8 @@ public class ObjectFlow extends CommonRelationship {
 	public void setClient() {
 		ActivityEdge activityEdge = (ActivityEdge)element;
 		activityEdge.setTarget((ActivityNode) client);
-	}
+	}	
 	
-	/*
-	 * 
-	 */
-	
-	@Override
-	public void setSupplier(Element element) {
-		ActivityEdge activityEdge = (ActivityEdge)element;
-		this.supplier = activityEdge.getSource();
-	}
-	
-	@Override
-	public void setClient(Element element) {
-		ActivityEdge activityEdge = (ActivityEdge)element;
-		this.client = activityEdge.getTarget();
-	}
-	
-	
-	//
 	@Override
 	public Element getSupplier(Element element) {
 		ActivityEdge activityEdge = (ActivityEdge)element;

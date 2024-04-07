@@ -22,8 +22,8 @@ public class ProxyPort extends Port {
 	public ProxyPort(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.PROXYPORT;
-		this.xmlConstant = XmlTagConstants.PROXYPORT;
+		this.metamodelConstant = SysmlConstants.PROXY_PORT;
+		this.xmlConstant = XmlTagConstants.PROXY_PORT;
 		this.element = f.createPortInstance();
 	}
 

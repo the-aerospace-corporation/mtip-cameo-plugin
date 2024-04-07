@@ -22,7 +22,7 @@ public class ItemFlow extends CommonDirectedRelationship {
 	public ItemFlow(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.ITEMFLOW;
+		this.metamodelConstant = SysmlConstants.ITEM_FLOW;
 		this.xmlConstant = XmlTagConstants.ITEMFLOW;
 		this.element = f.createInformationFlowInstance();
 	}

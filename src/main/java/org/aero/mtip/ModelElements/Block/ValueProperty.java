@@ -21,7 +21,7 @@ public class ValueProperty extends Property {
 	public ValueProperty(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.VALUEPROPERTY;
+		this.metamodelConstant = SysmlConstants.VALUE_PROPERTY;
 		this.xmlConstant = XmlTagConstants.VALUEPROPERTY;
 		this.element = f.createPropertyInstance();
 	}

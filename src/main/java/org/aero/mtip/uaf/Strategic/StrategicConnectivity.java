@@ -12,6 +12,5 @@ public class StrategicConnectivity extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.STRATEGIC_CONNECTIVITY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.STRATEGIC_CONNECTIVITY_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.STRATEGIC_CONNECTIVITY;
-		 this.allowableElements = UAFConstants.ST_CN_TYPES;
 	}
 }

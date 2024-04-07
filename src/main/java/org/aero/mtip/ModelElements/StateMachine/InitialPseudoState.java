@@ -16,7 +16,7 @@ public class InitialPseudoState extends PseudoState {
 	public InitialPseudoState(String name, String EAID) {
 		super(name, EAID);
 		this.psKind =  PseudostateKindEnum.INITIAL;
-		this.metamodelConstant = SysmlConstants.INITIALPSEUDOSTATE;
-		this.xmlConstant = XmlTagConstants.INITIALPSEUDOSTATE;
+		this.metamodelConstant = SysmlConstants.INITIAL_PSEUDO_STATE;
+		this.xmlConstant = XmlTagConstants.INITIAL_PSEUDO_STATE;
 	}
 }

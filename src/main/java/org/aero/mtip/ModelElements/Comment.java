@@ -6,10 +6,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -37,22 +37,31 @@ public class Comment extends CommonElement {
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)element;
-		String body = comment.getBody();
-		if(!body.isEmpty()) {
-			org.w3c.dom.Element bodyTag = createStringAttribute(xmlDoc, XmlTagConstants.ATTRIBUTE_KEY_BODY, body);
-			attributes.appendChild(bodyTag);
-		}
+		writeBody(attributes, element);
+		
 		return data;
+	}
+	
+	public void writeBody(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)element;
+		
+		String body = comment.getBody();
+		
+		if(body == null || body.trim().isEmpty()) {
+			return;
+		}
+		
+		org.w3c.dom.Element bodyTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.ATTRIBUTE_KEY_BODY, body);
+		XmlWriter.add(attributes, bodyTag);
 	}
 	
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)element;
 		comment.setOwningElement(owner);
 	}

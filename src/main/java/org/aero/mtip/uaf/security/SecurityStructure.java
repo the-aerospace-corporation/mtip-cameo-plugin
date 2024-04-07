@@ -12,6 +12,5 @@ public class SecurityStructure extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.SECURITY_STRUCTURE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SECURITY_STRUCTURE_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.SECURITY_STRUCTURE;
-		 this.allowableElements = UAFConstants.SC_SR_TYPES;
 	}
 }

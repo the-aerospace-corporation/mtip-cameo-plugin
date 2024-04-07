@@ -14,8 +14,8 @@ public class OpaqueAction extends CommonElement {
 	public OpaqueAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.OPAQUEACTION;
-		this.xmlConstant = XmlTagConstants.OPAQUEACTION;
+		this.metamodelConstant = SysmlConstants.OPAQUE_ACTION;
+		this.xmlConstant = XmlTagConstants.OPAQUE_ACTION;
 		this.element = f.createOpaqueActionInstance();
 	}
 }

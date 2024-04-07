@@ -12,6 +12,5 @@ public class StrategicStructure extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.STRATEGIC_STRUCTURE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.STRATEGIC_STRUCTURE_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.STRATEGIC_STRUCTURE;
-		 this.allowableElements = UAFConstants.ST_SR_TYPES;
 	}
 }

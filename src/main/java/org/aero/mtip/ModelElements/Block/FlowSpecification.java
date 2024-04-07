@@ -22,8 +22,8 @@ public class FlowSpecification extends CommonElement {
 	public FlowSpecification(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.FLOWSPECIFICATION;
-		this.xmlConstant = XmlTagConstants.FLOWSPECIFICATION;
+		this.metamodelConstant = SysmlConstants.FLOW_SPECFICATION;
+		this.xmlConstant = XmlTagConstants.FLOW_SPECIFICATION;
 		this.element = f.createInterfaceInstance();
 	}
 	

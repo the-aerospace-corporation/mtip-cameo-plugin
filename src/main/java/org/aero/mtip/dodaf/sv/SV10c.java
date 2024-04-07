@@ -11,7 +11,6 @@ public class SV10c extends BlockDefinitionDiagram {
 		this.metamodelConstant = DoDAFConstants.SV10C;
 		this.xmlConstant = XmlTagConstants.SV10C;
 		this.cameoDiagramConstant = "SV-10c Systems Event-Trace Description";
-		this.allowableElements = DoDAFConstants.SV10C_TYPES;
 	}
 	
 	@Override

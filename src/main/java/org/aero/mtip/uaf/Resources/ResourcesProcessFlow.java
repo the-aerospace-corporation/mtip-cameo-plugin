@@ -12,6 +12,5 @@ public class ResourcesProcessFlow extends ActivityDiagram {
 		this.metamodelConstant = UAFConstants.RESOURCES_PROCESS_FLOW;
 		this.xmlConstant = XmlTagConstants.RESOURCES_PROCESS_FLOW;
 		this.cameoDiagramConstant = CameoDiagramConstants.RESOURCES_PROCESS_FLOW;
-		this.allowableElements = UAFConstants.RESOURCES_PROCESS_FLOW_TYPES;
 	}
 }

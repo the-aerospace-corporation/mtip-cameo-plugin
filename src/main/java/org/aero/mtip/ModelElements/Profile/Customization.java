@@ -5,32 +5,29 @@ This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Customization extends CommonElement {
-	private final static String CUSTOMIZATIONTARGET = "customizationTarget";
-	private final static String CUSTOMIZATIONTARGETS = "customizationTargets";
-	private final static String ALLOWEDRELATIONSHIPS = "allowedRelationships";
-	private final static String DISALLOWEDRELATIONSHIPS = "disallowedRelationships";
-	private final static String TYPESFORTARGET = "typesForTarget";
-	private final static String TYPESFORSOURCE = "typesForSource";
-	private final static String POSSIBLEOWNERS = "possibleOwners";
+	private final static String CUSTOMIZATION_TARGET = "customizationTarget";
+	private final static String CUSTOMIZATION_TARGETS = "customizationTargets";
+	private final static String ALLOWED_RELATIONSHIPS = "allowedRelationships";
+	private final static String DISALLOWED_RELATIONSHIPS = "disallowedRelationships";
+	private final static String TYPES_FOR_TARGET = "typesForTarget";
+	private final static String TYPES_FOR_SOURCE = "typesForSource";
+	private final static String POSSIBLE_OWNERS = "possibleOwners";
 	
 	private Profile dslCustomizationProfile = null;
 	private Stereotype customizationStereotype = null;
@@ -53,27 +50,36 @@ public class Customization extends CommonElement {
 		return customization;
 	}
 	
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+
+		writeCustomizationTargets(relationships, element);
 		
-		// Create Relationship tags for customization targets
-		List<Element> customizationTargets = StereotypesHelper.getStereotypePropertyValue(element, SysmlConstants.CUSTOMIZATION, CUSTOMIZATIONTARGET);
-		CameoUtils.logGUI("Found " + Integer.toString(customizationTargets.size()) + " customization targets.");
-		if(customizationTargets != null && !customizationTargets.isEmpty()) {
-			org.w3c.dom.Element customizationTargetsTag = createListRelationship(xmlDoc, CUSTOMIZATIONTARGETS);
-			int customizationTargetCount = 0;
-			for(Element customizationTarget : customizationTargets) {
-				org.w3c.dom.Element customizationTargetTag = createListRel(xmlDoc, customizationTarget, CUSTOMIZATIONTARGET, Integer.toString(customizationTargetCount));
-				customizationTargetsTag.appendChild(customizationTargetTag);
-				customizationTargetCount++;
-			}
-			relationships.appendChild(customizationTargetsTag);
+		// TODO: Create relationship tags for possible owners
+		// TODO: Create relationship tags for allowed and disallowed relationships
+		// TODO: Create relationship tags for types for source and types for target
+		
+		return data;
+	}
+	
+	private void writeCustomizationTargets(org.w3c.dom.Element relationships, Element element) {
+		List<Element> customizationTargets = StereotypesHelper.getStereotypePropertyValue(element, SysmlConstants.CUSTOMIZATION, CUSTOMIZATION_TARGET);
+
+		if(customizationTargets == null || customizationTargets.isEmpty()) {
+			return;
 		}
 		
-		// Create Relationship tags for possible owners
-
-		return data;
+		org.w3c.dom.Element customizationTargetsTag = XmlWriter.createMtipListAttribute(CUSTOMIZATION_TARGETS);
+		
+		int customizationTargetCount = 0;
+		for(Element customizationTarget : customizationTargets) {
+			org.w3c.dom.Element customizationTargetTag = XmlWriter.createMtipListItem(customizationTarget, CUSTOMIZATION_TARGET, Integer.toString(customizationTargetCount));
+			XmlWriter.add(relationships, customizationTargetTag);
+			
+			customizationTargetCount++;
+		}
+		
+		XmlWriter.add(relationships, customizationTargetsTag);
 	}
 }

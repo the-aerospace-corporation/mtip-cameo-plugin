@@ -14,8 +14,8 @@ public class MergeNode extends ActivityNode {
 	public MergeNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.MERGENODE;
-		this.xmlConstant = XmlTagConstants.MERGENODE;
+		this.metamodelConstant = SysmlConstants.MERGE_NODE;
+		this.xmlConstant = XmlTagConstants.MERGE_NODE;
 		this.element = f.createMergeNodeInstance();
 	}
 }

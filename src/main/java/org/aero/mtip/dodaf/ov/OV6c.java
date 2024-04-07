@@ -11,7 +11,6 @@ public class OV6c extends SequenceDiagram {
 		this.metamodelConstant = DoDAFConstants.OV6C;
 		this.xmlConstant = XmlTagConstants.OV6C;
 		this.cameoDiagramConstant = "OV-6c Operational Event-Trace Description";
-		this.allowableElements = DoDAFConstants.OV6C_TYPES;
 	}
 	
 	@Override

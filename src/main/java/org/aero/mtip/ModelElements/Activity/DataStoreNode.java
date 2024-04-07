@@ -14,8 +14,8 @@ public class DataStoreNode extends ActivityNode {
 	public DataStoreNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.DATASTORENODE;
-		this.xmlConstant = XmlTagConstants.DATASTORENODE;
+		this.metamodelConstant = SysmlConstants.DATA_STORE_NODE;
+		this.xmlConstant = XmlTagConstants.DATA_STORE_NODE;
 		this.element = f.createDataStoreNodeInstance();
 	}
 }

@@ -11,7 +11,6 @@ public class CV7 extends DependencyMatrix {
 		this.metamodelConstant = DoDAFConstants.CV7;
 		this.xmlConstant = XmlTagConstants.CV7;
 		this.cameoDiagramConstant = "CV-7 Capability to Services Mapping";
-		this.allowableElements = DoDAFConstants.CV7_TYPES;
 	}
 	
 	@Override

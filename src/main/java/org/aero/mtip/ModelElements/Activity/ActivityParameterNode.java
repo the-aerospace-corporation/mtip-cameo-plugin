@@ -13,8 +13,8 @@ public class ActivityParameterNode extends ActivityNode {
 	public ActivityParameterNode(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.ACTIVITYPARAMETERNODE;
-		this.xmlConstant = XmlTagConstants.ACTIVITYPARAMETERNODE;
+		this.metamodelConstant = SysmlConstants.ACTIVITY_PARAMETER_NODE;
+		this.xmlConstant = XmlTagConstants.ACTIVITY_PARAMETER_NODE;
 		this.element = f.createActivityParameterNodeInstance();
 	}
 }

@@ -11,7 +11,6 @@ public class PV3 extends AbstractMatrix {
 		this.metamodelConstant = DoDAFConstants.PV3;
 		this.xmlConstant = XmlTagConstants.PV3;
 		this.cameoDiagramConstant = "";
-		this.allowableElements = DoDAFConstants.PV3_TYPES;
 	}
 
 //	@Override

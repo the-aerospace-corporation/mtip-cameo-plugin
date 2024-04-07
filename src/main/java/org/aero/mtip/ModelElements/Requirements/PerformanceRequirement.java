@@ -19,8 +19,8 @@ public class PerformanceRequirement extends CommonElement {
 	public PerformanceRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.metamodelConstant = SysmlConstants.PERFORMANCEREQUIREMENT;
-		this.xmlConstant = XmlTagConstants.PERFORMANCEREQUIREMENT;
+		this.metamodelConstant = SysmlConstants.PERFORMANCE_REQUIREMENT;
+		this.xmlConstant = XmlTagConstants.PERFORMANCE_REQUIREMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.PERFORMANCEREQUIREMENT_STEREOTYPE, creationProfile);
 	}

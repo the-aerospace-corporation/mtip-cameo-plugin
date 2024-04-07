@@ -11,7 +11,6 @@ public class OV4 extends UseCaseDiagram {
 		this.metamodelConstant = DoDAFConstants.OV4;
 		this.xmlConstant = XmlTagConstants.OV4;
 		this.cameoDiagramConstant = "OV-4 Organizational Relationships Chart";
-		this.allowableElements = DoDAFConstants.OV4_TYPES;
 	}
 	
 	@Override

@@ -7,12 +7,12 @@ package org.aero.mtip.ModelElements.Matrix;
 
 import java.util.ArrayList;
 
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.dependencymatrix.diagram.DependencyMatrixDiagramDescriptor;
@@ -40,8 +40,8 @@ public class DependencyMatrix extends AbstractMatrix {
 	}	
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 
 		// get attributes part
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
@@ -60,8 +60,8 @@ public class DependencyMatrix extends AbstractMatrix {
 			Element rowScopeElement = (Element) InstanceSpecificationHelper.getValueBySlot(rowScopeSlot);
 			
 			if(rowScopeElement != null) {
-				org.w3c.dom.Element rowScope = createRel(xmlDoc, rowScopeElement, XmlTagConstants.ROW_SCOPE);
-				relationships.appendChild(rowScope);
+				org.w3c.dom.Element rowScopeTag = XmlWriter.createMtipRelationship(rowScopeElement, XmlTagConstants.ROW_SCOPE);
+				XmlWriter.add(relationships, rowScopeTag);
 			}
 		}catch (ClassCastException cce) {
 			ImportLog.log("Error casting row scope element to Element class for dependency matrix named: " + this.name);
@@ -74,8 +74,8 @@ public class DependencyMatrix extends AbstractMatrix {
 			Element columnScopeElement = (Element) InstanceSpecificationHelper.getValueBySlot(columnScopeSlot);
 			
 			if(columnScopeElement != null) {
-				org.w3c.dom.Element columnScope = createRel(xmlDoc, columnScopeElement, XmlTagConstants.COLUMN_SCOPE);
-				relationships.appendChild(columnScope);
+				org.w3c.dom.Element columnScopeTag = XmlWriter.createMtipRelationship(columnScopeElement, XmlTagConstants.COLUMN_SCOPE);
+				XmlWriter.add(relationships, columnScopeTag);
 			}
 		}catch (ClassCastException cce) {
 			ImportLog.log("Error casting column scope element to Element class for dependency matrix named: " + this.name);

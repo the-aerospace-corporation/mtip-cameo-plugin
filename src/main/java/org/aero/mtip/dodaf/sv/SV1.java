@@ -10,8 +10,6 @@ public class SV1 extends ClassDiagram {
 		super(name, EAID);
 		this.metamodelConstant = DoDAFConstants.SV1;
 		this.xmlConstant = XmlTagConstants.SV1;
-		this.cameoDiagramConstant = "SV-1 Systems Interface Description";
-		this.allowableElements = DoDAFConstants.SV1_TYPES;
 	}
 	
 	@Override

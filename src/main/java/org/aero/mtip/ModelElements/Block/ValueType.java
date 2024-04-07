@@ -22,7 +22,7 @@ public class ValueType extends CommonElement{
 	public ValueType(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.VALUETYPE;
+		this.metamodelConstant = SysmlConstants.VALUE_TYPE;
 		this.xmlConstant = XmlTagConstants.VALUETYPE;
 		this.element = f.createDataTypeInstance();
 	}

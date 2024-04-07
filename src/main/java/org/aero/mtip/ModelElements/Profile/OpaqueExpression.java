@@ -9,13 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -23,16 +22,13 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class OpaqueExpression extends CommonElement {
-	
 	public final static String CHECK_CLASSES_START = "self.oclIsKindOf(";
-	private final String BODY = "body";
-	private final String LANGUAGE = "language";
 	
 	public OpaqueExpression(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.OPAQUEEXPRESSION;
-		this.xmlConstant = XmlTagConstants.OPAQUEEXPRESSION;
+		this.metamodelConstant = SysmlConstants.OPAQUE_EXPRESSION;
+		this.xmlConstant = XmlTagConstants.OPAQUE_EXPRESSION;
 		this.element = f.createOpaqueExpressionInstance();
 	}
 
@@ -41,8 +37,8 @@ public class OpaqueExpression extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 		
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)element;
-		String body = xmlElement.getAttribute(BODY);
-		String language = xmlElement.getAttribute(LANGUAGE);
+		String body = xmlElement.getAttribute(XmlTagConstants.BODY);
+		String language = xmlElement.getAttribute(XmlTagConstants.LANGUAGE);
 		
 		oe.getBody().add(body);
 		oe.getLanguage().clear();
@@ -63,7 +59,7 @@ public class OpaqueExpression extends CommonElement {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = f.createOpaqueExpressionInstance();
 		((NamedElement)oe).setName(name);
 		
-		setOwner(project, owner);
+		setOwner(owner);
 		
 		oe.getBody().add(body);
 		oe.getLanguage().clear();
@@ -73,44 +69,60 @@ public class OpaqueExpression extends CommonElement {
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
+	public org.w3c.dom.Element writeToXML(Element element) {
 		Element owner = element.getOwner();
 		// OpaqueExpressions of Control Flows and Object flows will be captured as attributes due to EA's limitations
 		// Abstract to list of elements that are treatd similarly in SysmlConstants.
 		if(owner instanceof ControlFlow || owner instanceof ObjectFlow) {
 			return null;
 		}
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+		
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)element;
-		List<String> bodies = oe.getBody();
-		List<String> languages = oe.getLanguage();
-		String body = null;
-		String language = null;
-		
-		Iterator<String> bodyIter = bodies.iterator();
-		Iterator<String> langIter = languages.iterator();
-		
-		if(bodyIter.hasNext()) {
-			body = bodyIter.next();
-		}
-		
-		if(langIter.hasNext()) {
-			language = langIter.next();
-		}
-		
-		if(body != null && !body.isEmpty()) {
-			org.w3c.dom.Element bodyTag = createStringAttribute(xmlDoc, BODY, body);
-			attributes.appendChild(bodyTag);
-		}
-		
-		if(language != null && !language.isEmpty()) {
-			org.w3c.dom.Element langTag = createStringAttribute(xmlDoc, LANGUAGE, language);
-			attributes.appendChild(langTag);
-		}
-		
+		writeBody(attributes, element);
+		writeLanguage(attributes, element);
+
 		return data;
 	}
 	
+	private void writeBody(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)element;
+		
+		List<String> bodies = oe.getBody();
+		Iterator<String> bodyIter = bodies.iterator();
+		
+		if(!bodyIter.hasNext()) {
+			return;
+		}
+		
+		String body = bodyIter.next();
+		
+		if(body == null || body.trim().isEmpty()) {
+			return;
+		}
+		
+		org.w3c.dom.Element bodyTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.BODY, body);
+		XmlWriter.add(attributes, bodyTag);
+	}
+	
+	public void writeLanguage(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression oe = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression)element;
+		
+		List<String> languages = oe.getLanguage();
+		Iterator<String> langIter = languages.iterator();
+		
+		if(!langIter.hasNext()) {
+			return;
+		}
+		
+		String language = langIter.next();
+		
+		if(language == null || language.trim().isEmpty()) {
+			return;
+		}
+		
+		org.w3c.dom.Element langTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.LANGUAGE, language);
+		XmlWriter.add(attributes, langTag);
+	}
 }

@@ -51,7 +51,6 @@ import org.aero.mtip.ModelElements.Block.InstanceSpecification;
 import org.aero.mtip.ModelElements.Block.Interface;
 import org.aero.mtip.ModelElements.Block.InterfaceBlock;
 import org.aero.mtip.ModelElements.Block.InterfaceRealization;
-import org.aero.mtip.ModelElements.Block.Note;
 import org.aero.mtip.ModelElements.Block.Operation;
 import org.aero.mtip.ModelElements.Block.PartProperty;
 import org.aero.mtip.ModelElements.Block.Port;
@@ -74,7 +73,6 @@ import org.aero.mtip.ModelElements.InternalBlock.InternalBlockDiagram;
 import org.aero.mtip.ModelElements.InternalBlock.ItemFlow;
 import org.aero.mtip.ModelElements.InternalBlock.ParticipantProperty;
 import org.aero.mtip.ModelElements.InternalBlock.ReferenceProperty;
-import org.aero.mtip.ModelElements.InternalBlock.RequiredInterface;
 import org.aero.mtip.ModelElements.Matrix.AllocationMatrix;
 import org.aero.mtip.ModelElements.Matrix.DependencyMatrix;
 import org.aero.mtip.ModelElements.Matrix.DeriveRequirementMatrix;
@@ -103,7 +101,9 @@ import org.aero.mtip.ModelElements.Requirements.RequirementsDiagram;
 import org.aero.mtip.ModelElements.Sequence.Collaboration;
 import org.aero.mtip.ModelElements.Sequence.CombinedFragment;
 import org.aero.mtip.ModelElements.Sequence.DestructionOccurrenceSpecification;
+import org.aero.mtip.ModelElements.Sequence.Duration;
 import org.aero.mtip.ModelElements.Sequence.DurationConstraint;
+import org.aero.mtip.ModelElements.Sequence.DurationInterval;
 import org.aero.mtip.ModelElements.Sequence.DurationObservation;
 import org.aero.mtip.ModelElements.Sequence.Interaction;
 import org.aero.mtip.ModelElements.Sequence.InteractionOperand;
@@ -356,7 +356,7 @@ public class CommonElementsFactory {
 	public CommonElement createElement(String type, String name, String EAID) {
 		CommonElement element = null;
 		switch(type) {
-			case SysmlConstants.ACCEPTEVENTACTION:
+			case SysmlConstants.ACCEPT_EVENT_ACTION:
 				element = new AcceptEventAction(name, EAID);
 				break;
 			case SysmlConstants.ACTION:
@@ -365,302 +365,304 @@ public class CommonElementsFactory {
 			case SysmlConstants.ACTIVITY:
 				element = new Activity(name, EAID);
 				break;
-			case SysmlConstants.ACTIVITYFINALNODE:
+			case SysmlConstants.ACTIVITY_FINAL_NODE:
 				element = new ActivityFinalNode(name, EAID);
 				break;
-			case SysmlConstants.ACTIVITYPARAMETERNODE:
+			case SysmlConstants.ACTIVITY_PARAMETER_NODE:
 				element = new ActivityParameterNode(name, EAID);
 				break;
-			case SysmlConstants.ACTIVITYPARTITION:
+			case SysmlConstants.ACTIVITY_PARTITION:
 				element = new ActivityPartition(name, EAID);
 				break;
 			case SysmlConstants.ACTOR:
 				element = new Actor(name, EAID);
 				break;
-//			case "Attribute":
-//				element = new Attribute(name, EAID);
-//				break;
-			case SysmlConstants.ASSOCIATIONBLOCK:
+			case SysmlConstants.ASSOCIATION_BLOCK:
 				element = new AssociationBlock(name, EAID);
 				break;
-			case SysmlConstants.BOUNDREFERENCE:
+			case SysmlConstants.BOUND_REFERENCE:
 				element = new BoundReference(name, EAID);
 				break;
 			case SysmlConstants.BLOCK:
 				element = new Block(name, EAID);
 				break;
-			case SysmlConstants.CALLBEHAVIORACTION:
+			case SysmlConstants.CALL_BEHAVIOR_ACTION:
 				element = new CallBehaviorAction(name, EAID);
 				break;
-			case SysmlConstants.CALLOPERATIONACTION:
+			case SysmlConstants.CALL_OPERATION_ACTION:
 				element = new CallOperationAction(name, EAID);
 				break;
-			case SysmlConstants.CENTRALBUFFERNODE:
+			case SysmlConstants.CENTRAL_BUFFER_NODE:
 				element = new CentralBufferNode(name, EAID);
 				break;
-			case SysmlConstants.CHOICEPSEUDOSTATE:
+			case SysmlConstants.CHOICE_PSEUDO_STATE:
 				element = new ChoicePseudoState(name, EAID);
 				break;
-			case SysmlConstants.CHANGEEVENT:
+			case SysmlConstants.CHANGE_EVENT:
 				element = new ChangeEvent(name, EAID);
 				break;
 			case SysmlConstants.CLASS:
 				element = new Class(name, EAID);
 				break;
-			case SysmlConstants.CLASSIFIERBEHAVIORPROPERTY:
+			case SysmlConstants.CLASSIFIER_BEHAVIOR_PROPERTY:
 				element = new ClassifierBehaviorProperty(name, EAID);
 				break;
 			case SysmlConstants.COLLABORATION:
 				element = new Collaboration(name, EAID);
 				break;
-			case "CombinedFragment":
+			case SysmlConstants.COMBINED_FRAGMENT:
 				element = new CombinedFragment(name, EAID);
 				break;
 			case SysmlConstants.COMMENT:
 				element = new Comment(name, EAID);
 				break;
-			case "ConditionalNode":
+			case SysmlConstants.CONDITIONAL_NODE:
 				element = new ConditionalNode(name, EAID);
 				break;
-			case SysmlConstants.CONNECTIONPOINTREFERENCE:
+			case SysmlConstants.CONNECTION_POINT_REFERENCE:
 				element = new ConnectionPointReference(name, EAID);
 				break;
 			case SysmlConstants.CONSTRAINT:
 				element = new Constraint(name, EAID);
 				break;
-			case "ConstraintBlock":
+			case SysmlConstants.CONSTRAINT_BLOCK:
 				element = new ConstraintBlock(name, EAID);
 				break;
-			case SysmlConstants.CONSTRAINTPARAMETER:
+			case SysmlConstants.CONSTRAINT_PARAMETER:
 				element = new ConstraintParameter(name, EAID);
 				break;
-			case SysmlConstants.CONSTRAINTPROPERTY:
+			case SysmlConstants.CONSTRAINT_PROPERTY:
 				element = new ConstraintProperty(name, EAID);
 				break;
-			case "CreateObjectAction":
+			case SysmlConstants.CREATE_OBJECT_ACTION:
 				element = new CreateObjectAction(name, EAID);
 				break;
 			case SysmlConstants.CUSTOMIZATION:
 				element = new Customization(name, EAID);
 				break;
-			case "DataStoreNode":
+			case SysmlConstants.DATA_STORE_NODE:
 				element = new DataStoreNode(name, EAID);
 				break;
-			case "DecisionNode":
+			case SysmlConstants.DECISION_NODE:
 				element = new DecisionNode(name, EAID);
 				break;
-			case SysmlConstants.DEEPHISTORY:
+			case SysmlConstants.DEEP_HISTORY:
 				element = new DeepHistory(name, EAID);
 				break;
-			case "DesignConstraint":
+			case SysmlConstants.DESIGN_CONSTRAINT:
 				element = new DesignConstraint(name, EAID);
 				break;
-			case "DestroyObjectAction":
+			case SysmlConstants.DESTROY_OBJECT_ACTION:
 				element = new DestroyObjectAction(name, EAID);
 				break;
-			case SysmlConstants.DESTRUCTIONOCCURRENCESPECIFICATION:
+			case SysmlConstants.DESTRUCTION_OCCURRENCE_SPECIFICATION:
 				element = new DestructionOccurrenceSpecification(name, EAID);
 				break;
-			case SysmlConstants.DURATIONCONSTRAINT:
+			case SysmlConstants.DURATION:
+				element = new Duration(name, EAID);
+				break;
+			case SysmlConstants.DURATION_CONSTRAINT:
 				element = new DurationConstraint(name, EAID);
 				break;
-			case SysmlConstants.DURATIONOBSERVATION:
+			case SysmlConstants.DURATION_INTERVAL:
+				element = new DurationInterval(name, EAID);
+				break;
+			case SysmlConstants.DURATION_OBSERVATION:
 				element = new DurationObservation(name, EAID);
 				break;
-			case SysmlConstants.ENTRYPOINT:
+			case SysmlConstants.ENTRY_POINT:
 				element = new EntryPoint(name, EAID);
 				break;
-			case "Enumeration":
+			case SysmlConstants.ENUMERATION:
 				element = new Enumeration(name, EAID);
 				break;
-			case SysmlConstants.ENUMERATIONLITERAL:
+			case SysmlConstants.ENUMERATION_LITERAL:
 				element = new EnumerationLiteral(name, EAID);
 				break;
-			case "ExitPoint":
+			case SysmlConstants.EXIT_POINT:
 				element = new ExitPoint(name, EAID);
 				break;
-			case "ExtendedRequirement":
+			case SysmlConstants.EXTENDED_REQUIREMENT:
 				element = new ExtendedRequirement(name, EAID);
 				break;
-			case SysmlConstants.EXTENSIONPOINT:
+			case SysmlConstants.EXTENSION_POINT:
 				element = new ExtensionPoint(name, EAID);
 				break;
-			case "FinalState":
+			case SysmlConstants.FINAL_STATE:
 				element = new FinalState(name, EAID);
 				break;
-			case "FlowFinalNode":
+			case SysmlConstants.FLOW_FINAL_NODE:
 				element = new FlowFinalNode(name, EAID);
 				break;
 			case SysmlConstants.FORK:
 				element = new Fork(name, EAID);
 				break;
-			case SysmlConstants.FLOWPORT:
+			case SysmlConstants.FLOW_PORT:
 				element = new FlowPort(name, EAID);
 				break;
-			case SysmlConstants.FLOWPROPERTY:
+			case SysmlConstants.FLOW_PROPERTY:
 				element = new FlowProperty(name, EAID);
 				break;
-			case SysmlConstants.FLOWSPECIFICATION:
+			case SysmlConstants.FLOW_SPECFICATION:
 				element = new FlowSpecification(name, EAID);
 				break;
-			case "ForkNode":
+			case SysmlConstants.FORK_NODE:
 				element = new ForkNode(name, EAID);
 				break;
-			case "FullPort":
+			case SysmlConstants.FULL_PORT:
 				element = new FullPort(name, EAID);
 				break;
-			case "FunctionalRequirement":
+			case SysmlConstants.FUNCTIONAL_REQUIREMENT:
 				element = new FunctionalRequirement(name, EAID);
 				break;
-			case SysmlConstants.FUNCTIONBEHAVIOR:
+			case SysmlConstants.FUNCTION_BEHAVIOR:
 				element = new FunctionBehavior(name, EAID);
 				break;
-			case SysmlConstants.INFORMATIONITEM:
+			case SysmlConstants.INFORMATION_ITEM:
 				element = new InformationItem(name, EAID);
 				break;
-			case "InitialNode":
+			case SysmlConstants.INITIAL_NODE:
 				element = new InitialNode(name, EAID);
 				break;
-			case "InitialPseudoState":
+			case SysmlConstants.INITIAL_PSEUDO_STATE:
 				element = new InitialPseudoState(name, EAID);
 				break;
-			case "InputPin":
+			case SysmlConstants.INPUT_PIN:
 				element = new InputPin(name, EAID);
 				break;
-			case SysmlConstants.INSTANCESPECIFICATION:
+			case SysmlConstants.INSTANCE_SPECIFICATION:
 				element = new InstanceSpecification(name, EAID);
 				break;
 			case SysmlConstants.INTERACTION:
 				element = new Interaction(name, EAID);
 				break;
-			case SysmlConstants.INTERACTIONOPERAND:
+			case SysmlConstants.INTERACTION_OPERAND:
 				element = new InteractionOperand(name, EAID);
 				break;
-			case "InteractionUse":
+			case SysmlConstants.INTERACTION_USE:
 				element = new InteractionUse(name, EAID);
 				break;
 			case SysmlConstants.INTERFACE:
 				element = new Interface(name, EAID);
 				break;
-			case "InterfaceBlock":
+			case SysmlConstants.INTERFACE_BLOCK:
 				element = new InterfaceBlock(name, EAID);
 				break;
-			case SysmlConstants.INTERFACEREALIZATION:
+			case SysmlConstants.INTERFACE_REALIZATION:
 				element = new InterfaceRealization(name, EAID);
 				break;
-			case "InterfaceRequirement":
+			case SysmlConstants.INTERFACE_REQUIREMENT:
 				element = new InterfaceRequirement(name, EAID);
 				break;
-			case SysmlConstants.INTERRUPTIBLEACTIVITYREGION:
+			case SysmlConstants.INTERRUPTIBLE_ACTIVITY_REGION:
 				element = new InterruptibleActivityRegion(name, EAID);
 				break;
-			case SysmlConstants.ITEMFLOW:
+			case SysmlConstants.ITEM_FLOW:
 				element = new ItemFlow(name, EAID);
 				break;
 			case SysmlConstants.JOIN:
 				element = new Join(name, EAID);
 				break;
-			case "JoinNode":
+			case SysmlConstants.JOIN_NODE:
 				element = new JoinNode(name, EAID);
 				break;
-			case "Lifeline":
+			case SysmlConstants.LIFELINE:
 				element = new Lifeline(name, EAID);
 				break;
 			case SysmlConstants.LINK:
 				element = new Link(name, EAID);
 				break;
-			case "LoopNode":
+			case SysmlConstants.LOOP_NODE:
 				element = new LoopNode(name, EAID);
 				break;
 			case SysmlConstants.METACLASS:
 				element = new MetaClass(name, EAID);
 				break;
-			case "MergeNode":
+			case SysmlConstants.MERGE_NODE:
 				element = new MergeNode(name, EAID);
 				break;
 			case SysmlConstants.MESSAGE:
 				element = new Message(name, EAID);
 				break;
-			case SysmlConstants.MESSAGEOCCURRENCESPECIFICATION:
+			case SysmlConstants.MESSAGE_OCCURRENCE_SPECIFICATION:
 				element = new MessageOccurrenceSpecification(name, EAID);
 				break;
-			case "Model":
+			case SysmlConstants.MODEL:
 				element = new Model(name, EAID);
 				break;
-			case "Note":
-				element = new Note(name, EAID);
-				break;
-			case "OpaqueAction":
+//			case SysmlConstants.NOTE:
+//				element = new Note(name, EAID);
+//				break;
+			case SysmlConstants.OPAQUE_ACTION:
 				element = new OpaqueAction(name, EAID);
 				break;
-			case SysmlConstants.OPAQUEBEHAVIOR:
+			case SysmlConstants.OPAQUE_BEHAVIOR:
 				element = new OpaqueBehavior(name, EAID);
 				break;
-			case SysmlConstants.OPAQUEEXPRESSION:
+			case SysmlConstants.OPAQUE_EXPRESSION:
 				element = new OpaqueExpression(name, EAID);
 				break;
-			case "Operation":
+			case SysmlConstants.OPERATION:
 				element = new Operation(name, EAID);
 				break;
-			case "OutputPin":
+			case SysmlConstants.OUTPUT_PIN:
 				element = new OutputPin(name, EAID);
 				break;
-			case "Package":
+			case SysmlConstants.PACKAGE:
 				element = new SysmlPackage(name, EAID);
 				break;
 			case SysmlConstants.PARAMETER:
 				element = new Parameter(name, EAID);
 				break;
-			case SysmlConstants.PARTICIPANTPROPERTY:
+			case SysmlConstants.PARTICIPANT_PROPERTY:
 				element = new ParticipantProperty(name, EAID);
 				break;
-			case "PartProperty":
+			case SysmlConstants.PART_PROPERTY:
 				element = new PartProperty(name, EAID);
 				break;
-			case "PerformanceRequirement":
+			case SysmlConstants.PERFORMANCE_REQUIREMENT:
 				element = new PerformanceRequirement(name, EAID);
 				break;
-			case "PhysicalRequirement":
+			case SysmlConstants.PHYSICAL_REQUIREMENT:
 				element = new PhysicalRequirement(name, EAID);
 				break;
-			case "Port":
+			case SysmlConstants.PORT:
 				element = new Port(name, EAID);
 				break;
-			case "Profile":
+			case SysmlConstants.PROFILE:
 				element = new Profile(name, EAID);
 				break;
-			// Property vs PartProperty - EA treats the same? Check if parent is block?
-			case "Property":
+			case SysmlConstants.PROPERTY:
 				element = new Property(name, EAID);
 				break;
-			case "ProxyPort":
+			case SysmlConstants.PROXY_PORT:
 				element = new ProxyPort(name, EAID);
 				break;
-			case SysmlConstants.QUANTITYKIND:
+			case SysmlConstants.QUANTITY_KIND:
 				element = new QuantityKind(name, EAID);
 				break;
-			case SysmlConstants.REFERENCEPROPERTY:
+			case SysmlConstants.REFERENCE_POINT:
 				element = new ReferenceProperty(name, EAID);
 				break;
 			case SysmlConstants.REGION:
 				element = new Region(name, EAID);
 				break;
-			case "RequiredInterface":
-				element = new RequiredInterface(name, EAID);
-				break;
-			case "Requirement":
+//			case SysmlConstants.REQUIRED_INTERFACE:
+//				element = new RequiredInterface(name, EAID);
+//				break;
+			case SysmlConstants.REQUIREMENT:
 				element = new Requirement(name, EAID);
 				break;
-			case SysmlConstants.SENDSIGNALACTION:
+			case SysmlConstants.SEND_SIGNAL_ACTION:
 				element = new SendSignalAction(name, EAID);
 				break;
-			case SysmlConstants.SHALLOWHISTORY:
+			case SysmlConstants.SHALLOW_HISTORY:
 				element = new ShallowHistory(name, EAID);
 				break;
-			case "Signal":
+			case SysmlConstants.SIGNAL:
 				element = new Signal(name, EAID);
 				break;
-			case SysmlConstants.SIGNALEVENT:
+			case SysmlConstants.SIGNAL_EVENT:
 				element = new SignalEvent(name, EAID);
 				break;
 			case SysmlConstants.SLOT:
@@ -672,10 +674,10 @@ public class CommonElementsFactory {
 			case SysmlConstants.STATE:
 				element = new State(name, EAID);
 				break;
-			case SysmlConstants.STATEINVARIANT:
+			case SysmlConstants.STATE_INVARIANT:
 				element = new StateInvariant(name, EAID);
 				break;
-			case SysmlConstants.STATEMACHINE:
+			case SysmlConstants.STATE_MACHINE:
 				element = new StateMachine(name, EAID);
 				break;
 			case SysmlConstants.STEREOTYPE:
@@ -684,16 +686,16 @@ public class CommonElementsFactory {
 			case SysmlConstants.TERMINATE:
 				element = new Terminate(name, EAID);
 				break;
-			case SysmlConstants.TIMECONSTRAINT:
+			case SysmlConstants.TIME_CONSTRAINT:
 				element = new TimeConstraint(name, EAID);
 				break;
-			case SysmlConstants.TIMEEVENT:
+			case SysmlConstants.TIME_EVENT:
 				element = new TimeEvent(name, EAID);
 				break;
-			case SysmlConstants.TIMEEXPRESSION:
+			case SysmlConstants.TIME_EXPRESSION:
 				element = new TimeExpression(name, EAID);
 				break;
-			case SysmlConstants.TIMEOBSERVATION:
+			case SysmlConstants.TIME_OBSERVATION:
 				element = new TimeObservation(name, EAID);
 				break;
 			case SysmlConstants.TRIGGER:
@@ -702,13 +704,13 @@ public class CommonElementsFactory {
 			case SysmlConstants.UNIT:
 				element = new Unit(name, EAID);
 				break;
-			case "UseCase":
+			case SysmlConstants.USE_CASE:
 				element = new UseCase(name, EAID);
 				break;
-			case "ValueProperty":
+			case SysmlConstants.VALUE_PROPERTY:
 				element = new ValueProperty(name, EAID);
 				break;
-			case "ValueType":
+			case SysmlConstants.VALUE_TYPE:
 				element = new ValueType(name, EAID);
 				break;
 			case SysmlConstants.VIEW:
@@ -731,7 +733,7 @@ public class CommonElementsFactory {
 			case SysmlConstants.SYSTEM:
 				element = new System(name, EAID);
 				break;
-			case SysmlConstants.SYSTEMCONTEXT:
+			case SysmlConstants.SYSTEM_CONTEXT:
 				element = new SystemContext(name, EAID);
 				break;
 				
@@ -1266,9 +1268,10 @@ public class CommonElementsFactory {
 			case UAFConstants.SOFTWARE:
 				element = new Software(name, EAID);
 				break;
-			case UAFConstants.SYSTEM:
-				element = new System(name, EAID);
-				break;
+				// TODO: Fix conflcit between UAFConstants.SYSTEM and MD System
+//			case UAFConstants.SYSTEM:
+//				element = new System(name, EAID);
+//				break;
 			case UAFConstants.RESOURCE_INTERFACE:
 				element = new ResourceInterface(name, EAID);
 				break;
@@ -1404,7 +1407,7 @@ public class CommonElementsFactory {
 				element = new StandardsStructure(name, EAID);
 				break;
 
-			//Parameters //TODO
+			//Parameters
 			case UAFConstants.ACTUAL_CONDITION:
 				element= new ActualCondition(name, EAID);
 				break;
@@ -1460,9 +1463,11 @@ public class CommonElementsFactory {
 			default:
 				break;
 		}
+		
 		if(element == null) {
-			CameoUtils.logGUI("Element of type " + type + " not supported by CommonElementsFactory.");
+			CameoUtils.logGUI(String.format("Element of type %s not supported by CommonElementsFactory.", type));
 		}
+		
 		return element;	
 	}
 }

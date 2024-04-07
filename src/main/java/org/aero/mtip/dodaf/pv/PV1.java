@@ -11,7 +11,6 @@ public class PV1 extends AbstractDiagram {
 		this.metamodelConstant = DoDAFConstants.PV1;
 		this.xmlConstant = XmlTagConstants.PV1;
 		this.cameoDiagramConstant = "PV-1 Project Portfolio Relationships";
-		this.allowableElements = DoDAFConstants.PV1_TYPES;
 	}
 
 	@Override

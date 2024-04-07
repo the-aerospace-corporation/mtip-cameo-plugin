@@ -12,6 +12,5 @@ public class OperationalConstraintsDefinition extends AbstractDiagram {
 		this.metamodelConstant = UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_CONSTRAINTS_DEFINITION;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_CONSTRAINTS_DEFINITION;
-		this.allowableElements = UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION_TYPES;
 	}
 }

@@ -12,6 +12,5 @@ public class OperationalProcesses extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.OPERATIONAL_PROCESSES;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_PROCESSES;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_PROCESSES;
-		this.allowableElements = UAFConstants.OPERATIONAL_PROCESSES_TYPES;
 	}
 }

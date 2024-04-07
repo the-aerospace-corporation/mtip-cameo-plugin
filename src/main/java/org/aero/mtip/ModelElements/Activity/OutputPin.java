@@ -8,12 +8,12 @@ package org.aero.mtip.ModelElements.Activity;
 
 import java.util.HashMap;
 
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -23,8 +23,8 @@ public class OutputPin extends CommonElement {
 	public OutputPin(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.OUTPUTPIN;
-		this.xmlConstant = XmlTagConstants.OUTPUTPIN;
+		this.metamodelConstant = SysmlConstants.OUTPUT_PIN;
+		this.xmlConstant = XmlTagConstants.OUTPUT_PIN;
 		this.element = f.createOutputPinInstance();
 	}
 	
@@ -45,15 +45,16 @@ public class OutputPin extends CommonElement {
 		super.createDependentElements(project, parsedXML, modelElement);
 		if(modelElement.hasAttribute(XmlTagConstants.SYNC_ELEMENT)) {
 			String syncElementId = modelElement.getAttribute(XmlTagConstants.SYNC_ELEMENT);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(syncElementId), syncElementId);
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(syncElementId));
 		}
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		if(!(owner instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.Action)) {
 			owner = CameoUtils.findNearestActivity(project, owner);
 		}
+
 		element.setOwner(owner);
 	}
 }

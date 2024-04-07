@@ -12,6 +12,5 @@ public class PersonnelStates extends StateMachineDiagram {
 		 this.metamodelConstant = UAFConstants.PERSONNEL_STATES_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PERSONNEL_STATES_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.PERSONNEL_STATES;
-		 this.allowableElements = UAFConstants.PR_ST_TYPES;
 	}
 }

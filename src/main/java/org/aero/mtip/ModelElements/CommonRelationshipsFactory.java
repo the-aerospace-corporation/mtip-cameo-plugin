@@ -20,6 +20,7 @@ import org.aero.mtip.ModelElements.Requirements.Refine;
 import org.aero.mtip.ModelElements.Requirements.Satisfy;
 import org.aero.mtip.ModelElements.Requirements.Trace;
 import org.aero.mtip.ModelElements.Requirements.Verify;
+import org.aero.mtip.ModelElements.Sequence.Message;
 import org.aero.mtip.ModelElements.StateMachine.Transition;
 import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
@@ -82,7 +83,7 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.ASSOCIATION:
 				relationship = new Association(name, EAID);
 				break;
-			case SysmlConstants.BINDINGCONNECTOR:
+			case SysmlConstants.BINDING_CONNECTOR:
 				relationship = new BindingConnector(name, EAID);
 				break;
 			case SysmlConstants.COMPOSITION:
@@ -94,10 +95,10 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.CONNECTOR:
 				relationship = new Connector(name, EAID);
 				break;
-			case SysmlConstants.CONTROLFLOW:
+			case SysmlConstants.CONTROL_FLOW:
 				relationship = new ControlFlow(name, EAID);
 				break;
-			case SysmlConstants.DERIVEREQUIREMENT:
+			case SysmlConstants.DERIVE_REQUIREMENT:
 				relationship = new DeriveRequirement(name, EAID);
 				break;
 			case SysmlConstants.DEPENDENCY:
@@ -115,16 +116,19 @@ public class CommonRelationshipsFactory {
 			case SysmlConstants.INCLUDE:
 				relationship = new Include(name, EAID);
 				break;
-			case SysmlConstants.INFORMATIONFLOW:
+			case SysmlConstants.INFORMATION_FLOW:
 				relationship = new InformationFlow(name, EAID);
 				break;
-			case SysmlConstants.ITEMFLOW:
+			case SysmlConstants.ITEM_FLOW:
 				relationship = new ItemFlow(name, EAID);
 				break;
-			case SysmlConstants.OBJECTFLOW:
+			case SysmlConstants.MESSAGE:
+				relationship = new Message(name, EAID);
+				break;
+			case SysmlConstants.OBJECT_FLOW:
 				relationship = new ObjectFlow(name, EAID);
 				break;
-			case SysmlConstants.PACKAGEIMPORT:
+			case SysmlConstants.PACKAGE_IMPORT:
 				relationship = new PackageImport(name, EAID);
 				break;
 			case SysmlConstants.REFINE:

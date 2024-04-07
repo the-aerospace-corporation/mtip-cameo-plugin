@@ -14,8 +14,8 @@ public class ChangeEvent extends ActivityNode {
 	public ChangeEvent(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.CHANGEEVENT;
-		this.xmlConstant = XmlTagConstants.CHANGEEVENT;
+		this.metamodelConstant = SysmlConstants.CHANGE_EVENT;
+		this.xmlConstant = XmlTagConstants.CHANGE_EVENT;
 		this.element = f.createChangeEventInstance();
 	}
 }

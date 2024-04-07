@@ -21,7 +21,7 @@ public class StateMachine extends CommonElement {
 	public StateMachine(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.STATEMACHINE;
+		this.metamodelConstant = SysmlConstants.STATE_MACHINE;
 		this.xmlConstant = XmlTagConstants.STATEMACHINE;
 		this.element = f.createStateMachineInstance();
 		
@@ -40,7 +40,7 @@ public class StateMachine extends CommonElement {
 		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
 			String submachineID = modelElement.getSubmachine();
 			XMLItem submachine = parsedXML.get(submachineID);
-			Element submachineElement = ImportXmlSysml.buildElement(project, parsedXML, submachine, submachineID);
+			Element submachineElement = ImportXmlSysml.buildElement(project, parsedXML, submachine);
 			modelElement.setNewSubmachineID(submachineElement.getID());
 		}
 	}

@@ -23,8 +23,8 @@ public class ConstraintBlock extends CommonElement {
 	public ConstraintBlock(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.CONSTRAINTBLOCK;
-		this.xmlConstant = XmlTagConstants.CONSTRAINTBLOCK;
+		this.metamodelConstant = SysmlConstants.CONSTRAINT_BLOCK;
+		this.xmlConstant = XmlTagConstants.CONSTRAINT_BLOCK;
 		this.element = f.createClassInstance();
 	}
 

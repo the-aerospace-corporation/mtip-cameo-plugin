@@ -12,6 +12,5 @@ public class StrategicTaxonomy extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.STRATEGIC_TAXONOMY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.STRATEGIC_TAXONOMY_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.STRATEGIC_TAXONOMY;
-		 this.allowableElements = UAFConstants.ST_TX_TYPES;
 	}
 }

@@ -14,9 +14,8 @@ public class TimeConstraint extends CommonElement {
 	public TimeConstraint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.TIMECONSTRAINT;
+		this.metamodelConstant = SysmlConstants.TIME_CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.TIMECONSTRAINT;
 		this.element = f.createTimeConstraintInstance();
 	}
-
 }

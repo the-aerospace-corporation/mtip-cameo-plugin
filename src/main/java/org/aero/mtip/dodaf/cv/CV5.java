@@ -11,7 +11,6 @@ public class CV5 extends ClassDiagram {
 		this.metamodelConstant = DoDAFConstants.CV5;
 		this.xmlConstant = XmlTagConstants.CV5;
 		this.cameoDiagramConstant = "DODAF2_CV-5";
-		this.allowableElements = DoDAFConstants.CV5_TYPES;
 	}
 	
 	@Override

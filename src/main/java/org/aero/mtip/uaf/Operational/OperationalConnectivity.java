@@ -12,6 +12,5 @@ public class OperationalConnectivity extends AbstractDiagram {
 		this.metamodelConstant = UAFConstants.OPERATIONAL_CONNECTIVITY;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_CONNECTIVITY;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_CONNECTIVITY;
-		this.allowableElements = UAFConstants.OPERATIONAL_CONNECTIVITY_TYPES;
 	}
 }

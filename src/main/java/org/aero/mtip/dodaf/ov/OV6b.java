@@ -11,7 +11,6 @@ public class OV6b extends StateMachineDiagram {
 		this.metamodelConstant = DoDAFConstants.OV6B;
 		this.xmlConstant = XmlTagConstants.OV6B;
 		this.cameoDiagramConstant = "OV-6b Operational State Transition Description";
-		this.allowableElements = DoDAFConstants.OV6B_TYPES;
 	}
 	
 	@Override

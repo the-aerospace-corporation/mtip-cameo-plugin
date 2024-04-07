@@ -8,11 +8,9 @@ package org.aero.mtip.XML.Export;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 
@@ -21,13 +19,13 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
-import org.aero.mtip.constants.DoDAFConstants;
 import org.aero.mtip.constants.SysmlConstants;
-import org.aero.mtip.constants.UAFConstants;
-import org.aero.mtip.uaf.UAFProfile;
+import org.aero.mtip.profiles.MDForSysMLExtensions;
+import org.aero.mtip.profiles.MagicDraw;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ExportLog;
-import org.w3c.dom.Document;
+import org.aero.mtip.util.MTIPUtils;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -36,7 +34,6 @@ import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
-import com.nomagic.magicdraw.uml.symbols.shapes.DiagramLegendShape;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.ActionClass;
@@ -77,16 +74,23 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
@@ -97,10 +101,14 @@ import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEve
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.TimeEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationConstraint;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationInterval;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationObservation;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeConstraint;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeExpression;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeObservation;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdcollaborations.Collaboration;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.DestructionOccurrenceSpecification;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Interaction;
@@ -127,170 +135,120 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
-import com.nomagic.magicdraw.uml.BaseElement;
-import com.nomagic.magicdraw.uml.ClassTypes;
-
 public class ExportXmlSysml {
-	private static HashMap<String, String> exportedElements = new HashMap<String, String>();
+	private static HashSet<String> exportedElements = new HashSet<String>();
+	private static HashSet<String> implicitElements = new HashSet<String>();
 	public static Project project;
-	public static String metamodel;
-
-	public static void buildXML(Document xmlDoc, File file, Package packageElement) {
+	
+	public static void buildXML(File file, Package packageElement) {
 		project = Application.getInstance().getProject();
-		exportedElements = new HashMap<String, String>();
-		org.w3c.dom.Element root = xmlDoc.createElement("packet");
-		xmlDoc.appendChild(root);
-
-		Project project = Application.getInstance().getProject();
-		Package primary = project.getPrimaryModel();
-
-		metamodel = CameoUtils.determineMetamodel(project);
-
-		CameoUtils.logGUI("Exporting project with " + metamodel + " metamodel.");
-
-		if(packageElement != null) {
-			exportPackageRecursive((Package)packageElement, project, xmlDoc);
-		} else {
-			exportPackageRecursive(primary, project, xmlDoc);
-		}
+		exportedElements = new HashSet<String>();
+		implicitElements = new HashSet<String>();
+		
+		if (packageElement == null) {
+			packageElement = project.getPrimaryModel();
+		}		
+		
+		exportPackageRecursive((Package)packageElement);
+		
+		ExportLog.logSummary(exportedElements);
 		ExportLog.save();
 		ExportLog.reset();
 	}
-
-	public static void buildXMLFromDiagram(Document xmlDoc, File file, DiagramPresentationElement diagramPresentationElement) {
-		//TODO: Export dependent elements such as behaviors, etc.
+	
+	public static void buildXMLFromDiagram(File file, DiagramPresentationElement diagramPresentationElement) {
 		project = Application.getInstance().getProject();
-		exportedElements = new HashMap<String, String>();
-		org.w3c.dom.Element root = xmlDoc.createElement("packet");
-		xmlDoc.appendChild(root);
-		ExportXmlSysml.metamodel = CameoUtils.determineMetamodel(project);
-
+		exportedElements = new HashSet<String>();
+		implicitElements = new HashSet<String>();
+		
 		Element diagramElement = diagramPresentationElement.getElement();
-		exportElementRecursiveUp(diagramElement, xmlDoc);
+		exportElementRecursiveUp(diagramElement);
 		
 		// Ensures elements at the sibling level of the diagram are captured regardless of nesting object structure of presentation elements
-		exportElementRecursive(diagramElement.getOwner(), project, xmlDoc);
+		exportElementRecursive(diagramElement.getOwner());
 
 		//Add hook to get nested presentation elements due to encapsulation of diagrams
-		exportDiagramElementRecursive(xmlDoc, file, diagramPresentationElement);
+		exportDiagramElementRecursive(file, diagramPresentationElement);
 		
 		ExportLog.save();
 		ExportLog.reset();		
 	}
 	
-	public static void exportDiagramElementRecursive(Document xmlDoc, File file, PresentationElement presentationElement) {
+	public static void exportDiagramElementRecursive(File file, PresentationElement presentationElement) {
 		List<PresentationElement> presentationElements = presentationElement.getPresentationElements();		
 		for(int i = 0; i < presentationElements.size(); i++) {
 			Element element = presentationElements.get(i).getElement();
-			if(element != null) {
-				exportElementRecursiveUp(element, xmlDoc);
+			
+			if(element == null) {
+				continue;
 			} 
-			if(!(presentationElement instanceof DiagramLegendShape)) {
-				exportDiagramElementRecursive(xmlDoc, file, presentationElements.get(i));
-			}		
+
+			exportElementRecursiveUp(element);			
 		}
+		
+		ExportLog.logSummary(exportedElements);
+		ExportLog.save();
+		ExportLog.reset();
 	}
+	
 	/**
 	 * 
 	 * @param element Element to be exported. This begins at an arbitrary level of nested within the model.
 	 * @param project Current project being exported
 	 * @param xmlDoc XML Document representing the model being exported
 	 */
-	public static void exportElementRecursiveUp(Element element, Document xmlDoc) {
-		//Find any parent element and export recursively
+	public static void exportElementRecursiveUp(Element element) {
 		Element parent = element.getOwner();
-		if(parent != null) {
-			if(!parent.equals(project.getPrimaryModel())) {
-				exportElementRecursiveUp(parent, xmlDoc);
-			}
-			ExportLog.log("Parent element of element with id " + element.getID() + " is null.");
-			CameoUtils.logGUI("Parent element of element with id " + element.getID() + " is null.");
-		}
 		
-		if(ModelHelper.isRelationship(element)) {
-			Element client = ModelHelper.getClientElement(element);
-			if(client != null) {
-				exportElementRecursiveUp(client, xmlDoc);
-			}
-			Element supplier = ModelHelper.getSupplierElement(element);
-			if(supplier != null) {
-				exportElementRecursiveUp(supplier, xmlDoc);
-			}
+		if(parent != null) {
+			exportElementRecursiveUp(parent);
 		}
 		
 		if(element instanceof TypedElement) {
 			TypedElement typedElement = (TypedElement)element;
 			Type type = typedElement.getType();
+			
 			if(type != null) {
-				exportElementRecursiveUp(type, xmlDoc);
+				exportElementRecursiveUp(type);
 			}
 		}
 		
 		if(element instanceof Package) {
-			exportPackage(element, project, xmlDoc);
-		} else {
-			exportElement(element, project, xmlDoc);
+			exportPackage(element);
+			return;
+		}
+			
+		exportEntity(element);
+	}	
+	
+	public static void exportPackageRecursive(Package pkg) {
+		if (pkg == null) {
+			return;
+		}
+		
+		exportPackage(pkg);
+		
+		Collection<Element> elementsInPackage = pkg.getOwnedElement();
+		Collection<Package> packagesInPackage = pkg.getNestedPackage();
+
+		for(Package nextPackage : packagesInPackage) {
+			if (isExternalPackage(nextPackage)) {
+				continue;
+			}
+			
+			exportPackageRecursive(nextPackage);
+		}
+		
+		for(Element element : elementsInPackage) {
+			if (isPackage(element)) {
+				continue;
+			}
+					
+			exportElementRecursive(element);
 		}
 	}
-
-
-	public static void exportPackageRecursive(Package pack, Project project, Document xmlDoc) {
-		//Write Package to xml here so parent is written before child
-
-		//Look for child packages and child elements to recursively export
-		Collection<Element> elementsInPackage = new ArrayList<Element> ();
-		Collection<Package> packagesInPackage = new ArrayList<Package> ();
-
-		boolean noPackages = false;
-		boolean noElements = false;
-
-		exportPackage(pack, project, xmlDoc);
-
-		try {
-			elementsInPackage = pack.getOwnedElement();
-			if(elementsInPackage != null) {
-				CameoUtils.logGUI(elementsInPackage.size() + " elements found in package.");
-			}
-		} catch(NullPointerException e) {
-			noElements = true;
-		}
-
-		try {
-			packagesInPackage = pack.getNestedPackage();
-		} catch(NullPointerException e) {
-			noPackages = true;
-		}
-
-		if(!noPackages) {
-			for(Package nextPackage : packagesInPackage) {
-				//Description: Get stereotypes of package. Packages with stereotypes (Ex. auxiliaryResource, modellibrary) should not be exported
-				Profile magicdrawProfile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
-				Stereotype auxiliaryStereotype = StereotypesHelper.getStereotype(project,  "auxiliaryResource", magicdrawProfile);
-				List<Stereotype> packageStereotypes = StereotypesHelper.getStereotypes(nextPackage);
-
-				// Check if package is editable -- external dependencies and imported projects will be read-only (not editable) 
-				if(!packageStereotypes.contains(auxiliaryStereotype) && !nextPackage.getHumanName().equals("Package Unit Imports")) {
-					//					CameoUtils.logGUI("Package with name " + nextPackage.getHumanName() + "\twith type: " + nextPackage.getHumanType());
-					//					JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "Exporting Package " + nextPackage.getHumanName());
-					exportPackageRecursive(nextPackage, project, xmlDoc);					
-				}
-			}
-		}
-
-		if(!noElements) {
-			for(Element element : elementsInPackage) {
-				//export elements that are not packages
-				String elementName = element.getHumanName();
-
-				if(!(element instanceof Package) && !elementName.equals("Package Import") && !elementName.equals("Profile Application") && !element.getHumanType().equals("Legend")) {
-					CameoUtils.logGUI("Exporting " + element.getHumanType() + element.getHumanName());
-					exportElementRecursive(element, project, xmlDoc);
-				}
-			}
-		}
-	}
-
-	public static void exportElementRecursive(Element element, Project project, Document xmlDoc) {
+	
+	public static void exportElementRecursive(Element element) {
 		//Find any child elements and recursively export		
 		boolean noElements = false;
 		Collection<Element> ownedElements = new ArrayList<Element> ();
@@ -300,7 +258,7 @@ public class ExportXmlSysml {
 			noElements = true;
 		}
 
-		exportElement(element, project, xmlDoc);
+		exportEntity(element);
 
 		// If value property allow only comments or attached files 
 		// Let owned elements that are relationships call exportElementRecursive but children of relationships cannot be exported
@@ -308,483 +266,475 @@ public class ExportXmlSysml {
 			for(Element ownedElement : ownedElements) {
 				// Check that ownedElement is not a package, otherwise will cause repeats -- element also must be a NamedElement to ignore unecessary instance specifications, opaque expressions, etc.
 				if (!(ownedElement instanceof Package) && !(element instanceof Relationship)) {
-					exportElementRecursive(ownedElement, project, xmlDoc);
+					exportElementRecursive(ownedElement);
 				}
 			}
 		}
 	}
-
-	public static void exportPackage(Element pkg, Project project, Document xmlDoc) {
-		CameoUtils.logGUI("Exporting package " + pkg.getHumanName());
-		CommonElement commonElement = null;
-		CommonElementsFactory cef = new CommonElementsFactory();
-		NamedElement namedElement = (NamedElement)pkg;
-		//Check if ID already exists from previous import
-
-		//Check if package is a model and export as model if it is
-		
-		if(CameoUtils.isModel(pkg, project)) {
-			commonElement = cef.createElement(SysmlConstants.MODEL,  namedElement.getName(), pkg.getLocalID());
-		} else if(CameoUtils.isProfile(pkg, project)) {
-			commonElement = cef.createElement(SysmlConstants.PROFILE, namedElement.getName(), pkg.getLocalID());
-		} else{		
-			commonElement = cef.createElement(SysmlConstants.PACKAGE,  namedElement.getName(), pkg.getLocalID());
-		}
-		
-		// Add check here if adding explicit support for UAF/DoDAF.UPDM package types
-
-		commonElement.writeToXML(pkg, project, xmlDoc);
-
-	}
 	
-	@CheckForNull
-	public static String getMetaModel(Element element) {
-		String elementType = ExportXmlSysml.getElementType(element);
-		
-		if (elementType == null) {
-			return "null";
+	public static void exportPackage(Element pkg) {
+		if (exportedElements.contains(pkg.getID())) {
+			ExportLog.log(String.format("%s package, profile, or model with id %s already exported.", pkg.getHumanName(), pkg.getID()));
+			return;
 		}
-		
-		for (String type : DoDAFConstants.DODAF_DIAGRAMS) {
-			if (elementType.equals(type)) {
-				return "dodaf";
-			}
-		}
-		
-		for (String type : UAFConstants.UAF_ELEMENTS) {
-			if (elementType.equals(type)) {
-				return "uaf";
-			}
-		}
-		
-		for (String type: UAFConstants.UAF_RELATIONSHIPS) {
-			if (elementType.equals(type)) {
-				return "uaf";
-			}
-		}
-		
-		for(String type : UAFConstants.UAF_DIAGRAMS) {
-			if(elementType.equals(type)) {
-				return "uaf";
-			}
-		}
-		
-		for (String type: SysmlConstants.SYSMLELEMENTS) {
-			if(elementType.equals(type)) {
-				return "sysml";
-			}
-		}
-		
-		for (String type: SysmlConstants.SYSMLRELATIONSHIPS) {
-			if(elementType.equals(type)) {
-				return "sysml";
-			}
-		}
-		
-		for (String type: SysmlConstants.SYSMLDIAGRAMS) {
-			if(elementType.equals(type)) {
-				return "sysml";
-			}
-		}
-		return "null";
-	}
-
-	public static boolean isRelationship(Element element, Project project) {
-		return ModelHelper.isRelationship(element) || element instanceof Message;
-	}
-
-	public static boolean exportElement(Element element, Project project, Document xmlDoc) {
-		if(exportedElements.containsKey(element.getLocalID())) {
-			return true;
-		}
-
-		String elementType = getElementType(element);
-		if (elementType == null) {
-			ExportLog.log(String.format("Element not supported %s", element.getHumanName()));
-			return false;
-		}
-		
-		if(isRelationship(element, project)) {
-			return exportRelationship(element, project, xmlDoc, elementType);
-		}			
 		
 		CommonElementsFactory cef = new CommonElementsFactory();
-		CommonElement commonElement = cef.createElement(elementType, CameoUtils.getElementName(element), element.getLocalID());
-
-		if (commonElement == null) {
-			ExportLog.log(String.format("Common Elements Factory return null for element of type %s", element.getHumanType()));
-			return false;
-		}
+		String packageType = getPackageType(pkg);
 		
-		commonElement.writeToXML(element, project, xmlDoc);
-		exportedElements.put(element.getLocalID(), "");
-		return true;
+		CommonElement commonElement = cef.createElement(packageType, ((NamedElement)pkg).getName(), pkg.getID());
+		commonElement.writeToXML(pkg);
+		
+		exportedElements.add(pkg.getID());
 	}
 	
-	public static boolean exportRelationship(Element element, Project project, Document xmlDoc, String elementType) {
-		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
-		CommonRelationship commonRelationship = crf.createElement(elementType, CameoUtils.getElementName(element), element.getLocalID());
-		
-		if (commonRelationship == null) {
-			ExportLog.log(String.format("Common Relationships Factory returned null for element of type %s", element.getHumanType()));
-			return false;
+	public static void exportEntity(Element element) {
+		if(exportedElements.contains(element.getID())) {
+			ExportLog.log(String.format("Element already exported with name %s and id %s.", element.getHumanName(), element.getID()));
 		}
 		
-		boolean isSupplierExported = exportElement(commonRelationship.getSupplier(element), project, xmlDoc);;
-		boolean isClientExported = exportElement(commonRelationship.getClient(element), project, xmlDoc);
-
-		if(!isSupplierExported || !isClientExported) {
-			ExportLog.log(String.format("Unable to determine and export client or supplier for %s." 
-					+ " Relationship will not be exported", CameoUtils.getElementName(element)));
-			return false;
-		}
+		String commonElementType = getEntityType(element);
 		
-		commonRelationship.writeToXML(element, project, xmlDoc);
-		exportedElements.put(element.getLocalID(), "");
-		return true;
-	}
-
-	public static String getElementType(Element element) {
-		if(element instanceof Diagram) {
-			Diagram diag = (Diagram) element;
-			DiagramPresentationElement presentationDiagram = project.getDiagram(diag);
-			DiagramType diagType = presentationDiagram.getDiagramType();
-			return AbstractDiagram.diagramToType.get(diagType.getType());
-		}
-		
-		if (ExportXmlSysml.metamodel.contentEquals(UAFConstants.UAF))  {
-			String elementType = getUAFElementType(element);
+		if (commonElementType == null) {
+			if (!isImplicitlySupported(element)) {
+				ExportLog.log(String.format("%s type could not be identified. Not currently supported.", element.getHumanType()));
+			}
 			
-			if(elementType != null) {
-				return elementType;
+			return;
+		}
+		
+		if (MTIPUtils.isSupportedElement(commonElementType)) {
+			exportElement(element, commonElementType);
+			return;
+		}
+		
+		if (MTIPUtils.isSupportedRelationship(commonElementType)) {
+			exportRelationship(element, commonElementType);
+			return;
+		}
+		
+		if (MTIPUtils.isSupportedDiagram(commonElementType)) {
+			exportElement(element, commonElementType);
+			return;
+		}		
+		
+		ExportLog.log(String.format("%s is not categorized as an element, relationship, or diagram.", commonElementType));
+	}
+	
+	public static void exportElement(Element element, String elementType) {
+		if (elementType == null) {
+			ExportLog.log(String.format("Element type not found for %s with id %s", element.getHumanName(), element.getID()));
+		}
+		
+		CommonElementsFactory cef = new CommonElementsFactory();
+		CommonElement commonElement =  cef.createElement(elementType, ((NamedElement)element).getName(), element.getID());
+		
+		if (commonElement == null) {
+			return;
+		}
+		
+//		ExportLog.log(String.format("Exporting element %s of type %s with id %s.", element.getHumanName(), element.getHumanType(), element.getID()));
+		commonElement.writeToXML(element);
+		exportedElements.add(element.getID());
+	}
+	
+	public static void exportRelationship(Element element, String relationshipType) {
+		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();		
+		CommonRelationship commonRelationship = crf.createElement(relationshipType, CommonRelationship.getName(element), element.getID());
+		
+		commonRelationship.writeToXML(element);
+		exportedElements.add(element.getID());
+		
+		// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
+		if(commonRelationship.getSupplier() != null && !exportedElements.contains(commonRelationship.getSupplier().getID())) {
+			exportEntity(commonRelationship.getSupplier());
+		}
+		
+		if(commonRelationship.getClient() != null && !exportedElements.contains(commonRelationship.getClient().getID())) {
+			exportEntity(commonRelationship.getClient());
+		}		
+	}
+	
+	public static String getElementType(Element element) {
+		if(element instanceof AcceptEventAction) {
+			return SysmlConstants.ACCEPT_EVENT_ACTION;
+		} else if(element instanceof Activity) {
+			return SysmlConstants.ACTIVITY;
+		} else if(element instanceof ActivityFinalNode) {
+			return SysmlConstants.ACTIVITY_FINAL_NODE;
+		} else if(element instanceof ActivityParameterNode) {
+			return SysmlConstants.ACTIVITY_PARAMETER_NODE;
+		} else if(element instanceof ActivityPartition) {
+			return SysmlConstants.ACTIVITY_PARTITION;
+		} else if(element instanceof Actor) {
+			return SysmlConstants.ACTOR;
+		} else if (SysML.isBoundReference(element)) {
+			return SysmlConstants.BOUND_REFERENCE;
+		} else if (SysML.isClassifierBehavior(element)) {
+			return SysmlConstants.CLASSIFIER_BEHAVIOR_PROPERTY;
+		} else if (element instanceof CallBehaviorAction) {
+			return SysmlConstants.CALL_BEHAVIOR_ACTION;
+		} else if (element instanceof CallOperationAction) {
+			return SysmlConstants.CALL_OPERATION_ACTION;
+		} else if (element instanceof ChangeEvent) {
+			return SysmlConstants.CHANGE_EVENT;
+		} else if(element instanceof Collaboration) {
+			return SysmlConstants.COLLABORATION;
+		} else if(element instanceof CombinedFragment) {
+			return SysmlConstants.COMBINED_FRAGMENT;
+		} else if(element instanceof Comment) {
+			return SysmlConstants.COMMENT;
+		} else if(element instanceof ConditionalNode) { 
+			return SysmlConstants.CONDITIONAL_NODE;
+		} else if (element instanceof ConnectionPointReference) {
+			return SysmlConstants.CONNECTION_POINT_REFERENCE;
+		} else if (element instanceof Connector) {
+			return SysmlConstants.CONNECTOR;
+		} else if(element instanceof Constraint) {
+			return SysmlConstants.CONSTRAINT;
+		} else if(SysMLProfile.isConstraintBlock(element)) {
+			return SysmlConstants.CONSTRAINT_BLOCK;
+		} else if(MDCustomizationForSysMLProfile.isConstraintParameter(element)) {
+			return SysmlConstants.CONSTRAINT_PARAMETER;
+		} else if (MDCustomizationForSysMLProfile.isConstraintProperty(element)) {
+			return SysmlConstants.CONSTRAINT_PROPERTY;
+		} else if(element instanceof CreateObjectAction) {
+			return SysmlConstants.CREATE_OBJECT_ACTION;
+		} else if(CameoUtils.isCustomization(project, element)) {
+			return SysmlConstants.CUSTOMIZATION;
+		} else if(element instanceof DataStoreNode) {
+			return SysmlConstants.DATA_STORE_NODE;
+		} else if(element instanceof DecisionNode) {
+			return SysmlConstants.DECISION_NODE;
+		} else if(SysML.isDeriveRequirement(element)) {
+			return SysmlConstants.DERIVE_REQUIREMENT;		
+		} else if(SysML.isDesignConstraint(element)) {
+			return SysmlConstants.DESIGN_CONSTRAINT;
+		} else if(element instanceof DestroyObjectAction) {
+			return SysmlConstants.DESTROY_OBJECT_ACTION;
+		} else if(element instanceof DestructionOccurrenceSpecification) {
+			return SysmlConstants.DESTRUCTION_OCCURRENCE_SPECIFICATION;
+		} else if(SysML.isDomain(element)) {
+			return SysmlConstants.DOMAIN;
+		} else if(element instanceof DurationConstraint) {
+			return SysmlConstants.DURATION_CONSTRAINT;
+		} else if(element instanceof DurationInterval) {
+			return SysmlConstants.DURATION_INTERVAL;
+		} else if(element instanceof DurationObservation) {
+			return SysmlConstants.DURATION_OBSERVATION;
+		} else if(element instanceof Enumeration) {
+			return SysmlConstants.ENUMERATION;
+		} else if(element instanceof EnumerationLiteral) {
+			return SysmlConstants.ENUMERATION_LITERAL;
+		} else if(SysML.isExtendedRequirement(element)) {
+			return SysmlConstants.EXTENDED_REQUIREMENT;
+		} else if(element instanceof ExtensionPoint) {
+			return SysmlConstants.EXTENSION_POINT;
+		} else if (SysML.isExternal(element)) {
+			return SysmlConstants.EXTERNAL;
+		} else if(element instanceof FinalState) {
+			return SysmlConstants.FINAL_STATE;
+		} else if(element instanceof FlowFinalNode) {
+			return SysmlConstants.FLOW_FINAL_NODE;
+		} else if(SysML.isFlowPort(element)) {
+			return SysmlConstants.FLOW_PORT;
+		} else if(SysML.isFlowProperty(element)) {
+			return SysmlConstants.FLOW_PROPERTY;
+		} else if(SysML.isFlowSpecification(element)) {
+			return SysmlConstants.FLOW_SPECFICATION;
+		} else if(element instanceof ForkNode) {
+			return SysmlConstants.FORK_NODE;
+		} else if(SysML.isFullPort(element)) {
+			return SysmlConstants.FULL_PORT;
+		} else if(SysML.isFunctionalRequirement(element)) {
+			return SysmlConstants.FUNCTIONAL_REQUIREMENT;
+		} else if(element instanceof FunctionBehavior) {
+			return SysmlConstants.FUNCTION_BEHAVIOR;
+		} else if(element instanceof InformationItem) {
+			return SysmlConstants.INFORMATION_ITEM;
+		} else if(element instanceof Interaction) {
+			return SysmlConstants.INTERACTION;
+		} else if(element instanceof InteractionOperand) {
+			return SysmlConstants.INTERACTION_OPERAND;
+		} else if(element instanceof InteractionUse) {
+			return SysmlConstants.INTERACTION_USE;
+		} else if(element instanceof InitialNode) {
+			return SysmlConstants.INITIAL_NODE;
+		} else if(element instanceof Pseudostate) {
+			return CameoUtils.getPseudoState(element);		
+		} else if(element instanceof InputPin) {
+			return SysmlConstants.INPUT_PIN;
+		} else if(element instanceof Interface) {
+			return SysmlConstants.INTERFACE;
+		} else if(SysML.isInterfaceBlock(element)) {
+			return SysmlConstants.INTERFACE_BLOCK;
+		} else if(SysML.isInterfaceRequirement(element)) {
+			return SysmlConstants.INTERFACE_REQUIREMENT;
+		} else if(element instanceof InterruptibleActivityRegion) {
+			return SysmlConstants.INTERRUPTIBLE_ACTIVITY_REGION;
+		} else if(element instanceof JoinNode) {
+			return SysmlConstants.JOIN_NODE;
+		} else if(element instanceof Lifeline) {
+			return SysmlConstants.LIFELINE;
+		} else if(element instanceof LoopNode) {
+			return SysmlConstants.LOOP_NODE;
+		} else if(element instanceof MergeNode) {
+			return SysmlConstants.MERGE_NODE;
+		} else if(element instanceof MessageOccurrenceSpecification) {
+			return SysmlConstants.MESSAGE_OCCURRENCE_SPECIFICATION;
+		} else if(CameoUtils.isModel(element, project)) {
+			return SysmlConstants.MODEL;
+		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
+			return SysmlConstants.OPAQUE_EXPRESSION;
+		} else if(element instanceof OpaqueAction) {
+			return SysmlConstants.OPAQUE_ACTION;
+		} else if(element instanceof OpaqueBehavior) {
+			return SysmlConstants.OPAQUE_BEHAVIOR;
+		} else if(element instanceof Operation) {
+			return SysmlConstants.OPERATION;
+		} else if(SysML.isParticipantProperty(element)) {
+			return SysmlConstants.PARTICIPANT_PROPERTY;
+		} else if(MDCustomizationForSysMLProfile.isPartProperty(element)) {
+			return SysmlConstants.PART_PROPERTY;
+		} else if(element instanceof Profile) {
+			return SysmlConstants.PROFILE;
+		} else if(element instanceof OutputPin) {
+			return SysmlConstants.OUTPUT_PIN;
+		} else if(element instanceof Package) {
+			return SysmlConstants.PACKAGE;
+		} else if(SysML.isPerformanceRequirement(element)) {
+			return SysmlConstants.PERFORMANCE_REQUIREMENT;
+		} else if(SysML.isPhysicalRequirement(element)) {
+			return SysmlConstants.PHYSICAL_REQUIREMENT;
+		//Proxy Port must come before Port as all specialized ports are instanceof Port
+		} else if(SysML.isProxyPort(element)) {
+			return SysmlConstants.PROXY_PORT;
+		} else if(element instanceof Port) {
+			return SysmlConstants.PORT;
+		} else if(MDCustomizationForSysMLProfile.isQuantityKind(element)) {
+			return SysmlConstants.QUANTITY_KIND;
+		} else if(element instanceof Region) {
+			return SysmlConstants.REGION;
+		} else if(SysML.isRefine(element)) {
+			return SysmlConstants.REFINE;
+		} else if(SysML.isRequirement(element)) {
+			return SysmlConstants.REQUIREMENT;
+		} else if(element instanceof SendSignalAction) {
+			return SysmlConstants.SEND_SIGNAL_ACTION;
+		} else if(element instanceof Signal) {
+			return SysmlConstants.SIGNAL;
+		} else if(element instanceof SignalEvent) {
+			return SysmlConstants.SIGNAL_EVENT;
+		} else if(element instanceof State) {
+			return SysmlConstants.STATE;
+		} else if(element instanceof StateInvariant) {
+			return SysmlConstants.STATE_INVARIANT;
+		} else if(element instanceof StateMachine) {
+			return SysmlConstants.STATE_MACHINE;
+		} else if(element instanceof Stereotype) {
+			return SysmlConstants.STEREOTYPE;
+		} else if(SysML.isSubsystem(element)) {
+			return SysmlConstants.SUBSYSTEM;
+		} else if(SysML.isSystemContext(element)) {
+			return SysmlConstants.SYSTEM_CONTEXT;
+		} else if(SysML.isSystem(element)) {
+			return SysmlConstants.SYSTEM;
+		} else if (element instanceof TimeConstraint) {
+			return SysmlConstants.TIME_CONSTRAINT;
+		} else if (element instanceof TimeEvent) {
+			return SysmlConstants.TIME_EVENT;
+		} else if (element instanceof TimeExpression) {
+			return SysmlConstants.TIME_EXPRESSION;
+		} else if (element instanceof TimeObservation) {
+			return SysmlConstants.TIME_OBSERVATION;
+		} else if (element instanceof Trigger) {
+			return SysmlConstants.TRIGGER;
+		} else if(MDCustomizationForSysMLProfile.isUnit(element)) {
+			return SysmlConstants.UNIT;
+		} else if(MDCustomizationForSysMLProfile.isValueProperty(element)) {
+			return SysmlConstants.VALUE_PROPERTY;
+		} else if(SysML.isValueType(element)) {
+			return SysmlConstants.VALUE_TYPE;
+		
+		//Super classes listed below as to not to override their children	
+		} else if(element instanceof Constraint) {
+			return SysmlConstants.CONSTRAINT;
+		} else if(MDForSysMLExtensions.isProperty(element)) {
+			return SysmlConstants.PROPERTY;	
+		} else if (element instanceof InstanceSpecification && CameoUtils.isSupportedInstanceSpecification(element)) {
+			return SysmlConstants.INSTANCE_SPECIFICATION;
+		// Check ActionClass last as any child action class will be an instance of ActionClass
+		} else if(element instanceof ActionClass) {
+			return SysmlConstants.ACTION;
+		} else if(element instanceof CentralBufferNode) {
+			return SysmlConstants.CENTRAL_BUFFER_NODE;
+		} else if(SysML.isBlock(element)) {
+			return SysmlConstants.BLOCK;
+		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
+			// Check if Metaclass
+			if(CameoUtils.isMetaclass(element)) {
+				return SysmlConstants.METACLASS;
+			} else {
+				return SysmlConstants.CLASS;
 			}
 		}
 		
-		return getSysMLElementType(element);
-	}
-
-	public static String getUAFElementType(Element element) {
-		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element)
-				.stream()
-				.filter(x -> UAFProfile.getName(x) != null)
-				.collect(Collectors.toList());
-		
-		if (stereotypes.size() == 0) {
-			return null;
-		}
-		
-		if (stereotypes.size() == 1) {
-			return UAFProfile.getName(stereotypes.get(0));
-		}
-		
-		ExportLog.log(String.format("UAF type nout found. Ambiguous type for element with id %s. Multiple UAF stereotypes found", element.getID()));
 		return null;
 	}
-
-	public static String getUAFPackageType(Element element) {
-		// UAF Package types not in the UAFP v1.1 specification. May need to reconsider logic here for import
-		// to apply appropriate package stereotypes for enforced Cameo Parent-child valdiation rules.
-		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-
-//		if(stereotypes.contains(UAFProfile.STRATEGIC_TAXONOMY_PACKAGE_STEREOTYPE)) {
-//			return UAFConstants.STRATEGIC_TAXONOMY_PACKAGE;
-//		}
 		
-		return SysmlConstants.PACKAGE;
-	}
-
 	@CheckForNull
-	public static String getSysMLElementType(Element element) {
-		String commonElementType = null;
-		String commonRelationshipType = null;		
-
-		//Use SysMLProfile.is<SysmlElementName> to check types for sysml elements 
-		if(element instanceof AcceptEventAction) {
-			commonElementType = SysmlConstants.ACCEPTEVENTACTION;
-		} else if(element instanceof Activity) {
-			commonElementType = SysmlConstants.ACTIVITY;
-		} else if(element instanceof ActivityFinalNode) {
-			commonElementType = SysmlConstants.ACTIVITYFINALNODE;
-		} else if(element instanceof ActivityParameterNode) {
-			commonElementType = SysmlConstants.ACTIVITYPARAMETERNODE;
-		} else if(element instanceof ActivityPartition) {
-			commonElementType = SysmlConstants.ACTIVITYPARTITION;
-		} else if(element instanceof Actor) {
-			commonElementType = SysmlConstants.ACTOR;
-		} else if(CameoUtils.isAssociationBlock(element, project)) {
-			commonElementType = SysmlConstants.ASSOCIATIONBLOCK;
-		} else if (SysMLProfile.isBindingConnector(element)) {
-			commonRelationshipType = SysmlConstants.BINDINGCONNECTOR;
-		} else if (SysMLProfile.isBoundReference(element)) {
-			commonElementType = SysmlConstants.BOUNDREFERENCE;
-		} else if (SysMLProfile.isClassifierBehaviorProperty(element)) {
-			commonElementType = SysmlConstants.CLASSIFIERBEHAVIORPROPERTY;
-		} else if (element instanceof CallBehaviorAction) {
-			commonElementType = SysmlConstants.CALLBEHAVIORACTION;
-		} else if (element instanceof CallOperationAction) {
-			commonElementType = SysmlConstants.CALLOPERATIONACTION;
-		} else if (element instanceof ChangeEvent) {
-			commonElementType = SysmlConstants.CHANGEEVENT;
-		} else if(CameoUtils.isCopy(element, project)) {
-			commonRelationshipType = SysmlConstants.COPY;
-		} else if(element instanceof Collaboration) {
-			commonElementType = SysmlConstants.COLLABORATION;
-		} else if(element instanceof CombinedFragment) {
-			commonElementType = SysmlConstants.COMBINEDFRAGMENT;
-		} else if(element instanceof Comment) {
-			commonElementType = SysmlConstants.COMMENT;
-		} else if(element instanceof ConditionalNode) { 
-			commonElementType = SysmlConstants.CONDITIONALNODE;
-		} else if (element instanceof ConnectionPointReference) {
-			commonElementType = SysmlConstants.CONNECTIONPOINTREFERENCE;
+	public static String getRelationshipType(Element element) {
+		if(SysML.isAssociationBlock(element)) {
+			return SysmlConstants.ASSOCIATION_BLOCK;
+		} else if (SysML.isBindingConnector(element)) {
+			return SysmlConstants.BINDING_CONNECTOR;
+		} else if(SysML.isCopy(element)) {
+			return SysmlConstants.COPY;
 		} else if (element instanceof Connector) {
-			commonRelationshipType = SysmlConstants.CONNECTOR;
-		} else if(element instanceof Constraint) {
-			commonElementType = SysmlConstants.CONSTRAINT;
-		} else if(SysMLProfile.isConstraintBlock(element)) {
-			commonElementType = SysmlConstants.CONSTRAINTBLOCK;
-		} else if(MDCustomizationForSysMLProfile.isConstraintParameter(element)) {
-			commonElementType = SysmlConstants.CONSTRAINTPARAMETER;
-		} else if (MDCustomizationForSysMLProfile.isConstraintProperty(element)) {
-			commonElementType = SysmlConstants.CONSTRAINTPROPERTY;
+			return SysmlConstants.CONNECTOR;
 		} else if(element instanceof ControlFlow) {
-			commonRelationshipType = SysmlConstants.CONTROLFLOW;
-		} else if(element instanceof CreateObjectAction) {
-			commonElementType = SysmlConstants.CREATEOBJECTACTION;
-		} else if(CameoUtils.isCustomization(project, element)) {
-			commonElementType = SysmlConstants.CUSTOMIZATION;
-		} else if(element instanceof DataStoreNode) {
-			commonElementType = SysmlConstants.DATASTORENODE;
-		} else if(element instanceof DecisionNode) {
-			commonElementType = SysmlConstants.DECISIONNODE;
-		} else if(CameoUtils.isDeriveRequirement(element, project)) {
-			commonRelationshipType = SysmlConstants.DERIVEREQUIREMENT;		
-		} else if(CameoUtils.isDesignConstraint(element, project)) {
-			commonElementType = SysmlConstants.DESIGNCONSTRAINT;
-		} else if(element instanceof DestroyObjectAction) {
-			commonElementType = SysmlConstants.DESTROYOBJECTACTION;
-		} else if(element instanceof DestructionOccurrenceSpecification) {
-			commonElementType = SysmlConstants.DESTRUCTIONOCCURRENCESPECIFICATION;
-		} else if(SysMLProfile.isDomain(element)) {
-			commonElementType = SysmlConstants.DOMAIN;
-		} else if(element instanceof DurationConstraint) {
-			commonElementType = SysmlConstants.DURATIONCONSTRAINT;
-		} else if(element instanceof DurationObservation) {
-			commonElementType = SysmlConstants.DURATIONOBSERVATION;
-		} else if(element instanceof Enumeration) {
-			commonElementType = SysmlConstants.ENUMERATION;
-		} else if(element instanceof EnumerationLiteral) {
-			commonElementType = SysmlConstants.ENUMERATIONLITERAL;
+			return SysmlConstants.CONTROL_FLOW;
 		} else if(element instanceof Extend) {
-			commonRelationshipType = SysmlConstants.EXTEND;
-		} else if(CameoUtils.isExtendedRequirement(element, project)) {
-			commonElementType = SysmlConstants.EXTENDEDREQUIREMENT;
+			return SysmlConstants.EXTEND;
 		} else if(element instanceof Extension) {
-			commonRelationshipType = SysmlConstants.EXTENSION;
-		} else if(element instanceof ExtensionPoint) {
-			commonElementType = SysmlConstants.EXTENSIONPOINT;
-		} else if (SysMLProfile.isExternal(element)) {
-			commonElementType = SysmlConstants.EXTERNAL;
-		} else if(element instanceof FinalState) {
-			commonElementType = SysmlConstants.FINALSTATE;
-		} else if(element instanceof FlowFinalNode) {
-			commonElementType = SysmlConstants.FLOWFINALNODE;
-		} else if(SysMLProfile.isFlowPort(element)) {
-			commonElementType = SysmlConstants.FLOWPORT;
-		} else if(SysMLProfile.isFlowProperty(element)) {
-			commonElementType = SysmlConstants.FLOWPROPERTY;
-		} else if(SysMLProfile.isFlowSpecification(element)) {
-			commonElementType = SysmlConstants.FLOWSPECIFICATION;
-		} else if(element instanceof ForkNode) {
-			commonElementType = SysmlConstants.FORKNODE;
-		} else if(SysMLProfile.isFullPort(element)) {
-			commonElementType = SysmlConstants.FULLPORT;
-		} else if(CameoUtils.isFunctionalRequirement(element, project)) {
-			commonElementType = SysmlConstants.FUNCTIONALREQUIREMENT;
-		} else if(element instanceof FunctionBehavior) {
-			commonElementType = SysmlConstants.FUNCTIONBEHAVIOR;
+			return SysmlConstants.EXTENSION;
 		} else if(element instanceof Generalization) {
-			commonRelationshipType = SysmlConstants.GENERALIZATION;
+			return SysmlConstants.GENERALIZATION;
 		} else if(element instanceof Include) {
-			commonRelationshipType = SysmlConstants.INCLUDE;
-		} else if(element instanceof InformationItem) {
-			commonElementType = SysmlConstants.INFORMATIONITEM;
-		} else if(element instanceof Interaction) {
-			commonElementType = SysmlConstants.INTERACTION;
-		} else if(element instanceof InteractionOperand) {
-			commonElementType = SysmlConstants.INTERACTIONOPERAND;
-		} else if(element instanceof InteractionUse) {
-			commonElementType = SysmlConstants.INTERACTIONUSE;
-		} else if(element instanceof InitialNode) {
-			commonElementType = SysmlConstants.INITIALNODE;
-		} else if(element instanceof Pseudostate) {
-			commonElementType = CameoUtils.getPseudoState(element);		
-		} else if(element instanceof InputPin) {
-			commonElementType = SysmlConstants.INPUTPIN;
-		} else if(element instanceof Interface) {
-			commonElementType = SysmlConstants.INTERFACE;
-		} else if(CameoUtils.isInterfaceBlock(element, project)) {
-			commonElementType = SysmlConstants.INTERFACEBLOCK;
+			return SysmlConstants.INCLUDE;
 		} else if(element instanceof InterfaceRealization) {
-			commonElementType = SysmlConstants.INTERFACEREALIZATION;
-		} else if(CameoUtils.isInterfaceRequirement(element, project)) {
-			commonElementType = SysmlConstants.INTERFACEREQUIREMENT;
-		} else if(element instanceof InterruptibleActivityRegion) {
-			commonElementType = SysmlConstants.INTERRUPTIBLEACTIVITYREGION;
-		} else if (SysMLProfile.isItemFlow(element)) {
-			commonRelationshipType = SysmlConstants.ITEMFLOW;
-		} else if(element instanceof JoinNode) {
-			commonElementType = SysmlConstants.JOINNODE;
-		} else if(element instanceof Lifeline) {
-			commonElementType = SysmlConstants.LIFELINE;
-		} else if(element instanceof LoopNode) {
-			commonElementType = SysmlConstants.LOOPNODE;
-		} else if(element instanceof MergeNode) {
-			commonElementType = SysmlConstants.MERGENODE;
+			return SysmlConstants.INTERFACE_REALIZATION;
+		} else if (SysML.isItemFlow(element)) {
+			return SysmlConstants.ITEM_FLOW;
 		} else if(element instanceof Message) {
-			commonElementType = SysmlConstants.MESSAGE;
-		} else if(element instanceof MessageOccurrenceSpecification) {
-			commonElementType = SysmlConstants.MESSAGEOCCURRENCESPECIFICATION;
-		} else if(CameoUtils.isModel(element, project)) {
-			commonElementType = SysmlConstants.MODEL;
+			return SysmlConstants.MESSAGE;
 		} else if(element instanceof ObjectFlow) {
-			commonRelationshipType = SysmlConstants.OBJECTFLOW;
-		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
-			commonElementType = SysmlConstants.OPAQUEEXPRESSION;
-		} else if(element instanceof OpaqueAction) {
-			commonElementType = SysmlConstants.OPAQUEACTION;
-		} else if(element instanceof OpaqueBehavior) {
-			commonElementType = SysmlConstants.OPAQUEBEHAVIOR;
-		} else if(element instanceof Operation) {
-			commonElementType = SysmlConstants.OPERATION;
+			return SysmlConstants.OBJECT_FLOW;
 		} else if(element instanceof PackageImport) {
-			commonRelationshipType = SysmlConstants.PACKAGEIMPORT;
-		} else if(SysMLProfile.isParticipantProperty(element)) {
-			commonElementType = SysmlConstants.PARTICIPANTPROPERTY;
-		} else if(MDCustomizationForSysMLProfile.isPartProperty(element)) {
-			commonElementType = SysmlConstants.PARTPROPERTY;
-		} else if(element instanceof Profile) {
-			commonElementType = SysmlConstants.PROFILE;
-		} else if(element instanceof OutputPin) {
-			commonElementType = SysmlConstants.OUTPUTPIN;
-		} else if(element instanceof Package) {
-			commonElementType = SysmlConstants.PACKAGE;
-		} else if(CameoUtils.isPerformanceRequirement(element, project)) {
-			commonElementType = SysmlConstants.PERFORMANCEREQUIREMENT;
-		} else if(CameoUtils.isPhysicalRequirement(element, project)) {
-			commonElementType = SysmlConstants.PHYSICALREQUIREMENT;
-			//Proxy Port must come before Port as all specialized ports are instanceof Port
-		} else if(SysMLProfile.isProxyPort(element)) {
-			commonElementType = SysmlConstants.PROXYPORT;
-		} else if(element instanceof Port) {
-			commonElementType = SysmlConstants.PORT;
-		} else if(MDCustomizationForSysMLProfile.isQuantityKind(element)) {
-			commonElementType = SysmlConstants.QUANTITYKIND;
-		} else if(element instanceof Region) {
-			commonElementType = SysmlConstants.REGION;
-		} else if(CameoUtils.isRefine(element, project)) {
-			commonRelationshipType = SysmlConstants.REFINE;
-		} else if(CameoUtils.isRequirement(element, project)) {
-			commonElementType = SysmlConstants.REQUIREMENT;
-		} else if(CameoUtils.isSatisfy(element, project)) {
-			commonRelationshipType = SysmlConstants.SATISFY;
-		} else if(element instanceof SendSignalAction) {
-			commonElementType = SysmlConstants.SENDSIGNALACTION;
-		} else if(element instanceof Signal) {
-			commonElementType = SysmlConstants.SIGNAL;
-		} else if(element instanceof SignalEvent) {
-			commonElementType = SysmlConstants.SIGNALEVENT;
-		} else if(element instanceof State) {
-			commonElementType = SysmlConstants.STATE;
-		} else if(element instanceof StateInvariant) {
-			commonElementType = SysmlConstants.STATEINVARIANT;
-		} else if(element instanceof StateMachine) {
-			commonElementType = SysmlConstants.STATEMACHINE;
-		} else if(element instanceof Stereotype) {
-			commonElementType = SysmlConstants.STEREOTYPE;
-		} else if(CameoUtils.isTrace(element, project)) {
-			commonRelationshipType = SysmlConstants.TRACE;
-		} else if(SysMLProfile.isSubsystem(element)) {
-			commonElementType = SysmlConstants.SUBSYSTEM;
-		} else if(SysMLProfile.isSystemcontext(element)) {
-			commonElementType = SysmlConstants.SYSTEMCONTEXT;
-		} else if(SysMLProfile.isSystem(element)) {
-			commonElementType = SysmlConstants.SYSTEM;
-		} else if (element instanceof TimeEvent) {
-			commonElementType = SysmlConstants.TIMEEVENT;
-		} else if (element instanceof TimeObservation) {
-			commonElementType = SysmlConstants.TIMEOBSERVATION;
+			return SysmlConstants.PACKAGE_IMPORT;
+		} else if(SysML.isSatisfy(element)) {
+			return SysmlConstants.SATISFY;
+		} else if(SysML.isTrace(element)) {
+			return SysmlConstants.TRACE;
 		} else if (element instanceof Transition) {
-			commonRelationshipType = SysmlConstants.TRANSITION;
-		} else if (element instanceof Trigger) {
-			commonElementType = SysmlConstants.TRIGGER;
-		} else if(MDCustomizationForSysMLProfile.isUnit(element)) {
-			commonElementType = SysmlConstants.UNIT;
+			return SysmlConstants.TRANSITION;
 		} else if(element instanceof Usage) {
-			commonRelationshipType = SysmlConstants.USAGE;
+			return SysmlConstants.USAGE;
 		} else if(element instanceof UseCase) {
-			commonElementType = SysmlConstants.USECASE;
-		} else if(MDCustomizationForSysMLProfile.isValueProperty(element)) {
-			commonElementType = SysmlConstants.VALUEPROPERTY;
-		} else if(CameoUtils.isValueType(element, project)) {
-			commonElementType = SysmlConstants.VALUETYPE;
-		} else if(CameoUtils.isVerify(element, project)) {
-			commonRelationshipType = SysmlConstants.VERIFY;		
-
-			//Super classes listed below as to not to override their children	
-		} else if(CameoUtils.isProperty(element, project)) {
-			commonElementType = SysmlConstants.PROPERTY;	
-		} else if (element instanceof InstanceSpecification) {
-			NamedElement namedElement = (NamedElement)element;
-			if(!namedElement.getName().equals("") && !namedElement.getName().equals(null) && !Arrays.asList(SysmlConstants.RESERVEINSTANCESPECIFICATION).contains(namedElement.getName())) {
-				commonElementType = SysmlConstants.INSTANCESPECIFICATION;
-			}
-			// Check ActionClass last as any child action class will be an instance of ActionClass
-		} else if(element instanceof ActionClass) {
-			commonElementType = SysmlConstants.ACTION;
-		} else if(element instanceof CentralBufferNode) {
-			commonElementType = SysmlConstants.CENTRALBUFFERNODE;
-
-			//	Class is a super class of some elements (any requirement stereotype elements) - must come after
+			return SysmlConstants.USE_CASE;
+		} else if(SysML.isVerify(element)) {
+			return SysmlConstants.VERIFY;
+			
+		// Elements that are supertype must be checked after their subtypes
 		} else if(element instanceof Association) {
 			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property firstMemberEnd = ModelHelper.getFirstMemberEnd((Association)element);
 			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property secondMemberEnd = ModelHelper.getSecondMemberEnd((Association)element);
 			if(firstMemberEnd.getAggregation() == AggregationKindEnum.SHARED || secondMemberEnd.getAggregation() == AggregationKindEnum.SHARED) {
-				commonRelationshipType = SysmlConstants.AGGREGATION;
+				return SysmlConstants.AGGREGATION;
 			} else if(firstMemberEnd.getAggregation() == AggregationKindEnum.COMPOSITE || secondMemberEnd.getAggregation() == AggregationKindEnum.COMPOSITE) {
-				commonRelationshipType = SysmlConstants.COMPOSITION;
+				return SysmlConstants.COMPOSITION;
 			} else {
-				commonRelationshipType = SysmlConstants.ASSOCIATION;
-			}
-			// Block with overwrite Constraint Block since ConstraintBlock is a subclass of Block
-		} else if(SysMLProfile.isBlock(element)) {
-			commonElementType = SysmlConstants.BLOCK;
-		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
-			// Check if Metaclass
-			if(CameoUtils.isMetaclass(element)) {
-				commonElementType = SysmlConstants.METACLASS;
-			} else {
-				commonElementType = SysmlConstants.CLASS;
+				return SysmlConstants.ASSOCIATION;
 			}
 		} else if(element instanceof Dependency) {
-			commonRelationshipType = SysmlConstants.DEPENDENCY;
-		} else if(element instanceof Diagram) {
-			Diagram diag = (Diagram) element;
-			DiagramPresentationElement presentationDiagram;
-
-			presentationDiagram = project.getDiagram(diag);
-			DiagramType diagType = presentationDiagram.getDiagramType();
-
-			CameoUtils.logGUI("ACTUAL diagram type: " + diagType.getType());
-			CameoUtils.logGUI("MAPPED diagram type: " + AbstractDiagram.diagramToType.get( diagType.getType()));
-
-			commonElementType = AbstractDiagram.diagramToType.get( diagType.getType());
+			return SysmlConstants.DEPENDENCY;
 		}
-		if(commonElementType != null) {
-			return commonElementType;
-		} else {
-			return commonRelationshipType;
+		
+		return null;
+	}
+		
+	@CheckForNull
+	public static String getDiagramType(Element element) {
+		if (!(element instanceof Diagram)) {
+			return null;
 		}
+
+		DiagramPresentationElement presentationDiagram = project.getDiagram((Diagram)element);
+		
+		if (presentationDiagram == null) {
+			ExportLog.log(String.format("Diagram type not found. Could not find DiagramPresentationElement for diagram %s.", element.getID()));
+			return null;
+		}
+		
+		DiagramType diagramType = presentationDiagram.getDiagramType();
+		
+		if(diagramType == null) {
+			return SysmlConstants.CUSTOM_DIAGRAM;
+		} 
+		
+		return AbstractDiagram.diagramToType.get(diagramType.getType());
+	}
+
+	@CheckForNull
+	public static String getEntityType(Element element) {
+		if (element instanceof Diagram) {
+			return getDiagramType(element);
+		}
+		
+		if (element instanceof Relationship || element instanceof Message) {
+			return getRelationshipType(element);
+		}
+		
+		return getElementType(element);
+	}
+	
+	public static String getPackageType(Element pkg) {
+		if(CameoUtils.isModel(pkg, project)) {
+			return SysmlConstants.MODEL;
+		} 
+		
+		if(CameoUtils.isProfile(pkg, project)) {
+			return SysmlConstants.PROFILE;
+		} 
+		
+		return SysmlConstants.PACKAGE;
+	}
+	
+	public static boolean isImplicitlySupported(Element element) {
+		if (element instanceof ElementValue 
+				|| element instanceof LiteralReal
+			    || element instanceof LiteralBoolean
+			    || element instanceof LiteralInteger 
+			    || element instanceof LiteralString
+			    || element instanceof LiteralUnlimitedNatural 
+			    || element instanceof InstanceValue 
+			    || element instanceof ConnectorEnd
+			    || element instanceof Slot
+			    || element instanceof Comment
+			    || !CameoUtils.isSupportedInstanceSpecification(element)
+			    || MDCustomizationForSysMLProfile.isReferenceProperty(element)) {
+			
+			addImplicitElement(element);
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isPackage(Element element) {
+		if(element instanceof Package
+				|| element.getHumanName().equals("Profile Application")
+				|| element instanceof PackageImport 
+				|| element instanceof Profile) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean isExternalPackage(Package pkg) {
+		if (StereotypesHelper.hasStereotype(pkg, MagicDraw.getAuxiliaryResourceStereotype())
+				|| pkg.getHumanName().equals("Package Unit Imports")) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Tracks elements not explicitly exported (with their own data tag) to check sum with explicit elements
+	 * and total exported elements where: Total = implicit + explicit
+	 */
+	public static void addImplicitElement(Element element) {
+		implicitElements.add(element.getID());
 	}
 
 

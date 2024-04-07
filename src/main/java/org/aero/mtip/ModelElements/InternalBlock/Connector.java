@@ -10,13 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
@@ -49,9 +49,8 @@ public class Connector extends CommonRelationship {
 			
 		}catch(ClassCastException cce) {
 			ImportLog.log("Invalid supplier/client for connector with id: " + this.EAID + ". Supplier/client must be ConnectableElements.");
-			connector = null;
 			element.dispose();
-			return connector;
+			return null;
 		}
 		
 
@@ -107,12 +106,7 @@ public class Connector extends CommonRelationship {
 				CameoUtils.logGUI("Connector type is not an association. Type not set for connector with id " + this.EAID);
 			}
 		}
-		try {
-			setOwner(project, owner);
-		} catch(IllegalArgumentException iae) {
-			connector = null;
-			element.dispose();
-		}
+
 		return connector;
 	}
 	@Override
@@ -126,28 +120,20 @@ public class Connector extends CommonRelationship {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
-		if(owner == null) {
-			String logMessage = "Owner is null. Could not add connector with id: " + this.EAID + " to the model.";
-			ImportLog.log(logMessage);
-			throw new IllegalArgumentException("Invalid Parent");
+	public void setOwner(Element owner) {
+		if(owner == null || !(SysMLProfile.isBlock(owner))) {
+			owner = CameoUtils.findNearestBlock(project, owner);
 		}
+		
+		if(owner == null) {
+			ImportLog.log(String.format("Invalid parent. Parent must be block %s with id %s. No parents found in ancestors. Element could not be placed in model.", name, EAID));
+			return;
+		}
+		
 		try {
-			if(!(SysMLProfile.isBlock(owner))) {
-				owner = CameoUtils.findNearestBlock(project, owner);
-				if(owner == null) {
-					String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". No parents found in ancestors. Element could not be placed in model.";
-					ImportLog.log(logMessage);
-
-				}
-				element.setOwner(owner);
-			} else {
-				element.setOwner(owner);
-			}
+			element.setOwner(owner);
 		} catch(IllegalArgumentException iae) {
-			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";
-			ImportLog.log(logMessage);
-			throw new IllegalArgumentException("Invalid Parent");
+			ImportLog.log(String.format("Invalid parent. Parent must be block %s with id %s. Element could not be placed in model.", name, EAID));
 		}
 	}
 	
@@ -180,40 +166,62 @@ public class Connector extends CommonRelationship {
 		String typedByID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 		
 		if(supplierPartWithPortID != null) {
-			Element supplierPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, supplierPartWithPortID);
+			Element supplierPartWithPort = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(supplierPartWithPortID));
 		}
 		
 		if(clientPartWithPortID != null) {
-			Element clientPartWithPort = ImportXmlSysml.getOrBuildElement(project, parsedXML, clientPartWithPortID);
+			Element clientPartWithPort = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(clientPartWithPortID));
 		}
 		
 		if(typedByID != null) {
-			Element typedBy = ImportXmlSysml.getOrBuildElement(project, parsedXML, typedByID);
+			Element typedBy = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(typedByID));
 		}
 	}
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
+		writeSupplierPartWithPort(relationships, element);
+		writeClientPartWithPort(relationships, element);
+		writeConnectorType(relationships, element);
+
+		return data;
+	}
+	
+	private void writeSupplierPartWithPort(org.w3c.dom.Element relationships, Element element) {
 		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = (com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) element;
 		Element supplierPart = connector.getEnd().get(0).getPartWithPort();
-		Element clientPart = connector.getEnd().get(1).getPartWithPort();
-		Association type = connector.getType();
-
-		if(supplierPart != null) {
-			org.w3c.dom.Element supplierPartWithPort = createRel(xmlDoc, supplierPart, XmlTagConstants.SUPPLIER_PART_WITH_PORT);
-			relationships.appendChild(supplierPartWithPort);
+		
+		if(supplierPart == null) {
+			return;
 		}
 		
-		if(clientPart != null) {
-			org.w3c.dom.Element clientPartWithPort = createRel(xmlDoc, clientPart, XmlTagConstants.CLIENT_PART_WITH_PORT);
-			relationships.appendChild(clientPartWithPort);
+		org.w3c.dom.Element supplierPartWithPortTag = XmlWriter.createMtipRelationship(supplierPart, XmlTagConstants.SUPPLIER_PART_WITH_PORT);
+		XmlWriter.add(relationships, supplierPartWithPortTag);
+	}
+	
+	private void writeClientPartWithPort(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = (com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) element;
+		Element clientPart = connector.getEnd().get(1).getPartWithPort();
+		
+		if(clientPart == null) {
+			return;
 		}
-		if(type != null) {
-			org.w3c.dom.Element typedByTag = createRel(xmlDoc, type, XmlTagConstants.TYPED_BY);
-			relationships.appendChild(typedByTag);
+		
+		org.w3c.dom.Element clientPartWithPortTag = XmlWriter.createMtipRelationship(clientPart, XmlTagConstants.CLIENT_PART_WITH_PORT);
+		XmlWriter.add(relationships, clientPartWithPortTag);
+	}
+	
+	private void writeConnectorType(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector connector = (com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) element;
+		Association type = connector.getType();
+
+		if(type == null) {
+			return;
 		}
-		return data;
+		
+		org.w3c.dom.Element typedByTag = XmlWriter.createMtipRelationship(type, XmlTagConstants.TYPED_BY);
+		XmlWriter.add(relationships, typedByTag);
 	}
 }

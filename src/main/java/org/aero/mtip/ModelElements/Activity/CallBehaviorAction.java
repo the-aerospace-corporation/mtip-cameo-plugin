@@ -14,8 +14,8 @@ public class CallBehaviorAction extends Action {
 	public CallBehaviorAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.CALLBEHAVIORACTION;
-		this.xmlConstant = XmlTagConstants.CALLBEHAVIORACTION;
+		this.metamodelConstant = SysmlConstants.CALL_BEHAVIOR_ACTION;
+		this.xmlConstant = XmlTagConstants.CALL_BEHAVIOR_ACTION;
 		this.element = f.createCallBehaviorActionInstance();
 	}
 }

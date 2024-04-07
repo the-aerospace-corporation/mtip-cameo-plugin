@@ -11,7 +11,6 @@ public class SV10a extends ParametricDiagram {
 		this.metamodelConstant = DoDAFConstants.SV10A;
 		this.xmlConstant = XmlTagConstants.SV10A;
 		this.cameoDiagramConstant = "SV-10a Systems Parametric";
-		this.allowableElements = DoDAFConstants.SV10A_TYPES;
 	}
 	
 	@Override

@@ -22,8 +22,8 @@ public class ParticipantProperty extends CommonElement {
 	public ParticipantProperty(String name, String EAID) {
 		super(name, EAID);	
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.PARTICIPANTPROPERTY;
-		this.metamodelConstant = SysmlConstants.PARTICIPANTPROPERTY;
+		this.xmlConstant = XmlTagConstants.PARTICIPANT_PROPERTY;
+		this.metamodelConstant = SysmlConstants.PARTICIPANT_PROPERTY;
 		this.element = f.createPropertyInstance();
 	}
 

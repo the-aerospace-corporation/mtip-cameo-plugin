@@ -14,8 +14,8 @@ public class InitialNode extends ActivityNode {
 	public InitialNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.INITIALNODE;
-		this.xmlConstant = XmlTagConstants.INITIALNODE;
+		this.metamodelConstant = SysmlConstants.INITIAL_NODE;
+		this.xmlConstant = XmlTagConstants.INITIAL_NODE;
 		this.element = f.createInitialNodeInstance();
 	}
 }

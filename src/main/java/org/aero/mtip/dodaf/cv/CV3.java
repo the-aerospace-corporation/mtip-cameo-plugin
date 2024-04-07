@@ -11,7 +11,6 @@ public class CV3 extends ClassDiagram {
 		this.metamodelConstant = DoDAFConstants.CV3;
 		this.xmlConstant = XmlTagConstants.CV3;
 		this.cameoDiagramConstant = "CV-3";
-		this.allowableElements = DoDAFConstants.CV3_TYPES;
 	}
 	
 	@Override

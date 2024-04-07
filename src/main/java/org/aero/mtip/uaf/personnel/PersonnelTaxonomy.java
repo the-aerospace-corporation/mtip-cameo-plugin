@@ -12,6 +12,5 @@ public class PersonnelTaxonomy extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.PERSONNEL_TAXONOMY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PERSONNEL_TAXONOMY_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.PERSONNEL_TAXONOMY;
-		 this.allowableElements = UAFConstants.PR_TX_TYPES;
 	}
 }

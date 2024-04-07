@@ -12,6 +12,5 @@ public class SecurityTaxonomy extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.SECURITY_TAXONOMY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SECURITY_TAXONOMY_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.SECURITY_TAXONOMY;
-		 this.allowableElements = UAFConstants.SC_TX_TYPES;
 	}
 }

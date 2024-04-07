@@ -24,8 +24,8 @@ public class FunctionalRequirement extends CommonElement {
 	public FunctionalRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.metamodelConstant = SysmlConstants.FUNCTIONALREQUIREMENT;
-		this.xmlConstant = XmlTagConstants.FUNCTIONALREQUIREMENT;
+		this.metamodelConstant = SysmlConstants.FUNCTIONAL_REQUIREMENT;
+		this.xmlConstant = XmlTagConstants.FUNCTIONAL_REQUIREMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.FUNCTIONALREQUIREMENT_STEREOTYPE, creationProfile);
 	}

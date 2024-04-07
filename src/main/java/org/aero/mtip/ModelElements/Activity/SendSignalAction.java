@@ -8,12 +8,11 @@ package org.aero.mtip.ModelElements.Activity;
 
 import java.util.HashMap;
 
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -24,8 +23,8 @@ public class SendSignalAction extends ActivityNode {
 	public SendSignalAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.SENDSIGNALACTION;
-		this.xmlConstant = XmlTagConstants.SENDSIGNALACTION;
+		this.metamodelConstant = SysmlConstants.SEND_SIGNAL_ACTION;
+		this.xmlConstant = XmlTagConstants.SEND_SIGNAL_ACTION;
 		this.element = f.createSendSignalActionInstance();
 	}
 	
@@ -45,23 +44,28 @@ public class SendSignalAction extends ActivityNode {
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {
 			String signalID = modelElement.getAttribute(XmlTagConstants.SIGNAL_TAG);
-			ImportXmlSysml.getOrBuildElement(project, parsedXML, signalID);
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signalID));
 		}
 	}
 	
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
+		writeSignal(relationships, element);
+		
+		return data;
+	}
+	
+	private void writeSignal(org.w3c.dom.Element relationships, Element element) {
 		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction ssa = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction)element;
 		Signal signal = ssa.getSignal();
-		if(signal != null) {
-			CameoUtils.logGUI("Send signal action with id " + this.EAID + " has signal with id " + signal.getID());
-			org.w3c.dom.Element signalTag = createRel(xmlDoc, signal, XmlTagConstants.SIGNAL_TAG);
-			relationships.appendChild(signalTag);
-		} else {
-			CameoUtils.logGUI("Send signal action with id " + this.EAID + " has no signal.");
+		
+		if(signal == null) {
+			return;
 		}
-		return data;
+			
+		org.w3c.dom.Element signalTag = XmlWriter.createMtipRelationship(signal, XmlTagConstants.SIGNAL_TAG);
+		XmlWriter.add(relationships, signalTag);
 	}
 }

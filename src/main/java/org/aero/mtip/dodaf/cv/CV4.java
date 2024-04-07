@@ -11,7 +11,6 @@ public class CV4 extends ClassDiagram {
 		this.metamodelConstant = DoDAFConstants.CV4;
 		this.xmlConstant = XmlTagConstants.CV4;
 		this.cameoDiagramConstant = "CV-4 Capability Dependencies";
-		this.allowableElements = DoDAFConstants.CV4_TYPES;
 	}
 	
 	@Override

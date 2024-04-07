@@ -8,11 +8,11 @@ package org.aero.mtip.ModelElements.Activity;
 
 import java.util.HashMap;
 
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -23,8 +23,8 @@ public class CallOperationAction extends ActivityNode {
 	public CallOperationAction(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.CALLOPERATIONACTION;
-		this.xmlConstant = XmlTagConstants.CALLOPERATIONACTION;
+		this.metamodelConstant = SysmlConstants.CALL_OPERATION_ACTION;
+		this.xmlConstant = XmlTagConstants.CALL_OPERATION_ACTION;
 		this.element = f.createCallOperationActionInstance();
 	}
 
@@ -41,20 +41,28 @@ public class CallOperationAction extends ActivityNode {
 	
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		Element operation = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()), modelElement.getOperation());
+		Element operation = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getOperation()));
 		modelElement.setNewOperation(operation.getID());
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 				
-		Operation operation = ((com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction)element).getOperation();
-		if(operation != null) {
-			org.w3c.dom.Element operationTag = createRel(xmlDoc, operation, XmlTagConstants.OPERATION_TAG);
-			relationships.appendChild(operationTag);
-		}
+		writeOperation(relationships, element);
+		
 		return data;
+	}
+	
+	public void writeOperation(org.w3c.dom.Element relationships, Element element) {
+		Operation operation = ((com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction)element).getOperation();
+		
+		if(operation == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element operationTag = XmlWriter.createMtipRelationship(operation, XmlTagConstants.OPERATION_TAG);
+		XmlWriter.add(relationships, operationTag);
 	}
 }

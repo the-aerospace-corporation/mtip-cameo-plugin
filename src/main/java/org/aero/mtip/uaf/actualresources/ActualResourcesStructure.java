@@ -12,16 +12,5 @@ public class ActualResourcesStructure extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.ACTUAL_RESOURCES_STRUCTURE;
-		 this.allowableElements = UAFConstants.AR_SR_TYPES;
-	}
-	
-	@Override
-	public  String getSysmlConstant() {
-		return this.cameoDiagramConstant;
-	}
-	
-	@Override
-	public  String getDiagramType() {
-		return this.xmlConstant;
 	}
 }

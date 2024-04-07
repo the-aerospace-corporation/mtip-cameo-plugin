@@ -10,9 +10,9 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 
@@ -56,7 +56,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 			} 
 			PartView pv = PresentationElementsManager.getInstance().createPartShape((Property) element, shape, null, false, point);
 			this.shapeElements.put(element.getID(), pv);
-		} else if(CameoUtils.isAssociationBlock(element, project)) {
+		} else if(SysML.isAssociationBlock(element)) {
 			Element relationship = element;
 			Element client = ModelHelper.getClientElement(relationship);
 			Element supplier = ModelHelper.getSupplierElement(relationship);

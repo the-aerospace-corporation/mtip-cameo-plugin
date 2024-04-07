@@ -7,11 +7,12 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Activity;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
@@ -26,7 +27,7 @@ public class ControlFlow extends CommonRelationship {
 	public ControlFlow(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.CONTROLFLOW;
+		this.metamodelConstant = SysmlConstants.CONTROL_FLOW;
 		this.xmlConstant = XmlTagConstants.CONTROLFLOW;
 		this.element = f.createControlFlowInstance();
 	}
@@ -57,24 +58,35 @@ public class ControlFlow extends CommonRelationship {
 	
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow cf = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow)element;
-		ValueSpecification vs = cf.getGuard();
-		if(vs != null) {
-			org.w3c.dom.Element attribute = createAttributefromValueSpecification(vs, XmlTagConstants.GUARD, xmlDoc);
-			if(attribute != null) {
-				attributes.appendChild(attribute);
-			}
-		}
+		writeGuard(attributes, element);
 		
 		return data;
 	}
 	
+	public void writeGuard(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow cf = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow)element;
+		ValueSpecification vs = cf.getGuard();
+		
+		if(vs == null) {
+			return;
+		}
+		
+		org.w3c.dom.Element guardTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.GUARD);
+		
+		if(guardTag == null) {
+			ExportLog.log(String.format("Failed to create xml attribute for guard of control flow with id %s", element.getID()));
+			return;	
+		}
+		
+		XmlWriter.add(attributes, guardTag);
+	}
+	
 	@Override
-	public void setOwner(Project project, Element owner) {
+	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
 			owner = CameoUtils.findNearestActivity(project, supplier);
 		}
@@ -85,18 +97,6 @@ public class ControlFlow extends CommonRelationship {
 	public void setSupplier() {
 		ActivityEdge activityEdge = (ActivityEdge)element;
 		activityEdge.setSource((ActivityNode) supplier);
-	}
-	
-	@Override
-	public void setSupplier(Element element) {
-		ActivityEdge activityEdge = (ActivityEdge)element;
-		this.supplier = activityEdge.getSource();
-	}
-	
-	@Override
-	public void setClient(Element element) {
-		ActivityEdge activityEdge = (ActivityEdge)element;
-		this.client = activityEdge.getTarget();
 	}
 	
 	@Override

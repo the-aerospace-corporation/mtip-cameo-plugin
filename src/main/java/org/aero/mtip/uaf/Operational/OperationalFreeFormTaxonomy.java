@@ -12,6 +12,5 @@ public class OperationalFreeFormTaxonomy extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_FREE_FORM_TAXONOMY;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_FREE_FORM_TAXONOMY;
-		this.allowableElements = UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY_TYPES;
 	}
 }

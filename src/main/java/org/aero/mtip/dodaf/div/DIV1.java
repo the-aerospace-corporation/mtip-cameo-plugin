@@ -11,7 +11,6 @@ public class DIV1 extends AbstractDiagram {
 		this.metamodelConstant = DoDAFConstants.DIV1;
 		this.xmlConstant = XmlTagConstants.DIV1;
 		this.cameoDiagramConstant = "DIV-1 Conceptual Data Model";
-		this.allowableElements = DoDAFConstants.DIV1_TYPES;
 	}
 
 	@Override

@@ -12,7 +12,6 @@ public class SecurityConnectivity extends InternalBlockDiagram {
 		 this.metamodelConstant = UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SECURITY_CONNECTIVITY_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.SECURITY_CONNECTIVITY;
-		 this.allowableElements = UAFConstants.SC_CN_TYPES;
 	}
 
 }

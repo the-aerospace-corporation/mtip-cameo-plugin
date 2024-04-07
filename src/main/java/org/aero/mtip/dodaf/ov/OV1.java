@@ -11,7 +11,6 @@ public class OV1 extends AbstractDiagram {
 		this.metamodelConstant = DoDAFConstants.OV1;
 		this.xmlConstant = XmlTagConstants.OV1;
 		this.cameoDiagramConstant = "OV-1 High-Level Operational Concept Graphic";
-		this.allowableElements = DoDAFConstants.OV1_TYPES;
 	}
 	
 	@Override

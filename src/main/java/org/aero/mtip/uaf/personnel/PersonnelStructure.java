@@ -12,6 +12,5 @@ public class PersonnelStructure extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.PERSONNEL_STRUCTURE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.PERSONNEL_STRUCTURE_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.PERSONNEL_STRUCTURE;
-		 this.allowableElements = UAFConstants.PR_SR_TYPES;
 	}
 }

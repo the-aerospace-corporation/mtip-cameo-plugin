@@ -12,7 +12,6 @@ public class OperationalInternalConnectivity extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_INTERNAL_CONNECTIVITY;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_INTERNAL_CONNECTIVITY;
-		this.allowableElements = UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY_TYPES;
 	}
 }
 

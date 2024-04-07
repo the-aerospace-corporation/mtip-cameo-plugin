@@ -12,7 +12,6 @@ public class OperationalStates extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.OPERATIONAL_STATES;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_STATES;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_STATES;
-		this.allowableElements = UAFConstants.OPERATIONAL_STATES_TYPES;
 	}
 }
 

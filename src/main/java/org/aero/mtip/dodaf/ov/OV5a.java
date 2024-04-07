@@ -11,7 +11,6 @@ public class OV5a extends AbstractDiagram {
 		this.metamodelConstant = DoDAFConstants.OV5A;
 		this.xmlConstant = XmlTagConstants.OV5A;
 		this.cameoDiagramConstant = "OV-5a Operational Activity Decomposition Tree";
-		this.allowableElements = DoDAFConstants.OV5A_TYPES;
 	}
 	
 	@Override

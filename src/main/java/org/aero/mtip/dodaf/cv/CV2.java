@@ -11,7 +11,6 @@ public class CV2 extends ClassDiagram {
 		this.metamodelConstant = DoDAFConstants.CV2;
 		this.xmlConstant = XmlTagConstants.CV2;
 		this.cameoDiagramConstant = "CV-2 Capability Taxonomy";
-		this.allowableElements = DoDAFConstants.CV2_TYPES;
 	}
 	
 	@Override

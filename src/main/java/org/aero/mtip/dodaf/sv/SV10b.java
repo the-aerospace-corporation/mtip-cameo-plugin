@@ -10,8 +10,6 @@ public class SV10b extends StateMachineDiagram {
 		super(name, EAID);
 		this.metamodelConstant = DoDAFConstants.SV10B;
 		this.xmlConstant = XmlTagConstants.SV10B;
-		this.cameoDiagramConstant = "SV-10b Systems State Transition Description";
-		this.allowableElements = DoDAFConstants.SV10B_TYPES;
 	}
 	
 	@Override

@@ -22,8 +22,8 @@ public class ClassifierBehaviorProperty extends CommonElement {
 	public ClassifierBehaviorProperty(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.xmlConstant = XmlTagConstants.CLASSIFIERBEHAVIORPROPERTY;
-		this.metamodelConstant = SysmlConstants.CLASSIFIERBEHAVIORPROPERTY;
+		this.xmlConstant = XmlTagConstants.CLASSIFIER_BEHAVIOR_PROPERTY;
+		this.metamodelConstant = SysmlConstants.CLASSIFIER_BEHAVIOR_PROPERTY;
 		this.element = f.createPropertyInstance();
 	}
 

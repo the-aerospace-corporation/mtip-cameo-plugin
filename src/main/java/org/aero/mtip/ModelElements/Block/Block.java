@@ -7,12 +7,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import org.aero.mtip.profiles.SysML;
 
 public class Block extends CommonElement {
 	public Block(String name, String EAID) {
@@ -20,7 +17,6 @@ public class Block extends CommonElement {
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.metamodelConstant = SysmlConstants.BLOCK;
 		this.xmlConstant = XmlTagConstants.BLOCK;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.BLOCK_STEREOTYPE, creationProfile);
+		this.creationStereotype = SysML.getBlockStereotype();
 	}
 }

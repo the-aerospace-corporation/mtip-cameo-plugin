@@ -12,6 +12,5 @@ public class StrategicConstraints extends BlockDefinitionDiagram {
 		 this.metamodelConstant = UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.STRATEGIC_CONSTRAINTS_DIAGRAM;
 		 this.cameoDiagramConstant = CameoDiagramConstants.STRATEGIC_CONSTRAINTS;
-		 this.allowableElements = UAFConstants.ST_CT_TYPES;
 	}
 }

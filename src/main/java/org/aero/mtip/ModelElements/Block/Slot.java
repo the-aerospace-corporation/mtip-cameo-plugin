@@ -11,23 +11,18 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.StructuralFeature;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
@@ -49,7 +44,7 @@ public class Slot extends CommonElement {
 		Type type = property.getType();
 		
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot propertySlot = ModelHelper.createSlot((InstanceSpecification) owner, property, false);
-		CameoUtils.logGUI("Type of property for slot is " + type.getHumanName());
+		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)) {
 			List<String> values = xmlElement.getListAttributes(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE);
 			if(!values.isEmpty()) {
@@ -104,49 +99,58 @@ public class Slot extends CommonElement {
 	@Override
 	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)) {
-			ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY));
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)) {
-			ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE));
+			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)) {
 			if(CameoUtils.isCameoID(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE))) {
-				ImportXmlSysml.getOrBuildElement(project, parsedXML, modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE));
+				ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)));
 			}
 		}
 	}
 	
 	@Override
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
-		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
+		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot slot = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot)element;
+		writeValue(attributes, element);
+		writeDefiningFeature(relationships, element);
 		
-		List<ValueSpecification> vss = slot.getValue();
-		if(vss.size() > 0) {
-			ValueSpecification vs = vss.get(0);
-			if(vs instanceof InstanceValue) {
-				org.w3c.dom.Element attribute = createAttributefromValueSpecification(vs, XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE, xmlDoc);
-				attributes.appendChild(attribute);
-			} else {
-				org.w3c.dom.Element attribute = createAttributefromValueSpecification(vs, XmlTagConstants.ATTRIBUTE_KEY_VALUE, xmlDoc);
-				attributes.appendChild(attribute);
-			}
-		}
-		
-		StructuralFeature sf = slot.getDefiningFeature();
-		if (sf instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration) {
-			org.w3c.dom.Element enumerationTag = createRel(xmlDoc, sf, XmlTagConstants.RELATIONSHIP_ENUMERATION);
-			relationships.appendChild(enumerationTag);
-		} else if(sf instanceof Property) {
-			Property property = (Property)sf;
-			org.w3c.dom.Element propertyTag = createRel(xmlDoc, property, XmlTagConstants.RELATIONSHIP_PROPERTY);
-			relationships.appendChild(propertyTag);
-		}
 		return data;
+	}
+	
+	private void writeValue(org.w3c.dom.Element attributes, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot slot = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot)element;
+		List<ValueSpecification> vss = slot.getValue();
+		
+		if(vss.size() == 0) {
+			return;
+		}
+		
+		ValueSpecification vs = vss.get(0);
+		org.w3c.dom.Element valueTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.ATTRIBUTE_KEY_VALUE);
+		XmlWriter.add(attributes, valueTag);
+	}
+	
+	private void writeDefiningFeature(org.w3c.dom.Element relationships, Element element) {
+		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot slot = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot)element;
+		StructuralFeature sf = slot.getDefiningFeature();
+		
+		if (sf instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration) {
+			org.w3c.dom.Element enumerationTag = XmlWriter.createMtipRelationship(sf, XmlTagConstants.RELATIONSHIP_ENUMERATION);
+			XmlWriter.add(relationships, enumerationTag);
+		} 
+		
+		if(sf instanceof Property) {
+			Property property = (Property)sf;
+			org.w3c.dom.Element propertyTag = XmlWriter.createMtipRelationship(property, XmlTagConstants.RELATIONSHIP_PROPERTY);
+			XmlWriter.add(relationships, propertyTag);
+		}
 	}
 }

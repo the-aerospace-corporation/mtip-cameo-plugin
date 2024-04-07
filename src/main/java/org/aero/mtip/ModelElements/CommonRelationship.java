@@ -8,8 +8,12 @@ package org.aero.mtip.ModelElements;
 
 import java.util.HashMap;
 
+import javax.annotation.CheckForNull;
+
+import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.ExportLog;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.XMLItem;
 import org.w3c.dom.Document;
@@ -21,6 +25,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 
 public abstract class CommonRelationship extends CommonElement {
 	protected Element supplier = null;
@@ -59,28 +64,33 @@ public abstract class CommonRelationship extends CommonElement {
 	}
 	
 	@Override
-	public void setOwner(Project project, Element owner) {
-		if(this.supplier != null && this.client != null) {
-			if(owner != null) {
-				try {
-					element.setOwner(owner);
-				} catch(IllegalArgumentException iaeOwner) {
-					CameoUtils.logGUI("No owner found for " + name + " with id " + EAID + ". Attempting to set supplier or client as parent.");
-				}
+	public void setOwner(Element owner) {
+		if (owner != null) {
+			try {
+				element.setOwner(owner);
+				return;
+			} catch(IllegalArgumentException iaeOwner) {
+				ImportLog.log(String.format("Owner of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
 			}
-			else {
-				try {
-					element.setOwner(supplier);
-				} catch(IllegalArgumentException iae) {
-					try {
-						element.setOwner(client);
-					} catch(IllegalArgumentException iae2) {
-						String logMessage = "Invalid parent. No parent provided and supplier and client invalid parent for " + name + " with id " + EAID + ". Relationship could not be placed in model.";
-						CameoUtils.logGUI(logMessage);
-						ImportLog.log(logMessage);
-						throw new IllegalArgumentException("Invalid Parent");
-					}
-				}
+		}
+		
+		ImportLog.log(String.format("...Attempting to set supplier or client as owner for %s.", element.getHumanType()));
+			
+		if(supplier != null) {
+			try {
+				element.setOwner(supplier);
+				return;
+			} catch(IllegalArgumentException iaeOwner) {
+				ImportLog.log(String.format("...Supplier of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
+			}
+		}
+		
+		if(client != null) {
+			try {
+				element.setOwner(supplier);
+				return;
+			} catch(IllegalArgumentException iaeOwner) {
+				ImportLog.log(String.format("...Client of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
 			}
 		}
 	}
@@ -106,51 +116,59 @@ public abstract class CommonRelationship extends CommonElement {
 		return attributes;
 	}
 	
-	public org.w3c.dom.Element writeToXML(Element element, Project project, Document xmlDoc) {
-		org.w3c.dom.Element data = super.writeToXML(element, project, xmlDoc);
+	@Override
+	public org.w3c.dom.Element writeToXML(Element element) {
+		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		if(relationships == null) {
-			relationships = createRelationships(xmlDoc, element);
-		}
+		writeSupplier(relationships);
+		writeClient(relationships);
 		
-		setSupplier(element);
-		setClient(element);
-		
-		if(supplier != null) {
-			org.w3c.dom.Element supplierRel = createRel(xmlDoc, this.supplier, XmlTagConstants.SUPPLIER);
-			relationships.appendChild(supplierRel);
-		} else {
-			CameoUtils.logGUI("No supplier element found.\n");
-		}
-		if(client != null) {
-			org.w3c.dom.Element clientRel = createRel(xmlDoc, this.client, XmlTagConstants.CLIENT);
-			relationships.appendChild(clientRel);
-		} else {
-			CameoUtils.logGUI("No client element found.\n");
-		}
-		
-		// Check for client and supplier multiplicities
-		String clientMultiplicity = getClientMultiplicity(element);
-		String supplierMultiplicity = getSupplierMultiplicity(element);
-		
-		if(supplierMultiplicity != null && !supplierMultiplicity.isEmpty()) {
-			org.w3c.dom.Element supplierMultiplicityTag = createStringAttribute(xmlDoc, XmlTagConstants.SUPPLIER_MULTIPLICITY, supplierMultiplicity);
-			attributes.appendChild(supplierMultiplicityTag);
-		}
-		if(supplierMultiplicity != null && !clientMultiplicity.isEmpty()) {
-			org.w3c.dom.Element clientMultiplicityTag = createStringAttribute(xmlDoc, XmlTagConstants.CLIENT_MULTIPLICITY, clientMultiplicity);
-			attributes.appendChild(clientMultiplicityTag);
-		}
+		writeMultiplicity(attributes, getSupplierMultiplicity(element));
+		writeMultiplicity(attributes, getClientMultiplicity(element));
 		
 		return data;
 	}
 	
+	public void writeSupplier(org.w3c.dom.Element relationships) {
+		getSupplier(element);
+		
+		if(supplier == null) {
+			ExportLog.log(String.format("No supplier element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
+			return;
+		}
+		
+		org.w3c.dom.Element supplierTag = XmlWriter.createMtipRelationship(supplier, XmlTagConstants.SUPPLIER);
+		XmlWriter.add(relationships, supplierTag);
+	}
+	
+	public void writeClient(org.w3c.dom.Element relationships) {
+		getClient(element);
+		
+		if(client == null) {
+			ExportLog.log(String.format("No client element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
+			return;
+		}
+		org.w3c.dom.Element clientTag = XmlWriter.createMtipRelationship(client, XmlTagConstants.CLIENT);
+		XmlWriter.add(relationships, clientTag);
+	}
+	
+	public void writeMultiplicity(org.w3c.dom.Element attributes, String multiplicity) {
+		if(multiplicity == null || multiplicity.trim().isEmpty()) {
+			return;
+		}
+		
+		org.w3c.dom.Element multiplicityTag = XmlWriter.createMtipStringAttribute(XmlTagConstants.SUPPLIER_MULTIPLICITY, multiplicity);
+		XmlWriter.add(attributes, multiplicityTag);
+	}
+	
+	@CheckForNull
 	public Element getSupplier() {
 		return this.supplier;
 	}
 	
+	@CheckForNull
 	public Element getClient() {
 		return this.client;
 	}
@@ -189,11 +207,11 @@ public abstract class CommonRelationship extends CommonElement {
 		}
 	}
 	
-	public void setSupplier(Element element) {
-		this.supplier = ModelHelper.getSupplierElement(element);
-	}
-	
-	public void setClient(Element element) {
-		this.client = ModelHelper.getClientElement(element);
+	public static String getName(Element element) {
+		if (element instanceof NamedElement) {
+			return ((NamedElement)element).getName();
+		}
+		
+		return element.getHumanName();
 	}
 }

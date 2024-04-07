@@ -16,8 +16,8 @@ public class ShallowHistory extends PseudoState {
 	public ShallowHistory(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.SHALLOWHISTORY;
-		this.metamodelConstant = SysmlConstants.SHALLOWHISTORY;
-		this.xmlConstant = XmlTagConstants.SHALLOWHISTORY;
+		this.metamodelConstant = SysmlConstants.SHALLOW_HISTORY;
+		this.xmlConstant = XmlTagConstants.SHALLOW_HISTORY;
 	}
 
 }

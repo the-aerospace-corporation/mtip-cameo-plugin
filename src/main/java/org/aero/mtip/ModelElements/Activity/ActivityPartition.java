@@ -20,8 +20,8 @@ public class ActivityPartition extends CommonElement {
 	public ActivityPartition(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.metamodelConstant = SysmlConstants.ACTIVITYPARTITION;
-		this.xmlConstant = XmlTagConstants.ACTIVITYPARTITION;
+		this.metamodelConstant = SysmlConstants.ACTIVITY_PARTITION;
+		this.xmlConstant = XmlTagConstants.ACTIVITY_PARTITION;
 		this.element = f.createActivityPartitionInstance();
 	}
 	

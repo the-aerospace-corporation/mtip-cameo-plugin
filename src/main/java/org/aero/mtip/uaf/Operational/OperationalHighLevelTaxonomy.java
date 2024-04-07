@@ -12,6 +12,5 @@ public class OperationalHighLevelTaxonomy extends AbstractDiagram{
 		this.metamodelConstant = UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY;
 		this.xmlConstant = XmlTagConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY;
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY;
-		this.allowableElements = UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY_TYPES;
 	}
 }

@@ -19,8 +19,8 @@ public class InterfaceRequirement extends CommonElement {
 	public InterfaceRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.metamodelConstant = SysmlConstants.INTERFACEREQUIREMENT;
-		this.xmlConstant = XmlTagConstants.INTERFACEREQUIREMENT;
+		this.metamodelConstant = SysmlConstants.INTERFACE_REQUIREMENT;
+		this.xmlConstant = XmlTagConstants.INTERFACE_REQUIREMENT;
 		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
 		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.INTERFACEREQUIREMENT_STEREOTYPE, creationProfile);
 	}
