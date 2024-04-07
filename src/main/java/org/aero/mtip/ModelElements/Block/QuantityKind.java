@@ -6,16 +6,12 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import java.util.ArrayList;
-
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.MDForSysMLExtensions;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.uml.Finder;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class QuantityKind extends InstanceSpecification {
 
@@ -24,9 +20,7 @@ public class QuantityKind extends InstanceSpecification {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.QUANTITY_KIND;
 		this.xmlConstant = XmlTagConstants.QUANTITY_KIND;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.MD_CUSTOMIZATION_PROFILE_NAME);
-		this.initialStereotypes = new ArrayList<Stereotype> ();
-		this.initialStereotypes.add(StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysMLProfile.VALUETYPE_QUANTITYKIND_PROPERTY, this.creationProfile));
+		this.creationStereotype = MDForSysMLExtensions.getQuantityKindStereotype();
 		this.element = f.createInstanceSpecificationInstance();
 	}
 

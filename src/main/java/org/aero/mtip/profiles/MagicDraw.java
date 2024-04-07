@@ -13,8 +13,9 @@ public class MagicDraw {
 	private Profile profile;
 	
 	public static final String NAME = "MagicDraw Profile";
-	
+	public static final String TERM_NAME = "Term";
 	private static final String AUXILIARY_RESOURCE = "auxiliaryResource";
+	
 	
 	private MagicDraw() {
 		project = Application.getInstance().getProject();
@@ -31,6 +32,10 @@ public class MagicDraw {
 	
 	public static Stereotype getAuxiliaryResourceStereotype() {
 		return getInstance().getStereotype(AUXILIARY_RESOURCE);
+	}
+	
+	public static Stereotype getTermStereotype() {
+		return getInstance().getStereotype(TERM_NAME);
 	}
 	
 	public Stereotype getStereotype(String stereotypeName) {

@@ -8,6 +8,7 @@ package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -20,7 +21,6 @@ public class Term extends CommonElement {
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.sysmlConstant = SysmlConstants.TERM;
 		this.xmlConstant = XmlTagConstants.TERM;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.MAGICDRAW_PROFILE_NAME); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysmlConstants.TERM, creationProfile);
+		this.creationStereotype = MagicDraw.getTermStereotype();
 	}
 }

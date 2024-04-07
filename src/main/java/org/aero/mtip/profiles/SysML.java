@@ -11,54 +11,55 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class SysML {
-	private static SysML instance;
+	static SysML instance;
 	
-	private Project project;
-	private Profile profile;
+	Project project;
+	Profile profile;
 	
 	public static final String NAME = "SysML";
 	
-//	private static final String ASSOCIATION_BLOCK_NAME = ""
-	private static final String BINDING_CONNECTOR_NAME = "BindingConnector";
-	private static final String BLOCK_NAME = "Block";
-	private static final String BOUND_REFERENCE_NAME = "BoundReference";
-	private static final String BUSINESS_REQUIREMENT_NAME = "businessRequirement";
-	private static final String CLASSIFIER_BEHAVIOR_NAME = "ClassifierBehaviorProperty";
-	private static final String CONSTRAINT_BLOCK_NAME = "ConstraintBlock";
-	private static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
-	private static final String CONSTRAINT_PROPERTY_NAME = "ConstraintProperty";
-	private static final String COPY_NAME = "Copy";
-	private static final String DERIVE_REQUIREMENT_NAME = "DeriveReqt";
-	private static final String DESIGN_CONSTRAINT_NAME = "designConstraint";
-	private static final String DIRECTED_FEATURE_NAME = "directedFeature";
-	private static final String DOMAIN_NAME = "Domain";
-	private static final String EXTENDED_REQUIREMENT_NAME = "extendedRequirement";
-	private static final String EXTERNAL_NAME = "External";
-	private static final String FLOW_PORT_NAME = "FlowPort";
-	private static final String FLOW_PROPERTY_NAME = "FlowProperty";
-	private static final String FLOW_SPECIFICATION_NAME = "FlowSpecification";
-	private static final String FULL_PORT_NAME = "FullPort";
-	private static final String FUNCTIONAL_REQUIREMENT_NAME = "functionalRequirement";
-	private static final String INTERFACE_BLOCK_NAME = "InterfaceBlock";
-	private static final String INTERFACE_REQUIREMENT_NAME = "interfaceRequirement";
-	private static final String ITEM_FLOW_NAME = "ItemFlow";
-	private static final String PARTICIPANT_PROPERTY_NAME = "ParticipantProperty";
-	private static final String PERFORMANCE_REQUIREMENT_NAME = "performanceRequirement";
-	private static final String PHYSICAL_REQUIREMENT_NAME = "physicalRequirement";
-	private static final String PROXY_PORT_NAME = "ProxyPort";
-	private static final String REFINE_NAME = "Refine";
-	private static final String REQUIREMENT_NAME = "Requirement";
-	private static final String SATISFY_NAME = "Satisfy";
-	private static final String STAKEHOLDER_NAME = "Stakeholder";
-	private static final String SUBSYSTEM_NAME = "Subsystem";
-	private static final String SYSTEM_NAME = "System";
-	private static final String SYSTEM_CONTEXT_NAME = "System context";
-	private static final String TRACE_NAME = "Trace";
-	private static final String USABILITY_REQUIREMENT_NAME = "usabilityRequirement";
-	private static final String VALUE_TYPE_NAME = "ValueType";
-	private static final String VERIFY_NAME = "Verify";
-	private static final String VIEW_NAME = "View";
-	private static final String VIEWPOINT_NAME = "Viewpoint";
+//	static final String ASSOCIATION_BLOCK_NAME = ""
+	static final String BINDING_CONNECTOR_NAME = "BindingConnector";
+	static final String BLOCK_NAME = "Block";
+	static final String BOUND_REFERENCE_NAME = "BoundReference";
+	static final String BUSINESS_REQUIREMENT_NAME = "businessRequirement";
+	static final String CLASSIFIER_BEHAVIOR_NAME = "ClassifierBehaviorProperty";
+	static final String CONSTRAINT_BLOCK_NAME = "ConstraintBlock";
+	static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
+	static final String CONSTRAINT_PROPERTY_NAME = "ConstraintProperty";
+	static final String COPY_NAME = "Copy";
+	static final String CUSTOMIZATION_NAME = "Customization";
+	static final String DERIVE_REQUIREMENT_NAME = "DeriveReqt";
+	static final String DESIGN_CONSTRAINT_NAME = "designConstraint";
+	static final String DIRECTED_FEATURE_NAME = "directedFeature";
+	static final String DOMAIN_NAME = "Domain";
+	static final String EXTENDED_REQUIREMENT_NAME = "extendedRequirement";
+	static final String EXTERNAL_NAME = "External";
+	static final String FLOW_PORT_NAME = "FlowPort";
+	static final String FLOW_PROPERTY_NAME = "FlowProperty";
+	static final String FLOW_SPECIFICATION_NAME = "FlowSpecification";
+	static final String FULL_PORT_NAME = "FullPort";
+	static final String FUNCTIONAL_REQUIREMENT_NAME = "functionalRequirement";
+	static final String INTERFACE_BLOCK_NAME = "InterfaceBlock";
+	static final String INTERFACE_REQUIREMENT_NAME = "interfaceRequirement";
+	static final String ITEM_FLOW_NAME = "ItemFlow";
+	static final String PARTICIPANT_PROPERTY_NAME = "ParticipantProperty";
+	static final String PERFORMANCE_REQUIREMENT_NAME = "performanceRequirement";
+	static final String PHYSICAL_REQUIREMENT_NAME = "physicalRequirement";
+	static final String PROXY_PORT_NAME = "ProxyPort";
+	static final String REFINE_NAME = "Refine";
+	static final String REQUIREMENT_NAME = "Requirement";
+	static final String SATISFY_NAME = "Satisfy";
+	static final String STAKEHOLDER_NAME = "Stakeholder";
+	static final String SUBSYSTEM_NAME = "Subsystem";
+	static final String SYSTEM_NAME = "System";
+	static final String SYSTEM_CONTEXT_NAME = "System context";
+	static final String TRACE_NAME = "Trace";
+	static final String USABILITY_REQUIREMENT_NAME = "usabilityRequirement";
+	static final String VALUE_TYPE_NAME = "ValueType";
+	static final String VERIFY_NAME = "Verify";
+	static final String VIEW_NAME = "View";
+	static final String VIEWPOINT_NAME = "Viewpoint";
 	
 	public static final String TEXT_PROPERTY_NAME = "Text";
 	public static final String ID_PROPERTY_NAME = "Id";
@@ -85,12 +86,24 @@ public class SysML {
 		return StereotypesHelper.getStereotype(getInstance().project, BLOCK_NAME, getInstance().profile);
 	}
 	
+	public static Stereotype getCustomizationStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, CUSTOMIZATION_NAME, getInstance().profile);
+	}
+	
 	public static Stereotype getDirectedFeatureStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, DIRECTED_FEATURE_NAME, getInstance().profile);
 	}
 	
+	public static Stereotype getDesignConstraintStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, DESIGN_CONSTRAINT_NAME, getInstance().profile);
+	}
+	
 	public static Stereotype getDomainStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, DOMAIN_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getExtendedRequirementStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, EXTENDED_REQUIREMENT_NAME, getInstance().profile);
 	}
 	
 	public static Stereotype getExternalStereotype() {
@@ -99,6 +112,26 @@ public class SysML {
 	
 	public static Stereotype getFlowPropertyStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, FLOW_PROPERTY_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getFunctionalRequirementStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, FUNCTIONAL_REQUIREMENT_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getInterfaceBlockStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, INTERFACE_BLOCK_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getInterfaceRequirementStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, INTERFACE_REQUIREMENT_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getPerformanceRequirementStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, PERFORMANCE_REQUIREMENT_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getPhysicalRequirementStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, PHYSICAL_REQUIREMENT_NAME, getInstance().profile);
 	}
 	
 	public static Stereotype getRequirementStereotype() {
@@ -115,6 +148,14 @@ public class SysML {
 	
 	public static Stereotype getSystemContextStereotype() {
 		return StereotypesHelper.getStereotype(getInstance().project, SYSTEM_CONTEXT_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getViewStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, VIEW_NAME, getInstance().profile);
+	}
+	
+	public static Stereotype getViewpointStereotype() {
+		return StereotypesHelper.getStereotype(getInstance().project, VIEWPOINT_NAME, getInstance().profile);
 	}
 	
 	public static boolean isAssociationBlock(Element element) {
