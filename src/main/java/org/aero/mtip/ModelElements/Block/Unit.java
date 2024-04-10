@@ -6,17 +6,12 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
+import org.aero.mtip.profiles.MDForSysMLExtensions;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.uml.Finder;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Unit extends InstanceSpecification {
 
@@ -25,9 +20,8 @@ public class Unit extends InstanceSpecification {
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.UNIT;
 		this.xmlConstant = XmlTagConstants.UNIT;
+		this.creationStereotype = MDForSysMLExtensions.getUnitStereotype();
 		this.element = f.createInstanceSpecificationInstance();
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.MD_CUSTOMIZATION_PROFILE_NAME);
-		this.initialStereotypes = new ArrayList<Stereotype> (Arrays.asList(MDCustomizationForSysMLProfile.UNIT_STEREOTYPE));
 	}
 	
 	@Override

@@ -107,6 +107,7 @@ public class CameoUtils {
 	public static Element findNearestRegion(Project project, Element owner) {
 		Region region = null;
 		Collection<Region> regions = null;
+
 		if(owner instanceof StateMachine) {
 			StateMachine sm = (StateMachine)owner;
 			regions = sm.getRegion();
@@ -409,10 +410,8 @@ public class CameoUtils {
 //			InstanceSpecification is = iv.getInstance();
 //			ValueSpecification vs2 = is.getSpecification();
 //			strVal = getSlotValueAsString(vs2);
-		}else {
-			String message = "Value specification with id " + vs.getID() + " was not string, real, int, bool, or opaque expression.";
-			ExportLog.log(message);
-			CameoUtils.logGUI(message);
+		} else {
+			ExportLog.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
 		}
 		return strVal;
 	}

@@ -16,7 +16,7 @@ public class InterfaceRequirement extends Requirement {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.sysmlConstant = SysmlConstants.INTERFACE_REQUIREMENT;
-		this.xmlConstant = XmlTagConstants.INTERFACE_REQUIREMENT; 
+		this.xmlConstant = XmlTagConstants.INTERFACE_REQUIREMENT;
 		this.creationStereotype = SysML.getInterfaceRequirementStereotype();
 	}
 }

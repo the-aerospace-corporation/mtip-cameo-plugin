@@ -17,7 +17,6 @@ import java.util.Map;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
@@ -199,12 +198,11 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		try {
-			CameoUtils.logGUI("Creating element from abstract diagram class");
 			element = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
-			CameoUtils.logGUI("Caught read only exception");
+			ImportLog.log(String.format("ReadOnlyElementException encountered creating diagram %s.", getSysmlConstant()));
 		}
-//		setOwner(project, sysmlElement);
+		
 		((NamedElement) element).setName(name);
 
 		return element;
@@ -222,8 +220,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				counter++;
 			}
 		} catch (ReadOnlyElementException e) {
-			CameoUtils.logGUI("Diagram " + diagram.getHumanName() + " is ready only. No elements will be added.");
+			ImportLog.log(String.format("Diagram %s is ready only. No elements will be added.", diagram.getHumanName()));
 		}
+		
 		return noPosition;
 	}
 	
@@ -240,27 +239,23 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 				} catch(NullPointerException npe) {
-					CameoUtils.logGUI("Null Pointer Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
-					ImportLog.log("Null Pointer Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
+					ImportLog.log(String.format("Null Pointer Exception creating or placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
 				} catch(IllegalArgumentException iae) {
 					if (shape != null) {
 						PresentationElementsManager.getInstance().deletePresentationElement(shape);
 					}
 					
-					CameoUtils.logGUI("Illegal Argument Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
-					ImportLog.log("Illegal Argument Exception creating or placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
+					ImportLog.log(String.format("Illegal Argument Exception creating or placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
 				}
 			}
 		} catch(ClassCastException cce) {
-			CameoUtils.logGUI("Caught Class cast exception adding " + element.getHumanName() + " " + "with id " + element.getID() + " to diagram.");
-			ImportLog.log("Caught Class cast exception adding " + element.getID() + " to diagram.");
-			CameoUtils.logExceptionToGui(cce);
+			ImportLog.log(String.format("Caught Class cast exception adding %s to diagram.", element.getID()));
 		}
 		
 		if(shape != null) {
-			CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
 			this.shapeElements.put(element.getID(), shape);
 		}
+		
 		return noPosition;
 	}
 	
@@ -283,10 +278,8 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			try {
 				if(clientPE != null && supplierPE != null) {
 					PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
-					CameoUtils.logGUI("Placing relationship " + relationship.getHumanName() + " on to diagram.");
 				} else {
 					ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
-					CameoUtils.logGUI("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
 				}
 			} catch(ClassCastException cce) {
 				ImportLog.log("Class cast exception creating path element.");

@@ -25,7 +25,7 @@ public class Requirement extends CommonElement {
 		super(name, EAID);		
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.sysmlConstant = SysmlConstants.REQUIREMENT;
-		this.xmlConstant = XmlTagConstants.REQUIREMENT;
+		this.xmlConstant = XmlTagConstants.REQUIREMENT; 
 		this.creationStereotype = SysML.getRequirementStereotype();
 	}
 	

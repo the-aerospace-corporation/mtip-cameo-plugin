@@ -70,7 +70,7 @@ public class ExportLog {
 			    	fw.write(line);
 			    }
 			    fw.close();
-			    CameoUtils.logGUI("Log file saved to disk at: " + filePath.toString());
+			    CameoUtils.logGUI(String.format("Log file saved to disk at: %s", filePath.toString()));
 			}
 			catch(IOException ioe) {
 				CameoUtils.logGUI("IOException: " + ioe.getMessage());

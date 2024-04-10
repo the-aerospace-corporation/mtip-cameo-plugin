@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
-import org.aero.mtip.profiles.SysMLProfile;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -65,7 +65,7 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 			ImportLog.log(logMessage);
 		}
 		try {
-			if(!(SysMLProfile.isBlock(owner))) {
+			if(!(SysML.isBlock(owner))) {
 				owner = CameoUtils.findNearestBlock(project, owner);
 				if(owner == null) {
 					String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". No parents found in ancestors. Element could not be placed in model.";

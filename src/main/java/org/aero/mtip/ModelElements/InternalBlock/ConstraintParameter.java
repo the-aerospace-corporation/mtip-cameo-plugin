@@ -92,7 +92,6 @@ public class ConstraintParameter extends CommonElement {
 	
 	private TaggedValue getDirectedFeatureTaggedValue(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
-			CameoUtils.logGUI(String.format("Checking %s for comparison to %s", tv.getStereotypeName(), SysMLProfile.DIRECTEDFEATURE_STEREOTYPE));
 			if (tv.getStereotypeName().contentEquals(SysMLProfile.DIRECTEDFEATURE_STEREOTYPE)) {
 				return tv;
 			}

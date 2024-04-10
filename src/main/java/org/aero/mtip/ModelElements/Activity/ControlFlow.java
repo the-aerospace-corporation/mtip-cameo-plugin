@@ -38,16 +38,15 @@ public class ControlFlow extends CommonRelationship {
 		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow cf = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.GUARD)) {
-			CameoUtils.logGUI("Creating guard for control flow with id " + xmlElement.getEAID() + " and guard value " + xmlElement.getAttribute(XmlTagConstants.GUARD));
 			ValueSpecification guard = cf.getGuard();
+			
 			if(guard != null) {
 				guard.dispose();
 			}
+			
 			LiteralString specification = f.createLiteralStringInstance();
 			specification.setValue(xmlElement.getAttribute(XmlTagConstants.GUARD));			
 			cf.setGuard(specification);
-		} else {
-			CameoUtils.logGUI("Control flow " + xmlElement.getEAID() + " has no guard.");
 		}
 		
 		return cf;
