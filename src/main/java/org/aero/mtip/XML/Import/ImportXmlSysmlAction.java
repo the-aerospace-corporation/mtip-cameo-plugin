@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
-import org.aero.mtip.profiles.SysMLProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.ImportLog;
@@ -27,6 +26,7 @@ import org.xml.sax.SAXException;
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 
 @SuppressWarnings("serial")
@@ -37,12 +37,11 @@ public class ImportXmlSysmlAction extends MDAction {
 	public void actionPerformed(ActionEvent e) {
 		ImportXmlSysml.resetImportParameters();
 		Project project = Application.getInstance().getProject();
+		
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
+			return;
 		}
-		
-		SysMLProfile.initializeStereotypes();
-		MDCustomizationForSysMLProfile.initializeStereotypes();
 		
 		try
 		{

@@ -193,6 +193,7 @@ public class CameoUtils {
 		if(element instanceof Profile) {
 			return true;
 		}
+		
 		return false;
 	}
 	

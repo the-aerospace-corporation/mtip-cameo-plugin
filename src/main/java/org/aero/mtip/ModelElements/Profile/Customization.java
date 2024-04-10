@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -37,12 +36,10 @@ public class Customization extends CommonElement {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.xmlConstant = XmlTagConstants.CUSTOMIZATION;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.CUSTOMIZATION); 
-		this.creationStereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), SysmlConstants.CUSTOMIZATION, creationProfile);
 		
 		this.dslCustomizationProfile = StereotypesHelper.getProfile(project,  "DSL Customization");
 		this.customizationStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.CUSTOMIZATION, dslCustomizationProfile);
-		
+		this.creationStereotype = this.customizationStereotype;
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {

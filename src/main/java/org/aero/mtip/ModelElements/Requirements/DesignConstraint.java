@@ -6,12 +6,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Requirements;
 
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.profiles.SysMLProfile;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
-
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 
 public class DesignConstraint extends Requirement {
 
@@ -19,8 +16,7 @@ public class DesignConstraint extends Requirement {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.sysmlConstant = SysmlConstants.DESIGN_CONSTRAINT;
-		this.xmlConstant = XmlTagConstants.DESIGN_CONSTRAINT;
-		this.creationProfile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), SysmlConstants.SYSML_PROFILE_NAME); 
-		this.creationStereotype = SysMLProfile.DESIGN_CONSTRAINT_STEREOTYPE;
+		this.xmlConstant = XmlTagConstants.DESIGN_CONSTRAINT; 
+		this.creationStereotype = SysML.getDesignConstraintStereotype();
 	}
 }

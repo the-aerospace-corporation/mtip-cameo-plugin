@@ -66,7 +66,6 @@ public abstract class CommonElement {
 	protected String creationType;
 	protected ElementsFactory f;
 	protected Element element;
-	protected Profile creationProfile;
 	protected Stereotype creationStereotype;
 	protected List<Stereotype> initialStereotypes;
 	protected Element classifier;

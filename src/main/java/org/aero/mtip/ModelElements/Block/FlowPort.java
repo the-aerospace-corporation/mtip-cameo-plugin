@@ -28,6 +28,7 @@ public class FlowPort extends CommonElement {
 		this.sysmlConstant = SysmlConstants.FLOW_PORT;
 		this.xmlConstant = XmlTagConstants.FLOW_PORT;
 		this.element = f.createPortInstance();
+		this.creationStereotype = SysML.getFlowportStereotype();
 	}
 
 	@Override
