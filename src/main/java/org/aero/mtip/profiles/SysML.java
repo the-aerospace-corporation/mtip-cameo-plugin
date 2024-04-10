@@ -82,80 +82,96 @@ public class SysML {
 		return instance;
 	}
 	
+	Stereotype getStereotype(String stereotypeName) {
+		return StereotypesHelper.getStereotype(project, stereotypeName, profile);
+	}
+	
 	public static Stereotype getBlockStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, BLOCK_NAME, getInstance().profile);
+		return getInstance().getStereotype(BLOCK_NAME);
 	}
 	
 	public static Stereotype getCustomizationStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, CUSTOMIZATION_NAME, getInstance().profile);
+		return getInstance().getStereotype(CUSTOMIZATION_NAME);
+	}
+	
+	public static Stereotype getDeriveRequirementStereotype() {
+		return getInstance().getStereotype(DERIVE_REQUIREMENT_NAME);
 	}
 	
 	public static Stereotype getDirectedFeatureStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, DIRECTED_FEATURE_NAME, getInstance().profile);
+		return getInstance().getStereotype(DIRECTED_FEATURE_NAME);
 	}
 	
 	public static Stereotype getDesignConstraintStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, DESIGN_CONSTRAINT_NAME, getInstance().profile);
+		return getInstance().getStereotype(DESIGN_CONSTRAINT_NAME);
 	}
 	
 	public static Stereotype getDomainStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, DOMAIN_NAME, getInstance().profile);
+		return getInstance().getStereotype(DOMAIN_NAME);
 	}
 	
 	public static Stereotype getExtendedRequirementStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, EXTENDED_REQUIREMENT_NAME, getInstance().profile);
+		return getInstance().getStereotype(EXTENDED_REQUIREMENT_NAME);
 	}
 	
 	public static Stereotype getExternalStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, EXTERNAL_NAME, getInstance().profile);
+		return getInstance().getStereotype(EXTERNAL_NAME);
+	}
+	
+	public static Stereotype getFlowPortStereotype() {
+		return getInstance().getStereotype(FLOW_PORT_NAME);
 	}
 	
 	public static Stereotype getFlowPropertyStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, FLOW_PROPERTY_NAME, getInstance().profile);
+		return getInstance().getStereotype(FLOW_PROPERTY_NAME);
+	}
+	
+	public static Stereotype getFullPortStereotype() {
+		return getInstance().getStereotype(FULL_PORT_NAME);
 	}
 	
 	public static Stereotype getFunctionalRequirementStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, FUNCTIONAL_REQUIREMENT_NAME, getInstance().profile);
+		return getInstance().getStereotype(FUNCTIONAL_REQUIREMENT_NAME);
 	}
 	
 	public static Stereotype getInterfaceBlockStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, INTERFACE_BLOCK_NAME, getInstance().profile);
+		return getInstance().getStereotype(INTERFACE_BLOCK_NAME);
 	}
 	
 	public static Stereotype getInterfaceRequirementStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, INTERFACE_REQUIREMENT_NAME, getInstance().profile);
+		return getInstance().getStereotype(INTERFACE_REQUIREMENT_NAME);
 	}
 	
 	public static Stereotype getPerformanceRequirementStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, PERFORMANCE_REQUIREMENT_NAME, getInstance().profile);
+		return getInstance().getStereotype(PERFORMANCE_REQUIREMENT_NAME);
 	}
 	
 	public static Stereotype getPhysicalRequirementStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, PHYSICAL_REQUIREMENT_NAME, getInstance().profile);
+		return getInstance().getStereotype(PHYSICAL_REQUIREMENT_NAME);
 	}
 	
 	public static Stereotype getRequirementStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, REQUIREMENT_NAME, getInstance().profile);
+		return getInstance().getStereotype(REQUIREMENT_NAME);
 	}
 	
 	public static Stereotype getSubsystemStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, SUBSYSTEM_NAME, getInstance().profile);
+		return getInstance().getStereotype(SUBSYSTEM_NAME);
 	}
 	
 	public static Stereotype getSystemStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, SYSTEM_NAME, getInstance().profile);
+		return getInstance().getStereotype(SYSTEM_NAME);
 	}
 	
 	public static Stereotype getSystemContextStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, SYSTEM_CONTEXT_NAME, getInstance().profile);
+		return getInstance().getStereotype(SYSTEM_CONTEXT_NAME);
 	}
 	
 	public static Stereotype getViewStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, VIEW_NAME, getInstance().profile);
+		return getInstance().getStereotype(VIEW_NAME);
 	}
 	
 	public static Stereotype getViewpointStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, VIEWPOINT_NAME, getInstance().profile);
+		return getInstance().getStereotype(VIEWPOINT_NAME);
 	}
 	
 	public static boolean isAssociationBlock(Element element) {
