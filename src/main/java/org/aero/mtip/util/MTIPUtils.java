@@ -8,7 +8,9 @@ package org.aero.mtip.util;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
+import org.aero.mtip.constants.DoDAFConstants;
 import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -17,7 +19,8 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 
 public class MTIPUtils {
 	public static boolean isSupportedElement(String commonElementType) {
-		if (!SysmlConstants.SYSML_ELEMENTS.contains(commonElementType)) {
+		if (!SysmlConstants.SYSML_ELEMENTS.contains(commonElementType)
+				|| !UAFConstants.UAF_ELEMENTS.contains(commonElementType)) {
 			return false;
 		}
 		
@@ -25,7 +28,8 @@ public class MTIPUtils {
 	}
 	
 	public static boolean isSupportedRelationship(String commonRelationshipType) {
-		if (!SysmlConstants.SYSML_RELATIONSHIPS.contains(commonRelationshipType)) {
+		if (!SysmlConstants.SYSML_RELATIONSHIPS.contains(commonRelationshipType)
+				|| !UAFConstants.UAF_RELATIONSHIPS.contains(commonRelationshipType)) {
 			return false;
 		}
 		
@@ -33,7 +37,9 @@ public class MTIPUtils {
 	}
 	
 	public static boolean isSupportedDiagram(String commonElementType) {
-		if (!SysmlConstants.SYSML_DIAGRAMS.contains(commonElementType)) {
+		if (!SysmlConstants.SYSML_DIAGRAMS.contains(commonElementType)
+				|| !UAFConstants.UAF_DIAGRAMS.contains(commonElementType)
+				|| !DoDAFConstants.DODAF_DIAGRAMS.contains(commonElementType)) {
 			return false;
 		}
 		

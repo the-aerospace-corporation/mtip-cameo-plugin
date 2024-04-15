@@ -1,6 +1,8 @@
 package org.aero.mtip.constants;
 
-import org.apache.commons.lang.ArrayUtils;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DoDAFConstants {
 	// Capability Viewpoints
@@ -57,7 +59,7 @@ public class DoDAFConstants {
 	public static final String STDV1 = "StdV-1";
 	public static final String STDV2 = "StdV-2";
 	
-	public static final String[] DODAF_DIAGRAMS = {
+	public static final String[] DODAF_DIAGRAM_VALUES = {
 			CV1,
 			CV2,
 			CV3,
@@ -94,4 +96,6 @@ public class DoDAFConstants {
 			DIV2,
 			DIV3
 	};
+	
+	public static final Set<String> DODAF_DIAGRAMS = new HashSet<String>(Arrays.asList(DODAF_DIAGRAM_VALUES));
 }

@@ -1,6 +1,8 @@
 package org.aero.mtip.constants;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class UAFConstants {
 	public static final String UAF = "UAF";
@@ -284,7 +286,7 @@ public class UAFConstants {
 	public static final String STRATEGIC_TAXONOMY_STEREOTYPE = "St-Tx Strategic Taxonomy"; // Contained in "UPDM Customization" Profile
 	
 	
-	public static final String[] UAF_ELEMENTS = {
+	public static final String[] UAF_ELEMENT_VALUES = {
 			ACHIEVER,
 			ACTUAL_ENDURING_TASK,
 			ACTUAL_ENTERPRISE_PHASE,
@@ -449,7 +451,7 @@ public class UAFConstants {
 
 	};
 	
-	public static final String[] UAF_RELATIONSHIPS = {
+	public static final String[] UAF_RELATIONSHIP_VALUES = {
 			//STRATEGIC
 			ACHIEVED_EFFECT,
 			CAPABILITY_FOR_TASK,
@@ -524,7 +526,7 @@ public class UAFConstants {
 			
 	};
 	
-	public static final String[] UAF_DIAGRAMS = {
+	public static final String[] UAF_DIAGRAM_VALUES = {
 			// Actual Resources
 			ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM,
 			ACTUAL_RESOURCES_STRUCTURE_DIAGRAM,
@@ -581,10 +583,14 @@ public class UAFConstants {
 			STANDARDS_STRUCTURE_DIAGRAM,
 	};
 	
+	public static final Set<String> UAF_ELEMENTS = new HashSet<String>(Arrays.asList(UAF_ELEMENT_VALUES));
+	public static final Set<String> UAF_RELATIONSHIPS = new HashSet<String>(Arrays.asList(UAF_RELATIONSHIP_VALUES));
+	public static final Set<String> UAF_DIAGRAMS = new HashSet<String>(Arrays.asList(UAF_DIAGRAM_VALUES));
+	
 	public static boolean isUafElement(String metamodelConstant) {
-		if (Arrays.asList(UAF_ELEMENTS).contains(metamodelConstant)
-				|| Arrays.asList(UAF_RELATIONSHIPS).contains(metamodelConstant)
-				|| Arrays.asList(UAF_DIAGRAMS).contains(metamodelConstant)) {
+		if (UAF_ELEMENTS.contains(metamodelConstant)
+				|| UAF_RELATIONSHIPS.contains(metamodelConstant)
+				|| UAF_DIAGRAMS.contains(metamodelConstant)) {
 			
 			return true;
 		}
