@@ -30,6 +30,9 @@ public class CameoDiagramConstants {
 	public static final String PERSONNEL_STRUCTURE = "Personnel Structure";
 	public static final String PERSONNEL_TAXONOMY = "Personnel Taxonomy";
 	
+	//Projects
+	public static final String PROJECTS_TAXONOMY = "Projects Taxonomy";
+	
 	// Resources
 	public static final String RESOURCES_PROCESS_FLOW = "Resources Process Flow";
 	

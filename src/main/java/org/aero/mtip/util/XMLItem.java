@@ -467,13 +467,13 @@ public class XMLItem {
 		this.effect = effect;
 	}
 	private void setCategory() {
-		if (SysmlConstants.SYSML_ELEMENTS.contains(type) || Arrays.asList(UAFConstants.UAF_ELEMENTS).contains(type)) {
+		if (SysmlConstants.SYSML_ELEMENTS.contains(type) || UAFConstants.UAF_ELEMENTS.contains(type)) {
 			category = SysmlConstants.ELEMENT;
 		}
-		if (SysmlConstants.SYSML_RELATIONSHIPS.contains(type) || Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(type)) {
+		if (SysmlConstants.SYSML_RELATIONSHIPS.contains(type) || UAFConstants.UAF_RELATIONSHIPS.contains(type)) {
 			category = SysmlConstants.RELATIONSHIP;
 		}
-		if (SysmlConstants.SYSML_DIAGRAMS.contains(type) || Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(type) || Arrays.asList(DoDAFConstants.DODAF_DIAGRAMS).contains(type)) {
+		if (SysmlConstants.SYSML_DIAGRAMS.contains(type) || UAFConstants.UAF_DIAGRAMS.contains(type) || DoDAFConstants.DODAF_DIAGRAMS.contains(type)) {
 			category = SysmlConstants.DIAGRAM;
 		}
 	}

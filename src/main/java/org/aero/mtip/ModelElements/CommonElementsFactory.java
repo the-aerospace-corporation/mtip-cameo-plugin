@@ -245,6 +245,7 @@ import org.aero.mtip.uaf.Projects.ProjectMilestoneRole;
 import org.aero.mtip.uaf.Projects.ProjectRole;
 import org.aero.mtip.uaf.Projects.ProjectStatus;
 import org.aero.mtip.uaf.Projects.ProjectTheme;
+import org.aero.mtip.uaf.Projects.ProjectsTaxonomy;
 import org.aero.mtip.uaf.Projects.StatusIndicators;
 import org.aero.mtip.uaf.Resources.CapabilityConfiguration;
 import org.aero.mtip.uaf.Resources.DataElement;
@@ -1056,6 +1057,10 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.PERSONNEL_TAXONOMY_DIAGRAM:
 				element = new PersonnelTaxonomy(name, EAID);
+				break;
+			//Projects Diagrams
+			case UAFConstants.PROJECTS_TAXONOMY_DIAGRAM:
+				element = new ProjectsTaxonomy(name, EAID);
 				break;
 				
 			// Strategic Diagrams

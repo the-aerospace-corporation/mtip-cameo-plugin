@@ -553,6 +553,9 @@ public class XmlTagConstants
 	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "uaf.PersonnelStructure";
 	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "uaf.PersonnelTaxonomy";
 
+	//Projects Diagrams
+	public static final String PROJECTS_TAXONOMY_DIAGRAM = "uaf.ProjectsTaxonomy";
+	
 	// Standards Diagrams
 	public static final String STANDARDS_TAXONOMY_DIAGRAM = "uaf.StandardsTaxonomy";
 	public static final String STANDARDS_STRUCTURE_DIAGRAM = "uaf.StandardsStructure";

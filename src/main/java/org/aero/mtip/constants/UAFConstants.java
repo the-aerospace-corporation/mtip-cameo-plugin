@@ -251,6 +251,8 @@ public class UAFConstants {
 	public static final String PERSONNEL_STRUCTURE_DIAGRAM = "PersonnelStructure";
 	public static final String PERSONNEL_TAXONOMY_DIAGRAM = "PersonnelTaxonomy";
 	
+	//Projects Diagrams
+	public static final String PROJECTS_TAXONOMY_DIAGRAM = "ProjectsTaxonomy";
 
 	// Resource Diagrams	
 	public static final String RESOURCES_PROCESS_FLOW = "ResourcesProcessFlow";
@@ -577,6 +579,8 @@ public class UAFConstants {
 			OPERATIONAL_PARAMETRIC,
 			OPERATIONAL_STATES,
 			
+			//Projects
+			PROJECTS_TAXONOMY_DIAGRAM,
 			
 			RESOURCES_PROCESS_FLOW,
 			STANDARDS_TAXONOMY_DIAGRAM,

@@ -29,6 +29,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.MTIPUtils;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
 import org.apache.commons.collections.MapUtils;
@@ -63,15 +64,15 @@ public class ImportXmlSysml {
 	//Variables for Automatic Validation Creation
 	public static final boolean CREATE_VALIDATION_ON_IMPORT = false;
 	public static final boolean IMPORT_FILTER = false;
-    public static Element MODEL_VALIDATION_PACKAGE = null;
-    public static CommonElementsFactory cef = new CommonElementsFactory();
-    public static CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
-    
-    private static Element primaryLocation = null;
-    
-    public static void resetImportParameters() {
-    	//Reset class variables - if a previous import has been informed, old data may persist.
-    	linktoPair = new HashMap<String,Entry<Element, Element>>();
+	public static Element MODEL_VALIDATION_PACKAGE = null;
+	public static CommonElementsFactory cef = new CommonElementsFactory();
+	public static CommonRelationshipsFactory crf = new CommonRelationshipsFactory();
+
+	private static Element primaryLocation = null;
+
+	public static void resetImportParameters() {
+		//Reset class variables - if a previous import has been informed, old data may persist.
+		linktoPair = new HashMap<String,Entry<Element, Element>>();
 		diagramMap = new HashMap<ModelDiagram,Diagram>();
 		completeXML = new HashMap<String, XMLItem>();
 		stereotypesXML = new HashMap<String, XMLItem>();
@@ -82,10 +83,10 @@ public class ImportXmlSysml {
 
 		metaModel = null;
 		ImportLog.reset();
-    }
-    
-    public static void parseXML(Document doc, Element start) throws NullPointerException {
-    	if(start == null) {
+	}
+
+	public static void parseXML(Document doc, Element start) throws NullPointerException {
+		if(start == null) {
 			primaryLocation = project.getPrimaryModel();
 			CameoUtils.logGUI("\nMounting project on package," + primaryLocation.getHumanName() + " with id: " + primaryLocation.getID());
 		} else {
@@ -103,15 +104,15 @@ public class ImportXmlSysml {
 
 	public static void createModel() throws NullPointerException {
 		project.getOptions().setAutoNumbering(false);
-		
+
 		buildModel(profileXML);
 		buildModel(completeXML);
-		
+
 		ImportLog.save();
 
 		createSession("Refresh");
 		closeSession();
-		
+
 		project.getOptions().setAutoNumbering(true);
 	}
 
@@ -120,167 +121,169 @@ public class ImportXmlSysml {
 		for (Entry<String, XMLItem> entry : parsedXML.entrySet()) {
 			XMLItem modelElement = entry.getValue();
 			String id = entry.getKey();
-			
+
 			if(modelElement == null) {
 				ImportLog.log(String.format("Error parsing data for XML item with id %s. Element will not be imported", id));
 			}
-			
+
 			if (parentMap.get(modelElement.getEAID()) != null) {
 				continue;
 			}
-			
+
 			buildEntity(parsedXML, modelElement);
 		}	
 	}
-	
+
 	@CheckForNull
 	public static Element buildEntity(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if (modelElement == null) {
 			ImportLog.log(String.format("XML data not found attempting to build entity."));
 			return null;
 		}
-		
+
 		String category = modelElement.getCategory();
-		
+
 		if(category.isEmpty()) {
 			ImportLog.log(String.format("Element %s with id %s is uncategorized and will not be imported.", modelElement.getName(), modelElement.getEAID()));
 			return null;
 		}
-		
+
 		if (category.equals(SysmlConstants.ELEMENT)) {
 			return buildElement(project, parsedXML, modelElement);
 		}
-		
+
 		if (category.equals(SysmlConstants.RELATIONSHIP)) {
 			return buildRelationship(project, parsedXML, modelElement);
 		}
-		
+
 		if (modelElement.getCategory().equals(SysmlConstants.DIAGRAM)) {
 			return buildDiagram(project, parsedXML, modelElement);
 		}
-		
+
 		return null;
 	}
-	
+
 	public static Element buildDiagram(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(!isDiagramSupported(modelElement)) {
+		//if(!isDiagramSupported(modelElement)) {
+		if(!MTIPUtils.isSupportedDiagram(modelElement.getType()))
+		{
 			ImportLog.log(String.format("%s with id %s type is not supported. ", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
-		
+
 		Element owner = GetImportedOwner(modelElement, parsedXML);
-		
+
 		createSession(String.format("Create %s Element", modelElement.getType()));
-		
+
 		Diagram newDiagram = null;
-		
+
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
-		
+
 		if (newDiagram == null) {
 			ImportLog.log(String.format("Failed to create diagram %s with id %s.", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
-		
+
 		project.getDiagram(newDiagram).open(); 
 		TrackIds(newDiagram, modelElement);
-		
+
 		closeSession();
-		
+
 		// Opens and closes its own session while populating the diagram
 		populateDiagram(diagram, newDiagram, modelElement, parsedXML);
 		return newDiagram;
 	}
-	
+
 	public static Element buildRelationship(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(!isRelationshipSupported(modelElement)) { 
+		if(!MTIPUtils.isSupportedRelationship(modelElement.getType())) { 
 			ImportLog.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
-		
+
 		if (modelElement.isCreated()) {
 			return (Element) project.getElementByID(modelElement.getCameoID());
 		}
-		
+
 		Element owner = GetImportedOwner(modelElement, parsedXML);
-		
+
 		Element client = GetImportedClient(modelElement, parsedXML);
 		if(client == null) {
 			ImportLog.log(String.format("Client null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
-		
+
 		Element supplier = GetImportedSupplier(modelElement, parsedXML);
 		if(supplier == null) {
 			ImportLog.log(String.format("Supplier null for relationship %s. Import id %s", modelElement.getName(), modelElement.getEAID()));
 		}
-		
+
 		createSession(String.format("Creating CommonRelationship of type %s.",modelElement.getType()));
 		CommonRelationship relationship = crf.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		closeSession();
-		
+
 		if (relationship == null) {
 			ImportLog.log("Error. Element missing in common elements factory.");
 			return null;
 		}
 
 		relationship.createDependentElements(project, parsedXML, modelElement);
-		
+
 		createSession(String.format("Creating Relationship of type %s.", modelElement.getType()));
 		Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
 		closeSession();
-				
+
 		if (newElement == null) {
 			ImportLog.log(String.format("Relationship not created. Type: %s ID: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
 			return null;
 		}
-		
+
 		if(newElement.getOwner() == null) {
 			newElement.dispose();
 			ImportLog.log("Owner failed to be set including any default owners. Relationship not created.");
 			return null;
 		}
-			
+
 		TrackRelationshipIds(modelElement, newElement, supplier, client);
-//		ImportLog.log(String.format("Created relationship of type: %s and id: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
+		//		ImportLog.log(String.format("Created relationship of type: %s and id: %s with parent %s.", modelElement.getType(), modelElement.getEAID(), modelElement.getParent()));
 		return newElement;
 	}
-	
+
 	public static Element buildElement(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(!isElementSupported(modelElement)) { 
+		if(!MTIPUtils.isSupportedElement(modelElement.getType())) { 
 			ImportLog.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getEAID()));
 			return null;
 		}
-		
+
 		if (modelElement.isCreated()) {
 			return (Element) project.getElementByID(modelElement.getCameoID());
 		}
-		
+
 		Element owner = GetImportedOwner(modelElement, parsedXML);
-		
+
 		createSession(String.format("Initialize element %s Element", modelElement.getType()));
 		CommonElement element = cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getEAID());
 		closeSession();
-		
+
 		element.createDependentElements(project, parsedXML, modelElement);
-		
+
 		// Create new session if tagged values or other dependent elements are found, built, and session is closed.
 		createSession(String.format("Create %s with dependent Elements", modelElement.getType()));
 		Element newElement = element.createElement(project, owner, modelElement);
 		closeSession();
-		
+
 		if(newElement == null) {
 			ImportLog.log(String.format("Element not created. Name: %s Id: %s",  modelElement.getName(), modelElement.getEAID()));
 			return owner;
 		}
-		
+
 		TrackIds(newElement, modelElement);
 		addStereotypes(newElement, modelElement);
 		element.addStereotypeTaggedValues(modelElement);					
 		element.createReferencedElements(parsedXML, modelElement);
-		
+
 		return newElement;
 	}
-	
+
 	public static void addStereotypes(Element newElement, XMLItem modelElement) {
 		HashMap<String, String> stereotypes = modelElement.getStereotypes();
 		if(!MapUtils.isEmpty(stereotypes)) {
@@ -290,12 +293,12 @@ public class ImportXmlSysml {
 			}
 		}
 	}
-	
+
 	public static void buildModelMap(NodeList dataNodes) {
 		int totalElementNodeCount = 0;
 		int successParsedCount = 0;
 		List<XMLItem> properties = new ArrayList<XMLItem> ();
-		
+
 		//Loop through all of the <data> nodes
 		for(int i = 0; i < dataNodes.getLength(); i++) {
 			Node dataNode = dataNodes.item(i);
@@ -336,13 +339,13 @@ public class ImportXmlSysml {
 							for (String id : modelElement.getIds()) {
 								completeXML.put(id,  modelElement);
 							}
-							
+
 							if(modelElement.getType().contentEquals("Stereotype")) {
 								for (String id : modelElement.getIds()) {
 									stereotypesXML.put(id,  modelElement);
 								}
 							}
-							
+
 							if(modelElement.getType().contentEquals(SysmlConstants.PROPERTY)) {
 								if(modelElement.getParent() != null) {
 									// Parent may not exists in modelElements yet. Add to list to check if should be included in stereotypesXML post modelElements building
@@ -400,28 +403,28 @@ public class ImportXmlSysml {
 			}
 		}
 	}
-	
+
 	public static void addStereotype(Element newElement, String stereotypeName, String profileName) {
 		Profile umlStandardProfile = StereotypesHelper.getProfile(project, SysmlConstants.UML_PROFILE_NAME);
-		
+
 		if(stereotypeName.contentEquals(SysmlConstants.METACLASS)) {
 			Stereotype stereotypeObj = StereotypesHelper.getStereotype(project, SysmlConstants.METACLASS, umlStandardProfile);
 			StereotypesHelper.addStereotype(newElement,  stereotypeObj);
 			return;
 		}
-		
+
 		Profile profile = StereotypesHelper.getProfile(project,  profileName);
 		if(profile == null) {
 			ImportLog.log(String.format("Profile %s not found. %s stereotype not added.", profileName, stereotypeName));
 			return;
 		}
-		
+
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 		if(stereotype == null) {
 			ImportLog.log(String.format("Stereotype %s not found in profile %s.", stereotypeName, profileName));
 			return;
 		}
-			
+
 		StereotypesHelper.addStereotype(newElement,  stereotype);
 	}
 
@@ -631,7 +634,7 @@ public class ImportXmlSysml {
 		}
 		return null;
 	}
-	
+
 	public static List<Node> getDirectChildrenByKey(Node parent, String key) {
 		List<Node> nodes = new ArrayList<Node> ();
 		NodeList childNodes = parent.getChildNodes();
@@ -708,13 +711,13 @@ public class ImportXmlSysml {
 				// Add all Ids to object
 				modelElement.addId(idNode.getTextContent());
 				modelElement.addIdWithType(idNode.getNodeName(), idNode.getTextContent());
-				
+
 				if(idNode.getNodeName().contentEquals(XmlTagConstants.HUDDLE_ID)) {
 					modelElement.setEAID(idNode.getTextContent());
 				}
 			}
 		}
-		
+
 		if (modelElement.getEAID().trim().isEmpty() && !modelElement.getIds().isEmpty()) {
 			modelElement.setEAID(modelElement.getIds().get(0));
 		}
@@ -756,139 +759,108 @@ public class ImportXmlSysml {
 		if(ImportXmlSysml.completeXML.get(id) != null) {
 			return ImportXmlSysml.completeXML.get(id).getCameoID();
 		} 
-		
+
 		return null;
 	}
-	
+
 	public static Element getImportedElement(String importId) {
 		String createdId = idConversion(importId);
-		
+
 		if (createdId == null) {
 			return null;
 		}
-		
+
 		return (Element) project.getElementByID(createdId);
 	}
-	
+
 	public static Element GetImportedOwner(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
-		
+
 		if(modelElement.getParent().trim().isEmpty() || ownerElement == null) {
 			ImportLog.log(String.format("Xml object not found for owner of %s with id %s.", modelElement.getName(), modelElement.getEAID()));
 			return primaryLocation; // Set owned equal to Primary model if no hasParent attribute in XML -> parent field in XMLItem == ""
 		} 
-		
+
 		String ownerCreatedID = idConversion(ownerID);
-		
+
 		if (ownerCreatedID == null || ownerCreatedID.trim().isEmpty()) {
 			return buildEntity(parsedXML, ownerElement);
 		}
-		
+
 		return (Element) project.getElementByID(ownerCreatedID);
-		
+
 	}
-	
+
 	@CheckForNull
 	public static Element GetImportedClient(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		if (modelElement.getClient() == null || modelElement.getClient().trim().isEmpty()) {
 			ImportLog.log(String.format("No client id in xml for %s with id %s.", modelElement.getName(), modelElement.getEAID()));
 			return null;
 		}
-		
+
 		if (parentMap.containsKey(modelElement.getClient())) {
 			return  (Element) project.getElementByID(parentMap.get(modelElement.getClient()));
 		}
-		
+
 		String clientImportId = modelElement.getClient();
 		XMLItem clientElement = parsedXML.get(clientImportId);
-		
+
 		if(clientElement != null) {
 			return buildElement(project, parsedXML, clientElement);
 		} 
-		
+
 		ImportLog.log(String.format("Client Element with id : %s not exported with XML. "
 				+ "Checking for elements from cameo profiles and model libraries", clientImportId));
-		
+
 		if(clientImportId.startsWith("_9_")) {
 			Element client = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
 			if(client != null) {
 				return client;
 			}
 		}
-		
+
 		if(clientImportId.startsWith("_")) {
 			return (Element)project.getElementByID(clientImportId);
 		}		
-		
+
 		return null;
 	}
-	
+
 	public static Element GetImportedSupplier(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		if (modelElement.getSupplier() == null || modelElement.getSupplier().trim().isEmpty()) {
 			ImportLog.log(String.format("No supplier id in xml for %s with id %s.", modelElement.getName(), modelElement.getEAID()));
 			return null;
 		}
-		
+
 		if (parentMap.containsKey(modelElement.getSupplier())) {
 			return  (Element) project.getElementByID(parentMap.get(modelElement.getSupplier()));
 		}
-		
+
 		String supplierImportId = modelElement.getSupplier();
 		XMLItem supplierElement = parsedXML.get(supplierImportId);
-		
+
 		if(supplierElement != null) {
 			return buildElement(project, parsedXML, supplierElement);
 		}
-		
+
 		ImportLog.log(String.format("Supplier element with id : %s not exported with XML. "
 				+ "Checking for elements from cameo profiles and model libraries", supplierImportId));
-		
+
 		if(supplierImportId.startsWith("_9_")) {
 			Element supplier = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
 			if(supplier != null) {
 				return supplier;
 			}
 		}
-		
+
 		if(supplierImportId.startsWith("_")) {
 			return (Element) project.getElementByID(supplierImportId);
 		}
-		
+
 		return null;
 	}
-	
-	public static boolean isElementSupported(XMLItem modelElement) {
-		if (SysmlConstants.SYSML_ELEMENTS.contains(modelElement.getType())
-				|| Arrays.asList(UAFConstants.UAF_ELEMENTS).contains(modelElement.getType())) {
-			
-			return true;
-		}		
-		
-		return false;
-	}
-	
-	public static boolean isRelationshipSupported(XMLItem modelElement) {
-		if (SysmlConstants.SYSML_RELATIONSHIPS.contains(modelElement.getType())
-				|| Arrays.asList(UAFConstants.UAF_RELATIONSHIPS).contains(modelElement.getType())) {
-			
-			return true;
-		}		
-		
-		return false;
-	}
-	
-	public static boolean isDiagramSupported(XMLItem modelElement) {
-		if (SysmlConstants.SYSML_DIAGRAMS.contains(modelElement.getType())
-				|| Arrays.asList(UAFConstants.UAF_DIAGRAMS).contains(modelElement.getType())
-				|| Arrays.asList(DoDAFConstants.DODAF_DIAGRAMS).contains(modelElement.getType())) {
-			
-			return true;
-		}		
-		
-		return false;
-	}
-	
+
 	public static void TrackIds(Element newElement, XMLItem modelElement) {
 		modelElement.setCameoID(newElement.getID());
 		pluginCreatedIDs.put(newElement.getID(), "");
@@ -896,103 +868,103 @@ public class ImportXmlSysml {
 			parentMap.put(curId, newElement.getID());
 		}
 	}
-	
+
 	public static void TrackRelationshipIds(XMLItem modelElement, Element newElement, Element supplier, Element client) {
 		String GUID = newElement.getID();
 		for (String curId : modelElement.getIds()) {
 			parentMap.put(curId, GUID);
 		}
-		
+
 		modelElement.setCameoID(GUID);
 		Map.Entry<Element, Element> entry = new AbstractMap.SimpleEntry<Element, Element>(supplier, client);
 		linktoPair.put(modelElement.getEAID(), entry);
 	}
-	
+
 	public static HashMap<Element, Rectangle> GetImportedElementsOnDiagram(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		HashMap<Element, Rectangle> elementsOnDiagram = new HashMap<Element, Rectangle> ();
-		
+
 		for(String importID : modelElement.getChildElements(parsedXML)) {
 			String cameoID = parentMap.get(importID);
-			
+
 			if(cameoID == null || cameoID.trim().isEmpty()) {
 				ImportLog.log(String.format("Element with import id %s failed to be created before populating diagram.", importID));
 				continue;
 			}
-			
+
 			Element elementOnDiagram = (Element)project.getElementByID(cameoID);
 			if(elementOnDiagram == null) {
 				ImportLog.log(String.format("Failed to find created element with import id %s", importID));
 				continue;
 			}
-			
+
 			elementsOnDiagram.put(elementOnDiagram, modelElement.getLocation(importID));
 		}
-		
+
 		return elementsOnDiagram;
 	}
-	
+
 	public static List<Element> GetImportedRelationshipsOnDiagram(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		List<Element> relationshipsOnDiagram = new ArrayList<Element> ();
-				
+
 		for(String importRelationshipID : modelElement.getChildRelationships(parsedXML)) {
 			String cameoID = parentMap.get(importRelationshipID);
-			
+
 			if(cameoID == null || cameoID.trim().isEmpty()) {
 				ImportLog.log(String.format("Element with import id %s failed to be created before populating diagram.", importRelationshipID));
 				continue;
 			}
-			
+
 			Element elementOnDiagram = (Element)project.getElementByID(cameoID);
-			
+
 			if(elementOnDiagram == null) {
 				ImportLog.log(String.format("Failed to find created element with import id %s", importRelationshipID));
 				continue;
 			}
-			
+
 			relationshipsOnDiagram.add((Element)project.getElementByID(cameoID));
 		}
 		return relationshipsOnDiagram;
 	}
-	
+
 	public static void populateDiagram(AbstractDiagram diagram, Diagram newDiagram, XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		diagram.createDependentElements(project, parsedXML, modelElement);
-		
+
 		HashMap<Element, Rectangle> elementsOnDiagram = GetImportedElementsOnDiagram(modelElement, parsedXML);
 		List<Element> relationshipsOnDiagram = GetImportedRelationshipsOnDiagram(modelElement, parsedXML);
-			
+
 		createSession(String.format("Adding elements to diagram with type %s.", modelElement.getType()));
-				
+
 		boolean noPosition = diagram.addElements(project, newDiagram, elementsOnDiagram, modelElement);
 		if(noPosition) {
 			Application.getInstance().getProject().getDiagram(newDiagram).layout(true, new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
 		}
-		
+
 		try {
 			diagram.addRelationships(project, newDiagram, relationshipsOnDiagram);
 		} catch (ReadOnlyElementException roee) {
 			ImportLog.log("Read only element exception encountered populating diagram.");
 		}
-		
+
 		project.getDiagram(newDiagram).close(); 
 		closeSession();
-		
-	    diagramMap.put((ModelDiagram) diagram, newDiagram);
+
+		diagramMap.put((ModelDiagram) diagram, newDiagram);
 	}
-	
+
 
 	public static void createSession(String sessionName) {
 		if (SessionManager.getInstance().isSessionCreated(project)) {
 			return;
 		}
-		
+
 		SessionManager.getInstance().createSession(project, sessionName);
 	}
-	
+
 	public static void closeSession() {
 		if (!SessionManager.getInstance().isSessionCreated(project)) {
 			return;
 		}
-		
+
 		SessionManager.getInstance().closeSession(project);
 	}
 }
