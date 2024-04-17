@@ -12,21 +12,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.ImportLog;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 
 @SuppressWarnings("serial")

@@ -7,7 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.profiles.MDForSysMLExtensions;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -17,11 +17,9 @@ public class QuantityKind extends InstanceSpecification {
 
 	public QuantityKind(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.sysmlConstant = SysmlConstants.QUANTITY_KIND;
 		this.xmlConstant = XmlTagConstants.QUANTITY_KIND;
-		this.creationStereotype = MDForSysMLExtensions.getQuantityKindStereotype();
-		this.element = f.createInstanceSpecificationInstance();
+		this.creationStereotype = MDCustomizationForSysML.getQuantityKindStereotype();
 	}
 
 	protected void setClassifier() {

@@ -24,12 +24,14 @@ import java.util.TreeMap;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.aero.mtip.XML.Export.ExportMetrics;
 
 import com.nomagic.magicdraw.core.Application;
 
 import com.nomagic.magicdraw.core.Application;
+import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class ExportLog {
@@ -102,6 +104,11 @@ public class ExportLog {
 		e.printStackTrace(pw);
 		
 		log(sw.toString());
+	}
+	
+	public static void logCrashException(Exception e) {
+		CameoUtils.popUpMessage(String.format("Export aborted due to %s.", e.getClass().getName()));
+		logException(e);
 	}
 	
 	public static void logSummary(HashSet<String> exportedElementIds) {

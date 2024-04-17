@@ -7,18 +7,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import java.util.HashMap;
-
 import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property {
@@ -28,12 +25,11 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 		this.sysmlConstant = SysmlConstants.PART_PROPERTY;
 		this.xmlConstant = XmlTagConstants.PART_PROPERTY;
 		this.element = f.createPropertyInstance();
+	    this.creationStereotype = MDCustomizationForSysML.getPartPropertyStereotype();
 	}
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {	
 		Element partProperty = super.createElement(project, owner, xmlElement);
-		
-		StereotypesHelper.addStereotype(partProperty, MDCustomizationForSysMLProfile.PART_PROPERTY_STEREOTYPE);
 		
 //		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIER_TYPE)) {
 //			Type classifierType = (Type) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIER_TYPE));

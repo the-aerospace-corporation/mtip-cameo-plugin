@@ -13,17 +13,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.CheckForNull;
-
+import javax.swing.JOptionPane;
 import org.aero.mtip.ModelElements.EnumerationLiteral;
-import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
@@ -326,7 +325,7 @@ public class CameoUtils {
 			    element instanceof StringTaggedValue ||
 			    element instanceof Comment ||			    
 			    element instanceof ConnectorEnd ||
-			    MDCustomizationForSysMLProfile.isReferenceProperty(element)) {	
+			    MDCustomizationForSysML.isReferenceProperty(element)) {	
 			
 			return true;
 		}
@@ -414,5 +413,9 @@ public class CameoUtils {
 			ExportLog.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
 		}
 		return strVal;
+	}
+	
+	public static void popUpMessage(String message) {
+		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), message);
 	}
 }
