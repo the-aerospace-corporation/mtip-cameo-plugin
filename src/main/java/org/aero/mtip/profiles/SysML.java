@@ -31,7 +31,7 @@ public class SysML {
 	static final String CUSTOMIZATION_NAME = "Customization";
 	static final String DERIVE_REQUIREMENT_NAME = "DeriveReqt";
 	static final String DESIGN_CONSTRAINT_NAME = "designConstraint";
-	static final String DIRECTED_FEATURE_NAME = "directedFeature";
+	static final String DIRECTED_FEATURE_NAME = "DirectedFeature";
 	static final String DOMAIN_NAME = "Domain";
 	static final String EXTENDED_REQUIREMENT_NAME = "extendedRequirement";
 	static final String EXTERNAL_NAME = "External";

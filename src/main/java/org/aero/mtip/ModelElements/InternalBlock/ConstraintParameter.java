@@ -10,8 +10,8 @@ import java.util.Collections;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
@@ -40,6 +40,7 @@ public class ConstraintParameter extends CommonElement {
 		this.xmlConstant = XmlTagConstants.CONSTRAINT_PARAMETER;
 		this.sysmlConstant = SysmlConstants.CONSTRAINT_PARAMETER;
 		this.element = f.createPortInstance();
+		this.creationStereotype = MDCustomizationForSysML.getConstraintParameterStereotype();
 	}
 
 	@Override

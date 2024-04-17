@@ -16,12 +16,13 @@ public class MDCustomizationForSysML {
 	Project project;
 	Profile profile;
 	
-	private static final String NAME = "additional_stereotypes";
-	private static final String PART_PROPERTY_NAME = "PartProperty";
-	private static final String QUANTITY_KIND_NAME = "QuantityKind";
-	private static final String REFERENCE_PROPERTY_NAME = "ReferenceProperty";
-	private static final String UNIT_NAME = "Unit";
-	private static final String VALUE_PROPERTY_NAME = "ValueProperty";
+	static final String NAME = "additional_stereotypes";
+	static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
+	static final String PART_PROPERTY_NAME = "PartProperty";
+	static final String QUANTITY_KIND_NAME = "QuantityKind";
+	static final String REFERENCE_PROPERTY_NAME = "ReferenceProperty";
+	static final String UNIT_NAME = "Unit";
+	static final String VALUE_PROPERTY_NAME = "ValueProperty";
 	
 	public MDCustomizationForSysML() {
 		project = Application.getInstance().getProject();
@@ -38,6 +39,10 @@ public class MDCustomizationForSysML {
 	
 	Stereotype getStereotype(String stereotypeName) {
 		return StereotypesHelper.getStereotype(project, stereotypeName, profile);
+	}
+	
+	public static Stereotype getConstraintParameterStereotype() {
+		return getInstance().getStereotype(CONSTRAINT_PARAMETER_NAME);
 	}
 	
 	public static Stereotype getPartPropertyStereotype() {
@@ -92,6 +97,10 @@ public class MDCustomizationForSysML {
 			return true;
 		}
 		return false;
+	}
+	
+	public static boolean isConstraintParameter(Element element) {
+		return getInstance().hasStereotype(element, CONSTRAINT_PARAMETER_NAME);
 	}
 	
 	public static boolean isQuantityKind(Element element) {
