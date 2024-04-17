@@ -835,6 +835,8 @@ public abstract class CommonElement {
 				npe.printStackTrace(pw);
 				String sStackTrace = sw.toString();
 				ImportLog.log("Unable to add stereotype tagged value to element." + sStackTrace);
+			} catch (IllegalArgumentException iae) {
+			  ImportLog.logException(iae);
 			}
 		}
 	}
