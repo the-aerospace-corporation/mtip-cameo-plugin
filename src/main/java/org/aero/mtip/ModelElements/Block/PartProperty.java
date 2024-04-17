@@ -9,6 +9,7 @@ package org.aero.mtip.ModelElements.Block;
 import java.util.HashMap;
 
 import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
@@ -29,20 +30,7 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 		this.sysmlConstant = SysmlConstants.PART_PROPERTY;
 		this.xmlConstant = XmlTagConstants.PART_PROPERTY;
 		this.element = f.createPropertyInstance();
-	}
-	
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {	
-		Element partProperty = super.createElement(project, owner, xmlElement);
-		
-		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "MD Customization for SysML"); 
-		Stereotype partPropertyStereotype = StereotypesHelper.getStereotype(project, "PartProperty", mdCustomizationProfile);
-		StereotypesHelper.addStereotype(partProperty, partPropertyStereotype);
-		
-//		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIER_TYPE)) {
-//			Type classifierType = (Type) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIER_TYPE));
-//			((TypedElement)partProperty).setType(classifierType);
-//		}
-		return partProperty;
+		this.creationStereotype = MDCustomizationForSysML.getPartPropertyStereotype();
 	}
 	
 	@Override

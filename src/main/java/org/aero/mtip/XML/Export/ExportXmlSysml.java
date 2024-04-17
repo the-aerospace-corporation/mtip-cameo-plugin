@@ -19,7 +19,7 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
-import org.aero.mtip.profiles.MDForSysMLExtensions;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
@@ -544,7 +544,7 @@ public class ExportXmlSysml {
 		//Super classes listed below as to not to override their children	
 		} else if(element instanceof Constraint) {
 			return SysmlConstants.CONSTRAINT;
-		} else if(MDForSysMLExtensions.isProperty(element)) {
+		} else if(MDCustomizationForSysML.isProperty(element)) {
 			return SysmlConstants.PROPERTY;	
 		} else if (element instanceof InstanceSpecification && CameoUtils.isSupportedInstanceSpecification(element)) {
 			return SysmlConstants.INSTANCE_SPECIFICATION;
