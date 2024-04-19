@@ -41,6 +41,7 @@ public class ExportXmlSysmlAction extends MDAction {
 		Project project = Application.getInstance().getProject();
 		if(project == null) {
 			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No active project. Open a project, then try again.");
+			return;
 		}
 		try
 		{

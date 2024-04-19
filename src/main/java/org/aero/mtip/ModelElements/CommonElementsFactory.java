@@ -226,6 +226,7 @@ import org.aero.mtip.uaf.Parameters.ActualMeasurementSet;
 import org.aero.mtip.uaf.Parameters.ActualPropertySet;
 import org.aero.mtip.uaf.Parameters.Condition;
 import org.aero.mtip.uaf.Parameters.Environment;
+import org.aero.mtip.uaf.Parameters.EnvironmentDiagram;
 import org.aero.mtip.uaf.Parameters.EnvironmentKind;
 import org.aero.mtip.uaf.Parameters.EnvironmentProperty;
 import org.aero.mtip.uaf.Parameters.GeoPoliticalExtentType;
@@ -245,6 +246,9 @@ import org.aero.mtip.uaf.Projects.ProjectMilestoneRole;
 import org.aero.mtip.uaf.Projects.ProjectRole;
 import org.aero.mtip.uaf.Projects.ProjectStatus;
 import org.aero.mtip.uaf.Projects.ProjectTheme;
+import org.aero.mtip.uaf.Projects.ProjectsConnectivity;
+import org.aero.mtip.uaf.Projects.ProjectsProcesses;
+import org.aero.mtip.uaf.Projects.ProjectsStructure;
 import org.aero.mtip.uaf.Projects.ProjectsTaxonomy;
 import org.aero.mtip.uaf.Projects.StatusIndicators;
 import org.aero.mtip.uaf.Resources.CapabilityConfiguration;
@@ -265,7 +269,13 @@ import org.aero.mtip.uaf.Resources.ResourceRole;
 import org.aero.mtip.uaf.Resources.ResourceSignal;
 import org.aero.mtip.uaf.Resources.ResourceSignalProperty;
 import org.aero.mtip.uaf.Resources.ResourceStateDescription;
+import org.aero.mtip.uaf.Resources.ResourcesConnectivity;
+import org.aero.mtip.uaf.Resources.ResourcesInteractionScenarios;
 import org.aero.mtip.uaf.Resources.ResourcesProcessFlow;
+import org.aero.mtip.uaf.Resources.ResourcesProcesses;
+import org.aero.mtip.uaf.Resources.ResourcesStates;
+import org.aero.mtip.uaf.Resources.ResourcesStructure;
+import org.aero.mtip.uaf.Resources.ResourcesTaxonomy;
 import org.aero.mtip.uaf.Resources.RoleKind;
 import org.aero.mtip.uaf.Resources.Software;
 import org.aero.mtip.uaf.Resources.Technology;
@@ -291,6 +301,7 @@ import org.aero.mtip.uaf.Strategic.StructuralPart;
 import org.aero.mtip.uaf.Strategic.TemporalPart;
 import org.aero.mtip.uaf.Strategic.VisionStatement;
 import org.aero.mtip.uaf.Strategic.WholeLifeEnterprise;
+import org.aero.mtip.uaf.SummaryandOverview.SummaryAndOverview;
 import org.aero.mtip.uaf.actualresources.ActualOrganization;
 import org.aero.mtip.uaf.actualresources.ActualPerson;
 import org.aero.mtip.uaf.actualresources.ActualPost;
@@ -306,6 +317,7 @@ import org.aero.mtip.uaf.personnel.Competence;
 import org.aero.mtip.uaf.personnel.Organization;
 import org.aero.mtip.uaf.personnel.Person;
 import org.aero.mtip.uaf.personnel.PersonnelConnectivity;
+import org.aero.mtip.uaf.personnel.PersonnelInteractionScenarios;
 import org.aero.mtip.uaf.personnel.PersonnelProcesses;
 import org.aero.mtip.uaf.personnel.PersonnelStates;
 import org.aero.mtip.uaf.personnel.PersonnelStructure;
@@ -325,6 +337,7 @@ import org.aero.mtip.uaf.security.SecurityControlFamily;
 import org.aero.mtip.uaf.security.SecurityEnclave;
 import org.aero.mtip.uaf.security.SecurityProcess;
 import org.aero.mtip.uaf.security.SecurityProcessAction;
+import org.aero.mtip.uaf.security.SecurityProcesses;
 import org.aero.mtip.uaf.security.SecurityProcessesFlow;
 import org.aero.mtip.uaf.security.SecurityStructure;
 import org.aero.mtip.uaf.security.SecurityTaxonomy;
@@ -1040,8 +1053,8 @@ public class CommonElementsFactory {
 			case UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM:
 				element = new PersonnelConnectivity(name, EAID);
 				break;
-			case UAFConstants.PERSONNEL_INTERACTION_SCENARIO_DIAGRAM:
-				element = new PersonnelConnectivity(name, EAID);
+			case UAFConstants.PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM:
+				element = new PersonnelInteractionScenarios(name, EAID);
 				break;
 			case UAFConstants.PERSONNEL_PROCESSES_DIAGRAM:
 				element = new PersonnelProcesses(name, EAID);
@@ -1062,7 +1075,34 @@ public class CommonElementsFactory {
 			case UAFConstants.PROJECTS_TAXONOMY_DIAGRAM:
 				element = new ProjectsTaxonomy(name, EAID);
 				break;
-				
+			case UAFConstants.PROJECTS_STRUCTURE_DIAGRAM:
+				element = new ProjectsStructure(name, EAID);
+				break;
+			case UAFConstants.PROJECTS_CONNECTIVITY_DIAGRAM:
+				element = new ProjectsConnectivity(name, EAID);
+				break;
+			case UAFConstants.PROJECTS_PROCESSES_DIAGRAM:
+				element = new ProjectsProcesses(name, EAID);
+				break;
+			//Resources Diagrams
+			case UAFConstants.RESOURCES_CONNECTIVITY_DIAGRAM:
+				element = new ResourcesConnectivity(name, EAID);
+				break;
+			case UAFConstants.RESOURCES_INTERACTION_SCENARIOS_DIAGRAM:
+				element = new ResourcesInteractionScenarios(name, EAID);
+				break;
+			case UAFConstants.RESOURCES_PROCESSES_DIAGRAM:
+				element = new ResourcesProcesses(name, EAID);
+				break;
+			case UAFConstants.RESOURCES_STATES_DIAGRAM:
+				element = new ResourcesStates(name, EAID);
+				break;
+			case UAFConstants.RESOURCES_STRUCTURE_DIAGRAM:
+				element = new ResourcesStructure(name, EAID);
+				break;
+			case UAFConstants.RESOURCES_TAXONOMY_DIAGRAM:
+				element = new ResourcesTaxonomy(name, EAID);
+				break;
 			// Strategic Diagrams
 			case UAFConstants.STRATEGIC_STRUCTURE_DIAGRAM:
 				element = new StrategicStructure(name, EAID);
@@ -1088,6 +1128,9 @@ public class CommonElementsFactory {
 				break;
 			case UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM:
 				element = new SecurityConnectivity(name, EAID);
+				break;
+			case UAFConstants.SECURITY_PROCESSES_DIAGRAM:
+				element = new SecurityProcesses(name, EAID);
 				break;
 			case UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM:
 				element = new SecurityProcessesFlow(name, EAID);
@@ -1118,7 +1161,10 @@ public class CommonElementsFactory {
 			case UAFConstants.SERVICES_TAXONOMY_DIAGRAM:
 				element = new ServicesTaxonomy(name, EAID);
 				break;
-				
+			//Summary and Overview Diagrams
+			case UAFConstants.SUMMARY_AND_OVERVIEW_DIAGRAM:
+				element = new SummaryAndOverview(name, EAID);
+				break;
 			// DoDAF Diagram
 			case DoDAFConstants.CV1:
 				element = new CV1(name, EAID);
@@ -1235,7 +1281,7 @@ public class CommonElementsFactory {
 			case UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY:
 				element = new OperationalFreeFormTaxonomy(name, EAID);
 				break;
-			case UAFConstants.OPERATIONAL_PROCESSES:
+			case UAFConstants.OPERATIONAL_PROCESSES_DIAGRAM:
 				element = new OperationalProcesses(name, EAID);
 				break;
 			case UAFConstants.OPERATIONAL_STRUCTURE:
@@ -1256,7 +1302,10 @@ public class CommonElementsFactory {
 			case UAFConstants.OPERATIONAL_STATES:
 				element = new OperationalStates(name, EAID);
 				break;
-				
+			//Environment Diagrams
+			case UAFConstants.ENVIRONMENT_DIAGRAM:
+				element = new EnvironmentDiagram(name, EAID);
+				break;
 			//Resources
 			case UAFConstants.CAPABILITY_CONFIGURATION:
 				element = new CapabilityConfiguration(name, EAID);

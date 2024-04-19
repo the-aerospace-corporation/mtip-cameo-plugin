@@ -239,12 +239,12 @@ public class UAFConstants {
 	public static final String ACTUAL_RESOURCES_STRUCTURE_DIAGRAM = "ActualResourcesStructure";
 	
 	// Operational Diagrams
-	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcesses";
-	public static final String OPERATIONAL_PROCESSES = "CameoOperationalProcesses";
+	public static final String OPERATIONAL_PROCESS_FLOW = "OperationalProcessFlow";
+	public static final String OPERATIONAL_PROCESSES_DIAGRAM = "OperationalProcesses";
 	
 	// Personnel Diagrams
 	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "PersonnelConnectivity";
-	public static final String PERSONNEL_INTERACTION_SCENARIO_DIAGRAM = "PersonnelInteractionScenario";
+	public static final String PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM = "PersonnelInteractionScenarios";
 	public static final String PERSONNEL_PROCESSES_DIAGRAM = "PersonnelProcesses";
 	public static final String PERSONNEL_PROCESSES_FLOW_DIAGRAM = "PersonnelProcessesFlow";
 	public static final String PERSONNEL_STATES_DIAGRAM = "PersonnelStates";
@@ -253,14 +253,24 @@ public class UAFConstants {
 	
 	//Projects Diagrams
 	public static final String PROJECTS_TAXONOMY_DIAGRAM = "ProjectsTaxonomy";
+	public static final String PROJECTS_STRUCTURE_DIAGRAM = "ProjectsStructure";
+	public static final String PROJECTS_CONNECTIVITY_DIAGRAM = "ProjectsConnectivity";
+	public static final String PROJECTS_PROCESSES_DIAGRAM = "ProjectsProcesses";
 
-	// Resource Diagrams	
+	// Resource Diagrams
+	public static final String RESOURCES_CONNECTIVITY_DIAGRAM = "ResourcesConnectivity";
+	public static final String RESOURCES_INTERACTION_SCENARIOS_DIAGRAM ="ResourcesInteractionScenarios";
+	public static final String RESOURCES_PROCESSES_DIAGRAM = "ResourcesProcesses";
 	public static final String RESOURCES_PROCESS_FLOW = "ResourcesProcessFlow";
-
+	public static final String RESOURCES_STATES_DIAGRAM = "ResourcesStates";
+	public static final String RESOURCES_STRUCTURE_DIAGRAM = "ResourcesStructure";
+	public static final String RESOURCES_TAXONOMY_DIAGRAM = "ResourcesTaxonomy";
+	
 	// Security Diagrams
 	public static final String SECURITY_TAXONOMY_DIAGRAM = "SecurityTaxonomy";
 	public static final String SECURITY_STRUCTURE_DIAGRAM = "SecurityStructure";
 	public static final String SECURITY_CONNECTIVITY_DIAGRAM = "SecurityConnectivity";
+	public static final String SECURITY_PROCESSES_DIAGRAM ="SecurityProcesses";
 	public static final String SECURITY_PROCESSES_FLOW_DIAGRAM = "SecurityProcessesFlow";
 	public static final String SECURITY_CONSTRAINTS_DIAGRAM = "SecurityConstraints";
 	
@@ -283,6 +293,12 @@ public class UAFConstants {
 	//Standards Diagrams
 	public static final String STANDARDS_TAXONOMY_DIAGRAM = "StandardsTaxonomy";
 	public static final String STANDARDS_STRUCTURE_DIAGRAM = "StandardsStructure";
+	
+	public static final String ENVIRONMENT_DIAGRAM = "ParametersEnvironment";
+	
+	//Summary and Overview
+	public static final String SUMMARY_AND_OVERVIEW_DIAGRAM ="SummaryandOverview";
+	
 	
 	// Diagram Stereotypes String in UAF/UPDM Profiles
 	public static final String STRATEGIC_TAXONOMY_STEREOTYPE = "St-Tx Strategic Taxonomy"; // Contained in "UPDM Customization" Profile
@@ -535,17 +551,28 @@ public class UAFConstants {
 			
 			// Personnel
 			PERSONNEL_CONNECTIVITY_DIAGRAM,
-			PERSONNEL_INTERACTION_SCENARIO_DIAGRAM,
+			PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM,
 			PERSONNEL_PROCESSES_DIAGRAM,
 			PERSONNEL_PROCESSES_FLOW_DIAGRAM,
 			PERSONNEL_STATES_DIAGRAM,
 			PERSONNEL_STRUCTURE_DIAGRAM,
 			PERSONNEL_TAXONOMY_DIAGRAM,
 			
+			//Resources
+			RESOURCES_CONNECTIVITY_DIAGRAM,
+			RESOURCES_INTERACTION_SCENARIOS_DIAGRAM,
+			RESOURCES_PROCESS_FLOW,
+			RESOURCES_PROCESSES_DIAGRAM,
+			RESOURCES_STATES_DIAGRAM,
+			RESOURCES_STRUCTURE_DIAGRAM,
+			RESOURCES_TAXONOMY_DIAGRAM,
+			
+			
 			// Security
 			SECURITY_TAXONOMY_DIAGRAM,
 			SECURITY_STRUCTURE_DIAGRAM,
 			SECURITY_CONNECTIVITY_DIAGRAM,
+			SECURITY_PROCESSES_DIAGRAM,
 			SECURITY_PROCESSES_FLOW_DIAGRAM,
 			SECURITY_CONSTRAINTS_DIAGRAM,
 			
@@ -570,7 +597,7 @@ public class UAFConstants {
 			OPERATIONAL_CONNECTIVITY,
 			OPERATIONAL_CONSTRAINTS_DEFINITION,
 			OPERATIONAL_FREE_FORM_TAXONOMY,
-			OPERATIONAL_PROCESSES,
+			OPERATIONAL_PROCESSES_DIAGRAM,
 			OPERATIONAL_STRUCTURE,
 			OPERATIONAL_TAXONOMY,
 			OPERATIONAL_HIGH_LEVEL_TAXONOMY,
@@ -581,8 +608,13 @@ public class UAFConstants {
 			
 			//Projects
 			PROJECTS_TAXONOMY_DIAGRAM,
+			PROJECTS_STRUCTURE_DIAGRAM,
+			PROJECTS_CONNECTIVITY_DIAGRAM,
+			PROJECTS_PROCESSES_DIAGRAM,
 			
-			RESOURCES_PROCESS_FLOW,
+
+			SUMMARY_AND_OVERVIEW_DIAGRAM,
+			
 			STANDARDS_TAXONOMY_DIAGRAM,
 			STANDARDS_STRUCTURE_DIAGRAM,
 	};

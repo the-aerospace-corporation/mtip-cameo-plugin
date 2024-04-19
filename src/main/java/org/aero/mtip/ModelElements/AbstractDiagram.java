@@ -194,7 +194,8 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("Operational Connectivity", UAFConstants.OPERATIONAL_CONNECTIVITY);
         aMap.put("Operational Constraints Definition", UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION);
         aMap.put("Operational Free Form Taxonomy", UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY);
-        aMap.put("Operational Processes", UAFConstants.OPERATIONAL_PROCESSES);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_PROCESSES, UAFConstants.OPERATIONAL_PROCESSES_DIAGRAM);
+        
         aMap.put("Operational Structure", UAFConstants.OPERATIONAL_STRUCTURE);
         aMap.put("Operational Taxonomy", UAFConstants.OPERATIONAL_TAXONOMY);
         aMap.put("Operational High Level Taxonomy", UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY);
@@ -211,7 +212,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         
         // Personnel
         aMap.put(CameoDiagramConstants.PERSONNEL_CONNECTIVITY, UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM);
-        aMap.put(CameoDiagramConstants.PERSONNEL_INTERACTION_SCENARIO, UAFConstants.PERSONNEL_INTERACTION_SCENARIO_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_INTERACTION_SCENARIOS, UAFConstants.PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM);
         aMap.put(CameoDiagramConstants.PERSONNEL_PROCESS_FLOW, UAFConstants.PERSONNEL_PROCESSES_FLOW_DIAGRAM);
         aMap.put(CameoDiagramConstants.PERSONNEL_PROCESSES, UAFConstants.PERSONNEL_PROCESSES_DIAGRAM);
         aMap.put(CameoDiagramConstants.PERSONNEL_STATES, UAFConstants.PERSONNEL_STATES_DIAGRAM);
@@ -220,6 +221,20 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         
         //Projects
         aMap.put(CameoDiagramConstants.PROJECTS_TAXONOMY, UAFConstants.PROJECTS_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PROJECTS_STRUCTURE, UAFConstants.PROJECTS_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PROJECTS_CONNECTIVITY, UAFConstants.PROJECTS_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PROJECTS_PROCESSES, UAFConstants.PROJECTS_PROCESSES_DIAGRAM);
+        
+        //Resources
+        aMap.put(CameoDiagramConstants.RESOURCES_CONNECTIVITY, UAFConstants.RESOURCES_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_INTERACTION_SCENARIOS, UAFConstants.RESOURCES_INTERACTION_SCENARIOS_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_PROCESSES, UAFConstants.RESOURCES_PROCESSES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_STATES, UAFConstants.RESOURCES_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_STRUCTURE, UAFConstants.RESOURCES_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_TAXONOMY, UAFConstants.RESOURCES_TAXONOMY_DIAGRAM);
+        
+        //Summary and Overview
+        aMap.put(CameoDiagramConstants.SUMMARY_AND_OVERVIEW, UAFConstants.SUMMARY_AND_OVERVIEW_DIAGRAM);
         
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
@@ -269,9 +284,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put(CameoDiagramConstants.SECURITY_TAXONOMY, UAFConstants.SECURITY_TAXONOMY_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_STRUCTURE, UAFConstants.SECURITY_STRUCTURE_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_CONNECTIVITY, UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_PROCESSES, UAFConstants.SECURITY_PROCESSES_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_PROCESSES_FLOW, UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_CONSTRAINTS, UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM);
-
+        aMap.put(CameoDiagramConstants.ENVIRONMENT, UAFConstants.ENVIRONMENT_DIAGRAM);
         // Services
         aMap.put(CameoDiagramConstants.SERVICES_CONNECTIVITY, UAFConstants.SERVICES_CONNECTIVITY_DIAGRAM);
         aMap.put(CameoDiagramConstants.SERVICES_CONSTRAINTS_DEFINITION, UAFConstants.SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM);

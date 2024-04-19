@@ -23,7 +23,7 @@ public class CameoDiagramConstants {
 	
 	// Personnel
 	public static final String PERSONNEL_CONNECTIVITY = "Personnel Connectivity";
-	public static final String PERSONNEL_INTERACTION_SCENARIO = "Personnel Interaction Scenario";
+	public static final String PERSONNEL_INTERACTION_SCENARIOS = "Personnel Interaction Scenarios";
 	public static final String PERSONNEL_PROCESSES = "Personnel Processes";
 	public static final String PERSONNEL_PROCESS_FLOW = "Personnel Processes Flow";
 	public static final String PERSONNEL_STATES = "Personnel States";
@@ -32,9 +32,18 @@ public class CameoDiagramConstants {
 	
 	//Projects
 	public static final String PROJECTS_TAXONOMY = "Projects Taxonomy";
+	public static final String PROJECTS_STRUCTURE = "Projects Structure";
+	public static final String PROJECTS_CONNECTIVITY = "Projects Connectivity";
+	public static final String PROJECTS_PROCESSES = "Projects Processes";
 	
 	// Resources
+	public static final String RESOURCES_CONNECTIVITY = "Resources Connectivity";
+	public static final String RESOURCES_PROCESSES = "Resources Processes";
 	public static final String RESOURCES_PROCESS_FLOW = "Resources Process Flow";
+	public static final String RESOURCES_STATES = "Resources States";
+	public static final String RESOURCES_INTERACTION_SCENARIOS = "Resources Interaction Scenarios";
+	public static final String RESOURCES_STRUCTURE ="Resources Structure";
+	public static final String RESOURCES_TAXONOMY = "Resources Taxonomy";
 	
 	// Strategic
 	public static final String STRATEGIC_TAXONOMY = "Strategic Taxonomy";
@@ -47,6 +56,7 @@ public class CameoDiagramConstants {
 	public static final String SECURITY_TAXONOMY = "Security Taxonomy";
 	public static final String SECURITY_STRUCTURE = "Security Structure";
 	public static final String SECURITY_CONNECTIVITY = "Security Connectivity";
+	public static final String SECURITY_PROCESSES = "Security Processes";
 	public static final String SECURITY_PROCESSES_FLOW = "Security Process Flow";
 	public static final String SECURITY_CONSTRAINTS = "Security Constraints";
 	
@@ -59,8 +69,14 @@ public class CameoDiagramConstants {
 	public static final String SERVICES_STRUCTURE = "Services Structure";
 	public static final String SERVICES_TAXONOMY = "Services Taxonomy";
 	
+	//Environment
+	public static final String ENVIRONMENT ="Environment";
+	
 	// Standards
 	public static final String STANDARDS_STRUCTURE = "Standards Structure";
 	public static final String STANDARDS_TAXONOMY = "Standards Taxonomy";
+	
+	//Summary & Overview
+	public static final String SUMMARY_AND_OVERVIEW = "Summary and Overview";
 
 }

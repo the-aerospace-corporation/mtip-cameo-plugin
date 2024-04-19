@@ -338,8 +338,8 @@ public class XmlTagConstants
 	public static final String OPERATIONAL_ACTION = "uaf.OperationalAction";
 	public static final String OPERATIONAL_ASSOCIATION = "uaf.OperationalAssociation";
 	
-	public static final String OPERATIONAL_PROCESS_FLOW = "uaf.OperationalProcesses";
-	public static final String OPERATIONAL_PROCESSES="uaf.CameoOperationalProcesses";
+	public static final String OPERATIONAL_PROCESS_FLOW = "cameo.OperationalProcessFlow";
+	public static final String OPERATIONAL_PROCESSES_DIAGRAM="uaf.OperationalProcesses";
 	
 	public static final String OPERATIONAL_CONNECTIVITY = "uaf.OperationalConnectivity";
 	public static final String OPERATIONAL_CONSTRAINTS_DEFINITION ="uaf.OperationalConstraintsDefinition";
@@ -546,7 +546,7 @@ public class XmlTagConstants
 	
 	// Personnel Diagrams
 	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "uaf.PersonnelConnectivity";
-	public static final String PERSONNEL_INTERACTION_SCENARIO_DIAGRAM = "uaf.PersonnelInteractionScenario";
+	public static final String PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM = "uaf.PersonnelInteractionScenarios";
 	public static final String PERSONNEL_PROCESSES_DIAGRAM = "uaf.PersonnelProcesses";
 	public static final String PERSONNEL_PROCESSES_FLOW_DIAGRAM = "uaf.PersonnelProcessesFlow";
 	public static final String PERSONNEL_STATES_DIAGRAM = "uaf.PersonnelStates";
@@ -555,6 +555,17 @@ public class XmlTagConstants
 
 	//Projects Diagrams
 	public static final String PROJECTS_TAXONOMY_DIAGRAM = "uaf.ProjectsTaxonomy";
+	public static final String PROJECTS_STRUCTURE_DIAGRAM = "uaf.ProjectsStructure";
+	public static final String PROJECTS_CONNECTIVITY_DIAGRAM = "uaf.ProjectsConnectivity";
+	public static final String PROJECTS_PROCESSES_DIAGRAM = "uaf.ProjectsProcesses";
+	
+	//Resources Diagrams
+	public static final String RESOURCES_CONNECTIVITY_DIAGRAM = "uaf.ResourcesConnectivity";
+	public static final String RESOURCES_INTERACTION_SCENARIOS_DIAGRAM = "uaf.ResourcesInteractionScenarios";
+	public static final String RESOURCES_PROCESSES_DIAGRAM = "uaf.ResourcesProcesses";
+	public static final String RESOURCES_STATES_DIAGRAM = "uaf.ResourcesStates";
+	public static final String RESOURCES_STRUCTURE_DIAGRAM = "uaf.ResourcesStructure";
+	public static final String RESOURCES_TAXONOMY_DIAGRAM = "uaf.ResourcesTaxonomy";
 	
 	// Standards Diagrams
 	public static final String STANDARDS_TAXONOMY_DIAGRAM = "uaf.StandardsTaxonomy";
@@ -564,6 +575,7 @@ public class XmlTagConstants
 	public static final String SECURITY_TAXONOMY_DIAGRAM = "uaf.SecurityTaxonomy";
 	public static final String SECURITY_STRUCTURE_DIAGRAM = "uaf.SecurityStructure";
 	public static final String SECURITY_CONNECTIVITY_DIAGRAM = "uaf.SecurityConnectivity";
+	public static final String SECURITY_PROCESSES_DIAGRAM ="uaf.SecurityProcesses";
 	public static final String SECURITY_PROCESSES_FLOW_DIAGRAM = "uaf.SecurityProcesses";
 	public static final String SECURITY_CONSTRAINTS_DIAGRAM = "uaf.SecurityConstraints";
 	
@@ -582,6 +594,12 @@ public class XmlTagConstants
 	public static final String STRATEGIC_CONNECTIVITY_DIAGRAM = "uaf.StrategicConnectivity";
 	public static final String STRATEGIC_STATES_DIAGRAM = "uaf.StrategicStates";
 	public static final String STRATEGIC_CONSTRAINTS_DIAGRAM = "uaf.StrategicConstraints";
+	
+	//Environment
+	public static final String ENVIRONMENT_DIAGRAM="uaf.ParametersEnvironment";
+	
+	//Summary & Overview
+	public static final String SUMMARY_AND_OVERVIEW_DIAGRAM = "uaf.SummaryandOverview";
 	
 	// DoDAF Diagram Types
 	// Capability Views
