@@ -350,17 +350,21 @@ public class Exporter {
 		}		
 	}
 	
-	public void exportReferencedElements(Element element) {
-		if (element instanceof TypedElement) {
-			Type type = ((TypedElement)element).getType();
-			
-			if (CameoUtils.isPredefinedElement(type)) {
-				return;
-			}
-			
-			exportElementRecursiveUp(type);
-		}
-	}
+    public void exportReferencedElements(Element element) {
+      if (element instanceof TypedElement) {
+        Type type = ((TypedElement) element).getType();
+
+        if (type == null) {
+          return;
+        }
+
+        if (CameoUtils.isPredefinedElement(type)) {
+          return;
+        }
+
+        exportElementRecursiveUp(type);
+      }
+    }
 	
 	public static String getElementType(Element element) {
 		if(element instanceof AcceptEventAction) {

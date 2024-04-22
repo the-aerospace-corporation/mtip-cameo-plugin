@@ -357,13 +357,17 @@ public class CameoUtils {
 	}
 	
 	public static boolean isPredefinedElement(Type type) {
-		Namespace namespace = type.getNamespace();
-		
-		if (namespace.isEditable()) {
-			return false;
-		}
-		
-		return true;
+	  if (type == null) {
+	    return false;
+	  }
+	  
+      Namespace namespace = type.getNamespace();
+
+      if (namespace.isEditable()) {
+        return false;
+      }
+
+      return true;
 	}
 	
 	@SuppressWarnings("deprecation")
