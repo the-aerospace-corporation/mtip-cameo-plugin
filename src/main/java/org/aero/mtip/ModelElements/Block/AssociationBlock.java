@@ -13,16 +13,13 @@ import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
