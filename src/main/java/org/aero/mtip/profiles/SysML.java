@@ -1,6 +1,6 @@
 package org.aero.mtip.profiles;
 
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -28,7 +28,6 @@ public class SysML {
 	static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
 	static final String CONSTRAINT_PROPERTY_NAME = "ConstraintProperty";
 	static final String COPY_NAME = "Copy";
-	static final String CUSTOMIZATION_NAME = "Customization";
 	static final String DERIVE_REQUIREMENT_NAME = "DeriveReqt";
 	static final String DESIGN_CONSTRAINT_NAME = "designConstraint";
 	static final String DIRECTED_FEATURE_NAME = "DirectedFeature";
@@ -88,10 +87,6 @@ public class SysML {
 	
 	public static Stereotype getBlockStereotype() {
 		return getInstance().getStereotype(BLOCK_NAME);
-	}
-	
-	public static Stereotype getCustomizationStereotype() {
-		return getInstance().getStereotype(CUSTOMIZATION_NAME);
 	}
 	
 	public static Stereotype getDeriveRequirementStereotype() {
@@ -182,16 +177,16 @@ public class SysML {
 		return false;
 	}
 	
-	protected boolean hasStereotype(Element element, String stereotypeName) {
+	boolean hasStereotype(Element element, String stereotypeName) {
 		if (profile == null) {
-			ExportLog.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
+			Logger.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
 			return false;
 		}
 		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 		
 		if (stereotype == null) {
-			ExportLog.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
+			Logger.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
 			return false;
 		}
 		

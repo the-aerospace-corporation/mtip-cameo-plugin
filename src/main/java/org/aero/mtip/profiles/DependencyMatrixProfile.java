@@ -1,6 +1,6 @@
 package org.aero.mtip.profiles;
 
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -50,14 +50,14 @@ public class DependencyMatrixProfile {
 	
 	private boolean hasStereotype(Element element, String stereotypeName) {
 		if (profile == null) {
-			ExportLog.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
+			Logger.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
 			return false;
 		}
 		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 		
 		if (stereotype == null) {
-			ExportLog.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
+			Logger.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
 			return false;
 		}
 		

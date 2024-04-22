@@ -12,8 +12,7 @@ import java.util.List;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -76,7 +75,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 			if(clientPE != null && supplierPE != null) {
 				PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
 			} else {
-				ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+				Logger.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
 			}
 		} else {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
@@ -87,7 +86,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 		if(shape != null) {
 			this.shapeElements.put(element.getID(), shape);
 		} else {
-			ImportLog.log(String.format("Error placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
+			Logger.log(String.format("Error placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
 		}
 		
 		return noPosition;

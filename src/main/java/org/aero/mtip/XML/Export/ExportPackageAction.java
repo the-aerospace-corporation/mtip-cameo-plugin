@@ -19,24 +19,20 @@ import org.aero.mtip.util.Logger;
 
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
-import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
-import com.nomagic.magicdraw.uml.symbols.PresentationElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 
-@SuppressWarnings("serial")
-public class ExportDiagramAction extends MDAction {
-	DiagramPresentationElement diagramPresentationElement;
-	PresentationElement[] selectedPresentationElements;
-	PresentationElement requestorPresentationElement;
+public class ExportPackageAction extends MDAction {
+	static final long serialVersionUID = 6293853861208772420L;
+	Package packageElement = null;
 	
-	public ExportDiagramAction(String id, String name, DiagramPresentationElement diagramPresentationElement) {
+	public ExportPackageAction(String id, String name, Package packageElement) {
 		super(id, name, null, null);
-		this.diagramPresentationElement = diagramPresentationElement;
+		this.packageElement = packageElement;
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		if(Application.getInstance().getProject() == null) {
 			CameoUtils.popUpMessage("No active project. Open a project, then try again.");
-			return;
 		}
 		
 		try {
@@ -46,7 +42,7 @@ public class ExportDiagramAction extends MDAction {
 				return;
 			}
 			
-			Exporter.exportModelFromDiagram(file, diagramPresentationElement);
+			Exporter.exportModelFromPackage(file, packageElement);
 			FileSelect.writeXMLToFile(file);
 			
 			CameoUtils.popUpMessage("Export complete.");

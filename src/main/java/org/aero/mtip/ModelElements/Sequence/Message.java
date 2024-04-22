@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -46,7 +46,7 @@ public class Message extends CommonRelationship {
 		message.setMessageSort(messageSortEnum);
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.SIGNATURE_TAG)) {
-			String signatureCameoId = ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.SIGNATURE_TAG));
+			String signatureCameoId = Importer.idConversion(xmlElement.getAttribute(XmlTagConstants.SIGNATURE_TAG));
 			NamedElement signature = (NamedElement) project.getElementByID(signatureCameoId);
 			message.setSignature(signature);
 		}
@@ -54,10 +54,10 @@ public class Message extends CommonRelationship {
 		return element;
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.SIGNATURE_TAG)) {
 			String signatureID = modelElement.getAttribute(XmlTagConstants.SIGNATURE_TAG);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signatureID));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(signatureID));
 		}
 	}
 	
@@ -111,12 +111,12 @@ public class Message extends CommonRelationship {
 	@Override
 	public void setSupplier() {
 		if (supplier == null) {
-			ImportLog.log(String.format("Supplier null for message with import id %s", EAID));
+			Logger.log(String.format("Supplier null for message with import id %s", EAID));
 			return;
 		}
 		
 		if (!(supplier instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)) {
-			ImportLog.log(String.format("Unable to set supplier for message as it is not a lifeline but %s.", supplier.getHumanType()));
+			Logger.log(String.format("Unable to set supplier for message as it is not a lifeline but %s.", supplier.getHumanType()));
 			return;
 		}
 		
@@ -125,7 +125,7 @@ public class Message extends CommonRelationship {
 		Element interaction = element.getOwner();
 		
 		if (interaction == null) {
-			ImportLog.log("Interaction owner could not be found to create client for message.");
+			Logger.log("Interaction owner could not be found to create client for message.");
 		}
 		
 		MessageOccurrenceSpecification os = f.createMessageOccurrenceSpecificationInstance();
@@ -142,12 +142,12 @@ public class Message extends CommonRelationship {
 	@Override
 	public void setClient() {
 		if (client == null) {
-			ImportLog.log(String.format("Client null for message with import id %s", EAID));
+			Logger.log(String.format("Client null for message with import id %s", EAID));
 			return;
 		}
 		
 		if (!(client instanceof com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)) {
-			ImportLog.log("Unable to set client for message as it is not a lifeline.");
+			Logger.log("Unable to set client for message as it is not a lifeline.");
 			return;
 		}
 		
@@ -156,7 +156,7 @@ public class Message extends CommonRelationship {
 		Element interaction = element.getOwner();
 		
 		if (interaction == null) {
-			ImportLog.log("Interaction owner could not be found to create client for message.");
+			Logger.log("Interaction owner could not be found to create client for message.");
 		}
 		
 		MessageOccurrenceSpecification os = f.createMessageOccurrenceSpecificationInstance();

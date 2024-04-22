@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -56,7 +56,7 @@ public class Constraint extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		for(String constrainedElement : modelElement.getConstrainedElements()) {
 			if(constrainedElement.contentEquals("_9_0_62a020a_1105704885343_144138_7929")) {
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
@@ -65,13 +65,13 @@ public class Constraint extends CommonElement {
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Association");
 				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
 			} else {
-				Element constrainedCameoElement = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(constrainedElement));
+				Element constrainedCameoElement = Importer.getInstance().buildElement(parsedXML, parsedXML.get(constrainedElement));
 				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
 			}
 			
 		}
 		if(modelElement.hasValueSpecification()) {
-			Element valueSpecification = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getValueSpecification()));
+			Element valueSpecification = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getValueSpecification()));
 			modelElement.setNewValueSpecification(valueSpecification.getID());
 		}
 	}

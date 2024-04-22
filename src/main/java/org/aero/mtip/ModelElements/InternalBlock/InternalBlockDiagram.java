@@ -13,6 +13,7 @@ import java.util.List;
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -54,7 +55,7 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 		ShapeElement shape = null;
 		if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
-			this.shapeElements.put(element.getID(), shape);
+			shapeElements.put(element.getID(), shape);
 			noPosition = true;
 		} else if(MDCustomizationForSysMLProfile.isPartProperty(element) || MDCustomizationForSysMLProfile.isValueProperty(element)) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
@@ -62,7 +63,7 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 				PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 			} 
 			PartView pv = PresentationElementsManager.getInstance().createPartShape((Property) element, shape, null, false, point);
-			this.shapeElements.put(element.getID(), pv);
+			shapeElements.put(element.getID(), pv);
 		} else {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 			if(shape != null) {
@@ -70,11 +71,11 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 			} 
 		}
 		if(shape != null) {
-			CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
-			this.shapeElements.put(element.getID(), shape);
+			shapeElements.put(element.getID(), shape);
 		} else {
-			CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
-			ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
+			Logger.log(String.format("Error placing element %s with ID: %s on diagram.",
+					((NamedElement)element).getName(),
+					element.getID()));
 		}
 		return noPosition;
 	}

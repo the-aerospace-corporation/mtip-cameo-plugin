@@ -7,7 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.CommonRelationship;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -40,7 +40,7 @@ public class Extension extends CommonRelationship {
 			ModelHelper.setNavigable(firstMemberEnd, true);
 			firstMemberEnd.setOwner(client);
 		} else {
-			ImportLog.log("First member end not created for extension " + this.EAID);
+			Logger.log("First member end not created for extension " + this.EAID);
 		}
 		
 		if(secondMemberEnd != null) {
@@ -48,7 +48,7 @@ public class Extension extends CommonRelationship {
 			ModelHelper.setNavigable(secondMemberEnd, true);
 			secondMemberEnd.setOwner(extension);
 		} else {
-			ImportLog.log("Second member end not created for extension " + this.EAID);
+			Logger.log("Second member end not created for extension " + this.EAID);
 		}
 
 		return extension;

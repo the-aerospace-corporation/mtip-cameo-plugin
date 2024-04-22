@@ -11,10 +11,9 @@ import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -48,7 +47,7 @@ public class State extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		
 	}
 	
@@ -57,69 +56,90 @@ public class State extends CommonElement {
 		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State state = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State)element;
 
 		if(xmlElement.hasAttribute(XmlTagConstants.DO_ACTIVITY)) {
-			CameoUtils.logGUI("Creating do activity for State.");
+			CameoUtils.logGui("Creating do activity for State.");
 			String doActivityId = xmlElement.getAttribute(XmlTagConstants.DO_ACTIVITY);
-			Behavior doActivity = (Behavior) ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(doActivityId));
+			Behavior doActivity = (Behavior) Importer.getInstance().buildElement(parsedXML, parsedXML.get(doActivityId));
 			state.setDoActivity(doActivity);
 		}
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.ENTRY)) {
-			CameoUtils.logGUI("Creating entry for State.");
+			CameoUtils.logGui("Creating entry for State.");
 			String entryId = xmlElement.getAttribute(XmlTagConstants.ENTRY);
-			Behavior entry = (Behavior)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(entryId));
+			Behavior entry = (Behavior)Importer.getInstance().buildElement(parsedXML, parsedXML.get(entryId));
 			state.setEntry(entry);
 		}
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.EXIT)) {
-			CameoUtils.logGUI("Creating exit for State.");
+			CameoUtils.logGui("Creating exit for State.");
 			String exitId = xmlElement.getAttribute(XmlTagConstants.EXIT);
-			Behavior exit = (Behavior)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(exitId));
+			Behavior exit = (Behavior)Importer.getInstance().buildElement(parsedXML, parsedXML.get(exitId));
 			state.setExit(exit);
 		}
 	}
 	
 	public void setOwner(Project project, Element owner) {
-		Region region = null;
-		Collection<Region> regions = null;
-		if(owner != null) {
-			//if owner is not a region, create a region and set that region as owned by state machine
-			if(owner instanceof Region) {
-				element.setOwner(owner);
-			} else if(owner instanceof StateMachine) {
-				regions = ((StateMachine) owner).getRegion();
-				if(regions != null) {
-					region = regions.iterator().next();
-					element.setOwner(region);
-				} else {
-					CameoUtils.logGUI("Error in Cameo processes in auto-region creation.");
-				}
-			} else if (owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State) {
-				Region existingRegion = PseudoState.findExistingRegion(owner);
-				if(existingRegion != null) {
-					CameoUtils.logGUI("Setting owner of " + name + " as existing Region.");
-					element.setOwner(existingRegion);
-				} else {
-					CameoUtils.logGUI("Creating new region for " + name + " as child of " + owner.getHumanName());
-					Region newRegion = f.createRegionInstance();
-					newRegion.setOwner(owner);
-					element.setOwner(newRegion);
-				}
-			} else {
-				owner = CameoUtils.findNearestRegion(project, owner);
-				if(owner == null) {
-					String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
-					CameoUtils.logGUI(logMessage);
-					ImportLog.log(logMessage);
-					element.dispose();
-				}
-				element.setOwner(owner);
-			}
-		} else {
-			String logMessage = "Invalid parent. No parent provided and primary model invalid parent for " + name + " with id " + EAID + ". Element could not be placed in model.";
-			CameoUtils.logGUI(logMessage);
-			ImportLog.log(logMessage);
-			element.dispose();
+		if (owner == null) {
+			Logger.log(String.format("Owner for state %s is null.", EAID));
+			return;
 		}
+		
+		if (owner instanceof Region) {
+			element.setOwner(owner);
+			return;
+		}
+
+		if(owner instanceof StateMachine && setOwnerStateMachine(owner)) {
+			return;
+		} 
+		
+		if (owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State
+				&& setOwnerState(owner)) {
+			return;
+		} 
+
+		owner = CameoUtils.findNearestRegion(project, owner);
+		
+		if(owner == null) {
+			Logger.log(String.format("No valid parent found for state %s with id %s. State not imported.", name, element));
+			element.dispose();
+			return;
+		}
+		
+		element.setOwner(owner);
+	}
+	
+	boolean setOwnerState(Element owner) {
+		Region existingRegion = PseudoState.findExistingRegion(owner);
+		
+		if(existingRegion == null) {
+			Logger.log(String.format("Creating new region for %s as child of %s for allowable owneship.", name, owner.getHumanName()));
+			Region newRegion = f.createRegionInstance();
+			newRegion.setOwner(owner);
+			
+			element.setOwner(newRegion);
+			return true;
+		}
+		
+		element.setOwner(existingRegion);
+		return true;
+	}
+	
+	boolean setOwnerStateMachine(Element owner) {
+		Collection<Region> regions = ((StateMachine) owner).getRegion();
+		
+		if(regions == null) {
+			return false;
+		}
+		
+		Region region = regions.iterator().next();
+		
+		if (region == null) {
+			return false;
+		}
+		
+		element.setOwner(region);
+		
+		return true;
 	}
 
 	@Override
@@ -137,10 +157,10 @@ public class State extends CommonElement {
 	
 	@Override
 	protected void writeParent(org.w3c.dom.Element relationships) {
-		Element owner = element.getOwner().getOwner();
+		Element owner = element.getOwner();
 		
 		if(owner == null) {
-			ExportLog.log(String.format("No parent found for state %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("No parent found for state %s with id %s", element.getHumanName(), element.getID()));
 			return;
 		}
 		

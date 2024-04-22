@@ -8,9 +8,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.aero.mtip.XML.Export.ExportXmlSysml;
+import org.aero.mtip.XML.Export.Exporter;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,8 +46,8 @@ public class XmlWriter {
 		try {
 			xmlDoc = createDocument();
 		} catch (ParserConfigurationException e) {
-			ExportLog.log("Failed to create XML document.");
-			ExportLog.logException(e);
+			Logger.log("Failed to create XML document.");
+			Logger.logException(e);
 		}
 	}
 	
@@ -117,7 +117,7 @@ public class XmlWriter {
 	@CheckForNull
 	public static Element createStereotypeTag(Stereotype stereotype) {
 		if (stereotype.getName() == null || stereotype.getName().trim().isEmpty()) {
-			ExportLog.log(String.format("Stereotype not added to xml. Stereotype of with id %s is not named.", stereotype.getID()));
+			Logger.log(String.format("Stereotype not added to xml. Stereotype of with id %s is not named.", stereotype.getID()));
 			return null;
 		}
 		
@@ -350,7 +350,7 @@ public class XmlWriter {
 	}
 	
 	public static Element createSimpleTypeTag(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element) {
-		return createSimpleTypeTag(ExportXmlSysml.getEntityType(element));
+		return createSimpleTypeTag(Exporter.getEntityType(element));
 	}
 	
 	public static Element createSimpleTypeTag(String elementType) {
@@ -466,7 +466,7 @@ public class XmlWriter {
 			if(body != null) {
 				strAttr = createMtipStringAttribute(attrName, body);
 			} else {
-				ExportLog.log(String.format("Body of opaque expression with id %s has empty body.", vs.getID()));
+				Logger.log(String.format("Body of opaque expression with id %s has empty body.", vs.getID()));
 			}
 		} else if (vs instanceof LiteralUnlimitedNatural) {
 			
@@ -479,7 +479,7 @@ public class XmlWriter {
 		} else if (vs instanceof Interval) {
 			
 		} else {
-			ExportLog.log(String.format("Value specification with id %s was not a recognized type.", vs.getID()));
+			Logger.log(String.format("Value specification with id %s was not a recognized type.", vs.getID()));
 		}
 		
 		return strAttr;

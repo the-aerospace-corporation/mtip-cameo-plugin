@@ -23,6 +23,7 @@ import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -63,7 +64,7 @@ public class CameoUtils {
 	    put("_16_5_1_12c903cb_1245415335546_479030_4092", SysmlConstants.STRING);
 	}};
 	
-	public static void logGUI(String text) {
+	public static void logGui(String text) {
 		Application.getInstance().getGUILog().log(text);
 	}
 	
@@ -135,7 +136,7 @@ public class CameoUtils {
 		return null;
 	}
 	
-	public static Element findNearestActivity(Project project, Element owner) {
+	public static Element findNearestActivity(Element owner) {
 		if(owner != null) {
 			if(owner instanceof Activity) {
 				return owner;
@@ -144,7 +145,7 @@ public class CameoUtils {
 				if(nextOwner == null) {
 					return null;
 				}
-				return findNearestActivity(project, nextOwner);
+				return findNearestActivity(nextOwner);
 			}
 		}
 		return null;
@@ -175,17 +176,19 @@ public class CameoUtils {
 		return validationSuite;
 	}
 	
-	public static boolean isModel(Element element, Project project) {
-		if(element.equals(project.getPrimaryModel())) {
+	public static boolean isModel(Element element) {
+		if(element.equals(Application.getInstance().getProject().getPrimaryModel())) {
 			return true;
 		}
+		
 		return false;
 	}
 	
-	public static boolean isProfile(Element element, Project project) {
+	public static boolean isProfile(Element element) {
 		if(element instanceof Profile) {
 			return true;
 		}
+		
 		return false;
 	}
 	
@@ -311,7 +314,7 @@ public class CameoUtils {
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		
-		logGUI(sw.toString());
+		logGui(sw.toString());
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -360,12 +363,28 @@ public class CameoUtils {
 //			ValueSpecification vs2 = is.getSpecification();
 //			strVal = getSlotValueAsString(vs2);
 		} else {
-			ExportLog.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
+			Logger.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
 		}
 		return strVal;
 	}
 	
 	public static void popUpMessage(String message) {
 		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), message);
+	}
+	
+	public static void createSession(Project project, String sessionName) {
+		if (SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().createSession(project, sessionName);
+	}
+	
+	public static void closeSession(Project project) {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().closeSession(project);
 	}
 }

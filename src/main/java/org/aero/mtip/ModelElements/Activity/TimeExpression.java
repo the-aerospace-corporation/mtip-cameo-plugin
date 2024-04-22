@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -43,7 +43,7 @@ public class TimeExpression extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		
 	}
 	
@@ -59,7 +59,7 @@ public class TimeExpression extends CommonElement {
 		ValueSpecification vs = createValueSpecification(valueType, value);
 		
 		if (vs == null) {
-			ImportLog.log(String.format("Failed to set expr for time expression %s", xmlElement.getEAID()));
+			Logger.log(String.format("Failed to set expr for time expression %s", xmlElement.getImportId()));
 			return;
 		}
 		
@@ -76,17 +76,17 @@ public class TimeExpression extends CommonElement {
 		Collection<Observation> observations = timeExpression.getObservation();
 		
 		for (String importId : xmlElement.getListAttributes(XmlTagConstants.ATTRIBUTE_NAME_OBSERVATION)) {
-			String createdId = ImportXmlSysml.idConversion(importId);
+			String createdId = Importer.idConversion(importId);
 			
 			if (createdId == null || createdId.trim().isEmpty()) {
-				ImportLog.log(String.format("Observation not created or has no id for time expression %s.", xmlElement.getEAID()));
+				Logger.log(String.format("Observation not created or has no id for time expression %s.", xmlElement.getImportId()));
 				continue;
 			}
 			
 			Element element = (Element) project.getElementByID(createdId);
 			
 			if (element == null || !(element instanceof Observation)) {
-				ImportLog.log(String.format("Observation %s not created or not an observation for Time Expression %s", importId, xmlElement.getEAID()));
+				Logger.log(String.format("Observation %s not created or not an observation for Time Expression %s", importId, xmlElement.getImportId()));
 				continue;
 			}
 			

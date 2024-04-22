@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -65,7 +65,7 @@ public class DependencyMatrix extends AbstractMatrix {
 				XmlWriter.add(relationships, rowScopeTag);
 			}
 		}catch (ClassCastException cce) {
-			ImportLog.log("Error casting row scope element to Element class for dependency matrix named: " + this.name);
+			Logger.log("Error casting row scope element to Element class for dependency matrix named: " + this.name);
 		}
 		
 		// Find and write column scope to XML
@@ -79,7 +79,7 @@ public class DependencyMatrix extends AbstractMatrix {
 				XmlWriter.add(relationships, columnScopeTag);
 			}
 		}catch (ClassCastException cce) {
-			ImportLog.log("Error casting column scope element to Element class for dependency matrix named: " + this.name);
+			Logger.log("Error casting column scope element to Element class for dependency matrix named: " + this.name);
 		}
 		
 		// Find and write dependency Criteria to XML
@@ -87,9 +87,9 @@ public class DependencyMatrix extends AbstractMatrix {
 		Slot dependencyCriteriaSlot = StereotypesHelper.getSlot(element, dependencyCriteriaProperty, false);
 		try {
 			ArrayList<String> dependencyCriteriaXMLStr = (ArrayList<String>) InstanceSpecificationHelper.getValueBySlot(dependencyCriteriaSlot);
-			CameoUtils.logGUI("Dependency criteria XML: " + dependencyCriteriaXMLStr);
+			CameoUtils.logGui("Dependency criteria XML: " + dependencyCriteriaXMLStr);
 		} catch(ClassCastException cce) {
-			ImportLog.log("Error casting dependency criteria XML.");
+			Logger.log("Error casting dependency criteria XML.");
 		}
 		
 		
@@ -102,7 +102,7 @@ public class DependencyMatrix extends AbstractMatrix {
 		try {
 			Slot rowElementTypeSlot = StereotypesHelper.getSlot(element, rowElementTypeProperty, false);
 		} catch (NullPointerException npe) {
-			CameoUtils.logGUI("No rowElementType has been selected for depedency matrix with id: " + element.getID());
+			CameoUtils.logGui("No rowElementType has been selected for depedency matrix with id: " + element.getID());
 		}
 		
 //		Element rowElementTypeElement = (Element) InstanceSpecificationHelper.getValueBySlot(rowElementTypeSlot);

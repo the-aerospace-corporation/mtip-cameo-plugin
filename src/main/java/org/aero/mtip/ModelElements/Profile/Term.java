@@ -7,7 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;

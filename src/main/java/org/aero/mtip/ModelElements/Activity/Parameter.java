@@ -3,7 +3,7 @@ package org.aero.mtip.ModelElements.Activity;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -71,14 +71,14 @@ public class Parameter extends CommonElement {
 						LiteralString valueSpecification = (LiteralString)ModelHelper.createValueSpecification(project, parameter.getType(), defaultValue, null);
 						parameter.setDefaultValue(valueSpecification);
 					} else {
-						CameoUtils.logGUI("Primitive type not recognized: " + xmlElement.getAttribute(XmlTagConstants.TYPED_BY));
+						CameoUtils.logGui("Primitive type not recognized: " + xmlElement.getAttribute(XmlTagConstants.TYPED_BY));
 					}
 				} else {
-					CameoUtils.logGUI("Property type is null. Cannot set default value.");
+					CameoUtils.logGui("Property type is null. Cannot set default value.");
 				}
 			} catch(Exception exception) {
-				ImportLog.log(String.format("Error assigning default value to property with id: %s see stack trace: ", EAID));
-				ImportLog.logException(exception);
+				Logger.log(String.format("Error assigning default value to property with id: %s see stack trace: ", EAID));
+				Logger.logException(exception);
 			}
 		}
 		return element;

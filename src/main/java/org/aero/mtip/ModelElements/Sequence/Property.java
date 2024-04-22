@@ -6,13 +6,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Sequence;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -67,22 +64,14 @@ public class Property extends CommonElement {
 					} else if(xmlElement.getAttribute(XmlTagConstants.TYPED_BY).contentEquals(SysmlConstants.ELEMENT_VALUE)) {
 //						ElementValue ev = ModelHelper.createValueSpecification(arg0, arg1, arg2, arg3)
 					} else {
-						CameoUtils.logGUI("Primitive type not recognized: " + xmlElement.getAttribute(XmlTagConstants.TYPED_BY));
+						CameoUtils.logGui("Primitive type not recognized: " + xmlElement.getAttribute(XmlTagConstants.TYPED_BY));
 					}
 				} else {
-					CameoUtils.logGUI("Property type is null. Cannot set default value.");
+					CameoUtils.logGui("Property type is null. Cannot set default value.");
 				}
 			} catch(Exception exception) {
-				StringWriter writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter( writer );
-				exception.printStackTrace(printWriter);
-				printWriter.flush();
-
-				String stackTrace = writer.toString();
-				String message = "Error assigning default value to property with id: " + this.EAID + " see stack trace:";
-				CameoUtils.logGUI(message);
-				ImportLog.log(message);
-				ImportLog.log(stackTrace);
+				Logger.log(String.format("Error assigning default value to property with id: %s see stack trace:", EAID));
+				Logger.logException(exception);
 			}
 		}
 		
