@@ -339,21 +339,6 @@ public class CameoUtils {
 		return ModelHelper.findElementWithPath(primitiveValuePath);
 	}
 	
-	public static String determineMetamodel(Project project) {
-		Profile uafProfile = StereotypesHelper.getProfile(project, UAFConstants.UAF_PROFILE_NAME);
-		if(uafProfile != null) {
-			if (!UAFProfile.isInitialized(project)) {
-				UAFProfile.initialize(project);
-			}
-			CameoUtils.logGui("Exporting model as UAF model.");
-			new UAFProfile(project);
-			return UAFConstants.UAF;
-		} else {
-			CameoUtils.logGui("Exporting model as SysML model.");
-			return  SysmlConstants.SYSML;
-		}
-	}
-	
 	@CheckForNull
 	public static String getValueSpecificationValueAsString(ValueSpecification vs) {
 		String strVal = null;

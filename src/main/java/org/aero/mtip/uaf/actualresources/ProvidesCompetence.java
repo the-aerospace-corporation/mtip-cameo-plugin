@@ -13,6 +13,5 @@ public class ProvidesCompetence extends Dependency {
 		super(name, EAID);
 		this.metamodelConstant = UAFConstants.PROVIDES_COMPETENCE;
 		this.xmlConstant = XmlTagConstants.PROVIDES_COMPETENCE;
-		this.initialStereotypes = Arrays.asList(UAFProfile.getStereotype(metamodelConstant));
 	}
 }

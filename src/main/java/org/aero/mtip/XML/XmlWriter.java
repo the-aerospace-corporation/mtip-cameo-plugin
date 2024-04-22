@@ -12,6 +12,7 @@ import org.aero.mtip.XML.Export.Exporter;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -350,7 +351,7 @@ public class XmlWriter {
 	}
 	
 	public static Element createSimpleTypeTag(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element) {
-		return createSimpleTypeTag(Exporter.getEntityType(element));
+		return createSimpleTypeTag(MtipUtils.getEntityType(element));
 	}
 	
 	public static Element createSimpleTypeTag(String elementType) {
@@ -358,7 +359,7 @@ public class XmlWriter {
 		return createTag(
 				XmlTagConstants.TYPE, 
 				XmlTagConstants.ATTRIBUTE_TYPE_STRING, 
-				String.format("sysml.%s", elementType));
+				String.format("%s.%s", MtipUtils.getMetamodelPrefix(elementType), elementType));
 	}
 	
 	public static Element createMtipDiagramConnector(int number) {

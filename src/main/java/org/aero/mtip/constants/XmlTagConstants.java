@@ -601,6 +601,9 @@ public class XmlTagConstants
 	//Summary & Overview
 	public static final String SUMMARY_AND_OVERVIEW_DIAGRAM = "uaf.SummaryandOverview";
 	
+	// Uncategorized UAF
+	public static final String IS_CAPABLE_TO_PERFORM = "uaf.IsCapableToPerform";
+	
 	// DoDAF Diagram Types
 	// Capability Views
 

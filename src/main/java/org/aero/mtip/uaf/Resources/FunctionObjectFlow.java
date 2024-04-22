@@ -4,7 +4,7 @@ import org.aero.mtip.ModelElements.Activity.ObjectFlow;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 
-public class FunctionObjectFlow extends ObjectFlow{
+public class FunctionObjectFlow extends ObjectFlow {
 	
 	public FunctionObjectFlow(String name, String EAID) {
 		super(name, EAID);

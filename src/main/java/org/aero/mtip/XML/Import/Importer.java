@@ -31,7 +31,7 @@ import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.MTIPUtils;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
 import org.apache.commons.collections.MapUtils;
@@ -187,7 +187,7 @@ public class Importer {
 			return getImportedElement(modelElement);
 		}
 		
-		if (!MTIPUtils.isSupportedDiagram(modelElement.getType())) {
+		if (!MtipUtils.isSupportedDiagram(modelElement.getType())) {
 			Logger.log(String.format("%s with id %s type is not supported. ", modelElement.getType(), modelElement.getImportId()));
 			return null;
 		}
@@ -214,7 +214,7 @@ public class Importer {
 			return getImportedElement(modelElement);
 		}
 		
-		if(!MTIPUtils.isSupportedRelationship(modelElement.getType())) { 
+		if(!MtipUtils.isSupportedRelationship(modelElement.getType())) { 
 			Logger.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getImportId()));
 			return null;
 		}
@@ -270,7 +270,7 @@ public class Importer {
 			return getImportedElement(modelElement);
 		}
 		
-		if(!MTIPUtils.isSupportedElement(modelElement.getImportId())) { 
+		if(!MtipUtils.isSupportedElement(modelElement.getImportId())) { 
 			Logger.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getImportId()));
 			return null;
 		}

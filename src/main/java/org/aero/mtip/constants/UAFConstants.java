@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class UAFConstants {
 	public static final String UAF = "UAF";
-	public static final String XML_METAMODEL_UAF = "uaf";
+	public static final String METAMODEL_PREFIX = "uaf";
 	public static final String UAF_PROFILE_NAME = "UAF";
 	public static final String UPDM_CUSTOMIZATION_PROFILE = "UPDM Customization";
 	// Strategic
@@ -303,6 +303,8 @@ public class UAFConstants {
 	// Diagram Stereotypes String in UAF/UPDM Profiles
 	public static final String STRATEGIC_TAXONOMY_STEREOTYPE = "St-Tx Strategic Taxonomy"; // Contained in "UPDM Customization" Profile
 	
+	// Uncategorized
+	public static final String IS_CAPABLE_TO_PERFORM = "IsCapableToPerform";
 	
 	public static final String[] UAF_ELEMENT_VALUES = {
 			ACHIEVER,
@@ -535,13 +537,13 @@ public class UAFConstants {
 			SERVICE_CONNECTOR,
 			SERVICE_MESSAGE, 
 			
-			
 			//MetaData
 			PERFORMS_IN_CONTEXT,
 			
+			IMPLEMENTS,
 			
-			IMPLEMENTS
-			
+			// Uncategorized
+			IS_CAPABLE_TO_PERFORM
 	};
 	
 	public static final String[] UAF_DIAGRAM_VALUES = {

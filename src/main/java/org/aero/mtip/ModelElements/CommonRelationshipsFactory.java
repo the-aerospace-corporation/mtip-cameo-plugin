@@ -26,6 +26,7 @@ import org.aero.mtip.ModelElements.UseCase.Extend;
 import org.aero.mtip.ModelElements.UseCase.Include;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.uaf.IsCapableToPerform;
 import org.aero.mtip.uaf.Dictionary.SameAs;
 import org.aero.mtip.uaf.Metadata.Implements;
 import org.aero.mtip.uaf.Metadata.PerformsInContext;
@@ -308,7 +309,9 @@ public class CommonRelationshipsFactory {
 			case UAFConstants.PERFORMS_IN_CONTEXT:
 				relationship = new PerformsInContext(name, EAID);
 				break;
-				
+			case UAFConstants.IS_CAPABLE_TO_PERFORM:
+				relationship = new IsCapableToPerform(name, EAID);
+				break;				
 			default:
 				break;
 		}

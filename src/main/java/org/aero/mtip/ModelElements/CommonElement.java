@@ -18,6 +18,7 @@ import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
 import org.w3c.dom.Node;
@@ -77,6 +78,7 @@ public abstract class CommonElement {
 		setName();
 		setOwner(owner);
 		addInitialStereotype();
+		addMetamodelConstantStereotype();
 		setClassifier();
 		applyClassifier();
 		addDocumentation(xmlElement);
@@ -579,6 +581,10 @@ public abstract class CommonElement {
 	}
 	
 	protected void addMetamodelConstantStereotype() {
+		if (!MtipUtils.isUafEntity(metamodelConstant)) {
+			return;
+		}
+		
 		Stereotype metamodelConstantStereotype = UAFProfile.getStereotype(metamodelConstant);
 		
 		if (metamodelConstantStereotype == null) {

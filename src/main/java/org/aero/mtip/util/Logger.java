@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class Logger {	
 	static final String EXPORT = "Export";
@@ -42,13 +45,15 @@ public class Logger {
 	static Logger instance;
 	
 	Project project;
-	
 	String mode;
+	Instant start;
+    
 	List<String> logData = new ArrayList<String> ();
 	
 	ArrayList<String> xmlFileNames = new ArrayList<String> ();
 	
 	public Logger(String mode) {
+		this.start = java.time.Instant.now();
 		this.mode = mode;
 	}
 	
@@ -149,12 +154,14 @@ public class Logger {
 	public static void logSummary(Importer importer) {
 		instance.logImportedElements(importer.getImportedElementIds());
 		instance.logUnsupportedElements(importer.getUnsupportedElementIds());
+		instance.logDuration();
 	}
 	
 	public static void logSummary(Exporter exporter) {
 		instance.logExportedElements(exporter.getExportedElements());
 		instance.logImplicitElements(exporter.getImplicitElements());
 		instance.logUnsupportedElements(exporter.getUnsupportedElements());
+		instance.logDuration();
 	}
 	
 	public void logElements(Set<String> elementIds, String categoryMessage) {
@@ -163,14 +170,19 @@ public class Logger {
 		TreeMap<String, Integer> typeCounts = new TreeMap<String, Integer>(Collections.reverseOrder());
 		
 		for (String elementId : elementIds) {
-			Element element = (Element) Application.getInstance().getProject().getElementByID(elementId);
+			Element element = (Element) Application.getInstance().getProject().getElementByID(elementId);			
+			String elementType = MtipUtils.getEntityType(element);
 			
-			if (!typeCounts.containsKey(element.getHumanType())) {
+			if (elementType == null) {
+				elementType = element.getHumanType();
+			}
+			
+			if (!typeCounts.containsKey(elementType)) {
 				typeCounts.put(element.getHumanType(), 1);
 				continue;
 			}
 			
-			typeCounts.put(element.getHumanType(), typeCounts.get(element.getHumanType()) + 1);			
+			typeCounts.put(elementType, typeCounts.get(elementType) + 1);			
 		}
 		
 		for (String elementType : typeCounts.descendingKeySet()) {
@@ -196,6 +208,28 @@ public class Logger {
 	public void logUnsupportedElements(Set<String> unsupportedElements) {
 		String categoryMessage = String.format("\n------------ %s Elements Unsupported and not %sed -----------\n", unsupportedElements.size(), mode);
 		logElements(unsupportedElements, categoryMessage);
+	}
+	
+	public static void logMultipleUafStereotypes(List<Stereotype> stereotypes, Element element) {
+		String stereotypeNames = "";
+		
+		for (Stereotype stereotype : stereotypes) {
+			stereotypeNames += CameoUtils.getElementName(stereotype) + " ";
+		}
+		
+		log(String.format("Multiple stereotypes found for %s with id %s: %s", element.getHumanName(), element.getID(), stereotypeNames));
+	}
+	
+	void logDuration() {
+		Duration between = java.time.Duration.between(start, java.time.Instant.now());
+		
+		String timeStr = String.format("%02d:%02d:%02d.%04d \n",
+		        between.toHours(), 
+		        between.toMinutes() - between.toHours()*60, 
+		        between.getSeconds() - between.toMinutes()*60, 
+		        between.toMillis() - between.getSeconds()*1000);
+		
+		log(String.format("\n%sed in %s", mode, timeStr));
 	}
 	
 	public static String getDocumentsPath() {

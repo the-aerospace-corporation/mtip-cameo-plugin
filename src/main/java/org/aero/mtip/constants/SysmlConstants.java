@@ -15,6 +15,8 @@ import java.util.Set;
 public class SysmlConstants {
 	//Categorization constants
 	public static final String SYSML = "SysML";
+	public static final String METAMODEL_PREFIX = "sysml";
+	
 	public static final String ELEMENT = "Element";
 	public static final String RELATIONSHIP = "Relationship";
 	public static final String DIAGRAM = "Diagram";

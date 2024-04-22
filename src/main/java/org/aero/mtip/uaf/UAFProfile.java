@@ -1,95 +1,70 @@
 package org.aero.mtip.uaf;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
 
-import org.aero.mtip.constants.UAFConstants;
-import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.profiles.SysML;
 
+import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class UAFProfile {
-	private static UAFProfile instance = null;
+	static UAFProfile instance = null;
 	
-	private Map<String, Stereotype> stereotypesByName = new HashMap<String, Stereotype> ();
-	private Map<Stereotype, String> nameFromStereotype = new HashMap<Stereotype, String> ();
-	private Project project;
-	public Profile UAF_PROFILE = null;
-	public Profile UPDM_CUSTOMIZATION_PROFILE = null;
+	static final String NAME = "UAF";
+	static final String UPDM_NAME = "UPDM Customization";
+	
+	Project project;
+	Profile uafProfile;
+	Profile updmProfile;
 
-	public UAFProfile(Project project) {
-		this.project = project;
-		UAF_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UAF);
-		UPDM_CUSTOMIZATION_PROFILE = StereotypesHelper.getProfile(project, UAFConstants.UPDM_CUSTOMIZATION_PROFILE);
+	UAFProfile() {
+		project = Application.getInstance().getProject();
+		uafProfile = StereotypesHelper.getProfile(project, NAME);
+		updmProfile = StereotypesHelper.getProfile(project, UPDM_NAME);
+	}
+	
+	Project getProject() {
+		return project;
+	}
+	
+	Profile getUafProfile() {
+		return uafProfile;
+	}
+	
+	Profile getUpdmProfile() {
+		return updmProfile;
+	}
+	
+	public static UAFProfile getInstance() {
+		if (instance == null || instance.project.getPrimaryModel().getID() != Application.getInstance().getProject().getPrimaryModel().getID()) {
+			instance = new UAFProfile();
+		}
 		
-		initializeStereotypes();
+		return instance;
 	}
 	
-	public static void initialize(Project project) {
-		instance = new UAFProfile(project);
+	@CheckForNull
+	public static Stereotype getStereotype(String stereotypeName) {
+		Stereotype stereotype = StereotypesHelper.getStereotype(getInstance().getProject(), stereotypeName, getInstance().getUafProfile());
+		
+		if (stereotype != null) {
+			return stereotype;
+		}
+		
+		return StereotypesHelper.getStereotype(getInstance().getProject(), stereotypeName, getInstance().getUpdmProfile());
 	}
 	
-	public static Stereotype getStereotype(String elementName) {
-		return instance.stereotypesByName.get(elementName);
-	}
-	
-	public static String getName(Stereotype stereotype) {
-		return instance.nameFromStereotype.get(stereotype);
-	}
-	
-	public static boolean isUafStereotype(Stereotype stereotype) {
-		if (instance.nameFromStereotype.keySet().contains(stereotype)) {
+	public static boolean isUafProfile(Package profile) {
+		if (profile.getID() == getInstance().getUafProfile().getID() 
+				|| profile.getID() == getInstance().getUpdmProfile().getID()) {
 			return true;
 		}
 		
 		return false;
 	}
-	
-	public static boolean isInitialized(Project project) {
-		if (instance == null || !instance.project.equals(project)) {
-			return false;
-		}
-	
-		return true;
-	}
-	
-	private void initializeStereotypes() {
-		initializeElementStereotypes();
-		initializeRelationshipStereotypes();
-		
-		nameFromStereotype = 
-				stereotypesByName.entrySet()
-			       .stream()
-			       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
-	}
-	
-	private void initializeElementStereotypes() {
-		for (String uafElement : UAFConstants.UAF_ELEMENTS) {
-			Stereotype stereotype = StereotypesHelper.getStereotype(project, uafElement, UAF_PROFILE);
-			
-			if (stereotype != null) {
-				stereotypesByName.put(uafElement, stereotype);
-				continue;
-			}
-			
-			CameoUtils.logGui(String.format("Failed to initialize stereotype for element %s.", uafElement));
-		}
-	}
-	
-	private void initializeRelationshipStereotypes() {
-		for (String uafElement : UAFConstants.UAF_RELATIONSHIPS) {
-			Stereotype stereotype = StereotypesHelper.getStereotype(project, uafElement, UAF_PROFILE);
-			
-			if (stereotype != null) {
-				stereotypesByName.put(uafElement, stereotype);
-				continue;
-			}
-			
-			CameoUtils.logGui(String.format("Failed to initialize stereotype for relationship %s.", uafElement));
-		}
-	}
 }
+
