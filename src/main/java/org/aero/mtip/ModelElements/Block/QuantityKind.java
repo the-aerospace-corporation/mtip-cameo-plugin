@@ -6,11 +6,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.uml.Finder;
 
 public class QuantityKind extends InstanceSpecification {
@@ -23,6 +22,6 @@ public class QuantityKind extends InstanceSpecification {
 	}
 
 	protected void setClassifier() {
-		this.classifier = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element)Finder.byQualifiedName().find(ImportXmlSysml.getProject(), "SysML::Libraries::UnitAndQuantityKind::QuantityKind");
+		this.classifier = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element)Finder.byQualifiedName().find(Importer.getProject(), "SysML::Libraries::UnitAndQuantityKind::QuantityKind");
 	}
 }

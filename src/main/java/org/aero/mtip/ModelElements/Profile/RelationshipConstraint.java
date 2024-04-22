@@ -7,17 +7,13 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import java.util.HashMap;
-
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
-import org.aero.mtip.util.ValidationRuleGenerator;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -65,43 +61,43 @@ public class RelationshipConstraint extends CommonElement {
 		NamedElement client = (NamedElement)xmlElement.getClientElement();
 		NamedElement supplier = (NamedElement)xmlElement.getSupplierElement();
 		
-		if(customizationType.contentEquals(METARELATIONSHIP)) {
-			// Composition and Aggregate UML types are Associations with different member end types (composite and aggregation)
-			CameoUtils.logGUI("\t...metarelationship steretoype: " + relationshipStereotype);
-			if(relationshipStereotype.contentEquals("Composition")) {
-				CameoUtils.logGUI("\t...customization target composition.");
-				if(ImportXmlSysml.CREATE_VALIDATION_ON_IMPORT) {
-					ValidationRuleGenerator.createCompositionRule(project, ImportXmlSysml.MODEL_VALIDATION_PACKAGE, supplier, client);
-				}
-				relationshipStereotype = "Association";
-			}
-			if(relationshipStereotype.contentEquals("Aggregate")) {
-				relationshipStereotype = "Association";
-				if(ImportXmlSysml.CREATE_VALIDATION_ON_IMPORT) {
-					ValidationRuleGenerator.createAggregationRule(project, ImportXmlSysml.MODEL_VALIDATION_PACKAGE, supplier, client);
-				}
-			}
-			
-			if(profileName.contentEquals(UML_PROFILE)) {
-				customizationTarget = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::" + relationshipStereotype);
-				StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, CUSTOMIZATIONTARGET, customizationTarget);
-			}
-		} else {
-			CameoUtils.logGUI("Setting customization target as : " + xmlElement.getAttribute(CUSTOMIZATIONTARGET) + " with xml id " + xmlElement.getAttribute(CUSTOMIZATION_TARGET_XML_ID));
-			customizationTarget = (Element) project.getElementByID(xmlElement.getAttribute(CUSTOMIZATIONTARGET));
-			StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, CUSTOMIZATIONTARGET, customizationTarget);
-		}
+//		if(customizationType.contentEquals(METARELATIONSHIP)) {
+//			// Composition and Aggregate UML types are Associations with different member end types (composite and aggregation)
+//			CameoUtils.logGui("\t...metarelationship steretoype: " + relationshipStereotype);
+//			if(relationshipStereotype.contentEquals("Composition")) {
+//				CameoUtils.logGui("\t...customization target composition.");
+//				if(Importer.CREATE_VALIDATION_ON_IMPORT) {
+//					ValidationRuleGenerator.createCompositionRule(project, Importer.MODEL_VALIDATION_PACKAGE, supplier, client);
+//				}
+//				relationshipStereotype = "Association";
+//			}
+//			if(relationshipStereotype.contentEquals("Aggregate")) {
+//				relationshipStereotype = "Association";
+//				if(Importer.CREATE_VALIDATION_ON_IMPORT) {
+//					ValidationRuleGenerator.createAggregationRule(project, Importer.MODEL_VALIDATION_PACKAGE, supplier, client);
+//				}
+//			}
+//			
+//			if(profileName.contentEquals(UML_PROFILE)) {
+//				customizationTarget = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::" + relationshipStereotype);
+//				StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, CUSTOMIZATIONTARGET, customizationTarget);
+//			}
+//		} else {
+//			CameoUtils.logGui("Setting customization target as : " + xmlElement.getAttribute(CUSTOMIZATIONTARGET) + " with xml id " + xmlElement.getAttribute(CUSTOMIZATION_TARGET_XML_ID));
+//			customizationTarget = (Element) project.getElementByID(xmlElement.getAttribute(CUSTOMIZATIONTARGET));
+//			StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, CUSTOMIZATIONTARGET, customizationTarget);
+//		}
 		
 		
 		if(customizationTarget != null) {
-			CameoUtils.logGUI("\t...Setting customization target to " + customizationTarget.getHumanName());
+			CameoUtils.logGui("\t...Setting customization target to " + customizationTarget.getHumanName());
 		}
 		if(client != null) {
-			CameoUtils.logGUI("\t...Adding client " + client.getName() + " to typesForSource field");
+			CameoUtils.logGui("\t...Adding client " + client.getName() + " to typesForSource field");
 			StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, TYPESFORTARGET, client);
 		}
 		if(supplier != null) {
-			CameoUtils.logGUI("\t...Adding supplier " + supplier.getName() + " to typesForTargetField");
+			CameoUtils.logGui("\t...Adding supplier " + supplier.getName() + " to typesForTargetField");
 			StereotypesHelper.setStereotypePropertyValue(customization, customizationStereotype, TYPESFORSOURCE, supplier);
 		}
 		
@@ -117,7 +113,7 @@ public class RelationshipConstraint extends CommonElement {
 		} else if(customizationTarget != null) {
 			name = ((NamedElement)customizationTarget).getName();
 		} else {
-			ImportLog.log("No customization target for customization with id: " + EAID);
+			Logger.log("No customization target for customization with id: " + EAID);
 		}
 		
 		name.replace("___",  "_").replace("__", "_");
@@ -126,39 +122,39 @@ public class RelationshipConstraint extends CommonElement {
 		return customization;
 	}
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		CameoUtils.logGUI("\t...Creating dependent elements for customization with id: " + modelElement.getEAID());
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		CameoUtils.logGui("\t...Creating dependent elements for customization with id: " + modelElement.getImportId());
 		if(modelElement.hasClient()) {
 			String clientID = modelElement.getClient();
 			if(parsedXML.containsKey(clientID)) {
-				CameoUtils.logGUI("\t...Finding or creating client for customization with client id: " + clientID);
-				Element client = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(clientID));
+				CameoUtils.logGui("\t...Finding or creating client for customization with client id: " + clientID);
+				Element client = Importer.getInstance().buildElement(parsedXML, parsedXML.get(clientID));
 				modelElement.setClientElement(client);
 			} else {
-				CameoUtils.logGUI("\t...Client element not in XML. Missing element with id: " + clientID);
+				CameoUtils.logGui("\t...Client element not in XML. Missing element with id: " + clientID);
 			}
 		} else {
-			CameoUtils.logGUI("\t...No client found for customization with id: " + modelElement.getEAID());
+			CameoUtils.logGui("\t...No client found for customization with id: " + modelElement.getImportId());
 		}
 		if(modelElement.hasSupplier()) {
 			String supplierID = modelElement.getSupplier();
 			if(parsedXML.containsKey(supplierID)) {
-				CameoUtils.logGUI("\t...Finding or creating supplier for customization with supplier id: " + supplierID);
-				Element supplier = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getSupplier()));
+				CameoUtils.logGui("\t...Finding or creating supplier for customization with supplier id: " + supplierID);
+				Element supplier = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getSupplier()));
 				modelElement.setSupplierElement(supplier);
 			} else {
-				CameoUtils.logGUI("\t...Supplier element not in XML. Missing element with id: " + supplierID);
+				CameoUtils.logGui("\t...Supplier element not in XML. Missing element with id: " + supplierID);
 			}
 		} else {
-			CameoUtils.logGUI("\t...No supplier found for customization with id: " + modelElement.getEAID());
+			CameoUtils.logGui("\t...No supplier found for customization with id: " + modelElement.getImportId());
 		}
 
 		if(modelElement.getAttribute(CUSTOMIZATIONTYPE).contentEquals(STEREOTYPEDRELATIONSHIP)) {
-			CameoUtils.logGUI("\t...Finding or creating customizaxtion target for customization with cusomization id: " + modelElement.getAttribute(CUSTOMIZATION_TARGET_XML_ID));
+			CameoUtils.logGui("\t...Finding or creating customizaxtion target for customization with cusomization id: " + modelElement.getAttribute(CUSTOMIZATION_TARGET_XML_ID));
 			String customizationTargetID = modelElement.getAttribute(CUSTOMIZATION_TARGET_XML_ID);
 			if(customizationTargetID != null && !customizationTargetID.isEmpty()) {
 				if(parsedXML.containsKey(customizationTargetID)) {
-					Element stereotype = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(customizationTargetID));
+					Element stereotype = Importer.getInstance().buildElement(parsedXML, parsedXML.get(customizationTargetID));
 					modelElement.addAttribute(CUSTOMIZATIONTARGET, stereotype.getID());
 				}
 			}

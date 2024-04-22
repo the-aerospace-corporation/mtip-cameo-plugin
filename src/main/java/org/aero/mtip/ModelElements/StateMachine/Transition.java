@@ -8,16 +8,14 @@ package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.Collection;
 import java.util.HashMap;
-
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -53,44 +51,54 @@ public class Transition extends CommonRelationship {
 				functionBehavior.getBody().add(xmlElement.getAttribute("effect"));
 				transition.setEffect(functionBehavior);
 			}
+			
+			if(xmlElement.hasElement(XmlTagConstants.TRIGGER_TAG)) {
+
+			}
 		} catch(NullPointerException npe) {
-			String logMessage = "Error creating transition " + name + " with id " + EAID;
-			ImportLog.log(logMessage);
+			Logger.log(String.format("Error creating transition %s with id %s. See stack trace: ", name, EAID));
+			Logger.logException(npe);
+			
 			if(transition != null) {
 				transition.dispose();
 			}
+			
 			return null;
 		}
+		
 		try {
 			transition.setSource((Vertex) supplier);
 			transition.setTarget((Vertex) client);
 		} catch(ClassCastException cce) {
-			String logMessage = "Invalid supplier or client. Supplier and client must be sub-classes of Vertex. Transition " + name + " with id " + EAID + " not created";
-			ImportLog.log(logMessage);
+			Logger.log(String.format("Invalid supplier or client. Supplier and client must be sub-classes of Vertex. Transition %s with id %s not created. See stack trace: ", name, EAID));
+			Logger.logException(cce);
+			
 			if(transition != null) {
 				transition.dispose();
 			}
 			return null;
 		}
 		
-//		if(xmlElement.hasElement(XmlTagConstants.TRIGGER_TAG)) {
-//			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (Trigger) xmlElement.getElement(XmlTagConstants.TRIGGER_TAG);
-//			transition.getTrigger().add(trigger);
-//		}
 		return transition;
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-//		CameoUtils.logGUI("Creating dependent elements for transition...");
-//		if(modelElement.hasAttribute(XmlTagConstants.TRIGGER_TAG)) {
-//			String triggerID = modelElement.getAttribute(XmlTagConstants.TRIGGER_TAG);
-//			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)ImportXmlSysml.getOrBuildElement(project, parsedXML, triggerID);
-//			modelElement.addElement(XmlTagConstants.TRIGGER_TAG, trigger);
-//			CameoUtils.logGUI("Trigger found and added to transition XML.");
-//		} else {
-//			CameoUtils.logGUI("No trigger found in XML for trigger with id: " + EAID);
-//		}
+	public void createReferencedElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		if(!modelElement.hasAttribute(XmlTagConstants.TRIGGER_TAG)) {
+			return;
+		}
+		
+		String triggerID = modelElement.getAttribute(XmlTagConstants.TRIGGER_TAG);
+		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger)Importer.getInstance().buildElement(parsedXML, parsedXML.get(triggerID));
+		
+		if (trigger == null) {
+			Logger.log(String.format("Trigger data found, but failed to create trigger for transition %s", EAID));
+			return;
+		}
+		
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition transition = (com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)element;
+		transition.getTrigger().add(trigger);
 	}
+	
 
 	@Override
 	public org.w3c.dom.Element writeToXML(Element element) {
@@ -149,7 +157,7 @@ public class Transition extends CommonRelationship {
 		Element owner = element.getOwner().getOwner();
 		
 		if(owner == null) {
-			ExportLog.log(String.format("No parent found for transition %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("No parent found for transition %s with id %s", element.getHumanName(), element.getID()));
 			return;
 		}
 		

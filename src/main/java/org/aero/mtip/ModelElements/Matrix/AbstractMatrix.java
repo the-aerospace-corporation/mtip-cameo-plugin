@@ -42,7 +42,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 		try {
 			diagram = ModelElementsManager.getInstance().createDiagram(cameoConstant, (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
-			CameoUtils.logGUI("Read only exception caught");
+			CameoUtils.logGui("Read only exception caught");
 		}
 		com.nomagic.magicdraw.dependencymatrix.DependencyMatrix matrix = MatrixManager.getInstance(project).getMatrix(diagram);
 		if(diagram != null) {

@@ -7,19 +7,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements;
 
 import java.util.HashMap;
-
 import javax.annotation.CheckForNull;
-
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -50,14 +46,14 @@ public abstract class CommonRelationship extends CommonElement {
 			return element;
 		}  catch(ClassCastException cce) {
 			String logMessage = "Invalid client/supplier for relationship " + name + " with id " + EAID + ".";
-			CameoUtils.logGUI(logMessage);
-			ImportLog.log(logMessage);
+			CameoUtils.logGui(logMessage);
+			Logger.log(logMessage);
 			element.dispose();
 			return null;
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent invalid for element " + name + " with id " + EAID + ". Supplier and client are also invalid parents. Element could not be placed in model.";
-			CameoUtils.logGUI(logMessage);
-			ImportLog.log(logMessage);
+			CameoUtils.logGui(logMessage);
+			Logger.log(logMessage);
 			element.dispose();
 			return null;
 		}
@@ -70,18 +66,18 @@ public abstract class CommonRelationship extends CommonElement {
 				element.setOwner(owner);
 				return;
 			} catch(IllegalArgumentException iaeOwner) {
-				ImportLog.log(String.format("Owner of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
+				Logger.log(String.format("Owner of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
 			}
 		}
 		
-		ImportLog.log(String.format("...Attempting to set supplier or client as owner for %s.", element.getHumanType()));
+		Logger.log(String.format("...Attempting to set supplier or client as owner for %s.", element.getHumanType()));
 			
 		if(supplier != null) {
 			try {
 				element.setOwner(supplier);
 				return;
 			} catch(IllegalArgumentException iaeOwner) {
-				ImportLog.log(String.format("...Supplier of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
+				Logger.log(String.format("...Supplier of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
 			}
 		}
 		
@@ -90,7 +86,7 @@ public abstract class CommonRelationship extends CommonElement {
 				element.setOwner(supplier);
 				return;
 			} catch(IllegalArgumentException iaeOwner) {
-				ImportLog.log(String.format("...Client of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
+				Logger.log(String.format("...Client of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
 			}
 		}
 	}
@@ -99,7 +95,7 @@ public abstract class CommonRelationship extends CommonElement {
 		return null;
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		
 	}
 	
@@ -135,7 +131,7 @@ public abstract class CommonRelationship extends CommonElement {
 		getSupplier(element);
 		
 		if(supplier == null) {
-			ExportLog.log(String.format("No supplier element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
+			Logger.log(String.format("No supplier element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
 			return;
 		}
 		
@@ -147,7 +143,7 @@ public abstract class CommonRelationship extends CommonElement {
 		getClient(element);
 		
 		if(client == null) {
-			ExportLog.log(String.format("No client element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
+			Logger.log(String.format("No client element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
 			return;
 		}
 		org.w3c.dom.Element clientTag = XmlWriter.createMtipRelationship(client, XmlTagConstants.CLIENT);

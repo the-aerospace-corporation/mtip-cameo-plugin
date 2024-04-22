@@ -8,8 +8,7 @@ package org.aero.mtip.util;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -40,11 +39,11 @@ public class TaggedValue {
 	}
 	
 	public TaggedValue(Node attribute) {
-		stereotypeName = ImportXmlSysml.getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME).getTextContent();
-		profileName = ImportXmlSysml.getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME).getTextContent();
-		valueName = ImportXmlSysml.getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_NAME).getTextContent();
-		valueType = ImportXmlSysml.getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_TYPE).getTextContent();
-		Node taggedValueValue = ImportXmlSysml.getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_VALUE);
+		stereotypeName = Importer.getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME).getTextContent();
+		profileName = Importer.getDirectChildByKey(attribute, XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME).getTextContent();
+		valueName = Importer.getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_NAME).getTextContent();
+		valueType = Importer.getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_TYPE).getTextContent();
+		Node taggedValueValue = Importer.getDirectChildByKey(attribute, XmlTagConstants.TAGGED_VALUE_VALUE);
 		
 		String valueTypeAttribute = ((org.w3c.dom.Element)taggedValueValue).getAttribute(XmlTagConstants.ATTRIBUTE_DATA_TYPE);
 		if(valueTypeAttribute.contentEquals(XmlTagConstants.ATTRIBUTE_TYPE_LIST)) {
@@ -57,7 +56,7 @@ public class TaggedValue {
 			}
 			isMultiValue = true;
 		} else if(valueTypeAttribute.contentEquals(XmlTagConstants.ATTRIBUTE_TYPE_STRING)) { 
-			value = ImportXmlSysml.getDirectChildByKey(attribute, XmlTagConstants.VALUE).getTextContent();
+			value = Importer.getDirectChildByKey(attribute, XmlTagConstants.VALUE).getTextContent();
 		}
 	}
 	

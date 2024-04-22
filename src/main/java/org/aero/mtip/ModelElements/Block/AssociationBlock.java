@@ -7,17 +7,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import java.util.HashMap;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
@@ -61,38 +59,38 @@ public class AssociationBlock extends CommonElement {
 			ModelHelper.setNavigable(ModelHelper.getFirstMemberEnd(associationClass), true);
 			ModelHelper.setNavigable(ModelHelper.getSecondMemberEnd(associationClass), true);
 		} else {
-			ImportLog.log(String.format("Supplier or client was not set. Association block %s not created.", xmlElement.getName()));
+			Logger.log(String.format("Supplier or client was not set. Association block %s not created.", xmlElement.getName()));
 		}
 		
 		return (Element)associationClass;
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		createClient(project, modelElement, parsedXML);
 		createSupplier(project, modelElement, parsedXML);
 	}
 	
 	public void createClient(Project project, XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		if (!modelElement.hasClient()) {
-			ImportLog.log(String.format("No client found for association block with id %s.", EAID));
+			Logger.log(String.format("No client found for association block with id %s.", EAID));
 			return;
 		}
 		
 		String clientID = modelElement.getClient();
 			
 		if (!parsedXML.containsKey(clientID)) {
-			ImportLog.log(String.format("No data tag found in XML for client id %s", clientID));
+			Logger.log(String.format("No data tag found in XML for client id %s", clientID));
 			return;
 		}
 		
-		Element client = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(clientID));
+		Element client = Importer.getInstance().buildElement(parsedXML, parsedXML.get(clientID));
 		modelElement.setClientElement(client);
 		modelElement.addAttribute("client", client.getID());
 	}
 	
 	public void createSupplier(Project project, XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
 		if(!modelElement.hasSupplier()) {
-			ImportLog.log(String.format("No supplier found for association block with id %s.", EAID));
+			Logger.log(String.format("No supplier found for association block with id %s.", EAID));
 			return;
 		}
 		
@@ -100,11 +98,11 @@ public class AssociationBlock extends CommonElement {
 		
 		
 		if(!parsedXML.containsKey(supplierID)) {
-			ImportLog.log(String.format("No data tag found in XML for supplier id %s", supplierID));
+			Logger.log(String.format("No data tag found in XML for supplier id %s", supplierID));
 			return;
 		}
 		
-		Element supplier = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getSupplier()));
+		Element supplier = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getSupplier()));
 		modelElement.setSupplierElement(supplier);
 		modelElement.addAttribute("supplier",  supplier.getID());
 	}

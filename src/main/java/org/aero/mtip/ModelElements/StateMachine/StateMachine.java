@@ -7,13 +7,11 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.HashMap;
-
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -29,18 +27,19 @@ public class StateMachine extends CommonElement {
 	
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
+		
 		// Remove auto-created region as they are defined explicitly in the XML
-//		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine stateMachine = ((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine) sysmlElement);
-//		stateMachine.getRegion().clear();
+		com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine stateMachine = ((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine) element);
+		stateMachine.getRegion().clear();
 		
 		return element;
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.isSubmachine() && !modelElement.newSubmachineCreated()) {
 			String submachineID = modelElement.getSubmachine();
 			XMLItem submachine = parsedXML.get(submachineID);
-			Element submachineElement = ImportXmlSysml.buildElement(project, parsedXML, submachine);
+			Element submachineElement = Importer.getInstance().buildElement(parsedXML, submachine);
 			modelElement.setNewSubmachineID(submachineElement.getID());
 		}
 	}

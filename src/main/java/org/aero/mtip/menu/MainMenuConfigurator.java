@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.menu;
 
-import org.aero.mtip.XML.Export.ExportXmlSysmlAction;
-import org.aero.mtip.XML.Import.ImportXmlSysmlAction;
+import org.aero.mtip.XML.Export.ExportAction;
+import org.aero.mtip.XML.Import.ImportAction;
 
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
@@ -38,8 +38,8 @@ public class MainMenuConfigurator implements AMConfigurator
 		
 		//Add actions to MTIP category here
 		ActionsCategory category = new ActionsCategory("","");
-		category.addAction(new ImportXmlSysmlAction("", "Import model"));
-		category.addAction(new ExportXmlSysmlAction("", "Export model"));
+		category.addAction(new ImportAction("", "Import model"));
+		category.addAction(new ExportAction("", "Export model"));
 		category.addAction(new AboutAction("","About"));
 		
 		aCategory.addAction(category);

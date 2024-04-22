@@ -7,7 +7,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements;
 
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -48,7 +48,7 @@ public class Link extends CommonElement {
 		Element supplier = pathElement.getSupplier().getElement();
 		
 		if(supplier == null) {
-			ExportLog.log("No supplier found for link.");
+			Logger.log("No supplier found for link.");
 			return;
 		}
 		
@@ -62,7 +62,7 @@ public class Link extends CommonElement {
 			
 			
 		if(client == null) {
-			ExportLog.log("No client found for link.");
+			Logger.log("No client found for link.");
 			return;
 		}
 		

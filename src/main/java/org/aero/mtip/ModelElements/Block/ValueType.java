@@ -9,20 +9,16 @@ package org.aero.mtip.ModelElements.Block;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.CheckForNull;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
-import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -49,7 +45,7 @@ public class ValueType extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		createBaseClassifier(parsedXML, modelElement);
 	}
 	
@@ -59,13 +55,13 @@ public class ValueType extends CommonElement {
 			return;
 		}
 		
-		ImportXmlSysml.buildEntity(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.CLASSIFIED_BY)));
+		Importer.getInstance().buildEntity(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.CLASSIFIED_BY)));
 	}
 	
 	@Override
 	public void applyClassifier() {
 		if (xmlElement == null) {
-			ImportLog.log(String.format("ERROR: ValueType.xmlElement is null for value type %s. Unable to apply classifier", EAID));
+			Logger.log(String.format("ERROR: ValueType.xmlElement is null for value type %s. Unable to apply classifier", EAID));
 			return;
 		}
 		
@@ -93,7 +89,7 @@ public class ValueType extends CommonElement {
 			return CameoUtils.getPrimitiveValueType(valueTypeId);
 		}
 		
-		String createdId = ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.CLASSIFIED_BY));
+		String createdId = Importer.idConversion(xmlElement.getAttribute(XmlTagConstants.CLASSIFIED_BY));
 		return (Element) project.getElementByID(createdId);
 	}
 	

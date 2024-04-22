@@ -17,7 +17,7 @@ import javax.annotation.CheckForNull;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
@@ -58,7 +58,7 @@ public class SequenceDiagram  extends AbstractDiagram {
 	@Override
 	public void addRelationships(Project project, Diagram diagram, List<Element> relationships) throws ReadOnlyElementException {
 		if (!diagram.isEditable()) {
-			ImportLog.log(String.format("Diagram %s with id %s is not editable.", diagram.getHumanName(), diagram.getID()));
+			Logger.log(String.format("Diagram %s with id %s is not editable.", diagram.getHumanName(), diagram.getID()));
 			return;
 		}
 		
@@ -151,7 +151,7 @@ public class SequenceDiagram  extends AbstractDiagram {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationConstraint dc = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationConstraint)relationship;
 		
 		if (dc.getConstrainedElement().size() < 2) {
-			ImportLog.log(String.format("Duration Constraint no placed on diagram. Requires 2 constrained elements."));
+			Logger.log(String.format("Duration Constraint no placed on diagram. Requires 2 constrained elements."));
 			return;
 		}
 		
@@ -159,12 +159,12 @@ public class SequenceDiagram  extends AbstractDiagram {
 		PresentationElement pe2 = presentationElementsById.get(dc.getConstrainedElement().get(1).getID());
 		
 		if (pe1 == null || pe2 == null) {
-			ImportLog.log(String.format("Path elements for duration constraint %s not created successfully.", relationship.getID()));
+			Logger.log(String.format("Path elements for duration constraint %s not created successfully.", relationship.getID()));
 			return;
 		}
 		
 		if (!(pe1 instanceof PathElement) || !(pe2 instanceof PathElement)) {
-			ImportLog.log(String.format("Duration Constraint not added to diagram. Constrained elements not path elements for %s.", relationship.getID()));
+			Logger.log(String.format("Duration Constraint not added to diagram. Constrained elements not path elements for %s.", relationship.getID()));
 			return;
 		}
 		

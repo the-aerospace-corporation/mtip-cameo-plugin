@@ -9,15 +9,13 @@ package org.aero.mtip.ModelElements.Sequence;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
@@ -48,7 +46,7 @@ public class Lifeline extends CommonElement {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline lifeline = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline)element;
 		String importedRepresentsID = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);
 		
-		String createdRepresentsID = ImportXmlSysml.idConversion(importedRepresentsID);
+		String createdRepresentsID = Importer.idConversion(importedRepresentsID);
 		if (createdRepresentsID == null || createdRepresentsID.trim().isEmpty()) {
 			return;
 		}
@@ -69,7 +67,7 @@ public class Lifeline extends CommonElement {
 		List<String> importedCoveredByIDs = xmlElement.getCoveredBy();
 		for (String importedCoveredByID : importedCoveredByIDs) {
 
-			String createdCoveredById = ImportXmlSysml.idConversion(importedCoveredByID);
+			String createdCoveredById = Importer.idConversion(importedCoveredByID);
 			
 			if (createdCoveredById == null 
 					|| createdCoveredById.trim().isEmpty()
@@ -89,30 +87,32 @@ public class Lifeline extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		List<String> coveredBy = modelElement.getCoveredBy();
-		for(String coveredByID : coveredBy) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		for(String coveredByID : modelElement.getCoveredBy()) {
 			XMLItem dependentElementXML = parsedXML.get(coveredByID);
-			Element newElement = null;
-			if(dependentElementXML.getCategory().contentEquals(SysmlConstants.RELATIONSHIP)) {
-				newElement = ImportXmlSysml.buildRelationship(project, parsedXML, dependentElementXML);
-			} else {
-				newElement = ImportXmlSysml.buildElement(project, parsedXML, dependentElementXML);
+			
+			if (dependentElementXML == null) {
+				continue;
 			}
-			if(newElement != null) {
-				modelElement.setCoveredByID(coveredByID, newElement.getID());
+			
+			Element newElement = Importer.getInstance().buildEntity(parsedXML, dependentElementXML);
+			
+			if(newElement == null) {
+				continue;
 			}
+			
+			modelElement.setCoveredByID(coveredByID, newElement.getID());
 		}
 		
 		String representsID = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);
 		XMLItem representsXML = parsedXML.get(representsID);
 		
 		if (representsXML == null) {
-			ImportLog.log(String.format("Missing XML for dependent element with id %s", representsID));
+			Logger.log(String.format("Missing XML for dependent element with id %s", representsID));
 			return;
 		}
 		
-		ImportXmlSysml.buildElement(project, parsedXML, representsXML);
+		Importer.getInstance().buildElement(parsedXML, representsXML);
 	}
 	
 	@Override

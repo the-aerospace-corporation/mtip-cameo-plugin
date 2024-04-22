@@ -1,6 +1,6 @@
 package org.aero.mtip.profiles;
 
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -16,8 +16,10 @@ public class MDCustomizationForSysML {
 	Project project;
 	Profile profile;
 	
+	static final String URI = "http://www.magicdraw.com/spec/Customization/180/SysML";
 	static final String NAME = "additional_stereotypes";
 	static final String CONSTRAINT_PARAMETER_NAME = "ConstraintParameter";
+	static final String CONSTRAINT_PROPERTY_NAME = "ConstraintProperty";
 	static final String PART_PROPERTY_NAME = "PartProperty";
 	static final String QUANTITY_KIND_NAME = "QuantityKind";
 	static final String REFERENCE_PROPERTY_NAME = "ReferenceProperty";
@@ -26,7 +28,7 @@ public class MDCustomizationForSysML {
 	
 	public MDCustomizationForSysML() {
 		project = Application.getInstance().getProject();
-		profile = StereotypesHelper.getProfile(project, NAME);
+		profile = StereotypesHelper.getProfileByURI(project, URI);
 	}
 	
 	public static MDCustomizationForSysML getInstance() {
@@ -43,6 +45,10 @@ public class MDCustomizationForSysML {
 	
 	public static Stereotype getConstraintParameterStereotype() {
 		return getInstance().getStereotype(CONSTRAINT_PARAMETER_NAME);
+	}
+	
+	public static Stereotype getConstraintPropertyStereotype() {
+		return getInstance().getStereotype(CONSTRAINT_PROPERTY_NAME);
 	}
 	
 	public static Stereotype getPartPropertyStereotype() {
@@ -67,14 +73,14 @@ public class MDCustomizationForSysML {
 	
 	boolean hasStereotype(Element element, String stereotypeName) {
 		if (profile == null) {
-			ExportLog.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
+			Logger.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
 			return false;
 		}
 		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 		
 		if (stereotype == null) {
-			ExportLog.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
+			Logger.log(String.format("Stereotype %s not found in profile %s", stereotypeName, profile.getHumanName()));
 			return false;
 		}
 		
@@ -101,6 +107,10 @@ public class MDCustomizationForSysML {
 	
 	public static boolean isConstraintParameter(Element element) {
 		return getInstance().hasStereotype(element, CONSTRAINT_PARAMETER_NAME);
+	}
+	
+	public static boolean isConstraintProperty(Element element) {
+		return getInstance().hasStereotype(element, CONSTRAINT_PROPERTY_NAME);
 	}
 	
 	public static boolean isQuantityKind(Element element) {

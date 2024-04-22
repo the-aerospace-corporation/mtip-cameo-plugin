@@ -8,15 +8,13 @@ package org.aero.mtip.ModelElements.Sequence;
 
 import java.util.HashMap;
 import java.util.List;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
@@ -49,7 +47,7 @@ public class DurationConstraint extends CommonElement {
 	
 	private void setSpecification(XMLItem xmlElement) {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationConstraint dc = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationConstraint)element;
-		Element specificationElement = ImportXmlSysml.getImportedElement(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SPECIFICATION));
+		Element specificationElement = Importer.getInstance().getImportedElement(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SPECIFICATION));
 		
 		if (specificationElement == null) {
 			return;
@@ -68,17 +66,17 @@ public class DurationConstraint extends CommonElement {
 		List<Element> constrainedElements = dc.getConstrainedElement();
 		
 		for (String importId : xmlElement.getListAttributes(XmlTagConstants.ATTRIBUTE_CONSTRAINED_ELEMENT)) {
-			String createdId = ImportXmlSysml.idConversion(importId);
+			String createdId = Importer.idConversion(importId);
 			
 			if (importId == null) {
-				ImportLog.log(String.format("Created id not found for import id %s setting constrained elements for %s.", importId, xmlElement.getEAID()));
+				Logger.log(String.format("Created id not found for import id %s setting constrained elements for %s.", importId, xmlElement.getImportId()));
 				continue;
 			}
 			
 			Element constrainedElement = (Element) project.getElementByID(createdId);
 			
 			if (constrainedElement == null) {
-				ImportLog.log(String.format("Element with import id %s not created before assigning to constrained elements of %s", importId, xmlElement.getEAID()));
+				Logger.log(String.format("Element with import id %s not created before assigning to constrained elements of %s", importId, xmlElement.getImportId()));
 				continue;
 			}
 			
@@ -87,15 +85,15 @@ public class DurationConstraint extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if (modelElement.hasListAttributes(XmlTagConstants.ATTRIBUTE_CONSTRAINED_ELEMENT)) {
 			for (String importId : modelElement.getListAttributes(XmlTagConstants.ATTRIBUTE_CONSTRAINED_ELEMENT)) {
-				ImportXmlSysml.buildEntity(parsedXML, parsedXML.get(importId));
+				Importer.getInstance().buildEntity(parsedXML, parsedXML.get(importId));
 			}
 		}
 		
 		if (modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_SPECIFICATION)) {
-			ImportXmlSysml.buildEntity(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SPECIFICATION)));
+			Importer.getInstance().buildEntity(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_SPECIFICATION)));
 		}		
 	}
 	

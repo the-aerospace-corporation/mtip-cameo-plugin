@@ -13,16 +13,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
@@ -32,7 +30,9 @@ import com.nomagic.magicdraw.uml.symbols.NoRectangleDefinedException;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.LinkView;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
+import com.nomagic.magicdraw.uml.symbols.paths.TransitionView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.TransitionToSelfView;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -40,6 +40,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
+import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 
 public abstract class  AbstractDiagram  extends CommonElement implements ModelDiagram {
 	public static Map<String,String> diagramToType;
@@ -200,7 +201,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		try {
 			element = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
-			ImportLog.log(String.format("ReadOnlyElementException encountered creating diagram %s.", getSysmlConstant()));
+			Logger.log(String.format("ReadOnlyElementException encountered creating diagram %s.", getSysmlConstant()));
 		}
 		
 		((NamedElement) element).setName(name);
@@ -220,7 +221,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				counter++;
 			}
 		} catch (ReadOnlyElementException e) {
-			ImportLog.log(String.format("Diagram %s is ready only. No elements will be added.", diagram.getHumanName()));
+			Logger.log(String.format("Diagram %s is ready only. No elements will be added.", diagram.getHumanName()));
 		}
 		
 		return noPosition;
@@ -239,17 +240,13 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 					shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 					PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 				} catch(NullPointerException npe) {
-					ImportLog.log(String.format("Null Pointer Exception creating or placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
+					Logger.log(String.format("Null Pointer Exception creating or placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
 				} catch(IllegalArgumentException iae) {
-					if (shape != null) {
-						PresentationElementsManager.getInstance().deletePresentationElement(shape);
-					}
-					
-					ImportLog.log(String.format("Illegal Argument Exception creating or placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
+					Logger.log(String.format("Illegal Argument Exception creating or placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
 				}
 			}
 		} catch(ClassCastException cce) {
-			ImportLog.log(String.format("Caught Class cast exception adding %s to diagram.", element.getID()));
+			Logger.log(String.format("Caught Class cast exception adding %s to diagram.", element.getID()));
 		}
 		
 		if(shape != null) {
@@ -279,30 +276,32 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 				if(clientPE != null && supplierPE != null) {
 					PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
 				} else {
-					ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+					Logger.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
 				}
 			} catch(ClassCastException cce) {
-				ImportLog.log("Class cast exception creating path element.");
+				Logger.log(String.format("Class cast exception creating path element %s.", relationship.getHumanName()));
+				Logger.logException(cce);
 			} catch(NullPointerException npe) {
-				ImportLog.log("Null pointer exception creating path element.");
+				Logger.log(String.format("Null pointer exception creating path element %s.", relationship.getHumanName()));
+				Logger.logException(npe);
 			}		
 		}
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		List<String> diagramElements = modelElement.getChildElements(parsedXML);
 		
 		for(String diagramElement : diagramElements) {
 			XMLItem diagramElementXML = parsedXML.get(diagramElement);
-			ImportXmlSysml.buildElement(project, parsedXML, diagramElementXML);
+			Importer.getInstance().buildElement(parsedXML, diagramElementXML);
 		}
 		
 		List<String> diagramRelationships = modelElement.getChildRelationships(parsedXML);
 		
 		for(String diagramRelationship : diagramRelationships) {
 			XMLItem diagramRelationshipXML = parsedXML.get(diagramRelationship);
-			ImportXmlSysml.buildRelationship(project, parsedXML, diagramRelationshipXML);
+			Importer.getInstance().buildRelationship(parsedXML, diagramRelationshipXML);
 		}
 	}
 
@@ -339,7 +338,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	}
 	
 	public void writeDiagramElementRecursively(org.w3c.dom.Element elementListTag, org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement, PresentationElement parentPresentationElement) {
-		if(presentationElement instanceof PathElement) {
+		if(presentationElement instanceof PathElement 
+				|| presentationElement instanceof TransitionView
+				|| presentationElement instanceof TransitionToSelfView) {
 			if(presentationElement instanceof LinkView) {
 //				exportLink(presentationElement);
 				return;
@@ -425,9 +426,10 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected void writeDiagramRelationship(org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement) {
 		Element relationship = presentationElement.getElement();
 		
-		if(relationship == null) {
+		if (relationship == null) {
 			return;
 		}
+		
 		if(diagramElementIDs.contains(relationship.getID())) {
 			return;
 		}
@@ -466,7 +468,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	}
 	
 	protected boolean isValidDiagramElement(Element element) {
-		if (element.getHumanType().contentEquals("Diagram") || element instanceof ConnectorEnd) {
+		if (element.getHumanType().contentEquals("Diagram") 
+				|| element instanceof ConnectorEnd
+				|| element instanceof Region) {
 			return false;
 		}
 		

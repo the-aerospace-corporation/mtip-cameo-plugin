@@ -31,7 +31,7 @@ public class GetMessageViewInfoAction extends MDAction {
 						.filter(x -> x instanceof SeqMessageView)
 						.collect(Collectors.toList());
 		
-		CameoUtils.logGUI(String.format("%s SeqBaseMessageViews found on sequence diagram", messageViews.size()));
+		CameoUtils.logGui(String.format("%s SeqBaseMessageViews found on sequence diagram", messageViews.size()));
 		
 		for(int i = 0; i < messageViews.size(); i++) {
 			SeqMessageView smv = (SeqMessageView)messageViews.get(i);
@@ -40,10 +40,10 @@ public class GetMessageViewInfoAction extends MDAction {
 			PresentationElement spe = smv.getSupplier();
 			PresentationElement cpe = smv.getClient();
 			
-			CameoUtils.logGUI(String.format("Client sequence lifeline view element %s id %s", clv.getElement().getHumanType(), clv.getElement().getID()));
-			CameoUtils.logGUI(String.format("Supplier sequence lifeline view element %s id %s", slv.getElement().getHumanType(), slv.getElement().getID()));
-			CameoUtils.logGUI(String.format("Client presentation element %s id %s", cpe.getElement().getHumanType(), cpe.getElement().getID()));
-			CameoUtils.logGUI(String.format("Client sequence lifeline view element %s id %s", spe.getElement().getHumanType(), spe.getElement().getID()));
+			CameoUtils.logGui(String.format("Client sequence lifeline view element %s id %s", clv.getElement().getHumanType(), clv.getElement().getID()));
+			CameoUtils.logGui(String.format("Supplier sequence lifeline view element %s id %s", slv.getElement().getHumanType(), slv.getElement().getID()));
+			CameoUtils.logGui(String.format("Client presentation element %s id %s", cpe.getElement().getHumanType(), cpe.getElement().getID()));
+			CameoUtils.logGui(String.format("Client sequence lifeline view element %s id %s", spe.getElement().getHumanType(), spe.getElement().getID()));
 		}
 	}
 }

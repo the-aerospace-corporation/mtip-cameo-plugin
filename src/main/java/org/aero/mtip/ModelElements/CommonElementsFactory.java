@@ -625,7 +625,7 @@ public class CommonElementsFactory {
 		}
 		
 		if(element == null) {
-			CameoUtils.logGUI(String.format("Element of type %s not supported by CommonElementsFactory.", type));
+			CameoUtils.logGui(String.format("Element of type %s not supported by CommonElementsFactory.", type));
 		}
 		
 		return element;	

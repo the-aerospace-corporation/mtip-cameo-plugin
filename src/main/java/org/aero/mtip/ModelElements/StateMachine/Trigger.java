@@ -7,17 +7,13 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.HashMap;
-
 import javax.annotation.CheckForNull;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.actions.mdcompleteactions.AcceptEventAction;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -34,21 +30,22 @@ public class Trigger extends CommonElement {
 
 	@Override
 	public Element createElement(Project project, Element owner, @CheckForNull XMLItem xmlElement) {
+		super.createElement(project, owner, xmlElement);
+		
+		if(xmlElement == null) {
+			return null;
+		}
+		
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) element;
-		if(xmlElement != null) {
-			if(xmlElement.hasAcceptEventAction()) {
-				CameoUtils.logGUI("Setting accept event action of Trigger to AcceptEventAction with id: " + xmlElement.getNewAcceptEventAction());
-				trigger.set_acceptEventActionOfTrigger((AcceptEventAction) project.getElementByID(xmlElement.getNewAcceptEventAction()));
-			}
+		
+		if(xmlElement.hasAcceptEventAction()) {
+			AcceptEventAction aea = (AcceptEventAction) project.getElementByID(xmlElement.getNewAcceptEventAction());
+			trigger.set_acceptEventActionOfTrigger(aea);
+		}
 
-			if(xmlElement.hasElement(XmlTagConstants.EVENT_TAG)) {
-				CameoUtils.logGUI("Setting Trigger Event to event with id: " + xmlElement.getAttribute(XmlTagConstants.EVENT_TAG));
-				Event event = (Event) xmlElement.getElement(XmlTagConstants.EVENT_TAG);
-				trigger.setEvent(event);
-			} else {
-				CameoUtils.logGUI("Trigger with id: " + EAID + " has no event.");
-			}
-			//Set transition of trigger if it has a transition
+		if(xmlElement.hasElement(XmlTagConstants.EVENT_TAG)) {
+			Event event = (Event) xmlElement.getElement(XmlTagConstants.EVENT_TAG);
+			trigger.setEvent(event);
 		}
 		
 		return element;
@@ -56,27 +53,28 @@ public class Trigger extends CommonElement {
 	
 	@Override
 	public void setOwner(Element owner) {
-		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) element;
-		if(owner != null) {
-			if(owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) {
-				trigger.set_transitionOfTrigger((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)owner);
-			}
-//			trigger.setOwner(owner);
-		} else {
-			trigger.setOwner(project.getPrimaryModel());
+		if (owner == null) {
+			return;
 		}
+		
+		if(owner instanceof com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition) {
+			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger trigger = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger) element;
+			trigger.set_transitionOfTrigger((com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition)owner);
+		}
+		
+		element.setOwner(owner);
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.ACCEPT_EVENT_ACTION)) {	
-			Element acceptEventAction = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAcceptEventAction()));
+			Element acceptEventAction = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getAcceptEventAction()));
 			modelElement.setNewAcceptEventAction(acceptEventAction.getID());
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.EVENT_TAG)) {
 			String signal = modelElement.getAttribute(XmlTagConstants.EVENT_TAG);
-			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signal));
+			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)Importer.getInstance().buildElement(parsedXML, parsedXML.get(signal));
 			modelElement.addElement(XmlTagConstants.EVENT_TAG, event);
 		}
 	}
