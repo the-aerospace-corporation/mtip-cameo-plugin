@@ -6,25 +6,20 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
 
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
-import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -116,7 +111,7 @@ public abstract class CommonElement {
 	
 	public void setOwner(Element owner) {
 		if(element == null) {
-			ImportLog.log("Sysml Element was not created. Cannot set owner");
+			Logger.log("Sysml Element was not created. Cannot set owner");
 			return;
 		}
 		
@@ -124,7 +119,7 @@ public abstract class CommonElement {
 			try {
 				element.setOwner(project.getPrimaryModel());
 			} catch(IllegalArgumentException iae){
-				ImportLog.log(String.format("Primary model is invalid parent for %s.", element.getHumanName()));
+				Logger.log(String.format("Primary model is invalid parent for %s.", element.getHumanName()));
 				element.dispose();
 			}
 			
@@ -134,12 +129,12 @@ public abstract class CommonElement {
 		try {
 			element.setOwner(owner);
 		} catch(IllegalArgumentException iae){
-			ImportLog.log(String.format("%s is invalid parent for %s.", owner.getHumanType(), element.getHumanName()));
+			Logger.log(String.format("%s is invalid parent for %s.", owner.getHumanType(), element.getHumanName()));
 			element.dispose();
 		}		
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		createTaggedValues(parsedXML, modelElement);
 		createTypedBy(parsedXML, modelElement);
 	}
@@ -155,14 +150,14 @@ public abstract class CommonElement {
 			}
 			
 			if(!tv.isMultiValue()) {
-				ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(tv.getValue()));
+				Importer.getInstance().buildElement(parsedXML, parsedXML.get(tv.getValue()));
 				continue;
 			}
 			
 			List<String> values = tv.getValues();
 			
 			for(String value : values) {
-				ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(value));
+				Importer.getInstance().buildElement(parsedXML, parsedXML.get(value));
 			}
 		}
 	}
@@ -176,7 +171,7 @@ public abstract class CommonElement {
 			return;
 		}
 		
-		ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.TYPED_BY)));
+		Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.TYPED_BY)));
 	}
 	
 	@CheckForNull
@@ -184,7 +179,7 @@ public abstract class CommonElement {
 		this.element = element;
 		
 		if (xmlConstant == null || (element.getOwner() == null && !(element instanceof com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model))) {
-			ExportLog.log(String.format("Internal Error: element of type %s has no XML constant set or has no owner. Id: ", element.getHumanType(), element.getID()));
+			Logger.log(String.format("Internal Error: element of type %s has no XML constant set or has no owner. Id: ", element.getHumanType(), element.getID()));
 			return null;
 		}
 		
@@ -227,7 +222,7 @@ public abstract class CommonElement {
 				return;
 			}
 			
-			ExportLog.log(String.format(
+			Logger.log(String.format(
 					"No parent element found for %s of type %s with id %s.", 
 					element.getHumanName(), 
 					element.getHumanType(), 
@@ -321,7 +316,7 @@ public abstract class CommonElement {
 			String valueType = getValueSpecificationValueType(vs);
 			
 			if(valueType == null) {
-				ExportLog.log(String.format("Value type could not be determined creating tagged values for element with id %s.", element.getID()));
+				Logger.log(String.format("Value type could not be determined creating tagged values for element with id %s.", element.getID()));
 				continue;
 			}
 			
@@ -363,9 +358,7 @@ public abstract class CommonElement {
 //		} else if(vs instanceof OpaqueExpression) {
 //			return SysmlConstants.OPAQUEEXPRESSION;
 		} else {
-			String message = "Value specification with id " + vs.getID() + " was not string, real, int, or bool.";
-			ExportLog.log(message);
-			CameoUtils.logGUI(message);
+			Logger.log(String.format("Value specification with id %s was not string, real, int, or bool.", vs.getID()));
 		}
 		return null;
 	}
@@ -538,46 +531,35 @@ public abstract class CommonElement {
 				Element typeElement = null;
 				if(xmlElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
 					String typeImportID = xmlElement.getAttribute(XmlTagConstants.TYPED_BY);
-					CameoUtils.logGUI("Looking for type with id " + typeImportID);
 					
 					if(CameoUtils.isPrimitiveValueType(typeImportID)) {
 						typeElement = CameoUtils.getPrimitiveValueType(typeImportID);
 					} else if(typeImportID.startsWith("_9_")) {
 						if(typeImportID.contentEquals("_9_0_2_91a0295_1110274713995_297054_0")) {
-							CameoUtils.logGUI("Getting reference to UML primitive String ValueType.");
 							typeElement = ModelHelper.findElementWithPath("UML Standard Profile::UML2 Metamodel::PrimitiveTypes::String");
-							CameoUtils.logGUI(typeElement.getHumanName());
 						}
 					} else {
 						try {
 							typeElement = (Element) project.getElementByID(typeImportID);
 						} catch (NullPointerException npe) {
-							ImportLog.log("Type not found with id. Please check that element is created");
+							Logger.log("Type not found with id. Please check that element is created");
 						}
 					}
 					
 					if(typeElement == null) {
-						CameoUtils.logGUI("Getting cameo id for type with import id: " + typeImportID);
-						
-						String cameoID = ImportXmlSysml.idConversion(typeImportID);
-						CameoUtils.logGUI("Cameo id of type is: " + cameoID);
+						String cameoID = Importer.idConversion(typeImportID);
 						typeElement = (Element) project.getElementByID(cameoID);
 					}
 					if(typeElement instanceof Type) {
 						((TypedElement)element).setType((Type) typeElement);
 					} else {
-						CameoUtils.logGUI("typedBy element not a Type. Type field cannot be set.");
-						ImportLog.log("typedBy element not a Type. Type field cannot be set for element with id: " + this.EAID);
+						Logger.log(String.format("typedBy element not a Type. Type field cannot be set for element with id: %s", EAID));
 					}
 				}
 			}
 		} catch(NullPointerException npe) {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			npe.printStackTrace(pw);
-			String sStackTrace = sw.toString();
-			ImportLog.log("Null pointer exception setting type for element with id " + this.EAID);
-			ImportLog.log(sStackTrace);
+			Logger.log(String.format("Null pointer exception setting type for element with id %s.", EAID));
+			Logger.logException(npe);
 		}
 	}
 	
@@ -588,7 +570,7 @@ public abstract class CommonElement {
 		
 		for(Stereotype stereotype : initialStereotypes) {
 			if(stereotype == null) {
-				ImportLog.log(String.format("Error adding initial stereotype to %s with id %s", name, EAID));
+				Logger.log(String.format("Error adding initial stereotype to %s with id %s", name, EAID));
 				continue;
 			}
 			
@@ -600,7 +582,7 @@ public abstract class CommonElement {
 		Stereotype metamodelConstantStereotype = UAFProfile.getStereotype(metamodelConstant);
 		
 		if (metamodelConstantStereotype == null) {
-			ImportLog.log(String.format("Unable to get %s stereotype from UAF Profile adding initial stereotypes.", metamodelConstant));
+			Logger.log(String.format("Unable to get %s stereotype from UAF Profile adding initial stereotypes.", metamodelConstant));
 			return;
 		}
 		
@@ -617,12 +599,12 @@ public abstract class CommonElement {
 		}
 		
 		if (!(classifier instanceof Classifier)) {
-			ImportLog.log(String.format("Classifier %s cannot be cast to classifier class for element %s with id %s.", classifier.getHumanName(), name, EAID));
+			Logger.log(String.format("Classifier %s cannot be cast to classifier class for element %s with id %s.", classifier.getHumanName(), name, EAID));
 			return;
 		}
 		
 		if (!(element instanceof InstanceSpecification)) {
-			ImportLog.log(String.format("Cannot apply classifier to non-InstanceSpecification subclass. Use setClassifier for element %s with id %s.", element.getHumanName(), EAID));
+			Logger.log(String.format("Cannot apply classifier to non-InstanceSpecification subclass. Use setClassifier for element %s with id %s.", element.getHumanName(), EAID));
 		}
 		
 		Classifier classifier = (Classifier) this.classifier;
@@ -632,9 +614,8 @@ public abstract class CommonElement {
 	public void addStereotypeTaggedValues(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
 			try {
-				CameoUtils.logGUI(tv.toString());
-				Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), tv.getProfileName());
-				Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), tv.getStereotypeName(), profile);
+				Profile profile = StereotypesHelper.getProfile(Application.getInstance().getProject(), tv.getProfileName());
+				Stereotype stereotype = StereotypesHelper.getStereotype(Application.getInstance().getProject(), tv.getStereotypeName(), profile);
 				Property prop = StereotypesHelper.getPropertyByName(stereotype, tv.getValueName());
 				Slot slot = StereotypesHelper.getSlot(element, prop, true, false);
 				
@@ -656,17 +637,11 @@ public abstract class CommonElement {
 					slot.getValue().add(vs);
 				}
 			} catch (NullPointerException npe) {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				npe.printStackTrace(pw);
-				String sStackTrace = sw.toString();
-				ImportLog.log("Unable to add stereotype tagged value to element." + sStackTrace);
+				Logger.log("Unable to add stereotype tagged value to element. See stack trace:");
+				Logger.logException(npe);
 			} catch (IllegalArgumentException iae) {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				iae.printStackTrace(pw);
-				String sStackTrace = sw.toString();
-				ImportLog.log("Illegal Argument for element. "+ sStackTrace);
+				Logger.log("Unable to add stereotype tagged value to element. See stack trace:");
+				Logger.logException(iae);
 			}
 		}
 	}
@@ -691,7 +666,7 @@ public abstract class CommonElement {
 		} else if(valueType.contentEquals(SysmlConstants.ELEMENT)) {
 			// Add checker to create dependent elements of common element 
 			ElementValue ev = f.createElementValueInstance();
-			ev.setElement((Element) ImportXmlSysml.getProject().getElementByID(ImportXmlSysml.idConversion(value)));
+			ev.setElement((Element) Application.getInstance().getProject().getElementByID(Importer.idConversion(value)));
 			return ev;
 		} else if(valueType.contentEquals(XmlTagConstants.OPAQUE_EXPRESSION)) {
 			OpaqueExpression oe = f.createOpaqueExpressionInstance();

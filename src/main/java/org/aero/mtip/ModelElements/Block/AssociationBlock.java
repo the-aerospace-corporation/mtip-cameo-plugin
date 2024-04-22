@@ -10,16 +10,16 @@ import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -33,6 +33,7 @@ public class AssociationBlock extends CommonElement {
 		this.metamodelConstant = SysmlConstants.ASSOCIATION_BLOCK;
 		this.xmlConstant = XmlTagConstants.ASSOCIATION_BLOCK;
 		this.element = f.createAssociationClassInstance();
+		this.creationStereotype = SysML.getBlockStereotype();
 	}
 
 	@Override
@@ -60,38 +61,52 @@ public class AssociationBlock extends CommonElement {
 			ModelHelper.setNavigable(ModelHelper.getFirstMemberEnd(associationClass), true);
 			ModelHelper.setNavigable(ModelHelper.getSecondMemberEnd(associationClass), true);
 		} else {
-			CameoUtils.logGUI("Supplier or client was not set. Association block " + xmlElement.getAttribute("name") + " not created.");
+			Logger.log(String.format("Supplier or client was not set. Association block %s not created.", xmlElement.getName()));
 		}
-		
-		StereotypesHelper.addStereotype(associationClass, SysMLProfile.getInstance(project).getBlock());
+
 		return (Element)associationClass;
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		if(modelElement.hasClient()) {
-			String clientID = modelElement.getClient();
-			if(parsedXML.containsKey(clientID)) {
-				Element client = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(clientID));
-				modelElement.setClientElement(client);
-				modelElement.addAttribute("client", client.getID());
-			} else {
-				CameoUtils.logGUI("No data tag found for client id: " + clientID);
-			}
-		} else {
-			CameoUtils.logGUI("No client tag/id found in element's data tag.");
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		createClient(project, modelElement, parsedXML);
+		createSupplier(project, modelElement, parsedXML);
+	}
+	
+	public void createClient(Project project, XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
+		if (!modelElement.hasClient()) {
+			Logger.log(String.format("No client found for association block with id %s.", EAID));
+			return;
 		}
-		if(modelElement.hasSupplier()) {
-			String supplierID = modelElement.getSupplier();
-			if(parsedXML.containsKey(supplierID)) {
-				Element supplier = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getSupplier()));
-				modelElement.setSupplierElement(supplier);
-				modelElement.addAttribute("supplier",  supplier.getID());
-			} else {
-				CameoUtils.logGUI("No data tag found for supplier id: " + supplierID);
-			}
-		} else {
-			CameoUtils.logGUI("No supplier tag/id found in element's data tag.");
+		
+		String clientID = modelElement.getClient();
+			
+		if (!parsedXML.containsKey(clientID)) {
+			Logger.log(String.format("No data tag found in XML for client id %s", clientID));
+			return;
 		}
+		
+		Element client = Importer.getInstance().buildElement(parsedXML, parsedXML.get(clientID));
+		modelElement.setClientElement(client);
+		modelElement.addAttribute("client", client.getID());
+	}
+	
+	public void createSupplier(Project project, XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
+		if(!modelElement.hasSupplier()) {
+			Logger.log(String.format("No supplier found for association block with id %s.", EAID));
+			return;
+		}
+		
+		String supplierID = modelElement.getSupplier();
+		
+		
+		if(!parsedXML.containsKey(supplierID)) {
+			Logger.log(String.format("No data tag found in XML for supplier id %s", supplierID));
+			return;
+		}
+		
+		Element supplier = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getSupplier()));
+		modelElement.setSupplierElement(supplier);
+		modelElement.addAttribute("supplier",  supplier.getID());
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
+import javax.swing.JOptionPane;
 
 import org.aero.mtip.ModelElements.EnumerationLiteral;
 import org.aero.mtip.constants.SysmlConstants;
@@ -25,7 +26,9 @@ import org.w3c.dom.NodeList;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
+import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
@@ -64,7 +67,7 @@ public class CameoUtils {
 	    put("_16_5_1_12c903cb_1245415335546_479030_4092", SysmlConstants.STRING);
 	}};
 	
-	public static void logGUI(String text) {
+	public static void logGui(String text) {
 		Application.getInstance().getGUILog().log(text);
 	}
 	
@@ -105,7 +108,7 @@ public class CameoUtils {
 		
 		Region region = null;
 		Collection<Region> regions = null;
-		CameoUtils.logGUI("Searching for state machine with current element " + owner.getHumanType() + " and id " + owner.getID());
+		
 		if(owner instanceof StateMachine) {
 			StateMachine sm = (StateMachine)owner;
 			regions = sm.getRegion();
@@ -128,7 +131,6 @@ public class CameoUtils {
 	}
 	public static Element findNearestBlock(Project project, Element owner) {
 		if(owner != null) {
-			CameoUtils.logGUI("Searching for block for current element with id " + owner.getID());
 			if(SysMLProfile.isBlock(owner)) {
 				return owner;
 			} else {
@@ -142,9 +144,8 @@ public class CameoUtils {
 		return null;
 	}
 	
-	public static Element findNearestActivity(Project project, Element owner) {
+	public static Element findNearestActivity(Element owner) {
 		if(owner != null) {
-			CameoUtils.logGUI("Searching for activity with current element " + owner.getHumanType() + " and id " + owner.getID());
 			if(owner instanceof Activity) {
 				return owner;
 			} else {
@@ -152,7 +153,7 @@ public class CameoUtils {
 				if(nextOwner == null) {
 					return null;
 				}
-				return findNearestActivity(project, nextOwner);
+				return findNearestActivity(nextOwner);
 			}
 		}
 		return null;
@@ -183,17 +184,19 @@ public class CameoUtils {
 		return validationSuite;
 	}
 	
-	public static boolean isModel(Element element, Project project) {
-		if(element.equals(project.getPrimaryModel())) {
+	public static boolean isModel(Element element) {
+		if(element.equals(Application.getInstance().getProject().getPrimaryModel())) {
 			return true;
 		}
+		
 		return false;
 	}
 	
-	public static boolean isProfile(Element element, Project project) {
+	public static boolean isProfile(Element element) {
 		if(element instanceof Profile) {
 			return true;
 		}
+		
 		return false;
 	}
 	
@@ -319,7 +322,7 @@ public class CameoUtils {
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		
-		logGUI(sw.toString());
+		logGui(sw.toString());
 	}
 	
 	public static String getElementName(Element element) {
@@ -342,11 +345,11 @@ public class CameoUtils {
 			if (!UAFProfile.isInitialized(project)) {
 				UAFProfile.initialize(project);
 			}
-			CameoUtils.logGUI("Exporting model as UAF model.");
+			CameoUtils.logGui("Exporting model as UAF model.");
 			new UAFProfile(project);
 			return UAFConstants.UAF;
 		} else {
-			CameoUtils.logGUI("Exporting model as SysML model.");
+			CameoUtils.logGui("Exporting model as SysML model.");
 			return  SysmlConstants.SYSML;
 		}
 	}
@@ -390,11 +393,29 @@ public class CameoUtils {
 //			InstanceSpecification is = iv.getInstance();
 //			ValueSpecification vs2 = is.getSpecification();
 //			strVal = getSlotValueAsString(vs2);
-		}else {
-			String message = "Value specification with id " + vs.getID() + " was not string, real, int, bool, or opaque expression.";
-			ExportLog.log(message);
-			CameoUtils.logGUI(message);
+		} else {
+			Logger.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
 		}
 		return strVal;
+	}
+	
+	public static void popUpMessage(String message) {
+		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), message);
+	}
+	
+	public static void createSession(Project project, String sessionName) {
+		if (SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().createSession(project, sessionName);
+	}
+	
+	public static void closeSession(Project project) {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().closeSession(project);
 	}
 }

@@ -8,14 +8,7 @@ package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.util.XMLItem;
-
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import org.aero.mtip.profiles.SysML;
 
 public class FullPort extends Port {
 
@@ -25,16 +18,6 @@ public class FullPort extends Port {
 		this.metamodelConstant = SysmlConstants.FULL_PORT;
 		this.xmlConstant = XmlTagConstants.FULL_PORT;
 		this.element = f.createPortInstance();
-	}
-
-	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Element port = super.createElement(project, owner, xmlElement);
-		
-		Profile sysmlProfile = StereotypesHelper.getProfile(project, "SysML"); 
-		Stereotype fullPortStereotype = StereotypesHelper.getStereotype(project, SysMLProfile.FULLPORT_STEREOTYPE, sysmlProfile);
-		StereotypesHelper.addStereotype(port, fullPortStereotype);
-		
-		return port;
+		this.creationStereotype = SysML.getFullPortStereotype();
 	}
 }

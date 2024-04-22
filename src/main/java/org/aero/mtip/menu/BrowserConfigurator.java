@@ -8,8 +8,8 @@ package org.aero.mtip.menu;
 
 import java.util.List;
 
-import org.aero.mtip.XML.Export.ExportXmlSysmlPackageAction;
-import org.aero.mtip.XML.Import.ImportXmlSysmlPackageAction;
+import org.aero.mtip.XML.Export.ExportPackageAction;
+import org.aero.mtip.XML.Import.ImportPackageAction;
 
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
@@ -51,8 +51,8 @@ public class BrowserConfigurator implements BrowserContextAMConfigurator {
 				importExportCategory.setNested(true);
 				
 				ActionsCategory category = new ActionsCategory("", "");
-		        category.addAction(new ImportXmlSysmlPackageAction(null, "Import XML", startPackage));
-		        category.addAction(new ExportXmlSysmlPackageAction(null, "Export XML", startPackage));
+		        category.addAction(new ImportPackageAction(null, "Import XML", startPackage));
+		        category.addAction(new ExportPackageAction(null, "Export XML", startPackage));
 		        
 		        importExportCategory.addAction(category);
 				mtipCategory.addAction(importExportCategory);

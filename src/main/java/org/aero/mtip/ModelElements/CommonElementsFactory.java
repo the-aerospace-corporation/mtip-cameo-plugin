@@ -180,6 +180,7 @@ import org.aero.mtip.dodaf.sv.SV10b;
 import org.aero.mtip.dodaf.sv.SV10c;
 import org.aero.mtip.dodaf.sv.SV2;
 import org.aero.mtip.dodaf.sv.SV4;
+import org.aero.mtip.uaf.SummaryandOverview.SummaryAndOverview;
 import org.aero.mtip.uaf.Dictionary.Alias;
 import org.aero.mtip.uaf.Dictionary.Definition;
 import org.aero.mtip.uaf.Metadata.DataModelKind;
@@ -301,7 +302,6 @@ import org.aero.mtip.uaf.Strategic.StructuralPart;
 import org.aero.mtip.uaf.Strategic.TemporalPart;
 import org.aero.mtip.uaf.Strategic.VisionStatement;
 import org.aero.mtip.uaf.Strategic.WholeLifeEnterprise;
-import org.aero.mtip.uaf.SummaryandOverview.SummaryAndOverview;
 import org.aero.mtip.uaf.actualresources.ActualOrganization;
 import org.aero.mtip.uaf.actualresources.ActualPerson;
 import org.aero.mtip.uaf.actualresources.ActualPost;
@@ -1519,7 +1519,7 @@ public class CommonElementsFactory {
 		}
 		
 		if(element == null) {
-			CameoUtils.logGUI(String.format("Element of type %s not supported by CommonElementsFactory.", type));
+			CameoUtils.logGui(String.format("Element of type %s not supported by CommonElementsFactory.", type));
 		}
 		
 		return element;	

@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
@@ -40,24 +40,24 @@ public abstract class ActivityNode extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		super.createDependentElements(project, parsedXML, modelElement);
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		super.createDependentElements(parsedXML, modelElement);
 
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY)) {
 			String activityId = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(activityId));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(activityId));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_INTERRUPTIBLE_ACTIVITY_REGION)) {
 			String iarID = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_INTERRUPTIBLE_ACTIVITY_REGION);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(iarID));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(iarID));
 		}
 	}
 
 	@Override
 	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
-			owner = CameoUtils.findNearestActivity(project, owner);
+			owner = CameoUtils.findNearestActivity(owner);
 		}
 		
 		element.setOwner(owner);

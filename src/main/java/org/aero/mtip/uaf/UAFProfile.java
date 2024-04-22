@@ -76,7 +76,7 @@ public class UAFProfile {
 				continue;
 			}
 			
-			CameoUtils.logGUI(String.format("Failed to initialize stereotype for element %s.", uafElement));
+			CameoUtils.logGui(String.format("Failed to initialize stereotype for element %s.", uafElement));
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class UAFProfile {
 				continue;
 			}
 			
-			CameoUtils.logGUI(String.format("Failed to initialize stereotype for relationship %s.", uafElement));
+			CameoUtils.logGui(String.format("Failed to initialize stereotype for relationship %s.", uafElement));
 		}
 	}
 }

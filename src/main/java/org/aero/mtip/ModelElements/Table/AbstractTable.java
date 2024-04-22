@@ -40,7 +40,7 @@ public class AbstractTable extends CommonElement {
 			table = (Diagram)element;
 			table.setOwnerOfDiagram((Namespace)owner);
 		} catch (ReadOnlyElementException e) {
-			CameoUtils.logGUI("Read only Exception caught.");
+			CameoUtils.logGui("Read only Exception caught.");
 			e.printStackTrace();
 		}
 		addInitialStereotype();

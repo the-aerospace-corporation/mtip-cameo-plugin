@@ -9,9 +9,8 @@ package org.aero.mtip.ModelElements.Block;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 
-import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
@@ -52,7 +51,7 @@ public class Port extends CommonElement {
 			}
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";
-			ImportLog.log(logMessage);
+			Logger.log(logMessage);
 			element.dispose();
 		}
 	}

@@ -12,8 +12,7 @@ import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
@@ -55,7 +54,7 @@ public class FinalState extends CommonElement {
 		owner = CameoUtils.findNearestRegion(project, owner);
 		
 		if (owner == null) {
-			ImportLog.log(String.format("Invalid parent. Parent must be region for %s of type %s with id %s.", name, element.getHumanType(), element.getID()));
+			Logger.log(String.format("Invalid parent. Parent must be region for %s of type %s with id %s.", name, element.getHumanType(), element.getID()));
 			return;
 		}
 		
@@ -64,10 +63,10 @@ public class FinalState extends CommonElement {
 	
 	@Override
 	protected void writeParent(org.w3c.dom.Element relationships) {
-		Element owner = element.getOwner().getOwner();
+		Element owner = element.getOwner();
 		
 		if(owner == null) {
-			ExportLog.log(String.format("No parent found for final state %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("No parent found for final state %s with id %s", element.getHumanName(), element.getID()));
 			return;
 		}
 		

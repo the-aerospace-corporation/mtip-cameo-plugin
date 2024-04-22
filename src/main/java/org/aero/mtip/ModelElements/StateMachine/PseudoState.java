@@ -11,8 +11,7 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
@@ -53,6 +52,7 @@ public abstract class PseudoState extends CommonElement {
 
 		if(owner instanceof StateMachine) {
 			Collection<Region> regions = ((StateMachine) owner).getRegion();
+			
 			if(regions != null) {
 				Region region = regions.iterator().next();
 				
@@ -75,7 +75,7 @@ public abstract class PseudoState extends CommonElement {
 		owner = CameoUtils.findNearestRegion(project, owner);
 		
 		if (owner == null) {
-			ImportLog.log(String.format("Invalid parent. Parent must be region for %s of type %s with id %s.", name, element.getHumanType(), element.getID()));
+			Logger.log(String.format("Invalid parent. Parent must be region for %s of type %s with id %s.", name, element.getHumanType(), element.getID()));
 			return;
 		}
 		
@@ -83,6 +83,7 @@ public abstract class PseudoState extends CommonElement {
 	}
 	public static Region findExistingRegion(Element owner) {
 		Collection<Element> children = owner.getOwnedElement();
+		
 		for(Element childElement : children) {
 			if(childElement instanceof Region) {
 				return (Region) childElement;
@@ -93,10 +94,10 @@ public abstract class PseudoState extends CommonElement {
 	
 	@Override
 	protected void writeParent(org.w3c.dom.Element relationships) {
-		Element owner = element.getOwner().getOwner();
+		Element owner = element.getOwner();
 		
 		if(owner == null) {
-			ExportLog.log(String.format("No parent found for final state %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("No parent found for final state %s with id %s", element.getHumanName(), element.getID()));
 			return;
 		}
 		

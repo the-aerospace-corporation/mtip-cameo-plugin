@@ -7,7 +7,6 @@ package org.aero.mtip.util;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +29,7 @@ public class XMLItem {
 	private String category = "";
 	private List<String> ids = new ArrayList<String>( );
 	private HashMap<String, String> idsByName = new HashMap<String, String> ();
-	private String ea_id = "";
-	private String cameo_id = "";
+	private String importId = "";
 	private String parent = "";
 	private String client = "";
 	private String supplier = "";
@@ -60,7 +58,6 @@ public class XMLItem {
 	private HashMap<String, Element> elements = new HashMap<String, Element>();
 	private HashMap<String, String> coveredByMap = new HashMap<String, String> ();
 	private HashMap<String, String> diagramParents = new HashMap<String, String> ();
-	private HashMap<String, String> importIdMap = new HashMap<String, String> ();
 	private List<String> childElements = new ArrayList<String>();
 	private List<String> childRelationships = new ArrayList<String>();
 	
@@ -98,8 +95,8 @@ public class XMLItem {
 	public List<String> getIds() {
 		return this.ids;
 	}
-	public void setEAID(String ea_id) {
-		this.ea_id = ea_id;
+	public void setImportId(String importId) {
+		this.importId = importId;
 	}
 	public void setParent(String parent) {
 		this.parent = parent;
@@ -235,10 +232,6 @@ public class XMLItem {
 		this.supplier = supplier;
 	}
 	
-	public void setCameoID(String cameo_id) {
-		this.cameo_id = cameo_id;
-	}
-	
 	public void addChildElement(String element) {
 		this.childElements.add(element);
 	}
@@ -271,7 +264,7 @@ public class XMLItem {
 	    	if(parsedXML.containsKey(childElement)) {
 	    		existingChildElements.add(childElement);
 	    	} else {
-	    		CameoUtils.logGUI("Element with id : " + childElement + " was not added to diagram as it does not have a data tag.");
+	    		CameoUtils.logGui("Element with id : " + childElement + " was not added to diagram as it does not have a data tag.");
 	    	}
 	    }
 		return existingChildElements;
@@ -283,7 +276,7 @@ public class XMLItem {
 	    	if(parsedXML.containsKey(childRelationship)) {
 	    		existingChildRelationships.add(childRelationship);
 	    	} else {
-	    		CameoUtils.logGUI("Element with id : " + childRelationship + " was not added to diagram as it does not have a data tag.");
+	    		CameoUtils.logGui("Element with id : " + childRelationship + " was not added to diagram as it does not have a data tag.");
 	    	}
 	    }
 		return existingChildRelationships;
@@ -298,8 +291,8 @@ public class XMLItem {
 	public String getCategory() {
 		return category;
 	}
-	public String getEAID() {
-		return ea_id;
+	public String getImportId() {
+		return importId;
 	}
 	public String getParent() {
 		return parent;
@@ -329,9 +322,6 @@ public class XMLItem {
 			return true;
 		}
 		return false;
-	}
-	public String getCameoID() {
-		return cameo_id;
 	}
 	
 	public String getName() {
@@ -523,14 +513,6 @@ public class XMLItem {
 		return false;
 	}
 	
-	public boolean isCreated() {
-		if(cameo_id.equals("")) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
 	public boolean hasInteractionOperands() {
 		if(!this.interactionOperands.isEmpty()) {
 			return true;
@@ -565,7 +547,7 @@ public class XMLItem {
 		String allInfo = "\nParent: " + this.getParent()
 		+ "\nType: " + this.getType()
 		+ "\nName: " + this.getName()
-		+ "\nID: " + this.getEAID()
+		+ "\nID: " + this.getImportId()
 		+ "\nOwner: " + this.getParent();
 		return allInfo;
 	}

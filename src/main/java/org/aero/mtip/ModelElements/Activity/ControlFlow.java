@@ -11,7 +11,7 @@ import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
@@ -78,7 +78,7 @@ public class ControlFlow extends CommonRelationship {
 		org.w3c.dom.Element guardTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.GUARD);
 		
 		if(guardTag == null) {
-			ExportLog.log(String.format("Failed to create xml attribute for guard of control flow with id %s", element.getID()));
+			Logger.log(String.format("Failed to create xml attribute for guard of control flow with id %s", element.getID()));
 			return;	
 		}
 		
@@ -88,7 +88,7 @@ public class ControlFlow extends CommonRelationship {
 	@Override
 	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
-			owner = CameoUtils.findNearestActivity(project, supplier);
+			owner = CameoUtils.findNearestActivity(supplier);
 		}
 		element.setOwner(owner);
 	}

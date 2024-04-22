@@ -9,7 +9,7 @@ package org.aero.mtip.ModelElements.Activity;
 import java.util.HashMap;
 
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
@@ -33,7 +33,7 @@ public class Action extends ActivityNode {
 		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallBehaviorAction action = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallBehaviorAction)element;
 		if(xmlElement.hasAttribute(XmlTagConstants.BEHAVIOR)) {
 			String import_id = xmlElement.getAttribute(XmlTagConstants.BEHAVIOR);
-			String behavior_id = ImportXmlSysml.idConversion(import_id);
+			String behavior_id = Importer.idConversion(import_id);
 			Element behavior = (Element) project.getElementByID(behavior_id);
 			if(behavior instanceof Behavior) {
 				action.setBehavior((Behavior) behavior);
@@ -43,10 +43,10 @@ public class Action extends ActivityNode {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		super.createDependentElements(project, parsedXML, modelElement);
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		super.createDependentElements(parsedXML, modelElement);
 		if(modelElement.hasAttribute(XmlTagConstants.BEHAVIOR)) {
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.BEHAVIOR)));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.BEHAVIOR)));
 		}
 	}
 	

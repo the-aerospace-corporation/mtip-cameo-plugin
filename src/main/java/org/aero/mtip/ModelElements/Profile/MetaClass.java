@@ -34,8 +34,8 @@ public class MetaClass extends CommonElement {
 		// Add checks for other metaclass profiles (i.e. SysML)
 		// StereotypesHelper.getMetaClassByName(project, "Class");
 		if (!(element == null)) {
-			CameoUtils.logGUI("Creating metaclass with name: " + this.name);
-			CameoUtils.logGUI(element.getID());
+			CameoUtils.logGui("Creating metaclass with name: " + this.name);
+			CameoUtils.logGui(element.getID());
 			
 		} else {
 			element = f.createClassInstance();

@@ -9,14 +9,15 @@ package org.aero.mtip.ModelElements.InternalBlock;
 import java.util.Collections;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
 
+import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
@@ -40,6 +41,7 @@ public class ConstraintParameter extends CommonElement {
 		this.xmlConstant = XmlTagConstants.CONSTRAINT_PARAMETER;
 		this.metamodelConstant = SysmlConstants.CONSTRAINT_PARAMETER;
 		this.element = f.createPortInstance();
+		this.creationStereotype = MDCustomizationForSysML.getConstraintParameterStereotype();
 	}
 
 	@Override
@@ -61,8 +63,8 @@ public class ConstraintParameter extends CommonElement {
 			return;
 		}
 		
-		Profile profile = StereotypesHelper.getProfile(ImportXmlSysml.getProject(), directedFeatureTaggedValue.getProfileName());
-		Stereotype stereotype = StereotypesHelper.getStereotype(ImportXmlSysml.getProject(), directedFeatureTaggedValue.getStereotypeName(), profile);
+		Profile profile = StereotypesHelper.getProfile(Application.getInstance().getProject(), directedFeatureTaggedValue.getProfileName());
+		Stereotype stereotype = StereotypesHelper.getStereotype(Application.getInstance().getProject(), directedFeatureTaggedValue.getStereotypeName(), profile);
 		Property prop = StereotypesHelper.getPropertyByName(stereotype, directedFeatureTaggedValue.getValueName());
 		Slot slot = StereotypesHelper.getSlot(element, prop, true, false);
 		
@@ -99,7 +101,6 @@ public class ConstraintParameter extends CommonElement {
 	
 	private TaggedValue getDirectedFeatureTaggedValue(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
-			CameoUtils.logGUI(String.format("Checking %s for comparison to %s", tv.getStereotypeName(), SysMLProfile.DIRECTEDFEATURE_STEREOTYPE));
 			if (tv.getStereotypeName().contentEquals(SysMLProfile.DIRECTEDFEATURE_STEREOTYPE)) {
 				return tv;
 			}

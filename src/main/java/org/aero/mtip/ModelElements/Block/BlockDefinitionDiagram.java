@@ -13,8 +13,7 @@ import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
@@ -65,10 +64,8 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 			
 			if(clientPE != null && supplierPE != null) {
 				PresentationElementsManager.getInstance().createPathElement(relationship, clientPE ,supplierPE);
-				CameoUtils.logGUI("Placing relationship " + relationship.getHumanName() + " on to diagram.");
 			} else {
-				ImportLog.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
-				CameoUtils.logGUI("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
+				Logger.log("Client or supplier presentation element does not exist. Could not create representation of relationship on diagram.");
 			}
 		} else {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
@@ -77,12 +74,11 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 			} 
 		}
 		if(shape != null) {
-			CameoUtils.logGUI("Placing element " + ((NamedElement)element).getName() + " at x:" + Integer.toString(location.x) + " y:" + Integer.toString(location.y));
 			this.shapeElements.put(element.getID(), shape);
 		} else {
-			CameoUtils.logGUI("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
-			ImportLog.log("Error placing element " + ((NamedElement)element).getName() + " with ID: " + element.getID() + " on diagram.");
+			Logger.log(String.format("Error placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
 		}
+		
 		return noPosition;
 	}
 }

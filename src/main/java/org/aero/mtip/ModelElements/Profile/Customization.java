@@ -11,7 +11,7 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.profiles.SysML;
+import org.aero.mtip.profiles.DslCustomization;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
@@ -36,7 +36,7 @@ public class Customization extends CommonElement {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.xmlConstant = XmlTagConstants.CUSTOMIZATION; 
-		this.creationStereotype = SysML.getCustomizationStereotype();
+		this.creationStereotype = DslCustomization.getCustomizationStereotype();
 		
 		this.dslCustomizationProfile = StereotypesHelper.getProfile(project,  "DSL Customization");
 		this.customizationStereotype = StereotypesHelper.getStereotype(project, SysmlConstants.CUSTOMIZATION, dslCustomizationProfile);
