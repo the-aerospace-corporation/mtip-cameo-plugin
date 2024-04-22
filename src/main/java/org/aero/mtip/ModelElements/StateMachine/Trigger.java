@@ -74,7 +74,7 @@ public class Trigger extends CommonElement {
 		
 		if(modelElement.hasAttribute(XmlTagConstants.EVENT_TAG)) {
 			String signal = modelElement.getAttribute(XmlTagConstants.EVENT_TAG);
-			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)Importer.getInstance().buildElement(parsedXML, parsedXML.get(signal));
+			com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event event = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event)Importer.getInstance().buildElement(parsedXML, parsedXML.get(signal));
 			modelElement.addElement(XmlTagConstants.EVENT_TAG, event);
 		}
 	}

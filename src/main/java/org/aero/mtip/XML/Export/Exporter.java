@@ -27,7 +27,6 @@ import org.aero.mtip.util.MTIPUtils;
 import org.aero.mtip.util.SysmlConstants;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
@@ -94,6 +93,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.AnyReceiveEvent;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.CallEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent;
@@ -379,6 +380,8 @@ public class Exporter {
 			return SysmlConstants.ACTIVITY_PARTITION;
 		} else if(element instanceof Actor) {
 			return SysmlConstants.ACTOR;
+		} else if (element instanceof AnyReceiveEvent) {
+		  return SysmlConstants.ANY_RECEIVE_EVENT;
 		} else if (SysML.isBoundReference(element)) {
 			return SysmlConstants.BOUND_REFERENCE;
 		} else if (SysML.isClassifierBehavior(element)) {
@@ -388,6 +391,8 @@ public class Exporter {
 			return SysmlConstants.CLASS;
 		} else if (element instanceof CallBehaviorAction) {
 			return SysmlConstants.CALL_BEHAVIOR_ACTION;
+		} else if (element instanceof CallEvent) {
+		  return SysmlConstants.CALL_EVENT;
 		} else if (element instanceof CallOperationAction) {
 			return SysmlConstants.CALL_OPERATION_ACTION;
 		} else if (element instanceof ChangeEvent) {
@@ -404,9 +409,9 @@ public class Exporter {
 			return SysmlConstants.CONNECTION_POINT_REFERENCE;
 		} else if(SysML.isConstraintBlock(element)) {
 			return SysmlConstants.CONSTRAINT_BLOCK;
-		} else if(MDCustomizationForSysMLProfile.isConstraintParameter(element)) {
+		} else if(MDCustomizationForSysML.isConstraintParameter(element)) {
 			return SysmlConstants.CONSTRAINT_PARAMETER;
-		} else if (MDCustomizationForSysMLProfile.isConstraintProperty(element)) {
+		} else if (MDCustomizationForSysML.isConstraintProperty(element)) {
 			return SysmlConstants.CONSTRAINT_PROPERTY;
 		} else if(element instanceof CreateObjectAction) {
 			return SysmlConstants.CREATE_OBJECT_ACTION;
@@ -504,7 +509,7 @@ public class Exporter {
 			return SysmlConstants.OPERATION;
 		} else if(SysML.isParticipantProperty(element)) {
 			return SysmlConstants.PARTICIPANT_PROPERTY;
-		} else if(MDCustomizationForSysMLProfile.isPartProperty(element)) {
+		} else if(MDCustomizationForSysML.isPartProperty(element)) {
 			return SysmlConstants.PART_PROPERTY;
 		} else if(element instanceof Profile) {
 			return SysmlConstants.PROFILE;
@@ -521,7 +526,7 @@ public class Exporter {
 			return SysmlConstants.PROXY_PORT;
 		} else if(element instanceof Port) {
 			return SysmlConstants.PORT;
-		} else if(MDCustomizationForSysMLProfile.isQuantityKind(element)) {
+		} else if(MDCustomizationForSysML.isQuantityKind(element)) {
 			return SysmlConstants.QUANTITY_KIND;
 		} else if(element instanceof Region) {
 			return SysmlConstants.REGION;
@@ -559,7 +564,7 @@ public class Exporter {
 			return SysmlConstants.TIME_OBSERVATION;
 		} else if (element instanceof Trigger) {
 			return SysmlConstants.TRIGGER;
-		} else if (MDCustomizationForSysMLProfile.isUnit(element)) {
+		} else if (MDCustomizationForSysML.isUnit(element)) {
 			return SysmlConstants.UNIT;
 		} else if(element instanceof Usage) {
 			return SysmlConstants.USAGE;
@@ -568,7 +573,7 @@ public class Exporter {
 			return SysmlConstants.CLASS;
 		} else if (element instanceof UseCase) {
 			return SysmlConstants.USE_CASE;
-		} else if (MDCustomizationForSysMLProfile.isValueProperty(element)) {
+		} else if (MDCustomizationForSysML.isValueProperty(element)) {
 			return SysmlConstants.VALUE_PROPERTY;
 		} else if (SysML.isValueType(element)) {
 			return SysmlConstants.VALUE_TYPE;
@@ -728,7 +733,7 @@ public class Exporter {
 			    || element instanceof Slot
 			    || element instanceof Comment
 			    || element instanceof TaggedValue
-			    || MDCustomizationForSysMLProfile.isReferenceProperty(element)) {
+			    || MDCustomizationForSysML.isReferenceProperty(element)) {
 			return true;
 		}
 		

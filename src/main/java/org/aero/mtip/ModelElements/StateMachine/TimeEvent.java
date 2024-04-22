@@ -4,7 +4,7 @@ Copyright 2022 The Aerospace Corporation
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
-package org.aero.mtip.ModelElements.Activity;
+package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;

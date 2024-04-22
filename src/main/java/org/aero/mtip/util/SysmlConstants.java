@@ -26,11 +26,13 @@ public class SysmlConstants {
 	public static final String ACTIVITY_PARAMETER_NODE = "ActivityParameterNode"; // Sysml specifies as ActivityParameterNode
 	public static final String ACTIVITY_PARTITION = "ActivityPartition";
 	public static final String ACTOR = "Actor";
+	public static final String ANY_RECEIVE_EVENT = "AnyReceiveEvent";
 	public static final String ASSOCIATION_BLOCK = "AssociationBlock";
 	public static final String BOUND_REFERENCE = "BoundReference";
 	public static final String BLOCK = "Block";
 	public static final String BUSINESS_REQUIREMENT = "BusinessRequirement";
 	public static final String CALL_BEHAVIOR_ACTION = "CallBehaviorAction";
+	public static final String CALL_EVENT = "CallEvent";
 	public static final String CALL_OPERATION_ACTION = "CallOperationAction";
 	public static final String CENTRAL_BUFFER_NODE = "CentralBufferNode";
 	public static final String CHANGE_EVENT = "ChangeEvent";
@@ -243,11 +245,13 @@ public class SysmlConstants {
 			ACTIVITY_PARAMETER_NODE,
 			ACTIVITY_PARTITION,
 			ACTOR,
+			ANY_RECEIVE_EVENT,
 			ASSOCIATION_BLOCK,
 			BLOCK,
 			BOUND_REFERENCE,
 			BUSINESS_REQUIREMENT,
 			CALL_BEHAVIOR_ACTION,
+			CALL_EVENT,
 			CALL_OPERATION_ACTION,
 			CENTRAL_BUFFER_NODE,
 			CHANGE_EVENT,
@@ -747,11 +751,4 @@ public class SysmlConstants {
 		    "_11_5EAPbeta_be00301_1147431819399_50461_1671",	// Real
 		    "_16_5_1_12c903cb_1245415335546_479030_4092"		// String
 	));
-	
-	public static boolean isElementOrDiagram(String elementType) {
-		if(Arrays.asList(SYSML_ELEMENTS).contains(elementType) || Arrays.asList(SYSML_DIAGRAMS).contains(elementType)) {
-			return true;
-		}
-		return false;
-	}
 }

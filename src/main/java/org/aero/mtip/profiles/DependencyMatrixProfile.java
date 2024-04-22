@@ -1,13 +1,11 @@
 package org.aero.mtip.profiles;
 
 import org.aero.mtip.util.Logger;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
