@@ -120,6 +120,14 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public class MtipUtils {
+	public static boolean isSupported(Element element) {
+		if (getEntityType(element) == null) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public static boolean isSupportedElement(String commonElementType) {
 		if (!SysmlConstants.SYSML_ELEMENTS.contains(commonElementType)
 				&& !UAFConstants.UAF_ELEMENTS.contains(commonElementType)) {
@@ -542,6 +550,20 @@ public class MtipUtils {
 		} 
 		
 		return AbstractDiagram.diagramToType.get(diagramType.getType());
+	}
+	
+	public static String getCameoElementType(Element element) {
+		if (element instanceof Diagram) {
+			DiagramPresentationElement presentationDiagram = Application.getInstance().getProject().getDiagram((Diagram)element);
+			
+			if (presentationDiagram == null) {
+				return element.getHumanType();
+			}
+			
+			return presentationDiagram.getDiagramType().getType();
+		}
+		
+		return element.getHumanType();
 	}
 	
 	public static String getUafElementType(Element element) {

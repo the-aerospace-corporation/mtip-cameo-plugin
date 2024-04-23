@@ -720,18 +720,4 @@ public class SysmlConstants {
 	public static final String REAL = "Real";
 	public static final String STRING = "String";
 	public static final String ELEMENT_VALUE = "ElementValue";
-	
-	public static final String[] primitiveValueTypes = {
-			BOOLEAN,
-			INTEGER,
-			REAL,
-			STRING
-	};
-	
-	public static final String[] primitiveValueTypeIDs = {
-			"16_5_1_12c903cb_1245415335546_39033_4086",
-		    "_16_5_1_12c903cb_1245415335546_8641_4088",
-		    "_11_5EAPbeta_be00301_1147431819399_50461_1671",
-		    "_16_5_1_12c903cb_1245415335546_479030_4092"
-	};
 }

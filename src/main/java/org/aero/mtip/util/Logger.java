@@ -174,11 +174,11 @@ public class Logger {
 			String elementType = MtipUtils.getEntityType(element);
 			
 			if (elementType == null) {
-				elementType = element.getHumanType();
+				elementType = MtipUtils.getCameoElementType(element);
 			}
 			
 			if (!typeCounts.containsKey(elementType)) {
-				typeCounts.put(element.getHumanType(), 1);
+				typeCounts.put(elementType, 1);
 				continue;
 			}
 			

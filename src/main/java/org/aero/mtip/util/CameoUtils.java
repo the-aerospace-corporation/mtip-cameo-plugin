@@ -19,8 +19,6 @@ import javax.swing.JOptionPane;
 
 import org.aero.mtip.ModelElements.EnumerationLiteral;
 import org.aero.mtip.constants.SysmlConstants;
-import org.aero.mtip.constants.UAFConstants;
-import org.aero.mtip.uaf.UAFProfile;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -53,6 +51,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class CameoUtils {
+	@SuppressWarnings("serial")
 	public static HashMap<String, String> primitiveValueTypes = new HashMap<String, String>() {{
 		put(SysmlConstants.BOOLEAN, "16_5_1_12c903cb_1245415335546_39033_4086");
 		put(SysmlConstants.INTEGER, "_16_5_1_12c903cb_1245415335546_8641_4088");
@@ -60,11 +59,13 @@ public class CameoUtils {
 	    put(SysmlConstants.STRING, "_16_5_1_12c903cb_1245415335546_479030_4092");
 	}};
 	
+	@SuppressWarnings("serial")
 	public static HashMap<String, String> primitiveValueTypesByID = new HashMap<String, String>() {{
 		put("16_5_1_12c903cb_1245415335546_39033_4086", SysmlConstants.BOOLEAN);
 		put("_16_5_1_12c903cb_1245415335546_8641_4088", SysmlConstants.INTEGER);
 		put("_11_5EAPbeta_be00301_1147431819399_50461_1671", SysmlConstants.REAL);
 	    put("_16_5_1_12c903cb_1245415335546_479030_4092", SysmlConstants.STRING);
+	    put("_9_0_2_91a0295_1110274713995_297054_0", SysmlConstants.STRING); 		// UML Metamodel String representation
 	}};
 	
 	public static void logGui(String text) {
@@ -284,16 +285,18 @@ public class CameoUtils {
 	}
 	
 	public static boolean isPrimitiveValueType(String valueTypeString) {
-		if(Arrays.asList(SysmlConstants.primitiveValueTypes).contains(valueTypeString)) {
+		if(primitiveValueTypes.keySet().contains(valueTypeString)) {
 			return true;
 		}
+		
 		return false;
 	}
 	
 	public static boolean isPrimitiveValueType(Element element) {
-		if(Arrays.asList(SysmlConstants.primitiveValueTypeIDs).contains(element.getLocalID())) {
+		if(primitiveValueTypesByID.keySet().contains(element.getLocalID())) {
 			return true;
 		}
+		
 		return false;
 	}
 	

@@ -24,6 +24,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import org.w3c.dom.Document;
 
@@ -542,7 +543,14 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		Element element = presentationElement.getElement();
 		
 		// Presentation elements without an element attached will not be exported. This includes TextViews and other diagram info and styling not currently supported.
-		if (element == null || !isValidDiagramElement(element)) {
+		if (element == null 
+				|| isAdded(element)
+				|| !isValidDiagramElement(element)
+				|| !MtipUtils.isSupported(element)) {
+			return;
+		}
+		
+		if(diagramElementIDs.contains(element.getID())) {
 			return;
 		}
 		
@@ -552,9 +560,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			return; 
 		}
 			
-		if(diagramElementIDs.contains(element.getID())) {
-			return;
-		}
+
 		
 		diagramElementIDs.add(element.getID());
 		
@@ -595,11 +601,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected void writeDiagramRelationship(org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement) {
 		Element relationship = presentationElement.getElement();
 		
-		if (relationship == null) {
-			return;
-		}
-		
-		if(diagramElementIDs.contains(relationship.getID())) {
+		if (relationship == null
+				|| isAdded(relationship)
+				|| !MtipUtils.isSupported(relationship)) {
 			return;
 		}
 		
@@ -662,5 +666,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		} catch(NoRectangleDefinedException nrde) {
 			return null;
 		}
+	}
+	
+	protected boolean isAdded(Element element) {
+		return diagramElementIDs.contains(element.getID());
 	}
 }

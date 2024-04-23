@@ -16,6 +16,7 @@ import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
@@ -139,6 +140,7 @@ public class Lifeline extends CommonElement {
 		org.w3c.dom.Element representsTag = XmlWriter.createMtipRelationship(represents, XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);
 		XmlWriter.add(relationships, representsTag);
 		
+		// Lifeline is not instanceof TypedElement so CommonElement writeTypedBy will not write type.
 		Type typedBy = represents.getType();
 		
 		if(typedBy == null) {
@@ -154,6 +156,10 @@ public class Lifeline extends CommonElement {
 		java.util.Collection<InteractionFragment> interactionFragments = lifeline.getCoveredBy();
 		
 		for(InteractionFragment interactionFragment : interactionFragments) {
+			if (!MtipUtils.isSupported(interactionFragment)) {
+				continue;
+			}
+			
 			org.w3c.dom.Element interactionFragmentTag = XmlWriter.createMtipRelationship(interactionFragment, XmlTagConstants.ATTRIBUTE_NAME_COVERED_BY);
 			XmlWriter.add(relationships, interactionFragmentTag);
 		}
