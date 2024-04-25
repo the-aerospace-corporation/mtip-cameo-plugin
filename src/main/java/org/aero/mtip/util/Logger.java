@@ -160,14 +160,18 @@ public class Logger {
 		TreeMap<String, Integer> typeCounts = new TreeMap<String, Integer>(Collections.reverseOrder());
 		
 		for (String elementId : elementIds) {
-			Element element = (Element) Application.getInstance().getProject().getElementByID(elementId);
+		    String elementType = getElementTypeFromAmbiguousId(elementId);
+		    
+		    if (elementType == null) {
+		        elementType = "Unidentified";
+		    }
 			
-			if (!typeCounts.containsKey(element.getHumanType())) {
-				typeCounts.put(element.getHumanType(), 1);
+			if (!typeCounts.containsKey(elementType)) {
+				typeCounts.put(elementType, 1);
 				continue;
 			}
 			
-			typeCounts.put(element.getHumanType(), typeCounts.get(element.getHumanType()) + 1);			
+			typeCounts.put(elementType, typeCounts.get(elementType) + 1);			
 		}
 		
 		for (String elementType : typeCounts.descendingKeySet()) {
@@ -193,6 +197,27 @@ public class Logger {
 	public void logUnsupportedElements(Set<String> unsupportedElements) {
 		String categoryMessage = String.format("\n------------ %s Elements Unsupported and not %sed -----------\n", unsupportedElements.size(), mode);
 		logElements(unsupportedElements, categoryMessage);
+	}
+	
+	String getElementTypeFromAmbiguousId(String id) {
+	  if (mode.contentEquals(IMPORT) && Importer.isImportId(id)) {
+	    return Importer.getTypeFromImportId(id);
+	  }
+	  
+      Element element = (Element) Application.getInstance().getProject().getElementByID(id);
+      
+      if (element == null) {
+        return null;
+      }
+      
+      String elementType = Exporter.getEntityType(element);
+      
+      if (elementType == null) {
+        elementType = element.getHumanType();
+      }
+      
+      return elementType;
+      
 	}
 	
 	public static String getDocumentsPath() {

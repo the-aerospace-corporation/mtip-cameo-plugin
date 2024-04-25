@@ -6,6 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -114,28 +115,35 @@ public abstract class CommonElement {
 	}
 	
 	public void setOwner(Element owner) {
-		if(element == null) {
+		if (element == null) {
 			Logger.log("Sysml Element was not created. Cannot set owner");
 			return;
 		}
 		
-		if(owner == null) {
-			try {
-				element.setOwner(project.getPrimaryModel());
-			} catch(IllegalArgumentException iae){
-				Logger.log(String.format("Primary model is invalid parent for %s.", element.getHumanName()));
-				element.dispose();
-			}
-			
-			return;
+		if (owner == null) {
+		    if (ModelHelper.canMoveChildInto(project.getPrimaryModel(), element)) {
+		      element.setOwner(project.getPrimaryModel());
+		      return;
+		    }
+		    
+		    ModelHelper.dispose(Collections.singletonList(element));
+		    return;
 		}
 		
-		try {
-			element.setOwner(owner);
-		} catch(IllegalArgumentException iae){
-			Logger.log(String.format("%s is invalid parent for %s.", owner.getHumanType(), element.getHumanName()));
-			element.dispose();
-		}		
+		
+		if (ModelHelper.canMoveChildInto(owner, element)) {
+		  element.setOwner(owner);
+		  return;
+		}
+		
+		owner = ModelHelper.findAcceptableParentFor(element, owner);
+		
+		if (owner == null) {
+		  ModelHelper.dispose(Collections.singletonList(element));
+		  return;
+		}
+		
+		element.setOwner(owner);		
 	}
 	
 	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {

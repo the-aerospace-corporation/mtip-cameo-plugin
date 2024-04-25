@@ -25,7 +25,6 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.BooleanTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
@@ -48,7 +47,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKind;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKindEnum;
@@ -143,44 +141,23 @@ public class CameoUtils {
 		return null;
 	}
 	
+	@CheckForNull
 	public static Element findNearestActivity(Element owner) {
-		if(owner != null) {
-			if(owner instanceof Activity) {
-				return owner;
-			} else {
-				Element nextOwner = owner.getOwner();
-				if(nextOwner == null) {
-					return null;
-				}
-				return findNearestActivity(nextOwner);
-			}
+		if(owner == null) {
+		    return null;
 		}
-		return null;
-	}
-	
-	public static boolean isCustomization(Project project, Element element) {
-		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
-		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
 		
-		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-		if(stereotypes.contains(customizationStereotype)) {
-			return true;
+		if (owner instanceof Activity) {
+			return owner;
 		}
-		return false;
-	}
-	
-	public static String oclKindValidationString(String profileName, String stereotypeName) {
-		return "self.oclIsKindOf(" + "::" + stereotypeName + ")"; 
-	}
-	
-	public static String oclSupplierDependency(String profileName, String relationshipStereotypeName, String classStereotypeName) {
-		return oclKindValidationString(profileName, relationshipStereotypeName) + " implies self.supplierDependency->exists (d| d.client->exists(e|e.oclIsKindOf(" + classStereotypeName + ")))";
-	}
-	
-	public static Stereotype getValidationSuiteStereotype(Project project) {
-		Profile profile = StereotypesHelper.getProfile(project, "UML Standard Profile");
-		Stereotype validationSuite = StereotypesHelper.getStereotype(project, "validationSuite", profile);
-		return validationSuite;
+		
+		Element nextOwner = owner.getOwner();
+		
+		if (nextOwner == null) {
+		    return null;
+		}
+		
+		return findNearestActivity(nextOwner);
 	}
 	
 	public static boolean isModel(Element element) {

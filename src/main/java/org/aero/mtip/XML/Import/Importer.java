@@ -54,6 +54,7 @@ public class Importer {
 	Map<String, String> importIdToCameoId = new HashMap<String, String> ();
 	Map<String, String> parentMap = new HashMap<String, String>();
 	Set<String> unsupportedElementIds = new HashSet<String> ();
+	Set<String> invalidOwners = new HashSet<String> ();
 	
     HashMap<String, XMLItem> completeXML = new HashMap<String, XMLItem>();
     HashMap<String, XMLItem> stereotypesXML = new HashMap<String, XMLItem>();
@@ -221,6 +222,7 @@ public class Importer {
 			Logger.log(String.format("Client null for relationship %s. Import id %s", modelElement.getName(), modelElement.getImportId()));
 		}
 		Element supplier = GetImportedSupplier(modelElement, parsedXML);
+		
 		if(supplier == null) {
 			Logger.log(String.format("Supplier null for relationship %s. Import id %s", modelElement.getName(), modelElement.getImportId()));
 		}
@@ -237,24 +239,21 @@ public class Importer {
 		relationship.createDependentElements(parsedXML, modelElement);
 		
 		CameoUtils.createSession(project, String.format("Creating Relationship of type %s.", modelElement.getType()));
-		Element newElement = relationship.createElement(project, owner, client, supplier, modelElement);
-		CameoUtils.closeSession(project);
-				
-		if (newElement == null) {
-			Logger.log(String.format("Relationship not created. Type: %s ID: %s with parent %s.", modelElement.getType(), modelElement.getImportId(), modelElement.getParent()));
-			return null;
-		}
+		Element importedRelationship = relationship.createElement(project, owner, client, supplier, modelElement);
 		
-		if(newElement.getOwner() == null) {
-			newElement.dispose();
-			Logger.log("Owner failed to be set including any default owners. Relationship not created.");
-			return null;
-		}
-			
-		trackIds(newElement, modelElement);
+	    if(importedRelationship.getOwner() == null) {
+            importedRelationship.dispose();
+            invalidOwners.add(modelElement.getImportId());
+            Logger.log("Owner failed to be set including any default owners. Relationship not created.");
+            return null;
+        }
+	      
+		CameoUtils.closeSession(project);
+		
+		trackIds(importedRelationship, modelElement);
 		relationship.createReferencedElements(parsedXML, modelElement);
 		
-		return newElement;
+		return importedRelationship;
 	}
 	
 	public Element buildElement(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
@@ -278,27 +277,24 @@ public class Importer {
 		
 		// Create new session if tagged values or other dependent elements are found, built, and session is closed.
 		CameoUtils.createSession(project, String.format("Create %s with dependent Elements", modelElement.getType()));
-		Element newElement = element.createElement(project, owner, modelElement);
+		Element importedElement = element.createElement(project, owner, modelElement);
+		
+	    if(importedElement.getOwner() == null) {
+            importedElement.dispose();
+            Logger.log("Owner failed to be set including any default owners. Element with id " + modelElement.getImportId() + " not created.");
+            unsupportedElementIds.add(modelElement.getImportId());
+            return null;
+        }
+	    
 		CameoUtils.closeSession(project);
 		
-		if(newElement == null) {
-			Logger.log(String.format("Element not created. Name: %s Id: %s",  modelElement.getName(), modelElement.getImportId()));
-			return owner;
-		}
-		
-		trackIds(newElement, modelElement);
-		addStereotypes(newElement, modelElement);
+		trackIds(importedElement, modelElement);
+		addStereotypes(importedElement, modelElement);
 		element.addStereotypeTaggedValues(modelElement);					
 		element.createReferencedElements(parsedXML, modelElement);
 		
-		if(newElement.getOwner() == null) {
-			newElement.dispose();
-			Logger.log("Owner failed to be set including any default owners. Element with id " + modelElement.getImportId() + " not created.");
-			return null;
-		}
-		
 //		Logger.log(String.format("Created element %s of type: %s.", modelElement.getName(), modelElement.getType()));
-		return newElement;
+		return importedElement;
 	}
 	
 	//Get stereotypes from parssedXML. Find profiles for those stereotypes. Get stereotypes. Apply stereotypes
@@ -962,6 +958,26 @@ public class Importer {
 	
 	public Element getImportedElement(String importId) {
 		return (Element) project.getElementByID(importIdToCameoId.get(importId));
+	}
+	
+	@CheckForNull
+	public static String getTypeFromImportId(String importId) {
+	  XMLItem item = getInstance().completeXML.get(importId);
+	  
+	  if (item == null) {
+	    return null;
+	  }
+	  
+	  Logger.log(String.format("Returning type from XMLItem: %s", item.toString()));
+	  return item.getType();
+	}
+	
+	public static boolean isImportId(String id) {
+	  if (!getInstance().completeXML.containsKey(id)) {
+	    return false;
+	  }
+	  
+	  return true;
 	}
 	
 	boolean isImported(XMLItem modelElement) {
