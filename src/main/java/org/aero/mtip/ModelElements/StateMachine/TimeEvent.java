@@ -4,18 +4,16 @@ Copyright 2022 The Aerospace Corporation
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
-package org.aero.mtip.ModelElements.Activity;
+package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.HashMap;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -43,17 +41,17 @@ public class TimeEvent extends CommonElement {
 			return;
 		}
 		
-		String createdId = ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_WHEN));
+		String createdId = Importer.idConversion(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_WHEN));
 		
 		if (createdId == null || createdId.trim().isEmpty()) {
-			ImportLog.log(String.format("Time event when element created id not found for time event %s.", xmlElement.getEAID()));
+			Logger.log(String.format("Time event when element created id not found for time event %s.", xmlElement.getImportId()));
 			return;
 		}
 		
 		Element timeExpression = (Element) project.getElementByID(createdId);
 		
 		if (timeExpression == null || !(timeExpression instanceof com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeExpression)) {
-			ImportLog.log(String.format("Time expression element not found with created id %s.", createdId ));
+			Logger.log(String.format("Time expression element not found with created id %s.", createdId ));
 			return;
 		}
 		
@@ -62,7 +60,7 @@ public class TimeEvent extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if (!modelElement.hasListAttributes(XmlTagConstants.ATTRIBUTE_NAME_WHEN)) {
 			return;
 		}
@@ -70,11 +68,11 @@ public class TimeEvent extends CommonElement {
 		String importId = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_WHEN);
 		
 		if (importId.trim().isEmpty()) {
-			ImportLog.log(String.format("Id is blank for when attribute of TimeEvent %s", modelElement.getEAID()));
+			Logger.log(String.format("Id is blank for when attribute of TimeEvent %s", modelElement.getImportId()));
 			return;
 		}
 		
-		ImportXmlSysml.buildEntity(parsedXML, parsedXML.get(importId));
+		Importer.getInstance().buildEntity(parsedXML, parsedXML.get(importId));
 	}
 	
 	@Override

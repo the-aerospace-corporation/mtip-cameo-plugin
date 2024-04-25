@@ -9,7 +9,7 @@ package org.aero.mtip.ModelElements.Activity;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
@@ -38,16 +38,15 @@ public class ControlFlow extends CommonRelationship {
 		com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow cf = (com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.GUARD)) {
-			CameoUtils.logGUI("Creating guard for control flow with id " + xmlElement.getEAID() + " and guard value " + xmlElement.getAttribute(XmlTagConstants.GUARD));
 			ValueSpecification guard = cf.getGuard();
+			
 			if(guard != null) {
 				guard.dispose();
 			}
+			
 			LiteralString specification = f.createLiteralStringInstance();
 			specification.setValue(xmlElement.getAttribute(XmlTagConstants.GUARD));			
 			cf.setGuard(specification);
-		} else {
-			CameoUtils.logGUI("Control flow " + xmlElement.getEAID() + " has no guard.");
 		}
 		
 		return cf;
@@ -75,7 +74,7 @@ public class ControlFlow extends CommonRelationship {
 		org.w3c.dom.Element guardTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.GUARD);
 		
 		if(guardTag == null) {
-			ExportLog.log(String.format("Failed to create xml attribute for guard of control flow with id %s", element.getID()));
+			Logger.log(String.format("Failed to create xml attribute for guard of control flow with id %s", element.getID()));
 			return;	
 		}
 		
@@ -85,7 +84,7 @@ public class ControlFlow extends CommonRelationship {
 	@Override
 	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
-			owner = CameoUtils.findNearestActivity(project, supplier);
+			owner = CameoUtils.findNearestActivity(supplier);
 		}
 		element.setOwner(owner);
 	}

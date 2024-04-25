@@ -80,7 +80,7 @@ public class ObjectFlow extends CommonRelationship {
 	@Override
 	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {
-			owner = CameoUtils.findNearestActivity(project, supplier);
+			owner = CameoUtils.findNearestActivity(supplier);
 		}
 		
 		element.setOwner(owner);

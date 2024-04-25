@@ -126,11 +126,13 @@ public class XmlTagConstants
 	public static final String ACTIVITY_PARAMETER_NODE = "sysml.ActivityParameterNode";
 	public static final String ACTIVITY_PARTITION = "sysml.ActivityPartition";
 	public static final String ACTOR = "sysml.Actor";
+	public static final String ANY_RECEIVE_EVENT = "sysml.AnyReceiveEvent";
 	public static final String ASSOCIATION_BLOCK = "sysml.AssociationBlock";
 	public static final String BLOCK = "sysml.Block";
 	public static final String BOUND_REFERENCE = "sysml.BoundReference";
 	public static final String BUSINESS_REQUIREMENT = "sysml.BusinessRequirement";
 	public static final String CALL_BEHAVIOR_ACTION = "sysml.CallBehaviorAction";
+	public static final String CALL_EVENT = "sysml.CallEvent";
 	public static final String CALL_OPERATION_ACTION = "sysml.CallOperationAction";
 	public static final String CENTRAL_BUFFER_NODE = "sysml.CentralBufferNode";
 	public static final String CHANGE_EVENT = "sysml.ChangeEvent";

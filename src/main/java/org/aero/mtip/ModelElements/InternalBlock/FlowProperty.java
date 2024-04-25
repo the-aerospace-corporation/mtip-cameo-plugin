@@ -9,14 +9,12 @@ package org.aero.mtip.ModelElements.InternalBlock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
@@ -36,6 +34,7 @@ public class FlowProperty extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 		
 //		TODO Find if flowproperty direction property exists in 2022x
+
 //		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DIRECTION)) {
 //			StereotypesHelper.setStereotypePropertyValue(
 //					element, 

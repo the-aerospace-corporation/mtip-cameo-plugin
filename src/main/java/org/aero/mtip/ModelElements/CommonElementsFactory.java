@@ -16,7 +16,6 @@ import org.aero.mtip.ModelElements.Activity.ActivityPartition;
 import org.aero.mtip.ModelElements.Activity.CallBehaviorAction;
 import org.aero.mtip.ModelElements.Activity.CallOperationAction;
 import org.aero.mtip.ModelElements.Activity.CentralBufferNode;
-import org.aero.mtip.ModelElements.Activity.ChangeEvent;
 import org.aero.mtip.ModelElements.Activity.ConditionalNode;
 import org.aero.mtip.ModelElements.Activity.CreateObjectAction;
 import org.aero.mtip.ModelElements.Activity.DataStoreNode;
@@ -34,7 +33,6 @@ import org.aero.mtip.ModelElements.Activity.OpaqueAction;
 import org.aero.mtip.ModelElements.Activity.OutputPin;
 import org.aero.mtip.ModelElements.Activity.Parameter;
 import org.aero.mtip.ModelElements.Activity.SendSignalAction;
-import org.aero.mtip.ModelElements.Activity.TimeEvent;
 import org.aero.mtip.ModelElements.Activity.TimeExpression;
 import org.aero.mtip.ModelElements.Block.AssociationBlock;
 import org.aero.mtip.ModelElements.Block.Block;
@@ -118,6 +116,9 @@ import org.aero.mtip.ModelElements.Sequence.SequenceDiagram;
 import org.aero.mtip.ModelElements.Sequence.StateInvariant;
 import org.aero.mtip.ModelElements.Sequence.TimeConstraint;
 import org.aero.mtip.ModelElements.Sequence.TimeObservation;
+import org.aero.mtip.ModelElements.StateMachine.AnyReceiveEvent;
+import org.aero.mtip.ModelElements.StateMachine.CallEvent;
+import org.aero.mtip.ModelElements.StateMachine.ChangeEvent;
 import org.aero.mtip.ModelElements.StateMachine.ChoicePseudoState;
 import org.aero.mtip.ModelElements.StateMachine.ConnectionPointReference;
 import org.aero.mtip.ModelElements.StateMachine.DeepHistory;
@@ -136,6 +137,7 @@ import org.aero.mtip.ModelElements.StateMachine.State;
 import org.aero.mtip.ModelElements.StateMachine.StateMachine;
 import org.aero.mtip.ModelElements.StateMachine.StateMachineDiagram;
 import org.aero.mtip.ModelElements.StateMachine.Terminate;
+import org.aero.mtip.ModelElements.StateMachine.TimeEvent;
 import org.aero.mtip.ModelElements.StateMachine.Trigger;
 import org.aero.mtip.ModelElements.Table.GenericTable;
 import org.aero.mtip.ModelElements.Table.GlossaryTable;
@@ -177,6 +179,9 @@ public class CommonElementsFactory {
 			case SysmlConstants.ACTOR:
 				element = new Actor(name, EAID);
 				break;
+			case SysmlConstants.ANY_RECEIVE_EVENT:
+			    element = new AnyReceiveEvent(name, EAID);
+			    break;
 			case SysmlConstants.ASSOCIATION_BLOCK:
 				element = new AssociationBlock(name, EAID);
 				break;
@@ -186,12 +191,15 @@ public class CommonElementsFactory {
 			case SysmlConstants.BLOCK:
 				element = new Block(name, EAID);
 				break;
+            case SysmlConstants.BUSINESS_REQUIREMENT:
+                element = new BusinessRequirement(name, EAID);
+                break;
 			case SysmlConstants.CALL_BEHAVIOR_ACTION:
 				element = new CallBehaviorAction(name, EAID);
 				break;
-			case SysmlConstants.BUSINESS_REQUIREMENT:
-				element = new BusinessRequirement(name, EAID);
-				break;
+			case SysmlConstants.CALL_EVENT:
+			    element = new CallEvent(name, EAID);
+			    break;
 			case SysmlConstants.CALL_OPERATION_ACTION:
 				element = new CallOperationAction(name, EAID);
 				break;
@@ -625,7 +633,7 @@ public class CommonElementsFactory {
 		}
 		
 		if(element == null) {
-			CameoUtils.logGUI(String.format("Element of type %s not supported by CommonElementsFactory.", type));
+			CameoUtils.logGui(String.format("Element of type %s not supported by CommonElementsFactory.", type));
 		}
 		
 		return element;	

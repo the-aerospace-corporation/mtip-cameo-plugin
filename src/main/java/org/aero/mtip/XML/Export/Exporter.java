@@ -7,27 +7,24 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.XML.Export;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-
 import javax.annotation.CheckForNull;
-
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
-import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
-import org.aero.mtip.profiles.MDForSysMLExtensions;
+import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.profiles.DslCustomization;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ExportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MTIPUtils;
 import org.aero.mtip.util.SysmlConstants;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.DiagramType;
@@ -96,6 +93,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.AnyReceiveEvent;
+import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.CallEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent;
@@ -136,35 +135,52 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
-public class ExportXmlSysml {
-	private static HashSet<String> exportedElements;
-	private static HashSet<String> implicitElements;
-	private static ExportMetrics exportMetrics;
-	public static Project project;
+public class Exporter {	
+	Project project;
 	
-	public static void buildXML(File file, Package packageElement) {
-		project = Application.getInstance().getProject();
-		exportedElements = new HashSet<String>();
-		implicitElements = new HashSet<String>();
-		exportMetrics = new ExportMetrics();
+	HashSet<String> exportedElements = new HashSet<String>();
+	HashSet<String> implicitElements = new HashSet<String>();
+	HashSet<String> unsupportedElements = new HashSet<String>();
+	
+	CommonElementsFactory cef;
+	CommonRelationshipsFactory crf;
+	
+	public static void exportModel(File file) throws IOException {
+		exportModelFromPackage(file, null);
+	}
+	
+	public static void exportModelFromPackage(File file, Package packageElement) {
+		XmlWriter.initialize();
 		
+		Exporter exporter = new Exporter();
+		exporter.buildXML(file, packageElement);
+		Logger.logSummary(exporter);
+	}
+	
+	public static void exportModelFromDiagram(File file, DiagramPresentationElement diagramPresentationElement) {
+		XmlWriter.initialize();
+		
+		Exporter exporter = new Exporter();
+		exporter.buildXMLFromDiagram(file, diagramPresentationElement);
+	}
+	
+	public Exporter() {
+		project = Application.getInstance().getProject();
+		cef = new CommonElementsFactory();
+		crf = new CommonRelationshipsFactory();
+		
+		Logger.createNewExportLogger();
+	}
+	
+	public void buildXML(File file, Package packageElement) {		
 		if (packageElement == null) {
 			packageElement = project.getPrimaryModel();
 		}		
 		
 		exportPackageRecursive((Package)packageElement);
-		
-		ExportLog.logSummary(exportedElements);
-		ExportLog.save();
-		ExportLog.reset();
 	}
 	
-	public static void buildXMLFromDiagram(File file, DiagramPresentationElement diagramPresentationElement) {
-		project = Application.getInstance().getProject();
-		exportedElements = new HashSet<String>();
-		implicitElements = new HashSet<String>();
-		exportMetrics = new ExportMetrics();
-		
+	public void buildXMLFromDiagram(File file, DiagramPresentationElement diagramPresentationElement) {
 		Element diagramElement = diagramPresentationElement.getElement();
 		exportElementRecursiveUp(diagramElement);
 		
@@ -180,20 +196,14 @@ public class ExportXmlSysml {
 			exportElementRecursiveUp(element);			
 		}
 		
-		ExportLog.logSummary(exportedElements);
-		ExportLog.save();
-		ExportLog.reset();		
+		Logger.logSummary(this);
 	}
 	
 	/**
 	 * 
 	 * @param element Element to be exported. This begins at an arbitrary level of nested within the model.
 	 */
-	public static void exportElementRecursiveUp(Element element) {
-		if (element == null) {
-			return;
-		}
-		
+	public void exportElementRecursiveUp(Element element) {
 		Element parent = element.getOwner();
 		exportElementRecursiveUp(parent);
 		
@@ -205,17 +215,14 @@ public class ExportXmlSysml {
 		exportEntity(element);
 	}
 	
-	public static void exportPackageRecursive(Package pkg) {
+	public void exportPackageRecursive(Package pkg) {
 		if (pkg == null) {
 			return;
 		}
 		
 		exportPackage(pkg);
-		
-		Collection<Element> elementsInPackage = pkg.getOwnedElement();
-		Collection<Package> packagesInPackage = pkg.getNestedPackage();
 
-		for(Package nextPackage : packagesInPackage) {
+		for(Package nextPackage : pkg.getNestedPackage()) {
 			if (isExternalPackage(nextPackage)) {
 				continue;
 			}
@@ -223,7 +230,7 @@ public class ExportXmlSysml {
 			exportPackageRecursive(nextPackage);
 		}
 		
-		for(Element element : elementsInPackage) {
+		for(Element element : pkg.getOwnedElement()) {
 			if (isPackage(element)) {
 				continue;
 			}
@@ -232,31 +239,25 @@ public class ExportXmlSysml {
 		}
 	}
 	
-	public static void exportElementRecursive(Element element) {	
-		boolean noElements = false;
-		Collection<Element> ownedElements = new ArrayList<Element> ();
-		try {
-			ownedElements = element.getOwnedElement();
-		} catch (NullPointerException npe) {
-			noElements = true;
+	public void exportElementRecursive(Element element) {
+		if (element == null) {
+			return;
 		}
-
+		
 		exportEntity(element);
-
-		// If value property allow only comments or attached files 
-		// Let owned elements that are relationships call exportElementRecursive but children of relationships cannot be exported
-		if(!noElements ) {
-			for(Element ownedElement : ownedElements) {
-				if (!(ownedElement instanceof Package) && !(element instanceof Relationship)) {
-					exportElementRecursive(ownedElement);
-				}
+		
+		for(Element ownedElement : element.getOwnedElement()) {
+			if (ownedElement instanceof Package || element instanceof Relationship) {
+				continue;
 			}
+			
+			exportElementRecursive(ownedElement);
 		}
 	}
 	
-	public static void exportPackage(Element pkg) {
+	public void exportPackage(Element pkg) {
 		if (exportedElements.contains(pkg.getID())) {
-			ExportLog.log(String.format("%s package, profile, or model with id %s already exported.", pkg.getHumanName(), pkg.getID()));
+			Logger.log(String.format("%s package, profile, or model with id %s already exported.", pkg.getHumanName(), pkg.getID()));
 			return;
 		}
 		
@@ -267,22 +268,24 @@ public class ExportXmlSysml {
 		commonElement.writeToXML(pkg);
 		
 		exportedElements.add(pkg.getID());
-		exportMetrics.countElement(commonElement);
 	}
 	
-
-	public static void exportEntity(Element element) {
-		if (exportedElements.contains(element.getID())) {
-			ExportLog.log(String.format("Element already exported with name %s and id %s.", element.getHumanName(), element.getID()));
+	public void exportEntity(Element element) {
+		if(exportedElements.contains(element.getID())) {
+			Logger.log(String.format("Element already exported with name %s and id %s.", element.getHumanName(), element.getID()));
 			return;
 		}
 		
 		String commonElementType = getEntityType(element);
 		
 		if (commonElementType == null) {
-			if (!isImplicitlySupported(element)) {
-				ExportLog.log(String.format("%s type could not be identified. Not currently supported.", element.getHumanType()));
+			if (isImplicitlySupported(element)) {
+				addImplicitElement(element);
+				return;
 			}
+			
+			unsupportedElements.add(element.getID());
+			Logger.log(String.format("%s type could not be identified. Not currently supported.", element.getHumanType()));
 			return;
 		}
 		
@@ -301,15 +304,15 @@ public class ExportXmlSysml {
 			return;
 		}		
 		
-		ExportLog.log(String.format("%s is not categorized as an element, relationship, or diagram.", commonElementType));
+		Logger.log(String.format("%s is not categorized as an element, relationship, or diagram.", commonElementType));
 	}
 	
-	public static void exportElement(Element element, String elementType) {
+	public void exportElement(Element element, String elementType) {
 		if (elementType == null) {
-			ExportLog.log(String.format("Element type not found for %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("Element type not found for %s with id %s", element.getHumanName(), element.getID()));
+			return;
 		}
-		
-		CommonElementsFactory cef = new CommonElementsFactory();
+		 
 		CommonElement commonElement =  cef.createElement(elementType, ((NamedElement)element).getName(), element.getID());
 		
 		if (commonElement == null) {
@@ -323,9 +326,17 @@ public class ExportXmlSysml {
 		exportReferencedElements(element);
 	}
 	
-	public static void exportRelationship(Element element, String relationshipType) {
-		CommonRelationshipsFactory crf = new CommonRelationshipsFactory();		
+	public void exportRelationship(Element element, String relationshipType) {
+	    if (relationshipType == null) {
+	         Logger.log(String.format("Relationship type not found for %s with id %s", element.getHumanName(), element.getID()));
+	         return;
+	    }
+	    
 		CommonRelationship commonRelationship = crf.createElement(relationshipType, CommonRelationship.getName(element), element.getID());
+		
+		if (commonRelationship == null) {
+		  return;
+		}
 		
 		commonRelationship.writeToXML(element);
 		exportedElements.add(element.getID());
@@ -340,21 +351,21 @@ public class ExportXmlSysml {
 		}		
 	}
 	
-	public static void exportReferencedElements(Element element) {
-		if (element instanceof TypedElement) {
-			Type type = ((TypedElement)element).getType();
-			
-			if (type == null) {
-				return;
-			}
-			
-			if (CameoUtils.isPredefinedElement(type)) {
-				return;
-			}
-			
-			exportElementRecursiveUp(type);
-		}
-	}
+    public void exportReferencedElements(Element element) {
+      if (element instanceof TypedElement) {
+        Type type = ((TypedElement) element).getType();
+
+        if (type == null) {
+          return;
+        }
+
+        if (CameoUtils.isPredefinedElement(type)) {
+          return;
+        }
+
+        exportElementRecursiveUp(type);
+      }
+    }
 	
 	public static String getElementType(Element element) {
 		if(element instanceof AcceptEventAction) {
@@ -369,6 +380,8 @@ public class ExportXmlSysml {
 			return SysmlConstants.ACTIVITY_PARTITION;
 		} else if(element instanceof Actor) {
 			return SysmlConstants.ACTOR;
+		} else if (element instanceof AnyReceiveEvent) {
+		  return SysmlConstants.ANY_RECEIVE_EVENT;
 		} else if (SysML.isBoundReference(element)) {
 			return SysmlConstants.BOUND_REFERENCE;
 		} else if (SysML.isClassifierBehavior(element)) {
@@ -378,6 +391,8 @@ public class ExportXmlSysml {
 			return SysmlConstants.CLASS;
 		} else if (element instanceof CallBehaviorAction) {
 			return SysmlConstants.CALL_BEHAVIOR_ACTION;
+		} else if (element instanceof CallEvent) {
+		  return SysmlConstants.CALL_EVENT;
 		} else if (element instanceof CallOperationAction) {
 			return SysmlConstants.CALL_OPERATION_ACTION;
 		} else if (element instanceof ChangeEvent) {
@@ -394,13 +409,13 @@ public class ExportXmlSysml {
 			return SysmlConstants.CONNECTION_POINT_REFERENCE;
 		} else if(SysML.isConstraintBlock(element)) {
 			return SysmlConstants.CONSTRAINT_BLOCK;
-		} else if(MDCustomizationForSysMLProfile.isConstraintParameter(element)) {
+		} else if(MDCustomizationForSysML.isConstraintParameter(element)) {
 			return SysmlConstants.CONSTRAINT_PARAMETER;
-		} else if (MDCustomizationForSysMLProfile.isConstraintProperty(element)) {
+		} else if (MDCustomizationForSysML.isConstraintProperty(element)) {
 			return SysmlConstants.CONSTRAINT_PROPERTY;
 		} else if(element instanceof CreateObjectAction) {
 			return SysmlConstants.CREATE_OBJECT_ACTION;
-		} else if(CameoUtils.isCustomization(project, element)) {
+		} else if(DslCustomization.isCustomization(element)) {
 			return SysmlConstants.CUSTOMIZATION;
 		} else if(element instanceof DataStoreNode) {
 			return SysmlConstants.DATA_STORE_NODE;
@@ -482,7 +497,7 @@ public class ExportXmlSysml {
 			return SysmlConstants.MERGE_NODE;
 		} else if(element instanceof MessageOccurrenceSpecification) {
 			return SysmlConstants.MESSAGE_OCCURRENCE_SPECIFICATION;
-		} else if(CameoUtils.isModel(element, project)) {
+		} else if(CameoUtils.isModel(element)) {
 			return SysmlConstants.MODEL;
 		} else if(element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression) {
 			return SysmlConstants.OPAQUE_EXPRESSION;
@@ -494,7 +509,7 @@ public class ExportXmlSysml {
 			return SysmlConstants.OPERATION;
 		} else if(SysML.isParticipantProperty(element)) {
 			return SysmlConstants.PARTICIPANT_PROPERTY;
-		} else if(MDCustomizationForSysMLProfile.isPartProperty(element)) {
+		} else if(MDCustomizationForSysML.isPartProperty(element)) {
 			return SysmlConstants.PART_PROPERTY;
 		} else if(element instanceof Profile) {
 			return SysmlConstants.PROFILE;
@@ -511,7 +526,7 @@ public class ExportXmlSysml {
 			return SysmlConstants.PROXY_PORT;
 		} else if(element instanceof Port) {
 			return SysmlConstants.PORT;
-		} else if(MDCustomizationForSysMLProfile.isQuantityKind(element)) {
+		} else if(MDCustomizationForSysML.isQuantityKind(element)) {
 			return SysmlConstants.QUANTITY_KIND;
 		} else if(element instanceof Region) {
 			return SysmlConstants.REGION;
@@ -549,7 +564,7 @@ public class ExportXmlSysml {
 			return SysmlConstants.TIME_OBSERVATION;
 		} else if (element instanceof Trigger) {
 			return SysmlConstants.TRIGGER;
-		} else if (MDCustomizationForSysMLProfile.isUnit(element)) {
+		} else if (MDCustomizationForSysML.isUnit(element)) {
 			return SysmlConstants.UNIT;
 		} else if(element instanceof Usage) {
 			return SysmlConstants.USAGE;
@@ -558,7 +573,7 @@ public class ExportXmlSysml {
 			return SysmlConstants.CLASS;
 		} else if (element instanceof UseCase) {
 			return SysmlConstants.USE_CASE;
-		} else if (MDCustomizationForSysMLProfile.isValueProperty(element)) {
+		} else if (MDCustomizationForSysML.isValueProperty(element)) {
 			return SysmlConstants.VALUE_PROPERTY;
 		} else if (SysML.isValueType(element)) {
 			return SysmlConstants.VALUE_TYPE;
@@ -571,7 +586,7 @@ public class ExportXmlSysml {
 		//Super classes listed below as to not to override their children	
 		} else if(element instanceof Constraint) {
 			return SysmlConstants.CONSTRAINT;
-		} else if(MDForSysMLExtensions.isProperty(element)) {
+		} else if(MDCustomizationForSysML.isProperty(element)) {
 			return SysmlConstants.PROPERTY;	
 		} else if (element instanceof InstanceSpecification) {
 			return SysmlConstants.INSTANCE_SPECIFICATION;
@@ -663,10 +678,10 @@ public class ExportXmlSysml {
 			return null;
 		}
 
-		DiagramPresentationElement presentationDiagram = project.getDiagram((Diagram)element);
+		DiagramPresentationElement presentationDiagram = Application.getInstance().getProject().getDiagram((Diagram)element);
 		
 		if (presentationDiagram == null) {
-			ExportLog.log(String.format("Diagram type not found. Could not find DiagramPresentationElement for diagram %s.", element.getID()));
+			Logger.log(String.format("Diagram type not found. Could not find DiagramPresentationElement for diagram %s.", element.getID()));
 			return null;
 		}
 		
@@ -685,26 +700,28 @@ public class ExportXmlSysml {
 			return getDiagramType(element);
 		}
 		
-		if (element instanceof Relationship || element instanceof Message) {
+		if (element instanceof Relationship 
+				|| element instanceof Message
+				|| element instanceof Transition) {
 			return getRelationshipType(element);
 		}
 		
 		return getElementType(element);
 	}
 	
-	public static String getPackageType(Element pkg) {
-		if(CameoUtils.isModel(pkg, project)) {
+	public String getPackageType(Element pkg) {
+		if(CameoUtils.isModel(pkg)) {
 			return SysmlConstants.MODEL;
 		} 
 		
-		if(CameoUtils.isProfile(pkg, project)) {
+		if(CameoUtils.isProfile(pkg)) {
 			return SysmlConstants.PROFILE;
 		} 
 		
 		return SysmlConstants.PACKAGE;
 	}
 	
-	public static boolean isImplicitlySupported(Element element) {
+	public boolean isImplicitlySupported(Element element) {
 		if (element instanceof ElementValue 
 				|| element instanceof LiteralReal
 			    || element instanceof LiteralBoolean
@@ -716,15 +733,14 @@ public class ExportXmlSysml {
 			    || element instanceof Slot
 			    || element instanceof Comment
 			    || element instanceof TaggedValue
-			    || MDCustomizationForSysMLProfile.isReferenceProperty(element)) {
-			
-			addImplicitElement(element);
+			    || MDCustomizationForSysML.isReferenceProperty(element)) {
 			return true;
 		}
+		
 		return false;
 	}
 	
-	public static boolean isPackage(Element element) {
+	public boolean isPackage(Element element) {
 		if(element instanceof Package
 				|| element.getHumanName().equals("Profile Application")
 				|| element instanceof PackageImport 
@@ -735,7 +751,7 @@ public class ExportXmlSysml {
 		return false;
 	}
 	
-	public static boolean isExternalPackage(Package pkg) {
+	public boolean isExternalPackage(Package pkg) {
 		if (StereotypesHelper.hasStereotype(pkg, MagicDraw.getAuxiliaryResourceStereotype())
 				|| pkg.getHumanName().equals("Package Unit Imports")) {
 			return true;
@@ -748,7 +764,19 @@ public class ExportXmlSysml {
 	 * Tracks elements not explicitly exported (with their own data tag) to check sum with explicit elements
 	 * and total exported elements where: Total = implicit + explicit
 	 */
-	public static void addImplicitElement(Element element) {
+	public void addImplicitElement(Element element) {
 		implicitElements.add(element.getID());
+	}
+
+	public HashSet<String> getExportedElements() {
+		return exportedElements;
+	}
+
+	public HashSet<String> getImplicitElements() {
+		return implicitElements;
+	}
+
+	public HashSet<String> getUnsupportedElements() {
+		return unsupportedElements;
 	}
 }

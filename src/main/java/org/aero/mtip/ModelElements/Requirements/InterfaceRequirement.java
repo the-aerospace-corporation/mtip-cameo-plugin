@@ -6,12 +6,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Requirements;
 
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
-
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 
 public class InterfaceRequirement extends Requirement {
 

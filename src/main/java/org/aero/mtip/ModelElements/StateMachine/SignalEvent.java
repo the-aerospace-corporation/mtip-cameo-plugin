@@ -7,14 +7,12 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.HashMap;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
@@ -42,10 +40,10 @@ public class SignalEvent extends CommonElement {
 		return se;
 	}
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
 		if(xmlElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {
 			String signal = xmlElement.getAttribute(XmlTagConstants.SIGNAL_TAG);
-			signalElement = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal)ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signal));
+			signalElement = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal)Importer.getInstance().buildElement(parsedXML, parsedXML.get(signal));
 			xmlElement.addElement(signalElementTag, signalElement);
 		}
 	}

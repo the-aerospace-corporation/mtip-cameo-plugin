@@ -6,10 +6,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
+import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.VisibilityKindEnum;
@@ -23,13 +23,21 @@ public class FlowPort extends org.aero.mtip.ModelElements.Block.Port {
 		this.sysmlConstant = SysmlConstants.FLOW_PORT;
 		this.xmlConstant = XmlTagConstants.FLOW_PORT;
 		this.element = f.createPortInstance();
+		this.creationStereotype = SysML.getFlowPortStereotype();
 	}
 
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		Port port = (Port) super.createElement(project, owner, xmlElement);                                            
-		port.setVisibility(VisibilityKindEnum.PRIVATE);                         
-   
+		port.setVisibility(VisibilityKindEnum.PRIVATE);
+		
+		//Flow Direction enumeration missing from SysMLUtilities class
+//		for (SysMLUtilities.FlowDirection c : SysMLUtilities.FlowDirection.values())
+//		    System.out.println(c);
+//		SysMLUtilities.setDirectionForFlowPort(port,  SysMLProfile.FLOWDIRECTION_IN_LITERAL);
+		
+		// Removed as of 2021x
+		//SysMLHelper.setDirectionFlowPort(port, SysMLProfile.FLOWDIRECTION_IN_LITERAL);
 		return port;
 	}
 }

@@ -12,7 +12,6 @@ public class View extends CommonElement {
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.sysmlConstant = SysmlConstants.VIEW;
 		this.xmlConstant = XmlTagConstants.VIEW;
-		this.creationStereotype =  SysML.getViewStereotype();
+		this.creationStereotype = SysML.getViewStereotype();
 	}
-
 }

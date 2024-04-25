@@ -7,20 +7,14 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.InternalBlock;
 
 import java.util.HashMap;
-
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class ConstraintProperty extends CommonElement {
 
@@ -30,38 +24,21 @@ public class ConstraintProperty extends CommonElement {
 		this.xmlConstant = XmlTagConstants.CONSTRAINT_PROPERTY;
 		this.sysmlConstant = SysmlConstants.CONSTRAINT_PROPERTY;
 		this.element = f.createPropertyInstance();
-	}
-
-	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
-		
-		Profile mdCustomizationProfile = StereotypesHelper.getProfile(project, "MD Customization for SysML"); 
-		Stereotype partPropertyStereotype = StereotypesHelper.getStereotype(project, "ConstraintProperty", mdCustomizationProfile);
-		StereotypesHelper.addStereotype(element, partPropertyStereotype);
-		
-//		if(xmlElement.hasAttribute(XmlTagConstants.CLASSIFIER_TYPE)) {
-//			Type classifierType = (Type) project.getElementByID(xmlElement.getAttribute(XmlTagConstants.CLASSIFIER_TYPE));
-//			((TypedElement)sysmlElement).setType(classifierType);
-//		}
-		
-		return element;
+		this.creationStereotype = MDCustomizationForSysML.getConstraintPropertyStereotype();
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		CameoUtils.logGUI("\t...Creating dependent elements for PartProperty with id: " + modelElement.getEAID());
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
+		if(!modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
+			return;
+		}
 		
-		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
-			String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
-			try {
-				Element type = ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(classifierID));
-				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getID());
-			} catch (NullPointerException npe) {
-				CameoUtils.logGUI("Failed to create/get typed by element for element with id" + this.EAID);
-				ImportLog.log("Failed to create/get typed by element for element with id" + this.EAID);
-			}
-			
-		}		
+		String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
+		try {
+			Element type = Importer.getInstance().buildElement(parsedXML, parsedXML.get(classifierID));
+			modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getID());
+		} catch (NullPointerException npe) {
+			Logger.log(String.format("Failed to create/get typed by element for element with id %s", EAID));
+		}
 	}
 }

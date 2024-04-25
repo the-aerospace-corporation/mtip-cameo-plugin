@@ -13,19 +13,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.CheckForNull;
-
+import javax.swing.JOptionPane;
 import org.aero.mtip.ModelElements.EnumerationLiteral;
-import org.aero.mtip.profiles.MDCustomizationForSysMLProfile;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.magicdraw.openapi.uml.SessionManager;
+import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.BooleanTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
@@ -48,7 +47,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKind;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKindEnum;
@@ -71,7 +69,7 @@ public class CameoUtils {
 	    put("_16_5_1_12c903cb_1245415335546_479030_4092", SysmlConstants.STRING);
 	}};
 	
-	public static void logGUI(String text) {
+	public static void logGui(String text) {
 		Application.getInstance().getGUILog().log(text);
 	}
 	
@@ -107,6 +105,7 @@ public class CameoUtils {
 	public static Element findNearestRegion(Project project, Element owner) {
 		Region region = null;
 		Collection<Region> regions = null;
+
 		if(owner instanceof StateMachine) {
 			StateMachine sm = (StateMachine)owner;
 			regions = sm.getRegion();
@@ -142,57 +141,38 @@ public class CameoUtils {
 		return null;
 	}
 	
-	public static Element findNearestActivity(Project project, Element owner) {
-		if(owner != null) {
-			if(owner instanceof Activity) {
-				return owner;
-			} else {
-				Element nextOwner = owner.getOwner();
-				if(nextOwner == null) {
-					return null;
-				}
-				return findNearestActivity(project, nextOwner);
-			}
+	@CheckForNull
+	public static Element findNearestActivity(Element owner) {
+		if(owner == null) {
+		    return null;
 		}
-		return null;
-	}
-	
-	public static boolean isCustomization(Project project, Element element) {
-		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
-		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
 		
-		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-		if(stereotypes.contains(customizationStereotype)) {
+		if (owner instanceof Activity) {
+			return owner;
+		}
+		
+		Element nextOwner = owner.getOwner();
+		
+		if (nextOwner == null) {
+		    return null;
+		}
+		
+		return findNearestActivity(nextOwner);
+	}
+	
+	public static boolean isModel(Element element) {
+		if(element.equals(Application.getInstance().getProject().getPrimaryModel())) {
 			return true;
 		}
+		
 		return false;
 	}
 	
-	public static String oclKindValidationString(String profileName, String stereotypeName) {
-		return "self.oclIsKindOf(" + "::" + stereotypeName + ")"; 
-	}
-	
-	public static String oclSupplierDependency(String profileName, String relationshipStereotypeName, String classStereotypeName) {
-		return oclKindValidationString(profileName, relationshipStereotypeName) + " implies self.supplierDependency->exists (d| d.client->exists(e|e.oclIsKindOf(" + classStereotypeName + ")))";
-	}
-	
-	public static Stereotype getValidationSuiteStereotype(Project project) {
-		Profile profile = StereotypesHelper.getProfile(project, "UML Standard Profile");
-		Stereotype validationSuite = StereotypesHelper.getStereotype(project, "validationSuite", profile);
-		return validationSuite;
-	}
-	
-	public static boolean isModel(Element element, Project project) {
-		if(element.equals(project.getPrimaryModel())) {
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean isProfile(Element element, Project project) {
+	public static boolean isProfile(Element element) {
 		if(element instanceof Profile) {
 			return true;
 		}
+		
 		return false;
 	}
 	
@@ -324,7 +304,7 @@ public class CameoUtils {
 			    element instanceof StringTaggedValue ||
 			    element instanceof Comment ||			    
 			    element instanceof ConnectorEnd ||
-			    MDCustomizationForSysMLProfile.isReferenceProperty(element)) {	
+			    MDCustomizationForSysML.isReferenceProperty(element)) {	
 			
 			return true;
 		}
@@ -342,7 +322,7 @@ public class CameoUtils {
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		
-		logGUI(sw.toString());
+		logGui(sw.toString());
 	}
 	
 	public static boolean isAuxiliaryElement(String elementId) {
@@ -354,13 +334,17 @@ public class CameoUtils {
 	}
 	
 	public static boolean isPredefinedElement(Type type) {
-		Namespace namespace = type.getNamespace();
-		
-		if (namespace.isEditable()) {
-			return false;
-		}
-		
-		return true;
+	  if (type == null) {
+	    return false;
+	  }
+	  
+      Namespace namespace = type.getNamespace();
+
+      if (namespace.isEditable()) {
+        return false;
+      }
+
+      return true;
 	}
 	
 	public static Element getPrimitiveValueType(String valueTypeEnum) {
@@ -409,11 +393,29 @@ public class CameoUtils {
 //			InstanceSpecification is = iv.getInstance();
 //			ValueSpecification vs2 = is.getSpecification();
 //			strVal = getSlotValueAsString(vs2);
-		}else {
-			String message = "Value specification with id " + vs.getID() + " was not string, real, int, bool, or opaque expression.";
-			ExportLog.log(message);
-			CameoUtils.logGUI(message);
+		} else {
+			Logger.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
 		}
 		return strVal;
+	}
+	
+	public static void popUpMessage(String message) {
+		JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), message);
+	}
+	
+	public static void createSession(Project project, String sessionName) {
+		if (SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().createSession(project, sessionName);
+	}
+	
+	public static void closeSession(Project project) {
+		if (!SessionManager.getInstance().isSessionCreated(project)) {
+			return;
+		}
+		
+		SessionManager.getInstance().closeSession(project);
 	}
 }

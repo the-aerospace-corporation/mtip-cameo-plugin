@@ -1,4 +1,4 @@
-/* The Aerospace Corporation MTIP_Cameo
+/* The Aerospace CorporationMTIP_Cameo
 Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
@@ -16,34 +16,29 @@ import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.Logger;
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.core.Application;
-import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
-import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 
-@SuppressWarnings("serial")
-public class ExportDiagramAction extends MDAction {
-	DiagramPresentationElement diagramPresentationElement;
-	PresentationElement[] selectedPresentationElements;
-	PresentationElement requestorPresentationElement;
+public class ExportAction extends MDAction {
+	private static final long serialVersionUID = 6293853861208772420L;
 	
-	public ExportDiagramAction(String id, String name, DiagramPresentationElement diagramPresentationElement) {
+	public ExportAction(String id, String name)	{
 		super(id, name, null, null);
-		this.diagramPresentationElement = diagramPresentationElement;
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
-		if(Application.getInstance().getProject() == null) {
+
+		if (Application.getInstance().getProject() == null) {
 			CameoUtils.popUpMessage("No active project. Open a project, then try again.");
 			return;
 		}
-		
 		try {
 			File file = FileSelect.chooseXMLFile();
 			
 			if(file == null) {
+				Logger.log("Failed to select file. Export aborted.");
 				return;
 			}
 			
-			Exporter.exportModelFromDiagram(file, diagramPresentationElement);
+			Exporter.exportModel(file);
 			FileSelect.writeXMLToFile(file);
 			
 			CameoUtils.popUpMessage("Export complete.");

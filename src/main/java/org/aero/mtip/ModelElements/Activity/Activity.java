@@ -10,7 +10,7 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
-public class Activity extends CommonElement{
+public class Activity extends CommonElement {
 	public Activity(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;

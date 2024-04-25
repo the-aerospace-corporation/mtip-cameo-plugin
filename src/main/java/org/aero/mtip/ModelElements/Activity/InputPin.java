@@ -7,16 +7,13 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Activity;
 
 import java.util.HashMap;
-
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.Behavior;
 
 public class InputPin extends ActivityNode {
 
@@ -35,23 +32,23 @@ public class InputPin extends ActivityNode {
 		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.InputPin inputPin = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.InputPin)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.SYNC_ELEMENT)) {
-			element.setSyncElement((Element) project.getElementByID(xmlElement.getAttribute(ImportXmlSysml.idConversion(XmlTagConstants.SYNC_ELEMENT))));
+			element.setSyncElement((Element) project.getElementByID(xmlElement.getAttribute(Importer.idConversion(XmlTagConstants.SYNC_ELEMENT))));
 		}
 		return inputPin;
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		super.createDependentElements(project, parsedXML, modelElement);
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+		super.createDependentElements(parsedXML, modelElement);
 		if(modelElement.hasAttribute(XmlTagConstants.SYNC_ELEMENT)) {
 			String syncElementId = modelElement.getAttribute(XmlTagConstants.SYNC_ELEMENT);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(syncElementId));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(syncElementId));
 		}
 	}
 	@Override
 	public void setOwner(Element owner) {
 		if(!(owner instanceof com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.Action)) {
-			owner = CameoUtils.findNearestActivity(project, owner);
+			owner = CameoUtils.findNearestActivity(owner);
 		}
 		element.setOwner(owner);
 	}

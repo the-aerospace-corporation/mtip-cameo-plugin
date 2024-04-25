@@ -10,16 +10,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -41,7 +39,7 @@ public class Slot extends CommonElement {
 	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Property property = (Property) project.getElementByID(ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)));
+		Property property = (Property) project.getElementByID(Importer.idConversion(xmlElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)));
 		Type type = property.getType();
 		
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot propertySlot = ModelHelper.createSlot((InstanceSpecification) owner, property, false);
@@ -49,10 +47,10 @@ public class Slot extends CommonElement {
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)) {
 			List<String> values = xmlElement.getListAttributes(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE);
 			if(!values.isEmpty()) {
-				CameoUtils.logGUI("Creating slot value for instance value.");
+				CameoUtils.logGui("Creating slot value for instance value.");
 				for(String value : values) {
 					
-					Element instanceValue = (Element) project.getElementByID(ImportXmlSysml.idConversion(value));
+					Element instanceValue = (Element) project.getElementByID(Importer.idConversion(value));
 					ValueSpecification valueSpecification = ModelHelper.createValueSpecification(Project.getProject(propertySlot), type, "", (Collection<? extends ValueSpecification>) Collections.emptySet());
 					ModelHelper.setValueSpecificationValue(valueSpecification, value);
 					propertySlot.getValue().add(valueSpecification);
@@ -63,7 +61,7 @@ public class Slot extends CommonElement {
 		if(xmlElement.hasListAttributes(XmlTagConstants.ATTRIBUTE_KEY_VALUE)) {
 			List<String> values = xmlElement.getListAttributes(XmlTagConstants.ATTRIBUTE_KEY_VALUE);
 			if(!values.isEmpty()) {
-				CameoUtils.logGUI("Creating slot value for list of string values");
+				CameoUtils.logGui("Creating slot value for list of string values");
 				for(String value : values) {
 					ValueSpecification valueSpecification = ModelHelper.createValueSpecification(Project.getProject(propertySlot), type, "", (Collection<? extends ValueSpecification>) Collections.emptySet());
 					ModelHelper.setValueSpecificationValue(valueSpecification, value);
@@ -73,14 +71,14 @@ public class Slot extends CommonElement {
 		} else if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_VALUE)) {
 			String value = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_VALUE);
 			if(value != null) {
-				CameoUtils.logGUI("Creating slot value for single value");
+				CameoUtils.logGui("Creating slot value for single value");
 				propertySlot = ModelHelper.createSlot((InstanceSpecification) owner, property, false);
 				ValueSpecification valueSpecification = ModelHelper.createValueSpecification(Project.getProject(propertySlot), type, "", (Collection<? extends ValueSpecification>) Collections.emptySet());
 				if(valueSpecification != null) {
 					propertySlot.getValue().add(valueSpecification);
 					ModelHelper.setSlotValue(propertySlot, value);
 				} else {
-					ImportLog.log("Value specification was null for slot with id:" + propertySlot.getID());
+					Logger.log("Value specification was null for slot with id:" + propertySlot.getID());
 				}
 				
 			}
@@ -88,9 +86,9 @@ public class Slot extends CommonElement {
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)) {
 			String valueElementID = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_VALUE);
-			String cameoValueElementID = ImportXmlSysml.idConversion(valueElementID);
+			String cameoValueElementID = Importer.idConversion(valueElementID);
 			if(cameoValueElementID != null) {
-				CameoUtils.logGUI("Add element value ValueSpecification here for element with id " + cameoValueElementID);
+				CameoUtils.logGui("Add element value ValueSpecification here for element with id " + cameoValueElementID);
 			}
 		}
 		
@@ -98,18 +96,18 @@ public class Slot extends CommonElement {
 	}
 	
 	@Override
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)) {
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_PROPERTY)));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)) {
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.RELATIONSHIP_DEFAULT_VALUE)));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)) {
 			if(CameoUtils.isCameoID(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE))) {
-				ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)));
+				Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_INSTANCE_VALUE)));
 			}
 		}
 	}

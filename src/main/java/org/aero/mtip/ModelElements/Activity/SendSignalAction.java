@@ -7,14 +7,11 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Activity;
 
 import java.util.HashMap;
-
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.ImportXmlSysml;
-import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
@@ -34,7 +31,7 @@ public class SendSignalAction extends ActivityNode {
 		com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction ssa = (com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction)element;
 		
 		if(xmlElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {
-			String signalCameoId = ImportXmlSysml.idConversion(xmlElement.getAttribute(XmlTagConstants.SIGNAL_TAG));
+			String signalCameoId = Importer.idConversion(xmlElement.getAttribute(XmlTagConstants.SIGNAL_TAG));
 			Signal signal = (Signal)project.getElementByID(signalCameoId);
 			ssa.setSignal(signal);
 		}
@@ -42,10 +39,10 @@ public class SendSignalAction extends ActivityNode {
 		return element;
 	}
 	
-	public void createDependentElements(Project project, HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {
 			String signalID = modelElement.getAttribute(XmlTagConstants.SIGNAL_TAG);
-			ImportXmlSysml.buildElement(project, parsedXML, parsedXML.get(signalID));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(signalID));
 		}
 	}
 	

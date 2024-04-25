@@ -19,7 +19,7 @@ import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
  */
 @SuppressWarnings("serial")
 public class AboutAction extends MDAction {
-	public static String VERSION = "Development version MTIP 2021x.b009"
+	public static String VERSION = "Development version MTIP 2021x.b012"
 			+ ".";
 	public AboutAction(String id, String name) {
 		super(id, name, null, null);

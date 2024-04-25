@@ -9,32 +9,25 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class Validation {
-	public static Validation instance;
+public class DslCustomization {
+	static DslCustomization instance;
 	
-	public Project project;
-	public Profile profile;
+	Project project;
+	Profile profile;
 	
-	public static final String NAME = "Validation Profile";
+	static final String NAME = "DSL Customization";
+	static final String CUSTOMIZATION_NAME = "Customization";
 	
-	private static final String VALIDATION_RULE_NAME = "validationRule";
-	
-	public static final String ERROR_MESSAGE_PROPERTY_NAME = "errorMessage";
-	
-	public Validation() {
+	public DslCustomization() {
 		project = Application.getInstance().getProject();
 		profile = StereotypesHelper.getProfile(project, NAME);
 	}
 	
-	public static Validation getInstance() {
-		if (instance == null || instance.project != Application.getInstance().getProject()) {
-			instance = new Validation();
-		}
-		
-		return instance;
+	Stereotype getStereotype(String stereotypeName) {
+		return StereotypesHelper.getStereotype(project, stereotypeName, profile);
 	}
-	
-	public boolean hasStereotype(Element element, String stereotypeName) {
+
+	boolean hasStereotype(Element element, String stereotypeName) {
 		if (profile == null) {
 			Logger.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
 			return false;
@@ -54,15 +47,19 @@ public class Validation {
 		return true;
 	}
 	
-	public static boolean hasValidationRuleStereotype(Element element) {
-		if (!getInstance().hasStereotype(element, VALIDATION_RULE_NAME)) {
-			return false;
+	public static DslCustomization getInstance() {
+		if (instance == null) {
+			instance = new DslCustomization();
 		}
 		
-		return true;
+		return instance;
 	}
 	
-	public static Stereotype getValidationRuleStereotype() {
-		return StereotypesHelper.getStereotype(getInstance().project, VALIDATION_RULE_NAME, getInstance().profile);
+	public static boolean isCustomization(Element element) {
+		return getInstance().hasStereotype(element, CUSTOMIZATION_NAME);
+	}
+	
+	public static Stereotype getCustomizationStereotype() {
+		return getInstance().getStereotype(CUSTOMIZATION_NAME);
 	}
 }

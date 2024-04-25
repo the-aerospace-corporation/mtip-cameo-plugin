@@ -6,12 +6,13 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
+import java.util.Collections;
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
-import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class ActivityPartition extends CommonElement {
@@ -25,13 +26,18 @@ public class ActivityPartition extends CommonElement {
 	}
 	
 	@Override
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		super.createElement(project, owner, xmlElement);
-		com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition ap = (com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition)element;
-		if(owner instanceof Activity) {
-			ap.setInActivity((com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity)owner);
-		}
-		
-		return element;
+	public void setOwner(Element owner) {
+	    if(!(owner instanceof Activity)) {
+	        owner = CameoUtils.findNearestActivity(owner);
+	    }
+	        
+	    if (owner == null) {
+	      ModelHelper.dispose(Collections.singletonList(element));
+	      return;
+	    }
+	    
+	    element.setOwner(owner);
+	    com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition ap = (com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition)element;
+	    ap.setInActivity((com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity)owner);
 	}
 }

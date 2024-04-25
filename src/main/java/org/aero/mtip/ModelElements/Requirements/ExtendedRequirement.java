@@ -11,7 +11,7 @@ import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 public class ExtendedRequirement extends Requirement {
-
+	
 	public ExtendedRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;

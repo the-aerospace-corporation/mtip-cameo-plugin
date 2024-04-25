@@ -6,22 +6,13 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Matrix;
 
-import java.util.ArrayList;
-
-import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.ImportLog;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.dependencymatrix.diagram.DependencyMatrixDiagramDescriptor;
-import com.nomagic.uml2.ext.jmi.helpers.InstanceSpecificationHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
@@ -69,6 +60,17 @@ public class DependencyMatrix extends AbstractMatrix {
 //		}catch (ClassCastException cce) {
 //			ImportLog.log("Error casting row scope element to Element class for dependency matrix named: " + this.name);
 //		}
+
+//		if(dependencyCriteriaXMLStr != null) {
+//			org.w3c.dom.Element rowScope = createRel(xmlDoc, dependencycriteriaXMLStr, XmlTagConstants.ROW_SCOPE);
+//			relationships.appendChild(rowScope);
+//		}
+
+//		Element rowElementTypeElement = (Element) InstanceSpecificationHelper.getValueBySlot(rowElementTypeSlot);
+		
+//		org.w3c.dom.Element nameTag = createStringAttribute(xmlDoc, XmlTagConstants.COLUMN_ELEMENT_TYPE, columnElementTypeStr);
+//		org.w3c.dom.Element columnElementType = xmlDoc.createElement();
+//		org.w3c.dom.Element rowElementType = xmlDoc.createElement(XmlTagConstants.ROW_ELEMENT_TYPE);
 //		
 //		// Find and write column scope to XML
 //		try {

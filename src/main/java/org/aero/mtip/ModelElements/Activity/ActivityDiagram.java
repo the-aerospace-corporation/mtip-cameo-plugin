@@ -13,13 +13,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.ImportLog;
+import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
@@ -97,7 +95,7 @@ public class ActivityDiagram extends AbstractDiagram {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 			
 			if(shape == null) {
-				ImportLog.log(String.format("Error placing element %s with Id: %s on diagram.", element.getHumanName(), element.getID()));
+				Logger.log(String.format("Error placing element %s with Id: %s on diagram.", element.getHumanName(), element.getID()));
 				return false;
 			}
 			
@@ -106,7 +104,7 @@ public class ActivityDiagram extends AbstractDiagram {
 			PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 			
 		} catch(ClassCastException cce) {
-			ImportLog.log(String.format("Caught Class cast exception adding %s with id %s to activity diagram.", element.getHumanName(), element.getID()));
+			Logger.log(String.format("Caught Class cast exception adding %s with id %s to activity diagram.", element.getHumanName(), element.getID()));
 		}
 		
 		return noPosition;
