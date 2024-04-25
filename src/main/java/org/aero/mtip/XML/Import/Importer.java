@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +40,7 @@ import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.uml.Finder;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
@@ -241,10 +243,19 @@ public class Importer {
 		CameoUtils.createSession(project, String.format("Creating Relationship of type %s.", modelElement.getType()));
 		Element importedRelationship = relationship.createElement(project, owner, client, supplier, modelElement);
 		
+	    if (importedRelationship == null) {
+            Logger.log(String.format("Relationship failed to be created with id %s.", modelElement.getImportId()));
+            return null;
+        }
+		
 	    if(importedRelationship.getOwner() == null) {
-            importedRelationship.dispose();
-            invalidOwners.add(modelElement.getImportId());
             Logger.log("Owner failed to be set including any default owners. Relationship not created.");
+            invalidOwners.add(modelElement.getImportId());
+            
+	        if (importedRelationship != null) {
+	          ModelHelper.dispose(Collections.singletonList(importedRelationship));
+	        }
+            
             return null;
         }
 	      
@@ -279,10 +290,16 @@ public class Importer {
 		CameoUtils.createSession(project, String.format("Create %s with dependent Elements", modelElement.getType()));
 		Element importedElement = element.createElement(project, owner, modelElement);
 		
+		if (importedElement == null) {
+		    Logger.log(String.format("Element failed to be created with id %s.", modelElement.getImportId()));
+		    return null;
+        }
+		
 	    if(importedElement.getOwner() == null) {
-            importedElement.dispose();
-            Logger.log("Owner failed to be set including any default owners. Element with id " + modelElement.getImportId() + " not created.");
+	        Logger.log("Owner failed to be set including any default owners. Element with id " + modelElement.getImportId() + " not created.");
             unsupportedElementIds.add(modelElement.getImportId());
+            ModelHelper.dispose(Collections.singletonList(importedElement));
+
             return null;
         }
 	    

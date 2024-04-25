@@ -61,34 +61,28 @@ public abstract class CommonRelationship extends CommonElement {
 	
 	@Override
 	public void setOwner(Element owner) {
-		if (owner != null) {
-			try {
-				element.setOwner(owner);
-				return;
-			} catch(IllegalArgumentException iaeOwner) {
-				Logger.log(String.format("Owner of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
-			}
+	    if (element == null) {
+	      Logger.log(String.format("Failed to create element with id %s. Cannot set owner.", EAID));
+	      return;
+	    }
+	    
+		if (owner != null && ModelHelper.canMoveChildInto(owner, element)) {
+		    element.setOwner(owner);
+		    return;
 		}
 		
-		Logger.log(String.format("...Attempting to set supplier or client as owner for %s.", element.getHumanType()));
+		
 			
-		if(supplier != null) {
-			try {
-				element.setOwner(supplier);
-				return;
-			} catch(IllegalArgumentException iaeOwner) {
-				Logger.log(String.format("...Supplier of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
-			}
+		if(supplier != null && ModelHelper.canMoveChildInto(supplier, element)) {
+		  Logger.log(String.format("Setting supplier as owner for %s with id %s.", element.getHumanType(), EAID));
+			element.setOwner(supplier);
+			return;
 		}
 		
-		if(client != null) {
-			try {
-				element.setOwner(supplier);
-				return;
-			} catch(IllegalArgumentException iaeOwner) {
-				Logger.log(String.format("...Client of type %s invalid for %s.", owner.getHumanType(), element.getHumanType()));
-			}
+		if(client != null && ModelHelper.canMoveChildInto(client, element)) {
+		    element.setOwner(supplier);
 		}
+			
 	}
 
 	public org.w3c.dom.Element createBaseXML(Element element, Project project, Document xmlDoc) {
