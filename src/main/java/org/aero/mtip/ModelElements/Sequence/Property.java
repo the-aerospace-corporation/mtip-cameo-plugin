@@ -103,6 +103,11 @@ public class Property extends CommonElement {
 		}
 		
 		org.w3c.dom.Element defaultValueTag = XmlWriter.createDefaultValueTag(vs);
+		
+		if (defaultValueTag == null) {
+		  return;
+		}
+		
 		XmlWriter.add(attributes, defaultValueTag);
 		
 	}

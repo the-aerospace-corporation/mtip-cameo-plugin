@@ -204,6 +204,10 @@ public class Exporter {
 	 * @param element Element to be exported. This begins at an arbitrary level of nested within the model.
 	 */
 	public void exportElementRecursiveUp(Element element) {
+  	    if (element == null) {
+  	        return;
+  	    }
+  	    
 		Element parent = element.getOwner();
 		exportElementRecursiveUp(parent);
 		
