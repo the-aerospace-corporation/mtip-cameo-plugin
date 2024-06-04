@@ -14,12 +14,14 @@ public class CameoDiagramConstants {
 	public static final String OPERATIONAL_INTERACTION_SCENARIOS = "Operational Interaction Scenarios";
 	public static final String OPERATIONAL_INTERNAL_CONNECTIVITY = "Operational Internal Connectivity";
 	public static final String OPERATIONAL_PARAMETRIC = "Operational Parametric";
-	
 	public static final String OPERATIONAL_PROCESSES = "Operational Processes";
 	public static final String OPERATIONAL_PROCESS_FLOW = "Operational Process Flow";
 	public static final String OPERATIONAL_STATES = "Operational States";
 	public static final String OPERATIONAL_STRUCTURE = "Operational Structure";
 	public static final String OPERATIONAL_TAXONOMY = "Operational Taxonomy";
+	
+	// Parameters
+    public static final String ENVIRONMENT ="Environment";
 	
 	// Personnel
 	public static final String PERSONNEL_CONNECTIVITY = "Personnel Connectivity";
@@ -68,9 +70,6 @@ public class CameoDiagramConstants {
 	public static final String SERVICES_STATES = "Services States";
 	public static final String SERVICES_STRUCTURE = "Services Structure";
 	public static final String SERVICES_TAXONOMY = "Services Taxonomy";
-	
-	//Environment
-	public static final String ENVIRONMENT ="Environment";
 	
 	// Standards
 	public static final String STANDARDS_STRUCTURE = "Standards Structure";

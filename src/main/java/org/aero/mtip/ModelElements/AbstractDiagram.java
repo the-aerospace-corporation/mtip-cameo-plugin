@@ -192,26 +192,27 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 //        aMap.put("Blackbox ICD Table", );
 //        aMap.put("Whitebox ICD Table", );
         
-        //UAF Diagram Mapping
-        aMap.put("Operational Process Flow", UAFConstants.OPERATIONAL_PROCESS_FLOW);
-        aMap.put("Operational Connectivity", UAFConstants.OPERATIONAL_CONNECTIVITY);
-        aMap.put("Operational Constraints Definition", UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION);
-        aMap.put("Operational Free Form Taxonomy", UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY);
+        // Operational
+        aMap.put(CameoDiagramConstants.OPERATIONAL_PROCESS_FLOW, UAFConstants.OPERATIONAL_PROCESS_FLOW);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_CONNECTIVITY, UAFConstants.OPERATIONAL_CONNECTIVITY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_CONSTRAINTS_DEFINITION, UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_FREE_FORM_TAXONOMY, UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY);
         aMap.put(CameoDiagramConstants.OPERATIONAL_PROCESSES, UAFConstants.OPERATIONAL_PROCESSES_DIAGRAM);
         
-        aMap.put("Operational Structure", UAFConstants.OPERATIONAL_STRUCTURE);
-        aMap.put("Operational Taxonomy", UAFConstants.OPERATIONAL_TAXONOMY);
-        aMap.put("Operational High Level Taxonomy", UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY);
-        aMap.put("Operational Interaction Scenarios", UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS);
-        aMap.put("Operational Internal Connectivity", UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY);
-        aMap.put("Operational Parametric", UAFConstants.OPERATIONAL_PARAMETRIC);
-        aMap.put("Operational States", UAFConstants.OPERATIONAL_STATES);
-        
-        aMap.put("Resources Process Flow", UAFConstants.RESOURCES_PROCESS_FLOW);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_STRUCTURE, UAFConstants.OPERATIONAL_STRUCTURE);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_TAXONOMY, UAFConstants.OPERATIONAL_TAXONOMY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY, UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_INTERACTION_SCENARIOS, UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_INTERNAL_CONNECTIVITY, UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_PARAMETRIC, UAFConstants.OPERATIONAL_PARAMETRIC);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_STATES, UAFConstants.OPERATIONAL_STATES);
         
         // Actual Resources
-        aMap.put("Actual Resources Connectivity", UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM);
-        aMap.put("Actual Resources Structure", UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.ACTUAL_RESOURCES_CONNECTIVITY, UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.ACTUAL_RESOURCES_STRUCTURE, UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM);
+        
+        // Parameters
+        aMap.put(CameoDiagramConstants.ENVIRONMENT, UAFConstants.ENVIRONMENT_DIAGRAM);
         
         // Personnel
         aMap.put(CameoDiagramConstants.PERSONNEL_CONNECTIVITY, UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM);
@@ -221,8 +222,8 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put(CameoDiagramConstants.PERSONNEL_STATES, UAFConstants.PERSONNEL_STATES_DIAGRAM);
         aMap.put(CameoDiagramConstants.PERSONNEL_STRUCTURE, UAFConstants.PERSONNEL_STRUCTURE_DIAGRAM);
         aMap.put(CameoDiagramConstants.PERSONNEL_TAXONOMY, UAFConstants.PERSONNEL_TAXONOMY_DIAGRAM);
-        
-        //Projects
+
+        // Projects
         aMap.put(CameoDiagramConstants.PROJECTS_TAXONOMY, UAFConstants.PROJECTS_TAXONOMY_DIAGRAM);
         aMap.put(CameoDiagramConstants.PROJECTS_STRUCTURE, UAFConstants.PROJECTS_STRUCTURE_DIAGRAM);
         aMap.put(CameoDiagramConstants.PROJECTS_CONNECTIVITY, UAFConstants.PROJECTS_CONNECTIVITY_DIAGRAM);
@@ -235,53 +236,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put(CameoDiagramConstants.RESOURCES_STATES, UAFConstants.RESOURCES_STATES_DIAGRAM);
         aMap.put(CameoDiagramConstants.RESOURCES_STRUCTURE, UAFConstants.RESOURCES_STRUCTURE_DIAGRAM);
         aMap.put(CameoDiagramConstants.RESOURCES_TAXONOMY, UAFConstants.RESOURCES_TAXONOMY_DIAGRAM);
-        
-        //Summary and Overview
-        aMap.put(CameoDiagramConstants.SUMMARY_AND_OVERVIEW, UAFConstants.SUMMARY_AND_OVERVIEW_DIAGRAM);
-        
-        // DoDAF Diagram mapping
-        aMap.put("CV-1 Vision", DoDAFConstants.CV1);
-        aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
-        aMap.put("CV-3", DoDAFConstants.CV3);
-        aMap.put("CV-4 Capability Dependencies", DoDAFConstants.CV4);
-        aMap.put("DODAF2_CV-5", DoDAFConstants.CV5);
-        aMap.put("CV-6 Capability to Operational Activities Mapping", DoDAFConstants.CV6);
-        aMap.put("CV-7 Capability to Services Mapping", DoDAFConstants.CV7);
-        
-        aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV1);
-        aMap.put("SV-2 Systems Communications Description", DoDAFConstants.SV2);
-        // aMap.put("SV-3 Systems-Systems Matrix", DoDAFConstants.SV3);
-        aMap.put("SV-4 Systems Functionality Description", DoDAFConstants.SV4);
-        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5A);
-        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5B);
-        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5C);
-        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV6);
-        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV7);
-        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV8);
-        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV9);
-        aMap.put("SV-10a Systems Parametric", DoDAFConstants.SV10A);
-        aMap.put("SV-10b Systems State Transition Description", DoDAFConstants.SV10B);
-        aMap.put("SV-10c Systems Event-Trace Description", DoDAFConstants.SV10C);
-        aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV1);
-        aMap.put("OV-2 Operational Resource Flow Description", DoDAFConstants.OV2);
-        // aMap.put("OV-3 Operational Resource Flow Description", DoDAFConstants.OV3); Table
-        aMap.put("OV-4 Organizational Relationships Chart", DoDAFConstants.OV4);
-        aMap.put("OV-5a Operational Activity Decomposition Tree", DoDAFConstants.OV5A);
-        aMap.put("OV-5b Operational Activity Model", DoDAFConstants.OV5B);
-        // aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV6A); Table
-        aMap.put("OV-6b Operational State Transition Description", DoDAFConstants.OV6B);
-        aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
-
-        //UAF Standards
-        aMap.put("Standards Taxonomy", UAFConstants.STANDARDS_TAXONOMY_DIAGRAM);
-        aMap.put("Standards Structure", UAFConstants.STANDARDS_STRUCTURE_DIAGRAM);
-        
-        //UAF Strategic
-        aMap.put(CameoDiagramConstants.STRATEGIC_TAXONOMY, UAFConstants.STRATEGIC_TAXONOMY_DIAGRAM);
-        aMap.put(CameoDiagramConstants.STRATEGIC_STRUCTURE, UAFConstants.STRATEGIC_STRUCTURE_DIAGRAM);
-        aMap.put(CameoDiagramConstants.STRATEGIC_CONNECTIVITY, UAFConstants.STRATEGIC_CONNECTIVITY_DIAGRAM);
-        aMap.put(CameoDiagramConstants.STRATEGIC_STATES, UAFConstants.STRATEGIC_STATES_DIAGRAM);
-        aMap.put(CameoDiagramConstants.STRATEGIC_CONSTRAINTS, UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_PROCESS_FLOW, UAFConstants.RESOURCES_PROCESS_FLOW);
         
         // Security
         aMap.put(CameoDiagramConstants.SECURITY_TAXONOMY, UAFConstants.SECURITY_TAXONOMY_DIAGRAM);
@@ -290,7 +245,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put(CameoDiagramConstants.SECURITY_PROCESSES, UAFConstants.SECURITY_PROCESSES_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_PROCESSES_FLOW, UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM);
         aMap.put(CameoDiagramConstants.SECURITY_CONSTRAINTS, UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM);
-        aMap.put(CameoDiagramConstants.ENVIRONMENT, UAFConstants.ENVIRONMENT_DIAGRAM);
+
         // Services
         aMap.put(CameoDiagramConstants.SERVICES_CONNECTIVITY, UAFConstants.SERVICES_CONNECTIVITY_DIAGRAM);
         aMap.put(CameoDiagramConstants.SERVICES_CONSTRAINTS_DEFINITION, UAFConstants.SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM);
@@ -299,6 +254,20 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put(CameoDiagramConstants.SERVICES_STATES, UAFConstants.SERVICES_STATES_DIAGRAM);
         aMap.put(CameoDiagramConstants.SERVICES_STRUCTURE, UAFConstants.SERVICES_STRUCTURE_DIAGRAM);
         aMap.put(CameoDiagramConstants.SERVICES_TAXONOMY, UAFConstants.SERVICES_TAXONOMY_DIAGRAM);
+        
+        // Standards
+        aMap.put("Standards Taxonomy", UAFConstants.STANDARDS_TAXONOMY_DIAGRAM);
+        aMap.put("Standards Structure", UAFConstants.STANDARDS_STRUCTURE_DIAGRAM);
+        
+        // Strategic
+        aMap.put(CameoDiagramConstants.STRATEGIC_TAXONOMY, UAFConstants.STRATEGIC_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_STRUCTURE, UAFConstants.STRATEGIC_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_CONNECTIVITY, UAFConstants.STRATEGIC_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_STATES, UAFConstants.STRATEGIC_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_CONSTRAINTS, UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM);
+        
+        // Summary and Overview
+        aMap.put(CameoDiagramConstants.SUMMARY_AND_OVERVIEW, UAFConstants.SUMMARY_AND_OVERVIEW_DIAGRAM);
         
         // DoDAF Diagram mapping
         aMap.put("CV-1 Vision", DoDAFConstants.CV1);
