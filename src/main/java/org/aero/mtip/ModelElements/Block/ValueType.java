@@ -6,17 +6,16 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Block;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -28,10 +27,10 @@ public class ValueType extends CommonElement {
 	public ValueType(String name, String EAID)  {
 		super(name, EAID);
 		creationType = XmlTagConstants.ELEMENTSFACTORY;
-		sysmlConstant = SysmlConstants.VALUE_TYPE;
+		metamodelConstant = SysmlConstants.VALUE_TYPE;
 		xmlConstant = XmlTagConstants.VALUETYPE;
 		element = f.createDataTypeInstance();
-		initialStereotypes = Arrays.asList(SysML.getValueTypeStereotype());
+		creationStereotype = SysML.getValueTypeStereotype();
 	}
 	
 	@Override

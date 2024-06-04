@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.StateMachine;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKindEnum;
 
@@ -16,7 +16,7 @@ public class ShallowHistory extends PseudoState {
 	public ShallowHistory(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.SHALLOWHISTORY;
-		this.sysmlConstant = SysmlConstants.SHALLOW_HISTORY;
+		this.metamodelConstant = SysmlConstants.SHALLOW_HISTORY;
 		this.xmlConstant = XmlTagConstants.SHALLOW_HISTORY;
 	}
 

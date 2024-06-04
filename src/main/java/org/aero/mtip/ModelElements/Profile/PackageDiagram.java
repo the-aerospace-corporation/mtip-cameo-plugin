@@ -7,26 +7,16 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 
 public class PackageDiagram  extends AbstractDiagram{
 
 	public PackageDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 // SysMLConstants.SYSML_PACKAGE_DIAGRAM
-		 this.sysmlConstant = "SysML Package Diagram";
-		 this.xmlConstant = XmlTagConstants.PACKAGEDIAGRAM;
-		 this.allowableElements = SysmlConstants.PKG_TYPES;
-	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return this.sysmlConstant;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.PACKAGEDIAGRAM;
+		 metamodelConstant = SysMLConstants.SYSML_PACKAGE_DIAGRAM;
+		 xmlConstant = XmlTagConstants.PACKAGEDIAGRAM;
+		 allowableElements = SysmlConstants.PKG_TYPES;
 	}
 }

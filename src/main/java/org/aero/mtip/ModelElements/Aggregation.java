@@ -6,9 +6,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -20,7 +20,7 @@ public class Aggregation extends org.aero.mtip.ModelElements.Association {
 	public Aggregation(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.AGGREGATION;
+		this.metamodelConstant = SysmlConstants.AGGREGATION;
 		this.xmlConstant = XmlTagConstants.AGGREGATION;
 		this.element = f.createAssociationInstance();
 	}

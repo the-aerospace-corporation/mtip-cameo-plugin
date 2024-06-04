@@ -10,9 +10,9 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -22,8 +22,7 @@ public abstract class ActivityNode extends CommonElement {
 	public ActivityNode(String name, String EAID) {
 		super(name, EAID);
 	}
-	
-	@Override
+
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
 		if(xmlElement != null) {
@@ -38,7 +37,7 @@ public abstract class ActivityNode extends CommonElement {
 	@Override
 	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		super.createDependentElements(parsedXML, modelElement);
-		
+
 		if(modelElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY)) {
 			String activityId = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY);
 			Importer.getInstance().buildElement(parsedXML, parsedXML.get(activityId));
@@ -49,7 +48,7 @@ public abstract class ActivityNode extends CommonElement {
 			Importer.getInstance().buildElement(parsedXML, parsedXML.get(iarID));
 		}
 	}
-	
+
 	@Override
 	public void setOwner(Element owner) {
 		if(!(owner instanceof Activity)) {

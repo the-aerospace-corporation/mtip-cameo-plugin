@@ -11,11 +11,11 @@ import java.util.List;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -32,7 +32,7 @@ public class Connector extends CommonRelationship {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.CONNECTOR;
-		this.sysmlConstant = SysmlConstants.CONNECTOR;
+		this.metamodelConstant = SysmlConstants.CONNECTOR;
 		this.element = f.createConnectorInstance();
 	}
 
@@ -69,6 +69,7 @@ public class Connector extends CommonRelationship {
 		ConnectorEnd secondMemberEnd = connector.getEnd().get(1);
 		
 		Element supplierPart = (Element) project.getElementByID(Importer.idConversion(xmlElement.getAttribute(XmlTagConstants.SUPPLIER_PART_WITH_PORT)));
+
 		if(supplierPart != null) {
 			CameoUtils.logGui("Supplier part found with id: " + supplierPart.getID());
 			firstMemberEnd.setPartWithPort((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property)supplierPart);
@@ -101,7 +102,7 @@ public class Connector extends CommonRelationship {
 				CameoUtils.logGui("Connector type is not an association. Type not set for connector with id " + this.EAID);
 			}
 		}
-		
+
 		return connector;
 	}
 	@Override
@@ -133,22 +134,24 @@ public class Connector extends CommonRelationship {
 	}
 	
 	@Override
-	public void getSupplier(Element element) {
+	public Element getSupplier(Element element) {
 		if(element instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) {
 			List<ConnectorEnd> connectorEnds = ((com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector)element).getEnd();
 			if(connectorEnds.size() > 1) {
-				this.supplier = connectorEnds.get(0).getRole();					
+				return connectorEnds.get(0).getRole();					
 			}
 		}
+		return null;
 	}
 	@Override
-	public void getClient(Element element) {
+	public Element getClient(Element element) {
 		if(element instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector) {
 			List<ConnectorEnd> connectorEnds = ((com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector)element).getEnd();
 			if(connectorEnds.size() > 1) {
-				this.client = connectorEnds.get(1).getRole();
+				return connectorEnds.get(1).getRole();
 			}
 		}
+		return null;
 	}
 	
 	@Override

@@ -10,12 +10,12 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
@@ -28,7 +28,7 @@ public class AssociationBlock extends CommonElement {
 	public AssociationBlock(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ASSOCIATION_BLOCK;
+		this.metamodelConstant = SysmlConstants.ASSOCIATION_BLOCK;
 		this.xmlConstant = XmlTagConstants.ASSOCIATION_BLOCK;
 		this.element = f.createAssociationClassInstance();
 		this.creationStereotype = SysML.getBlockStereotype();

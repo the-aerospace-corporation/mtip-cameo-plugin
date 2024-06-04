@@ -8,12 +8,9 @@ package org.aero.mtip.util;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
-
 import com.nomagic.magicdraw.actions.MDAction;
-import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 @SuppressWarnings("serial")
@@ -31,6 +28,7 @@ public class InspectDiagramElementAction extends MDAction {
 	
 	public void actionPerformed(ActionEvent e) {
 		Element diagramElement = diagramPresentationElement.getElement();
+
 		CameoUtils.logGui("Diagram element has id:" + diagramElement.getID());
 		CameoUtils.logGui(Integer.toString(selectedPresentationElements.length) + " elements selected on diagram.");
 		

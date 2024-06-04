@@ -9,9 +9,9 @@ package org.aero.mtip.ModelElements.Activity;
 import java.util.HashMap;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.Behavior;
@@ -20,7 +20,7 @@ public class Action extends ActivityNode {
 	public Action(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ACTION;
+		this.metamodelConstant = SysmlConstants.ACTION;
 		this.xmlConstant = XmlTagConstants.ACTION;
 		this.element = f.createCallBehaviorActionInstance();
 	}

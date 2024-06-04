@@ -6,17 +6,16 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Requirements;
 
-
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 
 public class FunctionalRequirement extends Requirement {
 
 	public FunctionalRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.FUNCTIONAL_REQUIREMENT;
+		this.metamodelConstant = SysmlConstants.FUNCTIONAL_REQUIREMENT;
 		this.xmlConstant = XmlTagConstants.FUNCTIONAL_REQUIREMENT;
 		this.creationStereotype = SysML.getFunctionalRequirementStereotype();
 	}

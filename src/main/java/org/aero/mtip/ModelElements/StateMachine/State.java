@@ -3,7 +3,6 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.Collection;
@@ -11,11 +10,11 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.Behavior;
@@ -26,7 +25,7 @@ public class State extends CommonElement {
 	public State(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.STATE;
+		this.metamodelConstant = SysmlConstants.STATE;
 		this.xmlConstant = XmlTagConstants.STATE;
 		this.element = f.createStateInstance();
 	}

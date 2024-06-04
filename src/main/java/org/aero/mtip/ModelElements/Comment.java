@@ -7,9 +7,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements;
 
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -19,13 +19,15 @@ public class Comment extends CommonElement {
 	public Comment(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.COMMENT;
+		this.metamodelConstant = SysmlConstants.COMMENT;
 		this.xmlConstant = XmlTagConstants.COMMENT;
 		this.element = f.createCommentInstance();
 	}
+	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		super.createElement(project, owner, xmlElement);
+		
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_BODY)) {
 			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment comment = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment)element;
 			comment.setBody(xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_BODY));

@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.swing.JOptionPane;
 import org.aero.mtip.ModelElements.EnumerationLiteral;
+import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
 import org.w3c.dom.Node;
@@ -31,6 +32,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.IntegerTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
@@ -55,6 +57,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class CameoUtils {
+	@SuppressWarnings("serial")
 	public static HashMap<String, String> primitiveValueTypes = new HashMap<String, String>() {{
 		put(SysmlConstants.BOOLEAN, "16_5_1_12c903cb_1245415335546_39033_4086");
 		put(SysmlConstants.INTEGER, "_16_5_1_12c903cb_1245415335546_8641_4088");
@@ -62,11 +65,13 @@ public class CameoUtils {
 	    put(SysmlConstants.STRING, "_16_5_1_12c903cb_1245415335546_479030_4092");
 	}};
 	
+	@SuppressWarnings("serial")
 	public static HashMap<String, String> primitiveValueTypesByID = new HashMap<String, String>() {{
 		put("16_5_1_12c903cb_1245415335546_39033_4086", SysmlConstants.BOOLEAN);
 		put("_16_5_1_12c903cb_1245415335546_8641_4088", SysmlConstants.INTEGER);
 		put("_11_5EAPbeta_be00301_1147431819399_50461_1671", SysmlConstants.REAL);
 	    put("_16_5_1_12c903cb_1245415335546_479030_4092", SysmlConstants.STRING);
+	    put("_9_0_2_91a0295_1110274713995_297054_0", SysmlConstants.STRING); 		// UML Metamodel String representation
 	}};
 	
 	public static void logGui(String text) {
@@ -102,7 +107,12 @@ public class CameoUtils {
 		}
 	}
 	
+	@CheckForNull
 	public static Element findNearestRegion(Project project, Element owner) {
+		if (owner == null) {
+			return null;
+		}
+		
 		Region region = null;
 		Collection<Region> regions = null;
 
@@ -272,9 +282,9 @@ public class CameoUtils {
 		if(SysmlConstants.primitiveValueTypeIDs.contains(element.getLocalID())) {
 			return true;
 		}
+		
 		return false;
 	}
-	
 
 	public static boolean isCameoID(String id) {
 		if(id.startsWith("_")) {
@@ -317,6 +327,19 @@ public class CameoUtils {
 		return true;
 	}
 	
+	public static boolean isSupportedInstanceSpecification(Element element) {
+	    if (!(element instanceof InstanceSpecification)) {
+	        return true;
+	    }
+	        
+	    if(element.getHumanName().contentEquals(element.getHumanType())
+	        || Arrays.asList(SysmlConstants.RESERVE_INSTANCE_SPECIFICATION).contains(element.getHumanName())) {
+	        return false;
+	    }
+	        
+	    return true;
+	}
+	
 	public static void logExceptionToGui(Exception e) {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -345,6 +368,15 @@ public class CameoUtils {
       }
 
       return true;
+      
+	}
+	
+	public static String getElementName(Element element) {
+		if(element instanceof NamedElement) {
+			return ((NamedElement)element).getName();
+		}
+		
+		return element.getHumanName();
 	}
 	
 	@SuppressWarnings("deprecation")

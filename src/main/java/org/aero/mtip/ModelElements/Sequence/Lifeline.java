@@ -12,10 +12,11 @@ import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
@@ -23,11 +24,10 @@ import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.C
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.InteractionFragment;
 
 public class Lifeline extends CommonElement {
-
 	public Lifeline(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.LIFELINE;
+		this.metamodelConstant = SysmlConstants.LIFELINE;
 		this.xmlConstant = XmlTagConstants.LIFELINE;
 		this.element = f.createLifelineInstance();
 	}
@@ -137,6 +137,7 @@ public class Lifeline extends CommonElement {
 		org.w3c.dom.Element representsTag = XmlWriter.createMtipRelationship(represents, XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);
 		XmlWriter.add(relationships, representsTag);
 		
+		// Lifeline is not instanceof TypedElement so CommonElement writeTypedBy will not write type.
 		Type typedBy = represents.getType();
 		
 		if(typedBy == null) {
@@ -152,6 +153,10 @@ public class Lifeline extends CommonElement {
 		java.util.Collection<InteractionFragment> interactionFragments = lifeline.getCoveredBy();
 		
 		for(InteractionFragment interactionFragment : interactionFragments) {
+			if (!MtipUtils.isSupported(interactionFragment)) {
+				continue;
+			}
+			
 			org.w3c.dom.Element interactionFragmentTag = XmlWriter.createMtipRelationship(interactionFragment, XmlTagConstants.ATTRIBUTE_NAME_COVERED_BY);
 			XmlWriter.add(relationships, interactionFragmentTag);
 		}

@@ -6,9 +6,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.InternalBlock;
 
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -22,7 +22,7 @@ public class BindingConnector extends Connector {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.BINDINGCONNECTOR;
-		this.sysmlConstant = SysmlConstants.BINDING_CONNECTOR;
+		this.metamodelConstant = SysmlConstants.BINDING_CONNECTOR;
 		this.element= f.createConnectorInstance();
 	}
 

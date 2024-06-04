@@ -3,16 +3,15 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.Requirements;
 
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -24,7 +23,7 @@ public class Requirement extends CommonElement {
 	public Requirement(String name, String EAID) {
 		super(name, EAID);		
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.REQUIREMENT;
+		this.metamodelConstant = SysmlConstants.REQUIREMENT;
 		this.xmlConstant = XmlTagConstants.REQUIREMENT; 
 		this.creationStereotype = SysML.getRequirementStereotype();
 	}

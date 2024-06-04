@@ -10,9 +10,9 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
@@ -24,10 +24,11 @@ public class SignalEvent extends CommonElement {
 	public SignalEvent(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.SIGNAL_EVENT;
+		this.metamodelConstant = SysmlConstants.SIGNAL_EVENT;
 		this.xmlConstant = XmlTagConstants.SIGNAL_EVENT;
 		this.element = f.createSignalEventInstance();
 	}
+	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
 		com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent se = (com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent)super.createElement(project, owner, xmlElement);
@@ -39,6 +40,7 @@ public class SignalEvent extends CommonElement {
 		
 		return se;
 	}
+	
 	@Override
 	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem xmlElement) {
 		if(xmlElement.hasAttribute(XmlTagConstants.SIGNAL_TAG)) {

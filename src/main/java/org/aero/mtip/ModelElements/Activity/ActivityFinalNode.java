@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class ActivityFinalNode extends ActivityNode {
 
 	public ActivityFinalNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ACTIVITY_FINAL_NODE;
+		this.metamodelConstant = SysmlConstants.ACTIVITY_FINAL_NODE;
 		this.xmlConstant = XmlTagConstants.ACTIVITY_FINAL_NODE;
 		this.element = f.createActivityFinalNodeInstance();
 	}

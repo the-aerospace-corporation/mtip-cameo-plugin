@@ -7,9 +7,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
@@ -19,7 +19,7 @@ public class Port extends CommonElement {
 	public Port(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.PORT;
+		this.metamodelConstant = SysmlConstants.PORT;
 		this.xmlConstant = XmlTagConstants.PORT;
 		this.element = f.createPortInstance();
 	}

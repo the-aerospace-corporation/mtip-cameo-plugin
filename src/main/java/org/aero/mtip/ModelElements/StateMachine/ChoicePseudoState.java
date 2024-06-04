@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.StateMachine;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKindEnum;
 
@@ -16,7 +16,7 @@ public class ChoicePseudoState extends PseudoState {
 	public ChoicePseudoState(String name, String EAID) {
 		super(name, EAID);
 		this.psKind = PseudostateKindEnum.CHOICE;		
-		this.sysmlConstant = SysmlConstants.CHOICE_PSEUDO_STATE;
+		this.metamodelConstant = SysmlConstants.CHOICE_PSEUDO_STATE;
 		this.xmlConstant = XmlTagConstants.CHOICE_PSEUDO_STATE;
 	}
 }

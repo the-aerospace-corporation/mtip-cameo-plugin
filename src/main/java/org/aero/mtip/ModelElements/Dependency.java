@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class Dependency extends CommonDirectedRelationship {
 
 	public Dependency(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DEPENDENCY;
+		this.metamodelConstant = SysmlConstants.DEPENDENCY;
 		this.xmlConstant = XmlTagConstants.DEPENDENCY;
 		this.element = f.createDependencyInstance();
 	}

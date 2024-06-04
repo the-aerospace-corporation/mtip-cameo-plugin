@@ -7,10 +7,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements;
 
 import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 
 import com.nomagic.magicdraw.core.Project;
@@ -22,7 +22,7 @@ public class Link extends CommonElement {
 	public Link(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.LINK;
+		this.metamodelConstant = SysmlConstants.LINK;
 		this.xmlConstant = XmlTagConstants.LINK;
 		this.element = f.createInstanceSpecificationInstance();
 	}

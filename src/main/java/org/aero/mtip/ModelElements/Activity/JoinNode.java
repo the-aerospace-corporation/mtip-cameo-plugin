@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class JoinNode extends ActivityNode {
 
 	public JoinNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.JOIN_NODE;
+		this.metamodelConstant = SysmlConstants.JOIN_NODE;
 		this.xmlConstant = XmlTagConstants.JOIN_NODE;
 		this.element = f.createJoinNodeInstance();
 	}

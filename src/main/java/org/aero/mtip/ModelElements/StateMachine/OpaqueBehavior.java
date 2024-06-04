@@ -3,16 +3,15 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.List;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -22,7 +21,7 @@ public class OpaqueBehavior extends CommonElement {
 	public OpaqueBehavior(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.OPAQUE_BEHAVIOR;
+		this.metamodelConstant = SysmlConstants.OPAQUE_BEHAVIOR;
 		this.xmlConstant = XmlTagConstants.OPAQUE_BEHAVIOR;
 		this.element = f.createOpaqueBehaviorInstance();
 	}

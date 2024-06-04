@@ -7,27 +7,17 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.UseCase;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 
 public class UseCaseDiagram  extends AbstractDiagram{
 
 	public UseCaseDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 // SysMLConstants.SYSML_USE_CASE_DIAGRAM
-		 this.sysmlConstant = "SysML Use Case Diagram";
+		 this.metamodelConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.USECASEDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_USE_CASE_DIAGRAM;
 		 this.allowableElements = SysmlConstants.UC_TYPES;
 	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return this.sysmlConstant;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.USECASEDIAGRAM;
-	}
-	
 }

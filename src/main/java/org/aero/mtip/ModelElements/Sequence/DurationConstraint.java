@@ -11,10 +11,10 @@ import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
@@ -22,11 +22,10 @@ import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.Duration;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationInterval;
 
 public class DurationConstraint extends CommonElement {
-
 	public DurationConstraint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DURATION_CONSTRAINT;
+		this.metamodelConstant = SysmlConstants.DURATION_CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.DURATION_CONSTRAINT;
 		this.element = f.createDurationConstraintInstance();
 	}

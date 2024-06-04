@@ -3,19 +3,18 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.StateMachine;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class Region extends CommonElement {
 
 	public Region(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.REGION;
+		this.metamodelConstant = SysmlConstants.REGION;
 		this.xmlConstant = XmlTagConstants.REGION;
 		this.element = f.createRegionInstance();
 	}

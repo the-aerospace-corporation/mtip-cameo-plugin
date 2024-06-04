@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.StateMachine;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKindEnum;
 
@@ -15,8 +15,8 @@ public class EntryPoint extends PseudoState {
 
 	public EntryPoint(String name, String EAID) {
 		super(name, EAID);
-		this.psKind = PseudostateKindEnum.ENTRYPOINT;		
-		this.sysmlConstant = SysmlConstants.ENTRY_POINT;
+		this.psKind = PseudostateKindEnum.ENTRYPOINT;
+		this.metamodelConstant = SysmlConstants.ENTRY_POINT;
 		this.xmlConstant = XmlTagConstants.ENTRY_POINT;
 	}
 }

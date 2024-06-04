@@ -7,10 +7,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
@@ -24,7 +24,7 @@ public class MetaClass extends CommonElement {
 
 	public MetaClass(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.METACLASS;
+		this.metamodelConstant = SysmlConstants.METACLASS;
 		this.xmlConstant = XmlTagConstants.METACLASS;
 	}
 

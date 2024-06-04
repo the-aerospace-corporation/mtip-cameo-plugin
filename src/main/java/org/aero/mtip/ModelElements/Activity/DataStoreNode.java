@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class DataStoreNode extends ActivityNode {
 
 	public DataStoreNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DATA_STORE_NODE;
+		this.metamodelConstant = SysmlConstants.DATA_STORE_NODE;
 		this.xmlConstant = XmlTagConstants.DATA_STORE_NODE;
 		this.element = f.createDataStoreNodeInstance();
 	}

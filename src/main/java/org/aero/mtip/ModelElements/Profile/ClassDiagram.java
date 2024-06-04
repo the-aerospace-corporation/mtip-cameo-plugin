@@ -7,8 +7,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.magicdraw.uml.DiagramTypeConstants;
 
@@ -16,9 +16,9 @@ public class ClassDiagram extends AbstractDiagram {
 
 	public ClassDiagram(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.CLASSDIAGRAM;
-		 this.xmlConstant = XmlTagConstants.CLASSDIAGRAM;
-		 this.allowableElements = SysmlConstants.CLASSDIAGRAM_TYPES;
+		this.metamodelConstant = SysmlConstants.CLASSDIAGRAM;
+		this.xmlConstant = XmlTagConstants.CLASSDIAGRAM;
+		this.allowableElements = SysmlConstants.CLASSDIAGRAM_TYPES;
 	}
 	
 	@Override
@@ -30,5 +30,4 @@ public class ClassDiagram extends AbstractDiagram {
 	public String getDiagramType() {
 		return XmlTagConstants.PROFILEDIAGRAM;
 	}
-
 }

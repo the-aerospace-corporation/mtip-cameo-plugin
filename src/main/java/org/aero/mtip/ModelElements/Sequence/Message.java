@@ -3,7 +3,6 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.Sequence;
 
 import java.util.Collection;
@@ -11,10 +10,10 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
@@ -28,7 +27,7 @@ public class Message extends CommonRelationship {
 	public Message(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.MESSAGE;
+		this.metamodelConstant = SysmlConstants.MESSAGE;
 		this.xmlConstant = XmlTagConstants.MESSAGE;
 		this.element = f.createMessageInstance();
 	}
@@ -38,7 +37,7 @@ public class Message extends CommonRelationship {
 		super.createElement(project, owner, xmlElement);
 		
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
-		
+
 		String messageSort = xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_MESSAGE_SORT);
 		MessageSort messageSortEnum = MessageSortEnum.getByName(messageSort);
 		message.setMessageSort(messageSortEnum);
@@ -170,28 +169,25 @@ public class Message extends CommonRelationship {
 	}
 	
 	@Override
-	public void getSupplier(Element element) {
+	public Element getSupplier(Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		if(message.getSendEvent() instanceof OccurrenceSpecification) {
 			OccurrenceSpecification sendEvent = (OccurrenceSpecification) message.getSendEvent();
 			Collection<com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline> covered = sendEvent.getCovered();
-			this.supplier = covered.iterator().next();
-		} else {
-			this.supplier = null;
-		}
-		
+			return covered.iterator().next();
+		} 
+		return null;
 	}
 	
 	@Override
-	public void getClient(Element element) {
+	public Element getClient(Element element) {
 		com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message message = (com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message)element;
 		if(message.getReceiveEvent() instanceof OccurrenceSpecification) {
-			OccurrenceSpecification receiveEvent = (OccurrenceSpecification) message.getReceiveEvent();
-			Collection<com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline> covered = receiveEvent.getCovered();
-			this.client = covered.iterator().next();
-		} else {
-			this.client = null;
-		}
-		
+			OccurrenceSpecification sendEvent = (OccurrenceSpecification) message.getReceiveEvent();
+			Collection<com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline> covered = sendEvent.getCovered();
+			return covered.iterator().next();
+		} 
+		return null;
+
 	}
 }

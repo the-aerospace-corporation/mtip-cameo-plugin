@@ -1,9 +1,7 @@
 package org.aero.mtip.ModelElements;
 
-import java.util.ArrayList;
-
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
@@ -14,7 +12,7 @@ public class CustomDiagram extends AbstractDiagram {
 
 	public CustomDiagram(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.CUSTOM_DIAGRAM;
+		this.metamodelConstant = SysmlConstants.CUSTOM_DIAGRAM;
 		this.allowableElements = new String[0];
 	}
 	

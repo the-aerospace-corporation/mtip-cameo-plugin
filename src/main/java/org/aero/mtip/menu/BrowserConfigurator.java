@@ -27,18 +27,18 @@ public class BrowserConfigurator implements BrowserContextAMConfigurator {
 	}
 
 	public void configure(ActionsManager manager, Tree tree) {
-		ActionsCategory huddleCategory = manager.getCategory("MTIP");
-		if(huddleCategory == null) {
-			huddleCategory = new MDActionsCategory("MTIP", "MTIP");
-			huddleCategory.setNested(true);
+		ActionsCategory mtipCategory = manager.getCategory("MTIP");
+		if(mtipCategory == null) {
+			mtipCategory = new MDActionsCategory("MTIP", "MTIP");
+			mtipCategory.setNested(true);
 			ActionsCategory helpCategory = manager.getCategory(ActionsID.HELP);
 			if(helpCategory !=null) {
 				List<ActionsCategory> categories = manager.getCategories();
 				int indexOfCat = categories.indexOf(helpCategory);
-				manager.addCategory(indexOfCat,huddleCategory);
+				manager.addCategory(indexOfCat,mtipCategory);
 			}
 			else {
-				manager.addCategory(huddleCategory);
+				manager.addCategory(mtipCategory);
 			}	
 		}
 		
@@ -55,7 +55,7 @@ public class BrowserConfigurator implements BrowserContextAMConfigurator {
 		        category.addAction(new ExportPackageAction(null, "Export XML", startPackage));
 		        
 		        importExportCategory.addAction(category);
-				huddleCategory.addAction(importExportCategory);
+				mtipCategory.addAction(importExportCategory);
 			}
 		}
 	}

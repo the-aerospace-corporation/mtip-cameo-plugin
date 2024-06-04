@@ -4,7 +4,7 @@ Copyright 2022 The Aerospace Corporation
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
-package org.aero.mtip.util;
+package org.aero.mtip.constants;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,6 +14,9 @@ import java.util.Set;
 
 public class SysmlConstants {
 	//Categorization constants
+	public static final String SYSML = "SysML";
+	public static final String METAMODEL_PREFIX = "sysml";
+	
 	public static final String ELEMENT = "Element";
 	public static final String RELATIONSHIP = "Relationship";
 	public static final String DIAGRAM = "Diagram";

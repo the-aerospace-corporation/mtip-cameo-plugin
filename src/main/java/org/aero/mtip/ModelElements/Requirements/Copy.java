@@ -7,9 +7,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Requirements;
 
 import org.aero.mtip.ModelElements.CommonDirectedRelationship;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -22,7 +22,7 @@ public class Copy extends CommonDirectedRelationship {
 	public Copy(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.COPY;
+		this.metamodelConstant = SysmlConstants.COPY;
 		this.xmlConstant = XmlTagConstants.COPY;
 		this.element = f.createAbstractionInstance();
 	}

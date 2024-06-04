@@ -13,12 +13,14 @@ import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.uaf.UAFProfile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import com.nomagic.magicdraw.core.Application;
@@ -56,7 +58,7 @@ import com.nomagic.uml2.impl.ElementsFactory;
 public abstract class CommonElement {
 	protected String name;
 	protected String EAID;
-	protected String sysmlConstant;
+	protected String metamodelConstant;
 	protected String xmlConstant;
 	protected String creationType;
 	protected ElementsFactory f;
@@ -82,6 +84,7 @@ public abstract class CommonElement {
 		setName();
 		setOwner(owner);
 		addInitialStereotype();
+		addMetamodelConstantStereotype();
 		setClassifier();
 		applyClassifier();
 		addDocumentation(xmlElement);
@@ -554,6 +557,7 @@ public abstract class CommonElement {
 	
 	public Element createClassWithStereotype(Project project, Stereotype stereotype, Element owner) {
 		element = project.getElementsFactory().createClassInstance();
+		
 		if (stereotype != null) {
 			StereotypesHelper.addStereotype(element, stereotype);
 		}
@@ -693,7 +697,7 @@ public abstract class CommonElement {
 		}
 		return attributes;
 	}
-	
+
 	protected void addDocumentation(XMLItem xmlElement) {
 		if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_KEY_DOCUMENTATION)) {
 			ModelHelper.setComment(element, xmlElement.getAttribute(XmlTagConstants.ATTRIBUTE_KEY_DOCUMENTATION));
@@ -767,6 +771,21 @@ public abstract class CommonElement {
 		}
 	}
 	
+	protected void addMetamodelConstantStereotype() {
+		if (!MtipUtils.isUafEntity(metamodelConstant)) {
+			return;
+		}
+		
+		Stereotype metamodelConstantStereotype = UAFProfile.getStereotype(metamodelConstant);
+		
+		if (metamodelConstantStereotype == null) {
+			Logger.log(String.format("Unable to get %s stereotype from UAF Profile adding initial stereotypes.", metamodelConstant));
+			return;
+		}
+		
+		StereotypesHelper.addStereotype(element, metamodelConstantStereotype);
+	}
+	
 	protected void setClassifier() {
 		
 	}
@@ -792,8 +811,8 @@ public abstract class CommonElement {
 	public void addStereotypeTaggedValues(XMLItem xmlElement) {
 		for(TaggedValue tv : xmlElement.getTaggedValues()) {
 			try {
-				Profile profile = StereotypesHelper.getProfile(Importer.getProject(), tv.getProfileName());
-				Stereotype stereotype = StereotypesHelper.getStereotype(Importer.getProject(), tv.getStereotypeName(), profile);
+				Profile profile = StereotypesHelper.getProfile(Application.getInstance().getProject(), tv.getProfileName());
+				Stereotype stereotype = StereotypesHelper.getStereotype(Application.getInstance().getProject(), tv.getStereotypeName(), profile);
 				Property prop = StereotypesHelper.getPropertyByName(stereotype, tv.getValueName());
 				
 				if (profile == null
@@ -828,9 +847,11 @@ public abstract class CommonElement {
 
 				taggedValue.addConvertedValue(valueElement);
 			} catch (NullPointerException npe) {
-				Logger.log("Unable to add stereotype tagged value to element.");
+				Logger.log("Unable to add stereotype tagged value to element. See stack trace:");
+				Logger.logException(npe);
 			} catch (IllegalArgumentException iae) {
-				Logger.log("Unable to add stereotype tagged value to element.");
+				Logger.log("Unable to add stereotype tagged value to element. See stack trace:");
+				Logger.logException(iae);
 			}
 		}
 	}
@@ -855,7 +876,7 @@ public abstract class CommonElement {
 		} else if(valueType.contentEquals(SysmlConstants.ELEMENT)) {
 			// Add checker to create dependent elements of common element 
 			ElementValue ev = f.createElementValueInstance();
-			ev.setElement((Element) Importer.getProject().getElementByID(Importer.idConversion(value)));
+			ev.setElement((Element) Application.getInstance().getProject().getElementByID(Importer.idConversion(value)));
 			return ev;
 		} else if(valueType.contentEquals(XmlTagConstants.OPAQUE_EXPRESSION)) {
 			OpaqueExpression oe = f.createOpaqueExpressionInstance();
@@ -870,7 +891,7 @@ public abstract class CommonElement {
 	}
 	
 	public String getElementType() {
-		return this.sysmlConstant;
+		return this.metamodelConstant;
 	}
 	
 	public String getElementID() {

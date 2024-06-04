@@ -1,3 +1,4 @@
+
 /* The Aerospace Corporation MTIP_Cameo
 Copyright 2022 The Aerospace Corporation
 
@@ -15,16 +16,21 @@ import java.util.List;
 import java.util.Map;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.CameoDiagramConstants;
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.NoRectangleDefinedException;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
@@ -51,9 +57,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected String[] allowableElements = null;
 	protected List<String> disallowedElements = new ArrayList<String>();
 	protected List<Element> subElements = null;
-	
-	
+	protected String cameoDiagramConstant = null;	
 	protected Element exportingDiagram = null;
+	
     static {
     	
 // ALL POSSIBLE DIAGRAM TYPES
@@ -150,14 +156,14 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
         aMap.put("Requirement Diagram",SysmlConstants.REQ );
 //        aMap.put("Simulation Configuration Diagram", );
         
-        aMap.put("SysML Activity Diagram", SysmlConstants.ACT );
-        aMap.put("SysML Block Definition Diagram", SysmlConstants.BDD );
-        aMap.put("SysML Internal Block Diagram", SysmlConstants.IBD );
-        aMap.put("SysML Package Diagram", SysmlConstants.PKG );
-        aMap.put("SysML Parametric Diagram", SysmlConstants.PAR);
-        aMap.put("SysML Sequence Diagram", SysmlConstants.SEQ);
-        aMap.put("SysML State Machine Diagram", SysmlConstants.STM);
-        aMap.put("SysML Use Case Diagram", SysmlConstants.UC);
+        aMap.put(SysMLConstants.SYSML_ACTIVITY_DIAGRAM, SysmlConstants.ACT );
+        aMap.put(SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM, SysmlConstants.BDD );
+        aMap.put(SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM, SysmlConstants.IBD );
+        aMap.put(SysMLConstants.SYSML_PACKAGE_DIAGRAM, SysmlConstants.PKG );
+        aMap.put(SysMLConstants.SYSML_PARAMETERIC_DIAGRAM, SysmlConstants.PAR);
+        aMap.put(SysMLConstants.SYSML_SEQUENCE_DIAGRAM, SysmlConstants.SEQ);
+        aMap.put(SysMLConstants.SYSML_STATE_MACHINE_DIAGRAM, SysmlConstants.STM);
+        aMap.put(SysMLConstants.SYSML_USE_CASE_DIAGRAM, SysmlConstants.UC);
         
 //        aMap.put("Time Diagram", );
 //        aMap.put("User Interface Modeling Diagram", );
@@ -185,6 +191,127 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 //        aMap.put("Blackbox ICD Table", );
 //        aMap.put("Whitebox ICD Table", );
         
+        // Operational
+        aMap.put(CameoDiagramConstants.OPERATIONAL_PROCESS_FLOW, UAFConstants.OPERATIONAL_PROCESS_FLOW);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_CONNECTIVITY, UAFConstants.OPERATIONAL_CONNECTIVITY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_CONSTRAINTS_DEFINITION, UAFConstants.OPERATIONAL_CONSTRAINTS_DEFINITION);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_FREE_FORM_TAXONOMY, UAFConstants.OPERATIONAL_FREE_FORM_TAXONOMY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_PROCESSES, UAFConstants.OPERATIONAL_PROCESSES_DIAGRAM);
+        
+        aMap.put(CameoDiagramConstants.OPERATIONAL_STRUCTURE, UAFConstants.OPERATIONAL_STRUCTURE);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_TAXONOMY, UAFConstants.OPERATIONAL_TAXONOMY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY, UAFConstants.OPERATIONAL_HIGH_LEVEL_TAXONOMY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_INTERACTION_SCENARIOS, UAFConstants.OPERATIONAL_INTERACTION_SCENARIOS);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_INTERNAL_CONNECTIVITY, UAFConstants.OPERATIONAL_INTERNAL_CONNECTIVITY);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_PARAMETRIC, UAFConstants.OPERATIONAL_PARAMETRIC);
+        aMap.put(CameoDiagramConstants.OPERATIONAL_STATES, UAFConstants.OPERATIONAL_STATES);
+        
+        // Actual Resources
+        aMap.put(CameoDiagramConstants.ACTUAL_RESOURCES_CONNECTIVITY, UAFConstants.ACTUAL_RESOURCES_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.ACTUAL_RESOURCES_STRUCTURE, UAFConstants.ACTUAL_RESOURCES_STRUCTURE_DIAGRAM);
+        
+        // Parameters
+        aMap.put(CameoDiagramConstants.ENVIRONMENT, UAFConstants.ENVIRONMENT_DIAGRAM);
+        
+        // Personnel
+        aMap.put(CameoDiagramConstants.PERSONNEL_CONNECTIVITY, UAFConstants.PERSONNEL_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_INTERACTION_SCENARIOS, UAFConstants.PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_PROCESS_FLOW, UAFConstants.PERSONNEL_PROCESSES_FLOW_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_PROCESSES, UAFConstants.PERSONNEL_PROCESSES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_STATES, UAFConstants.PERSONNEL_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_STRUCTURE, UAFConstants.PERSONNEL_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PERSONNEL_TAXONOMY, UAFConstants.PERSONNEL_TAXONOMY_DIAGRAM);
+
+        // Projects
+        aMap.put(CameoDiagramConstants.PROJECTS_TAXONOMY, UAFConstants.PROJECTS_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PROJECTS_STRUCTURE, UAFConstants.PROJECTS_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PROJECTS_CONNECTIVITY, UAFConstants.PROJECTS_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.PROJECTS_PROCESSES, UAFConstants.PROJECTS_PROCESSES_DIAGRAM);
+        
+        //Resources
+        aMap.put(CameoDiagramConstants.RESOURCES_CONNECTIVITY, UAFConstants.RESOURCES_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_INTERACTION_SCENARIOS, UAFConstants.RESOURCES_INTERACTION_SCENARIOS_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_PROCESSES, UAFConstants.RESOURCES_PROCESSES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_STATES, UAFConstants.RESOURCES_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_STRUCTURE, UAFConstants.RESOURCES_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_TAXONOMY, UAFConstants.RESOURCES_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.RESOURCES_PROCESS_FLOW, UAFConstants.RESOURCES_PROCESS_FLOW);
+        
+        // Security
+        aMap.put(CameoDiagramConstants.SECURITY_TAXONOMY, UAFConstants.SECURITY_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_STRUCTURE, UAFConstants.SECURITY_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_CONNECTIVITY, UAFConstants.SECURITY_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_PROCESSES, UAFConstants.SECURITY_PROCESSES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_PROCESSES_FLOW, UAFConstants.SECURITY_PROCESSES_FLOW_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SECURITY_CONSTRAINTS, UAFConstants.SECURITY_CONSTRAINTS_DIAGRAM);
+
+        // Services
+        aMap.put(CameoDiagramConstants.SERVICES_CONNECTIVITY, UAFConstants.SERVICES_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_CONSTRAINTS_DEFINITION, UAFConstants.SERVICES_CONSTRAINTS_DEFINITION_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_INTERACTION_SCENARIOS, UAFConstants.SERVICES_INTERACTION_SCENARIOS_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_PROCESSES, UAFConstants.SERVICES_PROCESSES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_STATES, UAFConstants.SERVICES_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_STRUCTURE, UAFConstants.SERVICES_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.SERVICES_TAXONOMY, UAFConstants.SERVICES_TAXONOMY_DIAGRAM);
+        
+        // Standards
+        aMap.put("Standards Taxonomy", UAFConstants.STANDARDS_TAXONOMY_DIAGRAM);
+        aMap.put("Standards Structure", UAFConstants.STANDARDS_STRUCTURE_DIAGRAM);
+        
+        // Strategic
+        aMap.put(CameoDiagramConstants.STRATEGIC_TAXONOMY, UAFConstants.STRATEGIC_TAXONOMY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_STRUCTURE, UAFConstants.STRATEGIC_STRUCTURE_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_CONNECTIVITY, UAFConstants.STRATEGIC_CONNECTIVITY_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_STATES, UAFConstants.STRATEGIC_STATES_DIAGRAM);
+        aMap.put(CameoDiagramConstants.STRATEGIC_CONSTRAINTS, UAFConstants.STRATEGIC_CONSTRAINTS_DIAGRAM);
+        
+        // Summary and Overview
+        aMap.put(CameoDiagramConstants.SUMMARY_AND_OVERVIEW, UAFConstants.SUMMARY_AND_OVERVIEW_DIAGRAM);
+        
+        // DoDAF Diagram mapping
+        aMap.put("CV-1 Vision", DoDAFConstants.CV1);
+        aMap.put("CV-2 Capability Taxonomy", DoDAFConstants.CV2);
+        aMap.put("CV-3", DoDAFConstants.CV3);
+        aMap.put("CV-4 Capability Dependencies", DoDAFConstants.CV4);
+        aMap.put("DODAF2_CV-5", DoDAFConstants.CV5);
+        aMap.put("CV-6 Capability to Operational Activities Mapping", DoDAFConstants.CV6);
+        aMap.put("CV-7 Capability to Services Mapping", DoDAFConstants.CV7);
+        
+        aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV1);
+        aMap.put("SV-2 Systems Communications Description", DoDAFConstants.SV2);
+        // aMap.put("SV-3 Systems-Systems Matrix", DoDAFConstants.SV3);
+        aMap.put("SV-4 Systems Functionality Description", DoDAFConstants.SV4);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5A);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5B);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV5C);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV6);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV7);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV8);
+        // aMap.put("SV-1 Systems Interface Description", DoDAFConstants.SV9);
+        aMap.put("SV-10a Systems Parametric", DoDAFConstants.SV10A);
+        aMap.put("SV-10b Systems State Transition Description", DoDAFConstants.SV10B);
+        aMap.put("SV-10c Systems Event-Trace Description", DoDAFConstants.SV10C);
+        aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV1);
+        aMap.put("OV-2 Operational Resource Flow Description", DoDAFConstants.OV2);
+        // aMap.put("OV-3 Operational Resource Flow Description", DoDAFConstants.OV3); Table
+        aMap.put("OV-4 Organizational Relationships Chart", DoDAFConstants.OV4);
+        aMap.put("OV-5a Operational Activity Decomposition Tree", DoDAFConstants.OV5A);
+        aMap.put("OV-5b Operational Activity Model", DoDAFConstants.OV5B);
+        // aMap.put("OV-1 High-Level Operational Concept Graphic", DoDAFConstants.OV6A); Table
+        aMap.put("OV-6b Operational State Transition Description", DoDAFConstants.OV6B);
+        aMap.put("OV-6c Operational Event-Trace Description", DoDAFConstants.OV6C);
+
+        aMap.put("AV-1 Overview and Summary Information", DoDAFConstants.AV1);
+//        aMap.put("AV-2?", DoDAFConstants.AV2);
+        
+        aMap.put("DIV-1 Conceptual Data Model", DoDAFConstants.DIV1);
+        aMap.put("DIV-2 Logical Data Model", DoDAFConstants.DIV2);
+        aMap.put("DIV-3 Physical Data Model", DoDAFConstants.DIV3);
+        
+        aMap.put("PV-1 Project Portfolio Relationships", DoDAFConstants.PV1);
+//        aMap.put("PV-2", DoDAFConstants.PV2);
+//        aMap.put("PV-3", DoDAFConstants.PV3);
+        
         diagramToType = Collections.unmodifiableMap(aMap);
     }
     
@@ -192,20 +319,31 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		 super(name, EAID);
 	}
 	
-	//Abstract methods
-	public abstract String getSysmlConstant();
-	public abstract String getDiagramType();
-
+	public String getSysmlConstant() {
+		return this.cameoDiagramConstant;
+	}
+	
+	public String getDiagramType() {
+		return this.xmlConstant;
+	}
+	
 	@Override
 	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+		if (getSysmlConstant() == null) {
+			Logger.log(String.format("Internal error. No diagram constant defined for %s", xmlElement.getType()));
+			return null;
+		}
+		
 		try {
 			element = ModelElementsManager.getInstance().createDiagram(getSysmlConstant(), (Namespace) owner);
 		} catch (ReadOnlyElementException e) {
 			Logger.log(String.format("ReadOnlyElementException encountered creating diagram %s.", getSysmlConstant()));
+		} catch (NullPointerException npe) {
+			Logger.log(String.format("Failed to create diagram based on cameoDiagram Contant %s for id %s", getSysmlConstant(), xmlElement.getImportId()));
+			return null;
 		}
 		
 		((NamedElement) element).setName(name);
-
 		return element;
 	}
 	
@@ -373,7 +511,14 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		Element element = presentationElement.getElement();
 		
 		// Presentation elements without an element attached will not be exported. This includes TextViews and other diagram info and styling not currently supported.
-		if (element == null || !isValidDiagramElement(element)) {
+		if (element == null 
+				|| isAdded(element)
+				|| !isValidDiagramElement(element)
+				|| !MtipUtils.isSupported(element)) {
+			return;
+		}
+		
+		if(diagramElementIDs.contains(element.getID())) {
 			return;
 		}
 		
@@ -383,9 +528,7 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 			return; 
 		}
 			
-		if(diagramElementIDs.contains(element.getID())) {
-			return;
-		}
+
 		
 		diagramElementIDs.add(element.getID());
 		
@@ -426,11 +569,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 	protected void writeDiagramRelationship(org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement) {
 		Element relationship = presentationElement.getElement();
 		
-		if (relationship == null) {
-			return;
-		}
-		
-		if(diagramElementIDs.contains(relationship.getID())) {
+		if (relationship == null
+				|| isAdded(relationship)
+				|| !MtipUtils.isSupported(relationship)) {
 			return;
 		}
 		
@@ -493,5 +634,9 @@ public abstract class  AbstractDiagram  extends CommonElement implements ModelDi
 		} catch(NoRectangleDefinedException nrde) {
 			return null;
 		}
+	}
+	
+	protected boolean isAdded(Element element) {
+		return diagramElementIDs.contains(element.getID());
 	}
 }

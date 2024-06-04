@@ -9,11 +9,11 @@ package org.aero.mtip.ModelElements.InternalBlock;
 import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class ConstraintProperty extends CommonElement {
@@ -22,7 +22,7 @@ public class ConstraintProperty extends CommonElement {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.CONSTRAINT_PROPERTY;
-		this.sysmlConstant = SysmlConstants.CONSTRAINT_PROPERTY;
+		this.metamodelConstant = SysmlConstants.CONSTRAINT_PROPERTY;
 		this.element = f.createPropertyInstance();
 		this.creationStereotype = MDCustomizationForSysML.getConstraintPropertyStereotype();
 	}

@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class SysmlPackage extends CommonElement{
 	public SysmlPackage(String name, String EAID)  {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.PACKAGE;
-		this.sysmlConstant = SysmlConstants.PACKAGE;
+		this.metamodelConstant = SysmlConstants.PACKAGE;
 		this.element = f.createPackageInstance();
 	}
 }

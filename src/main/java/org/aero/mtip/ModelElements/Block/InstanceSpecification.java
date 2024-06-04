@@ -3,7 +3,6 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.Block;
 
 import java.util.ArrayList;
@@ -12,9 +11,9 @@ import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import org.apache.commons.lang.ArrayUtils;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -26,7 +25,7 @@ public class InstanceSpecification extends CommonElement {
 	public InstanceSpecification(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.INSTANCE_SPECIFICATION;
+		this.metamodelConstant = SysmlConstants.INSTANCE_SPECIFICATION;
 		this.xmlConstant = XmlTagConstants.INSTANCESPECIFICATION;
 		this.element = f.createInstanceSpecificationInstance();
 	}

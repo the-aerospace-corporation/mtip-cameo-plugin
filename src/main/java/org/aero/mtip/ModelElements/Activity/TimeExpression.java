@@ -11,10 +11,10 @@ import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
@@ -25,7 +25,7 @@ public class TimeExpression extends CommonElement {
 	public TimeExpression(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.TIME_EXPRESSION;
+		this.metamodelConstant = SysmlConstants.TIME_EXPRESSION;
 		this.xmlConstant = XmlTagConstants.TIMEEXPRESSION;
 		this.element = f.createTimeExpressionInstance();
 	}
@@ -90,15 +90,16 @@ public class TimeExpression extends CommonElement {
 			
 			Observation observation = (Observation)element;
 			observations.add(observation);			
-		}		
+		}
 	}
 
 	@Override
 	public org.w3c.dom.Element writeToXML(Element element) {
 		org.w3c.dom.Element data = super.writeToXML(element);
+		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		writeExpr(relationships, element);
+		writeExpr(attributes, element);
 		writeObservation(relationships, element);
 		
 		return data;
@@ -113,7 +114,7 @@ public class TimeExpression extends CommonElement {
 			return;
 		}
 		
-		org.w3c.dom.Element exprTag = XmlWriter.createMtipRelationship(vs, XmlTagConstants.ATTRIBUTE_NAME_EXPR);		
+		org.w3c.dom.Element exprTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.ATTRIBUTE_NAME_EXPR);
 		XmlWriter.add(relationships, exprTag);
 	}
 	

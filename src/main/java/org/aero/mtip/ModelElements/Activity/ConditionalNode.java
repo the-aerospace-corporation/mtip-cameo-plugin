@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class ConditionalNode extends ActivityNode {
 
 	public ConditionalNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CONDITIONAL_NODE;
+		this.metamodelConstant = SysmlConstants.CONDITIONAL_NODE;
 		this.xmlConstant = XmlTagConstants.CONDITIONAL_NODE;
 		this.element = f.createConditionalNodeInstance();
 	}

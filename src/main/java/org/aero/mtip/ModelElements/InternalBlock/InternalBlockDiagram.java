@@ -3,20 +3,20 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.InternalBlock;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.List;
 import org.aero.mtip.ModelElements.AbstractDiagram;
+import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.PartView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
@@ -28,20 +28,10 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 
 	public InternalBlockDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 // SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM
-		 this.sysmlConstant = "SysML Internal Block Diagram";
+		 this.metamodelConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.INTERNALBLOCKDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_INTERNAL_BLOCK_DIAGRAM;
 		 this.allowableElements = SysmlConstants.IBD_TYPES;
-	}
-
-	@Override
-	public String getSysmlConstant() {
-		return this.sysmlConstant;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.INTERNALBLOCKDIAGRAM;
 	}
 	
 	public boolean createPresentationElement(Project project, Element element, List<Rectangle> locations, PresentationElement presentationDiagram, int counter, boolean noPosition) throws ReadOnlyElementException {

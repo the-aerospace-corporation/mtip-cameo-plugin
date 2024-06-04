@@ -2,11 +2,11 @@ package org.aero.mtip.ModelElements.Activity;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -28,7 +28,7 @@ public class Parameter extends CommonElement {
 	public Parameter(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.PARAMETER;
+		this.metamodelConstant = SysmlConstants.PARAMETER;
 		this.xmlConstant = XmlTagConstants.SYSML_PARAMETER;
 		this.element = f.createParameterInstance();
 	}

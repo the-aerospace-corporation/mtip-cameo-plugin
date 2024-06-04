@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class EnumerationLiteral extends CommonElement {
 
 	public EnumerationLiteral(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.ENUMERATION_LITERAL;
+		this.metamodelConstant = SysmlConstants.ENUMERATION_LITERAL;
 		this.xmlConstant = XmlTagConstants.ENUMERATION_LITERAL;
 		this.element = f.createEnumerationLiteralInstance();
 	}

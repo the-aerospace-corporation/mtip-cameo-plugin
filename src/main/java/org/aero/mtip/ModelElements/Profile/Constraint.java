@@ -11,9 +11,9 @@ import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -22,10 +22,11 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 public class Constraint extends CommonElement {
 	public static final String VALUE_SPECIFICATION = "valueSpecification";
 	public static final String CONSTRAINED_ELEMENT = "constrainedElement";
+	
 	public Constraint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CONSTRAINT;
+		this.metamodelConstant = SysmlConstants.CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.CONSTRAINT;
 		this.element = f.createConstraintInstance();
 	}

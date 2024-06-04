@@ -3,7 +3,6 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.Activity;
 
 import java.awt.Point;
@@ -14,13 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.aero.mtip.ModelElements.AbstractDiagram;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
@@ -35,9 +35,9 @@ public class ActivityDiagram extends AbstractDiagram {
 	protected Map<String, PresentationElement> presentationElementById = new HashMap<String, PresentationElement> ();
 	public ActivityDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 //SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
-		 this.sysmlConstant = "SysML Activity Diagram";
+		 this.metamodelConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.ACTIVITYDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_ACTIVITY_DIAGRAM;
 		 this.allowableElements = SysmlConstants.ACT_TYPES;
 	}
 	@Override
@@ -109,15 +109,4 @@ public class ActivityDiagram extends AbstractDiagram {
 		
 		return noPosition;
 	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return this.sysmlConstant;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.ACTIVITYDIAGRAM;
-	}
-
 }

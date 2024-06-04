@@ -3,7 +3,6 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.Sequence;
 
 import java.awt.Rectangle;
@@ -12,18 +11,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.CheckForNull;
-
 import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
+import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
@@ -48,9 +45,9 @@ public class SequenceDiagram  extends AbstractDiagram {
 	
 	public SequenceDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 //SysMLConstants.SYSML_SEQUENCE_DIAGRAM
-		 this.sysmlConstant = "SysML Sequence Diagram";
+		 this.metamodelConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
 		 this.xmlConstant = XmlTagConstants.SEQUENCEDIAGRAM;
+		 this.cameoDiagramConstant = SysMLConstants.SYSML_SEQUENCE_DIAGRAM;
 		 this.allowableElements = SysmlConstants.SEQ_TYPES;
 	}
 	
@@ -191,16 +188,6 @@ public class SequenceDiagram  extends AbstractDiagram {
 		}
 		
 		return presentationDiagram.findPresentationElementForPathConnecting(client, null);
-	}
-	
-	@Override
-	public String getSysmlConstant() {
-		return this.sysmlConstant;
-	}
-	
-	@Override
-	public String getDiagramType() {
-		return XmlTagConstants.SEQUENCEDIAGRAM;
 	}
 	
 	@Override

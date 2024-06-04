@@ -1,8 +1,11 @@
 /target
 *.class
 /bin
-.classpath
 .project
 /.settings
+<<<<<<< HEAD
 .settings
 
+=======
+.classpath
+>>>>>>> uaf-2021x

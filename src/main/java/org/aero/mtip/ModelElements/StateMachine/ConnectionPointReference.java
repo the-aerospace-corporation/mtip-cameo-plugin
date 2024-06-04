@@ -7,15 +7,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.StateMachine;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class ConnectionPointReference extends CommonElement {
 
 	public ConnectionPointReference(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CONNECTION_POINT_REFERENCE;
+		this.metamodelConstant = SysmlConstants.CONNECTION_POINT_REFERENCE;
 		this.xmlConstant = XmlTagConstants.CONNECTION_POINT_REFERENCE;
 		this.element = f.createConnectionPointReferenceInstance();
 	}

@@ -8,8 +8,8 @@ package org.aero.mtip.ModelElements.Sequence;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -21,7 +21,7 @@ public class StateInvariant extends CommonElement {
 	public StateInvariant(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.STATE_INVARIANT;
+		this.metamodelConstant = SysmlConstants.STATE_INVARIANT;
 		this.xmlConstant = XmlTagConstants.STATEINVARIANT;
 		this.element = f.createStateInvariantInstance();
 	}

@@ -7,8 +7,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.InternalBlock;
 
 import org.aero.mtip.ModelElements.CommonDirectedRelationship;
+import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.SysmlConstants;
 import org.aero.mtip.util.XmlTagConstants;
 
 public class ItemFlow extends CommonDirectedRelationship {
@@ -16,7 +16,7 @@ public class ItemFlow extends CommonDirectedRelationship {
 	public ItemFlow(String name, String EAID) {
 		super(name, EAID);
 		creationType = XmlTagConstants.ELEMENTSFACTORY;
-		sysmlConstant = SysmlConstants.ITEM_FLOW;
+		metamodelConstant = SysmlConstants.ITEM_FLOW;
 		xmlConstant = XmlTagConstants.ITEMFLOW;
 		element = f.createInformationFlowInstance();
 		creationStereotype = SysML.getItemFlowStereotype();

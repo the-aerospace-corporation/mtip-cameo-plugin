@@ -6,16 +6,16 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Requirements;
 
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 
 public class PhysicalRequirement extends Requirement {
 
 	public PhysicalRequirement(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.PHYSICAL_REQUIREMENT;
+		this.metamodelConstant = SysmlConstants.PHYSICAL_REQUIREMENT;
 		this.xmlConstant = XmlTagConstants.PHYSICAL_REQUIREMENT;
 		this.creationStereotype = SysML.getPhysicalRequirementStereotype();
 	}

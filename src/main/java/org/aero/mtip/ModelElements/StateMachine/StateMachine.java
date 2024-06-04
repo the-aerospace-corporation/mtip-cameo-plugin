@@ -9,9 +9,9 @@ package org.aero.mtip.ModelElements.StateMachine;
 import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.Import.Importer;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -19,7 +19,7 @@ public class StateMachine extends CommonElement {
 	public StateMachine(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.STATE_MACHINE;
+		this.metamodelConstant = SysmlConstants.STATE_MACHINE;
 		this.xmlConstant = XmlTagConstants.STATEMACHINE;
 		this.element = f.createStateMachineInstance();
 		

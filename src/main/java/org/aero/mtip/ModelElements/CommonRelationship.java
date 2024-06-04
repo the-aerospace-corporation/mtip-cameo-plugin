@@ -9,10 +9,10 @@ package org.aero.mtip.ModelElements;
 import java.util.HashMap;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.XML.XmlWriter;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -112,8 +112,8 @@ public abstract class CommonRelationship extends CommonElement {
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		
-		writeSupplier(relationships);
-		writeClient(relationships);
+		writeSupplier(relationships, element);
+		writeClient(relationships, element);
 		
 		writeMultiplicity(attributes, getSupplierMultiplicity(element));
 		writeMultiplicity(attributes, getClientMultiplicity(element));
@@ -121,8 +121,8 @@ public abstract class CommonRelationship extends CommonElement {
 		return data;
 	}
 	
-	public void writeSupplier(org.w3c.dom.Element relationships) {
-		getSupplier(element);
+	public void writeSupplier(org.w3c.dom.Element relationships, Element element) {
+		Element supplier = getSupplier(element);
 		
 		if(supplier == null) {
 			Logger.log(String.format("No supplier element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
@@ -133,13 +133,14 @@ public abstract class CommonRelationship extends CommonElement {
 		XmlWriter.add(relationships, supplierTag);
 	}
 	
-	public void writeClient(org.w3c.dom.Element relationships) {
-		getClient(element);
+	public void writeClient(org.w3c.dom.Element relationships, Element element) {
+		Element client = getClient(element);
 		
 		if(client == null) {
 			Logger.log(String.format("No client element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
 			return;
 		}
+		
 		org.w3c.dom.Element clientTag = XmlWriter.createMtipRelationship(client, XmlTagConstants.CLIENT);
 		XmlWriter.add(relationships, clientTag);
 	}
@@ -163,12 +164,12 @@ public abstract class CommonRelationship extends CommonElement {
 		return this.client;
 	}
 	
-	public void getSupplier(Element element) {
-		this.supplier = ModelHelper.getSupplierElement(element);
+	public Element getSupplier(Element element) {
+		return ModelHelper.getSupplierElement(element);
 		
 	}
-	public void getClient(Element element) {
-		this.client = ModelHelper.getClientElement(element);
+	public Element getClient(Element element) {
+		return ModelHelper.getClientElement(element);
 	}
 	
 	public String getSupplierMultiplicity(Element element) {
@@ -178,8 +179,6 @@ public abstract class CommonRelationship extends CommonElement {
 	public String getClientMultiplicity(Element element) {
 		return null;
 	}
-	
-
 	
 	public void setSupplier() {
 		if(element instanceof DirectedRelationship) {

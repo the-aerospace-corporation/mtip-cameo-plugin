@@ -6,16 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.StateMachine;
 
-import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.ModelElements.Activity.ActivityNode;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
-public class ChangeEvent extends CommonElement {
-
+public class ChangeEvent extends ActivityNode {
 	public ChangeEvent(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.CHANGE_EVENT;
+		this.metamodelConstant = SysmlConstants.CHANGE_EVENT;
 		this.xmlConstant = XmlTagConstants.CHANGE_EVENT;
 		this.element = f.createChangeEventInstance();
 	}

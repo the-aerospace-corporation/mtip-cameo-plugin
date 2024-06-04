@@ -6,15 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements.Activity;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class LoopNode extends ActivityNode {
 
 	public LoopNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.LOOP_NODE;
+		this.metamodelConstant = SysmlConstants.LOOP_NODE;
 		this.xmlConstant = XmlTagConstants.LOOP_NODE;
 		this.element = f.createLoopNodeInstance();
 	}

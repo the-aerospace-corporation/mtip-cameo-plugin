@@ -7,15 +7,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Sequence;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class MessageOccurrenceSpecification extends CommonElement {
 
 	public MessageOccurrenceSpecification(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.MESSAGE_OCCURRENCE_SPECIFICATION;
+		this.metamodelConstant = SysmlConstants.MESSAGE_OCCURRENCE_SPECIFICATION;
 		this.xmlConstant = XmlTagConstants.MESSAGE_OCCURRENCE_SPECIFICATION;
 		this.element = f.createMessageOccurrenceSpecificationInstance();
 	}

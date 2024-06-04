@@ -6,8 +6,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.ModelElements;
 
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class Abstraction extends CommonDirectedRelationship {
 
@@ -15,7 +15,7 @@ public class Abstraction extends CommonDirectedRelationship {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
 		this.xmlConstant = XmlTagConstants.ABSTRACTION;
-		this.sysmlConstant = SysmlConstants.ABSTRACTION;
+		this.metamodelConstant = SysmlConstants.ABSTRACTION;
 		this.element = f.createAbstractionInstance();
 	}
 }

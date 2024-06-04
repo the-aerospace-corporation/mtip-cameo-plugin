@@ -3,10 +3,9 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.Matrix;
 
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.util.XMLItem;
 import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
@@ -21,7 +20,7 @@ public class DependencyMatrix extends AbstractMatrix {
 
 	public DependencyMatrix(String name, String EAID) {
 		super(name, EAID);
-		this.sysmlConstant = SysmlConstants.DEPENDENCY_MATRIX;
+		this.metamodelConstant = SysmlConstants.DEPENDENCY_MATRIX;
 		this.xmlConstant = XmlTagConstants.DEPENDENCY_MATRIX;
 		this.cameoConstant = DependencyMatrixDiagramDescriptor.DEFAULT_DEPENDENCY_MATRIX_DIAGRAM_TYPE;
 	}

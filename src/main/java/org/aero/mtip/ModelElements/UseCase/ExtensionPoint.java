@@ -3,19 +3,18 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.ModelElements.UseCase;
 
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class ExtensionPoint extends CommonElement {
 
 	public ExtensionPoint(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.EXTENSION_POINT;
+		this.metamodelConstant = SysmlConstants.EXTENSION_POINT;
 		this.xmlConstant = XmlTagConstants.EXTENSION_POINT;
 		this.element = f.createExtensionPointInstance();
 	}

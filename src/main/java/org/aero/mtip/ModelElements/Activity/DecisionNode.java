@@ -9,9 +9,9 @@ package org.aero.mtip.ModelElements.Activity;
 import java.util.HashMap;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.XML.Import.Importer;
-import org.aero.mtip.util.SysmlConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.Behavior;
 
@@ -20,7 +20,7 @@ public class DecisionNode extends ActivityNode {
 	public DecisionNode(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
-		this.sysmlConstant = SysmlConstants.DECISION_NODE;
+		this.metamodelConstant = SysmlConstants.DECISION_NODE;
 		this.xmlConstant = XmlTagConstants.DECISION_NODE;
 		this.element = f.createDecisionNodeInstance();
 	}
@@ -61,5 +61,5 @@ public class DecisionNode extends ActivityNode {
 		
 		org.w3c.dom.Element decisionInputTag = XmlWriter.createMtipRelationship(decisionInput, XmlTagConstants.ATTRIBUTE_NAME_DECISION_INPUT);
 		XmlWriter.add(relationships, decisionInputTag);
-	}	
+	}
 }

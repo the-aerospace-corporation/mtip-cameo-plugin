@@ -7,15 +7,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonElement;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
 
 public class InterfaceBlock extends CommonElement {
 	public InterfaceBlock(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
-		this.sysmlConstant = SysmlConstants.INTERFACE_BLOCK;
+		this.metamodelConstant = SysmlConstants.INTERFACE_BLOCK;
 		this.xmlConstant = XmlTagConstants.INTERFACE_BLOCK;
 		this.creationStereotype = SysML.getInterfaceBlockStereotype();
 	}
