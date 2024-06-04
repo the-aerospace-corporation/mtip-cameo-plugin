@@ -27,7 +27,7 @@ public class Validation {
 	}
 	
 	public static Validation getInstance() {
-		if (instance == null || instance.project != Application.getInstance().getProject()) {
+		if (instance == null) {
 			instance = new Validation();
 		}
 		

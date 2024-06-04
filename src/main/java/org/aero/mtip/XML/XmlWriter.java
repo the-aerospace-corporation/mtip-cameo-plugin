@@ -79,8 +79,15 @@ public class XmlWriter {
 		return tag;
 	}
 	
+	/**
+	 * Sets text to empty string if text is null.
+	 */
 	public static void setText(Element tag, String text) {
-		tag.appendChild(instance.xmlDoc.createTextNode(text));
+	  if (text == null) {
+	    text = "";
+	  }
+	
+	  tag.appendChild(instance.xmlDoc.createTextNode(text));
 	}
 	
 	public static void addToRoot(Element data) {

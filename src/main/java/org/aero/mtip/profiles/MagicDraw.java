@@ -25,7 +25,7 @@ public class MagicDraw {
 	}
 	
 	public static MagicDraw getInstance() {
-		if (instance == null || !instance.isCurrentProject(Application.getInstance().getProject())) {
+		if (instance == null) {
 			instance = new MagicDraw();
 		}
 		

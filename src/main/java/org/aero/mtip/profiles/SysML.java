@@ -78,7 +78,7 @@ public class SysML {
 	}
 	
 	public static SysML getInstance() {
-		if (instance == null || instance.project.getPrimaryModel().getID() != Application.getInstance().getProject().getPrimaryModel().getID()) {
+		if (instance == null) {
 			instance = new SysML();
 		}
 		
@@ -143,6 +143,10 @@ public class SysML {
 	
 	public static Stereotype getInterfaceRequirementStereotype() {
 		return getInstance().getStereotype(INTERFACE_REQUIREMENT_NAME);
+	}
+	
+	public static Stereotype getItemFlowStereotype() {
+	  return getInstance().getStereotype(ITEM_FLOW_NAME);
 	}
 	
 	public static Stereotype getPerformanceRequirementStereotype() {

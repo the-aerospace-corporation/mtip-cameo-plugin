@@ -33,6 +33,7 @@ public class ExportPackageAction extends MDAction {
 	public void actionPerformed(ActionEvent e) {
 		if(Application.getInstance().getProject() == null) {
 			CameoUtils.popUpMessage("No active project. Open a project, then try again.");
+			return;
 		}
 		
 		try {

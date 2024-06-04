@@ -31,7 +31,7 @@ public class DependencyMatrixProfile {
 	}
 	
 	public static DependencyMatrixProfile getInstance() {
-		if (instance == null || instance.project != Application.getInstance().getProject()) {
+		if (instance == null) {
 			instance = new DependencyMatrixProfile();
 		}
 		
