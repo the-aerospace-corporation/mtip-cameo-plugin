@@ -30,7 +30,7 @@ public class CustomDiagram extends AbstractDiagram {
 	}
 
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return SysmlConstants.CUSTOM_DIAGRAM;
 	}
 

@@ -14,7 +14,7 @@ public class OV5b extends ActivityDiagram {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return cameoDiagramConstant;
 	}
 	

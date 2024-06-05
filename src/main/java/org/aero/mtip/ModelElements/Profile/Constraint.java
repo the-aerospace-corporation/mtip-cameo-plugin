@@ -10,9 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
@@ -59,19 +60,39 @@ public class Constraint extends CommonElement {
 		for(String constrainedElement : modelElement.getConstrainedElements()) {
 			if(constrainedElement.contentEquals("_9_0_62a020a_1105704885343_144138_7929")) {
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Class");
-				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
+				
+                if (constrainedCameoElement == null) {
+                  continue;
+                }
+				
+				modelElement.addNewConstrainedElement(MtipUtils.getId(constrainedCameoElement));
 			} else if(constrainedElement.contentEquals("_9_0_62a020a_1105704885473_18793_7971")) { 
 				Element constrainedCameoElement = Finder.byQualifiedName().find(project, "UML Standard Profile::UML2 Metamodel::Association");
-				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
+				
+                if (constrainedCameoElement == null) {
+                  continue;
+                }
+				
+				modelElement.addNewConstrainedElement(MtipUtils.getId(constrainedCameoElement));
 			} else {
 				Element constrainedCameoElement = Importer.getInstance().buildElement(parsedXML, parsedXML.get(constrainedElement));
-				modelElement.addNewConstrainedElement(constrainedCameoElement.getID());
+				
+				if (constrainedCameoElement == null) {
+				  continue;
+				}
+				
+				modelElement.addNewConstrainedElement(MtipUtils.getId(constrainedCameoElement));
 			}
 			
 		}
 		if(modelElement.hasValueSpecification()) {
 			Element valueSpecification = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getValueSpecification()));
-			modelElement.setNewValueSpecification(valueSpecification.getID());
+			
+            if (valueSpecification == null) {
+              return;
+            }
+			
+			modelElement.setNewValueSpecification(MtipUtils.getId(valueSpecification));
 		}
 	}
 	

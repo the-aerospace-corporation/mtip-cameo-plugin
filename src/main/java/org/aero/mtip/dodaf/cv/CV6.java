@@ -14,7 +14,7 @@ public class CV6 extends DependencyMatrix {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		//Going to need to find what Cameo calls DoDAF Diagrams
 		return cameoDiagramConstant;
 	}

@@ -14,7 +14,7 @@ public class OV4 extends UseCaseDiagram {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return cameoDiagramConstant;
 	}
 	

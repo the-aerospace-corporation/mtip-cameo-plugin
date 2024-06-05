@@ -10,9 +10,10 @@ import java.util.HashMap;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.actions.mdcompleteactions.AcceptEventAction;
@@ -69,7 +70,7 @@ public class Trigger extends CommonElement {
 	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		if(modelElement.hasAttribute(XmlTagConstants.ACCEPT_EVENT_ACTION)) {	
 			Element acceptEventAction = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getAcceptEventAction()));
-			modelElement.setNewAcceptEventAction(acceptEventAction.getID());
+			modelElement.setNewAcceptEventAction(MtipUtils.getId(acceptEventAction));
 		}
 		
 		if(modelElement.hasAttribute(XmlTagConstants.EVENT_TAG)) {

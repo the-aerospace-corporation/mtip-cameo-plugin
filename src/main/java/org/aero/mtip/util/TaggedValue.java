@@ -8,8 +8,8 @@ package org.aero.mtip.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

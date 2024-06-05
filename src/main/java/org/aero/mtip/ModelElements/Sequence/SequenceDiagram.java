@@ -17,6 +17,7 @@ import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
@@ -55,7 +56,7 @@ public class SequenceDiagram  extends AbstractDiagram {
 	@Override
 	public void addRelationships(Project project, Diagram diagram, List<Element> relationships) throws ReadOnlyElementException {
 		if (!diagram.isEditable()) {
-			Logger.log(String.format("Diagram %s with id %s is not editable.", diagram.getHumanName(), diagram.getID()));
+			Logger.log(String.format("Diagram %s with id %s is not editable.", diagram.getHumanName(), MtipUtils.getId(diagram)));
 			return;
 		}
 		
@@ -95,7 +96,7 @@ public class SequenceDiagram  extends AbstractDiagram {
 		}
 		
 		PathElement pathElement = PresentationElementsManager.getInstance().createPathElement(relationship, clientPE, supplierPE);
-		presentationElementsById.put(relationship.getID(), pathElement);
+		presentationElementsById.put(MtipUtils.getId(relationship), pathElement);
 	}
 	
 	protected Message addMessageToDiagram(DiagramPresentationElement presentationDiagram, Message message, Message previousMessage) throws ReadOnlyElementException {		
@@ -105,7 +106,7 @@ public class SequenceDiagram  extends AbstractDiagram {
 			return previousMessage;
 		}
 
-		presentationElementsById.put(message.getID(), pathElement);
+		presentationElementsById.put(MtipUtils.getId(message), pathElement);
 		return message;
 	}
 	
@@ -152,16 +153,16 @@ public class SequenceDiagram  extends AbstractDiagram {
 			return;
 		}
 		
-		PresentationElement pe1 = presentationElementsById.get(dc.getConstrainedElement().get(0).getID());
-		PresentationElement pe2 = presentationElementsById.get(dc.getConstrainedElement().get(1).getID());
+		PresentationElement pe1 = presentationElementsById.get(MtipUtils.getId(dc.getConstrainedElement().get(0)));
+		PresentationElement pe2 = presentationElementsById.get(MtipUtils.getId(dc.getConstrainedElement().get(1)));
 		
 		if (pe1 == null || pe2 == null) {
-			Logger.log(String.format("Path elements for duration constraint %s not created successfully.", relationship.getID()));
+			Logger.log(String.format("Path elements for duration constraint %s not created successfully.", MtipUtils.getId(relationship)));
 			return;
 		}
 		
 		if (!(pe1 instanceof PathElement) || !(pe2 instanceof PathElement)) {
-			Logger.log(String.format("Duration Constraint not added to diagram. Constrained elements not path elements for %s.", relationship.getID()));
+			Logger.log(String.format("Duration Constraint not added to diagram. Constrained elements not path elements for %s.", MtipUtils.getId(relationship)));
 			return;
 		}
 		
@@ -196,7 +197,7 @@ public class SequenceDiagram  extends AbstractDiagram {
 		
 		if(presentationElement instanceof CombinedFragmentView) {
 			Element cfElement = presentationElement.getElement();
-			combinedFragmentBounds.put(cfElement.getID(), presentationElement.getBounds());
+			combinedFragmentBounds.put(MtipUtils.getId(cfElement), presentationElement.getBounds());
 		}
 	}
 	

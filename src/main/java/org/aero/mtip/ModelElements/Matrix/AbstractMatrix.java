@@ -182,7 +182,7 @@ public abstract class AbstractMatrix extends AbstractDiagram implements ModelDia
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return this.cameoConstant;
 	}
 

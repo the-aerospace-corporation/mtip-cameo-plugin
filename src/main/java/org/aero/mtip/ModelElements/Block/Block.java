@@ -12,7 +12,6 @@ import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
 
 public class Block extends CommonElement {
-	
 	public Block(String name, String EAID) {
 		super(name, EAID);
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;

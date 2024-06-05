@@ -8,9 +8,10 @@ package org.aero.mtip.ModelElements.Activity;
 
 import java.util.HashMap;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -40,7 +41,7 @@ public class CallOperationAction extends ActivityNode {
 	@Override
 	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
 		Element operation = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getOperation()));
-		modelElement.setNewOperation(operation.getID());
+		modelElement.setNewOperation(MtipUtils.getId(operation));
 	}
 	
 	@Override

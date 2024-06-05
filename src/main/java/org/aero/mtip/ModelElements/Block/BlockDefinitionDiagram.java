@@ -13,6 +13,7 @@ import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
@@ -31,7 +32,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 
 	public BlockDefinitionDiagram(String name, String EAID) {
 		 super(name, EAID);
-		 this.metamodelConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
+		 this.metamodelConstant = SysmlConstants.BDD;
 		 this.xmlConstant = XmlTagConstants.BLOCKDEFINITIONDIAGRAM;
 		 this.cameoDiagramConstant = SysMLConstants.SYSML_BLOCK_DEFINITION_DIAGRAM;
 		 this.allowableElements = SysmlConstants.BDD_TYPES; 
@@ -44,7 +45,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 		ShapeElement shape = null;
 		if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
-			this.shapeElements.put(element.getID(), shape);
+			this.shapeElements.put(MtipUtils.getId(element), shape);
 			noPosition = true;
 		} else if(MDCustomizationForSysML.isPartProperty(element) || MDCustomizationForSysML.isValueProperty(element)) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
@@ -52,7 +53,7 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 				PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 			} 
 			PartView pv = PresentationElementsManager.getInstance().createPartShape((Property) element, shape, null, false, point);
-			this.shapeElements.put(element.getID(), pv);
+			this.shapeElements.put(MtipUtils.getId(element), pv);
 		} else if(SysML.isAssociationBlock(element)) {
 			Element relationship = element;
 			Element client = ModelHelper.getClientElement(relationship);
@@ -72,9 +73,9 @@ public class BlockDefinitionDiagram  extends AbstractDiagram {
 			} 
 		}
 		if(shape != null) {
-			this.shapeElements.put(element.getID(), shape);
+			this.shapeElements.put(MtipUtils.getId(element), shape);
 		} else {
-			Logger.log(String.format("Error placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), element.getID()));
+			Logger.log(String.format("Error placing element %s with ID: %s on diagram.", ((NamedElement)element).getName(), MtipUtils.getId(element)));
 		}
 		
 		return noPosition;

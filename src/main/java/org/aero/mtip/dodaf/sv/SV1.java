@@ -13,7 +13,7 @@ public class SV1 extends ClassDiagram {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return cameoDiagramConstant;
 	}
 	

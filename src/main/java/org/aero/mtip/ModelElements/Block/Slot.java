@@ -11,11 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -76,7 +77,7 @@ public class Slot extends CommonElement {
 					propertySlot.getValue().add(valueSpecification);
 					ModelHelper.setSlotValue(propertySlot, value);
 				} else {
-					Logger.log("Value specification was null for slot with id:" + propertySlot.getID());
+					Logger.log("Value specification was null for slot with id:" + MtipUtils.getId(propertySlot));
 				}
 				
 			}

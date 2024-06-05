@@ -14,7 +14,7 @@ public class OV6c extends SequenceDiagram {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return cameoDiagramConstant;
 	}
 	

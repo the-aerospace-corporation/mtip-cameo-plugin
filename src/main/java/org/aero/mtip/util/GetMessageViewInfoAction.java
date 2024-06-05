@@ -40,10 +40,10 @@ public class GetMessageViewInfoAction extends MDAction {
 			PresentationElement spe = smv.getSupplier();
 			PresentationElement cpe = smv.getClient();
 			
-			CameoUtils.logGui(String.format("Client sequence lifeline view element %s id %s", clv.getElement().getHumanType(), clv.getElement().getID()));
-			CameoUtils.logGui(String.format("Supplier sequence lifeline view element %s id %s", slv.getElement().getHumanType(), slv.getElement().getID()));
-			CameoUtils.logGui(String.format("Client presentation element %s id %s", cpe.getElement().getHumanType(), cpe.getElement().getID()));
-			CameoUtils.logGui(String.format("Client sequence lifeline view element %s id %s", spe.getElement().getHumanType(), spe.getElement().getID()));
+			CameoUtils.logGui(String.format("Client sequence lifeline view element %s id %s", clv.getElement().getHumanType(), MtipUtils.getId(clv.getElement())));
+			CameoUtils.logGui(String.format("Supplier sequence lifeline view element %s id %s", slv.getElement().getHumanType(), MtipUtils.getId(slv.getElement())));
+			CameoUtils.logGui(String.format("Client presentation element %s id %s", cpe.getElement().getHumanType(), MtipUtils.getId(cpe.getElement())));
+			CameoUtils.logGui(String.format("Client sequence lifeline view element %s id %s", spe.getElement().getHumanType(), MtipUtils.getId(spe.getElement())));
 		}
 	}
 }

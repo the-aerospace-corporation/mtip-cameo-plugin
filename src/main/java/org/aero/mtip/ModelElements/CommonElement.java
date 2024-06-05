@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.uaf.UAFProfile;
+import org.aero.mtip.io.Importer;
+import org.aero.mtip.profiles.UAF;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
@@ -194,7 +194,7 @@ public abstract class CommonElement {
 		this.element = element;
 		
 		if (xmlConstant == null || (element.getOwner() == null && !(element instanceof com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model))) {
-			Logger.log(String.format("Internal Error: element of type %s has no XML constant set or has no owner. Id: ", element.getHumanType(), element.getID()));
+			Logger.log(String.format("Internal Error: element of type %s has no XML constant set or has no owner. Id: ", element.getHumanType(), MtipUtils.getId(element)));
 			return null;
 		}
 		
@@ -211,7 +211,7 @@ public abstract class CommonElement {
 	}
 	
 	public void writeId(org.w3c.dom.Element data) {
-		org.w3c.dom.Element idTag = XmlWriter.createMtipIdTag(element.getID());
+		org.w3c.dom.Element idTag = XmlWriter.createMtipIdTag(MtipUtils.getId(element));
 		XmlWriter.add(data, idTag);
 	}
 	
@@ -241,7 +241,7 @@ public abstract class CommonElement {
 					"No parent element found for %s of type %s with id %s.", 
 					element.getHumanName(), 
 					element.getHumanType(), 
-					element.getID()));
+					MtipUtils.getId(element)));
 			return;
 		}
 		
@@ -330,7 +330,7 @@ public abstract class CommonElement {
 			String valueType = getTaggedValueType(taggedValue);
 			
 			if(valueType == null) {
-				Logger.log(String.format("Value type could not be determined creating tagged values for element with id %s.", element.getID()));
+				Logger.log(String.format("Value type could not be determined creating tagged values for element with id %s.", MtipUtils.getId(element)));
 				continue;
 			}
 			
@@ -341,7 +341,7 @@ public abstract class CommonElement {
 				Logger.log(String.format("WARNING: Could not create tagged value for %s tagged value of  %s with id %s.", 
 						taggedValue.getHumanName(), 
 						element.getHumanName(), 
-						element.getID()));
+						MtipUtils.getId(element)));
 				continue;
 			}
 			
@@ -405,7 +405,7 @@ public abstract class CommonElement {
 				return null;
 		} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_ELEMENT)) {
 			return values.stream()
-					.map(x -> ((Element)x).getID())
+					.map(x -> MtipUtils.getId(((Element)x)))
 					.collect(Collectors.toList());
 		}
 		
@@ -466,7 +466,7 @@ public abstract class CommonElement {
 //		} else if(vs instanceof OpaqueExpression) {
 //			return SysmlConstants.OPAQUEEXPRESSION;
 		} else {
-			Logger.log(String.format("Value specification with id %s was not string, real, int, or bool.", vs.getID()));
+			Logger.log(String.format("Value specification with id %s was not string, real, int, or bool.", MtipUtils.getId(vs)));
 		}
 		return null;
 	}
@@ -776,7 +776,7 @@ public abstract class CommonElement {
 			return;
 		}
 		
-		Stereotype metamodelConstantStereotype = UAFProfile.getStereotype(metamodelConstant);
+		Stereotype metamodelConstantStereotype = UAF.getStereotype(metamodelConstant);
 		
 		if (metamodelConstantStereotype == null) {
 			Logger.log(String.format("Unable to get %s stereotype from UAF Profile adding initial stereotypes.", metamodelConstant));
@@ -896,7 +896,7 @@ public abstract class CommonElement {
 	
 	public String getElementID() {
 		if(element != null) {
-			return element.getID();
+			return MtipUtils.getId(element);
 		}
 		return "";
 	}

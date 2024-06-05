@@ -22,7 +22,7 @@ public class ClassDiagram extends AbstractDiagram {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return 	DiagramTypeConstants.UML_PROFILE_DIAGRAM;
 	}
 	

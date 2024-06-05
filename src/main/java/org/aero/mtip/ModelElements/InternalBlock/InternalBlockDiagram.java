@@ -12,6 +12,7 @@ import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
@@ -41,7 +42,7 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 		ShapeElement shape = null;
 		if (location.x == -999 && location.y == -999 && location.width == -999 && location.height == -999) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true);
-			shapeElements.put(element.getID(), shape);
+			shapeElements.put(MtipUtils.getId(element), shape);
 			noPosition = true;
 		} else if(MDCustomizationForSysML.isPartProperty(element) || MDCustomizationForSysML.isValueProperty(element)) {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
@@ -49,7 +50,7 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 				PresentationElementsManager.getInstance().reshapeShapeElement(shape, location);
 			} 
 			PartView pv = PresentationElementsManager.getInstance().createPartShape((Property) element, shape, null, false, point);
-			shapeElements.put(element.getID(), pv);
+			shapeElements.put(MtipUtils.getId(element), pv);
 		} else {
 			shape = PresentationElementsManager.getInstance().createShapeElement(element, presentationDiagram, true, point);
 			if(shape != null) {
@@ -57,11 +58,11 @@ public class InternalBlockDiagram  extends AbstractDiagram{
 			} 
 		}
 		if(shape != null) {
-			shapeElements.put(element.getID(), shape);
+			shapeElements.put(MtipUtils.getId(element), shape);
 		} else {
 			Logger.log(String.format("Error placing element %s with ID: %s on diagram.",
 					((NamedElement)element).getName(),
-					element.getID()));
+					MtipUtils.getId(element)));
 		}
 		return noPosition;
 	}

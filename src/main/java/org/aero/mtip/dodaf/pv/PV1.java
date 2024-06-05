@@ -14,7 +14,7 @@ public class PV1 extends AbstractDiagram {
 	}
 
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return cameoDiagramConstant;
 	}
 

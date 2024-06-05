@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -185,7 +186,7 @@ public class DurationConstraint extends CommonElement {
 			org.w3c.dom.Element constrainedElementTag 
 				= XmlWriter.createMtipStringAttribute(
 						XmlTagConstants.ATTRIBUTE_CONSTRAINED_ELEMENT, 
-						constrainedElement.getID());
+						MtipUtils.getId(constrainedElement));
 			
 			XmlWriter.add(attributes, constrainedElementTag);
 		}

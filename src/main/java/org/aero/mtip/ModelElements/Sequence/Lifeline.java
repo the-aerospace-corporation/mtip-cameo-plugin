@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
@@ -101,7 +101,7 @@ public class Lifeline extends CommonElement {
 				continue;
 			}
 			
-			modelElement.setCoveredByID(coveredByID, newElement.getID());
+			modelElement.setCoveredByID(coveredByID, MtipUtils.getId(newElement));
 		}
 		
 		String representsID = modelElement.getAttribute(XmlTagConstants.ATTRIBUTE_NAME_REPRESENTS);

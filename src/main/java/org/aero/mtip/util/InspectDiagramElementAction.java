@@ -29,7 +29,7 @@ public class InspectDiagramElementAction extends MDAction {
 	public void actionPerformed(ActionEvent e) {
 		Element diagramElement = diagramPresentationElement.getElement();
 
-		CameoUtils.logGui("Diagram element has id:" + diagramElement.getID());
+		CameoUtils.logGui("Diagram element has id:" + MtipUtils.getId(diagramElement));
 		CameoUtils.logGui(Integer.toString(selectedPresentationElements.length) + " elements selected on diagram.");
 		
 		int allElementCount = findPresentationElements(diagramPresentationElement.getPresentationElements());
@@ -39,13 +39,12 @@ public class InspectDiagramElementAction extends MDAction {
 			PresentationElement displayedPresentationElement = selectedPresentationElements[i];
 			Element displayedElement = displayedPresentationElement.getElement();
 			if(displayedElement != null) {
-				CameoUtils.logGui("Displayed Element has id " + displayedElement.getID() + " and displays as an object of type " + displayedPresentationElement.getClass().toString());
+				CameoUtils.logGui("Displayed Element has id " + MtipUtils.getId(displayedElement) + " and displays as an object of type " + displayedPresentationElement.getClass().toString());
 				CameoUtils.logGui("......with size: " + displayedPresentationElement.getBounds().toString());
 			} else {
 				CameoUtils.logGui("Presentation Element with id " + displayedPresentationElement.getID() + " has no element and is an object of type " + displayedPresentationElement.getClass().toString());
 				CameoUtils.logGui("......with size: " + displayedPresentationElement.getBounds().toString());
-			}
-			
+			}			
 		}
 	}
 	

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.aero.mtip.ModelElements.Dependency;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.uaf.UAFProfile;
+import org.aero.mtip.profiles.UAF;
 
 public class ProvidesCompetence extends Dependency {
 

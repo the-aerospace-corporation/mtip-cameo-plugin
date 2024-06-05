@@ -1,9 +1,6 @@
-package org.aero.mtip.uaf;
+package org.aero.mtip.profiles;
 
 import javax.annotation.CheckForNull;
-
-import org.aero.mtip.profiles.SysML;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -11,17 +8,18 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
-public class UAFProfile {
-	static UAFProfile instance = null;
+public class UAF {
+	static UAF instance = null;
 	
 	static final String NAME = "UAF";
+	static final String PROJECT_NAME = "UAF Profile";
 	static final String UPDM_NAME = "UPDM Customization";
 	
 	Project project;
 	Profile uafProfile;
 	Profile updmProfile;
 
-	UAFProfile() {
+	UAF() {
 		project = Application.getInstance().getProject();
 		uafProfile = StereotypesHelper.getProfile(project, NAME);
 		updmProfile = StereotypesHelper.getProfile(project, UPDM_NAME);
@@ -39,9 +37,9 @@ public class UAFProfile {
 		return updmProfile;
 	}
 	
-	public static UAFProfile getInstance() {
-		if (instance == null || instance.project.getPrimaryModel().getID() != Application.getInstance().getProject().getPrimaryModel().getID()) {
-			instance = new UAFProfile();
+	public static UAF getInstance() {
+		if (instance == null) {
+			instance = new UAF();
 		}
 		
 		return instance;
@@ -65,6 +63,10 @@ public class UAFProfile {
 		}
 		
 		return false;
+	}
+	
+	public static String getProfileModelName() {
+	  return PROJECT_NAME;
 	}
 }
 

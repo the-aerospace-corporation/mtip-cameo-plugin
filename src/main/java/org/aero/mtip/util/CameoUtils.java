@@ -406,7 +406,7 @@ public class CameoUtils {
 			strVal = String.valueOf(value);
 		} else if(vs instanceof ElementValue) {
 			ElementValue ev = (ElementValue)vs;
-			strVal = ev.getElement().getID();
+			strVal = MtipUtils.getId(ev.getElement());
 		} else if(vs instanceof OpaqueExpression) {
 			OpaqueExpression oe = (OpaqueExpression)vs;
 			List<String> bodies = oe.getBody();
@@ -425,7 +425,7 @@ public class CameoUtils {
 //			ValueSpecification vs2 = is.getSpecification();
 //			strVal = getSlotValueAsString(vs2);
 		} else {
-			Logger.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
+			Logger.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", MtipUtils.getId(vs)));
 		}
 		return strVal;
 	}

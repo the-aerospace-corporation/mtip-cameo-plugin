@@ -9,11 +9,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonDirectedRelationship;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
@@ -157,7 +158,7 @@ public class Transition extends CommonDirectedRelationship {
 		Element owner = element.getOwner().getOwner();
 		
 		if(owner == null) {
-			Logger.log(String.format("No parent found for transition %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("No parent found for transition %s with id %s", element.getHumanName(), MtipUtils.getId(element)));
 			return;
 		}
 		

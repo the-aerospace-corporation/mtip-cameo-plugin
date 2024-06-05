@@ -7,10 +7,8 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.menu;
 
 import java.util.List;
-
-import org.aero.mtip.XML.Export.ExportPackageAction;
-import org.aero.mtip.XML.Import.ImportPackageAction;
-
+import org.aero.mtip.menu.actions.ExportPackageAction;
+import org.aero.mtip.menu.actions.ImportPackageAction;
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;

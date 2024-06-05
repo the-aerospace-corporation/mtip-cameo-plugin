@@ -9,12 +9,13 @@ package org.aero.mtip.ModelElements.Block;
 import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
@@ -85,7 +86,7 @@ public class AssociationBlock extends CommonElement {
 		
 		Element client = Importer.getInstance().buildElement(parsedXML, parsedXML.get(clientID));
 		modelElement.setClientElement(client);
-		modelElement.addAttribute("client", client.getID());
+		modelElement.addAttribute("client", MtipUtils.getId(client));
 	}
 	
 	public void createSupplier(Project project, XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
@@ -104,7 +105,7 @@ public class AssociationBlock extends CommonElement {
 		
 		Element supplier = Importer.getInstance().buildElement(parsedXML, parsedXML.get(modelElement.getSupplier()));
 		modelElement.setSupplierElement(supplier);
-		modelElement.addAttribute("supplier",  supplier.getID());
+		modelElement.addAttribute("supplier",  MtipUtils.getId(supplier));
 	}
 
 	@Override

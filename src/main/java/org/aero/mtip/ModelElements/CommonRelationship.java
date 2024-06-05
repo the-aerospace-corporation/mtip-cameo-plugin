@@ -12,6 +12,7 @@ import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -125,7 +126,7 @@ public abstract class CommonRelationship extends CommonElement {
 		Element supplier = getSupplier(element);
 		
 		if(supplier == null) {
-			Logger.log(String.format("No supplier element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
+			Logger.log(String.format("No supplier element found for relationship of type %s with id %s.", element.getHumanType(), MtipUtils.getId(element)));
 			return;
 		}
 		
@@ -137,7 +138,7 @@ public abstract class CommonRelationship extends CommonElement {
 		Element client = getClient(element);
 		
 		if(client == null) {
-			Logger.log(String.format("No client element found for relationship of type %s with id %s.", element.getHumanType(), element.getID()));
+			Logger.log(String.format("No client element found for relationship of type %s with id %s.", element.getHumanType(), MtipUtils.getId(element)));
 			return;
 		}
 		

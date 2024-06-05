@@ -14,7 +14,7 @@ public class SV2 extends ClassDiagram {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		//Going to need to find what Cameo calls DoDAF Diagrams
 		return cameoDiagramConstant;
 	}

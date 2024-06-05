@@ -12,11 +12,10 @@ import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.XmlTagConstants;
 
-
 public class ConstraintBlock extends CommonElement {
   public ConstraintBlock(String name, String EAID) {
     super(name, EAID);
-    this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+    this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
     this.metamodelConstant = SysmlConstants.CONSTRAINT_BLOCK;
     this.xmlConstant = XmlTagConstants.CONSTRAINT_BLOCK;
     this.creationStereotype = SysML.getConstraintBlockStereotype();

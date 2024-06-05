@@ -122,7 +122,7 @@ public class XmlWriter {
 	@CheckForNull
 	public static Element createStereotypeTag(Stereotype stereotype) {
 		if (stereotype.getName() == null || stereotype.getName().trim().isEmpty()) {
-			Logger.log(String.format("Stereotype not added to xml. Stereotype of with id %s is not named.", stereotype.getID()));
+			Logger.log(String.format("Stereotype not added to xml. Stereotype of with id %s is not named.", MtipUtils.getId(stereotype)));
 			return null;
 		}
 		
@@ -131,9 +131,9 @@ public class XmlWriter {
 		org.w3c.dom.Element stereotypeAttribute = createMtipDictAttribute(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE);
 		
 		org.w3c.dom.Element stereotypeNameAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, stereotype.getName());
-		org.w3c.dom.Element stereotypeIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, stereotype.getID());
+		org.w3c.dom.Element stereotypeIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, MtipUtils.getId(stereotype));
 		org.w3c.dom.Element profileNameAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, profile.getName());
-		org.w3c.dom.Element profileIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, profile.getID());
+		org.w3c.dom.Element profileIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, MtipUtils.getId(profile));
 		
 		stereotypeAttribute.appendChild(stereotypeNameAttribute);
 		stereotypeAttribute.appendChild(stereotypeIdAttribute);
@@ -346,7 +346,7 @@ public class XmlWriter {
 	}
 	
 	public static Element createSimpleIdTag(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element) {
-		return createSimpleIdTag(element.getID());
+		return createSimpleIdTag(MtipUtils.getId(element));
 	}
 	
 	public static Element createSimpleIdTag(String elementId) {
@@ -452,11 +452,11 @@ public class XmlWriter {
 			
 		} else if (vs instanceof ElementValue) {
 			ElementValue ev = (ElementValue)vs;
-			String strVal = ev.getElement().getID();
+			String strVal = MtipUtils.getId(ev.getElement());
 			return createMtipStringAttribute(attrName, strVal);
 		} else if (vs instanceof InstanceValue) {
 			InstanceValue iv = (InstanceValue)vs;
-			String strVal = iv.getInstance().getID();
+			String strVal = MtipUtils.getId(iv.getInstance());
 			return createMtipStringAttribute(attrName, strVal);
 		} else if (vs instanceof LiteralString) {
 			LiteralString ls = (LiteralString)vs;
@@ -500,7 +500,7 @@ public class XmlWriter {
 		} else if (vs instanceof Interval) {
 			
 		} else {
-			Logger.log(String.format("Value specification with id %s was not a recognized type.", vs.getID()));
+			Logger.log(String.format("Value specification with id %s was not a recognized type.", MtipUtils.getId(vs)));
 		}
 		
 		return null;

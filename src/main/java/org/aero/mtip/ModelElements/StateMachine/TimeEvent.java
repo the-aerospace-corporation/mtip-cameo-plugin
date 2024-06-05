@@ -9,10 +9,11 @@ package org.aero.mtip.ModelElements.StateMachine;
 import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -93,7 +94,7 @@ public class TimeEvent extends CommonElement {
 			return;
 		}
 		
-		org.w3c.dom.Element whenTag = XmlWriter.createMtipStringAttribute( XmlTagConstants.ATTRIBUTE_NAME_WHEN, timeExpression.getID());
+		org.w3c.dom.Element whenTag = XmlWriter.createMtipStringAttribute( XmlTagConstants.ATTRIBUTE_NAME_WHEN, MtipUtils.getId(timeExpression));
 		XmlWriter.add(attributes, whenTag);
 	}
 }

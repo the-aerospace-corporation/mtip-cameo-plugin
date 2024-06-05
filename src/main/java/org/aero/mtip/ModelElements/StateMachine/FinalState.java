@@ -6,14 +6,13 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.StateMachine;
 
 import java.util.Collection;
-
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-
+import org.aero.mtip.util.MtipUtils;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
@@ -54,7 +53,7 @@ public class FinalState extends CommonElement {
 		owner = CameoUtils.findNearestRegion(project, owner);
 		
 		if (owner == null) {
-			Logger.log(String.format("Invalid parent. Parent must be region for %s of type %s with id %s.", name, element.getHumanType(), element.getID()));
+			Logger.log(String.format("Invalid parent. Parent must be region for %s of type %s with id %s.", name, element.getHumanType(), MtipUtils.getId(element)));
 			return;
 		}
 		
@@ -66,7 +65,7 @@ public class FinalState extends CommonElement {
 		Element owner = element.getOwner();
 		
 		if(owner == null) {
-			Logger.log(String.format("No parent found for final state %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("No parent found for final state %s with id %s", element.getHumanName(), MtipUtils.getId(element)));
 			return;
 		}
 		

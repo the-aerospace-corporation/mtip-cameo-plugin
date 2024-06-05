@@ -14,7 +14,7 @@ public class SV3 extends AbstractMatrix {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return cameoDiagramConstant;
 	}
 	

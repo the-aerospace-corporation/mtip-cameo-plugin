@@ -27,7 +27,7 @@ public class AllocationMatrix extends AbstractMatrix {
 	}
 	
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return "Allocation Matrix";
 	}
 

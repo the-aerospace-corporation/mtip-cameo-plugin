@@ -4,13 +4,14 @@ Copyright 2022 The Aerospace Corporation
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
-package org.aero.mtip.XML.Import;
+package org.aero.mtip.menu.actions;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.Logger;

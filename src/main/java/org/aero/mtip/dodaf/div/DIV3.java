@@ -14,7 +14,7 @@ public class DIV3 extends AbstractDiagram {
 	}
 
 	@Override
-	public String getSysmlConstant() {
+	public String getCameoDiagramConstant() {
 		return cameoDiagramConstant;
 	}
 

@@ -4,7 +4,7 @@ Copyright 2022 The Aerospace Corporation
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
-package org.aero.mtip.XML.Import;
+package org.aero.mtip.io;
 
 import java.awt.Rectangle;
 import java.io.File;
@@ -179,6 +179,7 @@ public class Importer {
 		return null;
 	}
 
+	@CheckForNull
 	public Element buildDiagram(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
 		Element owner = getOwnerElement(modelElement, parsedXML);
 		
@@ -191,10 +192,9 @@ public class Importer {
 			return null;
 		}
 		
-
 		CameoUtils.createSession(project, String.format("Create %s Element", modelElement.getType()));
 	 
-		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getAttribute("name"), modelElement.getImportId());
+		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getName(), modelElement.getImportId());
 		Diagram newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
 		
 		project.getDiagram(newDiagram).open(); 
@@ -207,6 +207,7 @@ public class Importer {
 		return newDiagram;
 	}
 	
+	@CheckForNull
 	public Element buildRelationship(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
 		Element owner = getOwnerElement(modelElement, parsedXML);
 		
@@ -270,6 +271,7 @@ public class Importer {
 		return importedRelationship;
 	}
 	
+	@CheckForNull
 	public Element buildElement(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
 		Element owner = getOwnerElement(modelElement, parsedXML);
 		
@@ -278,7 +280,7 @@ public class Importer {
 			return getImportedElement(modelElement);
 		}
 		
-		if(!MtipUtils.isSupportedElement(modelElement.getImportId())) { 
+		if(!MtipUtils.isSupportedElement(modelElement.getType())) { 
 			Logger.log(String.format("%s type not supported. Import id %s", modelElement.getType(), modelElement.getImportId()));
 			return null;
 		}
@@ -869,7 +871,7 @@ public class Importer {
 	}
 	
 	public void trackIds(Element newElement, XMLItem modelElement) {
-		importIdToCameoId.put(modelElement.getImportId(), newElement.getID());
+		importIdToCameoId.put(modelElement.getImportId(), MtipUtils.getId(newElement));
 	}
 	
 	public HashMap<Element, Rectangle> getImportedElementsOnDiagram(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {

@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.JFileChooser;
-import org.aero.mtip.XML.Export.Exporter;
-import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.io.Exporter;
+import org.aero.mtip.io.Importer;
 import org.apache.commons.io.FilenameUtils;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -161,6 +161,10 @@ public class Logger {
 		instance.logDuration();
 	}
 	
+	public static void logConfigOptions() {
+	  
+	}
+	
 	public void logElements(Set<String> elementIds, String categoryMessage) {
 		log(categoryMessage);
 		
@@ -234,7 +238,7 @@ public class Logger {
 			stereotypeNames += CameoUtils.getElementName(stereotype) + " ";
 		}
 		
-		log(String.format("Multiple stereotypes found for %s with id %s: %s", element.getHumanName(), element.getID(), stereotypeNames));
+		log(String.format("Multiple stereotypes found for %s with id %s: %s", element.getHumanName(), MtipUtils.getId(element), stereotypeNames));
 	}
 	
 	void logDuration() {

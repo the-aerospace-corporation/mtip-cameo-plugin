@@ -4,78 +4,31 @@ Copyright 2022 The Aerospace Corporation
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 
-package org.aero.mtip.XML.Export;
+package org.aero.mtip.io;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import javax.annotation.CheckForNull;
-import org.aero.mtip.ModelElements.AbstractDiagram;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.ModelElements.CommonRelationship;
 import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
-import org.aero.mtip.profiles.DslCustomization;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.MagicDraw;
-import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
-import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.ActionClass;
-import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallBehaviorAction;
-import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.CallOperationAction;
-import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.InputPin;
-import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.OpaqueAction;
-import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.OutputPin;
-import com.nomagic.uml2.ext.magicdraw.actions.mdbasicactions.SendSignalAction;
-import com.nomagic.uml2.ext.magicdraw.actions.mdcompleteactions.AcceptEventAction;
-import com.nomagic.uml2.ext.magicdraw.actions.mdintermediateactions.CreateObjectAction;
-import com.nomagic.uml2.ext.magicdraw.actions.mdintermediateactions.DestroyObjectAction;
-import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityFinalNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityParameterNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ControlFlow;
-import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.InitialNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ObjectFlow;
-import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.DataStoreNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.InterruptibleActivityRegion;
-import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ActivityPartition;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.CentralBufferNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.DecisionNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.FlowFinalNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.ForkNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.JoinNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.MergeNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.ConditionalNode;
-import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.LoopNode;
-import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationItem;
-import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
-import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Usage;
-import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
-import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.InterfaceRealization;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DataType;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
@@ -83,7 +36,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
@@ -91,49 +43,8 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.AnyReceiveEvent;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.CallEvent;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.SignalEvent;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.TimeEvent;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Trigger;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationConstraint;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationInterval;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationObservation;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeConstraint;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeExpression;
-import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeObservation;
-import com.nomagic.uml2.ext.magicdraw.compositestructures.mdcollaborations.Collaboration;
-import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
-import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.DestructionOccurrenceSpecification;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Interaction;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageOccurrenceSpecification;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.StateInvariant;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.CombinedFragment;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionOperand;
-import com.nomagic.uml2.ext.magicdraw.interactions.mdfragments.InteractionUse;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Extension;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.nomagic.uml2.ext.magicdraw.mdusecases.Actor;
-import com.nomagic.uml2.ext.magicdraw.mdusecases.Extend;
-import com.nomagic.uml2.ext.magicdraw.mdusecases.ExtensionPoint;
-import com.nomagic.uml2.ext.magicdraw.mdusecases.Include;
-import com.nomagic.uml2.ext.magicdraw.mdusecases.UseCase;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.ConnectionPointReference;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.FinalState;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.State;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.StateMachine;
-import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public class Exporter {	
 	Project project;
@@ -144,6 +55,8 @@ public class Exporter {
 	
 	CommonElementsFactory cef;
 	CommonRelationshipsFactory crf;
+	
+	boolean isUafModel = false;
 	
 	public static void exportModel(File file) throws IOException {
 		exportModelFromPackage(file, null);
@@ -170,6 +83,7 @@ public class Exporter {
 		crf = new CommonRelationshipsFactory();
 		
 		Logger.createNewExportLogger();
+		Logger.logConfigOptions();
 	}
 	
 	public void buildXML(File file, Package packageElement) {		
@@ -275,35 +189,33 @@ public class Exporter {
 	}
 	
 	public void exportPackage(Element pkg) {
-		if (exportedElements.contains(pkg.getID())) {
-			Logger.log(String.format("%s package, profile, or model with id %s already exported.", pkg.getHumanName(), pkg.getID()));
+		if (exportedElements.contains(MtipUtils.getId(pkg))) {
 			return;
 		}
 		
 		CommonElementsFactory cef = new CommonElementsFactory();
 		String packageType = MtipUtils.getPackageType(pkg);
 		
-		CommonElement commonElement = cef.createElement(packageType, ((NamedElement)pkg).getName(), pkg.getID());
+		CommonElement commonElement = cef.createElement(packageType, ((NamedElement)pkg).getName(), MtipUtils.getId(pkg));
 		commonElement.writeToXML(pkg);
 		
-		exportedElements.add(pkg.getID());
+		exportedElements.add(MtipUtils.getId(pkg));
 	}
 	
 	public void exportEntity(Element element) {
-		if(exportedElements.contains(element.getID())) {
-			Logger.log(String.format("Element already exported with name %s and id %s.", element.getHumanName(), element.getID()));
+		if(exportedElements.contains(MtipUtils.getId(element))) {
 			return;
 		}
 		
 		String commonElementType = MtipUtils.getEntityType(element);
-		
+
 		if (commonElementType == null) {
 			if (isImplicitlySupported(element)) {
 				addImplicitElement(element);
 				return;
 			}
 			
-			unsupportedElements.add(element.getID());
+			unsupportedElements.add(MtipUtils.getId(element));
 			Logger.log(String.format("%s type could not be identified. Not currently supported.", element.getHumanType()));
 			return;
 		}
@@ -323,34 +235,35 @@ public class Exporter {
 			return;
 		}		
 		
+		unsupportedElements.add(MtipUtils.getId(element));
 		Logger.log(String.format("%s is not categorized as an element, relationship, or diagram.", commonElementType));
 	}
 	
 	public void exportElement(Element element, String elementType) {
 		if (elementType == null) {
-			Logger.log(String.format("Element type not found for %s with id %s", element.getHumanName(), element.getID()));
+			Logger.log(String.format("Element type not found for %s with id %s", element.getHumanName(), MtipUtils.getId(element)));
 			return;
 		}
 		 
-		CommonElement commonElement =  cef.createElement(elementType, ((NamedElement)element).getName(), element.getID());
+		CommonElement commonElement =  cef.createElement(elementType, CameoUtils.getElementName(element), MtipUtils.getId(element));
 		
 		if (commonElement == null) {
 			return;
 		}
 		
 		commonElement.writeToXML(element);
-		exportedElements.add(element.getID());
+		exportedElements.add(MtipUtils.getId(element));
 		
 		exportReferencedElements(element);
 	}
 	
 	public void exportRelationship(Element element, String relationshipType) {
 	    if (relationshipType == null) {
-	         Logger.log(String.format("Relationship type not found for %s with id %s", element.getHumanName(), element.getID()));
+	         Logger.log(String.format("Relationship type not found for %s with id %s", element.getHumanName(), MtipUtils.getId(element)));
 	         return;
 	    }
 	    
-		CommonRelationship commonRelationship = crf.createElement(relationshipType, CommonRelationship.getName(element), element.getID());
+		CommonRelationship commonRelationship = crf.createElement(relationshipType, CommonRelationship.getName(element), MtipUtils.getId(element));
 		
 		if (commonRelationship == null) {
 			Logger.log(String.format("CommonRelationship not defined in CommonRelationshipFactory. Please check implementation for %s", relationshipType));
@@ -358,14 +271,14 @@ public class Exporter {
 		}
 		
 		commonRelationship.writeToXML(element);
-		exportedElements.add(element.getID());
+		exportedElements.add(MtipUtils.getId(element));
 		
 		// Check if supplier and client are created - important for UML Metaclasses and SysML Profile objects referenced in extension and generalization relationships
-		if(commonRelationship.getSupplier() != null && !exportedElements.contains(commonRelationship.getSupplier().getID())) {
+		if(commonRelationship.getSupplier() != null && !exportedElements.contains(MtipUtils.getId(commonRelationship.getSupplier()))) {
 			exportEntity(commonRelationship.getSupplier());
 		}
 		
-		if(commonRelationship.getClient() != null && !exportedElements.contains(commonRelationship.getClient().getID())) {
+		if(commonRelationship.getClient() != null && !exportedElements.contains(MtipUtils.getId(commonRelationship.getClient()))) {
 			exportEntity(commonRelationship.getClient());
 		}		
 	}
@@ -442,7 +355,7 @@ public class Exporter {
 	 * and total exported elements where: Total = implicit + explicit
 	 */
 	public void addImplicitElement(Element element) {
-		implicitElements.add(element.getID());
+		implicitElements.add(MtipUtils.getId(element));
 	}
 
 	public HashSet<String> getExportedElements() {

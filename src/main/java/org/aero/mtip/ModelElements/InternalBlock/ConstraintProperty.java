@@ -8,11 +8,12 @@ package org.aero.mtip.ModelElements.InternalBlock;
 
 import java.util.HashMap;
 import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -36,7 +37,7 @@ public class ConstraintProperty extends CommonElement {
 		String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 		try {
 			Element type = Importer.getInstance().buildElement(parsedXML, parsedXML.get(classifierID));
-			modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getID());
+			modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, MtipUtils.getId(type));
 		} catch (NullPointerException npe) {
 			Logger.log(String.format("Failed to create/get typed by element for element with id %s", EAID));
 		}

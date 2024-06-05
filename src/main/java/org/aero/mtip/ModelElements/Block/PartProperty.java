@@ -7,13 +7,14 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.ModelElements.Block;
 
 import java.util.HashMap;
-import org.aero.mtip.XML.Import.Importer;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
@@ -28,19 +29,16 @@ public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property 
 	}
 	
 	@Override
-	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {
-		CameoUtils.logGui("\t...Creating dependent elements for PartProperty with id: " + modelElement.getImportId());
-		
+	public void createDependentElements(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
 		if(modelElement.hasAttribute(XmlTagConstants.TYPED_BY)) {
 			String classifierID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 			try {
 				Element type = Importer.getInstance().buildElement(parsedXML, parsedXML.get(classifierID));
-				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, type.getID());
+				modelElement.addAttribute(XmlTagConstants.CLASSIFIER_TYPE, MtipUtils.getId(type));
 			} catch (NullPointerException npe) {
-				CameoUtils.logGui("Failed to create/get typed by element for element with id" + this.EAID);
 				Logger.log("Failed to create/get typed by element for element with id" + this.EAID);
 			}
-		}		
+		}
 	}
 	
 	@Override

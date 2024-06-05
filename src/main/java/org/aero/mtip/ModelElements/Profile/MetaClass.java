@@ -10,8 +10,8 @@ import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
-
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -35,7 +35,7 @@ public class MetaClass extends CommonElement {
 		// StereotypesHelper.getMetaClassByName(project, "Class");
 		if (!(element == null)) {
 			CameoUtils.logGui("Creating metaclass with name: " + this.name);
-			CameoUtils.logGui(element.getID());
+			CameoUtils.logGui(MtipUtils.getId(element));
 			
 		} else {
 			element = f.createClassInstance();
