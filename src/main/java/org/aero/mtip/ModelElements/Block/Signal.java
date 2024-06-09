@@ -12,7 +12,7 @@ import org.aero.mtip.constants.XmlTagConstants;
 public class Signal extends CommonElement{
 	public Signal(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.SIGNAL;
 		this.xmlConstant = XmlTagConstants.SIGNAL;
 		this.element = f.createSignalInstance();

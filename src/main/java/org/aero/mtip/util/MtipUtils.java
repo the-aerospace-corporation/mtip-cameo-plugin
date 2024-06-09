@@ -56,6 +56,7 @@ import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.JoinNo
 import com.nomagic.uml2.ext.magicdraw.activities.mdintermediateactivities.MergeNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.ConditionalNode;
 import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.LoopNode;
+import com.nomagic.uml2.ext.magicdraw.activities.mdstructuredactivities.StructuredActivityNode;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationItem;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
@@ -409,6 +410,8 @@ public class MtipUtils {
       return SysmlConstants.STATE_MACHINE;
     } else if (element instanceof Stereotype) {
       return SysmlConstants.STEREOTYPE;
+    } else if (element instanceof StructuredActivityNode) {
+      return SysmlConstants.STRUCTURED_ACTIVITY_NODE;
     } else if (SysML.isSubsystem(element)) {
       return SysmlConstants.SUBSYSTEM;
     } else if (SysML.isSystemContext(element)) {
@@ -583,7 +586,7 @@ public class MtipUtils {
     List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element).stream()
         .filter(x -> UAF.isUafProfile(StereotypesHelper.getProfileForStereotype(x)))
         .collect(Collectors.toList());
-
+    
     if (stereotypes.size() == 0) {
       return null;
     }

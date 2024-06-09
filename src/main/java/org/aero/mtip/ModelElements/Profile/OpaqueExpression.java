@@ -26,7 +26,7 @@ public class OpaqueExpression extends CommonElement {
 	
 	public OpaqueExpression(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.OPAQUE_EXPRESSION;
 		this.xmlConstant = XmlTagConstants.OPAQUE_EXPRESSION;
 		this.element = f.createOpaqueExpressionInstance();

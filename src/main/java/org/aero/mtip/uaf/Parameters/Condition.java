@@ -8,7 +8,7 @@ public class Condition extends CommonElement{
 	public Condition (String name, String EAID) 
 	{
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = UAFConstants.CONDITION;
 		this.xmlConstant = XmlTagConstants.CONDITION;
 		this.element = f.createDataTypeInstance();

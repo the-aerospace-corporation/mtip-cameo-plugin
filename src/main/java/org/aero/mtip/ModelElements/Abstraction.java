@@ -13,7 +13,7 @@ public class Abstraction extends CommonDirectedRelationship {
 
 	public Abstraction(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.xmlConstant = XmlTagConstants.ABSTRACTION;
 		this.metamodelConstant = SysmlConstants.ABSTRACTION;
 		this.element = f.createAbstractionInstance();

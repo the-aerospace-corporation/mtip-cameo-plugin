@@ -27,7 +27,7 @@ public class Parameter extends CommonElement {
 			
 	public Parameter(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.PARAMETER;
 		this.xmlConstant = XmlTagConstants.SYSML_PARAMETER;
 		this.element = f.createParameterInstance();

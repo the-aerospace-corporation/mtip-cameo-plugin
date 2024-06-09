@@ -21,7 +21,7 @@ public class CallOperationAction extends ActivityNode {
 
 	public CallOperationAction(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.CALL_OPERATION_ACTION;
 		this.xmlConstant = XmlTagConstants.CALL_OPERATION_ACTION;
 		this.element = f.createCallOperationActionInstance();

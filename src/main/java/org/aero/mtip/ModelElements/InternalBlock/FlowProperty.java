@@ -22,7 +22,7 @@ public class FlowProperty extends CommonElement {
 
 	public FlowProperty(String name, String EAID) {
 		super(name, EAID);
-		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		metamodelConstant = SysmlConstants.FLOW_PROPERTY;
 		xmlConstant = XmlTagConstants.FLOW_PROPERTY;
 		element = f.createPropertyInstance();

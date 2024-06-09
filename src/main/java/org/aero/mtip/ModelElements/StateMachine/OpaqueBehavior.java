@@ -20,7 +20,7 @@ public class OpaqueBehavior extends CommonElement {
 
 	public OpaqueBehavior(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.OPAQUE_BEHAVIOR;
 		this.xmlConstant = XmlTagConstants.OPAQUE_BEHAVIOR;
 		this.element = f.createOpaqueBehaviorInstance();

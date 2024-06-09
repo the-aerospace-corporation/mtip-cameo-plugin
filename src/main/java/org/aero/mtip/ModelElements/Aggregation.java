@@ -19,7 +19,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 public class Aggregation extends org.aero.mtip.ModelElements.Association {
 	public Aggregation(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.AGGREGATION;
 		this.xmlConstant = XmlTagConstants.AGGREGATION;
 		this.element = f.createAssociationInstance();

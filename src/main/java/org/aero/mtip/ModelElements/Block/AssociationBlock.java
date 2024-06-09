@@ -28,7 +28,7 @@ public class AssociationBlock extends CommonElement {
 	
 	public AssociationBlock(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.ASSOCIATION_BLOCK;
 		this.xmlConstant = XmlTagConstants.ASSOCIATION_BLOCK;
 		this.element = f.createAssociationClassInstance();

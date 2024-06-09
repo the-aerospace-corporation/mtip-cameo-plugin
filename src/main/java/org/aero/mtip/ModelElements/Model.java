@@ -13,7 +13,7 @@ public class Model extends CommonElement {
 	
 	public Model(String name, String EAID)  {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.MODEL;
 		this.xmlConstant = XmlTagConstants.MODEL;
 		this.element = f.createModelInstance();

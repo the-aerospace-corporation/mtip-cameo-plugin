@@ -15,7 +15,7 @@ public class InformationFlow extends CommonRelationship {
 
 	public InformationFlow(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.INFORMATION_FLOW;
 		this.xmlConstant = XmlTagConstants.INFORMATIONFLOW;
 		this.element = f.createInformationFlowInstance();

@@ -24,7 +24,7 @@ public class CombinedFragment extends CommonElement {
 	public static final String newInteractionOperand = "newInteractionOperand";
 	public CombinedFragment(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.COMBINED_FRAGMENT;
 		this.xmlConstant = XmlTagConstants.COMBINED_FRAGMENT;
 		this.element = f.createCombinedFragmentInstance();

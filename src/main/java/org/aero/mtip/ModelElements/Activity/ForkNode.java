@@ -13,7 +13,7 @@ public class ForkNode extends ActivityNode {
 
 	public ForkNode(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.FORK_NODE;
 		this.xmlConstant = XmlTagConstants.FORK_NODE;
 		this.element = f.createForkNodeInstance();

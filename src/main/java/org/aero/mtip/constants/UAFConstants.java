@@ -245,6 +245,7 @@ public class UAFConstants {
 	// Personnel Diagrams
 	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "PersonnelConnectivity";
 	public static final String PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM = "PersonnelInteractionScenarios";
+	public static final String PERSONNEL_INTERNAL_CONNECTIVITY_DIAGRAM = "PersonnelInternalConnectivity";
 	public static final String PERSONNEL_PROCESSES_DIAGRAM = "PersonnelProcesses";
 	public static final String PERSONNEL_PROCESSES_FLOW_DIAGRAM = "PersonnelProcessesFlow";
 	public static final String PERSONNEL_STATES_DIAGRAM = "PersonnelStates";
@@ -553,6 +554,7 @@ public class UAFConstants {
 			
 			// Personnel
 			PERSONNEL_CONNECTIVITY_DIAGRAM,
+			PERSONNEL_INTERNAL_CONNECTIVITY_DIAGRAM,
 			PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM,
 			PERSONNEL_PROCESSES_DIAGRAM,
 			PERSONNEL_PROCESSES_FLOW_DIAGRAM,

@@ -26,7 +26,7 @@ import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Occurrenc
 public class Message extends CommonRelationship {
 	public Message(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.MESSAGE;
 		this.xmlConstant = XmlTagConstants.MESSAGE;
 		this.element = f.createMessageInstance();

@@ -54,7 +54,7 @@ public class BrowserConfigurator implements BrowserContextAMConfigurator {
 		        
 		        importExportCategory.addAction(category);
 				mtipCategory.addAction(importExportCategory);
-			}
+			}			
 		}
 	}
 }

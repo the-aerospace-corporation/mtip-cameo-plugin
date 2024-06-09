@@ -13,7 +13,7 @@ public class TimeObservation extends CommonElement {
 
 	public TimeObservation(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.TIME_OBSERVATION;
 		this.xmlConstant = XmlTagConstants.TIMEOBSERVATION;
 		this.element = f.createTimeObservationInstance();

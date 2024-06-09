@@ -20,7 +20,7 @@ public class BindingConnector extends Connector {
 
 	public BindingConnector(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.xmlConstant = XmlTagConstants.BINDINGCONNECTOR;
 		this.metamodelConstant = SysmlConstants.BINDING_CONNECTOR;
 		this.element= f.createConnectorInstance();

@@ -103,7 +103,7 @@ public abstract class CommonElement {
 	}
 	
 	protected Element setBaseElement() {
-		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTSFACTORY)) {
+		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTS_FACTORY)) {
 			return element;
 		}
 		
@@ -315,7 +315,7 @@ public abstract class CommonElement {
 	public void writeTaggedValues(Element element, Stereotype stereotype, org.w3c.dom.Element attributes) {
 		List<Property> properties = StereotypesHelper.getPropertiesWithDerivedOrdered(stereotype);
 		for(Property property : properties) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue taggedValue = TagsHelper.getTaggedValueOrCreate(element, stereotype, property, false);
+			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue taggedValue = TagsHelper.getTaggedValue(element, property);
 			
 			if(taggedValue == null) {
 				continue;

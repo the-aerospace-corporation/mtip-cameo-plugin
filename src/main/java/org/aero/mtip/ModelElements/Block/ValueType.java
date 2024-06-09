@@ -12,12 +12,12 @@ import javax.annotation.CheckForNull;
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.io.Importer;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -26,7 +26,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 public class ValueType extends CommonElement {
 	public ValueType(String name, String EAID)  {
 		super(name, EAID);
-		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		metamodelConstant = SysmlConstants.VALUE_TYPE;
 		xmlConstant = XmlTagConstants.VALUETYPE;
 		element = f.createDataTypeInstance();

@@ -25,7 +25,7 @@ public abstract class PseudoState extends CommonElement {
 	
 	public PseudoState(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.element = f.createPseudostateInstance();
 	}
 

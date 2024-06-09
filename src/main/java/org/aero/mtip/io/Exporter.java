@@ -44,6 +44,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
+import com.nomagic.uml2.ext.magicdraw.deployments.mdartifacts.Artifact;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 
 public class Exporter {	
@@ -215,8 +216,12 @@ public class Exporter {
 				return;
 			}
 			
+			if (isExplicitlyUnsupported(element)) {
+			  return;
+			}
+			
 			unsupportedElements.add(MtipUtils.getId(element));
-			Logger.log(String.format("%s type could not be identified. Not currently supported.", element.getHumanType()));
+			Logger.log(String.format("%s type could not be identified. Not currently supported.", MtipUtils.getCameoElementType(element)));
 			return;
 		}
 		
@@ -328,6 +333,14 @@ public class Exporter {
 		}
 		
 		return false;
+	}
+	
+	public boolean isExplicitlyUnsupported(Element element) {
+	  if (element instanceof Artifact || element instanceof Comment) {
+	    return true;
+	  }
+	  
+	  return false;
 	}
 	
 	public boolean isPackage(Element element) {

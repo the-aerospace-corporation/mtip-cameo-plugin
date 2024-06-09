@@ -9,8 +9,8 @@ package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.SysML;
-import org.aero.mtip.util.XmlTagConstants;
 
 public class ConstraintBlock extends CommonElement {
   public ConstraintBlock(String name, String EAID) {

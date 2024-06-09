@@ -21,7 +21,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 public class PartProperty extends org.aero.mtip.ModelElements.Sequence.Property {
 	public PartProperty(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.PART_PROPERTY;
 		this.xmlConstant = XmlTagConstants.PART_PROPERTY;
 		this.element = f.createPropertyInstance();

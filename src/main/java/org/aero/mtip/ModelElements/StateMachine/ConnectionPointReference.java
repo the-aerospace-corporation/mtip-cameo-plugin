@@ -14,7 +14,7 @@ public class ConnectionPointReference extends CommonElement {
 
 	public ConnectionPointReference(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.CONNECTION_POINT_REFERENCE;
 		this.xmlConstant = XmlTagConstants.CONNECTION_POINT_REFERENCE;
 		this.element = f.createConnectionPointReferenceInstance();

@@ -21,7 +21,7 @@ public class ReferenceProperty extends CommonElement {
 
 	public ReferenceProperty(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.xmlConstant = XmlTagConstants.REFERENCE_PROPERTY;
 		this.metamodelConstant = SysmlConstants.REFERENCE_POINT;
 		this.element = f.createPropertyInstance();

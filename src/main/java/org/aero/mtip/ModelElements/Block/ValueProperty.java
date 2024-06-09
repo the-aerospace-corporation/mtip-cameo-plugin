@@ -20,7 +20,7 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 public class ValueProperty extends Property {
 	public ValueProperty(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.VALUE_PROPERTY;
 		this.xmlConstant = XmlTagConstants.VALUEPROPERTY;
 		this.element = f.createPropertyInstance();

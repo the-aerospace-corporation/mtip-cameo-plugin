@@ -30,7 +30,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 public class Slot extends CommonElement {
 	public Slot(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.SLOT;
 		this.xmlConstant = XmlTagConstants.SLOT;
 //		this.sysmlElement = f.createSlotInstance();

@@ -23,7 +23,7 @@ import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Event;
 public class Trigger extends CommonElement {
 	public Trigger(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.TRIGGER;
 		this.xmlConstant = XmlTagConstants.TRIGGER;
 		this.element = f.createTriggerInstance();

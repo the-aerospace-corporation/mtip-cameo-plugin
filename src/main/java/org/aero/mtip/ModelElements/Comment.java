@@ -18,7 +18,7 @@ public class Comment extends CommonElement {
 
 	public Comment(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.COMMENT;
 		this.xmlConstant = XmlTagConstants.COMMENT;
 		this.element = f.createCommentInstance();

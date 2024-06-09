@@ -26,7 +26,7 @@ public class ControlFlow extends CommonRelationship {
 
 	public ControlFlow(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.CONTROL_FLOW;
 		this.xmlConstant = XmlTagConstants.CONTROLFLOW;
 		this.element = f.createControlFlowInstance();

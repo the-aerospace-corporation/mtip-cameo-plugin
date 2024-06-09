@@ -14,7 +14,7 @@ import org.aero.mtip.profiles.SysML;
 public class FlowSpecification extends CommonElement {
 	public FlowSpecification(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.FLOW_SPECFICATION;
 		this.xmlConstant = XmlTagConstants.FLOW_SPECIFICATION;
 		this.element = f.createInterfaceInstance();

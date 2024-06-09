@@ -126,10 +126,13 @@ public class XmlTagConstants {
 	public static final String ACTIVITY_PARAMETER_NODE = "sysml.ActivityParameterNode";
 	public static final String ACTIVITY_PARTITION = "sysml.ActivityPartition";
 	public static final String ACTOR = "sysml.Actor";
+	public static final String ANY_RECEIVE_EVENT = "sysml.AnyReceiveEvent";
 	public static final String ASSOCIATION_BLOCK = "sysml.AssociationBlock";
 	public static final String BLOCK = "sysml.Block";
 	public static final String BOUND_REFERENCE = "sysml.BoundReference";
+	public static final String BUSINESS_REQUIREMENT = "sysml.BusinessRequirement";
 	public static final String CALL_BEHAVIOR_ACTION = "sysml.CallBehaviorAction";
+	public static final String CALL_EVENT = "sysml.CallEvent";
 	public static final String CALL_OPERATION_ACTION = "sysml.CallOperationAction";
 	public static final String CENTRAL_BUFFER_NODE = "sysml.CentralBufferNode";
 	public static final String CHANGE_EVENT = "sysml.ChangeEvent";
@@ -148,6 +151,7 @@ public class XmlTagConstants {
 	public static final String CREATE_OBJECT_ACTION = "sysml.CreateObjectAction";
 	public static final String CUSTOMIZATION = "cameo.Customization";
 	public static final String DATA_STORE_NODE = "sysml.DataStoreNode";
+	public static final String DATA_TYPE = "sysml.DataType";
 	public static final String DECISION_NODE = "sysml.DecisionNode";
 	public static final String DEEP_HISTORY = "sysml.DeepHistory";
 	public static final String DESIGN_CONSTRAINT = "sysml.DesignConstraint";
@@ -183,6 +187,7 @@ public class XmlTagConstants {
 	public static final String INTERACTION_OPERAND = "sysml.InteractionOperand";
 	public static final String INTERACTION_USE = "sysml.InteractionUse";
 	public static final String INTERFACE = "sysml.Interface";
+	public static final String INTERFACE_REALIZATION = "sysml.InterfaceRealization";
 	public static final String INTERFACE_BLOCK = "sysml.InterfaceBlock";
 	public static final String INTERFACE_REQUIREMENT = "sysml.InterfaceRequirement";
 	public static final String INTERRUPTIBLE_ACTIVITY_REGION = "sysml.InterruptibleActivityRegion";
@@ -225,6 +230,7 @@ public class XmlTagConstants {
 	public static final String STATEINVARIANT = "sysml.StateInvariant";
 	public static final String STATEMACHINE = "sysml.StateMachine";
 	public static final String STEREOTYPE = "sysml.Stereotype";
+	public static final String STRUCTURED_ACTIVITY_NODE = "sysml.StructuredActivityNode";
 	public static final String TERMINATE = "sysml.Terminate";
 	public static final String TERM = "sysml.Term";
 	public static final String TIMECONSTRAINT = "sysml.TimeConstraint";
@@ -233,6 +239,7 @@ public class XmlTagConstants {
 	public static final String TIMEOBSERVATION = "sysml.TimeObservation";
 	public static final String TRIGGER = "sysml.Trigger";
 	public static final String UNIT = "sysml.Unit";
+	public static final String USABILITY_REQUIREMENT = "sysml.UsabilityRequirement";
 	public static final String USECASE = "sysml.UseCase";
 	public static final String VALUEPROPERTY = "sysml.ValueProperty";
 	public static final String VALUETYPE = "sysml.ValueType";
@@ -553,6 +560,7 @@ public class XmlTagConstants {
 	// Personnel Diagrams
 	public static final String PERSONNEL_CONNECTIVITY_DIAGRAM = "uaf.PersonnelConnectivity";
 	public static final String PERSONNEL_INTERACTION_SCENARIOS_DIAGRAM = "uaf.PersonnelInteractionScenarios";
+	public static final String PERSONNEL_INTERNAL_CONNECTIVITY = "cameo.PersonnelInternalConnectivity";
 	public static final String PERSONNEL_PROCESSES_DIAGRAM = "uaf.PersonnelProcesses";
 	public static final String PERSONNEL_PROCESSES_FLOW_DIAGRAM = "uaf.PersonnelProcessesFlow";
 	public static final String PERSONNEL_STATES_DIAGRAM = "uaf.PersonnelStates";
@@ -697,7 +705,7 @@ public class XmlTagConstants {
 	public static final String SWIMLANE = "swimlane";
 	
 	//Model Creation Type Constants
-	public static final String ELEMENTSFACTORY = "ElementsFactory";
+	public static final String ELEMENTS_FACTORY = "ElementsFactory";
 	public static final String CLASS_WITH_STEREOTYPE = "ClassWithStereotype";
 	public static final String SOURCE_TARGET = "SourceTarget";
 	

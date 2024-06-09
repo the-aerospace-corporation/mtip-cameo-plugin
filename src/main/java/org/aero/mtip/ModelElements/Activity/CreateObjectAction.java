@@ -13,7 +13,7 @@ public class CreateObjectAction extends ActivityNode {
 
 	public CreateObjectAction(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.CREATE_OBJECT_ACTION;
 		this.xmlConstant = XmlTagConstants.CREATE_OBJECT_ACTION;
 		this.element = f.createCreateObjectActionInstance();

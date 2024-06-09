@@ -29,7 +29,7 @@ public class ConstraintParameter extends CommonElement {
 
 	public ConstraintParameter(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.xmlConstant = XmlTagConstants.CONSTRAINT_PARAMETER;
 		this.metamodelConstant = SysmlConstants.CONSTRAINT_PARAMETER;
 		this.element = f.createPortInstance();

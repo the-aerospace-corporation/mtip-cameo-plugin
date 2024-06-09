@@ -13,7 +13,7 @@ public class Interface extends CommonElement {
 
 	public Interface(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.INTERFACE;
 		this.xmlConstant = XmlTagConstants.INTERFACE;
 		this.element = f.createInterfaceInstance();

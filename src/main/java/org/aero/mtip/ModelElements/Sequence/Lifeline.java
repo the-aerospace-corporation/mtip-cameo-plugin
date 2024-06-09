@@ -26,7 +26,7 @@ import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Interacti
 public class Lifeline extends CommonElement {
 	public Lifeline(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.LIFELINE;
 		this.xmlConstant = XmlTagConstants.LIFELINE;
 		this.element = f.createLifelineInstance();

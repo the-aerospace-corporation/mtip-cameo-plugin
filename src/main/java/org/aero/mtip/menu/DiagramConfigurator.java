@@ -8,10 +8,9 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.menu;
 
 import org.aero.mtip.menu.actions.ExportDiagramAction;
-import org.aero.mtip.util.GetMessageViewInfoAction;
-import org.aero.mtip.util.InspectDiagramElementAction;
-import org.aero.mtip.util.InspectDiagramElementNestedAction;
-
+import org.aero.mtip.menu.actions.GetMessageViewInfoAction;
+import org.aero.mtip.menu.actions.InspectDiagramElementAction;
+import org.aero.mtip.menu.actions.InspectDiagramElementNestedAction;
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;

@@ -20,7 +20,7 @@ public class StateInvariant extends CommonElement {
 
 	public StateInvariant(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.STATE_INVARIANT;
 		this.xmlConstant = XmlTagConstants.STATEINVARIANT;
 		this.element = f.createStateInvariantInstance();

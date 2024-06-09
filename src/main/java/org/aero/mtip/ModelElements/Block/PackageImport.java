@@ -8,7 +8,7 @@ public class PackageImport extends CommonRelationship {
 
 	public PackageImport(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.PACKAGE_IMPORT;
 		this.xmlConstant = XmlTagConstants.PACKAGEIMPORT;
 		this.element = f.createPackageImportInstance();

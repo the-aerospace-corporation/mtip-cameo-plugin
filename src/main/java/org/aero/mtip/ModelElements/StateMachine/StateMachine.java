@@ -19,7 +19,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 public class StateMachine extends CommonElement {
 	public StateMachine(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.STATE_MACHINE;
 		this.xmlConstant = XmlTagConstants.STATEMACHINE;
 		this.element = f.createStateMachineInstance();

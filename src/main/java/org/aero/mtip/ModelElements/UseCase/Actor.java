@@ -13,7 +13,7 @@ public class Actor extends CommonElement {
 
 	public Actor(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.ACTOR;
 		this.xmlConstant = XmlTagConstants.ACTOR;
 		this.element = f.createActorInstance();

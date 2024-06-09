@@ -13,7 +13,7 @@ public class Extend extends CommonDirectedRelationship {
 
 	public Extend(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.EXTEND;
 		this.xmlConstant = XmlTagConstants.EXTEND;
 		this.element = f.createExtendInstance();

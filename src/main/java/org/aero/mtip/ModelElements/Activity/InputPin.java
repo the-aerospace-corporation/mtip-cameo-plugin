@@ -20,7 +20,7 @@ public class InputPin extends ActivityNode {
 
 	public InputPin(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.INPUT_PIN;
 		this.xmlConstant = XmlTagConstants.INPUT_PIN;
 		this.element = f.createInputPinInstance();

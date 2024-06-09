@@ -13,7 +13,7 @@ public class InteractionUse extends CommonElement {
 
 	public InteractionUse(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.INTERACTION_USE;
 		this.xmlConstant = XmlTagConstants.INTERACTION_USE;
 		this.element = f.createInteractionUseInstance();

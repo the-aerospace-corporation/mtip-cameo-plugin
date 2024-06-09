@@ -24,7 +24,7 @@ public class InstanceSpecification extends CommonElement {
 	protected List<Classifier> classifiers = new ArrayList<Classifier> ();
 	public InstanceSpecification(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.INSTANCE_SPECIFICATION;
 		this.xmlConstant = XmlTagConstants.INSTANCESPECIFICATION;
 		this.element = f.createInstanceSpecificationInstance();

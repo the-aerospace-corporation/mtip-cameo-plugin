@@ -13,7 +13,7 @@ public class LoopNode extends ActivityNode {
 
 	public LoopNode(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.LOOP_NODE;
 		this.xmlConstant = XmlTagConstants.LOOP_NODE;
 		this.element = f.createLoopNodeInstance();

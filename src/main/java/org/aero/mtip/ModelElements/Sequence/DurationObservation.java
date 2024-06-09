@@ -14,7 +14,7 @@ public class DurationObservation extends CommonElement {
 
 	public DurationObservation(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.DURATION_OBSERVATION;
 		this.xmlConstant = XmlTagConstants.DURATION_OBSERVATION;
 		this.element = f.createDurationObservationInstance();

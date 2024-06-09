@@ -25,7 +25,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 public class State extends CommonElement {
 	public State(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.STATE;
 		this.xmlConstant = XmlTagConstants.STATE;
 		this.element = f.createStateInstance();

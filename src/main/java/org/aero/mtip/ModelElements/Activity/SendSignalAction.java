@@ -9,9 +9,9 @@ package org.aero.mtip.ModelElements.Activity;
 import java.util.HashMap;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.io.Importer;
 import org.aero.mtip.util.XMLItem;
-import org.aero.mtip.util.XmlTagConstants;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.Signal;
@@ -20,7 +20,7 @@ public class SendSignalAction extends ActivityNode {
 
 	public SendSignalAction(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.SEND_SIGNAL_ACTION;
 		this.xmlConstant = XmlTagConstants.SEND_SIGNAL_ACTION;
 		this.element = f.createSendSignalActionInstance();

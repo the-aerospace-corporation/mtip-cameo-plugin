@@ -18,7 +18,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.MultiplicityElement;
 public class Association extends CommonRelationship{
 	public Association(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.ASSOCIATION;
 		this.xmlConstant = XmlTagConstants.ASSOCIATION;
 		this.element = f.createAssociationInstance();

@@ -18,7 +18,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
 public class Port extends CommonElement {
 	public Port(String name, String EAID)  {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.PORT;
 		this.xmlConstant = XmlTagConstants.PORT;
 		this.element = f.createPortInstance();

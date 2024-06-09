@@ -19,7 +19,7 @@ public class AcceptEventAction extends ActivityNode {
 
 	public AcceptEventAction(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.ACCEPT_EVENT_ACTION;
 		this.xmlConstant = XmlTagConstants.ACCEPT_EVENT_ACTION;
 		this.element = f.createAcceptEventActionInstance();

@@ -1,9 +1,11 @@
-package org.aero.mtip.util;
+package org.aero.mtip.menu.actions;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.aero.mtip.util.CameoUtils;
+import org.aero.mtip.util.DiagramUtils;
+import org.aero.mtip.util.MtipUtils;
 import com.nomagic.magicdraw.actions.MDAction;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;

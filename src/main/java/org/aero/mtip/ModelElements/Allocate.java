@@ -19,7 +19,7 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 public class Allocate extends CommonRelationship{
 	public Allocate(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.ALLOCATE;
 		this.xmlConstant = XmlTagConstants.ALLOCATE;
 		this.element = f.createAbstractionInstance();

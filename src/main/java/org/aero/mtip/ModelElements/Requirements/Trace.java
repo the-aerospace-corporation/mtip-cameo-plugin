@@ -21,7 +21,7 @@ public class Trace extends CommonDirectedRelationship {
 
 	public Trace(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.TRACE;
 		this.xmlConstant = XmlTagConstants.TRACE;
 		this.element = f.createAbstractionInstance();

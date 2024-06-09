@@ -21,7 +21,7 @@ public class Extension extends CommonRelationship {
 
 	public Extension(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.EXTENSION;
 		this.xmlConstant = XmlTagConstants.EXTENSION;
 		this.element = f.createExtensionInstance();

@@ -57,8 +57,8 @@ public class UAF {
 	}
 	
 	public static boolean isUafProfile(Package profile) {
-		if (profile.getID() == getInstance().getUafProfile().getID() 
-				|| profile.getID() == getInstance().getUpdmProfile().getID()) {
+		if (profile.getName().contentEquals(NAME) 
+				|| profile.getName().contentEquals(UPDM_NAME)) {
 			return true;
 		}
 		

@@ -21,7 +21,7 @@ public class Refine extends CommonDirectedRelationship {
 
 	public Refine(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.REFINE;
 		this.xmlConstant = XmlTagConstants.REFINE;
 		this.element = f.createAbstractionInstance();

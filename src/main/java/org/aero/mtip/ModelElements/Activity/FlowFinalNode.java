@@ -13,7 +13,7 @@ public class FlowFinalNode extends ActivityNode {
 
 	public FlowFinalNode(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.FLOW_FINAL_NODE;
 		this.xmlConstant = XmlTagConstants.FLOW_FINAL_NODE;
 		this.element = f.createFlowFinalNodeInstance();

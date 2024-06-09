@@ -31,7 +31,7 @@ import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 public class Connector extends CommonRelationship {
 	public Connector(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.xmlConstant = XmlTagConstants.CONNECTOR;
 		this.metamodelConstant = SysmlConstants.CONNECTOR;
 		this.element = f.createConnectorInstance();

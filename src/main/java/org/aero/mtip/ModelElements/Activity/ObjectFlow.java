@@ -25,7 +25,7 @@ public class ObjectFlow extends CommonRelationship {
 
 	public ObjectFlow(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.OBJECT_FLOW;
 		this.xmlConstant = XmlTagConstants.OBJECTFLOW;
 		this.element = f.createObjectFlowInstance();

@@ -21,7 +21,7 @@ public class Verify extends CommonDirectedRelationship {
 
 	public Verify(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.VERIFY;
 		this.xmlConstant = XmlTagConstants.VERIFY;
 		this.element = f.createAbstractionInstance();

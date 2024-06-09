@@ -18,7 +18,7 @@ public class DestructionOccurrenceSpecification extends CommonElement {
 
 	public DestructionOccurrenceSpecification(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.DESTRUCTION_OCCURRENCE_SPECIFICATION;
 		this.xmlConstant = XmlTagConstants.DESTRUCTION_OCCURRENCE_SPECIFICATION;
 		this.element = f.createDestructionOccurrenceSpecificationInstance();

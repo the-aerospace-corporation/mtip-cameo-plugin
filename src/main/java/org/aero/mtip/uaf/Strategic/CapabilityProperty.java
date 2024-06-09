@@ -8,7 +8,7 @@ public class CapabilityProperty extends Property {
 
 	public CapabilityProperty(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = UAFConstants.CAPABILITY_PROPERTY;
 		this.xmlConstant = XmlTagConstants.CAPABILITY_PROPERTY;
 		this.element = f.createPropertyInstance();

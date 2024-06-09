@@ -8,8 +8,8 @@ package org.aero.mtip.ModelElements.Profile;
 
 import org.aero.mtip.ModelElements.CommonElement;
 import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.profiles.MagicDraw;
-import org.aero.mtip.util.XmlTagConstants;
 
 public class Term extends CommonElement {
 	public Term(String name, String EAID) {

@@ -8,7 +8,7 @@ public class MeasurementSet extends CommonElement{
 	public MeasurementSet (String name, String EAID) 
 	{
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = UAFConstants.MEASUREMENT_SET;
 		this.xmlConstant = XmlTagConstants.MEASUREMENT_SET;
 		this.element = f.createDataTypeInstance();

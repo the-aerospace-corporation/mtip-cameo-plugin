@@ -8,13 +8,13 @@ package org.aero.mtip.ModelElements.Block;
 
 import org.aero.mtip.ModelElements.CommonDirectedRelationship;
 import org.aero.mtip.constants.SysmlConstants;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 
 public class InterfaceRealization extends CommonDirectedRelationship {
 
 	public InterfaceRealization(String name, String EAID) {
 		super(name, EAID);
-		creationType = XmlTagConstants.ELEMENTSFACTORY;
+		creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		metamodelConstant = SysmlConstants.INTERFACE_REALIZATION;
 		xmlConstant = XmlTagConstants.INTERFACE_REALIZATION;
 		element = f.createInterfaceRealizationInstance();

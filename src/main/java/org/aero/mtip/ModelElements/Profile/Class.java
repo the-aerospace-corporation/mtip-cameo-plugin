@@ -12,7 +12,7 @@ import org.aero.mtip.constants.XmlTagConstants;
 public class Class extends CommonElement {
 	public Class(String name, String EAID)  {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.CLASS;
 		this.xmlConstant = XmlTagConstants.CLASS;
 		this.element = f.createClassInstance();

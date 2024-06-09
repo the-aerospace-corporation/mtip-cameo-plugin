@@ -26,6 +26,7 @@ public class CameoDiagramConstants {
 	// Personnel
 	public static final String PERSONNEL_CONNECTIVITY = "Personnel Connectivity";
 	public static final String PERSONNEL_INTERACTION_SCENARIOS = "Personnel Interaction Scenarios";
+	public static final String PERSONNEL_INTERNAL_CONNECTIVITY = "Personnel Internal Connectivity";
 	public static final String PERSONNEL_PROCESSES = "Personnel Processes";
 	public static final String PERSONNEL_PROCESS_FLOW = "Personnel Processes Flow";
 	public static final String PERSONNEL_STATES = "Personnel States";

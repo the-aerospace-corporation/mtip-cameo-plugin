@@ -21,7 +21,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 public class TimeEvent extends CommonElement {
 	public TimeEvent(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.TIME_EVENT;
 		this.xmlConstant = XmlTagConstants.TIMEEVENT;
 		this.element = f.createTimeEventInstance();

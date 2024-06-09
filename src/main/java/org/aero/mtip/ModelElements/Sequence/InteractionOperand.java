@@ -16,7 +16,7 @@ public class InteractionOperand extends CommonElement {
 
 	public InteractionOperand(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.INTERACTION_OPERAND;
 		this.xmlConstant = XmlTagConstants.INTERACTION_OPERAND;
 		this.element = f.createInteractionOperandInstance();

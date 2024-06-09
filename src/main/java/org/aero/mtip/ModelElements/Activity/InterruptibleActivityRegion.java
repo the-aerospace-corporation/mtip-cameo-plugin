@@ -14,7 +14,7 @@ import org.aero.mtip.constants.XmlTagConstants;
 public class InterruptibleActivityRegion extends CommonElement {
 	public InterruptibleActivityRegion(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.INTERRUPTIBLE_ACTIVITY_REGION;
 		this.xmlConstant = XmlTagConstants.INTERRUPTIBLE_ACTIVITY_REGION;
 		this.element = f.createInterruptibleActivityRegionInstance();

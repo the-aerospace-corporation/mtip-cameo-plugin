@@ -26,7 +26,7 @@ public class Constraint extends CommonElement {
 	
 	public Constraint(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.CONSTRAINT;
 		this.element = f.createConstraintInstance();

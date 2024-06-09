@@ -26,7 +26,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Vert
 public class Transition extends CommonDirectedRelationship {
 	public Transition(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.xmlConstant = XmlTagConstants.TRANSITION;
 		this.metamodelConstant = SysmlConstants.TRANSITION;
 		this.element = f.createTransitionInstance();

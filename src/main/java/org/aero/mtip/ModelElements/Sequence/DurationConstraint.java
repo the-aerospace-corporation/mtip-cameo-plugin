@@ -25,7 +25,7 @@ import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.DurationInter
 public class DurationConstraint extends CommonElement {
 	public DurationConstraint(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.DURATION_CONSTRAINT;
 		this.xmlConstant = XmlTagConstants.DURATION_CONSTRAINT;
 		this.element = f.createDurationConstraintInstance();

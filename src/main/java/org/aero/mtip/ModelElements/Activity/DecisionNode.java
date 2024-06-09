@@ -19,7 +19,7 @@ public class DecisionNode extends ActivityNode {
 
 	public DecisionNode(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.DECISION_NODE;
 		this.xmlConstant = XmlTagConstants.DECISION_NODE;
 		this.element = f.createDecisionNodeInstance();

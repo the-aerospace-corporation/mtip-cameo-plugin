@@ -21,7 +21,7 @@ public class Satisfy extends CommonDirectedRelationship {
 
 	public Satisfy(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.SATISFY;
 		this.xmlConstant = XmlTagConstants.SATISFY;
 		this.element = f.createAbstractionInstance();

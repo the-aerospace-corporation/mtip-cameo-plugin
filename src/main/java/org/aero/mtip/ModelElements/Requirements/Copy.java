@@ -21,7 +21,7 @@ public class Copy extends CommonDirectedRelationship {
 
 	public Copy(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.COPY;
 		this.xmlConstant = XmlTagConstants.COPY;
 		this.element = f.createAbstractionInstance();

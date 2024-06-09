@@ -24,7 +24,7 @@ public class TimeExpression extends CommonElement {
 
 	public TimeExpression(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.TIME_EXPRESSION;
 		this.xmlConstant = XmlTagConstants.TIMEEXPRESSION;
 		this.element = f.createTimeExpressionInstance();

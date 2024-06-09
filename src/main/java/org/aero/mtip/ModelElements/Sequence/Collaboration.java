@@ -13,7 +13,7 @@ public class Collaboration extends CommonElement {
 
 	public Collaboration(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.COLLABORATION;
 		this.xmlConstant = XmlTagConstants.COLLABORATION;
 		this.element = f.createCollaborationInstance();

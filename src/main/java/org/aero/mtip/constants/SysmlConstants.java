@@ -135,6 +135,7 @@ public class SysmlConstants {
 	public static final String STATE_INVARIANT = "StateInvariant";
 	public static final String STATE_MACHINE = "StateMachine";
 	public static final String STEREOTYPE = "Stereotype";
+	public static final String STRUCTURED_ACTIVITY_NODE = "StructuredActivityNode";
 	public static final String TERMINATE = "Terminate";
 	public static final String TERM = "Term";
 	public static final String TIME_CONSTRAINT = "TimeConstraint";
@@ -184,11 +185,6 @@ public class SysmlConstants {
 	public static final String SUBSYSTEM = "Subsystem";
 	public static final String SYSTEM = "System";
 	public static final String SYSTEM_CONTEXT = "SystemContext";
-
-//	public static final String TRIGGER = "Trigger";
-//	public static final String NOTE = "Note";
-//	public static final String PROFILE = "Profile";
-//	public static final String PARAMETER = "Parameter";
 	
 	//Sysml Relationship Constants
 	public static final String ABSTRACTION = "Abstraction";
@@ -351,6 +347,7 @@ public class SysmlConstants {
 			STATE_INVARIANT,
 			STATE_MACHINE,
 			STEREOTYPE,
+			STRUCTURED_ACTIVITY_NODE,
 			SUBSYSTEM,
 			SYSTEM,
 			SYSTEM_CONTEXT,
@@ -376,8 +373,6 @@ public class SysmlConstants {
 			METRIC_TABLE,
 			REQUIREMENT_TABLE,
 	};
-	
-
 	
 	public static final String[] RESERVE_INSTANCE_SPECIFICATION = {
 			RESERVE_LINK,

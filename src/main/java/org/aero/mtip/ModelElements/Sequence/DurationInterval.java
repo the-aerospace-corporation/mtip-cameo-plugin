@@ -8,7 +8,7 @@ public class DurationInterval extends CommonElement {
 
 	public DurationInterval(String name, String EAID) {
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = SysmlConstants.DURATION_INTERVAL;
 		this.xmlConstant = XmlTagConstants.DURATION_INTERVAL;
 		this.element = f.createDurationInstance();

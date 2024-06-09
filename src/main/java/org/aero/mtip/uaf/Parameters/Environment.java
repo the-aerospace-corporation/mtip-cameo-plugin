@@ -8,7 +8,7 @@ public class Environment extends CommonElement{
 	public Environment (String name, String EAID) 
 	{
 		super(name, EAID);
-		this.creationType = XmlTagConstants.ELEMENTSFACTORY;
+		this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
 		this.metamodelConstant = UAFConstants.ENVIRONMENT;
 		this.xmlConstant = XmlTagConstants.ENVIRONMENT;
 		this.element = f.createDataTypeInstance();
