@@ -40,6 +40,10 @@ public class Validation {
 			return false;
 		}
 		
+		if (element == null) {
+		  return false;
+		}
+		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 		
 		if (stereotype == null) {

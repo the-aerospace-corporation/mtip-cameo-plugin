@@ -47,6 +47,13 @@ public class XmlTagConstants {
 	public static final String CLIENT_MULTIPLICITY = "clientMultiplicity";
 	public static final String SUPPLIER_MULTIPLICITY = "supplierMultiplicity";
 	
+	// Diagram Connector Path Point Tags
+	public static final String SUPPLIER_POINT = "supplierPoint";
+	public static final String CLIENT_POINT = "clientPoint";
+	public static final String BREAK_POINT = "breakPoint";
+	public static final String X_COORDINATE = "xCoordinate";
+	public static final String Y_COORDINATE = "yCoordinate";
+	
 	// XML Tag Attributes
 	public static final String ATTRIBUTE_NAME = "name";
 	public static final String ATTRIBUTE_KEY = "key";

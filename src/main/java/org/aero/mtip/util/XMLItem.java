@@ -131,7 +131,7 @@ public class XMLItem {
 				this.constrainedElements.add(value);
 		} else if(key.contentEquals(XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERAND)) {
 			this.interactionOperands.add(value);
-		} else if(key.contentEquals(org.aero.mtip.ModelElements.Sequence.CombinedFragment.newInteractionOperand)) {
+		} else if(key.contentEquals(org.aero.mtip.metamodel.sysml.sequence.CombinedFragment.newInteractionOperand)) {
 			this.newInteractionOperands.add(value);
 		} else if(key.contentEquals(XmlTagConstants.ATTRIBUTE_NAME_COVERED_BY)) {
 			this.coveredBy.add(value);
@@ -260,6 +260,7 @@ public class XMLItem {
 	}
 	public List<String> getChildElements(Map<String, XMLItem> parsedXML) {
 		List<String> existingChildElements = new ArrayList<String>();
+		
 		for(String childElement : this.childElements) { 
 	    	if(parsedXML.containsKey(childElement)) {
 	    		existingChildElements.add(childElement);

@@ -10,12 +10,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.ModelElements.CommonElementsFactory;
-import org.aero.mtip.ModelElements.CommonRelationship;
-import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.metamodel.core.CommonElement;
+import org.aero.mtip.metamodel.core.CommonElementsFactory;
+import org.aero.mtip.metamodel.core.CommonRelationship;
+import org.aero.mtip.metamodel.core.CommonRelationshipsFactory;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.util.CameoUtils;
@@ -27,6 +27,7 @@ import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
@@ -99,16 +100,11 @@ public class Exporter {
 		Element diagramElement = diagramPresentationElement.getElement();
 		exportElementRecursiveUp(diagramElement);
 		
-		//Add hook to get nested presentation elements due to encapsulation of diagrams
-		List<PresentationElement> presentationElements = diagramPresentationElement.getPresentationElements();
-		for(int i = 0; i < presentationElements.size(); i++) {
-			Element element = presentationElements.get(i).getElement();
-			
-			if(element == null) {
-				continue;
-			} 
-
-			exportElementRecursiveUp(element);			
+		Logger.log(String.format("Attempting export of %d used model elements.", 
+		    diagramPresentationElement.getUsedModelElements().size()));
+		
+		for (Element element : diagramPresentationElement.getUsedModelElements()) {
+          exportElementRecursiveUp(element);  
 		}
 		
 		Logger.logSummary(this);
@@ -138,8 +134,7 @@ public class Exporter {
   	        return;
   	    }
   	    
-		Element parent = element.getOwner();
-		exportElementRecursiveUp(parent);
+		exportElementRecursiveUp(element.getOwner());
 		
 		if(element instanceof Package) {
 			exportPackage(element);
@@ -204,7 +199,7 @@ public class Exporter {
 	}
 	
 	public void exportEntity(Element element) {
-		if(exportedElements.contains(MtipUtils.getId(element))) {
+		if(element == null || exportedElements.contains(MtipUtils.getId(element))) {
 			return;
 		}
 		

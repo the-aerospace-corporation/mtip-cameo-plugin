@@ -10,12 +10,12 @@ package org.aero.mtip.util;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
-import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.ModelElements.CommonElementsFactory;
 import org.aero.mtip.constants.DoDAFConstants;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.metamodel.core.AbstractDiagram;
+import org.aero.mtip.metamodel.core.CommonElement;
+import org.aero.mtip.metamodel.core.CommonElementsFactory;
 import org.aero.mtip.profiles.DslCustomization;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 import org.aero.mtip.profiles.SysML;
@@ -209,6 +209,10 @@ public class MtipUtils {
 
   @CheckForNull
   public static String getEntityType(Element element) {
+    if (element == null) {
+      return null;
+    }
+    
     if (element instanceof Diagram) {
       return getDiagramType(element);
     }
@@ -220,6 +224,7 @@ public class MtipUtils {
     return getElementType(element);
   }
 
+  @CheckForNull
   public static String getElementType(Element element) {
     if (isUafModel()) {
       String elementType = getUafElementType(element);
@@ -259,8 +264,8 @@ public class MtipUtils {
       return SysmlConstants.COLLABORATION;
     } else if (element instanceof CombinedFragment) {
       return SysmlConstants.COMBINED_FRAGMENT;
-    } else if (element instanceof Comment) {
-      return SysmlConstants.COMMENT;
+//    } else if (element instanceof Comment) {
+//      return SysmlConstants.COMMENT;
     } else if (element instanceof ConditionalNode) {
       return SysmlConstants.CONDITIONAL_NODE;
     } else if (element instanceof ConnectionPointReference) {

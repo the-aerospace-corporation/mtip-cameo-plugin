@@ -172,6 +172,11 @@ public class Logger {
 		
 		for (String elementId : elementIds) {
 			Element element = (Element) Application.getInstance().getProject().getElementByID(elementId);			
+			
+			if (element == null) {
+			  continue;
+			}
+			
 			String elementType = MtipUtils.getEntityType(element);
 			
 			if (elementType == null) {

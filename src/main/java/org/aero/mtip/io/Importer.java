@@ -20,13 +20,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
 import javax.xml.parsers.ParserConfigurationException;
-import org.aero.mtip.ModelElements.AbstractDiagram;
-import org.aero.mtip.ModelElements.CommonElement;
-import org.aero.mtip.ModelElements.CommonElementsFactory;
-import org.aero.mtip.ModelElements.CommonRelationship;
-import org.aero.mtip.ModelElements.CommonRelationshipsFactory;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.metamodel.core.AbstractDiagram;
+import org.aero.mtip.metamodel.core.CommonElement;
+import org.aero.mtip.metamodel.core.CommonElementsFactory;
+import org.aero.mtip.metamodel.core.CommonRelationship;
+import org.aero.mtip.metamodel.core.CommonRelationshipsFactory;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.Logger;
@@ -181,11 +181,16 @@ public class Importer {
 
 	@CheckForNull
 	public Element buildDiagram(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
-		Element owner = getOwnerElement(modelElement, parsedXML);
-		
-		if (isImported(modelElement)) {
-			return getImportedElement(modelElement);
+		if (modelElement == null) {
+		  Logger.log("Missing XML data for model element.");
+		  return null;
 		}
+		
+	    if (isImported(modelElement)) {
+            return getImportedElement(modelElement);
+        }
+	  
+	    Element owner = getOwnerElement(modelElement, parsedXML);
 		
 		if (!MtipUtils.isSupportedDiagram(modelElement.getType())) {
 			Logger.log(String.format("%s with id %s type is not supported. ", modelElement.getType(), modelElement.getImportId()));
@@ -209,7 +214,12 @@ public class Importer {
 	
 	@CheckForNull
 	public Element buildRelationship(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
-		Element owner = getOwnerElement(modelElement, parsedXML);
+		if (modelElement == null) {
+		    Logger.log("Missing XML data for model element on Importer.buildRelationship()");
+		    return null;
+		}
+	  
+	    Element owner = getOwnerElement(modelElement, parsedXML);
 		
 		if (isImported(modelElement)) {
 			return getImportedElement(modelElement);
@@ -273,7 +283,12 @@ public class Importer {
 	
 	@CheckForNull
 	public Element buildElement(HashMap<String, XMLItem> parsedXML, XMLItem modelElement) {		
-		Element owner = getOwnerElement(modelElement, parsedXML);
+	    if (modelElement == null) {
+	      Logger.log("Missing XML data for element on Importer.buildElement()");
+	      return null;
+	    }
+	  
+	    Element owner = getOwnerElement(modelElement, parsedXML);
 		
 		// Element may be created in the owner's buildElement() call if it is a referenced element.
 		if (isImported(modelElement)) {
@@ -605,7 +620,6 @@ public class Importer {
 			modelElement.addChildElement(id);
 			modelElement.addChildElementType(id, type);
 			modelElement.addLocation(id, new Rectangle(-999, -999, -999, -999));
-			CameoUtils.logGui("Diagram element did not contain sufficient data for placement. Element will be automatically placed on diagram.");
 		}
 	}
 
@@ -780,7 +794,11 @@ public class Importer {
 	}
 	
 	public Element getOwnerElement(XMLItem modelElement, HashMap<String, XMLItem> parsedXML) {
-		String ownerID = modelElement.getParent();
+		if (modelElement == null) {
+		  
+		}
+	  
+	    String ownerID = modelElement.getParent();
 		XMLItem ownerElement = parsedXML.get(ownerID);
 
 		if(modelElement.getParent().trim().isEmpty() || ownerElement == null) {
@@ -889,7 +907,7 @@ public class Importer {
 				Logger.log(String.format("Failed to find created element with import id %s", importId));
 				continue;
 			}
-
+			
 			elementsOnDiagram.put(elementOnDiagram, modelElement.getLocation(importId));
 		}
 
@@ -925,18 +943,13 @@ public class Importer {
 			
 		CameoUtils.createSession(project, String.format("Adding elements to diagram with type %s.", modelElement.getType()));
 				
-		boolean noPosition = diagram.addElements(project, newDiagram, elementsOnDiagram, modelElement);
+		diagram.addElements(project, newDiagram, elementsOnDiagram, modelElement);
+		diagram.addRelationships(project, newDiagram, relationshipsOnDiagram);
 		
-		if(noPosition) {
+		if(diagram.hasNoPositionData()) {
 			Application.getInstance().getProject().getDiagram(newDiagram).layout(true, new com.nomagic.magicdraw.uml.symbols.layout.ClassDiagramLayouter());
 		}
-
-		try {
-			diagram.addRelationships(project, newDiagram, relationshipsOnDiagram);
-		} catch (ReadOnlyElementException roee) {
-			Logger.log("Read only element exception encountered populating diagram.");
-		}
-
+		
 		project.getDiagram(newDiagram).close(); 
 		CameoUtils.closeSession(project);
 	}
