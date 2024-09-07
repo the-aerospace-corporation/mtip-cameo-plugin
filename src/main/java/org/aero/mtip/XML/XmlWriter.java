@@ -1,5 +1,6 @@
 package org.aero.mtip.XML;
 
+import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.CheckForNull;
@@ -12,6 +13,7 @@ import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Expression;
@@ -38,7 +40,6 @@ public class XmlWriter {
 	
 	private Document xmlDoc;
 	private Element root;
-	
 	
 	public XmlWriter() {
 		try {
@@ -361,7 +362,6 @@ public class XmlWriter {
 	}
 	
 	public static Element createSimpleTypeTag(String elementType) {
-		// TODO: If introducing different metamodels change string literal in String.format()
 		return createTag(
 				XmlTagConstants.TYPE, 
 				XmlTagConstants.ATTRIBUTE_TYPE_STRING, 
@@ -380,6 +380,36 @@ public class XmlWriter {
 		addAttributeKey(diagramElementTag, String.valueOf(number));
 
 		return diagramElementTag;
+	}
+	
+	@SuppressWarnings("deprecation")
+    public static Element createImageTag(PresentationElement presentationElement) {
+	  Element imageTag = createTag(XmlTagConstants.IMAGE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+	  
+	  Rectangle bounds = CameoUtils.getImageBounds(presentationElement);
+	  
+	  if (bounds == null) {
+	    return null;
+	  }
+	  
+	  String name = CameoUtils.getImageName(presentationElement.getElement());
+	  
+	  if (name != null) {
+	    org.w3c.dom.Element nameTag = XmlWriter.createTag(XmlTagConstants.NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, name);
+	    XmlWriter.add(imageTag, nameTag);
+	  }	  
+      
+      org.w3c.dom.Element topTag = XmlWriter.createTag(XmlTagConstants.TOP, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(-bounds.y));
+      org.w3c.dom.Element bottomTag = XmlWriter.createTag(XmlTagConstants.BOTTOM, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(-bounds.y - bounds.height));
+      org.w3c.dom.Element leftTag = XmlWriter.createTag(XmlTagConstants.LEFT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x));
+      org.w3c.dom.Element rightTag = XmlWriter.createTag(XmlTagConstants.RIGHT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x + bounds.width));
+    
+      XmlWriter.add(imageTag, topTag);
+      XmlWriter.add(imageTag, bottomTag);
+      XmlWriter.add(imageTag, leftTag);
+      XmlWriter.add(imageTag, rightTag);
+	  
+	  return imageTag;
 	}
 	
 	public static Element createMtipRelationship(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element, String xmlTag) {

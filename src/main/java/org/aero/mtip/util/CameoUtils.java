@@ -6,18 +6,22 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.util;
 
+import java.awt.Rectangle;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import javax.swing.JOptionPane;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.metamodel.sysml.profile.EnumerationLiteral;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
+import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.profiles.SysML;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -25,6 +29,8 @@ import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
+import com.nomagic.magicdraw.uml.symbols.PresentationElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.ImageView;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.BooleanTaggedValue;
@@ -252,12 +258,66 @@ public class CameoUtils {
 		return null;
 	}
 	
+	@CheckForNull
+	@SuppressWarnings("deprecation")
+    public static Rectangle getImageBounds(PresentationElement presentationElement) {
+	  List<ImageView> imageViews = getAllImageViews(presentationElement);
+	  
+	  for (ImageView imageView : imageViews) {
+	    if (imageView.getBounds().isEmpty()) {
+	      continue;
+	    }
+	    
+	    return imageView.getBounds();
+	  }
+	  
+	  return null;
+	}
+	
+	
+	@SuppressWarnings("deprecation")
+    public static List<ImageView> getAllImageViews(PresentationElement presentationElement) {
+	  return getImageViewsRecursive(presentationElement);
+	}
+	
+	@SuppressWarnings("deprecation")
+    public static List<ImageView> getImageViewsRecursive(PresentationElement presentationElement) {
+	  List<ImageView> imageViews = new ArrayList<ImageView>();
+	  
+	  for (PresentationElement child : presentationElement.getPresentationElements()) {
+	    imageViews.addAll(getImageViewsRecursive(child));
+	  }
+	  
+	  imageViews.addAll(getImageViews(presentationElement));
+	  
+	  return imageViews;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static List<ImageView> getImageViews(PresentationElement presentationElement) {
+	      
+	  return presentationElement.getPresentationElements()
+	      .stream()
+	      .filter(x -> x instanceof ImageView)
+	      .map(x -> (ImageView)x)
+	      .collect(Collectors.toList());
+	}
+	
 	public static boolean isMetaclass(Element element) {
 		NamedElement owner = (NamedElement)element.getOwner();
 		if(owner.getName().contentEquals("UML2 Metamodel")) {
 			return true;
 		}
 		return false;
+	}
+	
+	@CheckForNull
+	public static String getImageName(Element element) {
+	  if (!MagicDraw.hasCustomImageHolderStereotype(element)) {
+	    return null;
+	  }
+	  
+	  return MagicDraw.getCustomImageName(element);
 	}
 	
 	public static boolean containsIgnoreCase(List<String> list, String soughtFor) {

@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.CameoDiagramConstants;
 import org.aero.mtip.constants.DoDAFConstants;
@@ -22,6 +23,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.io.Importer;
 import org.aero.mtip.metamodel.core.general.Link;
+import org.aero.mtip.profiles.MagicDraw;
 import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
@@ -38,9 +40,13 @@ import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.paths.LinkView;
 import com.nomagic.magicdraw.uml.symbols.paths.PathElement;
 import com.nomagic.magicdraw.uml.symbols.paths.TransitionView;
+import com.nomagic.magicdraw.uml.symbols.shapes.ImageView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.TransitionToSelfView;
+import com.nomagic.ui.ResizableIcon;
+import com.nomagic.uml2.ext.jmi.helpers.ElementImageHelper;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
@@ -280,7 +286,7 @@ public abstract class AbstractDiagram extends CommonElement {
 		
 		org.w3c.dom.Element elementTag = XmlWriter.createMtipDiagramElement(elementCount);
 		org.w3c.dom.Element idTag = XmlWriter.createSimpleIdTag(element);
-		org.w3c.dom.Element typeTag = XmlWriter.createSimpleTypeTag(element);
+		org.w3c.dom.Element typeTag = XmlWriter.createSimpleTypeTag(element);		
 		
 		writeRelationshipMetadata(elementTag, presentationElement);
 		
@@ -349,13 +355,29 @@ public abstract class AbstractDiagram extends CommonElement {
 		org.w3c.dom.Element bottomTag = XmlWriter.createTag(XmlTagConstants.BOTTOM, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(-bounds.y - bounds.height));
 		org.w3c.dom.Element leftTag = XmlWriter.createTag(XmlTagConstants.LEFT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x));
 		org.w3c.dom.Element rightTag = XmlWriter.createTag(XmlTagConstants.RIGHT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x + bounds.width));
-	
+      
 		XmlWriter.add(relDataTag, topTag);
 		XmlWriter.add(relDataTag, bottomTag);
 		XmlWriter.add(relDataTag, leftTag);
 		XmlWriter.add(relDataTag, rightTag);
 		
+		writeImageMetadata(relDataTag, presentationElement);
+				
 		XmlWriter.add(diagramElementTag, relDataTag);
+	}
+	
+	protected void writeImageMetadata(org.w3c.dom.Element relDataTag, PresentationElement presentationElement) {
+	  if (!hasImage(presentationElement)) {	    
+	    return;
+	  }
+	  
+      org.w3c.dom.Element imageTag = XmlWriter.createImageTag(presentationElement);
+      
+      if (imageTag == null) {
+        return;
+      }
+      
+      XmlWriter.add(relDataTag, imageTag);
 	}
 	
 	protected void writeRelationshipMetadataConnector(org.w3c.dom.Element diagramRelationshipTag, PathElement pathElement) {
@@ -427,6 +449,16 @@ public abstract class AbstractDiagram extends CommonElement {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
+    @CheckForNull
+	protected ImageView getImageView(PresentationElement presentationElement) {
+	  return (ImageView)presentationElement.getPresentationElements()
+	      .stream()
+	      .filter(x -> x instanceof ImageView && ((ImageView)x).getBounds().width != 0)
+	      .findFirst()
+	      .orElseGet(() -> null);
+	}
+	
 	protected boolean isAdded(Element element) {
 		return diagramElementIDs.contains(MtipUtils.getId(element));
 	}
@@ -441,6 +473,14 @@ public abstract class AbstractDiagram extends CommonElement {
 	
 	public boolean hasNoPositionData() {
 	  return hasNoPositionData;
+	}
+	
+	protected boolean hasImage(PresentationElement presentationElement) {
+	  if (presentationElement.getElement() == null) {
+	    return false;
+	  }
+	  
+	  return MagicDraw.hasCustomImageHolderStereotype(presentationElement.getElement());
 	}
 	
 	private static Map<String, String> createCameoToMtipMap() {

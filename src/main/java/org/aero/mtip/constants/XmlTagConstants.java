@@ -46,6 +46,7 @@ public class XmlTagConstants {
 	public static final String TAGGED_VALUE_VALUES = "values";
 	public static final String CLIENT_MULTIPLICITY = "clientMultiplicity";
 	public static final String SUPPLIER_MULTIPLICITY = "supplierMultiplicity";
+	public static final String IMAGE = "image";
 	
 	// Diagram Connector Path Point Tags
 	public static final String SUPPLIER_POINT = "supplierPoint";

@@ -69,7 +69,11 @@ public abstract class ActivityNode extends CommonElement {
 	}
 	
 	public void writeInterruptibleActivityRegion(org.w3c.dom.Element relationships, Element element) {
-		com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode activityNode = (com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode)element;
+		if (!(element instanceof com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode)) {
+		  return;         // ActivityParameterNodes are ActivityNodes but cannot be cast.
+		}
+	  
+	    com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode activityNode = (com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode)element;
 		java.util.Collection<com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.InterruptibleActivityRegion> iars = activityNode.getInInterruptibleRegion();
 		
 		for(com.nomagic.uml2.ext.magicdraw.activities.mdcompleteactivities.InterruptibleActivityRegion iar : iars) {

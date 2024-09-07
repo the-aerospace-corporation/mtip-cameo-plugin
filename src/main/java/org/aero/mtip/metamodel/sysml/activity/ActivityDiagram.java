@@ -15,9 +15,7 @@ import java.util.List;
 import java.util.Map;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
-import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.MtipUtils;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.PresentationElementsManager;
 import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
@@ -30,7 +28,6 @@ import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneHeaderView;
 import com.nomagic.magicdraw.uml.symbols.shapes.SwimlaneView;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-
 
 public class ActivityDiagram extends AbstractDiagram {
   protected Map<String, PresentationElement> presentationElementById =
