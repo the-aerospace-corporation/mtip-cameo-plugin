@@ -14,7 +14,7 @@ import com.nomagic.magicdraw.actions.MDAction;
 public class AboutAction extends MDAction {
   private static final long serialVersionUID = -7302532135499669288L;
   
-  public static String VERSION = "Development Version MTIP 2021x.b019" + ".";
+  public static String VERSION = "Development Version MTIP 2021x.b021" + ".";
 
   public AboutAction(String id, String name) {
     super(id, name, null, null);

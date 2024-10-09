@@ -4,7 +4,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.sysml.sequence.Property;
 
-public class ProjectRole extends Property{
+public class ProjectRole extends Property {
 	
 	public ProjectRole(String name, String EAID) {
 		super(name, EAID);

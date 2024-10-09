@@ -13,5 +13,4 @@ public class WholeLifeEnterprise extends CommonElement implements UAFElement{
 		this.metamodelConstant = UAFConstants.WHOLE_LIFE_ENTERPRISE;
 		this.xmlConstant = XmlTagConstants.WHOLE_LIFE_ENTERPRISE;
 	}
-	
 }

@@ -3,9 +3,9 @@ package org.aero.mtip.metamodel.uaf.standards;
 import org.aero.mtip.constants.CameoDiagramConstants;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
-import org.aero.mtip.metamodel.core.AbstractDiagram;
+import org.aero.mtip.metamodel.sysml.block.BlockDefinitionDiagram;
 
-public class StandardsStructure extends AbstractDiagram{
+public class StandardsStructure extends BlockDefinitionDiagram {
 	
 	public StandardsStructure(String name, String EAID) {
 		super(name, EAID);

@@ -5,7 +5,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 
-public class OperationalTaxonomy extends AbstractDiagram{
+public class OperationalTaxonomy extends AbstractDiagram {
 	
 	public OperationalTaxonomy(String name, String EAID) {
 		super(name, EAID);

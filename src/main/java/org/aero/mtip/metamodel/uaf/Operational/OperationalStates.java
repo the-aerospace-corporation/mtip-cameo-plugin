@@ -5,7 +5,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 
-public class OperationalStates extends AbstractDiagram{
+public class OperationalStates extends AbstractDiagram {
 	
 	public OperationalStates(String name, String EAID) {
 		super(name, EAID);

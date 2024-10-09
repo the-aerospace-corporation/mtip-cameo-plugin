@@ -4,7 +4,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.general.Abstraction;
 
-public class MapsToCapability extends Abstraction{
+public class MapsToCapability extends Abstraction {
 	
 	public MapsToCapability(String name, String EAID) {
 		super(name, EAID);

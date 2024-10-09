@@ -9,6 +9,7 @@ public class Desirer extends CommonElement implements UAFElement {
 	
 	public Desirer(String name, String EAID) {
 		super(name, EAID);
+		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;
 		this.metamodelConstant = UAFConstants.DESIRER;
 		this.xmlConstant = XmlTagConstants.DESIRER;
 	}

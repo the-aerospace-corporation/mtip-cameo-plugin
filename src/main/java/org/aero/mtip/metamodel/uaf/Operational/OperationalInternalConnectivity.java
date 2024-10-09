@@ -5,7 +5,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 
-public class OperationalInternalConnectivity extends AbstractDiagram{
+public class OperationalInternalConnectivity extends AbstractDiagram {
 	
 	public OperationalInternalConnectivity(String name, String EAID) {
 		super(name, EAID);

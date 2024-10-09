@@ -35,7 +35,7 @@ public class UAFConstants {
 	//Operational
 	public static final String CONCEPT_ROLE = "ConceptRole";
 	public static final String HIGH_LEVEL_OPERATIONAL_CONCEPT ="HighLevelOperationalConcept";
-	public static final String KNOWN_RESOURCE="KnownResource";
+	public static final String KNOWN_RESOURCE = "KnownResource";
 	public static final String OPERATIONAL_AGENT = "OperationalAgent";
 	public static final String OPERATIONAL_ARCHITECTURE = "OperationalArchitecture";
 	public static final String OPERATIONAL_PERFORMER = "OperationalPerformer";
@@ -198,7 +198,7 @@ public class UAFConstants {
 	public static final String MEASUREMENT = "Measurement";
 	
 	//Metadata
-	public static final String METADATA="Metadata";
+	public static final String METADATA = "Metadata";
 	public static final String IMPLEMENTS = "Implements";
 	public static final String PERFORMS_IN_CONTEXT = "PerformsInContext";
 	public static final String DATA_MODEL_KIND = "DataModelKind";

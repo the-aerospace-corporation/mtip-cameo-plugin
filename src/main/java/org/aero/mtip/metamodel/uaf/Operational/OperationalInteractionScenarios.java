@@ -5,7 +5,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 
-public class OperationalInteractionScenarios extends AbstractDiagram{
+public class OperationalInteractionScenarios extends AbstractDiagram {
 	
 	public OperationalInteractionScenarios(String name, String EAID) {
 		super(name, EAID);
@@ -14,4 +14,3 @@ public class OperationalInteractionScenarios extends AbstractDiagram{
 		this.cameoDiagramConstant = CameoDiagramConstants.OPERATIONAL_INTERACTION_SCENARIOS;
 	}
 }
-

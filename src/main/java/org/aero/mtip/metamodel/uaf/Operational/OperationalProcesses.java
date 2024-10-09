@@ -5,7 +5,7 @@ import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.sysml.block.BlockDefinitionDiagram;
 
-public class OperationalProcesses extends BlockDefinitionDiagram{
+public class OperationalProcesses extends BlockDefinitionDiagram {
 	
 	public OperationalProcesses(String name, String EAID) {
 		super(name, EAID);
