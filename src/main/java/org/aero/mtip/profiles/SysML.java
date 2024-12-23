@@ -76,6 +76,10 @@ public class SysML {
     return StereotypesHelper.getStereotype(project, stereotypeName, profile);
   }
 
+  public static void clearProfile() {
+    instance = null;
+  }
+  
   public static SysML getInstance() {
     if (instance == null) {
       instance = new SysML();

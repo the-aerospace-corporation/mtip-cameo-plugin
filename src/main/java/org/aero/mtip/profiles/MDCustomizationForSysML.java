@@ -31,6 +31,10 @@ public class MDCustomizationForSysML {
 		profile = StereotypesHelper.getProfileByURI(project, URI);
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static MDCustomizationForSysML getInstance() {
 		if (instance == null) {
 			instance = new MDCustomizationForSysML();

@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.xml.transform.TransformerException;
 import org.aero.mtip.io.Exporter;
+import org.aero.mtip.profiles.Profile;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.FileSelect;
 import org.aero.mtip.util.Logger;

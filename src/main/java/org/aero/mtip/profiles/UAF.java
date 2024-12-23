@@ -37,6 +37,10 @@ public class UAF {
 		return updmProfile;
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static UAF getInstance() {
 		if (instance == null) {
 			instance = new UAF();

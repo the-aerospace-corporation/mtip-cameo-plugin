@@ -26,6 +26,10 @@ public class Validation {
 		profile = StereotypesHelper.getProfile(project, NAME);
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static Validation getInstance() {
 		if (instance == null) {
 			instance = new Validation();

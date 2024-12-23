@@ -31,6 +31,10 @@ public class MagicDraw {
     project = Application.getInstance().getProject();
     profile = StereotypesHelper.getProfile(project, NAME);
   }
+  
+  public static void clearProfile() {
+    instance = null;
+  }
 
   public static MagicDraw getInstance() {
     if (instance == null) {

@@ -39,7 +39,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -68,7 +67,7 @@ public class Importer {
     CommonElementsFactory cef;
     CommonRelationshipsFactory crf;
     
-    public static Importer createNewImporter() {
+    public static Importer createNewImporter() {        
     	instance = new Importer();
     	return instance;
     }
@@ -97,7 +96,9 @@ public class Importer {
 	}
     
     public Importer() {
-    	project = Application.getInstance().getProject();
+        org.aero.mtip.profiles.Profile.clearAllProfiles();
+    	
+        project = Application.getInstance().getProject();
         cef = new CommonElementsFactory();
         crf = new CommonRelationshipsFactory();
     	
@@ -834,7 +835,7 @@ public class Importer {
 		XMLItem clientElement = parsedXML.get(clientImportId);
 
 		if(clientElement != null) {
-			return buildElement(parsedXML, clientElement);
+			return buildEntity(parsedXML, clientElement);
 		} 
 		
 		Logger.log(String.format("Client Element with id : %s not exported with XML. "
@@ -868,7 +869,7 @@ public class Importer {
 		XMLItem supplierElement = parsedXML.get(supplierImportId);
 		
 		if(supplierElement != null) {
-			return buildElement(parsedXML, supplierElement);
+			return buildEntity(parsedXML, supplierElement);
 		}
 		
 		Logger.log(String.format("Supplier element with id : %s not exported with XML. "

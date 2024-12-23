@@ -71,8 +71,6 @@ public abstract class CommonRelationship extends CommonElement {
 		    element.setOwner(owner);
 		    return;
 		}
-		
-		
 			
 		if(supplier != null && ModelHelper.canMoveChildInto(supplier, element)) {
 		  Logger.log(String.format("Setting supplier as owner for %s with id %s.", element.getHumanType(), EAID));
@@ -82,8 +80,7 @@ public abstract class CommonRelationship extends CommonElement {
 		
 		if(client != null && ModelHelper.canMoveChildInto(client, element)) {
 		    element.setOwner(supplier);
-		}
-			
+		}	
 	}
 
 	public org.w3c.dom.Element createBaseXML(Element element, Project project, Document xmlDoc) {

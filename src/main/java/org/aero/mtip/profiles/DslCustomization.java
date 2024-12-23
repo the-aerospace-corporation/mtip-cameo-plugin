@@ -51,6 +51,10 @@ public class DslCustomization {
 		return true;
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static DslCustomization getInstance() {
 		if (instance == null) {
 			instance = new DslCustomization();

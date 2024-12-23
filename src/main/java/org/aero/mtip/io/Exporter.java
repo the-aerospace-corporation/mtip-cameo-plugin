@@ -39,6 +39,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TaggedValue;
@@ -80,6 +81,8 @@ public class Exporter {
 	}
 	
 	public Exporter() {
+	    org.aero.mtip.profiles.Profile.clearAllProfiles();
+	    
 		project = Application.getInstance().getProject();
 		cef = new CommonElementsFactory();
 		crf = new CommonRelationshipsFactory();
@@ -176,7 +179,8 @@ public class Exporter {
 		exportEntity(element);
 		
 		for(Element ownedElement : element.getOwnedElement()) {
-			if (ownedElement instanceof Package || element instanceof Relationship) {
+			if (ownedElement instanceof Package
+			      || (element instanceof Relationship && ownedElement instanceof Property)) {
 				continue;
 			}
 			

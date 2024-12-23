@@ -30,6 +30,10 @@ public class DependencyMatrixProfile {
 		profile = StereotypesHelper.getProfile(project, NAME);
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static DependencyMatrixProfile getInstance() {
 		if (instance == null) {
 			instance = new DependencyMatrixProfile();
