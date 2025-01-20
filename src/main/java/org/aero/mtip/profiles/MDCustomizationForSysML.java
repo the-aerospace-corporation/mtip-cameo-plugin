@@ -31,6 +31,10 @@ public class MDCustomizationForSysML {
 		profile = StereotypesHelper.getProfileByURI(project, URI);
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static MDCustomizationForSysML getInstance() {
 		if (instance == null) {
 			instance = new MDCustomizationForSysML();
@@ -75,6 +79,10 @@ public class MDCustomizationForSysML {
 		if (profile == null) {
 			Logger.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
 			return false;
+		}
+		
+		if (element == null) {
+		  return false;
 		}
 		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);

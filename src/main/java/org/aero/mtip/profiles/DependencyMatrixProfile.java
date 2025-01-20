@@ -30,8 +30,12 @@ public class DependencyMatrixProfile {
 		profile = StereotypesHelper.getProfile(project, NAME);
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static DependencyMatrixProfile getInstance() {
-		if (instance == null || instance.project != Application.getInstance().getProject()) {
+		if (instance == null) {
 			instance = new DependencyMatrixProfile();
 		}
 		
@@ -50,6 +54,10 @@ public class DependencyMatrixProfile {
 		if (profile == null) {
 			Logger.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
 			return false;
+		}
+		
+		if (element == null) {
+		  return false;
 		}
 		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);

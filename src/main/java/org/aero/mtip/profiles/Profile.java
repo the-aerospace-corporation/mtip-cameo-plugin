@@ -1,7 +1,6 @@
 package org.aero.mtip.profiles;
 
 import java.util.Collection;
-
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -15,5 +14,19 @@ public class Profile {
 		}
 		
 		return false;
+	}
+	
+	/*
+	 * Clears all projects and profiles so that exports or imports initialize profiles properly
+	 * when executed on different projects without restarting the application.
+	 */
+	public static void clearAllProfiles() {
+	  DependencyMatrixProfile.clearProfile();
+	  DslCustomization.clearProfile();
+	  MagicDraw.clearProfile();
+	  MDCustomizationForSysML.clearProfile();
+	  SysML.clearProfile();
+	  UAF.clearProfile();
+	  Validation.clearProfile();
 	}
 }

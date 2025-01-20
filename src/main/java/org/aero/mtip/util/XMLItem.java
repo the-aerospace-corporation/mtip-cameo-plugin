@@ -3,7 +3,6 @@ Copyright 2022 The Aerospace Corporation
 
 This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
-
 package org.aero.mtip.util;
 
 import java.awt.Rectangle;
@@ -12,9 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import org.aero.mtip.constants.DoDAFConstants;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.apache.commons.lang3.StringUtils;
-
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class XMLItem {
@@ -128,7 +129,7 @@ public class XMLItem {
 				this.constrainedElements.add(value);
 		} else if(key.contentEquals(XmlTagConstants.ATTRIBUTE_NAME_INTERACTION_OPERAND)) {
 			this.interactionOperands.add(value);
-		} else if(key.contentEquals(org.aero.mtip.ModelElements.Sequence.CombinedFragment.newInteractionOperand)) {
+		} else if(key.contentEquals(org.aero.mtip.metamodel.sysml.sequence.CombinedFragment.newInteractionOperand)) {
 			this.newInteractionOperands.add(value);
 		} else if(key.contentEquals(XmlTagConstants.ATTRIBUTE_NAME_COVERED_BY)) {
 			this.coveredBy.add(value);
@@ -257,6 +258,7 @@ public class XMLItem {
 	}
 	public List<String> getChildElements(Map<String, XMLItem> parsedXML) {
 		List<String> existingChildElements = new ArrayList<String>();
+		
 		for(String childElement : this.childElements) { 
 	    	if(parsedXML.containsKey(childElement)) {
 	    		existingChildElements.add(childElement);
@@ -454,13 +456,13 @@ public class XMLItem {
 		this.effect = effect;
 	}
 	private void setCategory() {
-		if(SysmlConstants.SYSML_ELEMENTS.contains(type)) {
+		if (SysmlConstants.SYSML_ELEMENTS.contains(type) || UAFConstants.UAF_ELEMENTS.contains(type)) {
 			category = SysmlConstants.ELEMENT;
 		}
-		if(SysmlConstants.SYSML_RELATIONSHIPS.contains(type)) {
+		if (SysmlConstants.SYSML_RELATIONSHIPS.contains(type) || UAFConstants.UAF_RELATIONSHIPS.contains(type)) {
 			category = SysmlConstants.RELATIONSHIP;
 		}
-		if(SysmlConstants.SYSML_DIAGRAMS.contains(type)) {
+		if (SysmlConstants.SYSML_DIAGRAMS.contains(type) || UAFConstants.UAF_DIAGRAMS.contains(type) || DoDAFConstants.DODAF_DIAGRAMS.contains(type)) {
 			category = SysmlConstants.DIAGRAM;
 		}
 	}

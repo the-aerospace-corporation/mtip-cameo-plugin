@@ -1,9 +1,9 @@
-/* The Aerospace Corporation MTIP_Cameo
-Copyright 2022 The Aerospace Corporation
-
-This product includes software developed at
-The Aerospace Corporation (http://www.aerospace.org/). */
-
+/*
+ * The Aerospace Corporation MTIP_Cameo Copyright 2022 The Aerospace Corporation
+ * 
+ * This product includes software developed at The Aerospace Corporation
+ * (http://www.aerospace.org/).
+ */
 package org.aero.mtip.util;
 
 import java.io.File;
@@ -30,78 +30,90 @@ import org.xml.sax.SAXException;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 
 // Basic methods for selecting import/export files
-public class FileSelect
-{
-	public static File[] chooseXMLFileOpen() throws FileNotFoundException
-	{
-		JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents" + System.getProperty("file.separator") + "Demo");
-		chooser.setMultiSelectionEnabled(true);
-		int option = chooser.showOpenDialog(null);
-		
-		if(option == JFileChooser.APPROVE_OPTION)
-		{
-			for(File file : chooser.getSelectedFiles()) {
-				String filename = file.getName();
-				if(!filename.endsWith(".xml")) {
-					throw new FileNotFoundException("File for import must be .xml");
-				}
-			}
-		}
-		return chooser.getSelectedFiles();
-	}
-	
-	public static File chooseXMLFile() throws FileNotFoundException	{
-		JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents" + System.getProperty("file.separator") + "Demo");
-		int option = chooser.showSaveDialog(null);
-		
-		if(option == JFileChooser.CANCEL_OPTION) {
-			return null;
-		}
-		
-		if(option == JFileChooser.APPROVE_OPTION) {
-			String filename = chooser.getSelectedFile().toString();
-			if(!filename.endsWith(".xml")) {
-				filename += ".xml";
-			} 
-			chooser.setSelectedFile(new File(filename));
-		} else {
-			JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(), "No file selected. Model not exported.");
-		}
-		return chooser.getSelectedFile();
-	}
-	
-	public static File chooseCSVFile()
-	{
-		JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents" + System.getProperty("file.separator") + "Demo");
-		int option = chooser.showSaveDialog(null);
-		
-		if(option == JFileChooser.APPROVE_OPTION) {
-			String filename = chooser.getSelectedFile().toString();
-			if(!filename.endsWith(".csv"))
-				filename += ".csv";
-			chooser.setSelectedFile(new File(filename));
-		}
-		
-		return chooser.getSelectedFile();
-	}
-	//Creates a Document object to be used in creating the XML output
-	public static Document createDocument(File inputFile) throws ParserConfigurationException, SAXException, IOException 
-	{
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(inputFile);
-		return doc;
-	}
-	
-	public static void writeXMLToFile(File file) throws TransformerException, IOException	{
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-		DOMSource source = new DOMSource(XmlWriter.getDocument());
-		StreamResult result = new StreamResult(new FileOutputStream(file));
-		transformer.transform(source, result);
-		result.getOutputStream().close();
-	}
+public class FileSelect {
+  public static File[] chooseXMLFileOpen() throws FileNotFoundException {
+    JFileChooser chooser =
+        new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")
+            + "Documents" + System.getProperty("file.separator") + "Demo");
+    chooser.setMultiSelectionEnabled(true);
+    int option = chooser.showOpenDialog(null);
+
+    if (option == JFileChooser.APPROVE_OPTION) {
+      for (File file : chooser.getSelectedFiles()) {
+        String filename = file.getName();
+        if (!filename.endsWith(".xml")) {
+          throw new FileNotFoundException("File for import must be .xml");
+        }
+      }
+    }
+    return chooser.getSelectedFiles();
+  }
+
+  public static File chooseXMLFile() throws FileNotFoundException {
+    JFileChooser chooser =
+        new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")
+            + "Documents" + System.getProperty("file.separator") + "Demo");
+    int option = chooser.showSaveDialog(null);
+
+    if (option == JFileChooser.CANCEL_OPTION) {
+      return null;
+    }
+
+    if (option == JFileChooser.APPROVE_OPTION) {
+      String filename = chooser.getSelectedFile().toString();
+      if (!filename.endsWith(".xml")) {
+        filename += ".xml";
+      }
+      chooser.setSelectedFile(new File(filename));
+    } else {
+      JOptionPane.showMessageDialog(MDDialogParentProvider.getProvider().getDialogOwner(),
+          "No file selected. Model not exported.");
+    }
+    return chooser.getSelectedFile();
+  }
+
+  public static File chooseCSVFile() {
+    JFileChooser chooser =
+        new JFileChooser(System.getProperty("user.home") + System.getProperty("file.separator")
+            + "Documents" + System.getProperty("file.separator") + "Demo");
+    int option = chooser.showSaveDialog(null);
+
+    if (option == JFileChooser.APPROVE_OPTION) {
+      String filename = chooser.getSelectedFile().toString();
+      if (!filename.endsWith(".csv"))
+        filename += ".csv";
+      chooser.setSelectedFile(new File(filename));
+    }
+
+    return chooser.getSelectedFile();
+  }
+
+  // Creates a Document object to be used in creating the XML output
+  public static Document createDocument(File inputFile)
+      throws ParserConfigurationException, SAXException, IOException {
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    Document doc = dBuilder.parse(inputFile);
+    return doc;
+  }
+
+  public static void writeXMLToFile(File file) throws TransformerException, IOException {
+    Document document = XmlWriter.getDocument();
+    document.setXmlStandalone(true);
+    
+    DOMSource source = new DOMSource(document);
+    
+    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+    
+    FileOutputStream out = new FileOutputStream(file);
+    out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>".getBytes("UTF-8"));
+    
+    transformer.transform(source, new StreamResult(out));
+    out.close();
+  }
 }

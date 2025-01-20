@@ -8,7 +8,8 @@ package org.aero.mtip.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.aero.mtip.XML.Import.Importer;
+import org.aero.mtip.constants.XmlTagConstants;
+import org.aero.mtip.io.Importer;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -20,14 +21,6 @@ public class TaggedValue {
 	private String value;
 	private boolean isMultiValue = false;
 	private List<String> values = new ArrayList<String> ();
-	
-	public TaggedValue(String stereotypeName, String profileName, String valueName, String valueType, String value) {
-		setStereotypeName(stereotypeName);
-		setProfileName(profileName);
-		setValueName(valueName);
-		setValueType(valueType);
-		setValue(value);
-	}
 	
 	public TaggedValue(String stereotypeName, String profileName, String valueName, String valueType, List<String> values) {
 		setStereotypeName(stereotypeName);
@@ -100,10 +93,6 @@ public class TaggedValue {
 		this.valueType = valueType;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
 	public void setValues(List<String> values) {
 		this.values= values;
 	}
