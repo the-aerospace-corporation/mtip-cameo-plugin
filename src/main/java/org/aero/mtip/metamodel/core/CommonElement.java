@@ -394,7 +394,7 @@ public abstract class CommonElement {
 						.collect(Collectors.toList());
 		} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_REAL)) {
 				return values.stream()
-						.map(x -> Float.toString((Float)x))
+						.map(x -> Double.toString((Double)x))
 						.collect(Collectors.toList());
 		} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_STRING)) {
 				return values.stream()

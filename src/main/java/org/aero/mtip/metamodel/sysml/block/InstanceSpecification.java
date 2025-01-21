@@ -13,6 +13,7 @@ import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.io.Importer;
 import org.aero.mtip.metamodel.core.CommonElement;
+import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
 import org.apache.commons.lang3.ArrayUtils;
 import com.nomagic.magicdraw.core.Project;
@@ -69,8 +70,14 @@ public class InstanceSpecification extends CommonElement {
 	}
 	
 	private void writeClassifiers(org.w3c.dom.Element relationships, Element element) {
+	  List<Classifier> classifiers = null;
+	  try {
 		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification is = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification)element;
-		List<Classifier> classifiers = is.getClassifier();
+		classifiers = is.getClassifier();
+	  } catch (ClassCastException cce) {
+	    CameoUtils.logGui(String.format("ClassCaseException on %s with id %s", CameoUtils.getElementName(element), element.getID()));
+	    return;
+	  }
 		
 		for(Classifier classifier : classifiers) {
 			// Filter out default classifiers for derived classes such as QuantityKind and Unit which are added by default
