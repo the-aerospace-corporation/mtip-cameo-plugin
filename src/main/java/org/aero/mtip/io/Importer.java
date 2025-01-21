@@ -141,6 +141,7 @@ public class Importer {
 
 			if(modelElement == null) {
 				Logger.log(String.format("Error parsing data for XML item with id %s. Element will not be imported", id));
+				continue;
 			}
 			
 			if (isImported(modelElement)) {

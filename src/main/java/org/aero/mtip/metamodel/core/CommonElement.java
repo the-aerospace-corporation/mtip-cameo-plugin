@@ -834,7 +834,6 @@ public abstract class CommonElement {
 				
 				if (!tv.getValueType().contentEquals(SysmlConstants.ELEMENT)) {
 					taggedValue.addConvertedValue(tv.getValue());
-					CameoUtils.logGui(String.format("Set tagged value of %s to %s.", tv.getValueName(), tv.getValue()));
 					continue;
 				}
 				

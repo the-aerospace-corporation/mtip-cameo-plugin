@@ -487,8 +487,8 @@ public abstract class AbstractDiagram extends CommonElement {
 	  Map<String, String> aMap = new HashMap<String,String>();
 
 	  // UML/Profile diagrams
-      aMap.put("Class Diagram", SysmlConstants.CLASSDIAGRAM);
-      aMap.put("Profile Diagram", SysmlConstants.PROFILEDIAGRAM);
+      aMap.put(CameoDiagramConstants.CLASS_DIAGRAM, SysmlConstants.CLASSDIAGRAM);
+      aMap.put(CameoDiagramConstants.PROFILE_DIAGRAM, SysmlConstants.PROFILEDIAGRAM);
 
       // SysML Diagrams
       aMap.put(SysMLConstants.SYSML_ACTIVITY_DIAGRAM, SysmlConstants.ACT );

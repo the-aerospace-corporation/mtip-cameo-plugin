@@ -1,6 +1,9 @@
 package org.aero.mtip.constants;
 
 public class CameoDiagramConstants {
+    //UML
+    public static final String CLASS_DIAGRAM = "Class Diagram";
+    public static final String PROFILE_DIAGRAM = "Profile Diagram";
 	//UAF
 	// Actual Resources
 	public static final String ACTUAL_RESOURCES_CONNECTIVITY = "Actual Resources Connectivity";
