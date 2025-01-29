@@ -43,10 +43,7 @@ import com.nomagic.magicdraw.uml.symbols.paths.TransitionView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ImageView;
 import com.nomagic.magicdraw.uml.symbols.shapes.ShapeElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.TransitionToSelfView;
-import com.nomagic.ui.ResizableIcon;
-import com.nomagic.uml2.ext.jmi.helpers.ElementImageHelper;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
@@ -57,7 +54,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Regi
 
 public abstract class AbstractDiagram extends CommonElement {
 	private static Map<String,String> cameoToMtipType = createCameoToMtipMap();
-	
+
 	protected int elementCount = 0;
 	protected int relationshipCount = 0;
 	protected HashMap<String, ShapeElement> shapeElements = new HashMap<String, ShapeElement>();
@@ -305,7 +302,6 @@ public abstract class AbstractDiagram extends CommonElement {
 		}
 		
 		org.w3c.dom.Element elementTag = XmlWriter.createMtipDiagramElement(elementCount);
-		@SuppressWarnings("deprecation")
 		org.w3c.dom.Element idTag = XmlWriter.createSimpleIdTag(presentationElement.getID());
 		org.w3c.dom.Element typeTag = XmlWriter.createSimpleTypeTag(type);
 						
@@ -430,8 +426,7 @@ public abstract class AbstractDiagram extends CommonElement {
 		
 		return true;
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	protected boolean isValidPresentationElement(PresentationElement presentationElement) {
 		if (presentationElement instanceof com.nomagic.magicdraw.uml.symbols.shapes.RoleView) {
 			return false;
@@ -448,8 +443,7 @@ public abstract class AbstractDiagram extends CommonElement {
 			return null;
 		}
 	}
-	
-	@SuppressWarnings("deprecation")
+
     @CheckForNull
 	protected ImageView getImageView(PresentationElement presentationElement) {
 	  return (ImageView)presentationElement.getPresentationElements()

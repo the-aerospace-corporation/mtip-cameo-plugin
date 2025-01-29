@@ -54,7 +54,6 @@ public class ActivityDiagram extends AbstractDiagram {
     }
   }
 
-  @SuppressWarnings("deprecation")
   protected void writeDiagramEntity(org.w3c.dom.Element elementListTag,
       org.w3c.dom.Element relationshipListTag, PresentationElement presentationElement,
       PresentationElement parentPresentationElement) {

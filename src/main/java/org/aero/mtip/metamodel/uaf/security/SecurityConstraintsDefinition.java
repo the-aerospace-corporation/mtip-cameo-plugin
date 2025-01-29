@@ -1,8 +1,5 @@
 package org.aero.mtip.metamodel.uaf.security;
 
-import org.aero.mtip.constants.CameoDiagramConstants;
-import org.aero.mtip.constants.UAFConstants;
-import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.sysml.block.BlockDefinitionDiagram;
 
 public class SecurityConstraintsDefinition extends BlockDefinitionDiagram {

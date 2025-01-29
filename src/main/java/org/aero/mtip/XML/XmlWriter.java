@@ -382,7 +382,6 @@ public class XmlWriter {
 		return diagramElementTag;
 	}
 	
-	@SuppressWarnings("deprecation")
     public static Element createImageTag(PresentationElement presentationElement) {
 	  Element imageTag = createTag(XmlTagConstants.IMAGE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
 	  

@@ -259,7 +259,6 @@ public class CameoUtils {
 	}
 	
 	@CheckForNull
-	@SuppressWarnings("deprecation")
     public static Rectangle getImageBounds(PresentationElement presentationElement) {
 	  List<ImageView> imageViews = getAllImageViews(presentationElement);
 	  
@@ -273,14 +272,11 @@ public class CameoUtils {
 	  
 	  return null;
 	}
-	
-	
-	@SuppressWarnings("deprecation")
+
     public static List<ImageView> getAllImageViews(PresentationElement presentationElement) {
 	  return getImageViewsRecursive(presentationElement);
 	}
-	
-	@SuppressWarnings("deprecation")
+
     public static List<ImageView> getImageViewsRecursive(PresentationElement presentationElement) {
 	  List<ImageView> imageViews = new ArrayList<ImageView>();
 	  
@@ -293,7 +289,6 @@ public class CameoUtils {
 	  return imageViews;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static List<ImageView> getImageViews(PresentationElement presentationElement) {
 	      
 	  return presentationElement.getPresentationElements()

@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.XML.XmlWriter;
-import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 import org.aero.mtip.util.Logger;
@@ -34,7 +33,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.MessageKindEnum;
 
-@SuppressWarnings("deprecation")
 public class SequenceDiagram  extends AbstractDiagram {
 	// Used on Export
 	private HashMap<String, org.w3c.dom.Element> messageTags = new HashMap<String, org.w3c.dom.Element>();
