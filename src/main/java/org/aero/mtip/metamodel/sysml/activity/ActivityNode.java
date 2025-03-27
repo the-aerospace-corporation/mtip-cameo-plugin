@@ -63,9 +63,26 @@ public abstract class ActivityNode extends CommonElement {
 		org.w3c.dom.Element data = super.writeToXML(element);
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
+		writeActivity(relationships, element);
 		writeInterruptibleActivityRegion(relationships, element);
 		
 		return data;
+	}
+	
+	public void writeActivity(org.w3c.dom.Element relationships, Element element) {
+	  if (!(element instanceof com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode)) {
+        return;         // ActivityParameterNodes are ActivityNodes but cannot be cast.
+      }
+	  
+	  com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode activityNode = (com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode)element;
+      Activity activity = activityNode.getActivity();
+      
+      if (activity == null) {
+        return;
+      }
+      
+      org.w3c.dom.Element activityTag = XmlWriter.createMtipRelationship(activity, XmlTagConstants.ATTRIBUTE_NAME_ACTIVITY);
+      XmlWriter.add(relationships, activityTag);
 	}
 	
 	public void writeInterruptibleActivityRegion(org.w3c.dom.Element relationships, Element element) {

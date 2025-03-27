@@ -11,8 +11,6 @@ import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.XMLItem;
 
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
