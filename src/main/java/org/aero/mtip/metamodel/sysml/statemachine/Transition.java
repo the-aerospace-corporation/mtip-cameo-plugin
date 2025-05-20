@@ -5,6 +5,7 @@ This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.metamodel.sysml.statemachine;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import org.aero.mtip.XML.XmlWriter;
@@ -17,6 +18,7 @@ import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
@@ -60,7 +62,7 @@ public class Transition extends CommonDirectedRelationship {
 			Logger.logException(npe);
 			
 			if(transition != null) {
-				transition.dispose();
+				ModelHelper.dispose(Arrays.asList(transition));
 			}
 			
 			return null;
@@ -74,7 +76,7 @@ public class Transition extends CommonDirectedRelationship {
 			Logger.logException(cce);
 			
 			if(transition != null) {
-				transition.dispose();
+				ModelHelper.dispose(Arrays.asList(transition));
 			}
 			return null;
 		}

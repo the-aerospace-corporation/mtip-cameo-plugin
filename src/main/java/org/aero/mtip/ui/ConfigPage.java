@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Config;
 
 public class ConfigPage extends JFrame {

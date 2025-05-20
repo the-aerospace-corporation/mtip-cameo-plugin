@@ -8,7 +8,6 @@ package org.aero.mtip.metamodel.sysml.internalblock;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.List;
-import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 import org.aero.mtip.profiles.MDCustomizationForSysML;

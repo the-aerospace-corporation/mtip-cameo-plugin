@@ -332,7 +332,7 @@ public class XmlWriter {
 		
 		org.w3c.dom.Element value = createTag(
 				XmlTagConstants.ID, 
-				XmlTagConstants.ATTRIBUTE_TYPE_STRING, 
+				XmlTagConstants.ATTRIBUTE_TYPE_STRING,
 				CameoUtils.primitiveValueTypesByID.get(element.getLocalID()));
 
 		org.w3c.dom.Element type = createTag(
@@ -477,7 +477,7 @@ public class XmlWriter {
 			String strVal = ls.getValue();
 			return createMtipStringAttribute(attrName, strVal);
 		} else if (vs instanceof DurationInterval) {
-			DurationInterval di = (DurationInterval)vs;
+//			DurationInterval di = (DurationInterval)vs;
 			
 		} else if (vs instanceof ElementValue) {
 			ElementValue ev = (ElementValue)vs;

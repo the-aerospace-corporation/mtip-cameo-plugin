@@ -6,6 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.metamodel.sysml.internalblock;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.aero.mtip.XML.XmlWriter;
@@ -48,7 +49,7 @@ public class Connector extends CommonRelationship {
 			
 		}catch(ClassCastException cce) {
 			Logger.log("Invalid supplier/client for connector with id: " + this.EAID + ". Supplier/client must be ConnectableElements.");
-			element.dispose();
+			ModelHelper.dispose(Arrays.asList(element));
 			return null;
 		}
 		
@@ -163,15 +164,15 @@ public class Connector extends CommonRelationship {
 		String typedByID = modelElement.getAttribute(XmlTagConstants.TYPED_BY);
 		
 		if(supplierPartWithPortID != null) {
-			Element supplierPartWithPort = Importer.getInstance().buildElement(parsedXML, parsedXML.get(supplierPartWithPortID));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(supplierPartWithPortID));
 		}
 		
 		if(clientPartWithPortID != null) {
-			Element clientPartWithPort = Importer.getInstance().buildElement(parsedXML, parsedXML.get(clientPartWithPortID));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(clientPartWithPortID));
 		}
 		
 		if(typedByID != null) {
-			Element typedBy = Importer.getInstance().buildElement(parsedXML, parsedXML.get(typedByID));
+			Importer.getInstance().buildElement(parsedXML, parsedXML.get(typedByID));
 		}
 	}
 	@Override

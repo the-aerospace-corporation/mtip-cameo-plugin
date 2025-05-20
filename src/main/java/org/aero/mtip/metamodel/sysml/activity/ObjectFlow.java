@@ -6,14 +6,15 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.metamodel.sysml.activity;
 
+import java.util.Arrays;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.CommonRelationship;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.XMLItem;
-
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdbasicactivities.ActivityEdge;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode;
@@ -47,7 +48,7 @@ public class ObjectFlow extends CommonRelationship {
 		ValueSpecification guard = of.getGuard();
 		
 		if(guard != null) {
-			guard.dispose();
+			ModelHelper.dispose(Arrays.asList(guard));
 		}
 		
 		LiteralString specification = f.createLiteralStringInstance();		

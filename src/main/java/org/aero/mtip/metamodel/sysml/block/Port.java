@@ -6,11 +6,12 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.metamodel.sysml.block;
 
+import java.util.Arrays;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.CommonElement;
 import org.aero.mtip.util.Logger;
-
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
@@ -52,7 +53,7 @@ public class Port extends CommonElement {
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent must be block " + name + " with id " + EAID + ". Element could not be placed in model.";
 			Logger.log(logMessage);
-			element.dispose();
+			ModelHelper.dispose(Arrays.asList(element));
 		}
 	}
 }

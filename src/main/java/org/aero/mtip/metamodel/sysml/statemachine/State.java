@@ -5,6 +5,7 @@ This product includes software developed at
 The Aerospace Corporation (http://www.aerospace.org/). */
 package org.aero.mtip.metamodel.sysml.statemachine;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import org.aero.mtip.XML.XmlWriter;
@@ -17,6 +18,7 @@ import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.Behavior;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Region;
@@ -99,7 +101,7 @@ public class State extends CommonElement {
 		
 		if(owner == null) {
 			Logger.log(String.format("No valid parent found for state %s with id %s. State not imported.", name, element));
-			element.dispose();
+			ModelHelper.dispose(Arrays.asList(element));
 			return;
 		}
 		

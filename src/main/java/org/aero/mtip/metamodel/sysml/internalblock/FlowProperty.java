@@ -15,7 +15,6 @@ import org.aero.mtip.profiles.SysML;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 
 public class FlowProperty extends CommonElement {
 
@@ -54,10 +53,10 @@ public class FlowProperty extends CommonElement {
 	}
 	
 	private void writeDirection(org.w3c.dom.Element attributes, Element element) {
-		// TODO: Find if flowproperty direction exists in 2022x
-		Property property = (Property)element;
+//		TODO: Find if flowproperty direction exists in 2022x
+//		Property property = (Property)element;
 	    List<String> directionList = new ArrayList<String>();
-	    		//StereotypesHelper.getStereotypePropertyValueAsString((Element) property, SysML.getFlowPropertyStereotype(), SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, false);
+//      StereotypesHelper.getStereotypePropertyValueAsString((Element) property, SysML.getFlowPropertyStereotype(), SysMLProfile.FLOWPROPERTY_DIRECTION_PROPERTY, false);
 		
 	    if(directionList.isEmpty()) {
 	    	return;

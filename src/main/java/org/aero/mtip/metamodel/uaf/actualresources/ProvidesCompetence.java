@@ -1,10 +1,8 @@
 package org.aero.mtip.metamodel.uaf.actualresources;
 
-import java.util.Arrays;
 import org.aero.mtip.constants.UAFConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.general.Dependency;
-import org.aero.mtip.profiles.UAF;
 
 public class ProvidesCompetence extends Dependency {
 

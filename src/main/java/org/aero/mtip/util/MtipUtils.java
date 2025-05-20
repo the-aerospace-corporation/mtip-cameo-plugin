@@ -65,7 +65,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.InterfaceRealization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -77,6 +76,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
@@ -407,6 +407,8 @@ public class MtipUtils {
       return SysmlConstants.SIGNAL;
     } else if (element instanceof SignalEvent) {
       return SysmlConstants.SIGNAL_EVENT;
+    } else if (element instanceof Slot) {
+      return SysmlConstants.SLOT;
     } else if (element instanceof State) {
       return SysmlConstants.STATE;
     } else if (element instanceof StateInvariant) {

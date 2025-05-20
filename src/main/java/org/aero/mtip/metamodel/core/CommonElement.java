@@ -504,7 +504,7 @@ public abstract class CommonElement {
 			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral literal = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral)value;
 			return literal.getName();
 		} else if (valueType.equals(SysmlConstants.ELEMENT)) {
-			return ((Element)value).getLocalID();
+			return MtipUtils.getId((Element)value);
 		}		
 		return value.toString();
 	}

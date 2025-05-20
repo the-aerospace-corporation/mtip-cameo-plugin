@@ -6,6 +6,7 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.metamodel.core;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.XML.XmlWriter;
@@ -49,13 +50,13 @@ public abstract class CommonRelationship extends CommonElement {
 			String logMessage = "Invalid client/supplier for relationship " + name + " with id " + EAID + ".";
 			CameoUtils.logGui(logMessage);
 			Logger.log(logMessage);
-			element.dispose();
+			ModelHelper.dispose(Arrays.asList(element));
 			return null;
 		} catch(IllegalArgumentException iae) {
 			String logMessage = "Invalid parent. Parent invalid for element " + name + " with id " + EAID + ". Supplier and client are also invalid parents. Element could not be placed in model.";
 			CameoUtils.logGui(logMessage);
 			Logger.log(logMessage);
-			element.dispose();
+			ModelHelper.dispose(Arrays.asList(element));
 			return null;
 		}
 	}

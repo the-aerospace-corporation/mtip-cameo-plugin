@@ -27,7 +27,6 @@ import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
@@ -324,7 +323,6 @@ public class Exporter {
 			    || element instanceof LiteralUnlimitedNatural 
 			    || element instanceof InstanceValue 
 			    || element instanceof ConnectorEnd
-			    || element instanceof Slot
 			    || element instanceof Comment
 			    || element instanceof TaggedValue
 			    || MDCustomizationForSysML.isReferenceProperty(element)) {

@@ -15,7 +15,6 @@ import org.aero.mtip.util.TaggedValue;
 import org.aero.mtip.util.XMLItem;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.sysml.util.MDCustomizationForSysMLProfile;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.jmi.helpers.TagsHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;

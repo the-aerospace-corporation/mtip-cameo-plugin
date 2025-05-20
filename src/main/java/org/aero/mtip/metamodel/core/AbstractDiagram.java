@@ -263,7 +263,7 @@ public abstract class AbstractDiagram extends CommonElement {
 				|| !isValidDiagramElement(element)
 				|| !MtipUtils.isSupported(element)) {
 		    if (element != null) {
-		        Logger.log(String.format("Not exporting element %s, Invalid.", element.getHumanName()));
+		        Logger.log(String.format("Not exporting diagram element %s, Invalid.", element.getHumanName()));
 		    }
 			return;
 		}

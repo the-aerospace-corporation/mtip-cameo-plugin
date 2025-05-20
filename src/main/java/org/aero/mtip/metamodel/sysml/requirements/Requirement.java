@@ -15,9 +15,6 @@ import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 public class Requirement extends CommonElement {
-	private static final String DERIVED = "Derived";
-	private static final String DERIVED_FROM = "DerivedFrom";
-
 	public Requirement(String name, String EAID) {
 		super(name, EAID);		
 		this.creationType = XmlTagConstants.CLASS_WITH_STEREOTYPE;

@@ -6,7 +6,6 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.metamodel.sysml.profile;
 
-import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;

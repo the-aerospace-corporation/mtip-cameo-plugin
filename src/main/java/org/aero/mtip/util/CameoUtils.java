@@ -290,7 +290,6 @@ public class CameoUtils {
 	}
 	
 	public static List<ImageView> getImageViews(PresentationElement presentationElement) {
-	      
 	  return presentationElement.getPresentationElements()
 	      .stream()
 	      .filter(x -> x instanceof ImageView)
@@ -334,7 +333,7 @@ public class CameoUtils {
 	}
 	
 	public static boolean isPrimitiveValueType(Element element) {
-		if(SysmlConstants.primitiveValueTypeIDs.contains(element.getLocalID())) {
+		if(SysmlConstants.primitiveValueTypeIDs.contains(element.getID())) {
 			return true;
 		}
 		

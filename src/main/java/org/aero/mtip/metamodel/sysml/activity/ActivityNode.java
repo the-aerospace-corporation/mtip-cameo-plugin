@@ -27,7 +27,7 @@ public abstract class ActivityNode extends CommonElement {
 		super.createElement(project, owner, xmlElement);
 		if(xmlElement != null) {
 			if(xmlElement.hasAttribute(XmlTagConstants.ATTRIBUTE_NAME_INTERRUPTIBLE_ACTIVITY_REGION)) {
-				com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode activityNode = (com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode) element;
+//				com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode activityNode = (com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.ActivityNode) element;
 				// Add In Interruptible Region here if possible - may need to nest in diagram to achieve this.
 			}
 		}

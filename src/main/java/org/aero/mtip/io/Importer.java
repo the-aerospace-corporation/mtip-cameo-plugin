@@ -40,6 +40,7 @@ import org.xml.sax.SAXException;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.uml.Finder;
+import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
@@ -204,7 +205,19 @@ public class Importer {
 		AbstractDiagram diagram = (AbstractDiagram) cef.createElement(modelElement.getType(), modelElement.getName(), modelElement.getImportId());
 		Diagram newDiagram = (Diagram) diagram.createElement(project, owner, modelElement);
 		
-		project.getDiagram(newDiagram).open(); 
+		if (newDiagram == null) {
+		  Logger.log(String.format("Error creating diagram. Check CameoDiagramConstant for diagram with id: %s", modelElement.getImportId()));
+		  return null;
+		}
+		
+		DiagramPresentationElement dpe = project.getDiagram(newDiagram);
+		
+		if (dpe == null) {
+		  Logger.log(String.format("Unable to find dpe. Cannot populate digram for element %s", modelElement.getImportId()));
+		  return newDiagram;
+		}
+		
+		dpe.open();
 		trackIds(newDiagram, modelElement);
 		
 		CameoUtils.closeSession(project);

@@ -9,7 +9,6 @@ package org.aero.mtip.metamodel.sysml.sequence;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.CommonElement;
-import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Message;
 

@@ -16,7 +16,6 @@ import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.magicdraw.uml.symbols.shapes.ImageView;
 import com.nomagic.magicdraw.uml.symbols.shapes.StereotypeIconView;
-import com.nomagic.ui.ResizableIcon;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 
 @SuppressWarnings("serial")
@@ -49,35 +48,7 @@ public class InspectSelectedDiagramElementAction extends MDAction {
       logChildRecursive(selectedPresentationElements[i]);
     }
   }
-  
-  private PresentationElement getNonDiagramParent(PresentationElement presentationElement) {
-    return presentationElement.getParent();
-  }
-  
-  private PresentationElement getParentRecursive(PresentationElement presentationElement) {
-    PresentationElement parent = presentationElement.getParent();
-    
-    if (parent == null) {
-      return null;
-    }
-    
-    if (parent instanceof DiagramPresentationElement) {
-      return presentationElement;
-    }
-    
-    return getParentRecursive(parent);
-  }
-  
-  private void logParentRecursiveUp(PresentationElement presentationElement) {
-    PresentationElement parent = presentationElement.getParent();
-    
-    if (parent == null) {
-      return;
-    }
-    
-    logPresentationElementDetails(parent);
-    logParentRecursiveUp(parent);
-  }
+
   private void logPresentationElementDetails(PresentationElement presentationElement) {
     if (loggedPresentationElements.contains(presentationElement.getID())) {
       return;

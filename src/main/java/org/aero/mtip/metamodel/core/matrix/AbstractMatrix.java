@@ -8,16 +8,7 @@ package org.aero.mtip.metamodel.core.matrix;
 import org.aero.mtip.XML.XmlWriter;
 import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
-import org.aero.mtip.util.CameoUtils;
-import org.aero.mtip.util.XMLItem;
-import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.dependencymatrix.MatrixManager;
-import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
-import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 
 public abstract class AbstractMatrix extends AbstractDiagram {
 	protected final String MATRIX_FILTER = "MatrixFilter";
@@ -29,23 +20,23 @@ public abstract class AbstractMatrix extends AbstractDiagram {
 		super(name, EAID);
 	}
 	
-	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
-		Diagram diagram = null;
-		try {
-			diagram = ModelElementsManager.getInstance().createDiagram(cameoConstant, (Namespace) owner);
-		} catch (ReadOnlyElementException e) {
-			CameoUtils.logGui("Read only exception caught");
-		}
-		com.nomagic.magicdraw.dependencymatrix.DependencyMatrix matrix = MatrixManager.getInstance(project).getMatrix(diagram);
-		if(diagram != null) {
-			StereotypesHelper.addStereotypeByString(diagram, "DependencyMatrix");
-			StereotypesHelper.addStereotypeByString(diagram, "DiagramInfo");
-			StereotypesHelper.addStereotypeByString(diagram, MATRIX_FILTER);
-		}
-		
-		((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement)diagram).setName(name);
-		return diagram;
-	}	
+//	public Element createElement(Project project, Element owner, XMLItem xmlElement) {
+//		Diagram diagram = null;
+//		try {
+//			diagram = ModelElementsManager.getInstance().createDiagram(cameoConstant, (Namespace) owner);
+//		} catch (ReadOnlyElementException e) {
+//			CameoUtils.logGui("Read only exception caught");
+//		}
+//		com.nomagic.magicdraw.dependencymatrix.DependencyMatrix matrix = MatrixManager.getInstance(project).getMatrix(diagram);
+//		if(diagram != null) {
+//			StereotypesHelper.addStereotypeByString(diagram, "DependencyMatrix");
+//			StereotypesHelper.addStereotypeByString(diagram, "DiagramInfo");
+//			StereotypesHelper.addStereotypeByString(diagram, MATRIX_FILTER);
+//		}
+//		
+//		((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement)diagram).setName(name);
+//		return diagram;
+//	}	
 	
 	@Override
 	public org.w3c.dom.Element writeToXML(Element element) {
