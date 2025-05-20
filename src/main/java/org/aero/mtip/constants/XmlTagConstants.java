@@ -104,6 +104,7 @@ public class XmlTagConstants {
 	public static final String ATTRIBUTE_NAME_EXPR = "expr";
 	public static final String ATTRIBUTE_NAME_SPECIFICATION = "specification";
 	public static final String ATTRIBUTE_CONSTRAINED_ELEMENT = "constrainedElement";
+	public static final String ATTRIBUTE_NAME_INSTANCE_VALUE = "instanceValue";
 	
 	// Tagged Value types
     public static final String TV_TYPE_BOOLEAN = "boolean";

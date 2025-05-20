@@ -22,6 +22,7 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.StructuralFeature;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
@@ -117,23 +118,32 @@ public class Slot extends CommonElement {
 		org.w3c.dom.Element attributes = getAttributes(data.getChildNodes());
 		org.w3c.dom.Element relationships = getRelationships(data.getChildNodes());
 		
-		writeValue(attributes, element);
+		writeValue(attributes, relationships, element);
 		writeDefiningFeature(relationships, element);
 		
 		return data;
 	}
 	
-	private void writeValue(org.w3c.dom.Element attributes, Element element) {
-		com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot slot = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot)element;
-		List<ValueSpecification> vss = slot.getValue();
-		
-		if(vss.size() == 0) {
-			return;
-		}
-		
-		ValueSpecification vs = vss.get(0);
-		org.w3c.dom.Element valueTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.ATTRIBUTE_KEY_VALUE);
-		XmlWriter.add(attributes, valueTag);
+	private void writeValue(org.w3c.dom.Element attributes, org.w3c.dom.Element relationships, Element element) {
+      com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot slot = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot)element;
+      
+      List<ValueSpecification> vss = slot.getValue();
+      
+      for (int i = 0; i < vss.size(); i++) {
+        ValueSpecification vs = vss.get(i);
+    
+        if (vs instanceof InstanceValue) {
+          InstanceValue iv = (InstanceValue)vs;
+          InstanceSpecification is = iv.getInstance();
+          
+          org.w3c.dom.Element instanceValueTag = XmlWriter.createMtipRelationship(is, XmlTagConstants.ATTRIBUTE_NAME_INSTANCE_VALUE);
+          XmlWriter.add(relationships, instanceValueTag);
+          continue;
+        }
+        
+        org.w3c.dom.Element valueTag = XmlWriter.createAttributeFromValueSpecification(vs, XmlTagConstants.ATTRIBUTE_KEY_VALUE);
+        XmlWriter.add(attributes, valueTag);
+      }
 	}
 	
 	private void writeDefiningFeature(org.w3c.dom.Element relationships, Element element) {
