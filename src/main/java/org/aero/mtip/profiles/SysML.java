@@ -189,6 +189,10 @@ public class SysML {
   public static Stereotype getSystemContextStereotype() {
     return getInstance().getStereotype(SYSTEM_CONTEXT_NAME);
   }
+  
+  public static Stereotype getValueTypeStereotype() {
+    return getInstance().getStereotype(VALUE_TYPE_NAME);
+  }
 
   public static Stereotype getViewStereotype() {
     return getInstance().getStereotype(VIEW_NAME);
@@ -200,11 +204,6 @@ public class SysML {
 
   public static Stereotype getUsabilityRequirementStereotype() {
     return StereotypesHelper.getStereotype(getInstance().project, USABILITY_REQUIREMENT_NAME,
-        getInstance().profile);
-  }
-
-  public static Stereotype getValueTypeStereotype() {
-    return StereotypesHelper.getStereotype(getInstance().project, VALUE_TYPE_NAME,
         getInstance().profile);
   }
 

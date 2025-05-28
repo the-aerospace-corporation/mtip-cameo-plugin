@@ -403,6 +403,8 @@ public class MtipUtils {
       return SysmlConstants.PORT;
     } else if (MDCustomizationForSysML.isQuantityKind(element)) {
       return SysmlConstants.QUANTITY_KIND;
+    } else if (MDCustomizationForSysML.isReferenceProperty(element)) {
+      return SysmlConstants.REFERENCE_PROPERTY;
     } else if (element instanceof Region) {
       return SysmlConstants.REGION;
     } else if (SysML.isRefine(element)) {

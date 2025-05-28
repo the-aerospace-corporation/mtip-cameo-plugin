@@ -104,6 +104,7 @@ import org.aero.mtip.metamodel.sysml.block.PartProperty;
 import org.aero.mtip.metamodel.sysml.block.Port;
 import org.aero.mtip.metamodel.sysml.block.ProxyPort;
 import org.aero.mtip.metamodel.sysml.block.QuantityKind;
+import org.aero.mtip.metamodel.sysml.block.ReferenceProperty;
 import org.aero.mtip.metamodel.sysml.block.Signal;
 import org.aero.mtip.metamodel.sysml.block.Slot;
 import org.aero.mtip.metamodel.sysml.block.Subsystem;
@@ -120,7 +121,6 @@ import org.aero.mtip.metamodel.sysml.internalblock.FlowProperty;
 import org.aero.mtip.metamodel.sysml.internalblock.InternalBlockDiagram;
 import org.aero.mtip.metamodel.sysml.internalblock.ItemFlow;
 import org.aero.mtip.metamodel.sysml.internalblock.ParticipantProperty;
-import org.aero.mtip.metamodel.sysml.internalblock.ReferenceProperty;
 import org.aero.mtip.metamodel.sysml.profile.Class;
 import org.aero.mtip.metamodel.sysml.profile.ClassDiagram;
 import org.aero.mtip.metamodel.sysml.profile.Constraint;
@@ -671,7 +671,7 @@ public class CommonElementsFactory {
       case SysmlConstants.QUANTITY_KIND:
         element = new QuantityKind(name, EAID);
         break;
-      case SysmlConstants.REFERENCE_POINT:
+      case SysmlConstants.REFERENCE_PROPERTY:
         element = new ReferenceProperty(name, EAID);
         break;
       case SysmlConstants.REGION:
