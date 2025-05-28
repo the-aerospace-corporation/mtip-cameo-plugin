@@ -13,6 +13,7 @@ import org.aero.mtip.util.Logger;
 import org.aero.mtip.util.MtipUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
@@ -58,6 +59,7 @@ public class XmlWriter {
 		}
 		
 		createPacketTag();
+		createMetadataTag();
 		return true;
 	}
 	
@@ -93,6 +95,7 @@ public class XmlWriter {
 	
 	public static void addToRoot(Element data) {
 		if (instance.root == null) {
+		    Logger.log(String.format("instance.root node null when attempting to add xml tag %s.", data.getTagName()));
 			return;
 		}
 		
@@ -101,6 +104,24 @@ public class XmlWriter {
 	
 	public static void add(Element parent, Element child) {
 		parent.appendChild(child);
+	}
+	
+	public static void createMetadataTag() {
+      Element metadata = createTag(XmlTagConstants.MTIP_METADATA);
+      
+      Element mtipVersionTag = createTag(XmlTagConstants.MTIP_VERSION);      
+      Element cameoVersionTag = createTag(XmlTagConstants.CAMEO_VERSION);
+      Element exportTimeTag = createTag(XmlTagConstants.EXPORT_TIME);
+      
+      mtipVersionTag.setTextContent(org.aero.mtip.menu.actions.AboutAction.VERSION);
+      cameoVersionTag.setTextContent(Application.runtime().getFullVersion());
+      exportTimeTag.setTextContent(MtipUtils.utcNow());
+      
+      metadata.appendChild(mtipVersionTag);
+      metadata.appendChild(cameoVersionTag);
+      metadata.appendChild(exportTimeTag);
+      
+	  XmlWriter.addToRoot(metadata);
 	}
 	
 	public static void createPacketTag() {

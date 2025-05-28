@@ -9,6 +9,12 @@ package org.aero.mtip.constants;
 
 // Helper class with constants used in formatting the import/export XML.
 public class XmlTagConstants {
+    // Metadata tags
+    public static final String MTIP_METADATA = "metadata";
+    public static final String MTIP_VERSION = "mtipVersion";
+    public static final String CAMEO_VERSION = "cameoVersion";
+    public static final String EXPORT_TIME = "exportTime";
+    
 	// XML Tags
 	public static final String DATA = "data";
 	public static final String ID = "id";
