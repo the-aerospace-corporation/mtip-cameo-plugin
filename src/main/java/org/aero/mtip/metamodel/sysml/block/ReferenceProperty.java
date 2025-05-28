@@ -12,13 +12,13 @@ import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.metamodel.sysml.sequence.Property;
 import org.aero.mtip.profiles.MDCustomizationForSysML;
 
-public class ValueProperty extends Property {
-  public ValueProperty(String name, String EAID) {
+public class ReferenceProperty extends Property {
+  public ReferenceProperty(String name, String EAID) {
     super(name, EAID);
     this.creationType = XmlTagConstants.ELEMENTS_FACTORY;
-    this.metamodelConstant = SysmlConstants.VALUE_PROPERTY;
-    this.xmlConstant = XmlTagConstants.VALUEPROPERTY;
+    this.metamodelConstant = SysmlConstants.REFERENCE_PROPERTY;
+    this.xmlConstant = XmlTagConstants.REFERENCE_PROPERTY;
     this.element = f.createPropertyInstance();
-    this.creationStereotype = MDCustomizationForSysML.getValuePropertyStereotype();
+    this.creationStereotype = MDCustomizationForSysML.getReferencePropertyStereotype();
   }
 }

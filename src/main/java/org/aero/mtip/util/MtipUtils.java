@@ -7,7 +7,12 @@
 
 package org.aero.mtip.util;
 
+import java.text.DateFormat;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.constants.DoDAFConstants;
@@ -119,6 +124,9 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public class MtipUtils {
+  static TimeZone tz = null;
+  static DateFormat df = null;
+  
   public static boolean isSupported(Element element) {
     if (getEntityType(element) == null) {
       return false;
@@ -395,6 +403,8 @@ public class MtipUtils {
       return SysmlConstants.PORT;
     } else if (MDCustomizationForSysML.isQuantityKind(element)) {
       return SysmlConstants.QUANTITY_KIND;
+    } else if (MDCustomizationForSysML.isReferenceProperty(element)) {
+      return SysmlConstants.REFERENCE_PROPERTY;
     } else if (element instanceof Region) {
       return SysmlConstants.REGION;
     } else if (SysML.isRefine(element)) {
@@ -647,5 +657,9 @@ public class MtipUtils {
     }
     
     return element.getID();
+  }
+ 
+  public static String utcNow() {
+    return ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
   }
 }

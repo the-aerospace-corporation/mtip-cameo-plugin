@@ -123,6 +123,7 @@ public class SysmlConstants {
 	public static final String PROXY_PORT = "ProxyPort";
 	public static final String QUANTITY_KIND = "QuantityKind";
 	public static final String REFERENCE_POINT = "ReferencePoint";
+	public static final String REFERENCE_PROPERTY = "ReferenceProperty";
 	public static final String REGION = "Region";
 	public static final String REQUIREMENT = "Requirement";
 	public static final String SEND_SIGNAL_ACTION = "SendSignalAction";
@@ -336,6 +337,7 @@ public class SysmlConstants {
 			QUANTITY_KIND,
 			REGION,
 			REFERENCE_POINT,
+			REFERENCE_PROPERTY,
 			REQUIREMENT,
 			SHALLOW_HISTORY,
 			SEND_SIGNAL_ACTION,

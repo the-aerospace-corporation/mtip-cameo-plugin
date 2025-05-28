@@ -2,7 +2,7 @@
 <plugin
         id="MTIPCSMPlugin"
         name="MTIP Plugin"
-        version="2022x.b002"
+        version="2022x.b003"
         provider-name="MTIP"
         class="org.aero.mtip.MTIPCSMPlugin">
 
