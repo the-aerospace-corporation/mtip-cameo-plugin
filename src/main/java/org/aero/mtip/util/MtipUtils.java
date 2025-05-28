@@ -7,7 +7,12 @@
 
 package org.aero.mtip.util;
 
+import java.text.DateFormat;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.aero.mtip.constants.DoDAFConstants;
@@ -65,7 +70,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.Interface;
 import com.nomagic.uml2.ext.magicdraw.classes.mdinterfaces.InterfaceRealization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
@@ -77,6 +81,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.OpaqueBehavior;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdcommunications.ChangeEvent;
@@ -119,6 +124,9 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Transition;
 
 public class MtipUtils {
+  static TimeZone tz = null;
+  static DateFormat df = null;
+  
   public static boolean isSupported(Element element) {
     if (getEntityType(element) == null) {
       return false;
@@ -407,6 +415,8 @@ public class MtipUtils {
       return SysmlConstants.SIGNAL;
     } else if (element instanceof SignalEvent) {
       return SysmlConstants.SIGNAL_EVENT;
+    } else if (element instanceof Slot) {
+      return SysmlConstants.SLOT;
     } else if (element instanceof State) {
       return SysmlConstants.STATE;
     } else if (element instanceof StateInvariant) {
@@ -645,5 +655,9 @@ public class MtipUtils {
     }
     
     return element.getID();
+  }
+ 
+  public static String utcNow() {
+    return ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
   }
 }

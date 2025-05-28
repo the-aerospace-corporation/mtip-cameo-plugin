@@ -324,7 +324,6 @@ public class Exporter {
 			    || element instanceof LiteralUnlimitedNatural 
 			    || element instanceof InstanceValue 
 			    || element instanceof ConnectorEnd
-			    || element instanceof Slot
 			    || element instanceof Comment
 			    || element instanceof TaggedValue
 			    || MDCustomizationForSysML.isReferenceProperty(element)) {
