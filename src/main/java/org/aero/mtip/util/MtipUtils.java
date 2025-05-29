@@ -18,6 +18,7 @@ import javax.annotation.CheckForNull;
 import org.aero.mtip.constants.DoDAFConstants;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.UmlConstants;
 import org.aero.mtip.metamodel.core.AbstractDiagram;
 import org.aero.mtip.metamodel.core.CommonElement;
 import org.aero.mtip.metamodel.core.CommonElementsFactory;
@@ -98,6 +99,7 @@ import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdsimpletime.TimeObservati
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdcollaborations.Collaboration;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
+import com.nomagic.uml2.ext.magicdraw.deployments.mdartifacts.Artifact;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.DestructionOccurrenceSpecification;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Interaction;
 import com.nomagic.uml2.ext.magicdraw.interactions.mdbasicinteractions.Lifeline;
@@ -136,8 +138,9 @@ public class MtipUtils {
   }
 
   public static boolean isSupportedElement(String commonElementType) {
-    if (!SysmlConstants.SYSML_ELEMENTS.contains(commonElementType)
-        && !UAFConstants.UAF_ELEMENTS.contains(commonElementType)) {
+    if (!UmlConstants.UML_ELEMENTS.contains(commonElementType)
+          && !SysmlConstants.SYSML_ELEMENTS.contains(commonElementType)
+          && !UAFConstants.UAF_ELEMENTS.contains(commonElementType)) {
       return false;
     }
 
@@ -171,6 +174,10 @@ public class MtipUtils {
     if (isUafEntity(commonElementType)) {
       return UAFConstants.METAMODEL_PREFIX;
     }
+    
+    if (isUmlEntity(commonElementType)) {
+      return UmlConstants.METAMODEL_PREFIX;
+    }
 
     return "null";
   }
@@ -189,6 +196,16 @@ public class MtipUtils {
     if (UAFConstants.UAF_ELEMENTS.contains(commonElementType)
         || UAFConstants.UAF_RELATIONSHIPS.contains(commonElementType)
         || UAFConstants.UAF_DIAGRAMS.contains(commonElementType)) {
+      return true;
+    }
+
+    return false;
+  }
+  
+  public static boolean isUmlEntity(String commonElementType) {
+    if (UmlConstants.UML_ELEMENTS.contains(commonElementType)
+        || UmlConstants.UML_RELATIONSHIPS.contains(commonElementType)
+        || UmlConstants.UML_DIAGRAMS.contains(commonElementType)) {
       return true;
     }
 
@@ -258,6 +275,8 @@ public class MtipUtils {
       return SysmlConstants.ACTIVITY_PARTITION;
     } else if (element instanceof Actor) {
       return SysmlConstants.ACTOR;
+    } else if (element instanceof Artifact) {
+      return UmlConstants.ARTIFACT;
     } else if (SysML.isBoundReference(element)) {
       return SysmlConstants.BOUND_REFERENCE;
     } else if (SysML.isClassifierBehavior(element)) {

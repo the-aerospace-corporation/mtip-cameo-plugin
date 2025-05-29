@@ -10,6 +10,7 @@ package org.aero.mtip.metamodel.core;
 import org.aero.mtip.constants.DoDAFConstants;
 import org.aero.mtip.constants.SysmlConstants;
 import org.aero.mtip.constants.UAFConstants;
+import org.aero.mtip.constants.UmlConstants;
 import org.aero.mtip.metamodel.core.general.Comment;
 import org.aero.mtip.metamodel.core.general.Link;
 import org.aero.mtip.metamodel.core.general.Model;
@@ -367,6 +368,7 @@ import org.aero.mtip.metamodel.uaf.standards.Standard;
 import org.aero.mtip.metamodel.uaf.standards.StandardsStructure;
 import org.aero.mtip.metamodel.uaf.standards.StandardsTaxonomy;
 import org.aero.mtip.metamodel.uaf.summaryandoverview.SummaryAndOverview;
+import org.aero.mtip.metamodel.uml.Artifact;
 import org.aero.mtip.util.CameoUtils;
 
 public class CommonElementsFactory {
@@ -397,6 +399,9 @@ public class CommonElementsFactory {
         break;
       case SysmlConstants.ANY_RECEIVE_EVENT:
         element = new AnyReceiveEvent(name, EAID);
+        break;
+      case UmlConstants.ARTIFACT:
+        element = new Artifact(name, EAID);
         break;
       case SysmlConstants.ASSOCIATION_BLOCK:
         element = new AssociationBlock(name, EAID);

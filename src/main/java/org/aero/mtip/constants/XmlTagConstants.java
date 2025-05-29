@@ -125,7 +125,7 @@ public class XmlTagConstants {
 	public static final String RELATIONSHIP_DEFAULT_VALUE= "defaultValueElement";
 	public static final String MESSAGE_NUMBER = "messageNumber";
 	
-	//Matrix Tags
+	// Matrix Tags
 	public static final String ROW_SCOPE = "rowScope";
 	public static final String COLUMN_SCOPE = "columnScope";
 	public static final String ROW_ELEMENT_TYPE = "rowElementType";
@@ -133,7 +133,10 @@ public class XmlTagConstants {
 	
 	public static final String DEPENDENCY_CRITERIA = "dependencyCriteria";
 	
-	//SysML element text for type tag
+	// UML element text for type tag
+	public static final String ARTIFACT = "uml.Artifact";
+	
+	// SysML element text for type tag
 	public static final String ACCEPT_EVENT_ACTION = "sysml.AcceptEventAction";
 	public static final String ACTION = "sysml.Action";
 	public static final String ACTIVITY = "sysml.Activity";

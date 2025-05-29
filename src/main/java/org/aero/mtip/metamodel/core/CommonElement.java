@@ -103,7 +103,7 @@ public abstract class CommonElement {
 	}
 	
 	protected Element setBaseElement() {
-		if(this.creationType.contentEquals(XmlTagConstants.ELEMENTS_FACTORY)) {
+		if (this.creationType.contentEquals(XmlTagConstants.ELEMENTS_FACTORY)) {
 			return element;
 		}
 		
