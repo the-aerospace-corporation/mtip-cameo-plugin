@@ -259,7 +259,7 @@ public class SysmlConstants {
 			CLASS,
 			COLLABORATION,
 			COMBINED_FRAGMENT,
-//			COMMENT, Filtered out for correct import of Terms
+			COMMENT,
 			CONDITIONAL_NODE,
 			CONNECTION_POINT_REFERENCE,
 			CONSTRAINT,

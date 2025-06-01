@@ -18,3 +18,25 @@
 
 ### 2022x v1.0.0.b001
 * Initial version of MTIP-Cameo 2022x with all 2021x improvements
+
+### 2021x
+
+### 19.0
+* 1.0.6
+    * Added Cameo global id on export. Import defaults to using this id when available.
+* 1.0.5
+    * Fixed support for views, viewpoints, and stakeholders when exchanging models with Sparx EA
+    * Added support for PackageImport relationships while filtering out underlying libraries
+    * Added clientMultiplicity and supplierMultiplicity attrbiutes to associations
+    * Addressed placement of part properties on diagrams
+    * Various fixes for NPEs in rare cases
+* 1.0.4
+    * Updates to fix NPEs
+* 1.0.3
+    * Requirement text bug fix and basic html filtering.
+* 1.0.2
+    * Additional error checking for common issues with EA imports.
+* 1.0.1
+    * Added checks for null pointer exception for extension class when failing to created elements due to invalid parent-child relationships coming from original EA model.
+* 1.0.0
+    * Initial Release
