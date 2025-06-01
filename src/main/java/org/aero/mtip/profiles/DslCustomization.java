@@ -33,6 +33,10 @@ public class DslCustomization {
 			return false;
 		}
 		
+		if (element == null) {
+		  return false;
+		}
+		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
 		
 		if (stereotype == null) {
@@ -45,6 +49,10 @@ public class DslCustomization {
 		}
 		
 		return true;
+	}
+	
+	public static void clearProfile() {
+	  instance = null;
 	}
 	
 	public static DslCustomization getInstance() {

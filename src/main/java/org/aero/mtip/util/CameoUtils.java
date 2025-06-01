@@ -6,42 +6,55 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.util;
 
+import java.awt.Rectangle;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import javax.swing.JOptionPane;
-
-import org.aero.mtip.ModelElements.EnumerationLiteral;
+import org.aero.mtip.constants.SysmlConstants;
+import org.aero.mtip.profiles.MDCustomizationForSysML;
+import org.aero.mtip.profiles.MagicDraw;
+import org.aero.mtip.profiles.SysML;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
-import com.nomagic.magicdraw.sysml.util.SysMLProfile;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
+import com.nomagic.magicdraw.uml.symbols.PresentationElement;
+import com.nomagic.magicdraw.uml.symbols.shapes.ImageView;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.BooleanTaggedValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.IntegerTaggedValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralBoolean;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralInteger;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.RealTaggedValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.StringTaggedValue;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Pseudostate;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKind;
 import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.PseudostateKindEnum;
@@ -50,6 +63,7 @@ import com.nomagic.uml2.ext.magicdraw.statemachines.mdbehaviorstatemachines.Stat
 import com.nomagic.uml2.impl.ElementsFactory;
 
 public class CameoUtils {
+	@SuppressWarnings("serial")
 	public static HashMap<String, String> primitiveValueTypes = new HashMap<String, String>() {{
 		put(SysmlConstants.BOOLEAN, "16_5_1_12c903cb_1245415335546_39033_4086");
 		put(SysmlConstants.INTEGER, "_16_5_1_12c903cb_1245415335546_8641_4088");
@@ -57,11 +71,13 @@ public class CameoUtils {
 	    put(SysmlConstants.STRING, "_16_5_1_12c903cb_1245415335546_479030_4092");
 	}};
 	
+	@SuppressWarnings("serial")
 	public static HashMap<String, String> primitiveValueTypesByID = new HashMap<String, String>() {{
 		put("16_5_1_12c903cb_1245415335546_39033_4086", SysmlConstants.BOOLEAN);
 		put("_16_5_1_12c903cb_1245415335546_8641_4088", SysmlConstants.INTEGER);
 		put("_11_5EAPbeta_be00301_1147431819399_50461_1671", SysmlConstants.REAL);
 	    put("_16_5_1_12c903cb_1245415335546_479030_4092", SysmlConstants.STRING);
+	    put("_9_0_2_91a0295_1110274713995_297054_0", SysmlConstants.STRING); 		// UML Metamodel String representation
 	}};
 	
 	public static void logGui(String text) {
@@ -97,10 +113,15 @@ public class CameoUtils {
 		}
 	}
 	
+	@CheckForNull
 	public static Element findNearestRegion(Project project, Element owner) {
+		if (owner == null) {
+			return null;
+		}
+		
 		Region region = null;
 		Collection<Region> regions = null;
-		
+
 		if(owner instanceof StateMachine) {
 			StateMachine sm = (StateMachine)owner;
 			regions = sm.getRegion();
@@ -123,7 +144,7 @@ public class CameoUtils {
 	}
 	public static Element findNearestBlock(Project project, Element owner) {
 		if(owner != null) {
-			if(SysMLProfile.isBlock(owner)) {
+			if(SysML.isBlock(owner)) {
 				return owner;
 			} else {
 				Element nextOwner = owner.getOwner();
@@ -136,44 +157,23 @@ public class CameoUtils {
 		return null;
 	}
 	
+	@CheckForNull
 	public static Element findNearestActivity(Element owner) {
-		if(owner != null) {
-			if(owner instanceof Activity) {
-				return owner;
-			} else {
-				Element nextOwner = owner.getOwner();
-				if(nextOwner == null) {
-					return null;
-				}
-				return findNearestActivity(nextOwner);
-			}
+		if(owner == null) {
+		    return null;
 		}
-		return null;
-	}
-	
-	public static boolean isCustomization(Project project, Element element) {
-		Profile umlStandardprofile = StereotypesHelper.getProfile(project,  "MagicDraw Profile");
-		Stereotype customizationStereotype = StereotypesHelper.getStereotype(project, "Customization", umlStandardprofile);
 		
-		List<Stereotype> stereotypes = StereotypesHelper.getStereotypes(element);
-		if(stereotypes.contains(customizationStereotype)) {
-			return true;
+		if (owner instanceof Activity) {
+			return owner;
 		}
-		return false;
-	}
-	
-	public static String oclKindValidationString(String profileName, String stereotypeName) {
-		return "self.oclIsKindOf(" + "::" + stereotypeName + ")"; 
-	}
-	
-	public static String oclSupplierDependency(String profileName, String relationshipStereotypeName, String classStereotypeName) {
-		return oclKindValidationString(profileName, relationshipStereotypeName) + " implies self.supplierDependency->exists (d| d.client->exists(e|e.oclIsKindOf(" + classStereotypeName + ")))";
-	}
-	
-	public static Stereotype getValidationSuiteStereotype(Project project) {
-		Profile profile = StereotypesHelper.getProfile(project, "UML Standard Profile");
-		Stereotype validationSuite = StereotypesHelper.getStereotype(project, "validationSuite", profile);
-		return validationSuite;
+		
+		Element nextOwner = owner.getOwner();
+		
+		if (nextOwner == null) {
+		    return null;
+		}
+		
+		return findNearestActivity(nextOwner);
 	}
 	
 	public static boolean isModel(Element element) {
@@ -258,12 +258,60 @@ public class CameoUtils {
 		return null;
 	}
 	
+	@CheckForNull
+    public static Rectangle getImageBounds(PresentationElement presentationElement) {
+	  List<ImageView> imageViews = getAllImageViews(presentationElement);
+	  
+	  for (ImageView imageView : imageViews) {
+	    if (imageView.getBounds().isEmpty()) {
+	      continue;
+	    }
+	    
+	    return imageView.getBounds();
+	  }
+	  
+	  return null;
+	}
+
+    public static List<ImageView> getAllImageViews(PresentationElement presentationElement) {
+	  return getImageViewsRecursive(presentationElement);
+	}
+
+    public static List<ImageView> getImageViewsRecursive(PresentationElement presentationElement) {
+	  List<ImageView> imageViews = new ArrayList<ImageView>();
+	  
+	  for (PresentationElement child : presentationElement.getPresentationElements()) {
+	    imageViews.addAll(getImageViewsRecursive(child));
+	  }
+	  
+	  imageViews.addAll(getImageViews(presentationElement));
+	  
+	  return imageViews;
+	}
+	
+	public static List<ImageView> getImageViews(PresentationElement presentationElement) {
+	  return presentationElement.getPresentationElements()
+	      .stream()
+	      .filter(x -> x instanceof ImageView)
+	      .map(x -> (ImageView)x)
+	      .collect(Collectors.toList());
+	}
+	
 	public static boolean isMetaclass(Element element) {
 		NamedElement owner = (NamedElement)element.getOwner();
 		if(owner.getName().contentEquals("UML2 Metamodel")) {
 			return true;
 		}
 		return false;
+	}
+	
+	@CheckForNull
+	public static String getImageName(Element element) {
+	  if (!MagicDraw.hasCustomImageHolderStereotype(element)) {
+	    return null;
+	  }
+	  
+	  return MagicDraw.getCustomImageName(element);
 	}
 	
 	public static boolean containsIgnoreCase(List<String> list, String soughtFor) {
@@ -275,20 +323,23 @@ public class CameoUtils {
 		return false;
 	}
 	
-	public static boolean isPrimitiveValueType(String valueTypeString) {
-		if(Arrays.asList(SysmlConstants.primitiveValueTypes).contains(valueTypeString)) {
+	public static boolean isPrimitiveValueType(String valueTypeIdentifier) {
+		if (SysmlConstants.primitiveValueTypeNames.contains(valueTypeIdentifier)
+				|| SysmlConstants.primitiveValueTypeIDs.contains(valueTypeIdentifier)) {
 			return true;
 		}
+		
 		return false;
 	}
 	
 	public static boolean isPrimitiveValueType(Element element) {
-		if(Arrays.asList(SysmlConstants.primitiveValueTypeIDs).contains(element.getLocalID())) {
+		if(SysmlConstants.primitiveValueTypeIDs.contains(element.getID())) {
 			return true;
 		}
+		
 		return false;
 	}
-	
+
 	public static boolean isCameoID(String id) {
 		if(id.startsWith("_")) {
 			return true;
@@ -296,8 +347,29 @@ public class CameoUtils {
 		return false;
 	}
 	
-	public static boolean isSupportedInstanceSpecification(Element element) {
-		if (!(element instanceof InstanceSpecification)) {
+	/**
+	 * 
+	 * @param element Element to check if its a type that is implicitly supported. Most implicitly supported elements are stored
+	 * within the HUDS XML attributes
+	 * @return true if element type is not explicitly supported as a <type> field in the HUDS XML.
+	 */
+	public static boolean isNotExplicitlySupported(Element element) {
+		if (element instanceof ElementValue ||
+			    element instanceof LiteralReal ||
+			    element instanceof LiteralBoolean ||
+			    element instanceof LiteralInteger ||
+			    element instanceof LiteralString ||
+			    element instanceof LiteralUnlimitedNatural ||
+			    element instanceof InstanceValue ||
+			    element instanceof BooleanTaggedValue ||
+			    element instanceof ElementTaggedValue ||
+			    element instanceof IntegerTaggedValue ||
+			    element instanceof RealTaggedValue ||
+			    element instanceof StringTaggedValue ||
+			    element instanceof Comment ||			    
+			    element instanceof ConnectorEnd ||
+			    MDCustomizationForSysML.isReferenceProperty(element)) {	
+			
 			return true;
 		}
 		
@@ -309,6 +381,19 @@ public class CameoUtils {
 		return true;
 	}
 	
+	public static boolean isSupportedInstanceSpecification(Element element) {
+	    if (!(element instanceof InstanceSpecification)) {
+	        return true;
+	    }
+	        
+	    if(element.getHumanName().contentEquals(element.getHumanType())
+	        || Arrays.asList(SysmlConstants.RESERVE_INSTANCE_SPECIFICATION).contains(element.getHumanName())) {
+	        return false;
+	    }
+	        
+	    return true;
+	}
+	
 	public static void logExceptionToGui(Exception e) {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -317,10 +402,42 @@ public class CameoUtils {
 		logGui(sw.toString());
 	}
 	
-	@SuppressWarnings("deprecation")
+	public static boolean isAuxiliaryElement(String elementId) {
+		if (elementId.contains("beta") || elementId.startsWith("_11")) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean isPredefinedElement(Type type) {
+	  if (type == null) {
+	    return false;
+	  }
+	  
+      Namespace namespace = type.getNamespace();
+
+      if (namespace.isEditable()) {
+        return false;
+      }
+
+      return true;
+      
+	}
+	
+	public static String getElementName(Element element) {
+		if(element instanceof NamedElement) {
+			return ((NamedElement)element).getName();
+		}
+		
+		return element.getHumanName();
+	}
+	
 	public static Element getPrimitiveValueType(String valueTypeEnum) {
-		String primitiveValuePath = "SysML::Libraries::PrimitiveValueTypes::" + valueTypeEnum;
-		return ModelHelper.findElementWithPath(primitiveValuePath);
+		return (Element) Application
+					.getInstance()
+					.getProject()
+					.getElementByID(SysmlConstants.primitiveValueTypeIdsByName.get(valueTypeEnum));
 	}
 	
 	@CheckForNull
@@ -344,7 +461,7 @@ public class CameoUtils {
 			strVal = String.valueOf(value);
 		} else if(vs instanceof ElementValue) {
 			ElementValue ev = (ElementValue)vs;
-			strVal = ev.getElement().getID();
+			strVal = MtipUtils.getId(ev.getElement());
 		} else if(vs instanceof OpaqueExpression) {
 			OpaqueExpression oe = (OpaqueExpression)vs;
 			List<String> bodies = oe.getBody();
@@ -363,7 +480,7 @@ public class CameoUtils {
 //			ValueSpecification vs2 = is.getSpecification();
 //			strVal = getSlotValueAsString(vs2);
 		} else {
-			Logger.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", vs.getID()));
+			Logger.log(String.format("Value specification with id %s was not string, real, int, bool, or opaque expression.", MtipUtils.getId(vs)));
 		}
 		return strVal;
 	}

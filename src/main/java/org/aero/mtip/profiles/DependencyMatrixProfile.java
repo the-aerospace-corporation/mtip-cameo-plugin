@@ -1,13 +1,11 @@
 package org.aero.mtip.profiles;
 
 import org.aero.mtip.util.Logger;
-
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
@@ -32,8 +30,12 @@ public class DependencyMatrixProfile {
 		profile = StereotypesHelper.getProfile(project, NAME);
 	}
 	
+	public static void clearProfile() {
+	  instance = null;
+	}
+	
 	public static DependencyMatrixProfile getInstance() {
-		if (instance == null || instance.project != Application.getInstance().getProject()) {
+		if (instance == null) {
 			instance = new DependencyMatrixProfile();
 		}
 		
@@ -52,6 +54,10 @@ public class DependencyMatrixProfile {
 		if (profile == null) {
 			Logger.log(String.format("Profile not initialized when looking for stereotype name %s", stereotypeName));
 			return false;
+		}
+		
+		if (element == null) {
+		  return false;
 		}
 		
 		Stereotype stereotype = StereotypesHelper.getStereotype(project, stereotypeName, profile);
@@ -84,19 +90,20 @@ public class DependencyMatrixProfile {
 		return StereotypesHelper.getPropertyByName(getMatrixFilterStereotype(), ROW_SCOPE_NAME);
 	}
 	
-	public Slot getColumnElementTypeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getColumnElementTypeProperty(), false);
-	}
-	
-	public Slot getRowElementTypeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getRowElementTypeProperty(), false);
-	}
-	
-	public Slot getColumnScopeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getColumnScopeProperty(), false);
-	}
-	
-	public Slot getRowScopeSlot(Element element) {
-		return StereotypesHelper.getSlot(element, getRowScopeProperty(), false);
-	}
+	// Update for 2021x
+//	public Slot getColumnElementTypeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getColumnElementTypeProperty(), false);
+//	}
+//	
+//	public Slot getRowElementTypeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getRowElementTypeProperty(), false);
+//	}
+//	
+//	public Slot getColumnScopeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getColumnScopeProperty(), false);
+//	}
+//	
+//	public Slot getRowScopeSlot(Element element) {
+//		return StereotypesHelper.getSlot(element, getRowScopeProperty(), false);
+//	}
 }

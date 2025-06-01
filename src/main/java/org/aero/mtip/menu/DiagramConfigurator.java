@@ -1,3 +1,4 @@
+
 /* The Aerospace Corporation MTIP_Cameo
 Copyright 2022 The Aerospace Corporation
 
@@ -6,11 +7,10 @@ The Aerospace Corporation (http://www.aerospace.org/). */
 
 package org.aero.mtip.menu;
 
-import org.aero.mtip.XML.Export.ExportDiagramAction;
-import org.aero.mtip.util.GetMessageViewInfoAction;
-import org.aero.mtip.util.InspectDiagramElementAction;
-import org.aero.mtip.util.InspectDiagramElementNestedAction;
-
+import org.aero.mtip.menu.actions.ExportDiagramAction;
+import org.aero.mtip.menu.actions.GetMessageViewInfoAction;
+import org.aero.mtip.menu.actions.InspectSelectedDiagramElementAction;
+import org.aero.mtip.menu.actions.InspectDiagramElementNestedAction;
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;
@@ -27,15 +27,16 @@ public class DiagramConfigurator implements DiagramContextAMConfigurator
 
 	@Override
 	public void configure(ActionsManager manager, DiagramPresentationElement diagramPresentationElement, PresentationElement[] selectedElements, PresentationElement requestor) {
-		ActionsCategory huddleCategory = new MDActionsCategory("MTIPDiagram", "MTIP");
-		huddleCategory.setNested(true);
-		manager.addCategory(huddleCategory);
+		ActionsCategory mtipCategory = new MDActionsCategory("MTIPDiagram", "MTIP");
+		mtipCategory.setNested(true);
+		manager.addCategory(mtipCategory);
 		
 		//Add actions to MTIP category here
 		ActionsCategory category = new ActionsCategory("","");
-		category.addAction(new InspectDiagramElementAction(null, "Inspect Diagram Elements", diagramPresentationElement, selectedElements, requestor));
-		category.addAction(new InspectDiagramElementNestedAction(null, "Inspect Nested Diagram Elements", diagramPresentationElement, selectedElements, requestor));
+		category.addAction(new InspectSelectedDiagramElementAction(null, "Inspect Selected Diagram Elements", diagramPresentationElement, selectedElements, requestor));
+		category.addAction(new InspectDiagramElementNestedAction(null, "Inspect All Diagram Elements", diagramPresentationElement, selectedElements, requestor));
 		category.addAction(new ExportDiagramAction(null, "Export Diagram", diagramPresentationElement));
+		mtipCategory.addAction(category);
 		
 		if (diagramPresentationElement.getDiagramType().getType().contentEquals("Sequence Diagram")
 				|| diagramPresentationElement.getDiagramType().getType().contentEquals("SysML Sequence Diagram")) {
@@ -43,6 +44,6 @@ public class DiagramConfigurator implements DiagramContextAMConfigurator
 				category.addAction(new GetMessageViewInfoAction(null, "Get Message View Info", diagramPresentationElement, selectedElements, requestor));
 		}
 		
-		huddleCategory.addAction(category);
+		mtipCategory.addAction(category);
 	}
 }

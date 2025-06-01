@@ -1,20 +1,20 @@
 package org.aero.mtip.XML;
 
+import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.CheckForNull;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.aero.mtip.XML.Export.Exporter;
+import org.aero.mtip.constants.XmlTagConstants;
 import org.aero.mtip.util.CameoUtils;
 import org.aero.mtip.util.Logger;
-import org.aero.mtip.util.XmlTagConstants;
+import org.aero.mtip.util.MtipUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
+import com.nomagic.magicdraw.core.Application;
+import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ElementValue;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Expression;
@@ -26,6 +26,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralReal;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralUnlimitedNatural;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.OpaqueExpression;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.TypedElement;
@@ -40,7 +41,6 @@ public class XmlWriter {
 	
 	private Document xmlDoc;
 	private Element root;
-	
 	
 	public XmlWriter() {
 		try {
@@ -59,6 +59,7 @@ public class XmlWriter {
 		}
 		
 		createPacketTag();
+		createMetadataTag();
 		return true;
 	}
 	
@@ -81,12 +82,20 @@ public class XmlWriter {
 		return tag;
 	}
 	
+	/**
+	 * Sets text to empty string if text is null.
+	 */
 	public static void setText(Element tag, String text) {
-		tag.appendChild(instance.xmlDoc.createTextNode(text));
+	  if (text == null) {
+	    text = "";
+	  }
+	
+	  tag.appendChild(instance.xmlDoc.createTextNode(text));
 	}
 	
 	public static void addToRoot(Element data) {
 		if (instance.root == null) {
+		    Logger.log(String.format("instance.root node null when attempting to add xml tag %s.", data.getTagName()));
 			return;
 		}
 		
@@ -95,6 +104,24 @@ public class XmlWriter {
 	
 	public static void add(Element parent, Element child) {
 		parent.appendChild(child);
+	}
+	
+	public static void createMetadataTag() {
+      Element metadata = createTag(XmlTagConstants.MTIP_METADATA);
+      
+      Element mtipVersionTag = createTag(XmlTagConstants.MTIP_VERSION);      
+      Element cameoVersionTag = createTag(XmlTagConstants.CAMEO_VERSION);
+      Element exportTimeTag = createTag(XmlTagConstants.EXPORT_TIME);
+      
+      mtipVersionTag.setTextContent(org.aero.mtip.menu.actions.AboutAction.VERSION);
+      cameoVersionTag.setTextContent(Application.runtime().getFullVersion());
+      exportTimeTag.setTextContent(MtipUtils.utcNow());
+      
+      metadata.appendChild(mtipVersionTag);
+      metadata.appendChild(cameoVersionTag);
+      metadata.appendChild(exportTimeTag);
+      
+	  XmlWriter.addToRoot(metadata);
 	}
 	
 	public static void createPacketTag() {
@@ -117,7 +144,7 @@ public class XmlWriter {
 	@CheckForNull
 	public static Element createStereotypeTag(Stereotype stereotype) {
 		if (stereotype.getName() == null || stereotype.getName().trim().isEmpty()) {
-			Logger.log(String.format("Stereotype not added to xml. Stereotype of with id %s is not named.", stereotype.getID()));
+			Logger.log(String.format("Stereotype not added to xml. Stereotype of with id %s is not named.", MtipUtils.getId(stereotype)));
 			return null;
 		}
 		
@@ -126,9 +153,9 @@ public class XmlWriter {
 		org.w3c.dom.Element stereotypeAttribute = createMtipDictAttribute(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE);
 		
 		org.w3c.dom.Element stereotypeNameAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, stereotype.getName());
-		org.w3c.dom.Element stereotypeIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, stereotype.getID());
+		org.w3c.dom.Element stereotypeIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, MtipUtils.getId(stereotype));
 		org.w3c.dom.Element profileNameAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_PROFILE_NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, profile.getName());
-		org.w3c.dom.Element profileIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, profile.getID());
+		org.w3c.dom.Element profileIdAttribute = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_PROFILE_ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING, MtipUtils.getId(profile));
 		
 		stereotypeAttribute.appendChild(stereotypeNameAttribute);
 		stereotypeAttribute.appendChild(stereotypeIdAttribute);
@@ -139,7 +166,13 @@ public class XmlWriter {
 	}
 	
 	@CheckForNull
-	public static Element createTaggedValueTag(Stereotype stereotype, String propertyName, String valueType, List<ValueSpecification> valueSpecifications) {
+	public static Element createTaggedValueTag(Stereotype stereotype, String propertyName, String valueType, List<String> values) {
+		Element taggedValueValueTag = createTaggedValueValueTag(values, valueType);
+		
+		if (taggedValueValueTag == null) {
+			return null;
+		}
+		
 		Element attribute = createMtipDictAttribute(XmlTagConstants.STEREOTYPE_TAGGED_VALUE);
 		
 		Element stereotypeNameTag = createMtipDictAttributeValue(XmlTagConstants.ATTRIBUTE_KEY_STEREOTYPE_NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, stereotype.getName());
@@ -151,50 +184,46 @@ public class XmlWriter {
 		add(attribute, profileNameTag);
 		add(attribute, taggedValueNameTag);
 		add(attribute, taggedValueTypeTag);
-		
-		Element taggedValueValueTag = createTaggedValueValueTag(valueSpecifications);
-		
-		if (taggedValueValueTag == null) {
-			return attribute;
-		}
-		
 		add(attribute, taggedValueValueTag);
+		
 		return attribute;	
 	}
 	
 	@CheckForNull
-	private static Element createTaggedValueValueTag(List<ValueSpecification> valueSpecifications) {
-		if(valueSpecifications.size() == 1) {
-			ValueSpecification vs = valueSpecifications.get(0);
-			
-			if (vs == null) {
-				return null;
-			}
-			
-			return createMtipStringAttribute(XmlTagConstants.TAGGED_VALUE_VALUE, CameoUtils.getValueSpecificationValueAsString(vs));
-		} 
+	public static Element createTaggedValueValueTag(List<String> values, String valueType) {
+		Element valuesParentTag = createMtipListAttribute(XmlTagConstants.TAGGED_VALUE_VALUES);
+		boolean noneFound = true;
 		
-		if(valueSpecifications.size() > 1) {
-			int valueCount = 0;
-			Element listTag = createMtipListAttribute(XmlTagConstants.TAGGED_VALUE_VALUE);
+		for (String value : values) {
+			Element valueTag = null;
 			
-			for(ValueSpecification vs : valueSpecifications) {
-				String slotValue = CameoUtils.getValueSpecificationValueAsString(vs);
-				
-				if(slotValue == null) {
-					continue;
-				}
-				
-				Element taggedValueValueTag = createMtipStringAttribute(Integer.toString(valueCount), slotValue);
-				add(listTag, taggedValueValueTag);
-				
-				valueCount++;
+			if (valueType.contentEquals(XmlTagConstants.TV_TYPE_BOOLEAN)) {
+				valueTag = createBoolAttribute(XmlTagConstants.TAGGED_VALUE_VALUE, value);
+			} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_INTEGER)) {
+				valueTag = createIntAttribute(XmlTagConstants.TAGGED_VALUE_VALUE, value);
+			} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_REAL)) {
+				valueTag = createFloatAttribute(XmlTagConstants.TAGGED_VALUE_VALUE, value);
+			} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_STRING)) {
+				valueTag = createMtipStringAttribute(XmlTagConstants.TAGGED_VALUE_VALUE, value);
+			} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_ELEMENT)) {
+				valueTag = createMtipAttribute(XmlTagConstants.TAGGED_VALUE_VALUE, XmlTagConstants.TV_TYPE_ELEMENT, value);
+			} else if (valueType.contentEquals(XmlTagConstants.TV_TYPE_ENUMERATION_LITERAL)) {
+				valueTag = createMtipAttribute(XmlTagConstants.TAGGED_VALUE_VALUE, XmlTagConstants.TV_TYPE_ENUMERATION_LITERAL, value);
 			}
 			
-			return listTag;
+			if (valueTag == null) {
+				continue;
+			}
+			
+			noneFound = false;
+			XmlWriter.add(valuesParentTag, valueTag);
 		}
 		
-		return null;
+		if (noneFound) {
+			return null;
+		}
+		
+		return valuesParentTag;
 	}
 	
 	@CheckForNull
@@ -205,7 +234,7 @@ public class XmlWriter {
 		
 		Type cameoType = ((TypedElement)element).getType();
 		
-		if(cameoType == null) {
+		if(cameoType == null || !MtipUtils.isSupported(cameoType)) {
 			return null;
 		}
 
@@ -324,7 +353,7 @@ public class XmlWriter {
 		
 		org.w3c.dom.Element value = createTag(
 				XmlTagConstants.ID, 
-				XmlTagConstants.ATTRIBUTE_TYPE_STRING, 
+				XmlTagConstants.ATTRIBUTE_TYPE_STRING,
 				CameoUtils.primitiveValueTypesByID.get(element.getLocalID()));
 
 		org.w3c.dom.Element type = createTag(
@@ -339,7 +368,7 @@ public class XmlWriter {
 	}
 	
 	public static Element createSimpleIdTag(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element) {
-		return createSimpleIdTag(element.getID());
+		return createSimpleIdTag(MtipUtils.getId(element));
 	}
 	
 	public static Element createSimpleIdTag(String elementId) {
@@ -350,15 +379,14 @@ public class XmlWriter {
 	}
 	
 	public static Element createSimpleTypeTag(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element) {
-		return createSimpleTypeTag(Exporter.getEntityType(element));
+		return createSimpleTypeTag(MtipUtils.getEntityType(element));
 	}
 	
 	public static Element createSimpleTypeTag(String elementType) {
-		// TODO: If introducing different metamodels change string literal in String.format()
 		return createTag(
 				XmlTagConstants.TYPE, 
 				XmlTagConstants.ATTRIBUTE_TYPE_STRING, 
-				String.format("sysml.%s", elementType));
+				String.format("%s.%s", MtipUtils.getMetamodelPrefix(elementType), elementType));
 	}
 	
 	public static Element createMtipDiagramConnector(int number) {
@@ -368,13 +396,40 @@ public class XmlWriter {
 		return diagramConnectorTag;
 	}
 	
-
-	
 	public static Element createMtipDiagramElement(int number) {
 		Element diagramElementTag = createTag(XmlTagConstants.ELEMENT, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
 		addAttributeKey(diagramElementTag, String.valueOf(number));
 
 		return diagramElementTag;
+	}
+	
+    public static Element createImageTag(PresentationElement presentationElement) {
+	  Element imageTag = createTag(XmlTagConstants.IMAGE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+	  
+	  Rectangle bounds = CameoUtils.getImageBounds(presentationElement);
+	  
+	  if (bounds == null) {
+	    return null;
+	  }
+	  
+	  String name = CameoUtils.getImageName(presentationElement.getElement());
+	  
+	  if (name != null) {
+	    org.w3c.dom.Element nameTag = XmlWriter.createTag(XmlTagConstants.NAME, XmlTagConstants.ATTRIBUTE_TYPE_STRING, name);
+	    XmlWriter.add(imageTag, nameTag);
+	  }	  
+      
+      org.w3c.dom.Element topTag = XmlWriter.createTag(XmlTagConstants.TOP, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(-bounds.y));
+      org.w3c.dom.Element bottomTag = XmlWriter.createTag(XmlTagConstants.BOTTOM, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(-bounds.y - bounds.height));
+      org.w3c.dom.Element leftTag = XmlWriter.createTag(XmlTagConstants.LEFT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x));
+      org.w3c.dom.Element rightTag = XmlWriter.createTag(XmlTagConstants.RIGHT, XmlTagConstants.ATTRIBUTE_TYPE_INT, String.valueOf(bounds.x + bounds.width));
+    
+      XmlWriter.add(imageTag, topTag);
+      XmlWriter.add(imageTag, bottomTag);
+      XmlWriter.add(imageTag, leftTag);
+      XmlWriter.add(imageTag, rightTag);
+	  
+	  return imageTag;
 	}
 	
 	public static Element createMtipRelationship(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element, String xmlTag) {
@@ -383,6 +438,25 @@ public class XmlWriter {
 		
 		Element typeTag = createSimpleTypeTag(element);
 		Element idTag = createSimpleIdTag(element);
+		
+		org.w3c.dom.Element relDataTag = createTag(XmlTagConstants.RELATIONSHIP_METADATA, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		
+		add(relTag, typeTag);
+		add(relTag, idTag);
+		add(relTag, relDataTag);
+		
+		return relTag;
+	}
+	
+	public static Element createClassifiedByPrimitiveTag(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element element) {
+		Element relTag = createTag(XmlTagConstants.CLASSIFIED_BY);
+		addAttribute(relTag, XmlTagConstants.ATTRIBUTE_DATA_TYPE, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
+		
+		Element typeTag = createTag(XmlTagConstants.TYPE, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		setText(typeTag, XmlTagConstants.PRIMITIVE_VALUE_TYPE);
+		
+		Element idTag = createTag(XmlTagConstants.ID, XmlTagConstants.ATTRIBUTE_TYPE_STRING);
+		setText(idTag, ((NamedElement)element).getName());
 		
 		org.w3c.dom.Element relDataTag = createTag(XmlTagConstants.RELATIONSHIP_METADATA, XmlTagConstants.ATTRIBUTE_TYPE_DICT);
 		
@@ -412,9 +486,7 @@ public class XmlWriter {
 	}
 	
 	@CheckForNull
-	public static org.w3c.dom.Element createAttributeFromValueSpecification(ValueSpecification vs, String attrName) {
-		org.w3c.dom.Element strAttr = null;
-		
+	public static org.w3c.dom.Element createAttributeFromValueSpecification(ValueSpecification vs, String attrName) {		
 		if (vs instanceof Duration) {
 			Duration dur = (Duration)vs;
 			LiteralString ls = (LiteralString) dur.getExpr();
@@ -424,37 +496,37 @@ public class XmlWriter {
 			}
 			
 			String strVal = ls.getValue();
-			strAttr = createMtipStringAttribute(attrName, strVal);
+			return createMtipStringAttribute(attrName, strVal);
 		} else if (vs instanceof DurationInterval) {
-			DurationInterval di = (DurationInterval)vs;
+//			DurationInterval di = (DurationInterval)vs;
 			
 		} else if (vs instanceof ElementValue) {
 			ElementValue ev = (ElementValue)vs;
-			String strVal = ev.getElement().getID();
-			strAttr = createMtipStringAttribute(attrName, strVal);
+			String strVal = MtipUtils.getId(ev.getElement());
+			return createMtipStringAttribute(attrName, strVal);
 		} else if (vs instanceof InstanceValue) {
 			InstanceValue iv = (InstanceValue)vs;
-			String strVal = iv.getInstance().getID();
-			strAttr = createMtipStringAttribute(attrName, strVal);
+			String strVal = MtipUtils.getId(iv.getInstance());
+			return createMtipStringAttribute(attrName, strVal);
 		} else if (vs instanceof LiteralString) {
 			LiteralString ls = (LiteralString)vs;
 			String value = ls.getValue();
-			strAttr = createMtipStringAttribute(attrName, value);
+			return createMtipStringAttribute(attrName, value);
 		} else if (vs instanceof LiteralReal) {
 			LiteralReal lr = (LiteralReal)vs;
 			double value = lr.getValue();
 			String strVal = String.valueOf(value);
-			strAttr = createFloatAttribute(attrName, strVal);
+			return createFloatAttribute(attrName, strVal);
 		} else if (vs instanceof LiteralInteger) {
 			LiteralInteger lr = (LiteralInteger)vs;
 			int value = lr.getValue();
 			String strVal = String.valueOf(value);
-			strAttr = createIntAttribute(attrName, strVal);
+			return createIntAttribute(attrName, strVal);
 		} else if (vs instanceof LiteralBoolean) {
 			LiteralBoolean lr = (LiteralBoolean)vs;
 			boolean value = lr.isValue();
 			String strVal = String.valueOf(value);
-			strAttr = createBoolAttribute(attrName, strVal);
+			return createBoolAttribute(attrName, strVal);
 		} else if (vs instanceof OpaqueExpression) {
 			OpaqueExpression oe = (OpaqueExpression)vs;
 			List<String> bodies= oe.getBody();
@@ -463,10 +535,9 @@ public class XmlWriter {
 			if(bodyIter.hasNext()) {
 				body = bodyIter.next();
 			}
+			
 			if(body != null) {
-				strAttr = createMtipStringAttribute(attrName, body);
-			} else {
-				Logger.log(String.format("Body of opaque expression with id %s has empty body.", vs.getID()));
+				return createMtipStringAttribute(attrName, body);
 			}
 		} else if (vs instanceof LiteralUnlimitedNatural) {
 			
@@ -479,10 +550,10 @@ public class XmlWriter {
 		} else if (vs instanceof Interval) {
 			
 		} else {
-			Logger.log(String.format("Value specification with id %s was not a recognized type.", vs.getID()));
+			Logger.log(String.format("Value specification with id %s was not a recognized type.", MtipUtils.getId(vs)));
 		}
 		
-		return strAttr;
+		return null;
 	}
 	
 	public static Document getDocument() {
