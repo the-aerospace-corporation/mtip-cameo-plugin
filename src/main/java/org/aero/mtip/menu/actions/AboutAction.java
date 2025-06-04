@@ -14,7 +14,7 @@ import com.nomagic.magicdraw.actions.MDAction;
 public class AboutAction extends MDAction {
   private static final long serialVersionUID = -7302532135499669288L;
   
-  public static String VERSION = "2021x_v1.0.0.b025";
+  public static String VERSION = "2021x v1.0.0";
 
   public AboutAction(String id, String name) {
     super(id, name, null, null);
@@ -22,7 +22,7 @@ public class AboutAction extends MDAction {
 
   public void actionPerformed(ActionEvent e) {
     CameoUtils.popUpMessage(String.format(
-        "Modeling Tool Integration Plugin for Cameo Systems Modeler (MTIP-CSM Plugin)\n\n. Version %s",
+        "MTIP-Cameo version %s",
         VERSION));
   }
 }
