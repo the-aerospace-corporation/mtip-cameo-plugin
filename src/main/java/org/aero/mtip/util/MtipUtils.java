@@ -81,6 +81,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Operation;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageImport;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Parameter;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Relationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Slot;
 import com.nomagic.uml2.ext.magicdraw.commonbehaviors.mdbasicbehaviors.FunctionBehavior;
@@ -466,6 +467,8 @@ public class MtipUtils {
       return SysmlConstants.TRIGGER;
     } else if (MDCustomizationForSysML.isUnit(element)) {
       return SysmlConstants.UNIT;
+    } else if (element instanceof UseCase) {
+      return SysmlConstants.USE_CASE;
     } else if (MDCustomizationForSysML.isValueProperty(element)) {
       return SysmlConstants.VALUE_PROPERTY;
     } else if (SysML.isValueType(element)) {
@@ -486,6 +489,8 @@ public class MtipUtils {
       return SysmlConstants.CENTRAL_BUFFER_NODE;
     } else if (SysML.isBlock(element)) {
       return SysmlConstants.BLOCK;
+    } else if (element instanceof Parameter) {
+      return SysmlConstants.PARAMETER;
     } else if (element instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
       // Check if Metaclass
       if (CameoUtils.isMetaclass(element)) {
@@ -551,8 +556,6 @@ public class MtipUtils {
       return SysmlConstants.TRANSITION;
     } else if (element instanceof Usage) {
       return SysmlConstants.USAGE;
-    } else if (element instanceof UseCase) {
-      return SysmlConstants.USE_CASE;
     } else if (SysML.isVerify(element)) {
       return SysmlConstants.VERIFY;
 
