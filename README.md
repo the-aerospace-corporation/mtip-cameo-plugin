@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is the source code for a Java plugin written for MagicDraw (MD), Cameo Systems Modeler (CSM), and Cameo Enterprise Architect (CEA), a Dassault Systemes software. This plugin imports and exports SysML models formatted as HUDS XML. The current XML Metadata Interchange (XMI) specification is based on UML and is insufficient for transferring SysML models between commercial tools. This plugin allows exporting and importing of entire models or a portion of a model to a HUDS XML format. A partner plugin developed for Sparx System's Enterprise Architect can import and export this same format allowing for round-trip transferring of models.
+This project is the source code for a Java plugin written for Cameo Systems Modeler (CSM) and Cameo Enterprise Architect (CEA), a Dassault Systemes software. This plugin imports and exports SysML models formatted as HUDS XML. The current XML Metadata Interchange (XMI) specification is based on UML and is insufficient for transferring SysML models between commercial tools. This plugin allows exporting and importing of entire models or a portion of a model to a HUDS XML format. A partner plugin developed for Sparx System's Enterprise Architect can import and export this same format allowing for round-trip transferring of models.
 
 ## Users
 
@@ -13,8 +13,8 @@ Development is currently active on the 2022x version. Please see below for avail
 | Version | Open Source Available | In Development | Latest Release |
 | -------- | ------- | -------- | -------- |
 | 19.0 | Yes | No | [19.0 v1.0.9](https://github.com/Open-MBEE/mtip-cameo/releases/tag/v1.0.9)|
-| 2021x | Yes | No | [2021x v1.0.0]()|
-| 2022x | Yes | Yes | [2022x v1.0.0]()|
+| 2021x | Yes | No | [2021x v1.0.0](https://github.com/Open-MBEE/mtip-cameo/releases/tag/2021x_v1.0.0)|
+| 2022x | Yes | Yes | [2022x v1.0.0](https://github.com/Open-MBEE/mtip-cameo/releases/tag/2022x_v1.0.0)|
 | 2024x | No | No | |
 
 ### Installation
@@ -27,7 +27,7 @@ To install the plugin, please follow MagicDraw's documentation for installing pl
 
 #### Exporting a Model
 
-* Open MD/CSM/CEA and the model you'd like to export
+* Open CSM/CEA and the model you'd like to export
 * Select export from the drop down under the MTIP toolbar
 * Select a file location and name to save (e.g. <directory>\<file_name>.xml)
 * The plugin will show a dialog stating export has completed.
