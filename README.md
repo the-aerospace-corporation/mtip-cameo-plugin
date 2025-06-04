@@ -47,7 +47,7 @@ On import and export, a log of any errors that occur will be written to /Documen
 
 ### Dependencies
 
-* Dassault's OpenAPI distributed with MagicDraw (MD), Cameo Systems Modeler (CSM), or Cameo Enterprise Architect (CEA)
+* Dassault's OpenAPI distributed with Cameo Systems Modeler (CSM) or Cameo Enterprise Architect (CEA)
 
 ### Setting up Environment for Development
 
@@ -71,6 +71,8 @@ You may also need to manually add references to the following JAR files in addit
 * <cameo install path>\plugins\com.nomagic.magicdraw.relationshipmap\relationshipmap_api.jar
 * <cameo install path>\plugins\com.nomagic.magicdraw.migration\migration.jar
 * <cameo install path>\plugins\com.nomagic.magicdraw.migration\migration_api.jar
+
+Additionally, if working with UAF models in CSM, additional classpath references for UAF and its dependencies may need to be added.
 
 ## Authors
 
